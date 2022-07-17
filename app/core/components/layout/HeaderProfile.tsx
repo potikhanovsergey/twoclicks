@@ -21,6 +21,10 @@ import ColorSchemeToggle from "../base/ColorSchemeToggle"
 import LanguageSwitcher from "../base/LanguageSwitcher"
 import DefaultAvatar from "./DefaultAvatar"
 import HeaderMenuItem from "./HeaderMenuItem"
+import { useSession } from "@blitzjs/auth"
+import logout from "app/auth/mutations/logout"
+import { useMutation } from "@blitzjs/rpc"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const ProfileItem = {
   icon: (
@@ -79,6 +83,9 @@ const ConstMenuItems = [
 function HeaderProfile() {
   const { t } = useTranslation("common")
   // const { data: session, status } = useSession();
+  const session = useSession()
+  const user = useCurrentUser()
+  const [logoutMutation] = useMutation(logout)
   const [opened, openedHandlers] = useDisclosure(false)
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
   const router = useRouter()
@@ -87,11 +94,11 @@ function HeaderProfile() {
   }
   return (
     <>
-      {false ? (
+      {session.isLoading ? (
         <Skeleton height={40} width={200} radius="md" animate /> // todo: session
       ) : (
         <Group position="center">
-          {true && ( // TODO: i18n, session
+          {!user && ( // TODO: i18n, session
             <Button
               size="xs"
               title="Войти в аккаунт"
@@ -124,12 +131,11 @@ function HeaderProfile() {
                 noWrap
               >
                 <>
-                  {false && (
+                  {user && (
                     <Text weight="bold" style={{ whiteSpace: "nowrap" }}>
-                      никнейм
+                      {user.name}
                     </Text>
-                  )}{" "}
-                  {/* todo: session */}
+                  )}
                   <UnstyledButton
                     sx={(theme) => ({
                       display: "block",
@@ -145,12 +151,13 @@ function HeaderProfile() {
                     })}
                   >
                     <Group spacing={8}>
-                      {/* {session?.user?.image ? <Avatar radius="xl" size="sm" src={session.user.image} /> : */}{" "}
-                      {/* todo: session */}
-                      <Avatar size="sm">
-                        <DefaultAvatar width={22} />
-                      </Avatar>{" "}
-                      {/* } */}
+                      {user?.avatar ? (
+                        <Avatar radius="xl" size="sm" src={user.avatar} />
+                      ) : (
+                        <Avatar size="sm">
+                          <DefaultAvatar width={22} />
+                        </Avatar>
+                      )}
                       <FaChevronDown size={16} />
                     </Group>
                   </UnstyledButton>
@@ -160,23 +167,25 @@ function HeaderProfile() {
           >
             <Menu.Label>{t("general")}</Menu.Label>
             {/* MENU STARTS */}
-            {/* {session && <HeaderMenuItem {...ProfileItem} />} PROFILE todo: session */}
+            {session.userId && <HeaderMenuItem {...ProfileItem} />}
             {ConstMenuItems.map((menuItem, i) => (
               <HeaderMenuItem key={i} {...menuItem} />
             ))}
             {/* MENU ENDS */}
-            {/* LOG OUT STARTS */}
-            {/* {session && todo: session
+            {session.userId && (
               <Menu.Item
-                title={t('signOutOfTheAccount')}
-                icon={<ThemeIcon color="red" size="md">
-                <FaSignOutAlt />
-                      </ThemeIcon>}
-                onClick={() => signOut({ redirect: false })}
+                title={t("signOutOfTheAccount")}
+                icon={
+                  <ThemeIcon color="red" size="md">
+                    <FaSignOutAlt />
+                  </ThemeIcon>
+                }
+                onClick={async () => await logoutMutation()}
               >
-                <Text weight="bold">{t('signout')}</Text>
-              </Menu.Item>} */}
-            {/* LOG OUT ENDS */}
+                <Text weight="bold">{t("signout")}</Text>
+              </Menu.Item>
+            )}
+            {/* /* LOG OUT ENDS */}
             <Divider />
 
             <Menu.Label>{t("settings")}</Menu.Label>

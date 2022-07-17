@@ -19,7 +19,7 @@ import { useTranslation, Trans } from "next-i18next"
 import { useRouter } from "next/router"
 
 type SignupFormProps = {
-  onSuccess?: (user: PromiseReturnType<typeof signup>) => void
+  onSuccess?: () => void
   onLogin: () => void
 }
 interface IRegisterValues {
@@ -60,10 +60,21 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
     },
   })
 
-  const handleRegister = async (values: IRegisterValues) => {
+  const handleSignup = async (values: IRegisterValues) => {
     const validation = registrationForm.validate()
     if (!validation.hasErrors) {
-      const { email, password, name } = values
+      try {
+        console.log("signup values >", values)
+        await signupMutation(values)
+        onSuccess && onSuccess()
+      } catch (error: any) {
+        if (error.code === "P2002" && error.meta?.target?.includes("email")) {
+          // This error comes from Prisma
+          return { email: "This email is already being used" }
+        } else {
+          return error.toString()
+        }
+      }
       // register({ email, password, name }); todo: auth
     }
   }
@@ -84,7 +95,7 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
       <form
         style={{ width: "100%" }}
         onSubmit={registrationForm.onSubmit((values) => {
-          void handleRegister(values)
+          void handleSignup(values)
         })}
       >
         <Grid style={{ width: "100%" }} mb="xs" mx={0} grow gutter="xs">

@@ -42,4 +42,6 @@ const ForgotPasswordPage = () => {
   )
 }
 
+ForgotPasswordPage.suppressFirstRenderFlicker = true
+
 export default ForgotPasswordPage

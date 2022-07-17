@@ -14,6 +14,8 @@ const Home = () => {
   )
 }
 
+Home.suppressFirstRenderFlicker = true
+
 export default Home
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {

@@ -1,5 +1,5 @@
 import { Burger, Group, Header, MediaQuery, useMantineColorScheme } from "@mantine/core"
-import { CSSProperties, Dispatch, SetStateAction } from "react"
+import { CSSProperties, Dispatch, SetStateAction, Suspense } from "react"
 import HeaderProfile from "./HeaderProfile"
 import Logo from "../Logo"
 
@@ -67,7 +67,9 @@ export const LayoutHeader = ({
           style={{ width: "100%" }}
         >
           {hasLogo ? <Logo width={132} /> : <></>}
-          <HeaderProfile />
+          <Suspense fallback="Loading...">
+            <HeaderProfile />
+          </Suspense>
         </Group>
       </div>
     </Header>

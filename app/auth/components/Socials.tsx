@@ -1,4 +1,7 @@
+import { useSession } from "@blitzjs/auth"
 import { ActionIcon, Group } from "@mantine/core"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { Router, useRouter } from "next/router"
 import { useRef, useState, useEffect, ReactNode } from "react"
 import NewWindow from "react-new-window"
 
@@ -10,37 +13,17 @@ interface IAuthSocials {
 }
 
 const AuthSocials = ({ socials }: IAuthSocials) => {
-  const [authPopup, setAuthPopup] = useState(false)
-  const popupRef = useRef<NewWindow>(null)
-  useEffect(() => {
-    let popupInterval: NodeJS.Timeout
-    if (authPopup) {
-      popupInterval = setInterval(() => {
-        if (popupRef.current?.window?.closed) {
-          setAuthPopup(false)
-          clearInterval(popupInterval)
-        }
-      }, 200)
-    }
-    return () => {
-      clearInterval(popupInterval)
-    }
-  }, [authPopup, popupRef])
-
-  const [clickedProvider, setClickedProvider] = useState<string | null>(null)
-  useEffect(() => {
-    if (clickedProvider) {
-      setAuthPopup(true)
-    }
-  }, [clickedProvider])
-
+  const router = useRouter()
   return (
     <>
       <Group position="center" spacing={8}>
         {socials.map((s) => (
           <ActionIcon
             key={s.provider}
-            onClick={() => setClickedProvider(s.provider)}
+            onClick={() => {
+              const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
+              void router.push(`/api/auth/${s.provider}?redirectUrl=${next}`)
+            }}
             sx={(theme) => ({
               ":hover": {
                 backgroundColor:
@@ -53,7 +36,7 @@ const AuthSocials = ({ socials }: IAuthSocials) => {
           </ActionIcon>
         ))}
       </Group>
-      {authPopup && (
+      {/* {authPopup && (
         <NewWindow
           onBlock={() => {
             // if (clickedProvider) signIn(clickedProvider); todo: auth
@@ -61,9 +44,9 @@ const AuthSocials = ({ socials }: IAuthSocials) => {
           ref={popupRef}
           copyStyles={false}
           features={{ width: 420, height: 500 }}
-          url={`/auth/popup-signin/?provider=${clickedProvider}`}
+          url={`/api/auth/${clickedProvider}`}
         />
-      )}
+      )} */}
     </>
   )
 }

@@ -1,4 +1,4 @@
-import { PromiseReturnType } from "blitz"
+import { AuthenticationError, PromiseReturnType } from "blitz"
 import login from "app/auth/mutations/login"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes } from "@blitzjs/next"
@@ -17,7 +17,7 @@ import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
 
 type LoginFormProps = {
-  onSuccess?: (user: PromiseReturnType<typeof login>) => void
+  onSuccess?: () => void
   onSignup: () => void
 }
 interface IAuthorizeValues {
@@ -49,7 +49,16 @@ export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
   const handleAuthorize = async (values: IAuthorizeValues) => {
     const validation = authorizationForm.validate()
     if (!validation.hasErrors) {
-      const { email, password } = values
+      try {
+        await loginMutation(values)
+        onSuccess && onSuccess()
+      } catch (error: any) {
+        if (error instanceof AuthenticationError) {
+          return "Sorry, those credentials are invalid"
+        } else {
+          return "Sorry, we had an unexpected error. Please try again. - " + error.toString()
+        }
+      }
       // const res = await signIn('credentials', { todo: auth
       //   redirect: false,
       //   email,

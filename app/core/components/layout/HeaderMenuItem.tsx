@@ -16,6 +16,8 @@ const HeaderMenuItem = ({ icon, title, text, route }: IHeaderMenuItem) => {
   const router = useRouter()
   const { t } = useTranslation("common")
 
+  console.log(router.route, route, router.route.split("/"))
+
   return (
     <Menu.Item
       sx={(theme) => ({

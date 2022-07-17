@@ -1,6 +1,6 @@
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
-import React from "react"
+import React, { useEffect, useState } from "react"
 import {
   MantineProvider,
   ColorScheme,
@@ -13,6 +13,8 @@ import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
 import { appWithTranslation, i18n } from "next-i18next"
 import "app/styles/variables.css"
+import router from "next/router"
+import CubeLoader from "app/core/components/CubeLoader"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -85,10 +87,42 @@ function App({ Component, pageProps }: AppProps) {
 
   useHotkeys([["mod+J", () => toggleColorScheme()]])
   // ### END THEME AND COLOR SCHEME END ###
+
+  // ### LOADING OVERLAY STARTS ###
+  const [loadingOverlay, setLoadingOverlay] = useState(false)
+  useEffect(() => {
+    let startTimer: ReturnType<typeof setTimeout>
+    const handleStart = () => {
+      startTimer = setTimeout(() => {
+        setLoadingOverlay(true)
+      }, 500)
+    }
+    const handleComplete = () => setLoadingOverlay(false)
+
+    router.events.on("routeChangeStart", handleStart)
+    router.events.on("routeChangeComplete", handleComplete)
+    router.events.on("routeChangeError", handleComplete)
+
+    return () => {
+      router.events.off("routeChangeStart", handleStart)
+      router.events.off("routeChangeComplete", handleComplete)
+      router.events.off("routeChangeError", handleComplete)
+      clearTimeout(startTimer)
+    }
+  })
+  // ### LOADING OVERLAY ENDS ###
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+          <LoadingOverlay
+            sx={() => ({
+              position: "fixed",
+            })}
+            overlayOpacity={0.85}
+            visible={loadingOverlay}
+            loader={<CubeLoader />}
+          />
           <Component {...pageProps} />
         </ColorSchemeProvider>
       </MantineProvider>
@@ -109,7 +143,6 @@ function App({ Component, pageProps }: AppProps) {
 }
 
 const appWithI18n = appWithTranslation(App)
-
 const appWithBlitz = withBlitz(appWithI18n)
 
 export default appWithBlitz

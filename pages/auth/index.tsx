@@ -19,7 +19,7 @@ const AuthPage = () => {
       {step === "authorization" ? (
         <LoginForm
           onSignup={() => setStep("registration")}
-          onSuccess={(_user) => {
+          onSuccess={() => {
             const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
             return router.push(next)
           }}
@@ -36,6 +36,8 @@ const AuthPage = () => {
     </AuthLayout>
   )
 }
+
+AuthPage.suppressFirstRenderFlicker = true
 
 export default AuthPage
 

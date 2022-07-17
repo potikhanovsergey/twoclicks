@@ -1,5 +1,5 @@
-import { Center, Group, Stack, useMantineTheme, Title } from "@mantine/core"
-import { ReactNode } from "react"
+import { Center, Group, Stack, useMantineTheme, Title, Loader } from "@mantine/core"
+import { ReactNode, Suspense } from "react"
 import { useTranslation } from "next-i18next"
 import { Player } from "@lottiefiles/react-lottie-player"
 import Head from "next/head"
@@ -65,22 +65,24 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
                     {formTitle}
                   </Title>
                 )}
-                <AuthSocials
-                  socials={[
-                    {
-                      provider: "google",
-                      icon: <FcGoogle size={28} />,
-                    },
-                    {
-                      provider: "yandex",
-                      icon: <FaYandex size={24} color="#FF0000" />,
-                    },
-                    {
-                      provider: "vk",
-                      icon: <FaVk size={28} color="#0177ff" />,
-                    },
-                  ]}
-                />
+                <Suspense fallback={<Loader />}>
+                  <AuthSocials
+                    socials={[
+                      {
+                        provider: "google",
+                        icon: <FcGoogle size={28} />,
+                      },
+                      {
+                        provider: "yandex",
+                        icon: <FaYandex size={24} color="#FF0000" />,
+                      },
+                      {
+                        provider: "vkontakte",
+                        icon: <FaVk size={28} color="#0177ff" />,
+                      },
+                    ]}
+                  />
+                </Suspense>
                 {children}
               </Stack>
             </Group>
