@@ -1,41 +1,169 @@
-import { LabeledTextField } from "app/core/components/LabeledTextField"
-import { Form, FORM_ERROR } from "app/core/components/Form"
+import { PromiseReturnType } from "blitz"
 import signup from "app/auth/mutations/signup"
-import { Signup } from "app/auth/validations"
 import { useMutation } from "@blitzjs/rpc"
+import { Routes } from "@blitzjs/next"
+import { useForm } from "@mantine/form"
+import {
+  Divider,
+  Text,
+  useMantineTheme,
+  Grid,
+  Button,
+  TextInput,
+  PasswordInput,
+  Group,
+  Anchor,
+  Checkbox,
+} from "@mantine/core"
+import { useTranslation, Trans } from "next-i18next"
+import { useRouter } from "next/router"
 
 type SignupFormProps = {
-  onSuccess?: () => void
+  onSuccess?: (user: PromiseReturnType<typeof signup>) => void
+  onLogin: () => void
+}
+interface IRegisterValues {
+  name: string
+  email: string
+  password: string
+  confirmPassword: string
+  termsOfService: boolean
 }
 
-export const SignupForm = (props: SignupFormProps) => {
+export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
+  const theme = useMantineTheme()
+  const { colorScheme } = theme
+  const dark = colorScheme === "dark"
+  const { t } = useTranslation("common")
   const [signupMutation] = useMutation(signup)
-  return (
-    <div>
-      <h1>Create an Account</h1>
+  const router = useRouter()
 
-      <Form
-        submitText="Create Account"
-        schema={Signup}
-        initialValues={{ email: "", password: "" }}
-        onSubmit={async (values) => {
-          try {
-            await signupMutation(values)
-            props.onSuccess?.()
-          } catch (error: any) {
-            if (error.code === "P2002" && error.meta?.target?.includes("email")) {
-              // This error comes from Prisma
-              return { email: "This email is already being used" }
-            } else {
-              return { [FORM_ERROR]: error.toString() }
-            }
-          }
+  // REGISTRATION STARTS
+  // const { mutate: register } = useRegister({ todo: auth
+  //   onSuccess: () => setStep('authorization'),
+  // });
+  const registrationForm = useForm({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      termsOfService: false,
+    },
+
+    validate: {
+      email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
+      password: (value) =>
+        value.length < 8 ? "Password must contain at least 8 characters" : null,
+      confirmPassword: (value, values) =>
+        value !== values.password ? "Passwords did not match" : null,
+    },
+  })
+
+  const handleRegister = async (values: IRegisterValues) => {
+    const validation = registrationForm.validate()
+    if (!validation.hasErrors) {
+      const { email, password, name } = values
+      // register({ email, password, name }); todo: auth
+    }
+  }
+  // REGISTRATION ENDS
+  return (
+    <>
+      <Divider
+        style={{
+          width: "100%",
         }}
+        labelProps={{ size: "md" }}
+        size="sm"
+        mb="md"
+        label={<Text color={dark ? "white" : "dark"}>Or Signup with Email</Text>}
+        labelPosition="center"
+        color={dark ? "gray" : "dark"}
+      />
+      <form
+        style={{ width: "100%" }}
+        onSubmit={registrationForm.onSubmit((values) => {
+          void handleRegister(values)
+        })}
       >
-        <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
-      </Form>
-    </div>
+        <Grid style={{ width: "100%" }} mb="xs" mx={0} grow gutter="xs">
+          <Grid.Col span={12}>
+            <TextInput
+              {...registrationForm.getInputProps("name")}
+              label={t("name")}
+              placeholder="Olivia Smith"
+              required
+              value={registrationForm.values.name}
+              onChange={(event) =>
+                registrationForm.setFieldValue("name", event.currentTarget.value)
+              }
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <TextInput
+              {...registrationForm.getInputProps("email")}
+              label={t("email")}
+              placeholder="oliviasmith@gmail.com"
+              required
+              value={registrationForm.values.email}
+              onChange={(event) =>
+                registrationForm.setFieldValue("email", event.currentTarget.value)
+              }
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <PasswordInput
+              required
+              label={t("password")}
+              placeholder={t("password")}
+              {...registrationForm.getInputProps("password")}
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <PasswordInput
+              {...registrationForm.getInputProps("confirmPassword")}
+              required
+              label={t("confirmPassword")}
+              placeholder={t("confirmPassword")}
+            />
+          </Grid.Col>
+          <Grid.Col span={12}>
+            <Checkbox
+              {...registrationForm.getInputProps("termsOfService", { type: "checkbox" })}
+              required
+              color="blue"
+              my="sm"
+              size="sm"
+              label={
+                <Trans
+                  i18nKey="components:termsOfServiceText"
+                  components={{
+                    termsOfService: (
+                      <Anchor size="sm" color="blue" target="_blank" href="terms-of-service" />
+                    ),
+                    privacyPolicy: (
+                      <Anchor size="sm" color="blue" target="_blank" href="privacy-policy" />
+                    ),
+                  }}
+                >
+                  {t("termsOfServiceText")}
+                </Trans>
+              }
+            />
+          </Grid.Col>
+        </Grid>
+        <Button size="md" color="blue" fullWidth type="submit" my="sm">
+          Sign Up
+        </Button>
+        <Group position="center">
+          <Text>{t("alreadyAMember")}</Text>
+          <Button variant="subtle" color="blue" compact onClick={onLogin}>
+            Sign in
+          </Button>
+        </Group>
+      </form>
+    </>
   )
 }
 

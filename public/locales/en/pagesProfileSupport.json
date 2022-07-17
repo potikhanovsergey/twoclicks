@@ -1,0 +1,15 @@
+{
+  "title": "Support",
+  "paragraph1": "Describe your issue in detail (fields marked with * are required). If possible, include screenshots, steps to reproduce the bug, and browser or device information",
+  "paragraph2": "We do monitor your reports and messages daily to improve the user experience for all skilletons!",
+  "yourEmail": "Your email",
+  "subject": "Subject",
+  "autocomplete1": "Portfolio Builder is not working properly 🙁",
+  "autocomplete2": "Premium features are not available for some reason 👑",
+  "autocomplete3": "I have an idea for a project improvement 🧠",
+  "autocomplete4": "I would like to propose a collaboration 🤝",
+  "yourMessage": "Your message",
+  "dropzoneText": "You can drag 'n' drop some images here, or click to select them.",
+  "dropzoneWarning": "(There can't be more than 10 files and each file can't be larger than 5 MB)",
+  "submitTheMessage": "Submit the message"
+}
