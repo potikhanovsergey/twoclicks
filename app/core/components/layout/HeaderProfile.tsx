@@ -83,7 +83,7 @@ function HeaderProfile() {
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
   const router = useRouter()
   const handleLoginClick = () => {
-    void router.push({ pathname: "/auth/sign-in/", query: { callbackUrl: router.pathname } })
+    void router.push({ pathname: "/auth/", query: { next: router.pathname } })
   }
   return (
     <>
@@ -182,14 +182,11 @@ function HeaderProfile() {
             <Menu.Label>{t("settings")}</Menu.Label>
             <Menu.Item
               pt={0}
+              disabled
               component="div"
-              sx={(theme) => ({
+              style={{
                 cursor: "default",
-                "&:hover": {
-                  backgroundColor:
-                    theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
-                },
-              })}
+              }}
             >
               <Group spacing={4}>
                 <LanguageSwitcher />
