@@ -1,6 +1,6 @@
 import BaseLayout from "app/core/layouts/BaseLayout"
 import { Space } from "@mantine/core"
-import HomeHero from "app/core/components/pages/home/HomeHero"
+import HomeHero from "app/home/HomeHero"
 import { GetServerSidePropsContext } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 

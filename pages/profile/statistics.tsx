@@ -5,7 +5,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React, { useState } from "react"
 import { MdOutlineCalendarViewMonth, MdViewWeek, MdViewDay } from "react-icons/md"
 import ProfileNoItems from "app/profile/ProfileNoItems"
-import statBars from "../../lotties/stat-bars.json"
+import statBars from "lotties/stat-bars.json"
 import ProfileLayout from "app/core/layouts/ProfileLayout"
 
 const ProfileStatistics = () => {
@@ -61,6 +61,7 @@ const ProfileStatistics = () => {
 }
 
 ProfileStatistics.suppressFirstRenderFlicker = true
+ProfileStatistics.authenticate = { redirectTo: "/auth" }
 
 export default ProfileStatistics
 

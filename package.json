@@ -33,7 +33,7 @@
     "@mantine/hooks": "4.2.12",
     "@mantine/next": "4.2.12",
     "@mantine/notifications": "4.2.12",
-    "@prisma/client": "3.9.0",
+    "@prisma/client": "4.0.0",
     "blitz": "2.0.0-alpha.54",
     "next": "12.2.0",
     "next-i18next": "11.2.1",
@@ -46,6 +46,7 @@
     "react-dropzone": "14.2.2",
     "react-icons": "4.4.0",
     "react-new-window": "0.2.1",
+    "shortid": "2.2.16",
     "zod": "3.17.3"
   },
   "devDependencies": {

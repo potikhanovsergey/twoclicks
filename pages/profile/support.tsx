@@ -125,6 +125,7 @@ const ProfileSupport = () => {
 }
 
 ProfileSupport.suppressFirstRenderFlicker = true
+ProfileSupport.authenticate = { redirectTo: "/auth" }
 
 export default ProfileSupport
 

@@ -5,7 +5,7 @@ import { Player } from "@lottiefiles/react-lottie-player"
 import Head from "next/head"
 import { FC } from "react"
 import Logo from "app/core/components/Logo"
-import workingMan from "../../../lotties/workingMan.json"
+import workingMan from "lotties/workingMan.json"
 import { FcGoogle } from "react-icons/fc"
 import { FaYandex, FaVk } from "react-icons/fa"
 import AuthSocials from "app/auth/components/Socials"
@@ -37,7 +37,7 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
     <>
       <Head>
         <title>{title || "skillcase"}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <main style={{ background: dark ? theme.colors.dark[7] : theme.white }}>

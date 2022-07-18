@@ -14,6 +14,7 @@ const ProfilePremium = () => {
 }
 
 ProfilePremium.suppressFirstRenderFlicker = true
+ProfilePremium.authenticate = { redirectTo: "/auth" }
 
 export default ProfilePremium
 

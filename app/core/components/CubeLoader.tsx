@@ -1,5 +1,5 @@
 import { Player } from "@lottiefiles/react-lottie-player"
-import loader from "../../../lotties/cube-loader-one-pink.json"
+import loader from "lotties/cube-loader-one-pink.json"
 
 interface ICubeLoader {
   size?: number

@@ -18,7 +18,7 @@ import { FaBook } from "react-icons/fa"
 import { NextLink } from "@mantine/next"
 import { ReactNode, Suspense, useMemo } from "react"
 import { Player } from "@lottiefiles/react-lottie-player"
-import error_404 from "../lotties/404-cat.json"
+import error_404 from "lotties/404-cat.json"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 interface ILink {

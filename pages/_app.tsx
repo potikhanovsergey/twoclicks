@@ -9,6 +9,7 @@ import {
   LoadingOverlay,
   Global,
 } from "@mantine/core"
+import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
 import { appWithTranslation, i18n } from "next-i18next"
@@ -111,19 +112,40 @@ function App({ Component, pageProps }: AppProps) {
     }
   })
   // ### LOADING OVERLAY ENDS ###
+
+  // ### MODALS START ###
+
+  const [modalValue, setModalValue] = useState({
+    canvasComponentsModal: false,
+    canvasSectionsModal: false,
+  })
+
+  // ### MODALS END ###
+
+  // pushes user to previously chosen locale if it doesn't match
+  const [storageLocale] = useLocalStorage({ key: "locale", defaultValue: i18n?.language || "ru" })
+  useEffect(() => {
+    if (storageLocale !== router.locale) {
+      void router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
+        locale: storageLocale,
+      })
+    }
+  }, [])
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
         <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-          <LoadingOverlay
-            sx={() => ({
-              position: "fixed",
-            })}
-            overlayOpacity={0.85}
-            visible={loadingOverlay}
-            loader={<CubeLoader />}
-          />
-          <Component {...pageProps} />
+          <ModalContext.Provider value={[modalValue, setModalValue]}>
+            <LoadingOverlay
+              sx={() => ({
+                position: "fixed",
+              })}
+              overlayOpacity={0.85}
+              visible={loadingOverlay}
+              loader={<CubeLoader />}
+            />
+            <Component {...pageProps} />
+          </ModalContext.Provider>
         </ColorSchemeProvider>
       </MantineProvider>
       <Global

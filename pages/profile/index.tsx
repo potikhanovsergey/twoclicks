@@ -7,7 +7,7 @@ import React from "react"
 import { AiFillBuild } from "react-icons/ai"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import ProfileLayout from "app/core/layouts/ProfileLayout"
-import lottieSquirrel from "../../lotties/squirrel.json"
+import lottieSquirrel from "lotties/squirrel.json"
 
 const ProfilePortfolios = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
@@ -34,6 +34,7 @@ const ProfilePortfolios = () => {
 }
 
 ProfilePortfolios.suppressFirstRenderFlicker = true
+ProfilePortfolios.authenticate = { redirectTo: "/auth" }
 
 export default ProfilePortfolios
 

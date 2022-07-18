@@ -1,4 +1,4 @@
-import { Burger, Group, Header, MediaQuery, useMantineColorScheme } from "@mantine/core"
+import { Burger, Group, Header, MediaQuery, Skeleton, useMantineColorScheme } from "@mantine/core"
 import { CSSProperties, Dispatch, SetStateAction, Suspense } from "react"
 import HeaderProfile from "./HeaderProfile"
 import Logo from "../Logo"
@@ -18,7 +18,7 @@ interface ILayoutHeader {
   px?: number
 }
 
-export const LayoutHeader = ({
+const LayoutHeader = ({
   menuOpened,
   setMenuOpened,
   fixed = false,
@@ -67,7 +67,7 @@ export const LayoutHeader = ({
           style={{ width: "100%" }}
         >
           {hasLogo ? <Logo width={132} /> : <></>}
-          <Suspense fallback="Loading...">
+          <Suspense fallback={<Skeleton height={32} width={200} radius="md" animate />}>
             <HeaderProfile />
           </Suspense>
         </Group>
@@ -75,3 +75,5 @@ export const LayoutHeader = ({
     </Header>
   )
 }
+
+export default LayoutHeader

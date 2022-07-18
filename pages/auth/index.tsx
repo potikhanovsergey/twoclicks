@@ -4,12 +4,14 @@ import AuthLayout from "app/core/layouts/AuthLayout"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useState } from "react"
 import SignupForm from "app/auth/components/SignupForm"
+import { useRedirectAuthenticated } from "@blitzjs/auth"
 
 type step = "registration" | "authorization"
 
 const AuthPage = () => {
   const router = useRouter()
   const [step, setStep] = useState<step>("authorization")
+  useRedirectAuthenticated("/")
 
   return (
     <AuthLayout

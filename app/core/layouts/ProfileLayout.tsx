@@ -1,6 +1,6 @@
 import { ReactNode, useState, FC } from "react"
 import { AppShell } from "@mantine/core"
-import { LayoutHeader } from "app/core/components/layout/LayoutHeader"
+import LayoutHeader from "app/core/components/layout/LayoutHeader"
 import ProfileNavbar from "app/profile/ProfileNavbar"
 import Head from "next/head"
 
@@ -15,7 +15,7 @@ const ProfileLayout: FC<IProfileLayout> = ({ title, children }) => {
     <>
       <Head>
         <title>{title || "skillcase"}</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <AppShell
