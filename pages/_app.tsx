@@ -131,6 +131,9 @@ function App({ Component, pageProps }: AppProps) {
       })
     }
   }, [])
+
+  // ### NEXT LAYOUT SYSTEM ###
+  const getLayout = Component.getLayout || ((page) => page)
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
@@ -144,7 +147,7 @@ function App({ Component, pageProps }: AppProps) {
               visible={loadingOverlay}
               loader={<CubeLoader />}
             />
-            <Component {...pageProps} />
+            {getLayout(<Component {...pageProps} />)}
           </ModalContext.Provider>
         </ColorSchemeProvider>
       </MantineProvider>

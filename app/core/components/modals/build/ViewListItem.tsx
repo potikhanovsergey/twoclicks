@@ -3,10 +3,10 @@ import { cloneElement, forwardRef, useContext, useMemo, useRef, useState } from 
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
 import shortid from "shortid"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { CanvasStore } from "../../../store/build"
-import { BuildingBlocksStore } from "../../../store/build/buildingBlocks"
-import { ICanvasBlock } from "../../../store/build/types"
-import { recursiveTagName } from "../../pages/build/helpers"
+// import { CanvasStore } from "../../../store/build"
+// import { BuildingBlocksStore } from "../../../store/build/buildingBlocks"
+import { ICanvasBlock } from "types"
+import { recursiveTagName } from "helpers"
 
 interface IViewListItem {
   block: Omit<ICanvasBlock, "id">
@@ -51,7 +51,7 @@ const ViewListItem = forwardRef(({ block }: IViewListItem, ref) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
 
-  const { push } = CanvasStore
+  // const { push } = CanvasStore
   const [boxHovered, setBoxHovered] = useState(false)
 
   const TagName = useMemo(
@@ -60,24 +60,24 @@ const ViewListItem = forwardRef(({ block }: IViewListItem, ref) => {
   )
   const iconRef = useRef(null)
 
-  const { toggleLike } = BuildingBlocksStore
+  // const { toggleLike } = BuildingBlocksStore
 
   const handleBoxClick = (e: any) => {
     // todo: remove any
-    if (e.target === iconRef.current) {
-      console.log(block)
-      toggleLike(block.component) // todo: change block.component to id
-    } else {
-      push({
-        ...block,
-        id: shortid.generate(),
-      })
-      setModalContext((prevValue: IModalContextValue) => ({
-        ...prevValue,
-        canvasComponentsModal: false,
-        canvasSectionsModal: false,
-      }))
-    }
+    // if (e.target === iconRef.current) {
+    //   console.log(block)
+    //   toggleLike(block.component) // todo: change block.component to id
+    // } else {
+    //   push({
+    //     ...block,
+    //     id: shortid.generate(),
+    //   })
+    //   setModalContext((prevValue: IModalContextValue) => ({
+    //     ...prevValue,
+    //     canvasComponentsModal: false,
+    //     canvasSectionsModal: false,
+    //   }))
+    // }
   }
   return (
     <div ref={ref}>
@@ -90,11 +90,11 @@ const ViewListItem = forwardRef(({ block }: IViewListItem, ref) => {
         {cloneElement(TagName, { className: classes.child })}
         <Group className={classes.actions}>
           <ActionIcon color="red" ref={iconRef}>
-            {block.liked ? (
+            {/* {block.liked ? (
               <RiHeartAddFill className={classes.icon} />
             ) : (
               <RiHeartAddLine className={classes.icon} style={{ opacity: boxHovered ? 1 : 0 }} />
-            )}
+            )} */}
           </ActionIcon>
         </Group>
       </Box>

@@ -17,12 +17,12 @@ const ProfileNavbar = ({ menuOpened }: IProileNavbar) => (
     width={{ sm: 200, lg: 300 }}
   >
     {/* HEADER STARTS */}
-    <Navbar.Section pl={10}>
+    <Navbar.Section pt={4} pl={10}>
       <Group
-        style={{ height: "var(--home-header-height)", minHeight: "var(--home-header-height)" }}
+        style={{ height: "var(--build-header-height)", minHeight: "var(--build-header-height)" }}
         align="center"
       >
-        <Logo />
+        <Logo height="auto" width={140} />
       </Group>
     </Navbar.Section>
     {/* HEADER ENDS */}

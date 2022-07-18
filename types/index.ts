@@ -15,11 +15,10 @@ export interface ICanvasBlock {
   // Block that contains something else
   id: string
   component: ICanvasBuildingBlockComponent
-  isSingleClosing: boolean
   editType?: string | null
   props: {
     [key: string]: any
-    children?: ReactNode
+    children?: ICanvasElement[]
   }
 }
 

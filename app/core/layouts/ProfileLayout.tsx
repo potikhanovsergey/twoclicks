@@ -9,7 +9,7 @@ interface IProfileLayout {
   title?: string
 }
 
-const ProfileLayout: FC<IProfileLayout> = ({ title, children }) => {
+const ProfileLayout = ({ title, children }: IProfileLayout) => {
   const [menuOpened, setMenuOpened] = useState(false)
   return (
     <>
