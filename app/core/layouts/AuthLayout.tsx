@@ -21,18 +21,6 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
   const { t } = useTranslation("common")
-
-  // // SESSION CONTROL STARTS
-  // const router = useRouter();
-  // const { status } = useSession();
-  // useEffect(() => {
-  //   console.log(router);
-  //   if (status === 'authenticated') {
-  //     console.log(router.query.callbackUrl, router.query);
-  //     router.push(router.query.callbackUrl?.toString() || '/');
-  //   }
-  // }, [status]);
-  // // SESSION CONTROL ENDS
   return (
     <>
       <Head>

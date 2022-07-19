@@ -64,7 +64,6 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
     const validation = registrationForm.validate()
     if (!validation.hasErrors) {
       try {
-        console.log("signup values >", values)
         await signupMutation(values)
         onSuccess && onSuccess()
       } catch (error: any) {

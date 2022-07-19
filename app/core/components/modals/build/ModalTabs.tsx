@@ -3,8 +3,8 @@ import { BsStars } from "react-icons/bs"
 import { RiHeartFill } from "react-icons/ri"
 import { GiAnticlockwiseRotation } from "react-icons/gi"
 import { TbCrown } from "react-icons/tb"
-import { ScrollArea, SimpleGrid, Tabs, Text, TabProps } from "@mantine/core"
-import { useState } from "react"
+import { ScrollArea, SimpleGrid, Tabs, Text, TabProps, LoadingOverlay } from "@mantine/core"
+import { Suspense, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "./types"
 
@@ -85,7 +85,9 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
           }
           icon={tab.icon}
         >
-          {/* <ViewList type={type} /> */}
+          <Suspense fallback={<LoadingOverlay visible={true} />}>
+            <ViewList type={type} />
+          </Suspense>
         </Tabs.Tab>
       ))}
     </Tabs>

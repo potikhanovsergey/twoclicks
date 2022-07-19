@@ -49,7 +49,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const ViewListItem = forwardRef(({ block, onClick }: IViewListItem, ref) => {
+const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
 
@@ -82,7 +82,7 @@ const ViewListItem = forwardRef(({ block, onClick }: IViewListItem, ref) => {
     // }
   }
   return (
-    <div ref={ref}>
+    <div>
       <Box
         onMouseEnter={() => setBoxHovered(true)}
         onMouseLeave={() => setBoxHovered(false)}
@@ -102,6 +102,6 @@ const ViewListItem = forwardRef(({ block, onClick }: IViewListItem, ref) => {
       </Box>
     </div>
   )
-})
+}
 
 export default ViewListItem

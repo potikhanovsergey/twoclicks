@@ -21,8 +21,6 @@ export const BuildingBlocksList = () => {
     take: ITEMS_PER_PAGE,
   })
 
-  console.log(buildingBlocks)
-
   const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
   const goToNextPage = () => router.push({ query: { page: page + 1 } })
 
