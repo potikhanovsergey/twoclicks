@@ -5,7 +5,7 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { useRouter } from "next/router"
 import Layout from "app/core/layouts/Layout"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
-import { SimpleGrid } from "@mantine/core"
+import { Loader, SimpleGrid } from "@mantine/core"
 import ViewListItem from "app/core/components/modals/build/ViewListItem"
 import shortid from "shortid"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
@@ -61,7 +61,7 @@ const BuildingBlocksPage = () => {
           </Link>
         </p>
 
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<Loader />}>
           <BuildingBlocksList />
         </Suspense>
       </div>

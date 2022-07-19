@@ -1,4 +1,4 @@
-import { Stack, createStyles, Text, Button, MantineProvider } from "@mantine/core"
+import { Stack, createStyles, Text, Button, MantineProvider, Loader } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Suspense, useContext, useState } from "react"
 import LayoutHeader from "app/core/components/layout/LayoutHeader"
@@ -66,7 +66,7 @@ const BuildPage = () => {
               </Button>
             </Stack>
           ) : (
-            <Suspense fallback="Loading...">
+            <Suspense fallback={<Loader />}>
               <Builder />
             </Suspense>
           )}

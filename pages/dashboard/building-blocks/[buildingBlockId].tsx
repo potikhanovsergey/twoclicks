@@ -9,6 +9,7 @@ import { useParam } from "@blitzjs/next"
 import Layout from "app/core/layouts/Layout"
 import getBuildingBlock from "app/dashboard/building-blocks/queries/getBuildingBlock"
 import deleteBuildingBlock from "app/dashboard/building-blocks/mutations/deleteBuildingBlock"
+import { Loader } from "@mantine/core"
 
 export const BuildingBlock = () => {
   const router = useRouter()
@@ -61,7 +62,7 @@ const ShowBuildingBlockPage = () => {
         </Link>
       </p>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <BuildingBlock />
       </Suspense>
     </div>
