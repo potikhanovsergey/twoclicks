@@ -8,7 +8,7 @@ import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuilding
 import React from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 
-const useStyles = createStyles((theme, _params, getRef) => ({
+const useStyles = createStyles(() => ({
   wrapper: {
     display: "flex",
     flexDirection: "column",

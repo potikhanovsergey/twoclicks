@@ -2,7 +2,7 @@ import { ActionIcon, Group, Popover } from "@mantine/core"
 import React, { cloneElement, useRef, useState } from "react"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
-// import { CanvasStore } from '../../../store/build';
+import { BuildStore } from "store/build"
 
 interface IWithElementEdit {
   children: JSX.Element
@@ -65,7 +65,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
           color="red"
           size="lg"
           onClick={() => {
-            // CanvasStore.deleteElement({ id, parentID }); // todo: delete element
+            BuildStore.deleteElement({ id, parentID }) // todo: delete element
             setEditOpened(false)
           }}
         >

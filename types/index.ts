@@ -1,4 +1,3 @@
-import { ReactNode } from "react"
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
 import { BuildingBlock, User } from "db"
 
@@ -27,9 +26,9 @@ export interface ICanvasBlock {
 export type ICanvasElement = BuildingBlock | undefined | string | null // Element can be either block, string (text), or nothing
 
 export interface ICanvasData {
-  blocks: ICanvasElement[]
+  blocks: BuildingBlock[]
   flattenBlocks: {
-    [key: string]: ICanvasBlock | null
+    [key: string]: BuildingBlock
   }
 }
 

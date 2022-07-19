@@ -3,11 +3,10 @@ import { cloneElement, forwardRef, useContext, useMemo, useRef, useState } from 
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
 import shortid from "shortid"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-// import { CanvasStore } from "../../../store/build"
-// import { BuildingBlocksStore } from "../../../store/build/buildingBlocks"
 import { ICanvasBlock } from "types"
 import { recursiveTagName } from "helpers"
 import { BuildingBlock } from "@prisma/client"
+import { BuildStore } from "store/build"
 
 interface IViewListItem {
   block: BuildingBlock
@@ -52,8 +51,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
-
-  // const { push } = CanvasStore
   const [boxHovered, setBoxHovered] = useState(false)
 
   const TagName = useMemo(
@@ -66,20 +63,20 @@ const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
 
   const handleBoxClick = (e: any) => {
     // todo: remove any
-    // if (e.target === iconRef.current) {
-    //   console.log(block)
-    //   toggleLike(block.component) // todo: change block.component to id
-    // } else {
-    //   push({
-    //     ...block,
-    //     id: shortid.generate(),
-    //   })
-    //   setModalContext((prevValue: IModalContextValue) => ({
-    //     ...prevValue,
-    //     canvasComponentsModal: false,
-    //     canvasSectionsModal: false,
-    //   }))
-    // }
+    if (e.target === iconRef.current) {
+      console.log(block)
+      // toggleLike(block.component) // todo: change block.component to id
+    } else {
+      BuildStore.push({
+        ...block,
+        id: shortid.generate(),
+      })
+      setModalContext((prevValue: IModalContextValue) => ({
+        ...prevValue,
+        canvasComponentsModal: false,
+        canvasSectionsModal: false,
+      }))
+    }
   }
   return (
     <div>

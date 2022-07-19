@@ -10,8 +10,9 @@ import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
 import shortid from "shortid"
 // import { CanvasStore } from "../../../store/build"
-import { ICanvasElement, ICanvasBlock, ICanvasBlockProps } from "types"
+import { ICanvasElement, ICanvasBlockProps } from "types"
 import WithElementEdit from "app/build/WithElementEdit"
+import { BuildStore } from "store/build"
 
 export const canvasBuildingBlocks = {
   button: dynamic<ButtonProps<"button">>(() =>
@@ -44,7 +45,7 @@ export const recursiveTagName = (
     : undefined
 
   if (shouldFlat) {
-    // CanvasStore.pushFlatten(element) // todo: push flatten
+    BuildStore.pushFlatten(element) // todo: push flatten
   }
   if (element.editType === "element") {
     return (

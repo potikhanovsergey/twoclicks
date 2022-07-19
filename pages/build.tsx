@@ -1,6 +1,6 @@
 import { Stack, createStyles, Text, Button, MantineProvider } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useContext, useState } from "react"
+import { Suspense, useContext, useState } from "react"
 import LayoutHeader from "app/core/components/layout/LayoutHeader"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
@@ -66,7 +66,9 @@ const BuildPage = () => {
               </Button>
             </Stack>
           ) : (
-            <Builder />
+            <Suspense fallback="Loading...">
+              <Builder />
+            </Suspense>
           )}
         </main>
       </MantineProvider>

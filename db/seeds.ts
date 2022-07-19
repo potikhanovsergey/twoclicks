@@ -1,5 +1,5 @@
 import db from "./index"
-import { ButtonsList } from "./mocks"
+import { ButtonsList, PortfolioMock } from "./mocks"
 /*
  * This seed function is executed when you run `blitz db seed`.
  *
@@ -9,20 +9,24 @@ import { ButtonsList } from "./mocks"
 
 // "blitz db seed" to push buttons to database building blocks
 const seed = async () => {
-  for (let i = 0; i < ButtonsList.length; i++) {
-    const block = ButtonsList[i]
-    if (block) {
-      const { component, editType, props } = block
-      block &&
-        (await db.buildingBlock.create({
-          data: {
-            component,
-            editType,
-            props,
-          },
-        }))
-    }
-  }
+  // for (let i = 0; i < ButtonsList.length; i++) {
+  //   const block = ButtonsList[i]
+  //   if (block) {
+  //     const { component, editType, props } = block
+  //     block &&
+  //       (await db.buildingBlock.create({
+  //         data: {
+  //           component,
+  //           editType,
+  //           props,
+  //         },
+  //       }))
+  //   }
+  // }
+
+  await db.portfolio.create({
+    data: PortfolioMock,
+  })
 }
 
 export default seed

@@ -112,3 +112,94 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
     },
   },
 ]
+
+export const PortfolioMock = {
+  name: "First portfolio in Prisma",
+  data: [
+    {
+      id: "3123dasab",
+      component: "tabs",
+      isSingleClosing: false,
+      editType: "section",
+      props: {
+        children: [
+          {
+            id: "321fsdc",
+            component: "tab",
+            isSingleClosing: false,
+            props: {
+              label: "Tab 1",
+              children: ["Tab 1 content"],
+            },
+          },
+          {
+            id: "321fsdac",
+            component: "tab",
+            isSingleClosing: false,
+            props: {
+              label: "Tab 2",
+              children: ["Tab 2 content"],
+            },
+          },
+          {
+            id: "321fsf21dc",
+            component: "tab",
+            isSingleClosing: false,
+            props: {
+              label: "Tab 3",
+              children: ["Tab 3 content"],
+            },
+          },
+        ],
+      },
+    },
+    {
+      id: "3213213122",
+      component: "button",
+      isSingleClosing: false,
+      editType: "element",
+      props: {
+        children: ["Button Text"],
+      },
+    },
+    {
+      id: "3213312",
+      component: "stack",
+      isSingleClosing: false,
+      props: {
+        children: [
+          {
+            id: "321543213213",
+            component: "group",
+            isSingleClosing: false,
+            props: {
+              children: [
+                {
+                  id: "213122321",
+                  component: "button",
+                  isSingleClosing: false,
+                  editType: "element",
+                  props: {
+                    color: "blue",
+                    size: "xl",
+                    children: ["very deep button"],
+                  },
+                },
+                {
+                  id: "21312320",
+                  component: "button",
+                  isSingleClosing: false,
+                  editType: "element",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+}

@@ -74,3 +74,11 @@ model BuildingBlock {
   editType  String?
   props     Json?
 }
+
+model Portfolio {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  name      String
+  data      Json
+}

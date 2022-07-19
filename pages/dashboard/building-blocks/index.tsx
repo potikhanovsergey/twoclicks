@@ -34,7 +34,7 @@ export const BuildingBlocksList = () => {
       </button>
       <SimpleGrid cols={4} style={{ padding: "20px" }}>
         {buildingBlocks.map((block) => {
-          return <ViewListItem block={block} key={shortid.generate()} />
+          return <ViewListItem block={block} key={shortid.generate()} onClick={() => 1} />
         })}
       </SimpleGrid>
       <button disabled={page === 0} onClick={goToPreviousPage}>
