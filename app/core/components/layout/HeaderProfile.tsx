@@ -25,6 +25,7 @@ import { useSession } from "@blitzjs/auth"
 import logout from "app/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import Link from "next/link"
 
 const ProfileItem = {
   icon: (
@@ -89,21 +90,20 @@ function HeaderProfile() {
   const [opened, openedHandlers] = useDisclosure(false)
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
   const router = useRouter()
-  const handleLoginClick = () => {
-    void router.push({ pathname: "/auth/", query: { next: router.pathname } })
-  }
   return (
     <Group position="center">
       {!user && ( // TODO: i18n, session
-        <Button
-          size="xs"
-          title="Войти в аккаунт"
-          onClick={handleLoginClick}
-          variant="gradient"
-          gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-        >
-          {t("signin")}
-        </Button>
+        <Link passHref href={`/auth/?next=${router.pathname}`}>
+          <Button
+            component="a"
+            size="xs"
+            title="Войти в аккаунт"
+            variant="gradient"
+            gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
+          >
+            {t("signin")}
+          </Button>
+        </Link>
       )}
       <Menu
         sx={() => ({

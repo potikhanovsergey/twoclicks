@@ -47,4 +47,8 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
   )
 }
 
+export function getProfileLayout() {
+  return (page: JSX.Element) => <ProfileLayout>{page}</ProfileLayout>
+}
+
 export default ProfileLayout
