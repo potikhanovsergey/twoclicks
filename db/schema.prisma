@@ -80,5 +80,5 @@ model Portfolio {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String
-  data      Json
+  data      String
 }

@@ -13,6 +13,7 @@ import shortid from "shortid"
 import { ICanvasElement, ICanvasBlockProps } from "types"
 import WithElementEdit from "app/build/WithElementEdit"
 import { BuildStore } from "store/build"
+import zlib from "zlib"
 
 export const canvasBuildingBlocks = {
   button: dynamic<ButtonProps<"button">>(() =>
@@ -59,4 +60,13 @@ export const recursiveTagName = (
       {children}
     </TagName>
   )
+}
+
+export const deflate = (data) => {
+  const dataBuffer = Buffer.from(JSON.stringify(data))
+  return zlib.deflateSync(dataBuffer).toString("base64")
+}
+
+export const inflateBase64 = (str: string) => {
+  return JSON.parse(zlib.inflateSync(Buffer.from(str, "base64")).toString())
 }

@@ -3,38 +3,24 @@ import { useRouter } from "next/router"
 import { useMutation } from "@blitzjs/rpc"
 import Layout from "app/core/layouts/Layout"
 import createBuildingBlock from "app/dashboard/building-blocks/mutations/createBuildingBlock"
+import { PortfolioMock } from "db/mocks"
+import createPortfolio from "app/dashboard/portfolios/mutations/createPortfolio"
 
 const NewBuildingBlockPage = () => {
   const router = useRouter()
   const [createBuildingBlockMutation] = useMutation(createBuildingBlock)
+  // const [createPortfolioMutation] = useMutation(createPortfolio)
+
+  // const handleCreatePortfolio = () => {
+  //   void createPortfolioMutation({
+  //     name: PortfolioMock.name,
+  //     data: deflate(PortfolioMock.data),
+  //   })
+  // }
 
   return (
     <Layout title={"Create New BuildingBlock"}>
       <h1>Create New BuildingBlock</h1>
-
-      {/* <BuildingBlockForm
-        submitText="Create BuildingBlock"
-        // TODO use a zod schema for form validation
-        //  - Tip: extract mutation's schema into a shared `validations.ts` file and
-        //         then import and use it here
-        // schema={CreateBuildingBlock}
-        // initialValues={{}}
-        onSubmit={async (values) => {
-          try {
-            const buildingBlock = await createBuildingBlockMutation(values)
-            void router.push({
-              pathname: `/building-blocks/[buildingBlockId]`,
-              query: { buildingBlockId: buildingBlock.id },
-            })
-          } catch (error: any) {
-            console.error(error)
-            return {
-              [FORM_ERROR]: error.toString(),
-            }
-          }
-        }}
-      /> */}
-
       <p>
         <Link href={{ pathname: "/dashboard/building-blocks" }}>
           <a>BuildingBlocks</a>

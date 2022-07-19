@@ -2,12 +2,13 @@ import { useTranslation } from "next-i18next"
 import { Stack, Button } from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { recursiveTagName } from "helpers"
+import { inflateBase64, recursiveTagName } from "helpers"
 import { useQuery } from "@blitzjs/rpc"
 import getPortfolio from "app/portfolios/queries/getPortfolio"
 import { BuildStore } from "store/build"
 import { BuildingBlock } from "@prisma/client"
 import { observer } from "mobx-react-lite"
+import zlib from "zlib"
 
 const BuilderBlocks = observer(() => {
   return (
@@ -31,7 +32,8 @@ const Builder = () => {
   const [portfolio, { isSuccess }] = useQuery(getPortfolio, null)
   useEffect(() => {
     if (portfolio?.data) {
-      const dataBlocks = portfolio?.data as unknown as BuildingBlock[]
+      const inflatedData = inflateBase64(portfolio.data)
+      const dataBlocks = inflatedData as BuildingBlock[]
       BuildStore.data.blocks = dataBlocks
     }
   }, [portfolio])

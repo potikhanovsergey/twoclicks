@@ -48,6 +48,7 @@
     "react-dropzone": "14.2.2",
     "react-icons": "4.4.0",
     "react-new-window": "0.2.1",
+    "react-zlib-js": "1.0.5",
     "shortid": "2.2.16"
   },
   "devDependencies": {
