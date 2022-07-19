@@ -5,9 +5,10 @@ import shortid from "shortid"
 import { ICanvasBlock } from "types"
 // import { useGetBuildingBlocks } from '@/hooks/data/useBuildingBlocks';
 import ViewListItem from "./ViewListItem"
+import { BuildingBlock } from "@prisma/client"
 
 interface IViewList {
-  blocks: ICanvasBlock[]
+  blocks: BuildingBlock[]
 }
 
 const ObserverList = forwardRef(({ blocks }: IViewList, ref) => (

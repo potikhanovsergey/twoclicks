@@ -7,9 +7,11 @@ import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 // import { BuildingBlocksStore } from "../../../store/build/buildingBlocks"
 import { ICanvasBlock } from "types"
 import { recursiveTagName } from "helpers"
+import { BuildingBlock } from "@prisma/client"
 
 interface IViewListItem {
-  block: Omit<ICanvasBlock, "id">
+  block: BuildingBlock
+  onClick?: () => void
 }
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -47,7 +49,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const ViewListItem = forwardRef(({ block }: IViewListItem, ref) => {
+const ViewListItem = forwardRef(({ block, onClick }: IViewListItem, ref) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
 
@@ -85,7 +87,7 @@ const ViewListItem = forwardRef(({ block }: IViewListItem, ref) => {
         onMouseEnter={() => setBoxHovered(true)}
         onMouseLeave={() => setBoxHovered(false)}
         className={classes.box}
-        onClick={handleBoxClick}
+        onClick={(e) => (onClick ? onClick() : handleBoxClick(e))}
       >
         {cloneElement(TagName, { className: classes.child })}
         <Group className={classes.actions}>

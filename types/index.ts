@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
-import { User } from "db"
+import { BuildingBlock, User } from "db"
 
 /// ### CANVAS STARTS ###
 export type ICanvasBuildingBlockComponent =
@@ -11,18 +11,20 @@ export type ICanvasBuildingBlockComponent =
   | "tabs"
   | "tab"
 
+export interface ICanvasBlockProps {
+  [key: string]: any
+  children?: ICanvasElement[]
+}
+
 export interface ICanvasBlock {
   // Block that contains something else
   id: string
-  component: ICanvasBuildingBlockComponent
+  component: string
   editType?: string | null
-  props: {
-    [key: string]: any
-    children?: ICanvasElement[]
-  }
+  props: ICanvasBlockProps
 }
 
-export type ICanvasElement = ICanvasBlock | undefined | string | null // Element can be either block, string (text), or nothing
+export type ICanvasElement = BuildingBlock | undefined | string | null // Element can be either block, string (text), or nothing
 
 export interface ICanvasData {
   blocks: ICanvasElement[]

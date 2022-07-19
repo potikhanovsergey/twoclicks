@@ -8,6 +8,7 @@ import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuilding
 import { SimpleGrid } from "@mantine/core"
 import ViewListItem from "app/core/components/modals/build/ViewListItem"
 import shortid from "shortid"
+import { ICanvasBlock, ICanvasBlockProps } from "types"
 
 const ITEMS_PER_PAGE = 12
 
@@ -19,6 +20,8 @@ export const BuildingBlocksList = () => {
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   })
+
+  console.log(buildingBlocks)
 
   const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
   const goToNextPage = () => router.push({ query: { page: page + 1 } })
@@ -32,9 +35,9 @@ export const BuildingBlocksList = () => {
         Next
       </button>
       <SimpleGrid cols={4} style={{ padding: "20px" }}>
-        {buildingBlocks.map((block) => (
-          <ViewListItem block={block} key={shortid.generate()} />
-        ))}
+        {buildingBlocks.map((block) => {
+          return <ViewListItem block={block} key={shortid.generate()} />
+        })}
       </SimpleGrid>
       <button disabled={page === 0} onClick={goToPreviousPage}>
         Previous
