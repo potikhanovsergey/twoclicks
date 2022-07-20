@@ -4,10 +4,14 @@ import getUserLikedBlocksIds from "app/liked-blocks/queries/getUserLikedBlocksId
 export const useCurrentUserLikedBlocks = () => {
   const [likedBlocks, { isSuccess: isLikedBlocksSuccess, refetch }] = useQuery(
     getUserLikedBlocksIds,
-    null
+    null,
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    }
   )
   return {
-    likedBlocks: isLikedBlocksSuccess ? likedBlocks.map((block) => block.buildingBlockId) : null,
+    likedBlocks: likedBlocks ? likedBlocks.map((block) => block.buildingBlockId) : null,
     refetch,
     isSuccess: isLikedBlocksSuccess,
   }
