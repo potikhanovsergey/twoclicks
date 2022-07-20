@@ -28,14 +28,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     height: "100%",
     aspectRatio: "5/3",
     position: "relative",
-    // '&:hover': {
-    //   [`& .${getRef('child')}`]: {
-    //     transform: 'scale(1.2)',
-    //   },
-    // },
+    "&:hover": {
+      [`& .${getRef("icon")}`]: {
+        opacity: 1,
+      },
+    },
   },
   child: {
-    ref: getRef("child"),
     transition: "0.4s ease transform",
     "&:hover": {
       transform: "scale(1.2)",
@@ -47,15 +46,23 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     right: "8px",
     display: "flex",
   },
+  actionIcon: {
+    "&:focus": {
+      [`& .${getRef("icon")}`]: {
+        opacity: 1,
+      },
+    },
+  },
   icon: {
+    ref: getRef("icon"),
     pointerEvents: "none",
+    opacity: 0,
   },
 }))
 
 const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListItem) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
-  const [boxHovered, setBoxHovered] = useState(false)
 
   const TagName = useMemo(() => {
     return recursiveTagName({ ...block, id: shortid.generate(), editType: null })
@@ -99,23 +106,23 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
   return (
     <div>
-      <Box
-        onMouseEnter={() => setBoxHovered(true)}
-        onMouseLeave={() => setBoxHovered(false)}
-        className={classes.box}
-        onClick={(e) => (onClick ? onClick() : handleBoxClick(e))}
-      >
+      <Box className={classes.box} onClick={(e) => (onClick ? onClick() : handleBoxClick(e))}>
         {cloneElement(TagName, { className: classes.child })}
         {hasActions && (
           <Group className={classes.actions}>
-            <ActionIcon color="red" ref={iconRef} loading={isLikeLoading}>
+            <ActionIcon
+              color="red"
+              ref={iconRef}
+              loading={isLikeLoading}
+              className={classes.actionIcon}
+            >
               <RiHeartAddFill
                 className={classes.icon}
-                style={{ display: isLiked ? "block" : "none" }}
+                style={{ display: isLiked ? "block" : "none", opacity: 1 }}
               />
               <RiHeartAddLine
                 className={classes.icon}
-                style={{ opacity: boxHovered ? 1 : 0, display: !isLiked ? "block" : "none" }}
+                style={{ display: !isLiked ? "block" : "none" }}
               />
             </ActionIcon>
           </Group>
