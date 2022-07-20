@@ -94,4 +94,6 @@ model LikedBlock {
   buildingBlockId String
   user            User          @relation(fields: [userId], references: [id])
   userId          String
+
+  @@unique([userId, buildingBlockId])
 }
