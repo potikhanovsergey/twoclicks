@@ -10,21 +10,20 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { useSession } from "@blitzjs/auth"
 import { useCurrentUserLikedBlocks } from "app/core/hooks/useCurrentUserLikedBlocks"
 
-function isLiked(block, userId) {
-  return block?.LikedBlocks?.some((b) => b.userId === userId)
-}
-
 const useStyles = createStyles(() => ({
   wrapper: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
-    padding: "10px 20px",
+    padding: "10px 0px",
     gap: "10px",
     position: "relative",
   },
   scrollArea: { height: "100%", position: "relative", width: "100%" },
+  grid: {
+    padding: "0 20px",
+  },
 }))
 interface IViewList {
   blocks: BuildingBlock[]
@@ -48,35 +47,30 @@ const ViewList = ({}: IViewList) => {
     }
   )
 
-  // const { likedBlocks, refetch: refetchLikedBlocks, isSuccess } = useCurrentUserLikedBlocks()
+  const { likedBlocks, refetch: refetchLikedBlocks, isSuccess } = useCurrentUserLikedBlocks()
   const totalPaginationPages = useMemo(() => {
     return Math.ceil(totalPages / ITEMS_PER_PAGE)
   }, [totalPages])
 
-  const [loadingOverlayVisible] = useDebouncedValue(isFetching, 2000)
+  const [loadingOverlayVisible] = useDebouncedValue(isFetching, 1500)
 
   const { classes } = useStyles()
   const session = useSession()
 
   const handlePaginationChange = (page: number) => {
     setActivePage(page)
-    // void refetchLikedBlocks()
+    void refetchLikedBlocks()
   }
-
-  console.log(buildingBlocks)
 
   return (
     <div className={classes.wrapper}>
       <LoadingOverlay visible={loadingOverlayVisible} />
       <ScrollArea className={classes.scrollArea}>
-        <SimpleGrid cols={4}>
+        <SimpleGrid cols={4} className={classes.grid}>
           {buildingBlocks.map((block, i) => (
             <ViewListItem
-              block={{
-                ...block,
-                // liked: likedBlocks?.includes(block.id),
-                liked: isLiked(block, session.userId),
-              }}
+              block={block}
+              liked={likedBlocks?.includes(block.id)}
               key={i}
               hasActions={Boolean(session.userId)}
             />

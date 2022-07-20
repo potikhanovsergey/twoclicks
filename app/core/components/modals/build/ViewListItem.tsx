@@ -10,14 +10,11 @@ import { useMutation } from "@blitzjs/rpc"
 import createLikedBlock from "app/liked-blocks/mutations/createLikedBlock"
 import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
 
-interface IViewListItemBlock extends BuildingBlock {
-  liked?: boolean
-}
-
 interface IViewListItem {
-  block: IViewListItemBlock
+  block: BuildingBlock
   onClick?: () => void
   hasActions?: boolean
+  liked?: boolean
 }
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -55,7 +52,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const ViewListItem = ({ block, onClick, hasActions = false }: IViewListItem) => {
+const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListItem) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
   const [boxHovered, setBoxHovered] = useState(false)
@@ -67,8 +64,8 @@ const ViewListItem = ({ block, onClick, hasActions = false }: IViewListItem) => 
   const iconRef = useRef(null)
   const [isLiked, setIsLiked] = useState(false)
   useEffect(() => {
-    if (block.liked !== undefined) {
-      setIsLiked(block.liked)
+    if (liked !== undefined) {
+      setIsLiked(liked)
     }
   }, [block])
 
