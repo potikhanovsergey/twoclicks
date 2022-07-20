@@ -3,10 +3,13 @@ import { useMemo, useState } from "react"
 import { SimpleGrid, ScrollArea, LoadingOverlay, Pagination, createStyles } from "@mantine/core"
 import ViewListItem from "./ViewListItem"
 import { BuildingBlock } from "@prisma/client"
-import { usePaginatedQuery } from "@blitzjs/rpc"
+import { usePaginatedQuery, useQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 import React from "react"
 import { useDebouncedValue } from "@mantine/hooks"
+import { useSession } from "@blitzjs/auth"
+import getUserLikedBlocksIds from "app/liked-blocks/queries/getUserLikedBlocksIds"
+import { useCurrentUserLikedBlocks } from "app/core/hooks/useCurrentUserLikedBlocks"
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -42,6 +45,8 @@ const ViewList = ({}: IViewList) => {
     }
   )
 
+  const { likedBlocks, refetch: refetchLikedBlocks, isSuccess } = useCurrentUserLikedBlocks()
+  console.log(likedBlocks)
   const totalPaginationPages = useMemo(() => {
     return Math.ceil(totalPages / ITEMS_PER_PAGE)
   }, [totalPages])
@@ -49,6 +54,7 @@ const ViewList = ({}: IViewList) => {
   const [loadingOverlayVisible] = useDebouncedValue(isFetching, 500)
 
   const { classes } = useStyles()
+  const session = useSession()
 
   return (
     <div className={classes.wrapper}>
@@ -56,7 +62,18 @@ const ViewList = ({}: IViewList) => {
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={4}>
           {buildingBlocks.map((block, i) => (
-            <ViewListItem block={block} key={i} />
+            <ViewListItem
+              onLikeOrDislike={() => {
+                console.log("refetch")
+                void refetchLikedBlocks()
+              }}
+              block={{
+                ...block,
+                liked: likedBlocks?.includes(block.id),
+              }}
+              key={i}
+              hasActions={Boolean(session.userId)}
+            />
           ))}
         </SimpleGrid>
       </ScrollArea>

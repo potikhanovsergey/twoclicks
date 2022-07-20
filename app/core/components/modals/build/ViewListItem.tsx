@@ -1,16 +1,24 @@
 import { Box, Group, ActionIcon, createStyles } from "@mantine/core"
-import { cloneElement, forwardRef, useContext, useMemo, useRef, useState } from "react"
+import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
 import shortid from "shortid"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { ICanvasBlock } from "types"
 import { recursiveTagName } from "helpers"
 import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
+import { useMutation } from "@blitzjs/rpc"
+import createLikedBlock from "app/liked-blocks/mutations/createLikedBlock"
+import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
+
+interface IViewListItemBlock extends BuildingBlock {
+  liked?: boolean
+}
 
 interface IViewListItem {
-  block: BuildingBlock
+  block: IViewListItemBlock
   onClick?: () => void
+  hasActions?: boolean
+  onLikeOrDislike?: () => void
 }
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -48,7 +56,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
+const ViewListItem = ({ block, onClick, hasActions = false, onLikeOrDislike }: IViewListItem) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
   const [boxHovered, setBoxHovered] = useState(false)
@@ -59,13 +67,20 @@ const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
   )
   const iconRef = useRef(null)
 
-  // const { toggleLike } = BuildingBlocksStore
+  const [isLikeLoading, setIsLikeLoading] = useState(false)
 
-  const handleBoxClick = (e: any) => {
+  const handleBoxClick = async (e: any) => {
     // todo: remove any
     if (e.target === iconRef.current) {
-      console.log(block)
-      // toggleLike(block.component) // todo: change block.component to id
+      setIsLikeLoading(true)
+      if (block.liked) {
+        await dislikeBuildingBlock({ buildingBlockId: block.id })
+        onLikeOrDislike && onLikeOrDislike()
+      } else {
+        await likeBuildingBlock({ buildingBlockId: block.id })
+        onLikeOrDislike && onLikeOrDislike()
+      }
+      setIsLikeLoading(false)
     } else {
       BuildStore.push({
         ...block,
@@ -78,6 +93,8 @@ const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
       }))
     }
   }
+  const [likeBuildingBlock] = useMutation(createLikedBlock)
+  const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
   return (
     <div>
       <Box
@@ -87,15 +104,30 @@ const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
         onClick={(e) => (onClick ? onClick() : handleBoxClick(e))}
       >
         {cloneElement(TagName, { className: classes.child })}
-        <Group className={classes.actions}>
-          <ActionIcon color="red" ref={iconRef}>
-            {/* {block.liked ? (
-              <RiHeartAddFill className={classes.icon} />
-            ) : (
-              <RiHeartAddLine className={classes.icon} style={{ opacity: boxHovered ? 1 : 0 }} />
-            )} */}
-          </ActionIcon>
-        </Group>
+        {hasActions && (
+          <Group className={classes.actions}>
+            {block.liked !== undefined && (
+              <ActionIcon color="red" ref={iconRef} loading={isLikeLoading}>
+                <RiHeartAddLine
+                  className={classes.icon}
+                  style={{
+                    position: "absolute",
+                    opacity: boxHovered ? 1 : 0,
+                    visibility: !block.liked ? "visible" : "hidden",
+                  }}
+                />
+                <RiHeartAddFill
+                  className={classes.icon}
+                  style={{
+                    opacity: block.liked ? 1 : 0,
+                    transition: "0.4s ease all",
+                    position: "absolute",
+                  }}
+                />
+              </ActionIcon>
+            )}
+          </Group>
+        )}
       </Box>
     </div>
   )

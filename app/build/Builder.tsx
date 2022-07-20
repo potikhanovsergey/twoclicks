@@ -3,12 +3,10 @@ import { Stack, Button } from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { inflateBase64, recursiveTagName } from "helpers"
-import { useQuery } from "@blitzjs/rpc"
-import getPortfolio from "app/portfolios/queries/getPortfolio"
 import { BuildStore } from "store/build"
 import { BuildingBlock } from "@prisma/client"
 import { observer } from "mobx-react-lite"
-import zlib from "zlib"
+import { usePortfolio } from "app/core/hooks/usePortfolio"
 
 const BuilderBlocks = observer(() => {
   return (
@@ -29,7 +27,7 @@ const Builder = () => {
   // const { t } = useTranslation('pagesBuild');
   const [, setModalContext = () => ({})] = useContext(ModalContext)
 
-  const [portfolio, { isSuccess }] = useQuery(getPortfolio, null)
+  const [portfolio, { isSuccess }] = usePortfolio()
   useEffect(() => {
     if (portfolio?.data) {
       const inflatedData = inflateBase64(portfolio.data)
