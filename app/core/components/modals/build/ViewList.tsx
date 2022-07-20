@@ -52,7 +52,7 @@ const ViewList = ({}: IViewList) => {
     return Math.ceil(totalPages / ITEMS_PER_PAGE)
   }, [totalPages])
 
-  const [loadingOverlayVisible] = useDebouncedValue(isFetching, 1500)
+  const [loadingOverlayVisible] = useDebouncedValue(isFetching, 1000)
 
   const { classes } = useStyles()
   const session = useSession()
