@@ -60,12 +60,11 @@ const ViewListItem = ({ block, onClick, hasActions = false }: IViewListItem) => 
   const { classes } = useStyles()
   const [boxHovered, setBoxHovered] = useState(false)
 
-  const TagName = useMemo(
-    () => recursiveTagName({ ...block, id: shortid.generate(), editType: null }),
-    [block]
-  )
-  const iconRef = useRef(null)
+  const TagName = useMemo(() => {
+    return recursiveTagName({ ...block, id: shortid.generate(), editType: null })
+  }, [block])
 
+  const iconRef = useRef(null)
   const [isLiked, setIsLiked] = useState(false)
   useEffect(() => {
     if (block.liked !== undefined) {

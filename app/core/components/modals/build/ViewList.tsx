@@ -8,8 +8,11 @@ import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuilding
 import React from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useSession } from "@blitzjs/auth"
-import getUserLikedBlocksIds from "app/liked-blocks/queries/getUserLikedBlocksIds"
 import { useCurrentUserLikedBlocks } from "app/core/hooks/useCurrentUserLikedBlocks"
+
+function isLiked(block, userId) {
+  return block?.LikedBlocks?.some((b) => b.userId === userId)
+}
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -45,20 +48,22 @@ const ViewList = ({}: IViewList) => {
     }
   )
 
-  const { likedBlocks, refetch: refetchLikedBlocks, isSuccess } = useCurrentUserLikedBlocks()
+  // const { likedBlocks, refetch: refetchLikedBlocks, isSuccess } = useCurrentUserLikedBlocks()
   const totalPaginationPages = useMemo(() => {
     return Math.ceil(totalPages / ITEMS_PER_PAGE)
   }, [totalPages])
 
-  const [loadingOverlayVisible] = useDebouncedValue(isFetching, 500)
+  const [loadingOverlayVisible] = useDebouncedValue(isFetching, 2000)
 
   const { classes } = useStyles()
   const session = useSession()
 
   const handlePaginationChange = (page: number) => {
     setActivePage(page)
-    void refetchLikedBlocks()
+    // void refetchLikedBlocks()
   }
+
+  console.log(buildingBlocks)
 
   return (
     <div className={classes.wrapper}>
@@ -69,7 +74,8 @@ const ViewList = ({}: IViewList) => {
             <ViewListItem
               block={{
                 ...block,
-                liked: likedBlocks?.includes(block.id),
+                // liked: likedBlocks?.includes(block.id),
+                liked: isLiked(block, session.userId),
               }}
               key={i}
               hasActions={Boolean(session.userId)}

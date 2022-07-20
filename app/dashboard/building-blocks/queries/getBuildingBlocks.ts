@@ -23,9 +23,9 @@ export default async function Get__ModelNames(input: GetBuildingBlocksInput, ctx
         ...paginateArgs,
         where: input.where,
         orderBy: input.orderBy,
-        // include: {
-        //   LikedBlocks: true,
-        // },
+        include: {
+          LikedBlocks: true,
+        },
       }),
   })
 
