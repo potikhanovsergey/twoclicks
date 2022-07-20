@@ -79,7 +79,7 @@ const ViewListItem = ({ block, onClick, hasActions = false }: IViewListItem) => 
     // todo: remove any
     if (e.target === iconRef.current) {
       setIsLikeLoading(true)
-      if (block.liked) {
+      if (isLiked) {
         await dislikeBuildingBlock({ buildingBlockId: block.id })
         setIsLiked(false)
       } else {
