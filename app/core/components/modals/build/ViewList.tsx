@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 // import { observer } from 'mobx-react-lite';
 import { SimpleGrid, ScrollArea, LoadingOverlay, Pagination, createStyles } from "@mantine/core"
 import ViewListItem from "./ViewListItem"
@@ -46,7 +46,6 @@ const ViewList = ({}: IViewList) => {
   )
 
   const { likedBlocks, refetch: refetchLikedBlocks, isSuccess } = useCurrentUserLikedBlocks()
-  console.log(likedBlocks)
   const totalPaginationPages = useMemo(() => {
     return Math.ceil(totalPages / ITEMS_PER_PAGE)
   }, [totalPages])
@@ -56,6 +55,11 @@ const ViewList = ({}: IViewList) => {
   const { classes } = useStyles()
   const session = useSession()
 
+  const handlePaginationChange = (page: number) => {
+    setActivePage(page)
+    void refetchLikedBlocks()
+  }
+
   return (
     <div className={classes.wrapper}>
       <LoadingOverlay visible={loadingOverlayVisible} />
@@ -63,9 +67,6 @@ const ViewList = ({}: IViewList) => {
         <SimpleGrid cols={4}>
           {buildingBlocks.map((block, i) => (
             <ViewListItem
-              onLikeOrDislike={() => {
-                void refetchLikedBlocks()
-              }}
               block={{
                 ...block,
                 liked: likedBlocks?.includes(block.id),
@@ -95,7 +96,7 @@ const ViewList = ({}: IViewList) => {
         color="blue"
         total={totalPaginationPages}
         page={activePage}
-        onChange={setActivePage}
+        onChange={handlePaginationChange}
       />
     </div>
   )

@@ -42,7 +42,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
       overflow="outside"
       centered
       size="85%"
-      overlayOpacity={dark ? 0.99 : 0.6}
+      overlayOpacity={dark ? 0.8 : 0.6}
       styles={{
         inner: {
           padding: 0,

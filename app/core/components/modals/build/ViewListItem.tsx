@@ -18,7 +18,6 @@ interface IViewListItem {
   block: IViewListItemBlock
   onClick?: () => void
   hasActions?: boolean
-  onLikeOrDislike?: () => void
 }
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -56,7 +55,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const ViewListItem = ({ block, onClick, hasActions = false, onLikeOrDislike }: IViewListItem) => {
+const ViewListItem = ({ block, onClick, hasActions = false }: IViewListItem) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
   const [boxHovered, setBoxHovered] = useState(false)
@@ -67,6 +66,13 @@ const ViewListItem = ({ block, onClick, hasActions = false, onLikeOrDislike }: I
   )
   const iconRef = useRef(null)
 
+  const [isLiked, setIsLiked] = useState(false)
+  useEffect(() => {
+    if (block.liked !== undefined) {
+      setIsLiked(block.liked)
+    }
+  }, [block])
+
   const [isLikeLoading, setIsLikeLoading] = useState(false)
 
   const handleBoxClick = async (e: any) => {
@@ -75,10 +81,10 @@ const ViewListItem = ({ block, onClick, hasActions = false, onLikeOrDislike }: I
       setIsLikeLoading(true)
       if (block.liked) {
         await dislikeBuildingBlock({ buildingBlockId: block.id })
-        onLikeOrDislike && onLikeOrDislike()
+        setIsLiked(false)
       } else {
         await likeBuildingBlock({ buildingBlockId: block.id })
-        onLikeOrDislike && onLikeOrDislike()
+        setIsLiked(true)
       }
       setIsLikeLoading(false)
     } else {
@@ -106,26 +112,16 @@ const ViewListItem = ({ block, onClick, hasActions = false, onLikeOrDislike }: I
         {cloneElement(TagName, { className: classes.child })}
         {hasActions && (
           <Group className={classes.actions}>
-            {block.liked !== undefined && (
-              <ActionIcon color="red" ref={iconRef} loading={isLikeLoading}>
-                <RiHeartAddLine
-                  className={classes.icon}
-                  style={{
-                    position: "absolute",
-                    opacity: boxHovered ? 1 : 0,
-                    visibility: !block.liked ? "visible" : "hidden",
-                  }}
-                />
-                <RiHeartAddFill
-                  className={classes.icon}
-                  style={{
-                    opacity: block.liked ? 1 : 0,
-                    transition: "0.4s ease all",
-                    position: "absolute",
-                  }}
-                />
-              </ActionIcon>
-            )}
+            <ActionIcon color="red" ref={iconRef} loading={isLikeLoading}>
+              <RiHeartAddFill
+                className={classes.icon}
+                style={{ display: isLiked ? "block" : "none" }}
+              />
+              <RiHeartAddLine
+                className={classes.icon}
+                style={{ opacity: boxHovered ? 1 : 0, display: !isLiked ? "block" : "none" }}
+              />
+            </ActionIcon>
           </Group>
         )}
       </Box>
