@@ -30,7 +30,12 @@ const HeaderMenuItem = ({ icon, title, text, route }: IHeaderMenuItem) => {
               }
             : {}
         }
-        disabled={router.route === route}
+        sx={(theme) => ({
+          "&:hover": {
+            backgroundColor:
+              theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[0],
+          },
+        })}
         title={t(title)}
         icon={icon}
       >
