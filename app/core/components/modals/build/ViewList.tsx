@@ -64,7 +64,6 @@ const ViewList = ({}: IViewList) => {
           {buildingBlocks.map((block, i) => (
             <ViewListItem
               onLikeOrDislike={() => {
-                console.log("refetch")
                 void refetchLikedBlocks()
               }}
               block={{

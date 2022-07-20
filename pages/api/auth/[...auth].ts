@@ -18,6 +18,7 @@ export default api(
             callbackURL: "http://localhost:3000/api/auth/google/callback",
           },
           async function (accessToken, refreshToken, profile, done) {
+            console.log(profile)
             const email = profile.emails && profile.emails[0]?.value
             const name = profile.displayName
             const avatar = profile.photos && profile.photos[0]?.value
