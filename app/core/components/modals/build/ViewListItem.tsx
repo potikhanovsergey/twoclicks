@@ -74,7 +74,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
     if (liked !== undefined) {
       setIsLiked(liked)
     }
-  }, [block])
+  }, [liked])
 
   const [isLikeLoading, setIsLikeLoading] = useState(false)
 
@@ -89,6 +89,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
         await likeBuildingBlock({ buildingBlockId: block.id })
         setIsLiked(true)
       }
+      BuildStore.shouldRefetchLiked = true
       setIsLikeLoading(false)
     } else {
       BuildStore.push({

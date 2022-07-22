@@ -1,14 +1,24 @@
 import { useEffect, useMemo, useState } from "react"
 // import { observer } from 'mobx-react-lite';
-import { SimpleGrid, ScrollArea, LoadingOverlay, Pagination, createStyles } from "@mantine/core"
+import {
+  SimpleGrid,
+  ScrollArea,
+  LoadingOverlay,
+  Pagination,
+  createStyles,
+  Skeleton,
+  Loader,
+} from "@mantine/core"
 import ViewListItem from "./ViewListItem"
-import { BuildingBlock } from "@prisma/client"
 import { usePaginatedQuery, useQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
+import getLikedBlocks from "app/dashboard/building-blocks/queries/getLikedBlocks"
 import React from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useSession } from "@blitzjs/auth"
 import { useCurrentUserLikedBlocks } from "app/core/hooks/useCurrentUserLikedBlocks"
+import { BuildStore } from "store/build"
+import { observer } from "mobx-react-lite"
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -26,15 +36,15 @@ const useStyles = createStyles(() => ({
   },
 }))
 interface IViewList {
-  blocks: BuildingBlock[]
+  type: string
 }
 
 const ITEMS_PER_PAGE = 12
 
-const ViewList = ({}: IViewList) => {
+const ViewList = ({ type }: IViewList) => {
   const [activePage, setActivePage] = useState(1) // Mantine pagination starts with the index of "1"
-  const [{ buildingBlocks, count: totalPages }, { isFetching }] = usePaginatedQuery(
-    getBuildingBlocks,
+  const [{ buildingBlocks, count: totalBlocks }, { isFetching, refetch }] = usePaginatedQuery(
+    type === "liked" ? getLikedBlocks : getBuildingBlocks,
     {
       orderBy: { id: "asc" },
       skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
@@ -49,29 +59,43 @@ const ViewList = ({}: IViewList) => {
 
   const { likedBlocks, refetch: refetchLikedBlocks, isSuccess } = useCurrentUserLikedBlocks()
   const totalPaginationPages = useMemo(() => {
-    return Math.ceil(totalPages / ITEMS_PER_PAGE)
-  }, [totalPages])
+    return Math.ceil(totalBlocks / ITEMS_PER_PAGE)
+  }, [totalBlocks])
 
   const [loadingOverlayVisible] = useDebouncedValue(isFetching, 1000)
+  const [debouncedTotalPages] = useDebouncedValue(totalPaginationPages, 500)
 
   const { classes } = useStyles()
   const session = useSession()
 
-  const handlePaginationChange = (page: number) => {
+  const handlePaginationChange = async (page: number) => {
     setActivePage(page)
     void refetchLikedBlocks()
   }
 
+  const { shouldRefetchLiked } = BuildStore
+  useEffect(() => {
+    if (shouldRefetchLiked && type === "liked") {
+      void refetch()
+      BuildStore.shouldRefetchLiked = false
+    }
+  }, [shouldRefetchLiked])
+
+  useEffect(() => {
+    if (debouncedTotalPages < activePage && debouncedTotalPages > 0) {
+      setActivePage(debouncedTotalPages)
+    }
+  }, [debouncedTotalPages])
   return (
     <div className={classes.wrapper}>
       <LoadingOverlay visible={loadingOverlayVisible} />
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={4} className={classes.grid}>
-          {buildingBlocks.map((block, i) => (
+          {buildingBlocks.map((block) => (
             <ViewListItem
               block={block}
               liked={likedBlocks?.includes(block.id)}
-              key={i}
+              key={block.id}
               hasActions={Boolean(session.userId)}
             />
           ))}
@@ -94,7 +118,7 @@ const ViewList = ({}: IViewList) => {
           }
         }}
         color="blue"
-        total={totalPaginationPages}
+        total={debouncedTotalPages}
         page={activePage}
         onChange={handlePaginationChange}
       />
@@ -102,4 +126,4 @@ const ViewList = ({}: IViewList) => {
   )
 }
 
-export default ViewList
+export default observer(ViewList)

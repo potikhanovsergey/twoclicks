@@ -7,6 +7,7 @@ class Build {
     blocks: [],
     flattenBlocks: {},
   }
+  shouldRefetchLiked: boolean = false
 
   constructor() {
     makeAutoObservable(this)
