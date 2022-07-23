@@ -12,7 +12,6 @@ import {
 import ViewListItem from "./ViewListItem"
 import { usePaginatedQuery, useQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
-import getLikedBlocks from "app/dashboard/building-blocks/queries/getLikedBlocks"
 import React from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useSession } from "@blitzjs/auth"
