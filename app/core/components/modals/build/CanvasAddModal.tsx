@@ -15,12 +15,65 @@ import { VscChromeClose } from "react-icons/vsc"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import ComponentsModalTabs from "./ModalTabs"
 import { ICanvasModalType, IFilterButton } from "./types"
+import { BuildStore } from "store/build"
+import { observer } from "mobx-react-lite"
 
 interface ICanvasAddModal {
   filterButtons: IFilterButton[]
   modal: keyof IModalContextValue
   type: ICanvasModalType
 }
+
+const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButton[] }) => {
+  const theme = useMantineTheme()
+  const { colorScheme } = theme
+  const dark = colorScheme === "dark"
+  const { blockTypeFilter, setBlockTypeFilter } = BuildStore
+  return (
+    <Stack spacing={2}>
+      {filterButtons.map((b) => (
+        <Button
+          styles={{
+            inner: { justifyContent: "flex-start" },
+            root: { padding: "0 0 0 8px" },
+            label: { width: "100%" },
+          }}
+          variant="subtle"
+          color={dark ? "gray" : "dark"}
+          key={b.value}
+          onClick={() => {
+            setBlockTypeFilter(blockTypeFilter === b.value ? "all" : b.value)
+          }}
+        >
+          <Group
+            align="center"
+            position="apart"
+            style={{ position: "relative" }}
+            styles={{ root: { width: "100%" } }}
+          >
+            <Text>{b.text}</Text>
+            <Box
+              sx={() => ({
+                position: "absolute",
+                top: 0,
+                bottom: 0,
+                right: 0,
+                width: "3px",
+                backgroundColor:
+                  blockTypeFilter === b.value
+                    ? dark
+                      ? theme.colors.primary[5]
+                      : theme.colors.violet[5]
+                    : "transparent",
+                marginLeft: "auto",
+              })}
+            />
+          </Group>
+        </Button>
+      ))}
+    </Stack>
+  )
+})
 
 const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
   const theme = useMantineTheme()
@@ -35,8 +88,6 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
       [modal]: false,
     }))
   }
-  const [filter, setFilter] = useState<string | null>(null)
-
   return (
     <Modal
       overflow="outside"
@@ -85,48 +136,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
               flexGrow: 1,
             }}
           >
-            <Stack spacing={2}>
-              {filterButtons.map((b) => (
-                <Button
-                  styles={{
-                    inner: { justifyContent: "flex-start" },
-                    root: { padding: "0 0 0 8px" },
-                    label: { width: "100%" },
-                  }}
-                  variant="subtle"
-                  color={dark ? "gray" : "dark"}
-                  key={b.value}
-                  onClick={() => {
-                    filter === b.value ? setFilter(null) : setFilter(b.value)
-                  }}
-                >
-                  <Group
-                    align="center"
-                    position="apart"
-                    style={{ position: "relative" }}
-                    styles={{ root: { width: "100%" } }}
-                  >
-                    <Text>{b.text}</Text>
-                    <Box
-                      sx={() => ({
-                        position: "absolute",
-                        top: 0,
-                        bottom: 0,
-                        right: 0,
-                        width: "3px",
-                        backgroundColor:
-                          filter === b.value
-                            ? dark
-                              ? theme.colors.primary[5]
-                              : theme.colors.violet[5]
-                            : "transparent",
-                        marginLeft: "auto",
-                      })}
-                    />
-                  </Group>
-                </Button>
-              ))}
-            </Stack>
+            <FilterButtons filterButtons={filterButtons} />
           </ScrollArea>
         </Stack>
         <Stack

@@ -43,24 +43,26 @@ const ITEMS_PER_PAGE = 12
 
 const ViewList = ({ type }: IViewList) => {
   const session = useSession()
+  const { shouldRefetchLiked, blockTypeFilter } = BuildStore
   const [activePage, setActivePage] = useState(1) // Mantine pagination starts with the index of "1"
   const [{ buildingBlocks, count: totalBlocks }, { isFetching, refetch, isLoading }] =
     usePaginatedQuery(
       getBuildingBlocks,
       {
         orderBy: { id: "asc" },
-        where:
-          type === "liked" && session.userId
-            ? {
-                LikedBlocks: {
+        where: {
+          filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
+          LikedBlocks:
+            type === "liked"
+              ? {
                   some: {
                     userId: {
-                      equals: session.userId as string,
+                      equals: session.userId || "",
                     },
                   },
-                },
-              }
-            : undefined,
+                }
+              : undefined,
+        },
         skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
         take: ITEMS_PER_PAGE,
       },
@@ -86,7 +88,6 @@ const ViewList = ({ type }: IViewList) => {
     void refetchLikedBlocks()
   }
 
-  const { shouldRefetchLiked } = BuildStore
   useEffect(() => {
     if (shouldRefetchLiked && type === "liked") {
       void refetch()

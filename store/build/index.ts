@@ -8,11 +8,16 @@ class Build {
     flattenBlocks: {},
   }
   shouldRefetchLiked: boolean = false
+  blockTypeFilter: string = "all"
 
   constructor() {
     makeAutoObservable(this)
   }
   /////////// ACTIONS //////////////
+  @action
+  setBlockTypeFilter = (filter: string) => {
+    this.blockTypeFilter = filter
+  }
   @action
   push = (block: BuildingBlock) => {
     this.data.blocks.push(block)

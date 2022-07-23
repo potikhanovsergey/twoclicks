@@ -2,6 +2,9 @@ import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
 import { BuildingBlock, User } from "db"
 
 /// ### CANVAS STARTS ###
+
+export type IBuildingBlockMock = Omit<BuildingBlock, "id" | "createdAt" | "updatedAt">
+
 export type ICanvasBuildingBlockComponent =
   | "button"
   | "group"

@@ -1,9 +1,10 @@
-import { ICanvasBlock } from "types"
+import { BuildingBlock } from "@prisma/client"
+import { IBuildingBlockMock, ICanvasBlock } from "types"
 
-export const pushBlock: ICanvasBlock = {
-  id: "31лвь21д",
+export const pushBlock: IBuildingBlockMock = {
   component: "textInput",
   editType: "element",
+  filterType: "form",
   props: {
     placeholder: "afsldafkls",
     label: "fsds",
@@ -11,10 +12,11 @@ export const pushBlock: ICanvasBlock = {
   },
 }
 
-export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
+export const ButtonsList: IBuildingBlockMock[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "filled",
@@ -24,6 +26,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "light",
@@ -33,6 +36,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "outline",
@@ -42,6 +46,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "default",
@@ -51,6 +56,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -60,6 +66,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -69,6 +76,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "subtle",
@@ -78,6 +86,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -87,6 +96,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -96,6 +106,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -105,6 +116,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",

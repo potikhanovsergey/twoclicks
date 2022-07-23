@@ -13,13 +13,14 @@ const seed = async () => {
   for (let i = 0; i < ButtonsList.length; i++) {
     const block = ButtonsList[i]
     if (block) {
-      const { component, editType, props } = block
+      const { component, editType, props, filterType } = block
       block &&
         (await db.buildingBlock.create({
           data: {
             component,
             editType,
             props,
+            filterType,
           },
         }))
     }

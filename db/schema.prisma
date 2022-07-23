@@ -68,12 +68,13 @@ model Token {
 // }
 
 model BuildingBlock {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  component String
-  editType  String?
-  props     Json?
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  component  String
+  filterType String
+  editType   String?
+  props      Json?
 
   LikedBlocks LikedBlock[]
 }
