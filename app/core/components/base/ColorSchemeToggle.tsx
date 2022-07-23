@@ -1,20 +1,9 @@
-import { ActionIcon, Tooltip, ColorScheme } from "@mantine/core"
-import { useLocalStorage } from "@mantine/hooks"
+import { ActionIcon, Tooltip, useMantineColorScheme } from "@mantine/core"
 import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs"
 import { useTranslation } from "next-i18next"
 
 function ColorSchemeToggle() {
-  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: "color-scheme",
-    defaultValue: "light",
-    getInitialValueInEffect: true,
-  })
-
-  const toggleColorScheme = (value?: ColorScheme) => {
-    const nextColorScheme = value || (colorScheme === "dark" ? "light" : "dark")
-    setColorScheme(nextColorScheme)
-  }
-
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
   const { t } = useTranslation("common")
   return (
     <Tooltip label={t("switchTheme")} withArrow tooltipId="Switch theme tooltip">
