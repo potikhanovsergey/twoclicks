@@ -107,15 +107,18 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
               />
             </Center>
           </Group>
-          <Link href="/" color={dark ? "gray" : "dark"} passHref>
-            <Button
-              style={{ position: "fixed", top: "24px", right: "24px" }}
-              component="a"
-              color="accent"
-            >
-              На главную
-            </Button>
-          </Link>
+          <Stack style={{ position: "fixed", top: "24px", right: "24px" }} spacing={8}>
+            <Link href="/" passHref>
+              <Button component="a" variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
+                На главную
+              </Button>
+            </Link>
+            <Link href="/build" color="orange" passHref>
+              <Button component="a" variant="gradient" gradient={{ from: "accent", to: "red" }}>
+                В конструктор
+              </Button>
+            </Link>
+          </Stack>
         </div>
       </main>
     </>

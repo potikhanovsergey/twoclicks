@@ -8,8 +8,9 @@ import {
   Text,
   Button,
   Box,
+  Loader,
 } from "@mantine/core"
-import { useContext, useState } from "react"
+import { Suspense, useContext, useState } from "react"
 // import { useTranslation } from 'next-i18next';
 import { VscChromeClose } from "react-icons/vsc"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
@@ -145,7 +146,9 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
             height: "100%",
           }}
         >
-          <ComponentsModalTabs type={type} />
+          <Suspense fallback={<Loader />}>
+            <ComponentsModalTabs type={type} />
+          </Suspense>
         </Stack>
       </Group>
       <ActionIcon

@@ -7,6 +7,7 @@ import { Tabs, Text, TabProps, LoadingOverlay } from "@mantine/core"
 import { Suspense, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "./types"
+import { useSession } from "@blitzjs/auth"
 
 interface IModalTab extends TabProps {
   viewlistType: string
@@ -51,7 +52,7 @@ interface IComponentsModalTabs {
 
 const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
   const [activeTab, setActiveTab] = useState(0)
-
+  const session = useSession()
   return (
     <Tabs
       styles={{
@@ -71,34 +72,38 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
       active={activeTab}
       onTabChange={setActiveTab}
     >
-      {ComponentsModalTabsArr.map((tab, i) => (
-        <Tabs.Tab
-          key={i}
-          color={tab.color}
-          label={
-            <Text
-              size="sm"
-              sx={() => ({
-                "&::before": {
-                  content: `"${tab.label}"`,
-                  fontWeight: 700,
-                  height: "0",
-                  overflow: "hidden",
-                  visibility: "hidden",
-                  display: "block",
-                },
-              })}
-            >
-              {tab.label}
-            </Text>
-          }
-          icon={tab.icon}
-        >
-          <Suspense fallback={<LoadingOverlay visible={true} />}>
-            <ViewList type={tab.viewlistType} />
-          </Suspense>
-        </Tabs.Tab>
-      ))}
+      {ComponentsModalTabsArr.map((tab, i) =>
+        tab.viewlistType !== "liked" || session.userId ? ( // "Liked" tab only for authorized users (todo: if build is only allowed for authorized, change this logic)
+          <Tabs.Tab
+            key={i}
+            color={tab.color}
+            label={
+              <Text
+                size="sm"
+                sx={() => ({
+                  "&::before": {
+                    content: `"${tab.label}"`,
+                    fontWeight: 700,
+                    height: "0",
+                    overflow: "hidden",
+                    visibility: "hidden",
+                    display: "block",
+                  },
+                })}
+              >
+                {tab.label}
+              </Text>
+            }
+            icon={tab.icon}
+          >
+            <Suspense fallback={<LoadingOverlay visible={true} />}>
+              <ViewList type={tab.viewlistType} />
+            </Suspense>
+          </Tabs.Tab>
+        ) : (
+          <></>
+        )
+      )}
     </Tabs>
   )
 }

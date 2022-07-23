@@ -34,8 +34,9 @@ export default api(
                 email,
                 name,
                 avatar,
+                isEmailVerified: Boolean(email),
               },
-              update: { email },
+              update: { email, isEmailVerified: Boolean(email) },
             })
 
             const publicData = {
@@ -72,10 +73,11 @@ export default api(
               where: { email },
               create: {
                 email,
+                isEmailVerified: Boolean(email),
                 name,
                 avatar,
               },
-              update: { email },
+              update: { email, isEmailVerified: Boolean(email) },
             })
 
             const publicData = {
@@ -113,10 +115,11 @@ export default api(
               where: { email },
               create: {
                 email,
+                isEmailVerified: Boolean(email),
                 name,
                 avatar,
               },
-              update: { email },
+              update: { email, isEmailVerified: Boolean(email) },
             })
 
             const publicData = {

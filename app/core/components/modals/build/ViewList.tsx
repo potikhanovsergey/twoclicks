@@ -48,7 +48,14 @@ const ViewList = ({ type }: IViewList) => {
     usePaginatedQuery(
       getBuildingBlocks,
       {
-        orderBy: { id: "asc" },
+        orderBy:
+          type === "liked"
+            ? {
+                LikedBlocks: {
+                  _count: "desc",
+                },
+              }
+            : { updatedAt: "desc" },
         where: {
           filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
           LikedBlocks:
