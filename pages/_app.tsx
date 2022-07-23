@@ -94,11 +94,15 @@ function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     let startTimer: ReturnType<typeof setTimeout>
     const handleStart = () => {
+      console.log("route change start")
       startTimer = setTimeout(() => {
         setLoadingOverlay(true)
       }, 500)
     }
-    const handleComplete = () => setLoadingOverlay(false)
+    const handleComplete = () => {
+      console.log("route change complete")
+      setLoadingOverlay(false)
+    }
 
     router.events.on("routeChangeStart", handleStart)
     router.events.on("routeChangeComplete", handleComplete)

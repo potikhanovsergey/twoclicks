@@ -131,14 +131,12 @@ export const PortfolioMock = {
     {
       id: "3123dasab",
       component: "tabs",
-      isSingleClosing: false,
       editType: "section",
       props: {
         children: [
           {
             id: "321fsdc",
             component: "tab",
-            isSingleClosing: false,
             props: {
               label: "Tab 1",
               children: ["Tab 1 content"],
@@ -147,7 +145,6 @@ export const PortfolioMock = {
           {
             id: "321fsdac",
             component: "tab",
-            isSingleClosing: false,
             props: {
               label: "Tab 2",
               children: ["Tab 2 content"],
@@ -156,7 +153,6 @@ export const PortfolioMock = {
           {
             id: "321fsf21dc",
             component: "tab",
-            isSingleClosing: false,
             props: {
               label: "Tab 3",
               children: ["Tab 3 content"],
@@ -168,7 +164,6 @@ export const PortfolioMock = {
     {
       id: "3213213122",
       component: "button",
-      isSingleClosing: false,
       editType: "element",
       props: {
         children: ["Button Text"],
@@ -177,19 +172,16 @@ export const PortfolioMock = {
     {
       id: "3213312",
       component: "stack",
-      isSingleClosing: false,
       props: {
         children: [
           {
             id: "321543213213",
             component: "group",
-            isSingleClosing: false,
             props: {
               children: [
                 {
                   id: "213122321",
                   component: "button",
-                  isSingleClosing: false,
                   editType: "element",
                   props: {
                     color: "blue",
@@ -200,7 +192,6 @@ export const PortfolioMock = {
                 {
                   id: "21312320",
                   component: "button",
-                  isSingleClosing: false,
                   editType: "element",
                   props: {
                     color: "green",

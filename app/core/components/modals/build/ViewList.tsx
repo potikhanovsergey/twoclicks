@@ -59,11 +59,11 @@ const ViewList = ({ type }: IViewList) => {
         where: {
           filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
           LikedBlocks:
-            type === "liked"
+            type === "liked" && session.userId
               ? {
                   some: {
                     userId: {
-                      equals: session.userId || "",
+                      equals: session.userId,
                     },
                   },
                 }
