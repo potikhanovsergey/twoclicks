@@ -42,22 +42,36 @@ interface IViewList {
 const ITEMS_PER_PAGE = 12
 
 const ViewList = ({ type }: IViewList) => {
+  const session = useSession()
   const [activePage, setActivePage] = useState(1) // Mantine pagination starts with the index of "1"
-  const [{ buildingBlocks, count: totalBlocks }, { isFetching, refetch }] = usePaginatedQuery(
-    type === "liked" ? getLikedBlocks : getBuildingBlocks,
-    {
-      orderBy: { id: "asc" },
-      skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
-      take: ITEMS_PER_PAGE,
-    },
-    {
-      refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
-      refetchOnMount: false,
-    }
-  )
+  const [{ buildingBlocks, count: totalBlocks }, { isFetching, refetch, isLoading }] =
+    usePaginatedQuery(
+      getBuildingBlocks,
+      {
+        orderBy: { id: "asc" },
+        where:
+          type === "liked" && session.userId
+            ? {
+                LikedBlocks: {
+                  some: {
+                    userId: {
+                      equals: session.userId as string,
+                    },
+                  },
+                },
+              }
+            : undefined,
+        skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
+        take: ITEMS_PER_PAGE,
+      },
+      {
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchOnMount: false,
+      }
+    )
 
-  const { likedBlocks, refetch: refetchLikedBlocks, isSuccess } = useCurrentUserLikedBlocks()
+  const { likedBlocks, refetch: refetchLikedBlocks } = useCurrentUserLikedBlocks()
   const totalPaginationPages = useMemo(() => {
     return Math.ceil(totalBlocks / ITEMS_PER_PAGE)
   }, [totalBlocks])
@@ -66,7 +80,6 @@ const ViewList = ({ type }: IViewList) => {
   const [debouncedTotalPages] = useDebouncedValue(totalPaginationPages, 500)
 
   const { classes } = useStyles()
-  const session = useSession()
 
   const handlePaginationChange = async (page: number) => {
     setActivePage(page)
@@ -101,27 +114,31 @@ const ViewList = ({ type }: IViewList) => {
           ))}
         </SimpleGrid>
       </ScrollArea>
-      <Pagination
-        aria-label="Pagination"
-        getItemAriaLabel={(page) => {
-          switch (page) {
-            case "prev":
-              return "Go to the previous page"
-            case "next":
-              return "Go to the next page"
-            case "first":
-              return "Go to the first page"
-            case "last":
-              return "Go to the last page"
-            default:
-              return undefined
-          }
-        }}
-        color="blue"
-        total={debouncedTotalPages}
-        page={activePage}
-        onChange={handlePaginationChange}
-      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Pagination
+          aria-label="Pagination"
+          getItemAriaLabel={(page) => {
+            switch (page) {
+              case "prev":
+                return "Go to the previous page"
+              case "next":
+                return "Go to the next page"
+              case "first":
+                return "Go to the first page"
+              case "last":
+                return "Go to the last page"
+              default:
+                return undefined
+            }
+          }}
+          color="blue"
+          total={debouncedTotalPages}
+          page={activePage}
+          onChange={handlePaginationChange}
+        />
+      )}
     </div>
   )
 }

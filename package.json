@@ -33,7 +33,7 @@
     "@mantine/hooks": "4.2.12",
     "@mantine/next": "4.2.12",
     "@mantine/notifications": "4.2.12",
-    "@prisma/client": "4.0.0",
+    "@prisma/client": "4.1.0",
     "blitz": "2.0.0-alpha.54",
     "mobx": "6.6.1",
     "mobx-react-lite": "3.4.0",

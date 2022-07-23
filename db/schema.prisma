@@ -91,9 +91,9 @@ model LikedBlock {
   createdAt DateTime @default(now())
 
   buildingBlock   BuildingBlock @relation(fields: [buildingBlockId], references: [id])
-  buildingBlockId String
+  buildingBlockId String        @db.ObjectId
   user            User          @relation(fields: [userId], references: [id])
-  userId          String
+  userId          String        @db.ObjectId
 
   @@unique([userId, buildingBlockId])
 }
