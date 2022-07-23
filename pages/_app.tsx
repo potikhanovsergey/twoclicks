@@ -17,7 +17,7 @@ import "app/styles/variables.css"
 import router from "next/router"
 import CubeLoader from "app/core/components/CubeLoader"
 import { GetServerSidePropsContext } from "next"
-import { getCookie, setCookie } from "cookies-next"
+import { getCookie, getCookies, setCookie } from "cookies-next"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -39,14 +39,11 @@ function RootErrorFallback({ error }: ErrorFallbackProps) {
   }
 }
 
-function App({
-  Component,
-  pageProps,
-  cookiesColorScheme,
-}: AppProps & { cookiesColorScheme: ColorScheme }) {
+function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
+  const { Component, pageProps } = props
+
   // ### THEME AND COLOR SCHEME ###
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(cookiesColorScheme)
-  console.log(cookiesColorScheme, pageProps)
+  const [colorScheme, setColorScheme] = useState<ColorScheme>(props.cookiesColorScheme)
   const toggleColorScheme = (value?: ColorScheme) => {
     const nextColorScheme = value || (colorScheme === "dark" ? "light" : "dark")
     setColorScheme(nextColorScheme)
@@ -178,7 +175,7 @@ function App({
 const appWithI18n = appWithTranslation(App)
 const appWithBlitz = withBlitz(appWithI18n)
 
-appWithBlitz.getInitialProps = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
+appWithBlitz["getInitialProps"] = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
   // get color scheme from cookie
   cookiesColorScheme: getCookie("skillcase-color-scheme", ctx) || "light",
 })
