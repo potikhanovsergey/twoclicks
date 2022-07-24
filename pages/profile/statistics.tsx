@@ -6,13 +6,13 @@ import React, { useState } from "react"
 import { MdOutlineCalendarViewMonth, MdViewWeek, MdViewDay } from "react-icons/md"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import statBars from "lotties/stat-bars.json"
-import ProfileLayout from "app/core/layouts/ProfileLayout"
+import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 
 const ProfileStatistics = () => {
   const { t } = useTranslation("pagesProfileStatistics")
   const [hasStats, setHasStats] = useState(false)
   return (
-    <ProfileLayout>
+    <>
       <Title order={1}>{t("title")}</Title>
       {hasStats ? (
         <SegmentedControl
@@ -56,12 +56,12 @@ const ProfileStatistics = () => {
           <Player autoplay loop src={statBars} style={{ height: "400px", width: "400px" }} />
         </ProfileNoItems>
       )}
-    </ProfileLayout>
+    </>
   )
 }
 
 ProfileStatistics.suppressFirstRenderFlicker = true
-ProfileStatistics.authenticate = { redirectTo: "/auth" }
+ProfileStatistics.getLayout = getProfileLayout()
 
 export default ProfileStatistics
 

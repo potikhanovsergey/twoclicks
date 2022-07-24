@@ -11,12 +11,12 @@ import {
   TextInput,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import ProfileLayout from "app/core/layouts/ProfileLayout"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React from "react"
 import { MdAlternateEmail } from "react-icons/md"
 import FileDropzone, { filesType } from "app/core/components/base/FileDropzone"
+import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 
 interface IFormValues {
   email: string
@@ -46,7 +46,7 @@ const ProfileSupport = () => {
   // }, [user])
 
   return (
-    <ProfileLayout>
+    <>
       <Grid>
         <Grid.Col span={7}>
           <Title order={1} mb="lg">
@@ -120,12 +120,12 @@ const ProfileSupport = () => {
           </form>
         </Grid.Col>
       </Grid>
-    </ProfileLayout>
+    </>
   )
 }
 
 ProfileSupport.suppressFirstRenderFlicker = true
-ProfileSupport.authenticate = { redirectTo: "/auth" }
+ProfileSupport.getLayout = getProfileLayout()
 
 export default ProfileSupport
 

@@ -73,7 +73,7 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
       onTabChange={setActiveTab}
     >
       {ComponentsModalTabsArr.map((tab, i) =>
-        tab.viewlistType !== "liked" || session.userId ? ( // "Liked" tab only for authorized users (todo: if build is only allowed for authorized, change this logic)
+        tab.viewlistType !== "liked" || session.userId ? (
           <Tabs.Tab
             key={i}
             color={tab.color}

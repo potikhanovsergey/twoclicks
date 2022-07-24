@@ -46,7 +46,7 @@ export const recursiveTagName = (
     : undefined
 
   if (shouldFlat) {
-    BuildStore.pushFlatten(element) // todo: push flatten
+    BuildStore.pushFlatten(element)
   }
   if (element.editType === "element") {
     return (

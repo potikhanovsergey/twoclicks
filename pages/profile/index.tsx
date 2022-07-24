@@ -35,7 +35,6 @@ const ProfilePortfolios: BlitzPage = () => {
 }
 
 ProfilePortfolios.suppressFirstRenderFlicker = true
-ProfilePortfolios.authenticate = { redirectTo: "/auth" }
 ProfilePortfolios.getLayout = getProfileLayout()
 
 export default ProfilePortfolios

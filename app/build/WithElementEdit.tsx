@@ -65,7 +65,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
           color="red"
           size="lg"
           onClick={() => {
-            BuildStore.deleteElement({ id, parentID }) // todo: delete element
+            BuildStore.deleteElement({ id, parentID })
             setEditOpened(false)
           }}
         >

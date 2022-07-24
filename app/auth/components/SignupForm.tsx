@@ -39,9 +39,6 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
   const router = useRouter()
 
   // REGISTRATION STARTS
-  // const { mutate: register } = useRegister({ todo: auth
-  //   onSuccess: () => setStep('authorization'),
-  // });
   const registrationForm = useForm({
     initialValues: {
       name: "",
@@ -74,7 +71,6 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
           return error.toString()
         }
       }
-      // register({ email, password, name }); todo: auth
     }
   }
   // REGISTRATION ENDS

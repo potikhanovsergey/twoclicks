@@ -78,8 +78,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
 
   const [isLikeLoading, setIsLikeLoading] = useState(false)
 
-  const handleBoxClick = async (e: any) => {
-    // todo: remove any
+  const handleBoxClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === iconRef.current) {
       setIsLikeLoading(true)
       if (isLiked) {
@@ -107,7 +106,10 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
   return (
     <div>
-      <Box className={classes.box} onClick={(e) => (onClick ? onClick() : handleBoxClick(e))}>
+      <Box
+        className={classes.box}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => (onClick ? onClick() : handleBoxClick(e))}
+      >
         {cloneElement(TagName, { className: classes.child })}
         {hasActions && (
           <Group className={classes.actions}>
