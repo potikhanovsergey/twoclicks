@@ -6,8 +6,10 @@ import GoogleStrategy from "passport-google-oauth20"
 import { Strategy as VKStrategy } from "passport-vkontakte"
 import { Strategy as YandexStrategy } from "passport-yandex"
 
-const baseURL =
-  process.env.NODE_ENV === "production" ? "https://skillcase.com/api" : "http://localhost:3000/api"
+const DEVELOPMENT_URL = "http://localhost:3000/api"
+const PRODUCTION_URL = "http://localhost:3000/api"
+
+const baseURL = process.env.NODE_ENV === "production" ? PRODUCTION_URL : DEVELOPMENT_URL
 
 export default api(
   passportAuth(() => ({

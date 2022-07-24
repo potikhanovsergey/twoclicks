@@ -22,7 +22,7 @@ const HeaderMenuItem = ({ icon, title, text, route }: IHeaderMenuItem) => {
       <Menu.Item
         component="a"
         style={
-          router.route === route
+          router.route === route || (router.route.includes("profile") && route.includes("profile"))
             ? {
                 backgroundColor: dark ? theme.colors.dark[4] : theme.colors.gray[0],
                 color: dark ? theme.colors.gray[4] : theme.black,
