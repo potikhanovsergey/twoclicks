@@ -16,7 +16,7 @@ import { appWithTranslation, i18n } from "next-i18next"
 import "app/styles/variables.css"
 import router from "next/router"
 import CubeLoader from "app/core/components/CubeLoader"
-import { GetServerSidePropsContext } from "next"
+import next, { GetServerSidePropsContext } from "next"
 import { getCookie, getCookies, setCookie } from "cookies-next"
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
@@ -47,7 +47,8 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   const toggleColorScheme = (value?: ColorScheme) => {
     const nextColorScheme = value || (colorScheme === "dark" ? "light" : "dark")
     setColorScheme(nextColorScheme)
-    // when color scheme is updated save it to cookie
+    // when color scheme is updated save it to cookie and local storage
+    localStorage.setItem("skillcase-color-scheme", nextColorScheme)
     setCookie("skillcase-color-scheme", nextColorScheme, { maxAge: 60 * 60 * 24 * 30 })
   }
 
@@ -88,6 +89,10 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
     primaryColor: "primary",
     primaryShade: 6,
   }
+
+  useEffect(() => {
+    document.documentElement.removeAttribute("data-theme")
+  }, [])
   // ### END THEME AND COLOR SCHEME END ###
 
   // ### LOADING OVERLAY STARTS ###
@@ -161,6 +166,16 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
           "*, *::before, *::after": {
             boxSizing: "border-box",
           },
+          html: {
+            "&[data-theme='light']": {
+              backgroundColor: theme.colors.gray[0],
+              color: theme.black,
+            },
+            "&[data-theme='dark']": {
+              backgroundColor: theme.colors.dark[7],
+              color: theme.white,
+            },
+          },
           body: {
             backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[0],
             color: colorScheme === "dark" ? theme.white : theme.black,
@@ -177,7 +192,7 @@ const appWithBlitz = withBlitz(appWithI18n)
 
 appWithBlitz["getInitialProps"] = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
   // get color scheme from cookie
-  cookiesColorScheme: getCookie("skillcase-color-scheme", ctx) || "light",
+  cookiesColorScheme: getCookie("skillcase-color-scheme", ctx) || "dark",
 })
 
 export default appWithBlitz
