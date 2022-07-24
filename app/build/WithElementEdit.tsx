@@ -1,8 +1,10 @@
 import { ActionIcon, Group, Popover } from "@mantine/core"
 import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
+import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 
 interface IWithElementEdit {
   children: JSX.Element
@@ -22,8 +24,33 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
     }
     return false
   }, [parentID])
+
+  const movesIcons = useMemo(() => {
+    if (hasMoves && parentID) {
+      let parent = BuildStore.data.flattenBlocks?.[parentID]
+      let parentProps = parent?.props as object | null
+      if (parent?.component === "group") {
+        if (parentProps && parentProps["direction"] === "column") {
+          return {
+            left: <CgChevronUpR />,
+            right: <CgChevronDownR />,
+          }
+        } else {
+          return {
+            left: <CgChevronLeftR />,
+            right: <CgChevronRightR />,
+          }
+        }
+      }
+    }
+    return null
+  }, [hasMoves])
+
   useEffect(() => {
-    console.log(hasMoves)
+    if (hasMoves && parentID) {
+      let parent = BuildStore.data.flattenBlocks?.[parentID]
+      console.log(parent)
+    }
   }, [hasMoves])
   return (
     <Popover
@@ -69,6 +96,12 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
         }}
       >
         {/* <ActionIcon color="green" size="lg"><AiOutlinePlusSquare /></ActionIcon> */}
+        {hasMoves && movesIcons && (
+          <>
+            <ActionIcon size="lg">{movesIcons.left}</ActionIcon>
+            <ActionIcon size="lg">{movesIcons.right}</ActionIcon>
+          </>
+        )}
         <ActionIcon size="lg">
           <FiSettings />
         </ActionIcon>

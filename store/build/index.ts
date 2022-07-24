@@ -20,12 +20,12 @@ class Build {
     this.blockTypeFilter = filter
   }
   @action
-  push = (block: BuildingBlock) => {
+  push = (block: ICanvasBlock) => {
     this.data.blocks.push(block)
   }
 
   @action
-  pushFlatten = (block: BuildingBlock) => {
+  pushFlatten = (block: ICanvasBlock) => {
     this.data.flattenBlocks[block.id] = block
   }
 
@@ -51,7 +51,7 @@ class Build {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
-        parentProps.children = parentProps.children.filter((c: BuildingBlock) => id !== c.id)
+        parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
         delete this.data.flattenBlocks[id]
       }
     } else {

@@ -26,7 +26,7 @@ export interface ICanvasBlockProps {
 
 export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt">
 
-export type ICanvasElement = BuildingBlock | undefined | string | null // Element can be either block, string (text), or nothing
+export type ICanvasElement = ICanvasBlock | undefined | string | null // Element can be either block, string (text), or nothing
 
 export interface ICanvasData {
   blocks: ICanvasBlock[]
