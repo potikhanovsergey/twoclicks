@@ -27,14 +27,14 @@ const Builder = () => {
   // const { t } = useTranslation('pagesBuild');
   const [, setModalContext = () => ({})] = useContext(ModalContext)
 
-  const [portfolio, { isSuccess }] = usePortfolio()
-  useEffect(() => {
-    if (portfolio?.data) {
-      const inflatedData = inflateBase64(portfolio.data)
-      const dataBlocks = inflatedData as BuildingBlock[]
-      BuildStore.data.blocks = dataBlocks
-    }
-  }, [portfolio])
+  // const [portfolio, { isSuccess }] = usePortfolio()
+  // useEffect(() => {
+  //   if (portfolio?.data) {
+  //     const inflatedData = inflateBase64(portfolio.data)
+  //     const dataBlocks = inflatedData as BuildingBlock[]
+  //     BuildStore.data.blocks = dataBlocks
+  //   }
+  // }, [portfolio])
   return (
     <Stack>
       <h1>Builder</h1>

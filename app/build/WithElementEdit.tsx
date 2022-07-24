@@ -1,5 +1,5 @@
 import { ActionIcon, Group, Popover } from "@mantine/core"
-import React, { cloneElement, useRef, useState } from "react"
+import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
@@ -14,6 +14,17 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
   const [editOpened, setEditOpened] = useState(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
+
+  const hasMoves = useMemo(() => {
+    if (parentID) {
+      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.component
+      return parentComponent && (parentComponent === "group" || parentComponent === "stack")
+    }
+    return false
+  }, [parentID])
+  useEffect(() => {
+    console.log(hasMoves)
+  }, [hasMoves])
   return (
     <Popover
       trapFocus={false}

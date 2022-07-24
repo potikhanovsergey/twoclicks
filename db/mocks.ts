@@ -131,12 +131,15 @@ export const PortfolioMock = {
     {
       id: "3123dasab",
       component: "tabs",
-      editType: "section",
+      editType: "element",
+      filterType: "tabs",
       props: {
         children: [
           {
             id: "321fsdc",
             component: "tab",
+            editType: null,
+            filterType: "",
             props: {
               label: "Tab 1",
               children: ["Tab 1 content"],
@@ -145,6 +148,8 @@ export const PortfolioMock = {
           {
             id: "321fsdac",
             component: "tab",
+            editType: null,
+            filterType: "",
             props: {
               label: "Tab 2",
               children: ["Tab 2 content"],
@@ -153,6 +158,8 @@ export const PortfolioMock = {
           {
             id: "321fsf21dc",
             component: "tab",
+            editType: null,
+            filterType: "",
             props: {
               label: "Tab 3",
               children: ["Tab 3 content"],
@@ -165,6 +172,7 @@ export const PortfolioMock = {
       id: "3213213122",
       component: "button",
       editType: "element",
+      filterType: "button",
       props: {
         children: ["Button Text"],
       },
@@ -172,17 +180,22 @@ export const PortfolioMock = {
     {
       id: "3213312",
       component: "stack",
+      editType: "grid",
+      filterType: "grid",
       props: {
         children: [
           {
             id: "321543213213",
             component: "group",
+            editType: "grid",
+            filterType: "grid",
             props: {
               children: [
                 {
                   id: "213122321",
                   component: "button",
                   editType: "element",
+                  filterType: "button",
                   props: {
                     color: "blue",
                     size: "xl",
@@ -193,6 +206,7 @@ export const PortfolioMock = {
                   id: "21312320",
                   component: "button",
                   editType: "element",
+                  filterType: "button",
                   props: {
                     color: "green",
                     children: ["very deep button 1"],

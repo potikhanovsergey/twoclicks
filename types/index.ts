@@ -24,20 +24,14 @@ export interface ICanvasBlockProps {
   children?: ICanvasElement[]
 }
 
-export interface ICanvasBlock {
-  // Block that contains something else
-  id: string
-  component: string
-  editType?: string | null
-  props: ICanvasBlockProps
-}
+export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt">
 
 export type ICanvasElement = BuildingBlock | undefined | string | null // Element can be either block, string (text), or nothing
 
 export interface ICanvasData {
-  blocks: BuildingBlock[]
+  blocks: ICanvasBlock[]
   flattenBlocks: {
-    [key: string]: BuildingBlock
+    [key: string]: ICanvasBlock
   }
 }
 
