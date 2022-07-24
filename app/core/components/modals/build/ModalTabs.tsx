@@ -6,7 +6,7 @@ import { TbCrown } from "react-icons/tb"
 import { Tabs, Text, TabProps, LoadingOverlay } from "@mantine/core"
 import { Suspense, useState } from "react"
 import ViewList from "./ViewList"
-import { ICanvasModalType } from "./types"
+import { ICanvasModalType } from "types"
 import { useSession } from "@blitzjs/auth"
 
 interface IModalTab extends TabProps {

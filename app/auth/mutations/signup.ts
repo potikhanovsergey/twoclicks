@@ -1,6 +1,5 @@
-import db from "db"
+import db, { Role } from "db"
 import { SecurePassword } from "@blitzjs/auth"
-import { Role } from "types"
 
 export default async function signup(input, ctx) {
   const blitzContext = ctx

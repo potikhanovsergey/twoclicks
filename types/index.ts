@@ -1,7 +1,13 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
-import { BuildingBlock, User } from "db"
+import { BuildingBlock, Role, User } from "db"
 
 /// ### CANVAS STARTS ###
+
+export type ICanvasModalType = "components" | "sections"
+export interface IFilterButton {
+  value: string
+  text: string
+}
 
 export type IBuildingBlockMock = Omit<BuildingBlock, "id" | "createdAt" | "updatedAt">
 
@@ -35,8 +41,6 @@ export interface ICanvasData {
   }
 }
 
-export type ICanvasModalType = "components" | "sections"
-
 export interface IFilterButton {
   value: string
   text: string
@@ -67,8 +71,6 @@ export interface IBuildingBlocksData {
 // ### CANVAS ENDS ###
 
 // ### BLITZ STARTS ###
-export type Role = "ADMIN" | "USER"
-
 declare module "@blitzjs/auth" {
   export interface Session {
     isAuthorized: SimpleRolesIsAuthorized<Role>

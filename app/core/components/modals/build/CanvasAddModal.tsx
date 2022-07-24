@@ -15,7 +15,7 @@ import { Suspense, useContext, useState } from "react"
 import { VscChromeClose } from "react-icons/vsc"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import ComponentsModalTabs from "./ModalTabs"
-import { ICanvasModalType, IFilterButton } from "./types"
+import { ICanvasModalType, IFilterButton } from "types"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 
