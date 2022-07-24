@@ -19,6 +19,15 @@ import CubeLoader from "app/core/components/CubeLoader"
 import next, { GetServerSidePropsContext } from "next"
 import { getCookie, getCookies, setCookie } from "cookies-next"
 
+import { Tuple, DefaultMantineColor } from "@mantine/core"
+
+type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
+declare module "@mantine/core" {
+  export interface MantineThemeColorsOverride {
+    colors: Record<ExtendedCustomColors, Tuple<string, 10>>
+  }
+}
+
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
     return <div>Error: You are not authenticated</div>
