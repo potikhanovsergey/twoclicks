@@ -60,7 +60,6 @@ const ProfileStatistics = () => {
   )
 }
 
-ProfileStatistics.suppressFirstRenderFlicker = true
 ProfileStatistics.getLayout = getProfileLayout()
 
 export default ProfileStatistics

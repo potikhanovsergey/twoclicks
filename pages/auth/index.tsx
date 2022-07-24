@@ -29,8 +29,6 @@ const AuthPage = () => {
   )
 }
 
-AuthPage.suppressFirstRenderFlicker = true
-
 export default AuthPage
 
 export async function getStaticProps({ locale }: { locale: string }) {

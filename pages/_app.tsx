@@ -52,12 +52,14 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   const { Component, pageProps } = props
 
   // ### THEME AND COLOR SCHEME ###
-  const [colorScheme, setColorScheme] = useState<ColorScheme>(props.cookiesColorScheme)
+  const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
+    key: "skillcase-color-scheme",
+    defaultValue: props.cookiesColorScheme,
+  })
   const toggleColorScheme = (value?: ColorScheme) => {
     const nextColorScheme = value || (colorScheme === "dark" ? "light" : "dark")
     setColorScheme(nextColorScheme)
     // when color scheme is updated save it to cookie and local storage
-    localStorage.setItem("skillcase-color-scheme", nextColorScheme)
     setCookie("skillcase-color-scheme", nextColorScheme, { maxAge: 60 * 60 * 24 * 30 })
   }
 

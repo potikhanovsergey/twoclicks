@@ -13,7 +13,6 @@ const ProfilePremium = () => {
   )
 }
 
-ProfilePremium.suppressFirstRenderFlicker = true
 ProfilePremium.getLayout = getProfileLayout()
 
 export default ProfilePremium
