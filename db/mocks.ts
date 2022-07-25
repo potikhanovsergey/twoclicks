@@ -1,5 +1,6 @@
 import { BuildingBlock } from "@prisma/client"
 import { IBuildingBlockMock, ICanvasBlock } from "types"
+import shortid from "shortid"
 
 export const pushBlock: IBuildingBlockMock = {
   component: "textInput",
@@ -129,14 +130,14 @@ export const PortfolioMock = {
   name: "First portfolio in Prisma",
   data: [
     {
-      id: "3123dasab",
+      id: shortid.generate(),
       component: "tabs",
       editType: "element",
       filterType: "tabs",
       props: {
         children: [
           {
-            id: "321fsdc",
+            id: shortid.generate(),
             component: "tab",
             editType: null,
             filterType: "",
@@ -146,7 +147,7 @@ export const PortfolioMock = {
             },
           },
           {
-            id: "321fsdac",
+            id: shortid.generate(),
             component: "tab",
             editType: null,
             filterType: "",
@@ -156,7 +157,7 @@ export const PortfolioMock = {
             },
           },
           {
-            id: "321fsf21dc",
+            id: shortid.generate(),
             component: "tab",
             editType: null,
             filterType: "",
@@ -169,7 +170,7 @@ export const PortfolioMock = {
       },
     },
     {
-      id: "3213213122",
+      id: shortid.generate(),
       component: "button",
       editType: "element",
       filterType: "button",
@@ -178,21 +179,22 @@ export const PortfolioMock = {
       },
     },
     {
-      id: "3213312",
+      id: shortid.generate(),
       component: "stack",
       editType: "grid",
       filterType: "grid",
       props: {
         children: [
           {
-            id: "321543213213",
+            id: shortid.generate(),
             component: "group",
             editType: "grid",
             filterType: "grid",
             props: {
+              direction: "column",
               children: [
                 {
-                  id: "213122321",
+                  id: shortid.generate(),
                   component: "button",
                   editType: "element",
                   filterType: "button",
@@ -203,12 +205,1382 @@ export const PortfolioMock = {
                   },
                 },
                 {
-                  id: "21312320",
+                  id: shortid.generate(),
                   component: "button",
                   editType: "element",
                   filterType: "button",
                   props: {
                     color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
                     children: ["very deep button 1"],
                   },
                 },

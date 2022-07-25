@@ -98,8 +98,12 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
         {/* <ActionIcon color="green" size="lg"><AiOutlinePlusSquare /></ActionIcon> */}
         {hasMoves && movesIcons && (
           <>
-            <ActionIcon size="lg">{movesIcons.left}</ActionIcon>
-            <ActionIcon size="lg">{movesIcons.right}</ActionIcon>
+            <ActionIcon size="lg" onClick={() => BuildStore.moveLeft({ id, parentID })}>
+              {movesIcons.left}
+            </ActionIcon>
+            <ActionIcon size="lg" onClick={() => BuildStore.moveRight({ id, parentID })}>
+              {movesIcons.right}
+            </ActionIcon>
           </>
         )}
         <ActionIcon size="lg">

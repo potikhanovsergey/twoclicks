@@ -60,6 +60,40 @@ class Build {
     }
   }
 
+  @action
+  moveLeft = ({ id, parentID }: { id: string; parentID: string | null }) => {
+    if (parentID) {
+      const parent = this.getElement(parentID)
+      const parentProps = parent?.props as ICanvasBlockProps
+      if (parentProps?.children) {
+        let indexOfId = parentProps.children.findIndex((a) => typeof a === "object" && a?.id === id)
+        if (indexOfId !== -1 && indexOfId > 0) {
+          ;[parentProps.children[indexOfId], parentProps.children[indexOfId - 1]] = [
+            parentProps.children[indexOfId - 1],
+            parentProps.children[indexOfId],
+          ]
+        }
+      }
+    }
+  }
+
+  @action
+  moveRight = ({ id, parentID }: { id: string; parentID: string | null }) => {
+    if (parentID) {
+      const parent = this.getElement(parentID)
+      const parentProps = parent?.props as ICanvasBlockProps
+      if (parentProps?.children) {
+        let indexOfId = parentProps.children.findIndex((a) => typeof a === "object" && a?.id === id)
+        if (indexOfId !== -1 && indexOfId < parentProps.children.length - 1) {
+          ;[parentProps.children[indexOfId + 1], parentProps.children[indexOfId]] = [
+            parentProps.children[indexOfId],
+            parentProps.children[indexOfId + 1],
+          ]
+        }
+      }
+    }
+  }
+
   /////////// COMPUTED /////////////
   @computed get isCanvasEmpty() {
     return this.data.blocks.length === 0
