@@ -6,7 +6,7 @@ const Layout: FC<{ title?: string; children?: React.ReactNode }> = ({ title, chi
     <>
       <Head>
         <title>{title || "skillcase"}</title>
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.svg" />
       </Head>
 
       {children}
