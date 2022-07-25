@@ -23,6 +23,7 @@ import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { useMutation } from "@blitzjs/rpc"
 import createPortfolio from "app/portfolios/mutations/createPortfolio"
+import { NotificationsProvider } from "@mantine/notifications"
 
 type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
@@ -161,19 +162,21 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
-        <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-          <ModalContext.Provider value={[modalValue, setModalValue]}>
-            <LoadingOverlay
-              sx={() => ({
-                position: "fixed",
-              })}
-              overlayOpacity={0.85}
-              visible={loadingOverlay}
-              loader={<CubeLoader />}
-            />
-            {getLayout(<Component {...pageProps} />)}
-          </ModalContext.Provider>
-        </ColorSchemeProvider>
+        <NotificationsProvider>
+          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+            <ModalContext.Provider value={[modalValue, setModalValue]}>
+              <LoadingOverlay
+                sx={() => ({
+                  position: "fixed",
+                })}
+                overlayOpacity={0.85}
+                visible={loadingOverlay}
+                loader={<CubeLoader />}
+              />
+              {getLayout(<Component {...pageProps} />)}
+            </ModalContext.Provider>
+          </ColorSchemeProvider>
+        </NotificationsProvider>
       </MantineProvider>
       <Global
         styles={(theme) => ({
