@@ -6,10 +6,11 @@ import Link from "next/link"
 import React, { ReactElement } from "react"
 import { AiFillBuild } from "react-icons/ai"
 import ProfileNoItems from "app/profile/ProfileNoItems"
-import ProfileLayout from "app/core/layouts/ProfileLayout"
+import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 import lottieSquirrel from "lotties/squirrel.json"
+import { BlitzPage } from "@blitzjs/auth"
 
-const ProfilePortfolios = () => {
+const ProfilePortfolios: BlitzPage = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
   return (
     <>
@@ -32,10 +33,7 @@ const ProfilePortfolios = () => {
     </>
   )
 }
-
-ProfilePortfolios.suppressFirstRenderFlicker = true
-ProfilePortfolios.getLayout = (page: ReactElement) => <ProfileLayout>{page}</ProfileLayout>
-ProfilePortfolios.authenticate = { redirectTo: "/auth" }
+ProfilePortfolios.getLayout = getProfileLayout()
 
 export default ProfilePortfolios
 

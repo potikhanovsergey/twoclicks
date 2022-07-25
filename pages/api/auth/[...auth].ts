@@ -6,8 +6,13 @@ import GoogleStrategy from "passport-google-oauth20"
 import { Strategy as VKStrategy } from "passport-vkontakte"
 import { Strategy as YandexStrategy } from "passport-yandex"
 
+const DEVELOPMENT_URL = "http://localhost:3000/api"
+const PRODUCTION_URL = "http://localhost:3000/api"
+
+const baseURL = process.env.NODE_ENV === "production" ? PRODUCTION_URL : DEVELOPMENT_URL
+
 export default api(
-  passportAuth(({ ctx, req, res }) => ({
+  passportAuth(() => ({
     strategies: [
       {
         strategy: new GoogleStrategy(
@@ -15,9 +20,10 @@ export default api(
             clientID: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
             scope: ["profile", "email"],
-            callbackURL: "http://localhost:3000/api/auth/google/callback",
+            callbackURL: `${baseURL}/auth/google/callback`,
           },
           async function (accessToken, refreshToken, profile, done) {
+            console.log(profile)
             const email = profile.emails && profile.emails[0]?.value
             const name = profile.displayName
             const avatar = profile.photos && profile.photos[0]?.value
@@ -33,8 +39,9 @@ export default api(
                 email,
                 name,
                 avatar,
+                isEmailVerified: Boolean(email),
               },
-              update: { email },
+              update: { email, isEmailVerified: Boolean(email) },
             })
 
             const publicData = {
@@ -52,10 +59,7 @@ export default api(
             clientID: process.env.VK_CLIENT_ID as string,
             clientSecret: process.env.VK_CLIENT_SECRET as string,
             scope: ["profile", "email"],
-            callbackURL:
-              process.env.NODE_ENV === "production"
-                ? "https://skillcase.com/api/auth/vkontakte/callback"
-                : "http://localhost:3000/api/auth/vkontakte/callback",
+            callbackURL: `${baseURL}/auth/vkontakte/callback`,
           },
           async function (accessToken, refreshToken, params, profile, done) {
             const email = profile.emails && profile.emails[0]?.value
@@ -71,10 +75,11 @@ export default api(
               where: { email },
               create: {
                 email,
+                isEmailVerified: Boolean(email),
                 name,
                 avatar,
               },
-              update: { email },
+              update: { email, isEmailVerified: Boolean(email) },
             })
 
             const publicData = {
@@ -89,11 +94,11 @@ export default api(
       {
         strategy: new YandexStrategy(
           {
-            clientID: process.env.YANDEX_CLIENT_ID!, // todo: remove exclamation marks
+            clientID: process.env.YANDEX_CLIENT_ID || "",
             clientSecret: process.env.YANDEX_CLIENT_SECRET!,
-            callbackURL: "http://localhost:3000/api/auth/yandex/callback",
+            callbackURL: `${baseURL}/auth/yandex/callback`,
           },
-          async function (accessToken, refreshToken, profile, done) {
+          async function (_accessToken, _refreshToken, profile, done) {
             const email = profile.emails && profile.emails[0]?.value
             let name
             if (profile.name.familyName && profile.name.givenName) {
@@ -112,10 +117,11 @@ export default api(
               where: { email },
               create: {
                 email,
+                isEmailVerified: Boolean(email),
                 name,
                 avatar,
               },
-              update: { email },
+              update: { email, isEmailVerified: Boolean(email) },
             })
 
             const publicData = {

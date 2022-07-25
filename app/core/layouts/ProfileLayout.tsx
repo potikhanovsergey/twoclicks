@@ -47,4 +47,10 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
   )
 }
 
+ProfileLayout.authenticate = { redirectTo: "/auth" }
+
+export function getProfileLayout() {
+  return (page: JSX.Element) => <ProfileLayout>{page}</ProfileLayout>
+}
+
 export default ProfileLayout

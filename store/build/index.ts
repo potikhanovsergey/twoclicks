@@ -1,4 +1,3 @@
-import { BuildingBlock } from "@prisma/client"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
@@ -7,18 +6,24 @@ class Build {
     blocks: [],
     flattenBlocks: {},
   }
+  shouldRefetchLiked: boolean = false
+  blockTypeFilter: string = "all"
 
   constructor() {
     makeAutoObservable(this)
   }
   /////////// ACTIONS //////////////
   @action
-  push = (block: BuildingBlock) => {
+  setBlockTypeFilter = (filter: string) => {
+    this.blockTypeFilter = filter
+  }
+  @action
+  push = (block: ICanvasBlock) => {
     this.data.blocks.push(block)
   }
 
   @action
-  pushFlatten = (block: BuildingBlock) => {
+  pushFlatten = (block: ICanvasBlock) => {
     this.data.flattenBlocks[block.id] = block
   }
 
@@ -44,12 +49,46 @@ class Build {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
-        parentProps.children = parentProps.children.filter((c: BuildingBlock) => id !== c.id)
+        parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
         delete this.data.flattenBlocks[id]
       }
     } else {
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
       delete this.data.flattenBlocks[id]
+    }
+  }
+
+  @action
+  moveLeft = ({ id, parentID }: { id: string; parentID: string | null }) => {
+    if (parentID) {
+      const parent = this.getElement(parentID)
+      const parentProps = parent?.props as ICanvasBlockProps
+      if (parentProps?.children) {
+        let indexOfId = parentProps.children.findIndex((a) => typeof a === "object" && a?.id === id)
+        if (indexOfId !== -1 && indexOfId > 0) {
+          ;[parentProps.children[indexOfId], parentProps.children[indexOfId - 1]] = [
+            parentProps.children[indexOfId - 1],
+            parentProps.children[indexOfId],
+          ]
+        }
+      }
+    }
+  }
+
+  @action
+  moveRight = ({ id, parentID }: { id: string; parentID: string | null }) => {
+    if (parentID) {
+      const parent = this.getElement(parentID)
+      const parentProps = parent?.props as ICanvasBlockProps
+      if (parentProps?.children) {
+        let indexOfId = parentProps.children.findIndex((a) => typeof a === "object" && a?.id === id)
+        if (indexOfId !== -1 && indexOfId < parentProps.children.length - 1) {
+          ;[parentProps.children[indexOfId + 1], parentProps.children[indexOfId]] = [
+            parentProps.children[indexOfId],
+            parentProps.children[indexOfId + 1],
+          ]
+        }
+      }
     }
   }
 

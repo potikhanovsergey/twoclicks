@@ -1,4 +1,13 @@
-import { Center, Group, Stack, useMantineTheme, Title, Loader } from "@mantine/core"
+import {
+  Center,
+  Group,
+  Stack,
+  useMantineTheme,
+  Title,
+  Loader,
+  ActionIcon,
+  Button,
+} from "@mantine/core"
 import { ReactNode, Suspense } from "react"
 import { useTranslation } from "next-i18next"
 import { Player } from "@lottiefiles/react-lottie-player"
@@ -8,7 +17,9 @@ import Logo from "app/core/components/Logo"
 import workingMan from "lotties/workingMan.json"
 import { FcGoogle } from "react-icons/fc"
 import { FaYandex, FaVk } from "react-icons/fa"
+import { IoMdArrowRoundBack } from "react-icons/io"
 import AuthSocials from "app/auth/components/Socials"
+import Link from "next/link"
 
 interface IAuthLayout {
   title?: string
@@ -96,14 +107,18 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
               />
             </Center>
           </Group>
-          {/* <ActionIcon
-          onClick={handleModalClose}
-          size="xl"
-          color={dark ? 'gray' : 'dark'}
-          style={{ position: 'fixed', top: '24px', right: '24px' }}
-        >
-          <VscChromeClose size={32} />
-        </ActionIcon> */}
+          <Stack style={{ position: "fixed", top: "24px", right: "24px" }} spacing={8}>
+            <Link href="/" passHref>
+              <Button component="a" variant="gradient" gradient={{ from: "indigo", to: "cyan" }}>
+                На главную
+              </Button>
+            </Link>
+            <Link href="/build" color="orange" passHref>
+              <Button component="a" variant="gradient" gradient={{ from: "accent", to: "red" }}>
+                В конструктор
+              </Button>
+            </Link>
+          </Stack>
         </div>
       </main>
     </>

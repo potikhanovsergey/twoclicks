@@ -1,8 +1,10 @@
 import { ActionIcon, Group, Popover } from "@mantine/core"
-import React, { cloneElement, useRef, useState } from "react"
+import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
+import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 
 interface IWithElementEdit {
   children: JSX.Element
@@ -14,6 +16,41 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
   const [editOpened, setEditOpened] = useState(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
+
+  const hasMoves = useMemo(() => {
+    if (parentID) {
+      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.component
+      return parentComponent && (parentComponent === "group" || parentComponent === "stack")
+    }
+    return false
+  }, [parentID])
+
+  const movesIcons = useMemo(() => {
+    if (hasMoves && parentID) {
+      let parent = BuildStore.data.flattenBlocks?.[parentID]
+      let parentProps = parent?.props as object | null
+      if (parent?.component === "group") {
+        if (parentProps && parentProps["direction"] === "column") {
+          return {
+            left: <CgChevronUpR />,
+            right: <CgChevronDownR />,
+          }
+        } else {
+          return {
+            left: <CgChevronLeftR />,
+            right: <CgChevronRightR />,
+          }
+        }
+      }
+    }
+    return null
+  }, [hasMoves])
+
+  // useEffect(() => {
+  //   if (hasMoves && parentID) {
+  //     let parent = BuildStore.data.flattenBlocks?.[parentID]
+  //   }
+  // }, [hasMoves])
   return (
     <Popover
       trapFocus={false}
@@ -58,6 +95,16 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
         }}
       >
         {/* <ActionIcon color="green" size="lg"><AiOutlinePlusSquare /></ActionIcon> */}
+        {hasMoves && movesIcons && (
+          <>
+            <ActionIcon size="lg" onClick={() => BuildStore.moveLeft({ id, parentID })}>
+              {movesIcons.left}
+            </ActionIcon>
+            <ActionIcon size="lg" onClick={() => BuildStore.moveRight({ id, parentID })}>
+              {movesIcons.right}
+            </ActionIcon>
+          </>
+        )}
         <ActionIcon size="lg">
           <FiSettings />
         </ActionIcon>
@@ -65,7 +112,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
           color="red"
           size="lg"
           onClick={() => {
-            BuildStore.deleteElement({ id, parentID }) // todo: delete element
+            BuildStore.deleteElement({ id, parentID })
             setEditOpened(false)
           }}
         >

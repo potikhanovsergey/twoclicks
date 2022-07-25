@@ -11,7 +11,9 @@ type step = "registration" | "authorization"
 const AuthPage = () => {
   const router = useRouter()
   const [step, setStep] = useState<step>("authorization")
-  useRedirectAuthenticated("/")
+  useRedirectAuthenticated(
+    router.query.next ? decodeURIComponent(router.query.next as string) : "/"
+  )
 
   return (
     <AuthLayout
@@ -19,27 +21,13 @@ const AuthPage = () => {
       formTitle={step === "authorization" ? "Welcome Back!" : undefined}
     >
       {step === "authorization" ? (
-        <LoginForm
-          onSignup={() => setStep("registration")}
-          onSuccess={() => {
-            const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
-            return router.push(next)
-          }}
-        />
+        <LoginForm onSignup={() => setStep("registration")} />
       ) : (
-        <SignupForm
-          onLogin={() => setStep("authorization")}
-          onSuccess={() => {
-            const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
-            return router.push(next)
-          }}
-        />
+        <SignupForm onLogin={() => setStep("authorization")} />
       )}
     </AuthLayout>
   )
 }
-
-AuthPage.suppressFirstRenderFlicker = true
 
 export default AuthPage
 

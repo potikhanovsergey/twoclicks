@@ -1,9 +1,6 @@
-import { useSession } from "@blitzjs/auth"
 import { ActionIcon, Group } from "@mantine/core"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import { Router, useRouter } from "next/router"
-import { useRef, useState, useEffect, ReactNode } from "react"
-import NewWindow from "react-new-window"
+import { useRouter } from "next/router"
+import { ReactNode } from "react"
 
 interface IAuthSocials {
   socials: {
@@ -36,17 +33,6 @@ const AuthSocials = ({ socials }: IAuthSocials) => {
           </ActionIcon>
         ))}
       </Group>
-      {/* {authPopup && (
-        <NewWindow
-          onBlock={() => {
-            // if (clickedProvider) signIn(clickedProvider); todo: auth
-          }}
-          ref={popupRef}
-          copyStyles={false}
-          features={{ width: 420, height: 500 }}
-          url={`/api/auth/${clickedProvider}`}
-        />
-      )} */}
     </>
   )
 }

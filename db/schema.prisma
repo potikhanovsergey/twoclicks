@@ -10,21 +10,29 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Role {
+  USER
+  ADMIN
+}
+
 // --------------------------------------
 
 model User {
-  id              String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
-  name            String
-  email           String   @unique
-  isEmailVerified Boolean?
-  avatar          String?
-  hashedPassword  String?
-  role            String   @default("USER")
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+  name                String
+  email               String   @unique
+  isEmailVerified     Boolean?
+  avatar              String?
+  hashedPassword      String?
+  role                Role     @default(USER)
+  hasCreatedPortfolio Boolean  @default(false)
 
-  tokens   Token[]
-  sessions Session[]
+  tokens      Token[]
+  sessions    Session[]
+  likedBlocks LikedBlock[]
+  portfolios  Portfolio[]
 }
 
 model Session {
@@ -67,12 +75,15 @@ model Token {
 // }
 
 model BuildingBlock {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  component String
-  editType  String?
-  props     Json?
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  component  String
+  filterType String
+  editType   String?
+  props      Json?
+
+  LikedBlocks LikedBlock[]
 }
 
 model Portfolio {
@@ -81,4 +92,19 @@ model Portfolio {
   updatedAt DateTime @updatedAt
   name      String
   data      String
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId String @db.ObjectId
+}
+
+model LikedBlock {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+
+  buildingBlock   BuildingBlock @relation(fields: [buildingBlockId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  buildingBlockId String        @db.ObjectId
+  user            User          @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId          String        @db.ObjectId
+
+  @@unique([userId, buildingBlockId])
 }

@@ -1,16 +1,20 @@
 import { Box, Group, ActionIcon, createStyles } from "@mantine/core"
-import { cloneElement, forwardRef, useContext, useMemo, useRef, useState } from "react"
+import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
 import shortid from "shortid"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { ICanvasBlock } from "types"
 import { recursiveTagName } from "helpers"
 import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
+import { useMutation } from "@blitzjs/rpc"
+import createLikedBlock from "app/liked-blocks/mutations/createLikedBlock"
+import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
 
 interface IViewListItem {
   block: BuildingBlock
   onClick?: () => void
+  hasActions?: boolean
+  liked?: boolean
 }
 
 const useStyles = createStyles((theme, _params, getRef) => ({
@@ -24,14 +28,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     height: "100%",
     aspectRatio: "5/3",
     position: "relative",
-    // '&:hover': {
-    //   [`& .${getRef('child')}`]: {
-    //     transform: 'scale(1.2)',
-    //   },
-    // },
+    "&:hover": {
+      [`& .${getRef("icon")}`]: {
+        opacity: 1,
+      },
+    },
   },
   child: {
-    ref: getRef("child"),
     transition: "0.4s ease transform",
     "&:hover": {
       transform: "scale(1.2)",
@@ -43,29 +46,50 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     right: "8px",
     display: "flex",
   },
+  actionIcon: {
+    "&:focus": {
+      [`& .${getRef("icon")}`]: {
+        opacity: 1,
+      },
+    },
+  },
   icon: {
+    ref: getRef("icon"),
     pointerEvents: "none",
+    opacity: 0,
   },
 }))
 
-const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
+const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListItem) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
-  const [boxHovered, setBoxHovered] = useState(false)
 
-  const TagName = useMemo(
-    () => recursiveTagName({ ...block, id: shortid.generate(), editType: null }),
-    [block]
-  )
+  const TagName = useMemo(() => {
+    return recursiveTagName({ ...block, id: shortid.generate(), editType: null })
+  }, [block])
+
   const iconRef = useRef(null)
+  const [isLiked, setIsLiked] = useState(false)
+  useEffect(() => {
+    if (liked !== undefined) {
+      setIsLiked(liked)
+    }
+  }, [liked])
 
-  // const { toggleLike } = BuildingBlocksStore
+  const [isLikeLoading, setIsLikeLoading] = useState(false)
 
-  const handleBoxClick = (e: any) => {
-    // todo: remove any
+  const handleBoxClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === iconRef.current) {
-      console.log(block)
-      // toggleLike(block.component) // todo: change block.component to id
+      setIsLikeLoading(true)
+      if (isLiked) {
+        await dislikeBuildingBlock({ buildingBlockId: block.id })
+        setIsLiked(false)
+      } else {
+        await likeBuildingBlock({ buildingBlockId: block.id })
+        setIsLiked(true)
+      }
+      BuildStore.shouldRefetchLiked = true
+      setIsLikeLoading(false)
     } else {
       BuildStore.push({
         ...block,
@@ -78,24 +102,34 @@ const ViewListItem = ({ block, onClick }: IViewListItem, ref) => {
       }))
     }
   }
+  const [likeBuildingBlock] = useMutation(createLikedBlock)
+  const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
   return (
     <div>
       <Box
-        onMouseEnter={() => setBoxHovered(true)}
-        onMouseLeave={() => setBoxHovered(false)}
         className={classes.box}
-        onClick={(e) => (onClick ? onClick() : handleBoxClick(e))}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => (onClick ? onClick() : handleBoxClick(e))}
       >
         {cloneElement(TagName, { className: classes.child })}
-        <Group className={classes.actions}>
-          <ActionIcon color="red" ref={iconRef}>
-            {/* {block.liked ? (
-              <RiHeartAddFill className={classes.icon} />
-            ) : (
-              <RiHeartAddLine className={classes.icon} style={{ opacity: boxHovered ? 1 : 0 }} />
-            )} */}
-          </ActionIcon>
-        </Group>
+        {hasActions && (
+          <Group className={classes.actions}>
+            <ActionIcon
+              color="red"
+              ref={iconRef}
+              loading={isLikeLoading}
+              className={classes.actionIcon}
+            >
+              <RiHeartAddFill
+                className={classes.icon}
+                style={{ display: isLiked ? "block" : "none", opacity: 1 }}
+              />
+              <RiHeartAddLine
+                className={classes.icon}
+                style={{ display: !isLiked ? "block" : "none" }}
+              />
+            </ActionIcon>
+          </Group>
+        )}
       </Box>
     </div>
   )

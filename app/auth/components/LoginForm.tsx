@@ -1,7 +1,6 @@
-import { AuthenticationError, PromiseReturnType } from "blitz"
+import { AuthenticationError } from "blitz"
 import login from "app/auth/mutations/login"
 import { useMutation } from "@blitzjs/rpc"
-import { Routes } from "@blitzjs/next"
 import { useForm } from "@mantine/form"
 import {
   Divider,
@@ -59,16 +58,6 @@ export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
           return "Sorry, we had an unexpected error. Please try again. - " + error.toString()
         }
       }
-      // const res = await signIn('credentials', { todo: auth
-      //   redirect: false,
-      //   email,
-      //   password,
-      // });
-      // if (res?.ok) {
-      //   // todo
-      // } else {
-      //   // todo
-      // }
     }
   }
   // AUTHORIZATION ENDS

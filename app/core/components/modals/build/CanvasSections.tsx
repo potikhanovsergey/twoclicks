@@ -1,6 +1,6 @@
 // import { useTranslation } from 'next-i18next';
 import CanvasAddModal from "./CanvasAddModal"
-import { IFilterButton } from "./types"
+import { IFilterButton } from "types"
 
 const filterButtons: IFilterButton[] = [
   {

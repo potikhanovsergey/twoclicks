@@ -1,9 +1,11 @@
-import { ICanvasBlock } from "types"
+import { BuildingBlock } from "@prisma/client"
+import { IBuildingBlockMock, ICanvasBlock } from "types"
+import shortid from "shortid"
 
-export const pushBlock: ICanvasBlock = {
-  id: "31лвь21д",
+export const pushBlock: IBuildingBlockMock = {
   component: "textInput",
   editType: "element",
+  filterType: "form",
   props: {
     placeholder: "afsldafkls",
     label: "fsds",
@@ -11,10 +13,11 @@ export const pushBlock: ICanvasBlock = {
   },
 }
 
-export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
+export const ButtonsList: IBuildingBlockMock[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "filled",
@@ -24,6 +27,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "light",
@@ -33,6 +37,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "outline",
@@ -42,6 +47,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "default",
@@ -51,6 +57,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -60,6 +67,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -69,6 +77,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "subtle",
@@ -78,6 +87,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -87,6 +97,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -96,6 +107,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -105,6 +117,7 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   {
     component: "button",
     editType: "element",
+    filterType: "button",
     props: {
       children: ["Button"],
       variant: "gradient",
@@ -113,38 +126,46 @@ export const ButtonsList: Omit<ICanvasBlock, "id">[] = [
   },
 ]
 
+export const PortfolioStarterMock = {
+  name: "My brand new portfolio",
+  data: [],
+}
+
 export const PortfolioMock = {
   name: "First portfolio in Prisma",
   data: [
     {
-      id: "3123dasab",
+      id: shortid.generate(),
       component: "tabs",
-      isSingleClosing: false,
-      editType: "section",
+      editType: "element",
+      filterType: "tabs",
       props: {
         children: [
           {
-            id: "321fsdc",
+            id: shortid.generate(),
             component: "tab",
-            isSingleClosing: false,
+            editType: null,
+            filterType: "",
             props: {
               label: "Tab 1",
               children: ["Tab 1 content"],
             },
           },
           {
-            id: "321fsdac",
+            id: shortid.generate(),
             component: "tab",
-            isSingleClosing: false,
+            editType: null,
+            filterType: "",
             props: {
               label: "Tab 2",
               children: ["Tab 2 content"],
             },
           },
           {
-            id: "321fsf21dc",
+            id: shortid.generate(),
             component: "tab",
-            isSingleClosing: false,
+            editType: null,
+            filterType: "",
             props: {
               label: "Tab 3",
               children: ["Tab 3 content"],
@@ -154,31 +175,34 @@ export const PortfolioMock = {
       },
     },
     {
-      id: "3213213122",
+      id: shortid.generate(),
       component: "button",
-      isSingleClosing: false,
       editType: "element",
+      filterType: "button",
       props: {
         children: ["Button Text"],
       },
     },
     {
-      id: "3213312",
+      id: shortid.generate(),
       component: "stack",
-      isSingleClosing: false,
+      editType: "grid",
+      filterType: "grid",
       props: {
         children: [
           {
-            id: "321543213213",
+            id: shortid.generate(),
             component: "group",
-            isSingleClosing: false,
+            editType: "grid",
+            filterType: "grid",
             props: {
+              direction: "column",
               children: [
                 {
-                  id: "213122321",
+                  id: shortid.generate(),
                   component: "button",
-                  isSingleClosing: false,
                   editType: "element",
+                  filterType: "button",
                   props: {
                     color: "blue",
                     size: "xl",
@@ -186,12 +210,22 @@ export const PortfolioMock = {
                   },
                 },
                 {
-                  id: "21312320",
+                  id: shortid.generate(),
                   component: "button",
-                  isSingleClosing: false,
                   editType: "element",
+                  filterType: "button",
                   props: {
                     color: "green",
+                    children: ["very deep button 1"],
+                  },
+                },
+                {
+                  id: shortid.generate(),
+                  component: "button",
+                  editType: "element",
+                  filterType: "button",
+                  props: {
+                    color: "orange",
                     children: ["very deep button 1"],
                   },
                 },

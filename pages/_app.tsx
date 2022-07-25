@@ -16,6 +16,20 @@ import { appWithTranslation, i18n } from "next-i18next"
 import "app/styles/variables.css"
 import router from "next/router"
 import CubeLoader from "app/core/components/CubeLoader"
+import next, { GetServerSidePropsContext } from "next"
+import { getCookie, getCookies, setCookie } from "cookies-next"
+
+import { Tuple, DefaultMantineColor } from "@mantine/core"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useMutation } from "@blitzjs/rpc"
+import createPortfolio from "app/portfolios/mutations/createPortfolio"
+
+type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
+declare module "@mantine/core" {
+  export interface MantineThemeColorsOverride {
+    colors: Record<ExtendedCustomColors, Tuple<string, 10>>
+  }
+}
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -37,13 +51,22 @@ function RootErrorFallback({ error }: ErrorFallbackProps) {
   }
 }
 
-function App({ Component, pageProps }: AppProps) {
+function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
+  const { Component, pageProps } = props
+
   // ### THEME AND COLOR SCHEME ###
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: "color-scheme",
-    defaultValue: "light",
-    getInitialValueInEffect: true,
+    key: "skillcase-color-scheme",
+    defaultValue: props.cookiesColorScheme,
   })
+  const toggleColorScheme = (value?: ColorScheme) => {
+    const nextColorScheme = value || (colorScheme === "dark" ? "light" : "dark")
+    setColorScheme(nextColorScheme)
+    // when color scheme is updated save it to cookie and local storage
+    setCookie("skillcase-color-scheme", nextColorScheme, { maxAge: 60 * 60 * 24 * 30 })
+  }
+
+  useHotkeys([["mod+J", () => toggleColorScheme()]])
 
   const CustomTheme: MantineThemeOverride = {
     colorScheme,
@@ -81,12 +104,9 @@ function App({ Component, pageProps }: AppProps) {
     primaryShade: 6,
   }
 
-  const toggleColorScheme = (value?: ColorScheme) => {
-    const nextColorScheme = value || (colorScheme === "dark" ? "light" : "dark")
-    setColorScheme(nextColorScheme)
-  }
-
-  useHotkeys([["mod+J", () => toggleColorScheme()]])
+  useEffect(() => {
+    document.documentElement.removeAttribute("data-theme")
+  }, [])
   // ### END THEME AND COLOR SCHEME END ###
 
   // ### LOADING OVERLAY STARTS ###
@@ -94,11 +114,15 @@ function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     let startTimer: ReturnType<typeof setTimeout>
     const handleStart = () => {
+      console.log("route change start")
       startTimer = setTimeout(() => {
         setLoadingOverlay(true)
       }, 500)
     }
-    const handleComplete = () => setLoadingOverlay(false)
+    const handleComplete = () => {
+      console.log("route change complete")
+      setLoadingOverlay(false)
+    }
 
     router.events.on("routeChangeStart", handleStart)
     router.events.on("routeChangeComplete", handleComplete)
@@ -156,6 +180,16 @@ function App({ Component, pageProps }: AppProps) {
           "*, *::before, *::after": {
             boxSizing: "border-box",
           },
+          html: {
+            "&[data-theme='light']": {
+              backgroundColor: theme.colors.gray[0],
+              color: theme.black,
+            },
+            "&[data-theme='dark']": {
+              backgroundColor: theme.colors.dark[7],
+              color: theme.white,
+            },
+          },
           body: {
             backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[0],
             color: colorScheme === "dark" ? theme.white : theme.black,
@@ -169,5 +203,10 @@ function App({ Component, pageProps }: AppProps) {
 
 const appWithI18n = appWithTranslation(App)
 const appWithBlitz = withBlitz(appWithI18n)
+
+appWithBlitz["getInitialProps"] = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
+  // get color scheme from cookie
+  cookiesColorScheme: getCookie("skillcase-color-scheme", ctx) || "dark",
+})
 
 export default appWithBlitz
