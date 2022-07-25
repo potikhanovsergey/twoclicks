@@ -70,11 +70,7 @@ export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
         labelProps={{ size: "md" }}
         size="sm"
         mb="md"
-        label={
-          <Text color={dark ? "white" : "dark"} weight="bold">
-            Or Login with Email
-          </Text>
-        }
+        label={<Text color={dark ? "white" : "dark"}>Or Login with Email</Text>}
         labelPosition="center"
         color={dark ? "gray" : "dark"}
       />

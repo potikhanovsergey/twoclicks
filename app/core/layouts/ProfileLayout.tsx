@@ -15,7 +15,7 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
     <>
       <Head>
         <title>{title || "skillcase"}</title>
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <AppShell
