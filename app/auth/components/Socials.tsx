@@ -18,8 +18,8 @@ const AuthSocials = ({ socials }: IAuthSocials) => {
           <ActionIcon
             key={s.provider}
             onClick={() => {
-              const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
-              void router.push(`/api/auth/${s.provider}?redirectUrl=${next}`)
+              // const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
+              void router.push(`/api/auth/${s.provider}`)
             }}
             sx={(theme) => ({
               ":hover": {

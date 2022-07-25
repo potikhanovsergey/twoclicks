@@ -13,6 +13,7 @@ const baseURL = process.env.NODE_ENV === "production" ? PRODUCTION_URL : DEVELOP
 
 export default api(
   passportAuth(() => ({
+    errorRedirectUrl: "/auth/",
     strategies: [
       {
         strategy: new GoogleStrategy(
@@ -23,14 +24,13 @@ export default api(
             callbackURL: `${baseURL}/auth/google/callback`,
           },
           async function (accessToken, refreshToken, profile, done) {
-            console.log(profile)
             const email = profile.emails && profile.emails[0]?.value
             const name = profile.displayName
             const avatar = profile.photos && profile.photos[0]?.value
 
             if (!email) {
               // This can happen if you haven't enabled email access in your google app permissions
-              return done(new Error("Google OAuth response doesn't have email."))
+              return done("Google account should have email.", {})
             }
 
             const user = await db.user.upsert({
@@ -68,7 +68,7 @@ export default api(
 
             if (!email) {
               // This can happen if you haven't enabled email access in your google app permissions
-              return done(new Error("Google OAuth response doesn't have email."))
+              return done("VK account should have email.", {})
             }
 
             const user = await db.user.upsert({
@@ -110,7 +110,7 @@ export default api(
 
             if (!email) {
               // This can happen if you haven't enabled email access in your yandex app permissions
-              return done("Yandex OAuth response doesn't have email.", {})
+              return done("Yandex account should have email.", {})
             }
 
             const user = await db.user.upsert({
