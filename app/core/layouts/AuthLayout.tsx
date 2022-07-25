@@ -36,7 +36,7 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
     <>
       <Head>
         <title>{title || "skillcase"}</title>
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
 
       <main style={{ background: dark ? theme.colors.dark[7] : theme.white }}>
