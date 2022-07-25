@@ -1,11 +1,9 @@
-import { BuildingBlock } from "@prisma/client"
-import { PortfolioMock } from "db/mocks"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
 class Build {
   data: ICanvasData = {
-    blocks: PortfolioMock.data,
+    blocks: [],
     flattenBlocks: {},
   }
   shouldRefetchLiked: boolean = false

@@ -46,12 +46,11 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
     return null
   }, [hasMoves])
 
-  useEffect(() => {
-    if (hasMoves && parentID) {
-      let parent = BuildStore.data.flattenBlocks?.[parentID]
-      console.log(parent)
-    }
-  }, [hasMoves])
+  // useEffect(() => {
+  //   if (hasMoves && parentID) {
+  //     let parent = BuildStore.data.flattenBlocks?.[parentID]
+  //   }
+  // }, [hasMoves])
   return (
     <Popover
       trapFocus={false}

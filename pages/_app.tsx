@@ -20,6 +20,9 @@ import next, { GetServerSidePropsContext } from "next"
 import { getCookie, getCookies, setCookie } from "cookies-next"
 
 import { Tuple, DefaultMantineColor } from "@mantine/core"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { useMutation } from "@blitzjs/rpc"
+import createPortfolio from "app/portfolios/mutations/createPortfolio"
 
 type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {

@@ -126,6 +126,11 @@ export const ButtonsList: IBuildingBlockMock[] = [
   },
 ]
 
+export const PortfolioStarterMock = {
+  name: "My brand new portfolio",
+  data: [],
+}
+
 export const PortfolioMock = {
   name: "First portfolio in Prisma",
   data: [
