@@ -5,6 +5,7 @@ import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
+import { useDisclosure } from "@mantine/hooks"
 
 interface IWithElementEdit {
   children: JSX.Element
@@ -13,7 +14,7 @@ interface IWithElementEdit {
 }
 
 const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
-  const [editOpened, setEditOpened] = useState(false)
+  const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
@@ -54,71 +55,66 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
   return (
     <Popover
       trapFocus={false}
-      withArrow={false}
+      withArrow
       opened={editOpened}
-      onClose={() => setEditOpened(false)}
-      target={cloneElement(children, {
-        onMouseEnter: () => {
-          if (timer.current) clearTimeout(timer.current)
-          setEditOpened(true)
-        },
-        onMouseLeave: () => {
-          timer.current = setTimeout(() => {
-            if (!popupHovered) setEditOpened(false)
-          }, 300)
-        },
-      })}
-      position="top"
-      placement="end"
-      shadow="xs"
+      onClose={closeEdit}
+      position="top-end"
       width="auto"
-      spacing="xs"
-      styles={{
-        inner: {
-          padding: 0,
-        },
-        target: {
-          display: "inline-block",
-        },
-      }}
     >
-      <Group
-        noWrap
-        spacing={0}
-        onMouseEnter={() => {
-          if (timer.current) clearTimeout(timer.current)
-          setPopupHovered(true)
-        }}
-        onMouseLeave={() => {
-          setEditOpened(false)
-          setPopupHovered(false)
-        }}
-      >
-        {/* <ActionIcon color="green" size="lg"><AiOutlinePlusSquare /></ActionIcon> */}
-        {hasMoves && movesIcons && (
-          <>
-            <ActionIcon size="lg" onClick={() => BuildStore.moveLeft({ id, parentID })}>
-              {movesIcons.left}
-            </ActionIcon>
-            <ActionIcon size="lg" onClick={() => BuildStore.moveRight({ id, parentID })}>
-              {movesIcons.right}
-            </ActionIcon>
-          </>
-        )}
-        <ActionIcon size="lg">
-          <FiSettings />
-        </ActionIcon>
-        <ActionIcon
-          color="red"
-          size="lg"
-          onClick={() => {
-            BuildStore.deleteElement({ id, parentID })
-            setEditOpened(false)
+      <Popover.Target>
+        <div style={{ width: "fit-content" }}>
+          {cloneElement(children, {
+            onMouseEnter: () => {
+              if (timer?.current) clearTimeout(timer?.current)
+              openEdit()
+            },
+            onMouseLeave: () => {
+              timer.current = setTimeout(() => {
+                if (!popupHovered) closeEdit()
+              }, 300)
+            },
+          })}
+        </div>
+      </Popover.Target>
+      <Popover.Dropdown style={{ padding: 0 }}>
+        <Group
+          noWrap
+          spacing={0}
+          onMouseEnter={() => {
+            if (timer.current) clearTimeout(timer.current)
+            setPopupHovered(true)
+          }}
+          onMouseLeave={() => {
+            closeEdit()
+            setPopupHovered(false)
           }}
         >
-          <RiDeleteBin6Line />
-        </ActionIcon>
-      </Group>
+          {/* <ActionIcon color="green" size="lg"><AiOutlinePlusSquare /></ActionIcon> */}
+          {hasMoves && movesIcons && (
+            <>
+              <ActionIcon size="lg" onClick={() => BuildStore.moveLeft({ id, parentID })}>
+                {movesIcons.left}
+              </ActionIcon>
+              <ActionIcon size="lg" onClick={() => BuildStore.moveRight({ id, parentID })}>
+                {movesIcons.right}
+              </ActionIcon>
+            </>
+          )}
+          <ActionIcon size="lg">
+            <FiSettings />
+          </ActionIcon>
+          <ActionIcon
+            color="red"
+            size="lg"
+            onClick={() => {
+              BuildStore.deleteElement({ id, parentID })
+              closeEdit()
+            }}
+          >
+            <RiDeleteBin6Line />
+          </ActionIcon>
+        </Group>
+      </Popover.Dropdown>
     </Popover>
   )
 }
