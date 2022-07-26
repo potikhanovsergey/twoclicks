@@ -15,17 +15,17 @@ import WithElementEdit from "app/build/WithElementEdit"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
 
+type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
+
 export const canvasBuildingBlocks = {
-  button: dynamic<ButtonProps<"button">>(() =>
-    import("@mantine/core").then((module) => module.Button)
-  ),
+  button: dynamic<CanvasButtonProps>(() => import("@mantine/core").then((module) => module.Button)),
   stack: dynamic<StackProps>(() => import("@mantine/core").then((module) => module.Stack)),
   group: dynamic<GroupProps>(() => import("@mantine/core").then((module) => module.Group)),
   textInput: dynamic<TextInputProps>(() =>
     import("@mantine/core").then((module) => module.TextInput)
   ),
   tabs: dynamic<TabsProps>(() => import("@mantine/core").then((module) => module.Tabs)),
-  tab: dynamic<TabProps>(() => import("@mantine/core").then((module) => module.Tab)),
+  tab: dynamic<TabProps>(() => import("@mantine/core").then((module) => module.Tabs.Tab)),
 }
 
 export const recursiveTagName = (
