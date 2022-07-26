@@ -176,7 +176,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                 })}
                 overlayOpacity={0.85}
                 visible={loadingOverlay}
-                loader={<CubeLoader />}
+                loader={<CubeLoader size={256} />}
               />
               {getLayout(<Component {...pageProps} />)}
             </ModalContext.Provider>
