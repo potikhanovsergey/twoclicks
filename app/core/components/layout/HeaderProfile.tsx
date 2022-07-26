@@ -8,6 +8,7 @@ import {
   Text,
   Button,
   Skeleton,
+  useMantineTheme,
 } from "@mantine/core"
 import { FaChevronDown, FaSignOutAlt, FaBook } from "react-icons/fa"
 import { AiFillBuild } from "react-icons/ai"
@@ -84,15 +85,18 @@ const ConstMenuItems = [
 function HeaderProfile() {
   const { t } = useTranslation("common")
   // const { data: session, status } = useSession();
+  const theme = useMantineTheme()
+  const { colorScheme } = theme
+  const dark = colorScheme === "dark"
+
   const session = useSession()
   const user = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
-  const [opened, openedHandlers] = useDisclosure(false)
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
   const router = useRouter()
   return (
     <Group position="center">
-      {!user && ( // TODO: i18n, session
+      {!user && (
         <Link passHref href={`/auth/?next=${router.pathname}`}>
           <Button
             component="a"
@@ -105,21 +109,10 @@ function HeaderProfile() {
           </Button>
         </Link>
       )}
-      <Menu
-        sx={() => ({
-          ":hover": {
-            cursor: "pointer",
-          },
-        })}
-        opened={opened}
-        onOpen={openedHandlers.open}
-        onClose={openedHandlers.close}
-        size="lg"
-        placement="end"
-        position="bottom"
-        closeOnItemClick={false}
-        control={
+      <Menu closeOnClickOutside position="bottom-end" closeOnItemClick={false} width="256px">
+        <Menu.Target>
           <Group
+            style={{ cursor: "pointer" }}
             spacing={8}
             onMouseEnter={menuHoveredHandlers.open}
             onMouseLeave={menuHoveredHandlers.close}
@@ -159,45 +152,46 @@ function HeaderProfile() {
               </UnstyledButton>
             </>
           </Group>
-        }
-      >
-        <Menu.Label>{t("general")}</Menu.Label>
-        {/* MENU STARTS */}
-        {session.userId && <HeaderMenuItem {...ProfileItem} />}
-        {ConstMenuItems.map((menuItem, i) => (
-          <HeaderMenuItem key={i} {...menuItem} />
-        ))}
-        {/* MENU ENDS */}
-        {session.userId && (
-          <Menu.Item
-            title={t("signOutOfTheAccount")}
-            icon={
-              <ThemeIcon color="red" size="md">
-                <FaSignOutAlt />
-              </ThemeIcon>
-            }
-            onClick={async () => await logoutMutation()}
-          >
-            <Text weight="bold">{t("signout")}</Text>
-          </Menu.Item>
-        )}
-        {/* /* LOG OUT ENDS */}
-        <Divider />
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Label>{t("general")}</Menu.Label>
+          {/* MENU STARTS */}
+          {session.userId && <HeaderMenuItem {...ProfileItem} />}
+          {ConstMenuItems.map((menuItem, i) => (
+            <HeaderMenuItem key={i} {...menuItem} />
+          ))}
+          {/* MENU ENDS */}
+          {session.userId && (
+            <Menu.Item
+              title={t("signOutOfTheAccount")}
+              icon={
+                <ThemeIcon color="red" size="md">
+                  <FaSignOutAlt />
+                </ThemeIcon>
+              }
+              onClick={async () => await logoutMutation()}
+            >
+              <Text weight="bold">{t("signout")}</Text>
+            </Menu.Item>
+          )}
+          {/* /* LOG OUT ENDS */}
+          <Divider />
 
-        <Menu.Label>{t("settings")}</Menu.Label>
-        <Menu.Item
-          pt={0}
-          disabled
-          component="div"
-          style={{
-            cursor: "default",
-          }}
-        >
-          <Group spacing={4}>
-            <LanguageSwitcher />
-            <ColorSchemeToggle />
-          </Group>
-        </Menu.Item>
+          <Menu.Label>{t("settings")}</Menu.Label>
+          <Menu.Item
+            pt={0}
+            component="div"
+            sx={() => ({
+              cursor: "default",
+              backgroundColor: `${dark ? theme.colors.dark[6] : theme.white} !important`,
+            })}
+          >
+            <Group spacing={4}>
+              <LanguageSwitcher />
+              <ColorSchemeToggle />
+            </Group>
+          </Menu.Item>
+        </Menu.Dropdown>
       </Menu>
     </Group>
   )

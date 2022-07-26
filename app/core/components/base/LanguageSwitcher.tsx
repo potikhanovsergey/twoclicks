@@ -33,13 +33,12 @@ const LanguageSwitcher = () => {
       transitionDuration={100}
       label={t("changeLocale")}
       withArrow
-      tooltipId="Change language tooltip"
+      id="Change language tooltip"
     >
       <Menu
         aria-describedby="Change language tooltip"
         withArrow
         closeOnItemClick={false}
-        ref={tooltipRef}
         withinPortal={false}
         opened={menuOpened}
         onOpen={() => {
@@ -48,7 +47,9 @@ const LanguageSwitcher = () => {
         }}
         onClose={menuOpenedHandlers.close}
         position="bottom"
-        control={
+        width="128px"
+      >
+        <Menu.Target>
           <ActionIcon
             onClick={() => 1}
             size="lg"
@@ -63,27 +64,28 @@ const LanguageSwitcher = () => {
           >
             <IoLanguageSharp />
           </ActionIcon>
-        }
-      >
-        <Menu.Label>{t("language")}</Menu.Label>
-        {Object.keys(languages)
-          .filter((l: string) => l !== i18n?.language)
-          .map(
-            (
-              l: string,
-              i: number // TODO: i18n
-            ) => (
-              <Menu.Item
-                key={i}
-                onClick={() => changeLocale(l)}
-                title={`Сменить язык на ${languages[l]}`}
-              >
-                {languages[l]}
-              </Menu.Item>
-            )
-          )}
-        <Divider />
-        <Menu.Label>{languages[i18n?.language || "ru"]}</Menu.Label>
+        </Menu.Target>
+        <Menu.Dropdown>
+          <Menu.Label>{t("language")}</Menu.Label>
+          {Object.keys(languages)
+            .filter((l: string) => l !== i18n?.language)
+            .map(
+              (
+                l: string,
+                i: number // TODO: i18n
+              ) => (
+                <Menu.Item
+                  key={i}
+                  onClick={() => changeLocale(l)}
+                  title={`Сменить язык на ${languages[l]}`}
+                >
+                  {languages[l]}
+                </Menu.Item>
+              )
+            )}
+          <Divider />
+          <Menu.Label>{languages[i18n?.language || "ru"]}</Menu.Label>
+        </Menu.Dropdown>
       </Menu>
     </Tooltip>
   )
