@@ -55,6 +55,7 @@ const LanguageSwitcher = () => {
               ref={tooltipRef}
               onClick={() => 1}
               size="lg"
+              color="dark"
               sx={(theme) => ({
                 backgroundColor:
                   theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],

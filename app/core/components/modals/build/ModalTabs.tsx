@@ -89,7 +89,9 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
             >
               <Text
                 size="sm"
+                color={tab.value === activeTab ? tab.color : undefined}
                 sx={() => ({
+                  fontWeight: tab.value === activeTab ? 700 : 400,
                   "&::before": {
                     content: `"${tab.value}"`,
                     fontWeight: 700,
