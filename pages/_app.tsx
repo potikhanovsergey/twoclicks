@@ -102,7 +102,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
       ],
     },
     primaryColor: "primary",
-    primaryShade: 6,
+    primaryShade: 5,
   }
 
   useEffect(() => {
@@ -115,13 +115,11 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   useEffect(() => {
     let startTimer: ReturnType<typeof setTimeout>
     const handleStart = () => {
-      console.log("route change start")
       startTimer = setTimeout(() => {
         setLoadingOverlay(true)
       }, 500)
     }
     const handleComplete = () => {
-      console.log("route change complete")
       setLoadingOverlay(false)
     }
 
