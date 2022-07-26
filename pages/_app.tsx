@@ -8,6 +8,7 @@ import {
   MantineThemeOverride,
   LoadingOverlay,
   Global,
+  createEmotionCache,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -16,13 +17,10 @@ import { appWithTranslation, i18n } from "next-i18next"
 import "app/styles/variables.css"
 import router from "next/router"
 import CubeLoader from "app/core/components/CubeLoader"
-import next, { GetServerSidePropsContext } from "next"
-import { getCookie, getCookies, setCookie } from "cookies-next"
+import { GetServerSidePropsContext } from "next"
+import { getCookie, setCookie } from "cookies-next"
 
 import { Tuple, DefaultMantineColor } from "@mantine/core"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import { useMutation } from "@blitzjs/rpc"
-import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import { NotificationsProvider } from "@mantine/notifications"
 
 type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
@@ -31,6 +29,8 @@ declare module "@mantine/core" {
     colors: Record<ExtendedCustomColors, Tuple<string, 10>>
   }
 }
+
+const emotionCache = createEmotionCache({ key: "cube-project-emiton" })
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -161,7 +161,12 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   const getLayout = Component.getLayout || ((page) => page)
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
+      <MantineProvider
+        withCSSVariables
+        withNormalizeCSS
+        theme={CustomTheme}
+        emotionCache={emotionCache}
+      >
         <NotificationsProvider>
           <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
             <ModalContext.Provider value={[modalValue, setModalValue]}>
