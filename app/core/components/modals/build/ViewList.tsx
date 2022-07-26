@@ -25,11 +25,12 @@ const useStyles = createStyles(() => ({
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
-    padding: "10px 0px",
+    padding: "10px 0 15px 0",
     gap: "10px",
     position: "relative",
+    justifyContent: "space-between",
   },
-  scrollArea: { height: "100%", position: "relative", width: "100%" },
+  scrollArea: { position: "relative", width: "100%" },
   grid: {
     padding: "0 20px",
   },
@@ -91,12 +92,12 @@ const ViewList = ({ type }: IViewList) => {
 
   const handlePaginationChange = async (page: number) => {
     setActivePage(page)
-    void refetchLikedBlocks()
   }
 
   useEffect(() => {
     if (shouldRefetchLiked && type === "liked") {
       void refetch()
+      void refetchLikedBlocks()
       BuildStore.shouldRefetchLiked = false
     }
   }, [shouldRefetchLiked])

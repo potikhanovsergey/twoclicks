@@ -46,12 +46,7 @@ const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButto
             setBlockTypeFilter(blockTypeFilter === b.value ? "all" : b.value)
           }}
         >
-          <Group
-            align="center"
-            position="apart"
-            style={{ position: "relative" }}
-            styles={{ root: { width: "100%" } }}
-          >
+          <Group align="center" position="apart" style={{ position: "relative", width: "100%" }}>
             <Text>{b.text}</Text>
             <Box
               sx={() => ({

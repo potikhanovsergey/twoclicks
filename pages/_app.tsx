@@ -30,7 +30,7 @@ declare module "@mantine/core" {
   }
 }
 
-const emotionCache = createEmotionCache({ key: "cube-project-emiton" })
+const emotionCache = createEmotionCache({ key: "mantine" })
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {

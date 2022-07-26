@@ -3,7 +3,7 @@ import { BsStars } from "react-icons/bs"
 import { RiHeartFill } from "react-icons/ri"
 import { GiAnticlockwiseRotation } from "react-icons/gi"
 import { TbCrown } from "react-icons/tb"
-import { Tabs, Text, TabProps, LoadingOverlay } from "@mantine/core"
+import { Tabs, Text, TabProps, LoadingOverlay, ThemeIcon } from "@mantine/core"
 import { Suspense, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "types"
@@ -16,31 +16,31 @@ interface IModalTab extends TabProps {
 const ComponentsModalTabsArr: IModalTab[] = [
   {
     color: "indigo",
-    label: "All",
+    value: "All",
     viewlistType: "all",
     icon: <BiGridSmall size={24} />,
   },
   {
     color: "violet",
-    label: "Popular",
+    value: "Popular",
     viewlistType: "popular",
     icon: <BsStars size={16} />,
   },
   {
     color: "red",
-    label: "Liked",
+    value: "Liked",
     viewlistType: "liked",
     icon: <RiHeartFill size={16} />,
   },
   {
     color: "green",
-    label: "Used Before",
+    value: "Used Before",
     viewlistType: "used-before",
     icon: <GiAnticlockwiseRotation size={16} />,
   },
   {
     color: "yellow",
-    label: "Premium",
+    value: "Premium",
     viewlistType: "premium",
     icon: <TbCrown size={20} />,
   },
@@ -51,12 +51,14 @@ interface IComponentsModalTabs {
 }
 
 const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
-  const [activeTab, setActiveTab] = useState(0)
+  const [activeTab, setActiveTab] = useState<string | null>("All")
   const session = useSession()
   return (
     <Tabs
+      value={activeTab}
+      onTabChange={setActiveTab}
       styles={{
-        body: {
+        panel: {
           paddingTop: "0",
           height: "calc(100% - 40px)",
         },
@@ -65,24 +67,31 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
           display: "flex",
           flexDirection: "column",
         },
-        tabActive: {
-          fontWeight: 700,
-        },
       }}
-      active={activeTab}
-      onTabChange={setActiveTab}
     >
-      {ComponentsModalTabsArr.map((tab, i) =>
-        tab.viewlistType !== "liked" || session.userId ? (
-          <Tabs.Tab
-            key={i}
-            color={tab.color}
-            label={
+      <Tabs.List>
+        {ComponentsModalTabsArr.map((tab, i) =>
+          tab.viewlistType !== "liked" || session.userId ? (
+            <Tabs.Tab
+              sx={() => ({
+                "&:focus": {
+                  outline: "none",
+                },
+              })}
+              key={i}
+              color={tab.color}
+              icon={
+                <ThemeIcon variant="light" size="sm" color={tab.color}>
+                  {tab.icon}
+                </ThemeIcon>
+              }
+              value={tab.value}
+            >
               <Text
                 size="sm"
                 sx={() => ({
                   "&::before": {
-                    content: `"${tab.label}"`,
+                    content: `"${tab.value}"`,
                     fontWeight: 700,
                     height: "0",
                     overflow: "hidden",
@@ -91,15 +100,21 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
                   },
                 })}
               >
-                {tab.label}
+                {tab.value}
               </Text>
-            }
-            icon={tab.icon}
-          >
+            </Tabs.Tab>
+          ) : (
+            <></>
+          )
+        )}
+      </Tabs.List>
+      {ComponentsModalTabsArr.map((tab, i) =>
+        tab.viewlistType !== "liked" || session.userId ? (
+          <Tabs.Panel value={tab.value}>
             <Suspense fallback={<LoadingOverlay visible={true} />}>
               <ViewList type={tab.viewlistType} />
             </Suspense>
-          </Tabs.Tab>
+          </Tabs.Panel>
         ) : (
           <></>
         )
