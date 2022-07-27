@@ -21,7 +21,7 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
         }}
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
-        header={<LayoutHeader px={16} fixed menuOpened={opened} setMenuOpened={setOpened} />}
+        header={<LayoutHeader fixed menuOpened={opened} setMenuOpened={setOpened} />}
         footer={<Footer height={0}>Footer</Footer>}
       >
         {children}

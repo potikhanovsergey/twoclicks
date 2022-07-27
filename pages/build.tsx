@@ -37,23 +37,22 @@ const BuildPage = () => {
   return (
     <>
       <LayoutHeader menuOpened={menuOpened} setMenuOpened={setMenuOpened} fixed />
-      <MantineProvider theme={{}}>
-        <main className={classes.main}>
-          {isCanvasEmpty ? (
-            <Stack>
-              <Text size="xl">The portfolio is empty now :(</Text>
-              <Button
-                color="blue"
-                onClick={() =>
-                  setModalContext((prevValue: IModalContextValue) => ({
-                    ...prevValue,
-                    canvasSectionsModal: true,
-                  }))
-                }
-              >
-                Add section
-              </Button>
-              <Button
+      <main className={classes.main}>
+        {isCanvasEmpty ? (
+          <Stack>
+            <Text size="xl">The portfolio is empty now :(</Text>
+            <Button
+              color="blue"
+              onClick={() =>
+                setModalContext((prevValue: IModalContextValue) => ({
+                  ...prevValue,
+                  canvasSectionsModal: true,
+                }))
+              }
+            >
+              Add section
+            </Button>
+            {/* <Button
                 color="red"
                 onClick={() =>
                   setModalContext((prevValue: IModalContextValue) => ({
@@ -63,15 +62,14 @@ const BuildPage = () => {
                 }
               >
                 Add components
-              </Button>
-            </Stack>
-          ) : (
-            <Suspense fallback={<Loader />}>
-              <Builder />
-            </Suspense>
-          )}
-        </main>
-      </MantineProvider>
+              </Button> */}
+          </Stack>
+        ) : (
+          <Suspense fallback={<Loader />}>
+            <Builder />
+          </Suspense>
+        )}
+      </main>
       <CanvasComponentsModal />
       <CanvasSectionsModal />
     </>

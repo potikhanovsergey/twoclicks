@@ -9,6 +9,7 @@ import {
   LoadingOverlay,
   Global,
   createEmotionCache,
+  createStyles,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -31,6 +32,12 @@ declare module "@mantine/core" {
 }
 
 const emotionCache = createEmotionCache({ key: "mantine" })
+
+const useStyles = createStyles((theme) => ({
+  container: {
+    width: "100%",
+  },
+}))
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -69,6 +76,8 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   useHotkeys([["mod+J", () => toggleColorScheme()]])
 
+  const { classes } = useStyles()
+
   const CustomTheme: MantineThemeOverride = {
     colorScheme,
     fontFamily: "'Nunito', sans-serif;",
@@ -103,6 +112,21 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
     },
     primaryColor: "primary",
     primaryShade: 5,
+    components: {
+      Container: {
+        defaultProps: {
+          sizes: {
+            xs: 540,
+            sm: 720,
+            md: 960,
+            lg: 1280,
+            xl: 1400,
+          },
+          className: classes.container,
+        },
+      },
+    },
+    cursorType: "pointer",
   }
 
   useEffect(() => {

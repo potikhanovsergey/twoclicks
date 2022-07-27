@@ -32,7 +32,6 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
         navbar={<ProfileNavbar menuOpened={menuOpened} />}
         header={
           <LayoutHeader
-            px={0}
             hasLogo={false}
             style={{ left: "var(--mantine-navbar-width)" }}
             fixed

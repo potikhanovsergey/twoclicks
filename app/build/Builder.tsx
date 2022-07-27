@@ -1,5 +1,5 @@
 import { useTranslation } from "next-i18next"
-import { Stack, Button } from "@mantine/core"
+import { Stack, Button, createStyles, ScrollArea, Container, useMantineTheme } from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { inflateBase64, recursiveTagName } from "helpers"
@@ -10,7 +10,38 @@ import { useMutation, useQuery } from "@blitzjs/rpc"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import getLatestPortfolio from "app/portfolios/queries/getLatestPortfolio"
+import BuilderHeader from "./BuilderHeader"
 
+const useStyles = createStyles((theme) => ({
+  builder: {
+    width: "100%",
+    height: "calc(100vh - var(--build-header-height))",
+    display: "flex",
+    flexFlow: "column",
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+  },
+  canvasContainer: {
+    width: "100%",
+    height: "100%",
+    position: "relative",
+    padding: "16px 0",
+  },
+  canvasScroll: {
+    width: "100%",
+    height: "100%",
+  },
+  canvas: {
+    backgroundColor: theme.white,
+    boxShadow: theme.shadows.md,
+    height: "100%",
+  },
+  header: {
+    minHeight: "40px",
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
+    boxShadow: theme.shadows.md,
+  },
+}))
 const BuilderBlocks = observer(() => {
   return (
     <>
@@ -57,48 +88,42 @@ const Builder = () => {
       const inflatedData = inflateBase64(latestPortfolio.data)
       const dataBlocks = inflatedData as BuildingBlock[]
       BuildStore.data.blocks = dataBlocks
-      console.log(BuildStore.data.blocks)
     }
   }, [latestPortfolio])
+
+  const { classes } = useStyles()
   return (
-    <Stack>
-      <h1>Builder</h1>
-      <BuilderBlocks />
-      <Button
-        onClick={() =>
-          setModalContext((prevValue: IModalContextValue) => ({
-            ...prevValue,
-            canvasComponentsModal: true,
-          }))
-        }
-      >
-        Add component
-      </Button>
-      <Button
-        color="red"
-        onClick={() =>
-          setModalContext((prevValue: IModalContextValue) => ({
-            ...prevValue,
-            canvasSectionsModal: true,
-          }))
-        }
-      >
-        Add section
-      </Button>
-      <Button
-        onClick={() => {
-          BuildStore.changeProp({
-            id: "21312320",
-            newProps: {
-              color: "red",
-              size: "xl",
+    <div className={classes.builder}>
+      <BuilderHeader className={classes.header} />
+      <ScrollArea
+        className={classes.canvasScroll}
+        styles={{
+          viewport: {
+            "> div": {
+              height: "100%",
             },
-          })
+          },
         }}
       >
-        Change prop
-      </Button>
-    </Stack>
+        <Container size="lg" className={classes.canvasContainer}>
+          <Stack spacing={0} className={classes.canvas}>
+            <BuilderBlocks />
+            <Button
+              radius="xs"
+              color="red"
+              onClick={() =>
+                setModalContext((prevValue: IModalContextValue) => ({
+                  ...prevValue,
+                  canvasSectionsModal: true,
+                }))
+              }
+            >
+              Add section
+            </Button>
+          </Stack>
+        </Container>
+      </ScrollArea>
+    </div>
   )
 }
 

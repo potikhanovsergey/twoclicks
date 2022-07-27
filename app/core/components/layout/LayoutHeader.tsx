@@ -1,4 +1,12 @@
-import { Burger, Group, Header, MediaQuery, Skeleton, useMantineColorScheme } from "@mantine/core"
+import {
+  Burger,
+  Container,
+  Group,
+  Header,
+  MediaQuery,
+  Skeleton,
+  useMantineColorScheme,
+} from "@mantine/core"
 import { CSSProperties, Dispatch, SetStateAction, Suspense } from "react"
 import HeaderProfile from "./HeaderProfile"
 import Logo from "../Logo"
@@ -24,7 +32,6 @@ const LayoutHeader = ({
   fixed = false,
   position,
   style,
-  px = 16,
   hasLogo = true,
 }: ILayoutHeader) => {
   const { colorScheme } = useMantineColorScheme()
@@ -38,10 +45,10 @@ const LayoutHeader = ({
       height="var(--build-header-height)"
       fixed={fixed}
       py={0}
-      px={px}
       style={style}
     >
-      <div
+      <Container
+        size="xl"
         style={{
           display: "flex",
           alignItems: "center",
@@ -60,18 +67,13 @@ const LayoutHeader = ({
             mr="xl"
           />
         </MediaQuery>
-        <Group
-          px="xl"
-          position={hasLogo ? "apart" : "right"}
-          align="center"
-          style={{ width: "100%" }}
-        >
-          {hasLogo ? <Logo width={132} /> : <></>}
+        <Group position={hasLogo ? "apart" : "right"} align="center" style={{ width: "100%" }}>
+          {hasLogo ? <Logo width={156} /> : <></>}
           <Suspense fallback={<Skeleton height={32} width={200} radius="md" animate />}>
             <HeaderProfile />
           </Suspense>
         </Group>
-      </div>
+      </Container>
     </Header>
   )
 }
