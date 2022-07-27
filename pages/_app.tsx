@@ -169,16 +169,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   // ### MODALS END ###
 
-  // pushes user to previously chosen locale if it doesn't match
-  const [storageLocale] = useLocalStorage({ key: "locale", defaultValue: i18n?.language || "ru" })
-  useEffect(() => {
-    if (storageLocale !== router.locale) {
-      void router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
-        locale: storageLocale,
-      })
-    }
-  }, [])
-
   // ### NEXT LAYOUT SYSTEM ###
   const getLayout = Component.getLayout || ((page) => page)
   return (

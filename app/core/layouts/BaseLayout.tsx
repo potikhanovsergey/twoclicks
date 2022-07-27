@@ -17,6 +17,8 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
           main: {
             minHeight: "calc(100vh - var(--home-header-height))",
             paddingTop: "calc(var(--home-header-height, 0px) + 16px)",
+            paddingLeft: 0,
+            paddingRight: 0,
           },
         }}
         navbarOffsetBreakpoint="sm"
