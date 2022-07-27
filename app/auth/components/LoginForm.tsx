@@ -14,6 +14,9 @@ import {
 } from "@mantine/core"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
+import { email } from "../validations"
+import { hideNotification, showNotification } from "@mantine/notifications"
+import { useEffect } from "react"
 
 type LoginFormProps = {
   onSuccess?: () => void
@@ -52,15 +55,35 @@ export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
         await loginMutation(values)
         onSuccess && onSuccess()
       } catch (error: any) {
+        let message
+        let title
         if (error instanceof AuthenticationError) {
-          return "Sorry, those credentials are invalid"
+          message = "Sorry, those credentials are invalid"
+          title = "Authentication Error"
         } else {
-          return "Sorry, we had an unexpected error. Please try again. - " + error.toString()
+          message = "Sorry, we had an unexpected error. Please try again. - " + error.toString()
+          title = "Unexpected Error"
         }
+        showNotification({
+          id: "auth-error",
+          autoClose: false,
+          title,
+          message,
+          color: "red",
+          loading: false,
+        })
+        return
       }
     }
   }
   // AUTHORIZATION ENDS
+
+  useEffect(() => {
+    return () => {
+      hideNotification("auth-error")
+    }
+  }, [])
+
   return (
     <>
       <Divider
