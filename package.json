@@ -23,8 +23,8 @@
     ]
   },
   "dependencies": {
-    "@blitzjs/auth": "2.0.0-alpha.57",
-    "@blitzjs/next": "2.0.0-alpha.57",
+    "@blitzjs/auth": "2.0.0-alpha.59",
+    "@blitzjs/next": "2.0.0-alpha.59",
     "@blitzjs/rpc": "alpha",
     "@emotion/react": "11.9.3",
     "@emotion/server": "11.4.0",
@@ -35,7 +35,7 @@
     "@mantine/next": "5.0.0",
     "@mantine/notifications": "5.0.0",
     "@prisma/client": "4.1.0",
-    "blitz": "2.0.0-alpha.57",
+    "blitz": "2.0.0-alpha.59",
     "cookies-next": "2.1.1",
     "mobx": "6.6.1",
     "mobx-react-lite": "3.4.0",
