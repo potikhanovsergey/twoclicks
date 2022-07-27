@@ -40,7 +40,7 @@ const LayoutHeader = ({
     <Header
       position={position}
       sx={(theme) => ({
-        backgroundColor: dark ? theme.colors.dark[8] : theme.colors.gray[0],
+        backgroundColor: dark ? theme.colors.dark[7] : theme.colors.gray[0],
       })}
       height="var(--build-header-height)"
       fixed={fixed}

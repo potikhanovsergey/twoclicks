@@ -18,7 +18,7 @@ const useStyles = createStyles((theme) => ({
     height: "calc(100vh - var(--build-header-height))",
     display: "flex",
     flexFlow: "column",
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[2],
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
   canvasContainer: {
@@ -34,12 +34,12 @@ const useStyles = createStyles((theme) => ({
   },
   canvas: {
     backgroundColor: theme.white,
-    boxShadow: theme.shadows.md,
+    boxShadow: theme.shadows.sm,
     height: "100%",
   },
   header: {
     minHeight: "40px",
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.colors.gray[1],
     boxShadow: theme.shadows.md,
   },
 }))

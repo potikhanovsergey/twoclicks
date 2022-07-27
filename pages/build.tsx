@@ -20,12 +20,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     justifyContent: "center",
     paddingTop: "var(--build-header-height)",
   },
-
-  canvas: {
-    // assign ref to element
-    ref: getRef("canvas"),
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[8] : theme.white,
-  },
 }))
 
 const BuildPage = () => {
