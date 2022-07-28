@@ -70,6 +70,8 @@ const BuildPage = () => {
   )
 }
 
+BuildPage.suppressFirstRenderFlicker = true
+
 export async function getStaticProps({ locale }: { locale: string }) {
   return {
     props: {

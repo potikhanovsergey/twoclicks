@@ -61,6 +61,7 @@ const ProfileStatistics = () => {
 }
 
 ProfileStatistics.getLayout = getProfileLayout()
+ProfileStatistics.suppressFirstRenderFlicker = true
 
 export default ProfileStatistics
 

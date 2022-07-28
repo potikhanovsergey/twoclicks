@@ -49,6 +49,7 @@ const LanguageSwitcher = () => {
           }}
           onClose={menuOpenedHandlers.close}
           position="bottom"
+          width={128}
         >
           <Menu.Target>
             <ActionIcon

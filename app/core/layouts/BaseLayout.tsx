@@ -16,7 +16,7 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
         styles={{
           main: {
             minHeight: "calc(100vh - var(--home-header-height))",
-            paddingTop: "calc(var(--home-header-height, 0px) + 16px)",
+            paddingTop: "calc(var(--home-header-height, 0px))",
             paddingLeft: 0,
             paddingRight: 0,
           },
@@ -30,6 +30,10 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
       </AppShell>
     </>
   )
+}
+
+export function getBaseLayout() {
+  return (page: JSX.Element) => <BaseLayout>{page}</BaseLayout>
 }
 
 export default BaseLayout

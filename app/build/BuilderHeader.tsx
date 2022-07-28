@@ -24,7 +24,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
     <Center className={className}>
       <Container size="xl">
         <Group style={{ width: "100%" }} position="apart">
-          <Group spacing={24}>
+          <Group spacing={32}>
             <Group spacing={4}>
               <Anchor color="blue" target="_blank">
                 https://cubeproject.com/p/potikhanov
@@ -39,7 +39,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
                 )}
               </CopyButton>
             </Group>
-            <Switch label="Publish" radius="sm" color="violet" />
+            <Switch label="Publish" radius="xl" color="violet" />
             <Group spacing={8} align="center">
               <Text size="sm">Palette:</Text>
               <Group spacing={4}>

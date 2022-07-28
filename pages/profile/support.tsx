@@ -124,6 +124,7 @@ const ProfileSupport = () => {
 }
 
 ProfileSupport.getLayout = getProfileLayout()
+ProfileSupport.suppressFirstRenderFlicker = true
 
 export default ProfileSupport
 
