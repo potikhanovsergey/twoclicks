@@ -1,5 +1,16 @@
 import { useTranslation } from "next-i18next"
-import { Stack, Button, createStyles, ScrollArea, Container, useMantineTheme } from "@mantine/core"
+import {
+  Stack,
+  Button,
+  createStyles,
+  ScrollArea,
+  Container,
+  Text,
+  Modal,
+  Box,
+  useMantineTheme,
+  Center,
+} from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { inflateBase64, recursiveTagName } from "helpers"
@@ -12,6 +23,8 @@ import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import getLatestPortfolio from "app/portfolios/queries/getLatestPortfolio"
 import BuilderHeader from "./BuilderHeader"
 import Onboarding from "./Onboarding"
+import Link from "next/link"
+import { useSession } from "@blitzjs/auth"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -97,6 +110,11 @@ const Builder = () => {
   }, [latestPortfolio])
 
   const { classes } = useStyles()
+  const theme = useMantineTheme()
+
+  const { colorScheme } = theme
+  const dark = colorScheme === "dark"
+  const session = useSession()
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
@@ -112,6 +130,8 @@ const Builder = () => {
       >
         <Container size="xl" px={64} py={16} className={classes.canvasContainer}>
           <Stack spacing={0} className={classes.canvas}>
+            <Text>{BuildStore.sectionsCount}</Text>
+            <Text>{JSON.stringify(BuildStore.data.blocks)}</Text>
             <BuilderBlocks />
             <Button
               radius="xs"
@@ -126,11 +146,51 @@ const Builder = () => {
               Add section
             </Button>
           </Stack>
-          <div className={classes.onboarding}>
-            <Onboarding />
-          </div>
+          {session.userId ? (
+            <div className={classes.onboarding}>
+              <Onboarding />
+            </div>
+          ) : (
+            <></>
+          )}
         </Container>
       </ScrollArea>
+      {BuildStore.sectionsCount >= 3 && !session.userId && (
+        <Modal
+          opened={true}
+          onClose={() => 1}
+          overlayColor={dark ? theme.colors.dark[9] : theme.colors.dark[9]}
+          overlayOpacity={0.6}
+          overlayBlur={1}
+          withCloseButton={false}
+          zIndex={99}
+          centered
+          radius="md"
+          styles={{
+            root: {
+              top: "var(--build-header-height)",
+            },
+            overlay: {
+              top: "var(--build-header-height)",
+              "> div": {
+                top: 0,
+              },
+            },
+          }}
+        >
+          <Stack align="center">
+            <Text weight="bold" size="lg">
+              Please, register or authorize to continue{" "}
+              <Text component="span" size={24}>
+                🥺
+              </Text>
+            </Text>
+            <Link passHref href="/auth/">
+              <Button color="violet">Go to the auth page</Button>
+            </Link>
+          </Stack>
+        </Modal>
+      )}
     </div>
   )
 }

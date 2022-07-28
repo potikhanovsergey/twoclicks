@@ -25,44 +25,14 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 const BuildPage = () => {
   // const { t } = useTranslation('pagesBuild');
   const { classes } = useStyles()
-  const [isCanvasEmpty] = useState(false)
-  const [, setModalContext = () => ({})] = useContext(ModalContext)
   const [menuOpened, setMenuOpened] = useState(false)
   return (
     <>
       <LayoutHeader menuOpened={menuOpened} setMenuOpened={setMenuOpened} fixed />
       <main className={classes.main}>
-        {isCanvasEmpty ? (
-          <Stack>
-            <Text size="xl">The portfolio is empty now :(</Text>
-            <Button
-              color="blue"
-              onClick={() =>
-                setModalContext((prevValue: IModalContextValue) => ({
-                  ...prevValue,
-                  canvasSectionsModal: true,
-                }))
-              }
-            >
-              Add section
-            </Button>
-            {/* <Button
-                color="red"
-                onClick={() =>
-                  setModalContext((prevValue: IModalContextValue) => ({
-                    ...prevValue,
-                    canvasComponentsModal: true,
-                  }))
-                }
-              >
-                Add components
-              </Button> */}
-          </Stack>
-        ) : (
-          <Suspense fallback={<Loader />}>
-            <Builder />
-          </Suspense>
-        )}
+        <Suspense fallback={<Loader />}>
+          <Builder />
+        </Suspense>
       </main>
       <CanvasComponentsModal />
       <CanvasSectionsModal />

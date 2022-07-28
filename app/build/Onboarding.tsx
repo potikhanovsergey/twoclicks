@@ -20,6 +20,7 @@ import { AiOutlineEdit } from "react-icons/ai"
 import { BsPalette } from "react-icons/bs"
 import { MdOutlineAddBox, MdOutlinePreview } from "react-icons/md"
 import { HiOutlineTemplate } from "react-icons/hi"
+import { useSession } from "@blitzjs/auth"
 
 const Onboarding = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -27,12 +28,11 @@ const Onboarding = () => {
   const { hovered: tooltipHovered, ref: tooltipRef } = useHover<HTMLDivElement>()
   const [tooltipOpened, setTooltipOpened] = useState(false)
   const theme = useMantineTheme()
-  const { colorScheme } = theme
-  const dark = colorScheme === "dark"
 
   useEffect(() => {
     setTooltipOpened(tooltipHovered && !popoverOpened)
   }, [tooltipHovered, popoverOpened])
+
   return (
     <>
       <svg width="0" height="0">
