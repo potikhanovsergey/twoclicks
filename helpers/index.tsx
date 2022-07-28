@@ -70,3 +70,26 @@ export const deflate = (data) => {
 export const inflateBase64 = (str: string) => {
   return JSON.parse(zlib.inflateSync(Buffer.from(str, "base64")).toString())
 }
+const getElementType = (value) => {
+  if (typeof value === "string") return value
+  if (typeof value === "object" && value?.displayName) return value.displayName
+  return null
+}
+
+export function serialize(element: JSX.Element) {
+  const replacer = (key, value) => {
+    switch (key) {
+      case "_owner":
+      case "_store":
+      case "ref":
+      case "key":
+        return
+      case "type":
+        return getElementType(value)
+      default:
+        return value
+    }
+  }
+
+  return JSON.stringify(element, replacer)
+}
