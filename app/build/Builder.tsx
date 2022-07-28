@@ -10,6 +10,8 @@ import {
   Box,
   useMantineTheme,
   Center,
+  ThemeIcon,
+  Group,
 } from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
@@ -25,6 +27,7 @@ import BuilderHeader from "./BuilderHeader"
 import Onboarding from "./Onboarding"
 import Link from "next/link"
 import { useSession } from "@blitzjs/auth"
+import { MdOutlineEmojiNature } from "react-icons/md"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -155,42 +158,42 @@ const Builder = () => {
           )}
         </Container>
       </ScrollArea>
-      {BuildStore.sectionsCount >= 3 && !session.userId && (
-        <Modal
-          opened={true}
-          onClose={() => 1}
-          overlayColor={dark ? theme.colors.dark[9] : theme.colors.dark[9]}
-          overlayOpacity={0.6}
-          overlayBlur={1}
-          withCloseButton={false}
-          zIndex={99}
-          centered
-          radius="md"
-          styles={{
-            root: {
-              top: "var(--build-header-height)",
+      <Modal
+        opened={BuildStore.sectionsCount >= 3 && !session.userId}
+        onClose={() => 1}
+        overlayColor={dark ? theme.colors.dark[9] : theme.colors.dark[9]}
+        overlayOpacity={0.6}
+        overlayBlur={1}
+        withCloseButton={false}
+        zIndex={99}
+        centered
+        radius="md"
+        styles={{
+          root: {
+            top: "var(--build-header-height)",
+          },
+          overlay: {
+            top: "var(--build-header-height)",
+            "> div": {
+              top: 0,
             },
-            overlay: {
-              top: "var(--build-header-height)",
-              "> div": {
-                top: 0,
-              },
-            },
-          }}
-        >
-          <Stack align="center">
+          },
+        }}
+      >
+        <Stack align="center">
+          <Group align="center" spacing={8} noWrap>
             <Text weight="bold" size="lg">
               Please, register or authorize to continue{" "}
-              <Text component="span" size={24}>
-                🥺
-              </Text>
             </Text>
-            <Link passHref href="/auth/">
-              <Button color="violet">Go to the auth page</Button>
-            </Link>
-          </Stack>
-        </Modal>
-      )}
+            <ThemeIcon color="violet" variant="light">
+              <MdOutlineEmojiNature size={24} />
+            </ThemeIcon>
+          </Group>
+          <Link passHref href="/auth/">
+            <Button color="violet">Go to the auth page</Button>
+          </Link>
+        </Stack>
+      </Modal>
     </div>
   )
 }
