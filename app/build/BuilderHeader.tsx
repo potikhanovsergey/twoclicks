@@ -1,3 +1,4 @@
+import { useSession } from "@blitzjs/auth"
 import {
   ActionIcon,
   Anchor,
@@ -7,14 +8,40 @@ import {
   Container,
   CopyButton,
   Group,
+  Loader,
   Switch,
   Text,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
-import React, { useState } from "react"
+import React, { Suspense, useState } from "react"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { FaSave } from "react-icons/fa"
+
+const SaveButton = () => {
+  const session = useSession()
+  return (
+    <Tooltip
+      label="Authorize to save"
+      withArrow
+      position="bottom"
+      offset={8}
+      disabled={Boolean(session.userId)}
+    >
+      <span>
+        <Button
+          disabled={!session.userId}
+          variant={session.userId ? "gradient" : "default"}
+          gradient={{ from: "violet", to: "teal", deg: 35 }}
+          size="xs"
+          leftIcon={<FaSave />}
+        >
+          Сохранить изменения
+        </Button>
+      </span>
+    </Tooltip>
+  )
+}
 
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
@@ -52,14 +79,9 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             </Group>
           </Group>
           <Group spacing={4}>
-            <Button
-              variant="gradient"
-              gradient={{ from: "violet", to: "teal", deg: 35 }}
-              size="xs"
-              leftIcon={<FaSave />}
-            >
-              Сохранить изменения
-            </Button>
+            <Suspense fallback={<Loader />}>
+              <SaveButton />
+            </Suspense>
           </Group>
         </Group>
       </Container>
