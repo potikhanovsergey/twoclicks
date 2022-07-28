@@ -7,7 +7,6 @@ import {
   ThemeIcon,
   Text,
   Button,
-  Skeleton,
   useMantineTheme,
 } from "@mantine/core"
 import { FaChevronDown, FaSignOutAlt, FaBook } from "react-icons/fa"
@@ -109,7 +108,13 @@ function HeaderProfile() {
           </Button>
         </Link>
       )}
-      <Menu closeOnClickOutside position="bottom-end" closeOnItemClick={false} width="256px">
+      <Menu
+        closeOnClickOutside
+        position="bottom-end"
+        closeOnItemClick={false}
+        width="256px"
+        radius="md"
+      >
         <Menu.Target>
           <Group
             style={{ cursor: "pointer" }}

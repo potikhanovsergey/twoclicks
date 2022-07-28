@@ -11,6 +11,7 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import getLatestPortfolio from "app/portfolios/queries/getLatestPortfolio"
 import BuilderHeader from "./BuilderHeader"
+import Onboarding from "./Onboarding"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -25,8 +26,6 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     height: "100%",
     position: "relative",
-    paddingTop: "16px",
-    paddingBottom: "16px",
   },
   canvasScroll: {
     width: "100%",
@@ -41,6 +40,11 @@ const useStyles = createStyles((theme) => ({
     minHeight: "40px",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.colors.gray[1],
     boxShadow: theme.shadows.md,
+  },
+  onboarding: {
+    position: "absolute",
+    left: "16px",
+    bottom: "16px",
   },
 }))
 const BuilderBlocks = observer(() => {
@@ -106,7 +110,7 @@ const Builder = () => {
           },
         }}
       >
-        <Container size="lg" className={classes.canvasContainer}>
+        <Container size="xl" px={64} py={16} className={classes.canvasContainer}>
           <Stack spacing={0} className={classes.canvas}>
             <BuilderBlocks />
             <Button
@@ -122,6 +126,9 @@ const Builder = () => {
               Add section
             </Button>
           </Stack>
+          <div className={classes.onboarding}>
+            <Onboarding />
+          </div>
         </Container>
       </ScrollArea>
     </div>

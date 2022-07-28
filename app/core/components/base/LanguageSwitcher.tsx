@@ -26,7 +26,7 @@ const LanguageSwitcher = () => {
     } else {
       setTooltipOpened(false)
     }
-  }, [tooltipHovered])
+  }, [tooltipHovered, menuOpened])
 
   return (
     <Tooltip
