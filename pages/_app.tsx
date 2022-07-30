@@ -1,6 +1,6 @@
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
-import React, { useEffect, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import {
   MantineProvider,
   ColorScheme,
@@ -10,6 +10,7 @@ import {
   Global,
   createEmotionCache,
   createStyles,
+  Loader,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -190,7 +191,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                 visible={loadingOverlay}
                 loader={<CubeLoader size={256} />}
               />
-              {getLayout(<Component {...pageProps} />)}
+              <Suspense fallback={<Loader />}>{getLayout(<Component {...pageProps} />)}</Suspense>
             </ModalContext.Provider>
           </ColorSchemeProvider>
         </NotificationsProvider>

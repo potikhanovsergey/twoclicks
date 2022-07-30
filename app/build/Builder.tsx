@@ -81,36 +81,6 @@ const BuilderBlocks = observer(() => {
 const Builder = () => {
   // const { t } = useTranslation('pagesBuild');
   const [, setModalContext = () => ({})] = useContext(ModalContext)
-  const [latestPortfolio, { refetch: refetchLatestPortfolio }] = useQuery(
-    getLatestPortfolio,
-    null,
-    { enabled: false }
-  )
-  const currentUser = useCurrentUser()
-  const [createPortfolioMutation] = useMutation(createPortfolio)
-
-  // ### Create user portfolio if it doesn't exist
-  useEffect(() => {
-    const createPortfolio = async () => {
-      await createPortfolioMutation({ firstTime: true })
-      void refetchLatestPortfolio()
-    }
-    if (currentUser && !currentUser.hasCreatedPortfolio) {
-      if (!currentUser.hasCreatedPortfolio) {
-        void createPortfolio()
-      } else {
-        void refetchLatestPortfolio()
-      }
-    }
-  }, [currentUser])
-
-  useEffect(() => {
-    if (latestPortfolio?.data) {
-      const inflatedData = inflateBase64(latestPortfolio.data)
-      const dataBlocks = inflatedData as BuildingBlock[]
-      BuildStore.data.blocks = dataBlocks
-    }
-  }, [latestPortfolio])
 
   const { classes } = useStyles()
   const theme = useMantineTheme()
