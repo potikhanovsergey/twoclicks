@@ -211,6 +211,21 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
               color: theme.white,
             },
           },
+          "::-moz-selection": {
+            background: theme.colors.violet[4],
+            color: theme.white,
+            "-webkit-text-fill-color": theme.white,
+          },
+          "::-webkit-selection": {
+            background: theme.colors.violet[4],
+            color: theme.white,
+            "-webkit-text-fill-color": theme.white,
+          },
+          "::selection": {
+            background: theme.colors.violet[4],
+            color: theme.white,
+            "-webkit-text-fill-color": theme.white,
+          },
           body: {
             backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
             color: colorScheme === "dark" ? theme.white : theme.black,
