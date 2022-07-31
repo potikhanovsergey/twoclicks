@@ -93,7 +93,6 @@ function HeaderProfile() {
   const [logoutMutation] = useMutation(logout)
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
   const router = useRouter()
-  console.log(router)
   return (
     <Group position="center">
       {!user && (

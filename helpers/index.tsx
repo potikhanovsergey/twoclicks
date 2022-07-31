@@ -7,6 +7,7 @@ import {
   TabProps,
   Text,
   TextProps,
+  Box,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React, { ReactNode, useRef } from "react"
@@ -37,6 +38,29 @@ export const canvasBuildingBlocks = {
   ),
 }
 
+export const WithEditable = ({ children, parentID }) => {
+  return (
+    <Box
+      contentEditable
+      suppressContentEditableWarning
+      component="span"
+      sx={({}) => ({ ":empty": { paddingRight: "16px" }, display: "inline-block" })}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" && !e.target?.innerText?.length) {
+          e.preventDefault()
+        }
+      }}
+      onBlur={(e) => {
+        if (e?.target?.innerText) {
+          BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerText } })
+        }
+      }}
+    >
+      {children}
+    </Box>
+  )
+}
+
 export const recursiveTagName = ({
   element,
   shouldFlat = false,
@@ -49,22 +73,24 @@ export const recursiveTagName = ({
 }) => {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
-  if (typeof element === "string") return <>{element}</>
+  if (typeof element === "string") return <WithEditable parentID={parentID}>{element}</WithEditable>
 
   const TagName = canvasBuildingBlocks[element.type] // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = element.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
-  const children: ReactNode | undefined = props.children
-    ? typeof props.children === "string"
-      ? props.children
-      : props.children.map((child: ICanvasElement) => {
-          const key = shortid.generate()
-          return React.cloneElement(
-            recursiveTagName({ element: child, shouldFlat, parentID: element.id }),
-            { key }
-          ) // looking for array of children in recursion;
-        })
-    : undefined
+  const children: ReactNode | undefined = props.children ? (
+    typeof props.children === "string" ? (
+      <WithEditable parentID={parentID}>{props.children}</WithEditable>
+    ) : (
+      props.children.map((child: ICanvasElement) => {
+        const key = shortid.generate()
+        return React.cloneElement(
+          recursiveTagName({ element: child, shouldFlat, parentID: element.id }),
+          { key }
+        ) // looking for array of children in recursion;
+      })
+    )
+  ) : undefined
 
   if (shouldFlat) {
     BuildStore.pushFlatten(element)

@@ -1,4 +1,4 @@
-import { ActionIcon, Group, Popover } from "@mantine/core"
+import { ActionIcon, Box, Group, Popover } from "@mantine/core"
 import React, {
   cloneElement,
   FormEventHandler,
@@ -72,8 +72,13 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
       width="auto"
     >
       <Popover.Target>
-        <div
+        <Box
           style={{ width: "fit-content" }}
+          // sx={({}) => ({
+          //   ".builder-editable span": {
+          //     paddingRight: "1px",
+          //   },
+          // })}
           // contentEditable
           // suppressContentEditableWarning
           // ref={editableRef}
@@ -97,39 +102,41 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
                 if (!popupHovered) closeEdit()
               }, 300)
             },
-            contentEditable: true,
-            suppressContentEditableWarning: true,
             ref: editableRef,
-            onBlur: (e: any) => {
-              BuildStore.changeProp({
-                id,
-                newProps: { children: editableRef.current?.innerText || e.target.innerText },
-              })
-            },
-            onBeforeInput: (e: any) => {
-              if (editableRef.current) {
-                editableRef.current.innerText = e.target.innerText
-              }
-            },
-            onKeyDown: (e: any) => {
-              if (e.code !== "Space") {
-                if (e.keyCode == 8 || e.keyCode == 46) {
-                  // delete and del keys
-                  if (
-                    editableRef?.current?.innerText?.length &&
-                    editableRef?.current?.innerText?.length < 1
-                  ) {
-                    // last element is empty
-                    e.preventDefault()
-                  }
-                }
-                return
-              }
-              e.preventDefault()
-              document.execCommand("insertText", false, " ")
-            },
+            // contentEditable: true,
+            // suppressContentEditableWarning: true,
+            // ref: editableRef,
+            // onBlur: (e: any) => {
+            //   BuildStore.changeProp({
+            //     id,
+            //     newProps: { children: editableRef.current?.innerText || e.target.innerText },
+            //   })
+            // },
+            // onBeforeInput: (e: any) => {
+            //   if (editableRef.current) {
+            //     editableRef.current.innerText = e.target.innerText
+            //   }
+            // },
+            // onKeyDown: (e: any) => {
+            //   if (e.code !== "Space") {
+            //     if (e.keyCode == 8 || e.keyCode == 46) {
+            //       // delete and del keys
+            //       if (
+            //         editableRef?.current?.innerText?.length &&
+            //         editableRef?.current?.innerText?.length < 1
+            //       ) {
+            //         // last element is empty
+            //         e.preventDefault()
+            //       }
+            //     }
+            //     return
+            //   }
+            //   e.preventDefault()
+            //   document.execCommand("insertText", false, " ")
+            // },
+            // className: "builder-editable",
           })}
-        </div>
+        </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>
         <Group
