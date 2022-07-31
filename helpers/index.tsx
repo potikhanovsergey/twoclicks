@@ -20,14 +20,18 @@ import zlib from "zlib"
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
 export const canvasBuildingBlocks = {
-  button: dynamic<CanvasButtonProps>(() => import("@mantine/core").then((module) => module.Button)),
-  stack: dynamic<StackProps>(() => import("@mantine/core").then((module) => module.Stack)),
-  group: dynamic<GroupProps>(() => import("@mantine/core").then((module) => module.Group)),
-  textInput: dynamic<TextInputProps>(() =>
+  "@mantine/core/button": dynamic<CanvasButtonProps>(() =>
+    import("@mantine/core").then((module) => module.Button)
+  ),
+  "@mantine/core/stack": dynamic<StackProps>(() =>
+    import("@mantine/core").then((module) => module.Stack)
+  ),
+  "@mantine/core/group": dynamic<GroupProps>(() =>
+    import("@mantine/core").then((module) => module.Group)
+  ),
+  "@mantine/core/textInput": dynamic<TextInputProps>(() =>
     import("@mantine/core").then((module) => module.TextInput)
   ),
-  tabs: dynamic<TabsProps>(() => import("@mantine/core").then((module) => module.Tabs)),
-  tab: dynamic<TabProps>(() => import("@mantine/core").then((module) => module.Tabs.Tab)),
   "@mantine/core/text": dynamic<TextProps>(() =>
     import("@mantine/core").then((module) => module.Text)
   ),
@@ -42,7 +46,7 @@ export const recursiveTagName = (
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
   if (typeof element === "string") return <>{element}</>
 
-  const TagName = canvasBuildingBlocks[element.component] // if neither of the above, then the element is a block with children and the recursive call is needed.
+  const TagName = canvasBuildingBlocks[element.type] // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = element.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
   const children: ReactNode | undefined = props.children

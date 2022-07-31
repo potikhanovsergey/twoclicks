@@ -10,24 +10,24 @@ import { ButtonsList } from "./mocks"
 
 // "blitz db seed" to push buttons to database building blocks
 const seed = async () => {
-  // for (let i = 0; i < ButtonsList.length; i++) {
-  //   const block = ButtonsList[i]
-  //   if (block) {
-  //     const { component, editType, props, filterType } = block
-  //     block &&
-  //       (await db.buildingBlock.create({
-  //         data: {
-  //           component,
-  //           editType,
-  //           props,
-  //           filterType,
-  //         },
-  //       }))
-  //   }
-  // }
+  for (let i = 0; i < ButtonsList.length; i++) {
+    const block = ButtonsList[i]
+    if (block) {
+      const { type, editType, props, filterType } = block
+      block &&
+        (await db.buildingBlock.create({
+          data: {
+            type,
+            editType,
+            props,
+            filterType,
+          },
+        }))
+    }
+  }
   await db.buildingBlock.create({
     data: {
-      component: "@mantine/core/text",
+      type: "@mantine/core/text",
       props: {
         size: "lg",
         children: "Text",

@@ -78,7 +78,7 @@ model BuildingBlock {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  component  String
+  type       String
   filterType String
   editType   String?
   props      Json?
