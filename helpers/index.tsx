@@ -5,6 +5,8 @@ import {
   TextInputProps,
   TabsProps,
   TabProps,
+  Text,
+  TextProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
@@ -15,17 +17,20 @@ import WithElementEdit from "app/build/WithElementEdit"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
 
+type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
+
 export const canvasBuildingBlocks = {
-  button: dynamic<ButtonProps<"button">>(() =>
-    import("@mantine/core").then((module) => module.Button)
-  ),
+  button: dynamic<CanvasButtonProps>(() => import("@mantine/core").then((module) => module.Button)),
   stack: dynamic<StackProps>(() => import("@mantine/core").then((module) => module.Stack)),
   group: dynamic<GroupProps>(() => import("@mantine/core").then((module) => module.Group)),
   textInput: dynamic<TextInputProps>(() =>
     import("@mantine/core").then((module) => module.TextInput)
   ),
   tabs: dynamic<TabsProps>(() => import("@mantine/core").then((module) => module.Tabs)),
-  tab: dynamic<TabProps>(() => import("@mantine/core").then((module) => module.Tab)),
+  tab: dynamic<TabProps>(() => import("@mantine/core").then((module) => module.Tabs.Tab)),
+  "@mantine/core/text": dynamic<TextProps>(() =>
+    import("@mantine/core").then((module) => module.Text)
+  ),
 }
 
 export const recursiveTagName = (
@@ -36,13 +41,17 @@ export const recursiveTagName = (
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
   if (typeof element === "string") return <>{element}</>
+
   const TagName = canvasBuildingBlocks[element.component] // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = element.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
+
   const children: ReactNode | undefined = props.children
-    ? props.children.map((child: ICanvasElement) => {
-        const key = shortid.generate()
-        return React.cloneElement(recursiveTagName(child, shouldFlat, element.id), { key }) // looking for array of children in recursion;
-      })
+    ? typeof props.children === "string"
+      ? props.children
+      : props.children.map((child: ICanvasElement) => {
+          const key = shortid.generate()
+          return React.cloneElement(recursiveTagName(child, shouldFlat, element.id), { key }) // looking for array of children in recursion;
+        })
     : undefined
 
   if (shouldFlat) {
@@ -69,4 +78,27 @@ export const deflate = (data) => {
 
 export const inflateBase64 = (str: string) => {
   return JSON.parse(zlib.inflateSync(Buffer.from(str, "base64")).toString())
+}
+const getElementType = (value) => {
+  if (typeof value === "string") return value
+  if (typeof value === "object" && value?.displayName) return value.displayName
+  return null
+}
+
+export function serialize(element: JSX.Element) {
+  const replacer = (key, value) => {
+    switch (key) {
+      case "_owner":
+      case "_store":
+      case "ref":
+      case "key":
+        return
+      case "type":
+        return getElementType(value)
+      default:
+        return value
+    }
+  }
+
+  return JSON.stringify(element, replacer)
 }

@@ -5,11 +5,11 @@ import {
   Autocomplete,
   Grid,
   Stack,
-  InputWrapper,
   Textarea,
   Button,
   TextInput,
   Loader,
+  Input,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useTranslation } from "next-i18next"
@@ -44,7 +44,6 @@ const SupportForm = () => {
   const user = useCurrentUser()
 
   useEffect(() => {
-    console.log(user)
     if (user?.email && supportForm.values.email === "") {
       supportForm.setFieldValue("email", user.email)
     }
@@ -58,7 +57,7 @@ const SupportForm = () => {
       })}
     >
       <Stack spacing="lg" mb={36}>
-        <InputWrapper label="E-mail" size="lg" required>
+        <Input.Wrapper label="E-mail" size="lg" required>
           <TextInput
             {...supportForm.getInputProps("email")}
             icon={<MdAlternateEmail />}
@@ -67,7 +66,7 @@ const SupportForm = () => {
             value={supportForm.values.email}
             onChange={(event) => supportForm.setFieldValue("email", event.currentTarget.value)}
           />
-        </InputWrapper>
+        </Input.Wrapper>
         <Autocomplete
           value={supportForm.values.subject}
           onChange={(value) => supportForm.setFieldValue("subject", value)}
@@ -125,6 +124,7 @@ const ProfileSupport = () => {
 }
 
 ProfileSupport.getLayout = getProfileLayout()
+ProfileSupport.suppressFirstRenderFlicker = true
 
 export default ProfileSupport
 

@@ -1,6 +1,6 @@
 import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
-import React, { useEffect, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import {
   MantineProvider,
   ColorScheme,
@@ -8,6 +8,9 @@ import {
   MantineThemeOverride,
   LoadingOverlay,
   Global,
+  createEmotionCache,
+  createStyles,
+  Loader,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -16,13 +19,10 @@ import { appWithTranslation, i18n } from "next-i18next"
 import "app/styles/variables.css"
 import router from "next/router"
 import CubeLoader from "app/core/components/CubeLoader"
-import next, { GetServerSidePropsContext } from "next"
-import { getCookie, getCookies, setCookie } from "cookies-next"
+import { GetServerSidePropsContext } from "next"
+import { getCookie, setCookie } from "cookies-next"
 
 import { Tuple, DefaultMantineColor } from "@mantine/core"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import { useMutation } from "@blitzjs/rpc"
-import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import { NotificationsProvider } from "@mantine/notifications"
 
 type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
@@ -31,6 +31,14 @@ declare module "@mantine/core" {
     colors: Record<ExtendedCustomColors, Tuple<string, 10>>
   }
 }
+
+const emotionCache = createEmotionCache({ key: "mantine" })
+
+const useStyles = createStyles((theme) => ({
+  container: {
+    width: "100%",
+  },
+}))
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -69,6 +77,8 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   useHotkeys([["mod+J", () => toggleColorScheme()]])
 
+  const { classes } = useStyles()
+
   const CustomTheme: MantineThemeOverride = {
     colorScheme,
     fontFamily: "'Nunito', sans-serif;",
@@ -102,7 +112,22 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
       ],
     },
     primaryColor: "primary",
-    primaryShade: 6,
+    primaryShade: 5,
+    components: {
+      Container: {
+        defaultProps: {
+          sizes: {
+            xs: 540,
+            sm: 720,
+            md: 960,
+            lg: 1280,
+            xl: 1400,
+          },
+          className: classes.container,
+        },
+      },
+    },
+    cursorType: "pointer",
   }
 
   useEffect(() => {
@@ -115,13 +140,11 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   useEffect(() => {
     let startTimer: ReturnType<typeof setTimeout>
     const handleStart = () => {
-      console.log("route change start")
       startTimer = setTimeout(() => {
         setLoadingOverlay(true)
       }, 500)
     }
     const handleComplete = () => {
-      console.log("route change complete")
       setLoadingOverlay(false)
     }
 
@@ -147,21 +170,16 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   // ### MODALS END ###
 
-  // pushes user to previously chosen locale if it doesn't match
-  const [storageLocale] = useLocalStorage({ key: "locale", defaultValue: i18n?.language || "ru" })
-  useEffect(() => {
-    if (storageLocale !== router.locale) {
-      void router.push({ pathname: router.pathname, query: router.query }, router.asPath, {
-        locale: storageLocale,
-      })
-    }
-  }, [])
-
   // ### NEXT LAYOUT SYSTEM ###
   const getLayout = Component.getLayout || ((page) => page)
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
+      <MantineProvider
+        withCSSVariables
+        withNormalizeCSS
+        theme={CustomTheme}
+        emotionCache={emotionCache}
+      >
         <NotificationsProvider>
           <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
             <ModalContext.Provider value={[modalValue, setModalValue]}>
@@ -171,9 +189,9 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                 })}
                 overlayOpacity={0.85}
                 visible={loadingOverlay}
-                loader={<CubeLoader />}
+                loader={<CubeLoader size={256} />}
               />
-              {getLayout(<Component {...pageProps} />)}
+              <Suspense fallback={<Loader />}>{getLayout(<Component {...pageProps} />)}</Suspense>
             </ModalContext.Provider>
           </ColorSchemeProvider>
         </NotificationsProvider>
@@ -193,8 +211,23 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
               color: theme.white,
             },
           },
+          "::-moz-selection": {
+            background: theme.colors.violet[4],
+            color: theme.white,
+            "-webkit-text-fill-color": theme.white,
+          },
+          "::-webkit-selection": {
+            background: theme.colors.violet[4],
+            color: theme.white,
+            "-webkit-text-fill-color": theme.white,
+          },
+          "::selection": {
+            background: theme.colors.violet[4],
+            color: theme.white,
+            "-webkit-text-fill-color": theme.white,
+          },
           body: {
-            backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[0],
+            backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
             color: colorScheme === "dark" ? theme.white : theme.black,
             lineHeight: theme.lineHeight,
           },

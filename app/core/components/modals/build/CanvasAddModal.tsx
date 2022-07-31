@@ -18,6 +18,7 @@ import ComponentsModalTabs from "./ModalTabs"
 import { ICanvasModalType, IFilterButton } from "types"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
+import { useHotkeys } from "@mantine/hooks"
 
 interface ICanvasAddModal {
   filterButtons: IFilterButton[]
@@ -46,12 +47,7 @@ const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButto
             setBlockTypeFilter(blockTypeFilter === b.value ? "all" : b.value)
           }}
         >
-          <Group
-            align="center"
-            position="apart"
-            style={{ position: "relative" }}
-            styles={{ root: { width: "100%" } }}
-          >
+          <Group align="center" position="apart" style={{ position: "relative", width: "100%" }}>
             <Text>{b.text}</Text>
             <Box
               sx={() => ({
@@ -91,9 +87,11 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
   }
   return (
     <Modal
+      trapFocus={false}
       overflow="outside"
       centered
       size="85%"
+      closeOnEscape
       overlayOpacity={dark ? 0.8 : 0.6}
       styles={{
         inner: {

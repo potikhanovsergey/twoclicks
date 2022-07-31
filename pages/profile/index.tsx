@@ -34,6 +34,7 @@ const ProfilePortfolios: BlitzPage = () => {
   )
 }
 ProfilePortfolios.getLayout = getProfileLayout()
+ProfilePortfolios.suppressFirstRenderFlicker = true
 
 export default ProfilePortfolios
 

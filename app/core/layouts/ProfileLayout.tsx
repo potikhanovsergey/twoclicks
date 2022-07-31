@@ -21,8 +21,7 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
       <AppShell
         styles={{
           main: {
-            // background: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.colors.gray[0],
-            paddingTop: "calc(var(--home-header-height, 0px) + 20px)",
+            paddingTop: "calc(var(--home-header-height, 0px))",
             paddingLeft: "calc(var(--mantine-navbar-width, 0px) + 32px)",
           },
         }}
@@ -32,7 +31,6 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
         navbar={<ProfileNavbar menuOpened={menuOpened} />}
         header={
           <LayoutHeader
-            px={0}
             hasLogo={false}
             style={{ left: "var(--mantine-navbar-width)" }}
             fixed

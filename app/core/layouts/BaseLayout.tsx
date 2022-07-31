@@ -16,18 +16,24 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
         styles={{
           main: {
             minHeight: "calc(100vh - var(--home-header-height))",
-            paddingTop: "calc(var(--home-header-height, 0px) + 16px)",
+            paddingTop: "calc(var(--home-header-height, 0px))",
+            paddingLeft: 0,
+            paddingRight: 0,
           },
         }}
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
-        header={<LayoutHeader px={16} fixed menuOpened={opened} setMenuOpened={setOpened} />}
+        header={<LayoutHeader fixed menuOpened={opened} setMenuOpened={setOpened} />}
         footer={<Footer height={0}>Footer</Footer>}
       >
         {children}
       </AppShell>
     </>
   )
+}
+
+export function getBaseLayout() {
+  return (page: JSX.Element) => <BaseLayout>{page}</BaseLayout>
 }
 
 export default BaseLayout

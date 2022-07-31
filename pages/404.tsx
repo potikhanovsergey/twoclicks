@@ -89,7 +89,7 @@ const Links = () => {
   )
 }
 
-export default function Page404() {
+const Page404 = () => {
   const { t } = useTranslation("pages404")
   const { colorScheme } = useMantineColorScheme()
   const dark = colorScheme === "dark"
@@ -117,6 +117,10 @@ export default function Page404() {
     </>
   )
 }
+
+Page404.suppressFirstRenderFlicker = true
+
+export default Page404
 
 export async function getStaticProps({ locale }: { locale: string }) {
   return {

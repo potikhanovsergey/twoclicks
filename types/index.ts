@@ -9,6 +9,12 @@ export interface IFilterButton {
   text: string
 }
 
+export interface IPortfolio {
+  id?: string
+  name: string
+  data: BuildingBlock[]
+}
+
 export type IBuildingBlockMock = Omit<BuildingBlock, "id" | "createdAt" | "updatedAt">
 
 export type ICanvasBuildingBlockComponent =

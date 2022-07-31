@@ -62,15 +62,18 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
     if (!validation.hasErrors) {
       try {
         await signupMutation(values)
-        onSuccess && onSuccess()
       } catch (error: any) {
         if (error.code === "P2002" && error.meta?.target?.includes("email")) {
           // This error comes from Prisma
-          return { email: "This email is already being used" }
+          registrationForm.setErrors({
+            email: "This email is already being used",
+          })
+          return
         } else {
           return error.toString()
         }
       }
+      onSuccess && onSuccess()
     }
   }
   // REGISTRATION ENDS

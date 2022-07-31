@@ -114,7 +114,9 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
         {hasActions && (
           <Group className={classes.actions}>
             <ActionIcon
-              color="red"
+              sx={(theme) => ({
+                color: theme.colors.red[5],
+              })}
               ref={iconRef}
               loading={isLikeLoading}
               className={classes.actionIcon}

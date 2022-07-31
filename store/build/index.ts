@@ -8,6 +8,7 @@ class Build {
   }
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
+  sectionsCount: number = 0
 
   constructor() {
     makeAutoObservable(this)
@@ -20,6 +21,7 @@ class Build {
   @action
   push = (block: ICanvasBlock) => {
     this.data.blocks.push(block)
+    this.sectionsCount++
   }
 
   @action

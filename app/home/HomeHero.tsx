@@ -8,12 +8,12 @@ import {
   useMantineColorScheme,
   Button,
   Highlight,
+  Container,
 } from "@mantine/core"
 import { useTranslation } from "next-i18next"
 import { FaArrowRight } from "react-icons/fa"
 import { BsBack } from "react-icons/bs"
 import { MdSlowMotionVideo } from "react-icons/md"
-import HomeContainer from "./HomeContainter"
 
 const HomeHero = () => {
   const { colorScheme } = useMantineColorScheme()
@@ -21,7 +21,7 @@ const HomeHero = () => {
   const { t } = useTranslation("pagesHome")
 
   return (
-    <HomeContainer px={16}>
+    <Container size="xl">
       <Grid>
         <Grid.Col span={6}>
           <Title
@@ -105,7 +105,7 @@ const HomeHero = () => {
         </Grid.Col>
         <Grid.Col span={5}>2</Grid.Col>
       </Grid>
-    </HomeContainer>
+    </Container>
   )
 }
 
