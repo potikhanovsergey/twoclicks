@@ -65,7 +65,9 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const { classes } = useStyles()
 
   const TagName = useMemo(() => {
-    return recursiveTagName({ ...block, id: shortid.generate(), editType: null })
+    return recursiveTagName({
+      element: { ...block, editType: null, id: shortid.generate() },
+    })
   }, [block])
 
   const iconRef = useRef(null)

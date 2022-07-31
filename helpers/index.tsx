@@ -37,11 +37,16 @@ export const canvasBuildingBlocks = {
   ),
 }
 
-export const recursiveTagName = (
-  element: ICanvasElement,
-  shouldFlat: boolean = false,
-  parentID: string | null = null
-) => {
+export const recursiveTagName = ({
+  element,
+  shouldFlat = false,
+  parentID = null,
+}: {
+  element: ICanvasElement
+  shouldFlat?: boolean
+  parentID?: string | null
+  isTextEditable?: boolean
+}) => {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
   if (typeof element === "string") return <>{element}</>
@@ -51,10 +56,13 @@ export const recursiveTagName = (
 
   const children: ReactNode | undefined = props.children
     ? typeof props.children === "string"
-      ? props.children
+      ? React.createElement("span", { contentEditable: true }, props.children)
       : props.children.map((child: ICanvasElement) => {
           const key = shortid.generate()
-          return React.cloneElement(recursiveTagName(child, shouldFlat, element.id), { key }) // looking for array of children in recursion;
+          return React.cloneElement(
+            recursiveTagName({ element: child, shouldFlat, parentID: element.id }),
+            { key, contentEditable: true }
+          ) // looking for array of children in recursion;
         })
     : undefined
 

@@ -68,7 +68,7 @@ const BuilderBlocks = observer(() => {
     <>
       {BuildStore &&
         BuildStore.data.blocks.map((b, i) => {
-          const TagName = recursiveTagName(b, true)
+          const TagName = recursiveTagName({ element: b, shouldFlat: true, parentID: b.id })
           if (TagName) {
             return TagName
           }
