@@ -9,7 +9,7 @@ import {
   TextProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
-import React, { ReactNode } from "react"
+import React, { ReactNode, useRef } from "react"
 import shortid from "shortid"
 // import { CanvasStore } from "../../../store/build"
 import { ICanvasElement, ICanvasBlockProps } from "types"
@@ -56,12 +56,12 @@ export const recursiveTagName = ({
 
   const children: ReactNode | undefined = props.children
     ? typeof props.children === "string"
-      ? React.createElement("span", { contentEditable: true }, props.children)
+      ? props.children
       : props.children.map((child: ICanvasElement) => {
           const key = shortid.generate()
           return React.cloneElement(
             recursiveTagName({ element: child, shouldFlat, parentID: element.id }),
-            { key, contentEditable: true }
+            { key }
           ) // looking for array of children in recursion;
         })
     : undefined

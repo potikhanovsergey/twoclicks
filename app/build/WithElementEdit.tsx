@@ -1,5 +1,13 @@
 import { ActionIcon, Group, Popover } from "@mantine/core"
-import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
+import React, {
+  cloneElement,
+  FormEventHandler,
+  ReactEventHandler,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
@@ -20,7 +28,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
 
   const hasMoves = useMemo(() => {
     if (parentID) {
-      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.component
+      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.type
       return parentComponent && (parentComponent === "group" || parentComponent === "stack")
     }
     return false
@@ -30,7 +38,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
     if (hasMoves && parentID) {
       let parent = BuildStore.data.flattenBlocks?.[parentID]
       let parentProps = parent?.props as object | null
-      if (parent?.component === "group") {
+      if (parent?.type === "group") {
         if (parentProps && parentProps["direction"] === "column") {
           return {
             left: <CgChevronUpR />,
@@ -52,6 +60,8 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
   //     let parent = BuildStore.data.flattenBlocks?.[parentID]
   //   }
   // }, [hasMoves])
+
+  const editableRef = useRef<HTMLDivElement>(null)
   return (
     <Popover
       trapFocus={false}
@@ -62,7 +72,21 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
       width="auto"
     >
       <Popover.Target>
-        <div style={{ width: "fit-content" }}>
+        <div
+          style={{ width: "fit-content" }}
+          // contentEditable
+          // suppressContentEditableWarning
+          // ref={editableRef}
+          // onBlur={(e: any) => {
+          //   BuildStore.changeProp({ id, newProps: { children: e?.target?.innerText } })
+          // }}
+          // onInput={(e: any) => {
+          //   console.log(e)
+          //   if (editableRef.current) {
+          //     editableRef.current.innerText = e.target.innerText
+          //   }
+          // }}
+        >
           {cloneElement(children, {
             onMouseEnter: () => {
               if (timer?.current) clearTimeout(timer?.current)
@@ -72,6 +96,37 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
               timer.current = setTimeout(() => {
                 if (!popupHovered) closeEdit()
               }, 300)
+            },
+            contentEditable: true,
+            suppressContentEditableWarning: true,
+            ref: editableRef,
+            onBlur: (e: any) => {
+              BuildStore.changeProp({
+                id,
+                newProps: { children: editableRef.current?.innerText || e.target.innerText },
+              })
+            },
+            onBeforeInput: (e: any) => {
+              if (editableRef.current) {
+                editableRef.current.innerText = e.target.innerText
+              }
+            },
+            onKeyDown: (e: any) => {
+              if (e.code !== "Space") {
+                if (e.keyCode == 8 || e.keyCode == 46) {
+                  // delete and del keys
+                  if (
+                    editableRef?.current?.innerText?.length &&
+                    editableRef?.current?.innerText?.length < 1
+                  ) {
+                    // last element is empty
+                    e.preventDefault()
+                  }
+                }
+                return
+              }
+              e.preventDefault()
+              document.execCommand("insertText", false, " ")
             },
           })}
         </div>

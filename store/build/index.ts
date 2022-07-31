@@ -33,6 +33,7 @@ class Build {
 
   @action
   changeProp = ({ id, newProps }: { id: string; newProps: ICanvasBlockProps }) => {
+    console.log(this.data.blocks, newProps.children)
     const el = this.getElement(id)
     if (el) {
       const elProps = el?.props as ICanvasBlockProps
@@ -47,6 +48,8 @@ class Build {
 
   @action
   deleteElement = ({ id, parentID }: { id: string; parentID?: string | null }) => {
+    console.log("ID >", id)
+    console.log("parentID >", parentID)
     if (parentID) {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
