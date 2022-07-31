@@ -20,8 +20,11 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
 
   const hasMoves = useMemo(() => {
     if (parentID) {
-      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.component
-      return parentComponent && (parentComponent === "group" || parentComponent === "stack")
+      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.type
+      return (
+        parentComponent &&
+        (parentComponent === "@mantine/core/group" || parentComponent === "@mantine/core/stack")
+      )
     }
     return false
   }, [parentID])
@@ -30,7 +33,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
     if (hasMoves && parentID) {
       let parent = BuildStore.data.flattenBlocks?.[parentID]
       let parentProps = parent?.props as object | null
-      if (parent?.component === "group") {
+      if (parent?.type === "@mantine/core/group") {
         if (parentProps && parentProps["direction"] === "column") {
           return {
             left: <CgChevronUpR />,
