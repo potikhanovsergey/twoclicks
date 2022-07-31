@@ -5,6 +5,8 @@ import {
   TextInputProps,
   TabsProps,
   TabProps,
+  Text,
+  TextProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
@@ -26,6 +28,9 @@ export const canvasBuildingBlocks = {
   ),
   tabs: dynamic<TabsProps>(() => import("@mantine/core").then((module) => module.Tabs)),
   tab: dynamic<TabProps>(() => import("@mantine/core").then((module) => module.Tabs.Tab)),
+  "@mantine/core/text": dynamic<TextProps>(() =>
+    import("@mantine/core").then((module) => module.Text)
+  ),
 }
 
 export const recursiveTagName = (
@@ -36,13 +41,17 @@ export const recursiveTagName = (
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
   if (typeof element === "string") return <>{element}</>
+
   const TagName = canvasBuildingBlocks[element.component] // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = element.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
+
   const children: ReactNode | undefined = props.children
-    ? props.children.map((child: ICanvasElement) => {
-        const key = shortid.generate()
-        return React.cloneElement(recursiveTagName(child, shouldFlat, element.id), { key }) // looking for array of children in recursion;
-      })
+    ? typeof props.children === "string"
+      ? props.children
+      : props.children.map((child: ICanvasElement) => {
+          const key = shortid.generate()
+          return React.cloneElement(recursiveTagName(child, shouldFlat, element.id), { key }) // looking for array of children in recursion;
+        })
     : undefined
 
   if (shouldFlat) {
