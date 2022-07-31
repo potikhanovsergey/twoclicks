@@ -93,10 +93,11 @@ function HeaderProfile() {
   const [logoutMutation] = useMutation(logout)
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
   const router = useRouter()
+  console.log(router)
   return (
     <Group position="center">
       {!user && (
-        <Link passHref href={`/auth/?next=${router.pathname}`}>
+        <Link passHref href={`/auth/?next=${router.asPath}`}>
           <Button
             component="a"
             size="xs"
