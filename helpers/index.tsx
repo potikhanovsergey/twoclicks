@@ -44,12 +44,18 @@ export const WithEditable = ({ children, parentID }) => {
       contentEditable
       suppressContentEditableWarning
       component="span"
-      sx={({}) => ({ ":empty": { paddingRight: "16px" }, display: "inline-block" })}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" && !e.target?.innerText?.length) {
-          e.preventDefault()
-        }
-      }}
+      sx={({}) => ({
+        ":empty": { paddingRight: "16px" },
+        display: "inline-block",
+        minWidth: "30px",
+        whiteSpace: "normal",
+        wordBreak: "break-word",
+      })}
+      // onKeyDown={(e) => {
+      //   if (e.key === "Enter" && !e.target?.innerText?.length) {
+      //     e.preventDefault()
+      //   }
+      // }}
       onBlur={(e) => {
         if (e?.target?.innerText) {
           BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerText } })
