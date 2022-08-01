@@ -12,6 +12,7 @@ import { BlitzPage } from "@blitzjs/auth"
 import { useQuery } from "@blitzjs/rpc"
 import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 import PortfolioCards from "app/portfolios/PortfolioCards"
+import { profile } from "console"
 
 const ProfilePortfolios: BlitzPage = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
@@ -20,6 +21,19 @@ const ProfilePortfolios: BlitzPage = () => {
     <>
       <Group position="apart" align="center">
         <Title order={1}>{t("title")}</Title>
+        {portfolios?.length ? (
+          <Button
+            component="a"
+            variant="gradient"
+            gradient={{ from: "grape", to: "indigo", deg: 110 }}
+            size="sm"
+            rightIcon={<AiFillBuild />}
+          >
+            Создать портфолио
+          </Button>
+        ) : (
+          <></>
+        )}
       </Group>
       {portfolios?.length ? (
         <>
