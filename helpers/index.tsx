@@ -154,16 +154,17 @@ export function serialize(element: JSX.Element) {
 
   return JSON.stringify(element, replacer)
 }
-function insertTextAtCursor(text) {
-  let selection = window.getSelection()
-  if (selection) {
-    let range = selection.getRangeAt(0)
-    range.deleteContents()
-    let node = document.createTextNode(text)
-    range.insertNode(node)
 
-    // for (let position = 0; position != text.length; position++) {
-    //   selection.modify("move", "right", "character")
-    // }
-  }
+export const formatDate = (inputDate) => {
+  let date, month, year
+
+  date = inputDate.getDate()
+  month = inputDate.getMonth() + 1
+  year = inputDate.getFullYear()
+
+  date = date.toString().padStart(2, "0")
+
+  month = month.toString().padStart(2, "0")
+
+  return `${date}/${month}/${year}`
 }
