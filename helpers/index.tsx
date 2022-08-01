@@ -44,18 +44,26 @@ export const WithEditable = ({ children, parentID }) => {
       contentEditable
       suppressContentEditableWarning
       component="span"
+      spellCheck={false}
       sx={({}) => ({
         ":empty": { paddingRight: "16px" },
         display: "inline-block",
         minWidth: "30px",
-        whiteSpace: "normal",
+        outline: "none",
         wordBreak: "break-word",
       })}
-      // onKeyDown={(e) => {
-      //   if (e.key === "Enter" && !e.target?.innerText?.length) {
-      //     e.preventDefault()
-      //   }
-      // }}
+      onKeyDown={(e) => {
+        const el = e.target
+        const parentButton = el.closest("button")
+        if (parentButton && e.key === "Enter") {
+          e.preventDefault()
+        }
+        // 32 = space button
+        if (parentButton && e.which === 32) {
+          e.preventDefault()
+          document.execCommand("insertText", false, " ") // todo: remove deprecated command
+        }
+      }}
       onBlur={(e) => {
         if (e?.target?.innerText) {
           BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerText } })
@@ -145,4 +153,17 @@ export function serialize(element: JSX.Element) {
   }
 
   return JSON.stringify(element, replacer)
+}
+function insertTextAtCursor(text) {
+  let selection = window.getSelection()
+  if (selection) {
+    let range = selection.getRangeAt(0)
+    range.deleteContents()
+    let node = document.createTextNode(text)
+    range.insertNode(node)
+
+    // for (let position = 0; position != text.length; position++) {
+    //   selection.modify("move", "right", "character")
+    // }
+  }
 }
