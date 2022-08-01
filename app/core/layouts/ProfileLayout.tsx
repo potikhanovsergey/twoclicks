@@ -21,8 +21,10 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
       <AppShell
         styles={{
           main: {
-            paddingTop: "calc(var(--home-header-height, 0px))",
-            paddingLeft: "calc(var(--mantine-navbar-width, 0px) + 32px)",
+            minHeight: "calc(100vh - var(--build-header-height))",
+            paddingTop: "calc(var(--build-header-height, 0px) + 16px)",
+            paddingLeft: "calc(var(--mantine-navbar-width, 0px) + 16px)",
+            paddingRight: "calc(var(--mantine-aside-width, 0px) + 16px)",
           },
         }}
         navbarOffsetBreakpoint="sm"

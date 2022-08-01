@@ -9,9 +9,18 @@ import {
   Progress,
   Badge,
   List,
+  Paper,
+  Anchor,
+  Switch,
+  Stack,
+  ActionIcon,
+  CopyButton,
+  Button,
+  Container,
+  Loader,
 } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import LayoutHeader from "app/core/components/layout/LayoutHeader"
 // import { useTranslation } from 'next-i18next';
 import { IoIosRocket } from "react-icons/io"
@@ -22,12 +31,16 @@ import { MdOutlineAddBox, MdOutlinePreview } from "react-icons/md"
 import { HiOutlineTemplate } from "react-icons/hi"
 import Onboarding from "app/build/Onboarding"
 import BaseLayout from "app/core/layouts/BaseLayout"
+import { BiCheckDouble, BiCopy } from "react-icons/bi"
+import PortfolioCards from "app/portfolios/PortfolioCards"
 
 const ComponentsPage = () => {
   // const { t } = useTranslation('pagesBuild');
   return (
     <BaseLayout>
-      <Onboarding />
+      <Container size="xl">
+        <Onboarding />
+      </Container>
     </BaseLayout>
   )
 }
