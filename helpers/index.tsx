@@ -42,6 +42,7 @@ export const WithEditable = ({ children, parentID }) => {
   return (
     <Box
       contentEditable
+      className="content-editable"
       suppressContentEditableWarning
       component="span"
       spellCheck={false}
