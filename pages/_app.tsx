@@ -24,6 +24,11 @@ import { getCookie, setCookie } from "cookies-next"
 
 import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
+import { ModalsProvider } from "@mantine/modals"
+import { AppStore } from "store"
+import { useQuery } from "@blitzjs/rpc"
+import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
+import { useSession } from "@blitzjs/auth"
 
 type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
@@ -172,6 +177,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   // ### NEXT LAYOUT SYSTEM ###
   const getLayout = Component.getLayout || ((page) => page)
+
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider
@@ -180,21 +186,23 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
         theme={CustomTheme}
         emotionCache={emotionCache}
       >
-        <NotificationsProvider>
-          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-            <ModalContext.Provider value={[modalValue, setModalValue]}>
-              <LoadingOverlay
-                sx={() => ({
-                  position: "fixed",
-                })}
-                overlayOpacity={0.85}
-                visible={loadingOverlay}
-                loader={<CubeLoader size={256} />}
-              />
-              <Suspense fallback={<Loader />}>{getLayout(<Component {...pageProps} />)}</Suspense>
-            </ModalContext.Provider>
-          </ColorSchemeProvider>
-        </NotificationsProvider>
+        <ModalsProvider>
+          <NotificationsProvider>
+            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+              <ModalContext.Provider value={[modalValue, setModalValue]}>
+                <LoadingOverlay
+                  sx={() => ({
+                    position: "fixed",
+                  })}
+                  overlayOpacity={0.85}
+                  visible={loadingOverlay}
+                  loader={<CubeLoader size={256} />}
+                />
+                <Suspense fallback={<Loader />}>{getLayout(<Component {...pageProps} />)}</Suspense>
+              </ModalContext.Provider>
+            </ColorSchemeProvider>
+          </NotificationsProvider>
+        </ModalsProvider>
       </MantineProvider>
       <Global
         styles={(theme) => ({

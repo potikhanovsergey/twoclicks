@@ -1,11 +1,18 @@
+import { Session, SessionModel } from "@blitzjs/auth"
 import { Ctx } from "blitz"
-import db from "db"
+import db, { Prisma } from "db"
 
-export default async function getUserPortfolios(_ = null, { session }: Ctx) {
+interface getUserPortfoliosInput
+  extends Pick<Prisma.PortfolioFindManyArgs, "where" | "orderBy" | "select"> {}
+
+export default async function getUserPortfolios(
+  input: getUserPortfoliosInput | null,
+  { session }: { session: SessionModel }
+) {
   if (!session.userId) return null
   const portfolios = await db.portfolio.findMany({
     where: { userId: session.userId },
-    select: { id: true, name: true, data: true, updatedAt: true },
+    orderBy: input?.orderBy,
   })
   return portfolios
 }

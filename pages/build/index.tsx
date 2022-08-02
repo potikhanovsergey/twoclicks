@@ -1,6 +1,6 @@
 import { Button, Container, createStyles, Group, Space, Title, Text } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import LayoutHeader from "app/core/components/layout/LayoutHeader"
 // import { useTranslation } from 'next-i18next';
 import { Ctx } from "@blitzjs/next"
@@ -11,17 +11,22 @@ import PortfolioCards from "app/portfolios/PortfolioCards"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import Link from "next/link"
 import { AiFillBuild } from "react-icons/ai"
-import { useQuery } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 import { useTranslation } from "next-i18next"
 import lottieSquirrel from "lotties/squirrel.json"
-import { Prisma } from "@prisma/client"
+import { BuildingBlock, Prisma } from "@prisma/client"
 import ObjectID from "bson-objectid"
 import db from "db"
 import { PortfolioStarterMock } from "db/mocks"
 import { deflate } from "helpers"
 import { getCookie, setCookie } from "cookies-next"
 import { useRouter } from "next/router"
+import { AppStore } from "store"
+import { observer } from "mobx-react-lite"
+import { useSession } from "@blitzjs/auth"
+import createPortfolio from "app/portfolios/mutations/createPortfolio"
+import DeletePortfolioButton from "app/portfolios/DeletePortfolioButton"
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   main: {
@@ -37,48 +42,66 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 const Build = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
   const { classes } = useStyles()
-  const [portfolios] = useQuery(getUserPortfolios, null)
   const router = useRouter()
-  const handleCreatePortfolio = () => {
+  const session = useSession()
+  const [createPortfolioMutation, { isLoading }] = useMutation(createPortfolio)
+
+  const handleCreatePortfolio = async () => {
     const portfolio = {
       id: ObjectID().toHexString(),
-      name: "Brand new unauthorized portfolio",
-      data: PortfolioStarterMock.data,
+      name: "Brand new portfolio",
+      data: PortfolioStarterMock.data as BuildingBlock[],
     }
-    setCookie(`portfolio-${portfolio.id}`, deflate(portfolio))
+    if (!session.userId) {
+      setCookie(`portfolio-${portfolio.id}`, deflate(portfolio))
+    } else {
+      await createPortfolioMutation(portfolio)
+    }
     void router.push(`/build/${portfolio.id}`)
   }
+
+  const { portfolios, setPortfolios } = AppStore
+  const [fetchedPortfolios] = useQuery(getUserPortfolios, {
+    orderBy: [
+      {
+        updatedAt: "desc",
+      },
+    ],
+  })
+
+  useEffect(() => {
+    if (fetchedPortfolios) {
+      setPortfolios(fetchedPortfolios)
+    } else {
+      setPortfolios([])
+    }
+  }, [fetchedPortfolios])
   return (
     <Container size="lg" style={{ height: "100%", paddingTop: "16px" }}>
       {portfolios?.length ? (
         <>
           <Group position="apart" align="center">
             <Title order={1}>{t("title")}</Title>
-            <Button
+            <DeletePortfolioButton
               variant="gradient"
               gradient={{ from: "grape", to: "indigo", deg: 110 }}
               size="sm"
               rightIcon={<AiFillBuild />}
-            >
-              Создать портфолио
-            </Button>
+            />
           </Group>
           <Space h="xl" />
-          <PortfolioCards portfolios={portfolios} />
+          <PortfolioCards />
         </>
       ) : (
         <ProfileNoItems>
           <Text size="xl">{t("noPortfolios")}</Text>
           <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-          <Button
+          <DeletePortfolioButton
             variant="gradient"
             gradient={{ from: "grape", to: "indigo", deg: 110 }}
             size="lg"
             rightIcon={<AiFillBuild />}
-            onClick={handleCreatePortfolio}
-          >
-            Создать портфолио
-          </Button>
+          />
         </ProfileNoItems>
       )}
     </Container>
@@ -97,4 +120,4 @@ export async function getStaticProps(ctx: Ctx & { locale: string }) {
   }
 }
 
-export default Build
+export default observer(Build)
