@@ -1,14 +1,18 @@
+import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
 class Build {
   data: ICanvasData = {
+    name: null,
+    id: null,
     blocks: [],
     flattenBlocks: {},
   }
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
   sectionsCount: number = 0
+  hasPortfolioChanged: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -22,6 +26,7 @@ class Build {
   push = (block: ICanvasBlock) => {
     this.data.blocks.push(block)
     this.sectionsCount++
+    this.hasPortfolioChanged = true
   }
 
   @action
@@ -33,31 +38,29 @@ class Build {
 
   @action
   changeProp = ({ id, newProps }: { id: string; newProps: ICanvasBlockProps }) => {
-    console.log(this.data.blocks, newProps.children)
     const el = this.getElement(id)
     if (el) {
       const elProps = el?.props as ICanvasBlockProps
-      if (elProps && elProps !== newProps) {
-        el.props = {
-          ...elProps,
-          ...newProps,
-        }
+      this.hasPortfolioChanged = true
+      el.props = {
+        ...elProps,
+        ...newProps,
       }
     }
   }
 
   @action
   deleteElement = ({ id, parentID }: { id: string; parentID?: string | null }) => {
-    console.log("ID >", id)
-    console.log("parentID >", parentID)
     if (parentID) {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
+        this.hasPortfolioChanged = true
         parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
         delete this.data.flattenBlocks[id]
       }
     } else {
+      this.hasPortfolioChanged = true
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
       delete this.data.flattenBlocks[id]
     }
@@ -66,6 +69,7 @@ class Build {
   @action
   moveLeft = ({ id, parentID }: { id: string; parentID: string | null }) => {
     if (parentID) {
+      this.hasPortfolioChanged = true
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
@@ -83,6 +87,7 @@ class Build {
   @action
   moveRight = ({ id, parentID }: { id: string; parentID: string | null }) => {
     if (parentID) {
+      this.hasPortfolioChanged = true
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {

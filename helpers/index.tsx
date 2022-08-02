@@ -17,6 +17,7 @@ import { ICanvasElement, ICanvasBlockProps } from "types"
 import WithElementEdit from "app/build/WithElementEdit"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
+import { Portfolio } from "@prisma/client"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -66,13 +67,18 @@ export const WithEditable = ({ children, parentID }) => {
         }
       }}
       onBlur={(e) => {
-        if (e?.target?.innerText) {
-          BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerText } })
+        if (e?.target?.innerHTML) {
+          let parent = BuildStore.data.flattenBlocks[parentID]
+          if (parent) {
+            let parentProps = parent.props as ICanvasBlockProps
+            if (parentProps.children !== e.target.innerHTML) {
+              BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerHTML } })
+            }
+          }
         }
       }}
-    >
-      {children}
-    </Box>
+      dangerouslySetInnerHTML={{ __html: children }}
+    />
   )
 }
 
@@ -95,7 +101,7 @@ export const recursiveTagName = ({
 
   const children: ReactNode | undefined = props.children ? (
     typeof props.children === "string" ? (
-      <WithEditable parentID={parentID}>{props.children}</WithEditable>
+      <WithEditable parentID={element.id}>{props.children}</WithEditable>
     ) : (
       props.children.map((child: ICanvasElement) => {
         const key = shortid.generate()

@@ -1,4 +1,5 @@
 import { useSession } from "@blitzjs/auth"
+import { useMutation } from "@blitzjs/rpc"
 import {
   ActionIcon,
   Anchor,
@@ -14,12 +15,32 @@ import {
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
+import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import { deflate, inflateBase64 } from "helpers"
+import { observer } from "mobx-react-lite"
 import React, { Suspense, useState } from "react"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { FaSave } from "react-icons/fa"
+import { BuildStore } from "store/build"
 
-const SaveButton = () => {
+const SaveButton = observer(() => {
   const session = useSession()
+  const [updatePortfolioMutation, { isLoading }] = useMutation(updatePortfolio)
+
+  const {
+    hasPortfolioChanged,
+    data: { name, id, blocks },
+  } = BuildStore
+  const handleSave = () => {
+    if (name && id) {
+      void updatePortfolioMutation({
+        data: deflate(blocks),
+        name,
+        id,
+      })
+      BuildStore.hasPortfolioChanged = false
+    }
+  }
   return (
     <Tooltip
       label="Authorize to save"
@@ -30,8 +51,10 @@ const SaveButton = () => {
     >
       <span>
         <Button
-          disabled={!session.userId}
-          variant={session.userId ? "gradient" : "default"}
+          loading={isLoading}
+          onClick={handleSave}
+          disabled={!hasPortfolioChanged}
+          variant={hasPortfolioChanged ? "gradient" : "default"}
           gradient={{ from: "violet", to: "teal", deg: 35 }}
           size="xs"
           leftIcon={<FaSave />}
@@ -41,7 +64,7 @@ const SaveButton = () => {
       </span>
     </Tooltip>
   )
-}
+})
 
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');

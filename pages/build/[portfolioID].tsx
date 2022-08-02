@@ -13,12 +13,13 @@ import { BuildingBlock } from "@prisma/client"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import getLatestPortfolio from "app/portfolios/queries/getLatestPortfolio"
-import { inflateBase64 } from "helpers"
+import { deflate, inflateBase64 } from "helpers"
 import { BuildStore } from "store/build"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import { Ctx } from "@blitzjs/next"
 import { PortfolioStarterMock } from "db/mocks"
 import { IPortfolio } from "types"
+import { getSession } from "@blitzjs/auth"
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   main: {
@@ -49,6 +50,8 @@ const BuildPage = ({ portfolio }: { portfolio: IPortfolio }) => {
   useEffect(() => {
     if (portfolio?.data) {
       BuildStore.data.blocks = portfolio.data
+      BuildStore.data.name = portfolio.name
+      BuildStore.data.id = portfolio.id
     }
   }, [portfolio])
 
@@ -100,14 +103,26 @@ const BuildPage = ({ portfolio }: { portfolio: IPortfolio }) => {
 BuildPage.suppressFirstRenderFlicker = true
 
 export async function getServerSideProps(
-  ctx: Ctx & { params: { portfolioID: string }; locale: string }
+  ctx: Ctx & { params: { portfolioID: string }; locale: string; req: any; res: any }
 ) {
-  const { params, locale } = ctx
+  const { params, locale, req, res } = ctx
+  const session = await getSession(req, res)
   const isNew = params.portfolioID === "new"
 
-  const portfolio = isNew
-    ? PortfolioStarterMock
-    : await getPortfolioByID({ id: params.portfolioID }, ctx)
+  const getPortfolio = async () => {
+    if (isNew) return await PortfolioStarterMock
+    if (session) {
+      console.log("SESSION")
+      return await getPortfolioByID({ id: params.portfolioID }, { ...ctx, session })
+    } else {
+      console.log("RETURN NULL")
+      // let portfolioFromLS = localStorage.getItem(`portfolio-${params.portfolioID}`)
+      // return portfolioFromLS ? inflateBase64(portfolioFromLS) : null
+      return null
+    }
+  }
+
+  const portfolio = await getPortfolio()
 
   if (!isNew && portfolio) {
     portfolio.data = inflateBase64(portfolio.data.toString())
