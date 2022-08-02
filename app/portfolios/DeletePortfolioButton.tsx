@@ -9,7 +9,9 @@ import { deflate } from "helpers"
 import createPortfolio from "./mutations/createPortfolio"
 import { Button, ButtonProps } from "@mantine/core"
 
-const DeletePortfolioButton = (props: ButtonProps) => {
+type IDeletePortfolioButton = Omit<ButtonProps, "onClick" | "children">
+
+const DeletePortfolioButton = (props: IDeletePortfolioButton) => {
   const router = useRouter()
   const session = useSession()
   const [createPortfolioMutation, { isLoading }] = useMutation(createPortfolio)
