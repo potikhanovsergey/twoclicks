@@ -1,5 +1,5 @@
 import { Player } from "@lottiefiles/react-lottie-player"
-import { Button, Title, Text, Space, Group } from "@mantine/core"
+import { Button, Title, Text, Space, Group, Container } from "@mantine/core"
 import { useTranslation } from "next-i18next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import Link from "next/link"
@@ -43,7 +43,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
     }
   }, [fetchedPortfolios])
   return (
-    <>
+    <Container size="xl">
       <Group position="apart" align="center">
         <Title order={1}>{t("title")}</Title>
         {portfolios?.length ? (
@@ -74,7 +74,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
           />
         </ProfileNoItems>
       )}
-    </>
+    </Container>
   )
 })
 
