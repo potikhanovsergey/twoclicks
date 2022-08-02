@@ -25,6 +25,7 @@ export default async function signup(input, ctx) {
       name,
       isEmailVerified,
       avatar: null,
+      provider: "email",
     },
     select: { id: true, name: true, email: true, role: true, avatar: true },
   })
