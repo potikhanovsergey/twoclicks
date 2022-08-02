@@ -36,6 +36,7 @@
     "@mantine/notifications": "5.0.0",
     "@prisma/client": "4.1.0",
     "blitz": "2.0.0-alpha.59",
+    "bson-objectid": "2.0.3",
     "cookies-next": "2.1.1",
     "mobx": "6.6.1",
     "mobx-react-lite": "3.4.0",

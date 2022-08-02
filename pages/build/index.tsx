@@ -15,6 +15,13 @@ import { useQuery } from "@blitzjs/rpc"
 import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 import { useTranslation } from "next-i18next"
 import lottieSquirrel from "lotties/squirrel.json"
+import { Prisma } from "@prisma/client"
+import ObjectID from "bson-objectid"
+import db from "db"
+import { PortfolioStarterMock } from "db/mocks"
+import { deflate } from "helpers"
+import { getCookie, setCookie } from "cookies-next"
+import { useRouter } from "next/router"
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   main: {
@@ -27,11 +34,20 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const Build = ({ portfolio }: { portfolio: IPortfolio }) => {
+const Build = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
   const { classes } = useStyles()
   const [portfolios] = useQuery(getUserPortfolios, null)
-
+  const router = useRouter()
+  const handleCreatePortfolio = () => {
+    const portfolio = {
+      id: ObjectID().toHexString(),
+      name: "Brand new unauthorized portfolio",
+      data: PortfolioStarterMock.data,
+    }
+    setCookie(`portfolio-${portfolio.id}`, deflate(portfolio))
+    void router.push(`/build/${portfolio.id}`)
+  }
   return (
     <Container size="lg" style={{ height: "100%", paddingTop: "16px" }}>
       {portfolios?.length ? (
@@ -39,7 +55,6 @@ const Build = ({ portfolio }: { portfolio: IPortfolio }) => {
           <Group position="apart" align="center">
             <Title order={1}>{t("title")}</Title>
             <Button
-              component="a"
               variant="gradient"
               gradient={{ from: "grape", to: "indigo", deg: 110 }}
               size="sm"
@@ -55,17 +70,15 @@ const Build = ({ portfolio }: { portfolio: IPortfolio }) => {
         <ProfileNoItems>
           <Text size="xl">{t("noPortfolios")}</Text>
           <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-          <Link href="/build" passHref>
-            <Button
-              component="a"
-              variant="gradient"
-              gradient={{ from: "grape", to: "indigo", deg: 110 }}
-              size="lg"
-              rightIcon={<AiFillBuild />}
-            >
-              Создать портфолио
-            </Button>
-          </Link>
+          <Button
+            variant="gradient"
+            gradient={{ from: "grape", to: "indigo", deg: 110 }}
+            size="lg"
+            rightIcon={<AiFillBuild />}
+            onClick={handleCreatePortfolio}
+          >
+            Создать портфолио
+          </Button>
         </ProfileNoItems>
       )}
     </Container>

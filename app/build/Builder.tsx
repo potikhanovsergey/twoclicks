@@ -15,7 +15,7 @@ import {
 } from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { inflateBase64, recursiveTagName } from "helpers"
+import { deflate, inflateBase64, recursiveTagName } from "helpers"
 import { BuildStore } from "store/build"
 import { BuildingBlock } from "@prisma/client"
 import { observer } from "mobx-react-lite"
@@ -28,6 +28,8 @@ import Onboarding from "./Onboarding"
 import Link from "next/link"
 import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
+import { setCookie } from "cookies-next"
+import { useRouter } from "next/router"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -64,10 +66,11 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 const BuilderBlocks = observer(() => {
+  const blocks = BuildStore.data.blocks
   return (
     <>
-      {BuildStore &&
-        BuildStore.data.blocks.map((b, i) => {
+      {blocks &&
+        blocks.map((b, i) => {
           const TagName = recursiveTagName({ element: b, shouldFlat: true })
           if (TagName) {
             return TagName
@@ -88,6 +91,17 @@ const Builder = () => {
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
   const session = useSession()
+  const router = useRouter()
+
+  const handleSaveAndRedirect = () => {
+    const portfolio = {
+      id: BuildStore.data.id,
+      name: BuildStore.data.name,
+      data: BuildStore.data.blocks,
+    }
+    setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolio))
+    void router.push(`/auth/?next=/build/${portfolio.id}`)
+  }
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
@@ -153,15 +167,15 @@ const Builder = () => {
         <Stack align="center">
           <Group align="center" spacing={8} noWrap>
             <Text weight="bold" size="lg">
-              Please, register or authorize to continue{" "}
+              Please, register or authorize to continue
             </Text>
             <ThemeIcon color="violet" variant="light">
               <MdOutlineEmojiNature size={24} />
             </ThemeIcon>
           </Group>
-          <Link passHref href="/auth/">
-            <Button color="violet">Go to the auth page</Button>
-          </Link>
+          <Button color="violet" onClick={handleSaveAndRedirect}>
+            Save and go to the auth page
+          </Button>
         </Stack>
       </Modal>
     </div>
