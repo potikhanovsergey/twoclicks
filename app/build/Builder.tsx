@@ -71,7 +71,11 @@ const BuilderBlocks = observer(() => {
     <>
       {blocks &&
         blocks.map((b, i) => {
-          const TagName = recursiveTagName({ element: b, shouldFlat: true })
+          const TagName = recursiveTagName({
+            element: b,
+            shouldFlat: true,
+            withContentEditable: true,
+          })
           if (TagName) {
             return TagName
           }

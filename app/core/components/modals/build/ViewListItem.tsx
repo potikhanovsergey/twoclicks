@@ -67,6 +67,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const TagName = useMemo(() => {
     return recursiveTagName({
       element: { ...block, editType: null, id: shortid.generate() },
+      withContentEditable: false,
     })
   }, [block])
 

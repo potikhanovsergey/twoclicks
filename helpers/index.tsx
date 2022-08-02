@@ -39,10 +39,10 @@ export const canvasBuildingBlocks = {
   ),
 }
 
-export const WithEditable = ({ children, parentID }) => {
+export const WithEditable = ({ children, parentID, withContentEditable }) => {
   return (
     <Box
-      contentEditable
+      contentEditable={Boolean(withContentEditable)}
       className="content-editable"
       suppressContentEditableWarning
       component="span"
@@ -86,27 +86,40 @@ export const recursiveTagName = ({
   element,
   shouldFlat = false,
   parentID = null,
+  withContentEditable = false,
 }: {
   element: ICanvasElement
   shouldFlat?: boolean
   parentID?: string | null
-  isTextEditable?: boolean
+  withContentEditable?: boolean
 }) => {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
-  if (typeof element === "string") return <WithEditable parentID={parentID}>{element}</WithEditable>
+  if (typeof element === "string")
+    return (
+      <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
+        {element}
+      </WithEditable>
+    )
 
   const TagName = canvasBuildingBlocks[element.type] // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = element.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
   const children: ReactNode | undefined = props.children ? (
     typeof props.children === "string" ? (
-      <WithEditable parentID={element.id}>{props.children}</WithEditable>
+      <WithEditable parentID={element.id} withContentEditable={withContentEditable}>
+        {props.children}
+      </WithEditable>
     ) : (
       props.children.map((child: ICanvasElement) => {
         const key = shortid.generate()
         return React.cloneElement(
-          recursiveTagName({ element: child, shouldFlat, parentID: element.id }),
+          recursiveTagName({
+            element: child,
+            shouldFlat,
+            parentID: element.id,
+            withContentEditable,
+          }),
           { key }
         ) // looking for array of children in recursion;
       })
