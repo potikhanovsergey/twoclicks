@@ -16,7 +16,13 @@ import { profile } from "console"
 
 const ProfilePortfolios: BlitzPage = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
-  const [portfolios] = useQuery(getUserPortfolios, null)
+  const [portfolios] = useQuery(getUserPortfolios, {
+    orderBy: [
+      {
+        updatedAt: "desc",
+      },
+    ],
+  })
   return (
     <>
       <Group position="apart" align="center">
