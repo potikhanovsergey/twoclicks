@@ -76,6 +76,7 @@ const BuilderBlocks = observer(() => {
             shouldFlat: true,
             withContentEditable: true,
           })
+          console.log("TAGNAME", TagName)
           if (TagName) {
             return TagName
           }
