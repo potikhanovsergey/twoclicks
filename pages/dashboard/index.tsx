@@ -15,15 +15,6 @@ const DashboardIndex = () => {
   const getJsonValue = (component) => {
     return JSON.stringify(JSON.parse(serialize(component)), null, 2)
   }
-
-  // const [json, setJson] = useState(
-  //   getJsonValue(
-  //     <Container size="xl">
-  //       <Title mb="xl">Dashboard</Title>
-  //       <Group position="apart" grow style={{ minHeight: "480px" }} align="stretch"></Group>
-  //     </Container>
-  //   )
-  // )
   const [json, setJson] = useState("")
 
   const [selectedSection, setSelectedSection] = useState<number | null>(null)
