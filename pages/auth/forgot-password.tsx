@@ -1,5 +1,4 @@
 import Layout from "app/core/layouts/Layout"
-import { ForgotPassword } from "app/auth/validations"
 import forgotPassword from "app/auth/mutations/forgotPassword"
 import { useMutation } from "@blitzjs/rpc"
 

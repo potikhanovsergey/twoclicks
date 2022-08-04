@@ -1,13 +1,4 @@
-import {
-  Center,
-  Group,
-  Stack,
-  useMantineTheme,
-  Title,
-  Loader,
-  ActionIcon,
-  Button,
-} from "@mantine/core"
+import { Center, Group, Stack, useMantineTheme, Title, Loader, Button } from "@mantine/core"
 import { ReactNode, Suspense } from "react"
 import { useTranslation } from "next-i18next"
 import { Player } from "@lottiefiles/react-lottie-player"
@@ -17,7 +8,6 @@ import Logo from "app/core/components/Logo"
 import workingMan from "lotties/workingMan.json"
 import { FcGoogle } from "react-icons/fc"
 import { FaYandex, FaVk } from "react-icons/fa"
-import { IoMdArrowRoundBack } from "react-icons/io"
 import AuthSocials from "app/auth/components/Socials"
 import Link from "next/link"
 

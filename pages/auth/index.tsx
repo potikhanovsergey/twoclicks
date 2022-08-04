@@ -12,9 +12,13 @@ type step = "registration" | "authorization"
 const AuthPage = () => {
   const router = useRouter()
   const [step, setStep] = useState<step>("authorization")
-  useRedirectAuthenticated(
-    router.query.next ? decodeURIComponent(router.query.next as string) : "/"
-  )
+
+  const redirectMiddleware = () => {
+    const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
+    return next
+  }
+
+  useRedirectAuthenticated(redirectMiddleware())
 
   useEffect(() => {
     if (router.query.authError) {

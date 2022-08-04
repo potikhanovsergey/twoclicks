@@ -11,6 +11,7 @@ export default async function getPortfolioByID({ id }: { id?: string }, ctx: Ctx
     })
     return portfolio
   } catch (e) {
+    console.log("Get portfolio by ID error", e)
     return null
   }
 }

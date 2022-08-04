@@ -7,6 +7,7 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 const Home = () => {
   return (
     <>
+      <Space h={16} />
       <HomeHero />
       <Space h={72} />
     </>

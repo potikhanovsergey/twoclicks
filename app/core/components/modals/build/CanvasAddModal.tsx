@@ -18,7 +18,6 @@ import ComponentsModalTabs from "./ModalTabs"
 import { ICanvasModalType, IFilterButton } from "types"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
-import { useHotkeys } from "@mantine/hooks"
 
 interface ICanvasAddModal {
   filterButtons: IFilterButton[]
@@ -115,7 +114,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
       opened={modalContext?.[modal] || false}
       onClose={handleModalClose}
     >
-      <Group style={{ height: "100%" }} spacing={0}>
+      <Group style={{ height: "100%" }} spacing={0} noWrap>
         <Stack
           style={{
             height: "100%",

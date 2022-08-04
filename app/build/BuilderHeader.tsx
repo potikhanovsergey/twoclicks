@@ -17,7 +17,7 @@ import {
 } from "@mantine/core"
 import { useHotkeys } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
-import { deflate, inflateBase64 } from "helpers"
+import { deflate } from "helpers"
 import { observer } from "mobx-react-lite"
 import React, { Suspense, useState } from "react"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
@@ -56,8 +56,8 @@ const SaveButton = observer(() => {
         <Button
           loading={isLoading}
           onClick={handleSave}
-          disabled={!hasPortfolioChanged}
-          variant={hasPortfolioChanged ? "gradient" : "default"}
+          disabled={!(hasPortfolioChanged && Boolean(session.userId))}
+          variant={hasPortfolioChanged && Boolean(session.userId) ? "gradient" : "default"}
           gradient={{ from: "violet", to: "teal", deg: 35 }}
           size="xs"
           leftIcon={<FaSave />}

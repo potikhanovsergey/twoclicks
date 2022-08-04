@@ -1,27 +1,18 @@
 import { ActionIcon, Box, Group, Popover } from "@mantine/core"
-import React, {
-  cloneElement,
-  FormEventHandler,
-  ReactEventHandler,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 import { useDisclosure } from "@mantine/hooks"
 
-interface IWithElementEdit {
+interface IWithEditToolbar {
   children: JSX.Element
   id: string
   parentID: string | null
 }
 
-const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
+const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
   const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
@@ -75,26 +66,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
       width="auto"
     >
       <Popover.Target>
-        <Box
-          style={{ width: "fit-content" }}
-          // sx={({}) => ({
-          //   ".builder-editable span": {
-          //     paddingRight: "1px",
-          //   },
-          // })}
-          // contentEditable
-          // suppressContentEditableWarning
-          // ref={editableRef}
-          // onBlur={(e: any) => {
-          //   BuildStore.changeProp({ id, newProps: { children: e?.target?.innerText } })
-          // }}
-          // onInput={(e: any) => {
-          //   console.log(e)
-          //   if (editableRef.current) {
-          //     editableRef.current.innerText = e.target.innerText
-          //   }
-          // }}
-        >
+        <Box style={{ width: "fit-content" }}>
           {cloneElement(children, {
             onMouseEnter: () => {
               if (timer?.current) clearTimeout(timer?.current)
@@ -106,38 +78,6 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
               }, 300)
             },
             ref: editableRef,
-            // contentEditable: true,
-            // suppressContentEditableWarning: true,
-            // ref: editableRef,
-            // onBlur: (e: any) => {
-            //   BuildStore.changeProp({
-            //     id,
-            //     newProps: { children: editableRef.current?.innerText || e.target.innerText },
-            //   })
-            // },
-            // onBeforeInput: (e: any) => {
-            //   if (editableRef.current) {
-            //     editableRef.current.innerText = e.target.innerText
-            //   }
-            // },
-            // onKeyDown: (e: any) => {
-            //   if (e.code !== "Space") {
-            //     if (e.keyCode == 8 || e.keyCode == 46) {
-            //       // delete and del keys
-            //       if (
-            //         editableRef?.current?.innerText?.length &&
-            //         editableRef?.current?.innerText?.length < 1
-            //       ) {
-            //         // last element is empty
-            //         e.preventDefault()
-            //       }
-            //     }
-            //     return
-            //   }
-            //   e.preventDefault()
-            //   document.execCommand("insertText", false, " ")
-            // },
-            // className: "builder-editable",
           })}
         </Box>
       </Popover.Target>
@@ -154,7 +94,6 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
             setPopupHovered(false)
           }}
         >
-          {/* <ActionIcon color="green" size="lg"><AiOutlinePlusSquare /></ActionIcon> */}
           {hasMoves && movesIcons && (
             <>
               <ActionIcon size="lg" onClick={() => BuildStore.moveLeft({ id, parentID })}>
@@ -184,4 +123,4 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
   )
 }
 
-export default WithElementEdit
+export default WithEditToolbar

@@ -1,5 +1,4 @@
-import { BuildingBlock } from "@prisma/client"
-import { IBuildingBlockMock, ICanvasBlock } from "types"
+import { IBuildingBlockMock } from "types"
 import shortid from "shortid"
 
 export const pushBlock: IBuildingBlockMock = {

@@ -28,6 +28,7 @@ model User {
   hashedPassword      String?
   role                Role     @default(USER)
   hasCreatedPortfolio Boolean  @default(false)
+  provider            String?
 
   tokens      Token[]
   sessions    Session[]

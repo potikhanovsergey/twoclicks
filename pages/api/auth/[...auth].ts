@@ -27,6 +27,7 @@ export default api(
             const email = profile.emails && profile.emails[0]?.value
             const name = profile.displayName
             const avatar = profile.photos && profile.photos[0]?.value
+            const provider = "google"
 
             if (!email) {
               // This can happen if you haven't enabled email access in your google app permissions
@@ -40,14 +41,15 @@ export default api(
                 name,
                 avatar,
                 isEmailVerified: Boolean(email),
+                provider,
               },
-              update: { email, isEmailVerified: Boolean(email) },
+              update: { email, isEmailVerified: Boolean(email), provider },
             })
 
             const publicData = {
               userId: user.id,
               roles: [user.role],
-              source: "google",
+              source: provider,
             }
             done(undefined, { publicData })
           }
@@ -65,6 +67,7 @@ export default api(
             const email = profile.emails && profile.emails[0]?.value
             const name = profile.displayName
             const avatar = profile.photos && profile.photos[0]?.value
+            const provider = "vkontakte"
 
             if (!email) {
               // This can happen if you haven't enabled email access in your google app permissions
@@ -78,14 +81,15 @@ export default api(
                 isEmailVerified: Boolean(email),
                 name,
                 avatar,
+                provider,
               },
-              update: { email, isEmailVerified: Boolean(email) },
+              update: { email, isEmailVerified: Boolean(email), provider },
             })
 
             const publicData = {
               userId: user.id,
               roles: [user.role],
-              source: "vkontakte",
+              source: provider,
             }
             done(undefined, { publicData })
           }
@@ -107,6 +111,7 @@ export default api(
               name = profile.displayName
             }
             const avatar = profile.photos && profile.photos[0]?.value
+            const provider = "yandex"
 
             if (!email) {
               // This can happen if you haven't enabled email access in your yandex app permissions
@@ -120,14 +125,15 @@ export default api(
                 isEmailVerified: Boolean(email),
                 name,
                 avatar,
+                provider,
               },
-              update: { email, isEmailVerified: Boolean(email) },
+              update: { email, isEmailVerified: Boolean(email), provider },
             })
 
             const publicData = {
               userId: user.id,
               roles: [user.role],
-              source: "vkontakte",
+              source: provider,
             }
             done(null, { publicData })
           }

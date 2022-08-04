@@ -3,7 +3,6 @@ import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useTranslation } from "next-i18next"
 import {
   Button,
-  ButtonVariant,
   Center,
   Group,
   Skeleton,
@@ -16,20 +15,10 @@ import { AiFillBuild } from "react-icons/ai"
 import { BsPersonFill } from "react-icons/bs"
 import { FaBook } from "react-icons/fa"
 import { NextLink } from "@mantine/next"
-import { ReactNode, Suspense, useMemo } from "react"
+import { Suspense } from "react"
 import { Player } from "@lottiefiles/react-lottie-player"
 import error_404 from "lotties/404-cat.json"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-
-interface ILink {
-  icon: ReactNode
-  title: string
-  text: string
-  route: string
-  shouldRender: boolean
-  variant: ButtonVariant
-  color: string
-}
 
 const Links = () => {
   const user = useCurrentUser()
@@ -91,9 +80,6 @@ const Links = () => {
 
 const Page404 = () => {
   const { t } = useTranslation("pages404")
-  const { colorScheme } = useMantineColorScheme()
-  const dark = colorScheme === "dark"
-
   return (
     <>
       <Head>

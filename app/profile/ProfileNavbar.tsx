@@ -1,4 +1,4 @@
-import { Navbar, NavbarProps, Group, Divider, Space } from "@mantine/core"
+import { Navbar, NavbarProps, Group, Space } from "@mantine/core"
 import Logo from "app/core/components/Logo"
 import { ProfileLinks } from "./ProfileLinks"
 
@@ -19,7 +19,7 @@ const ProfileNavbar = ({ menuOpened }: IProileNavbar) => (
     {/* HEADER STARTS */}
     <Navbar.Section pt={4} pl={10}>
       <Group
-        style={{ height: "var(--build-header-height)", minHeight: "var(--build-header-height)" }}
+        style={{ height: "var(--layout-header-height)", minHeight: "var(--layout-header-height)" }}
         align="center"
       >
         <Logo height="auto" width={140} />
