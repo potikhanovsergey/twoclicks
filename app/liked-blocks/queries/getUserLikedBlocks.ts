@@ -3,9 +3,14 @@ import db from "db"
 
 export default async function getUserLikedBlocks(_ = null, ctx: Ctx) {
   if (!ctx.session.userId) return []
-  const likedBlocks = await db.likedBlock.findMany({
-    where: { userId: ctx.session.userId },
-    select: { buildingBlock: true },
-  })
-  return likedBlocks
+  try {
+    const likedBlocks = await db.likedBlock.findMany({
+      where: { userId: ctx.session.userId },
+      select: { buildingBlock: true },
+    })
+    return likedBlocks
+  } catch (e) {
+    console.log("Get user liked blocks error", e)
+    return null
+  }
 }
