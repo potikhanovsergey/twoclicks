@@ -1,6 +1,5 @@
 import { SecurePassword, hash256 } from "@blitzjs/auth"
 import db from "db"
-import { ResetPassword } from "../validations"
 import login from "./login"
 
 export class ResetPasswordError extends Error {
@@ -9,7 +8,6 @@ export class ResetPasswordError extends Error {
 }
 
 export default async function resetPassword(input, ctx) {
-  ResetPassword.parse(input)
   // 1. Try to find this token in the database
   const hashedToken = hash256(input.token)
   const possibleToken = await db.token.findFirst({
