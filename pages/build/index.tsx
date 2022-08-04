@@ -1,6 +1,6 @@
-import { Container, createStyles, Group, Space, Title, Text } from "@mantine/core"
+import { Container, createStyles, Group, Space, Title, Text, Loader, Center } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useEffect } from "react"
+import { Suspense, useEffect } from "react"
 // import { useTranslation } from 'next-i18next';
 import { Ctx } from "@blitzjs/next"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
@@ -16,63 +16,36 @@ import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
 import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 
-const useStyles = createStyles((theme, _params, getRef) => ({
-  main: {
-    // subscribe to color scheme changes right in your styles
-    backgroundColor: theme.colors.gray[1],
-    color: theme.black,
-    width: "100%",
-    minHeight: "100vh",
-    paddingTop: "var(--layout-header-height)",
-  },
-}))
-
 const Build = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
-  const { portfolios, setPortfolios } = AppStore
-  const [fetchedPortfolios] = useQuery(getUserPortfolios, {
-    orderBy: [
-      {
-        updatedAt: "desc",
-      },
-    ],
-  })
-
-  useEffect(() => {
-    if (fetchedPortfolios) {
-      setPortfolios(fetchedPortfolios)
-    } else {
-      setPortfolios([])
-    }
-  }, [fetchedPortfolios])
+  const { portfolios } = AppStore
   return (
     <Container size="lg" style={{ height: "100%", paddingTop: "16px" }}>
-      {portfolios?.length ? (
-        <>
-          <Group position="apart" align="center">
-            <Title order={1}>{t("title")}</Title>
-            <CreatePortfolioButton
-              variant="gradient"
-              gradient={{ from: "grape", to: "indigo", deg: 110 }}
-              size="sm"
-              rightIcon={<AiFillBuild />}
-            />
-          </Group>
-          <Space h="xl" />
-          <PortfolioCards />
-        </>
-      ) : (
-        <ProfileNoItems>
-          <Text size="xl">{t("noPortfolios")}</Text>
-          <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
+      <div style={{ display: portfolios?.length ? "block" : "none" }}>
+        <Group position="apart" align="center">
+          <Title order={1}>{t("title")}</Title>
           <CreatePortfolioButton
             variant="gradient"
             gradient={{ from: "grape", to: "indigo", deg: 110 }}
-            size="lg"
+            size="sm"
             rightIcon={<AiFillBuild />}
           />
-        </ProfileNoItems>
-      )}
+        </Group>
+        <Space h="xl" />
+        <Suspense fallback={<Loader />}>
+          <PortfolioCards />
+        </Suspense>
+      </div>
+      <ProfileNoItems style={{ display: portfolios?.length ? "none" : "block", height: "100%" }}>
+        <Text size="xl">{t("noPortfolios")}</Text>
+        <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
+        <CreatePortfolioButton
+          variant="gradient"
+          gradient={{ from: "grape", to: "indigo", deg: 110 }}
+          size="lg"
+          rightIcon={<AiFillBuild />}
+        />
+      </ProfileNoItems>
     </Container>
   )
 }

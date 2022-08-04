@@ -1,14 +1,7 @@
-import { Stack } from "@mantine/core"
-import { ReactNode } from "react"
+import { Stack, StackProps } from "@mantine/core"
 
-interface IProfileNoItems {
-  children: ReactNode
-}
-
-const ProfileNoItems = ({ children }: IProfileNoItems) => (
-  <Stack align="center" justify="center" spacing={0} style={{ height: "100%" }}>
-    {children}
-  </Stack>
+const ProfileNoItems = (props: StackProps) => (
+  <Stack align="center" justify="center" spacing={0} {...props} />
 )
 
 export default ProfileNoItems

@@ -18,13 +18,17 @@ import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 const ProfilePortfolios: BlitzPage = observer(() => {
   const { t } = useTranslation("pagesProfilePortfolios")
   const { portfolios, setPortfolios } = AppStore
-  const [fetchedPortfolios] = useQuery(getUserPortfolios, {
-    orderBy: [
-      {
-        updatedAt: "desc",
-      },
-    ],
-  })
+  const [fetchedPortfolios] = useQuery(
+    getUserPortfolios,
+    {
+      orderBy: [
+        {
+          updatedAt: "desc",
+        },
+      ],
+    },
+    { enabled: portfolios === null }
+  )
 
   useEffect(() => {
     if (fetchedPortfolios) {
@@ -34,7 +38,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
     }
   }, [fetchedPortfolios])
   return (
-    <Container size="xl">
+    <Container size="xl" style={{ height: "100%" }}>
       <Group position="apart" align="center">
         <Title order={1}>{t("title")}</Title>
         {portfolios?.length ? (
@@ -48,23 +52,20 @@ const ProfilePortfolios: BlitzPage = observer(() => {
           <></>
         )}
       </Group>
-      {portfolios?.length ? (
-        <>
-          <Space h="xl" />
-          <PortfolioCards />
-        </>
-      ) : (
-        <ProfileNoItems>
-          <Text size="xl">{t("noPortfolios")}</Text>
-          <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-          <CreatePortfolioButton
-            variant="gradient"
-            gradient={{ from: "grape", to: "indigo", deg: 110 }}
-            size="lg"
-            rightIcon={<AiFillBuild />}
-          />
-        </ProfileNoItems>
-      )}
+      <div style={{ display: portfolios?.length ? "block" : "none" }}>
+        <Space h="xl" />
+        <PortfolioCards />
+      </div>
+      <ProfileNoItems style={{ display: portfolios?.length ? "none" : "block", height: "100%" }}>
+        <Text size="xl">{t("noPortfolios")}</Text>
+        <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
+        <CreatePortfolioButton
+          variant="gradient"
+          gradient={{ from: "grape", to: "indigo", deg: 110 }}
+          size="lg"
+          rightIcon={<AiFillBuild />}
+        />
+      </ProfileNoItems>
     </Container>
   )
 })
