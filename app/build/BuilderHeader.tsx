@@ -32,8 +32,8 @@ const SaveButton = observer(() => {
     hasPortfolioChanged,
     data: { name, id, blocks },
   } = BuildStore
-  const handleSave = (e: KeyboardEvent) => {
-    e.preventDefault()
+  const handleSave = (e?: KeyboardEvent) => {
+    e && e.preventDefault()
     if (name && id && hasPortfolioChanged) {
       void updatePortfolioMutation({
         data: deflate(blocks),
@@ -56,7 +56,7 @@ const SaveButton = observer(() => {
       <span>
         <Button
           loading={isLoading}
-          onClick={handleSave}
+          onClick={() => handleSave()}
           disabled={!(hasPortfolioChanged && Boolean(session.userId))}
           variant={hasPortfolioChanged && Boolean(session.userId) ? "gradient" : "default"}
           gradient={{ from: "violet", to: "teal", deg: 35 }}
