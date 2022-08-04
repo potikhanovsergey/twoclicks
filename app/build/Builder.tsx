@@ -10,9 +10,9 @@ import {
   ThemeIcon,
   Group,
 } from "@mantine/core"
-import React, { useContext } from "react"
+import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { deflate, recursiveTagName } from "helpers"
+import { deflate, renderJSXFromBlock } from "helpers"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -62,7 +62,7 @@ const BuilderBlocks = observer(() => {
     <>
       {blocks &&
         blocks.map((b, i) => {
-          const TagName = recursiveTagName({
+          const TagName = renderJSXFromBlock({
             element: b,
             shouldFlat: true,
             withContentEditable: true,
@@ -97,6 +97,11 @@ const Builder = () => {
     setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolio))
     void router.push(`/auth/?next=/build/${portfolio.id}`)
   }
+
+  useEffect(() => {
+    console.log(BuildStore.data.flattenBlocks)
+    console.log(BuildStore.data.blocks)
+  })
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />

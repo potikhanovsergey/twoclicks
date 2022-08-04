@@ -94,7 +94,7 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
   )
 }
 
-export const recursiveTagName = ({
+export const renderJSXFromBlock = ({
   element,
   shouldFlat = false,
   parentID = null,
@@ -114,9 +114,9 @@ export const recursiveTagName = ({
       </WithEditable>
     )
 
-  const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock
-  const TagName = canvasBuildingBlocks[element?.type?.toLowerCase?.()] || element.type // if neither of the above, then the element is a block with children and the recursive call is needed.
-  const props = JSON.parse(JSON.stringify(el.props)) as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
+  const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
+  const TagName = canvasBuildingBlocks[element?.type?.toLowerCase?.()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
+  const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
   for (const prop in props) {
     // Любой проп может быть JSX элементом, который нужно отрендерить (нужно переписать логику с children сюда, но чилдренам передавать parentID)
@@ -127,7 +127,7 @@ export const recursiveTagName = ({
       propValue.type &&
       canvasBuildingBlocks[propValue?.type?.toLowerCase?.()]
     ) {
-      props[prop] = recursiveTagName({
+      props[prop] = renderJSXFromBlock({
         element: propValue,
         shouldFlat: false,
         withContentEditable: false,
@@ -144,10 +144,10 @@ export const recursiveTagName = ({
       props.children.map((child: ICanvasElement) => {
         const key = shortid.generate()
         return React.cloneElement(
-          recursiveTagName({
+          renderJSXFromBlock({
             element: child,
             shouldFlat,
-            parentID: typeof element === "string" ? undefined : element?.id,
+            parentID: el.id,
             withContentEditable,
           }),
           { key }
@@ -155,28 +155,28 @@ export const recursiveTagName = ({
       })
     ) : (
       React.cloneElement(
-        recursiveTagName({
+        renderJSXFromBlock({
           element: props.children,
           shouldFlat,
-          parentID: element.id,
+          parentID: el.id,
           withContentEditable,
         })
       )
     )
   ) : undefined
 
-  if (shouldFlat) {
-    BuildStore.pushFlatten(element)
-  }
+  // if (shouldFlat) {
+  //   BuildStore.pushFlatten(el)
+  // }
   if (element.editType === "element") {
     return (
-      <WithElementEdit id={element.id} parentID={parentID} key={element.id}>
+      <WithElementEdit id={el.id} parentID={parentID} key={el.id}>
         <TagName {...props}>{children}</TagName>
       </WithElementEdit>
     )
   }
   return (
-    <TagName key={element.id} {...props}>
+    <TagName key={el.id} {...props}>
       {children}
     </TagName>
   )

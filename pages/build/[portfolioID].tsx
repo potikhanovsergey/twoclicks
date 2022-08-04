@@ -16,6 +16,7 @@ import { getSession, useSession } from "@blitzjs/auth"
 import { deleteCookie, getCookie } from "cookies-next"
 import db from "db"
 import { useRouter } from "next/router"
+import shortid from "shortid"
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   main: {
@@ -38,7 +39,21 @@ const BuildPage = ({ portfolio }: { portfolio: IPortfolio }) => {
 
   useEffect(() => {
     if (portfolio?.data) {
+      const traverseJSON = (obj) => {
+        for (let k in obj) {
+          if (obj[k] && typeof obj[k] === "object") {
+            obj[k].id = shortid.generate()
+            BuildStore.pushFlatten(obj[k])
+            traverseJSON(obj[k])
+          } else {
+            // base case, stop recurring
+          }
+        }
+      }
+      // traverseJSON(portfolio.data)
+      // console.log("PORTFOLIO DATA", portfolio.data)
       BuildStore.data.blocks = portfolio.data
+      traverseJSON(BuildStore.data.blocks)
       BuildStore.data.name = portfolio.name
       BuildStore.data.id = portfolio.id
     }

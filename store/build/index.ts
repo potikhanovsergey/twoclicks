@@ -55,7 +55,11 @@ class Build {
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
         this.hasPortfolioChanged = true
-        parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
+        if (Array.isArray(parentProps.children)) {
+          parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
+        } else {
+          parentProps.children = []
+        }
         delete this.data.flattenBlocks[id]
       }
     } else {
@@ -63,6 +67,7 @@ class Build {
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
       delete this.data.flattenBlocks[id]
     }
+    console.log("element deleted", id, parentID)
   }
 
   @action

@@ -4,7 +4,7 @@ import { GetServerSidePropsContext } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React, { useEffect, useMemo, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
-import { getSerializedJSON, recursiveTagName, serialize } from "helpers"
+import { getSerializedJSON, renderJSXFromBlock, serialize } from "helpers"
 import { jsonLanguage } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
 import { useMutation, usePaginatedQuery } from "@blitzjs/rpc"
@@ -61,7 +61,7 @@ const DashboardIndex = () => {
 
   const TagName = useMemo(() => {
     try {
-      return recursiveTagName({
+      return renderJSXFromBlock({
         element: getSerializedJSON(json),
         shouldFlat: false,
         withContentEditable: false,
