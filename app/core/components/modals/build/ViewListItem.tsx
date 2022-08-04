@@ -65,7 +65,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
 
-  const TagName = useMemo(() => {
+  const JSX = useMemo(() => {
     return renderJSXFromBlock({
       element: { ...block, editType: null },
       withContentEditable: false,
@@ -111,7 +111,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
         className={classes.box}
         onClick={(e: React.MouseEvent<HTMLDivElement>) => (onClick ? onClick() : handleBoxClick(e))}
       >
-        {cloneElement(TagName, { className: classes.child })}
+        {cloneElement(JSX, { className: classes.child })}
         {hasActions && (
           <Group className={classes.actions}>
             <ActionIcon

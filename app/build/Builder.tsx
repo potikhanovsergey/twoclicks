@@ -63,14 +63,14 @@ const BuilderBlocks = observer(() => {
       <Text>{BuildStore.sectionsCount}</Text>
       {blocks &&
         blocks.map((b, i) => {
-          const TagName = renderJSXFromBlock({
+          const JSX = renderJSXFromBlock({
             element: b,
             shouldFlat: true,
             withContentEditable: true,
             withEditToolbar: true,
           })
-          if (TagName) {
-            return TagName
+          if (JSX) {
+            return JSX
           }
           return <React.Fragment key={i} />
         })}

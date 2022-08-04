@@ -59,7 +59,7 @@ const DashboardIndex = () => {
     }
   }
 
-  const TagName = useMemo(() => {
+  const JSX = useMemo(() => {
     try {
       return renderJSXFromBlock({
         element: getSerializedJSON(json),
@@ -126,7 +126,7 @@ const DashboardIndex = () => {
           {error && error}
         </Stack>
       </Container>
-      <div>{TagName}</div>
+      <div>{JSX}</div>
       <Container size="xl">
         <Group>
           <Button color="yellow" onClick={handleCreateBuildingBlock} loading={isLoading}>
