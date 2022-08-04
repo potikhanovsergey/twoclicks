@@ -41,6 +41,7 @@ const SaveButton = observer(() => {
       BuildStore.hasPortfolioChanged = false
     }
   }
+
   return (
     <Tooltip
       label="Authorize to save"
@@ -70,6 +71,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
   const [colors] = useState(["violet", "primary", "accent"])
   const theme = useMantineTheme()
+
   return (
     <Center className={className}>
       <Container size="xl">
