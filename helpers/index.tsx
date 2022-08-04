@@ -13,7 +13,7 @@ import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
 import shortid from "shortid"
 import { ICanvasElement, ICanvasBlockProps, ICanvasBlock } from "types"
-import WithElementEdit from "app/build/WithElementEdit"
+import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
 import { IconBaseProps } from "react-icons"
@@ -99,11 +99,13 @@ export const renderJSXFromBlock = ({
   shouldFlat = false,
   parentID = null,
   withContentEditable = false,
+  withEditToolbar = false,
 }: {
   element: ICanvasElement
   shouldFlat?: boolean
   parentID?: string | null
   withContentEditable?: boolean
+  withEditToolbar?: boolean
 }) => {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
@@ -131,6 +133,7 @@ export const renderJSXFromBlock = ({
         element: propValue,
         shouldFlat: false,
         withContentEditable: false,
+        withEditToolbar,
       })
     }
   }
@@ -149,6 +152,7 @@ export const renderJSXFromBlock = ({
             shouldFlat,
             parentID: el.id,
             withContentEditable,
+            withEditToolbar,
           }),
           { key }
         ) // looking for array of children in recursion;
@@ -160,16 +164,17 @@ export const renderJSXFromBlock = ({
           shouldFlat,
           parentID: el.id,
           withContentEditable,
+          withEditToolbar,
         })
       )
     )
   ) : undefined
 
-  if (element.editType === "element") {
+  if (withEditToolbar && element.editType === "element") {
     return (
-      <WithElementEdit id={el.id} parentID={parentID} key={el.id}>
+      <WithEditToolbar id={el.id} parentID={parentID} key={el.id}>
         <TagName {...props}>{children}</TagName>
-      </WithElementEdit>
+      </WithEditToolbar>
     )
   }
   return (

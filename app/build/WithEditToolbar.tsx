@@ -6,13 +6,13 @@ import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 import { useDisclosure } from "@mantine/hooks"
 
-interface IWithElementEdit {
+interface IWithEditToolbar {
   children: JSX.Element
   id: string
   parentID: string | null
 }
 
-const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
+const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
   const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
@@ -123,4 +123,4 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
   )
 }
 
-export default WithElementEdit
+export default WithEditToolbar

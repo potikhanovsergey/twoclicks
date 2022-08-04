@@ -11,7 +11,6 @@ class Build {
   }
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
-  sectionsCount: number = 0
   hasPortfolioChanged: boolean = false
 
   constructor() {
@@ -30,7 +29,6 @@ class Build {
   @action
   push = (block: ICanvasBlock) => {
     this.data.blocks.push(block)
-    this.sectionsCount++
     this.hasPortfolioChanged = true
     traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
   }
@@ -116,6 +114,10 @@ class Build {
   /////////// COMPUTED /////////////
   @computed get isCanvasEmpty() {
     return this.data.blocks.length === 0
+  }
+
+  @computed get sectionsCount() {
+    return this.data.blocks.length
   }
 }
 
