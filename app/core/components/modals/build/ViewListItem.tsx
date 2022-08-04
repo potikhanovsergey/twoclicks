@@ -1,9 +1,8 @@
 import { Box, Group, ActionIcon, createStyles } from "@mantine/core"
 import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
-import shortid from "shortid"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { renderJSXFromBlock, serialize, traverseAddIDs } from "helpers"
+import { renderJSXFromBlock } from "helpers"
 import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
@@ -29,6 +28,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     maxHeight: "200px",
     aspectRatio: "5/3",
     position: "relative",
+    overflow: "hidden",
     "&:hover": {
       [`& .${getRef("icon")}`]: {
         opacity: 1,

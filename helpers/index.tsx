@@ -17,6 +17,7 @@ import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
 import { IconBaseProps } from "react-icons"
+import { e } from "@blitzjs/auth/dist/index-e729347c"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -94,7 +95,34 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
   )
 }
 
-export const renderJSXFromBlock = ({
+function traverseProp({
+  propValue,
+  prop,
+  shouldFlat,
+  parentID,
+  withContentEditable,
+  withEditToolbar,
+}) {
+  if (prop === "children" && typeof propValue === "string" && withContentEditable)
+    return (
+      <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
+        {propValue}
+      </WithEditable>
+    )
+  if (propValue && typeof propValue === "object" && propValue.type) {
+    return renderJSXFromBlock({
+      element: propValue,
+      shouldFlat,
+      parentID,
+      withContentEditable,
+      withEditToolbar,
+    })
+  } else {
+    return propValue
+  }
+}
+
+export function renderJSXFromBlock({
   element,
   shouldFlat = false,
   parentID = null,
@@ -106,82 +134,59 @@ export const renderJSXFromBlock = ({
   parentID?: string | null
   withContentEditable?: boolean
   withEditToolbar?: boolean
-}) => {
+}) {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
-  if (typeof element === "string")
+
+  // TODO: It's questionable if we need these lines
+  if (typeof element === "string") {
     return (
       <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
         {element}
       </WithEditable>
     )
+  }
 
   const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
   const TagName = canvasBuildingBlocks[element?.type?.toLowerCase?.()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
+  // not only children, byt any other element's prop can be React.Node or JSX.Element. We need to traverse it to make sure all props are rendered as they should
   for (const prop in props) {
-    // Любой проп может быть JSX элементом, который нужно отрендерить (нужно переписать логику с children сюда, но чилдренам передавать parentID)
-    if (prop === "children") continue
-    const propValue = props[prop]
-    if (
-      typeof propValue === "object" &&
-      propValue.type &&
-      canvasBuildingBlocks[propValue?.type?.toLowerCase?.()]
-    ) {
-      props[prop] = renderJSXFromBlock({
-        element: propValue,
-        shouldFlat: false,
-        withContentEditable: false,
-        withEditToolbar,
-      })
-    }
-  }
-
-  const children: ReactNode | undefined = props?.children ? (
-    typeof props.children === "string" ? (
-      <WithEditable parentID={element.id} withContentEditable={withContentEditable}>
-        {props.children}
-      </WithEditable>
-    ) : Array.isArray(props?.children) ? (
-      props.children.map((child: ICanvasElement) => {
-        const key = shortid.generate()
-        return React.cloneElement(
-          renderJSXFromBlock({
-            element: child,
-            shouldFlat,
-            parentID: el.id,
-            withContentEditable,
-            withEditToolbar,
-          }),
-          { key }
-        ) // looking for array of children in recursion;
-      })
-    ) : (
-      React.cloneElement(
-        renderJSXFromBlock({
-          element: props.children,
+    if (Array.isArray(props[prop])) {
+      for (let i = 0; i < props[prop].length; i++) {
+        props[prop][i] = traverseProp({
+          propValue: props[prop][i],
+          prop,
           shouldFlat,
           parentID: el.id,
           withContentEditable,
           withEditToolbar,
         })
-      )
-    )
-  ) : undefined
+      }
+    } else {
+      const traversedProp = traverseProp({
+        propValue: props[prop],
+        prop,
+        shouldFlat,
+        parentID: el.id,
+        withContentEditable,
+        withEditToolbar,
+      })
+      if (traversedProp) {
+        props[prop] = traversedProp
+      }
+    }
+  }
 
   if (withEditToolbar && element.editType === "element") {
     return (
       <WithEditToolbar id={el.id} parentID={parentID} key={el.id}>
-        <TagName {...props}>{children}</TagName>
+        <TagName {...props} />
       </WithEditToolbar>
     )
   }
-  return (
-    <TagName key={el.id} {...props}>
-      {children}
-    </TagName>
-  )
+  return <TagName key={el.id} {...props} />
 }
 
 export const deflate = (data) => {
@@ -194,10 +199,14 @@ export const inflateBase64 = (str: string) => {
 }
 const getElementType = (value) => {
   if (typeof value === "function") {
+    // react-icon (and maybe some other components) has type value of function, thus it needs to be rendered to retrieve it's name and props
     const c = value()
     const name = c?.type?.displayName || c?.type?.name
     if (name === "IconBase") {
-      return [name, c.props]
+      return {
+        typeName: name,
+        props: c.props,
+      }
     }
     return name
   }
@@ -227,29 +236,22 @@ export function serialize(element: any) {
 
 export const formatDate = (inputDate) => {
   let date, month, year
-
   date = inputDate.getDate()
   month = inputDate.getMonth() + 1
   year = inputDate.getFullYear()
-
   date = date.toString().padStart(2, "0")
-
   month = month.toString().padStart(2, "0")
-
   return `${date}/${month}/${year}`
 }
 
 function traverseJSON(obj) {
   for (let k in obj) {
     if (typeof obj[k] === "object") {
-      if (Array.isArray(obj[k]?.type)) {
-        obj[k].props = obj[k].type[1]
-        obj[k].type = obj[k].type[0]
+      if (obj[k]?.type?.typeName) {
+        obj[k].type = obj[k].type.typeName
+        obj[k].props = obj[k].type.props
       }
       traverseJSON(obj[k])
-      // traverseJSON(obj[k].props);
-    } else {
-      // base case, stop recurring
     }
   }
 }
@@ -264,8 +266,6 @@ export function traverseAddIDs(obj) {
       obj[k].id = shortid.generate()
       BuildStore.pushFlatten(obj[k])
       traverseAddIDs(obj[k])
-    } else {
-      // base case, stop recurring
     }
   }
 }

@@ -60,6 +60,7 @@ const BuilderBlocks = observer(() => {
   const blocks = BuildStore.data.blocks
   return (
     <>
+      <Text>{BuildStore.sectionsCount}</Text>
       {blocks &&
         blocks.map((b, i) => {
           const TagName = renderJSXFromBlock({
@@ -118,7 +119,6 @@ const Builder = () => {
       >
         <Container size="xl" px={64} py={16} className={classes.canvasContainer}>
           <Stack spacing={0} className={classes.canvas}>
-            <Text>{BuildStore.sectionsCount}</Text>
             <BuilderBlocks />
             <Button
               radius="xs"
