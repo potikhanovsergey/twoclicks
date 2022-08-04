@@ -1,10 +1,10 @@
 import { Group, Stack, Title, Button, Text, Image, Container } from "@mantine/core"
-import { AiOutlineArrowRight } from "react-icons/ai"
+import { CgAdidas } from "react-icons/cg"
 
 const FirstHero = () => {
   return (
     <Container size="xl">
-      <Group position="apart" p="xl" noWrap grow>
+      <Group position="apart" py="xl" noWrap grow>
         <Stack align="flex-start" justify="center">
           <Title order={1} style={{ fontSize: "40px" }}>
             My First Hero
@@ -20,8 +20,8 @@ const FirstHero = () => {
           </Text>
           <Button
             variant="gradient"
-            gradient={{ from: "teal", to: "lime", deg: 105 }}
-            rightIcon={<AiOutlineArrowRight />}
+            gradient={{ from: "dark", to: "red", deg: 60 }}
+            rightIcon={<CgAdidas />}
           >
             See my best works
           </Button>

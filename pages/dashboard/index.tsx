@@ -3,9 +3,11 @@ import {
   Button,
   Container,
   Group,
+  Input,
   JsonInput,
   Space,
   Stack,
+  TextInput,
   Title,
   useMantineTheme,
 } from "@mantine/core"
@@ -16,15 +18,40 @@ import CodeMirror from "@uiw/react-codemirror"
 import { recursiveTagName, serialize } from "helpers"
 import { jsonLanguage } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
+import { useForm } from "@mantine/form"
+import { useMutation, usePaginatedQuery, useQuery } from "@blitzjs/rpc"
+import CreateBuildingBlock from "app/dashboard/building-blocks/mutations/createBuildingBlock"
+import { showNotification } from "@mantine/notifications"
+import db from "db"
+import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 
 const sections = [FirstHero]
+
+function getParsedJSON(jsonSTRING: string) {
+  return JSON.parse(serialize(JSON.parse(jsonSTRING)))
+}
+
+const ITEMS_PER_PAGE = 100
 
 const DashboardIndex = () => {
   const getJsonValue = (component) => {
     const serialized = JSON.parse(serialize(component))
-    console.log("serialized", serialized)
     return JSON.stringify(serialized, null, 2)
   }
+
+  const page = 0
+
+  const [{ buildingBlocks, hasMore }] = usePaginatedQuery(getBuildingBlocks, {
+    orderBy: { id: "asc" },
+    skip: ITEMS_PER_PAGE * page,
+    take: ITEMS_PER_PAGE,
+  })
+
+  useEffect(() => {
+    if (buildingBlocks) {
+      console.log(buildingBlocks[buildingBlocks.length - 1])
+    }
+  }, [buildingBlocks])
 
   const [error, setError] = useState<string | null>(null)
 
@@ -55,17 +82,10 @@ const DashboardIndex = () => {
     }
   }
 
-  const parsedJSON = useMemo(() => {
-    try {
-      const parsedJSON = JSON.parse(json)
-      return parsedJSON
-    } catch (e) {}
-  }, [json])
-
   const TagName = useMemo(() => {
     try {
       return recursiveTagName({
-        element: parsedJSON,
+        element: getParsedJSON(json),
         shouldFlat: false,
         withContentEditable: false,
       })
@@ -73,11 +93,29 @@ const DashboardIndex = () => {
       console.log(e)
       return <></>
     }
-  }, [parsedJSON])
+  }, [json])
+
+  const [createBuildingBlockMutation, { isLoading, isSuccess }] = useMutation(CreateBuildingBlock)
+
+  const handleCreateBuildingBlock = async () => {
+    try {
+      const buildingBlock = getParsedJSON(json)
+      await createBuildingBlockMutation(buildingBlock)
+    } catch (e) {
+      console.log(e)
+    }
+  }
 
   useEffect(() => {
-    console.log("TagName >", TagName)
-  }, [TagName])
+    if (isSuccess) {
+      showNotification({
+        title: "Success",
+        color: "green",
+        message: "Building block was successfully created!",
+        autoClose: 5000,
+      })
+    }
+  }, [isSuccess])
 
   return (
     <>
@@ -110,7 +148,14 @@ const DashboardIndex = () => {
           />
           {error && error}
         </Stack>
-        {<>{TagName}</>}
+      </Container>
+      <div>{TagName}</div>
+      <Container size="xl">
+        <Group>
+          <Button color="yellow" onClick={handleCreateBuildingBlock} loading={isLoading}>
+            Добавить в БД
+          </Button>
+        </Group>
       </Container>
     </>
   )

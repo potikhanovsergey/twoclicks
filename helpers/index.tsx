@@ -89,7 +89,7 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
           let parent = BuildStore.data.flattenBlocks[parentID]
           if (parent) {
             let parentProps = parent.props as ICanvasBlockProps
-            if (parentProps.children !== e.target.innerHTML) {
+            if (parentProps?.children !== e.target.innerHTML) {
               BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerHTML } })
             }
           }
@@ -120,14 +120,9 @@ export const recursiveTagName = ({
       </WithEditable>
     )
 
-  if (Array.isArray(element.type)) {
-    console.log("IS ARRAY", element)
-    element.props = element.type[1]
-    element.type = element.type[0]
-  }
-
+  const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock
   const TagName = canvasBuildingBlocks[element?.type?.toLowerCase?.()] || element.type // if neither of the above, then the element is a block with children and the recursive call is needed.
-  const props = element.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
+  const props = JSON.parse(JSON.stringify(el.props)) as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
   for (const prop in props) {
     // Любой проп может быть JSX элементом, который нужно отрендерить (нужно переписать логику с children сюда, но чилдренам передавать parentID)
@@ -136,29 +131,31 @@ export const recursiveTagName = ({
     if (
       typeof propValue === "object" &&
       propValue.type &&
-      (canvasBuildingBlocks[propValue?.type?.toLowerCase?.()] || Array.isArray(propValue?.type))
+      canvasBuildingBlocks[propValue?.type?.toLowerCase?.()]
     ) {
+      console.log("Тут ломается иконка", props[prop])
       props[prop] = recursiveTagName({
         element: propValue,
         shouldFlat: false,
         withContentEditable: false,
       })
+      console.log(props[prop])
     }
   }
 
-  const children: ReactNode | undefined = props.children ? (
+  const children: ReactNode | undefined = props?.children ? (
     typeof props.children === "string" ? (
       <WithEditable parentID={element.id} withContentEditable={withContentEditable}>
         {props.children}
       </WithEditable>
-    ) : Array.isArray(props.children) ? (
+    ) : Array.isArray(props?.children) ? (
       props.children.map((child: ICanvasElement) => {
         const key = shortid.generate()
         return React.cloneElement(
           recursiveTagName({
             element: child,
             shouldFlat,
-            parentID: element.id,
+            parentID: typeof element === "string" ? undefined : element?.id,
             withContentEditable,
           }),
           { key }
@@ -207,6 +204,7 @@ const getElementType = (value) => {
     const name = c?.type?.displayName || c?.type?.name
     console.log("C", c)
     if (name === "IconBase") {
+      console.log("ICON BASE", c)
       return [name, c.props]
     }
     return name
@@ -216,7 +214,7 @@ const getElementType = (value) => {
   return null
 }
 
-export function serialize(element: JSX.Element) {
+export function serialize(element: any) {
   const replacer = (key, value) => {
     switch (key) {
       case "_owner":
@@ -230,8 +228,9 @@ export function serialize(element: JSX.Element) {
         return value
     }
   }
-  const stringified = JSON.stringify(element, replacer)
-  return stringified
+  const obj = JSON.parse(JSON.stringify(element, replacer))
+  traverseJSON(obj)
+  return JSON.stringify(obj)
 }
 
 export const formatDate = (inputDate) => {
@@ -246,4 +245,19 @@ export const formatDate = (inputDate) => {
   month = month.toString().padStart(2, "0")
 
   return `${date}/${month}/${year}`
+}
+
+function traverseJSON(obj) {
+  for (let k in obj) {
+    if (typeof obj[k] === "object") {
+      if (Array.isArray(obj[k]?.type)) {
+        obj[k].props = obj[k].type[1]
+        obj[k].type = obj[k].type[0]
+      }
+      traverseJSON(obj[k])
+      // traverseJSON(obj[k].props);
+    } else {
+      // base case, stop recurring
+    }
+  }
 }

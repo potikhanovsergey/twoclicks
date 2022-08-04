@@ -76,7 +76,6 @@ const BuilderBlocks = observer(() => {
             shouldFlat: true,
             withContentEditable: true,
           })
-          console.log("TAGNAME", TagName)
           if (TagName) {
             return TagName
           }
@@ -123,7 +122,6 @@ const Builder = () => {
         <Container size="xl" px={64} py={16} className={classes.canvasContainer}>
           <Stack spacing={0} className={classes.canvas}>
             <Text>{BuildStore.sectionsCount}</Text>
-            <Text>{JSON.stringify(BuildStore.data.blocks)}</Text>
             <BuilderBlocks />
             <Button
               radius="xs"

@@ -3,7 +3,7 @@ import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
 import shortid from "shortid"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { recursiveTagName } from "helpers"
+import { recursiveTagName, serialize } from "helpers"
 import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
@@ -26,6 +26,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
+    maxHeight: "200px",
     aspectRatio: "5/3",
     position: "relative",
     "&:hover": {
@@ -94,6 +95,8 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       BuildStore.shouldRefetchLiked = true
       setIsLikeLoading(false)
     } else {
+      console.log(block)
+      console.log(JSON.parse(serialize({ ...block })))
       BuildStore.push({
         ...block,
         id: shortid.generate(),
