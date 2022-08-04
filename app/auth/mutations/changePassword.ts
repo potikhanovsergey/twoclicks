@@ -1,14 +1,15 @@
 import { NotFoundError, AuthenticationError } from "blitz"
 import db from "db"
 import { authenticateUser } from "./login"
-import { ChangePassword } from "../validations"
 import { resolver } from "@blitzjs/rpc"
 import { SecurePassword } from "@blitzjs/auth"
 
 export default resolver.pipe(
-  resolver.zod(ChangePassword),
   resolver.authorize(),
-  async ({ currentPassword, newPassword }, ctx) => {
+  async (
+    { currentPassword, newPassword }: { currentPassword: string; newPassword: string },
+    ctx
+  ) => {
     const user = await db.user.findFirst({ where: { id: ctx.session.userId as string } })
     if (!user) throw new NotFoundError()
 

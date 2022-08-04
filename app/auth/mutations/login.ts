@@ -2,10 +2,8 @@ import { SecurePassword } from "@blitzjs/auth"
 import { resolver } from "@blitzjs/rpc"
 import { AuthenticationError } from "blitz"
 import db, { Role } from "db"
-import { Login } from "../validations"
 
-export const authenticateUser = async (rawEmail: string, rawPassword: string) => {
-  const { email, password } = Login.parse({ email: rawEmail, password: rawPassword })
+export const authenticateUser = async (email: string, password: string) => {
   const user = await db.user.findFirst({ where: { email } })
   if (!user) throw new AuthenticationError()
 
@@ -21,11 +19,13 @@ export const authenticateUser = async (rawEmail: string, rawPassword: string) =>
   return rest
 }
 
-export default resolver.pipe(resolver.zod(Login), async ({ email, password }, ctx) => {
-  // This throws an error if credentials are invalid
-  const user = await authenticateUser(email, password)
+export default resolver.pipe(
+  async ({ email, password }: { email: string; password: string }, ctx) => {
+    // This throws an error if credentials are invalid
+    const user = await authenticateUser(email, password)
 
-  await ctx.session.$create({ userId: user.id, role: user.role as Role })
+    await ctx.session.$create({ userId: user.id, role: user.role as Role })
 
-  return user
-})
+    return user
+  }
+)
