@@ -3,7 +3,7 @@ import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
 import shortid from "shortid"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { renderJSXFromBlock, serialize } from "helpers"
+import { renderJSXFromBlock, serialize, traverseAddIDs } from "helpers"
 import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
@@ -95,10 +95,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       BuildStore.shouldRefetchLiked = true
       setIsLikeLoading(false)
     } else {
-      BuildStore.push({
-        ...block,
-        id: shortid.generate(),
-      })
+      BuildStore.push(block)
       setModalContext((prevValue: IModalContextValue) => ({
         ...prevValue,
         canvasComponentsModal: false,

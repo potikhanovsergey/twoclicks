@@ -1,3 +1,4 @@
+import { traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
@@ -18,6 +19,11 @@ class Build {
   }
   /////////// ACTIONS //////////////
   @action
+  setData = (data: ICanvasData) => {
+    this.data = data
+    traverseAddIDs(BuildStore.data.blocks)
+  }
+  @action
   setBlockTypeFilter = (filter: string) => {
     this.blockTypeFilter = filter
   }
@@ -26,6 +32,7 @@ class Build {
     this.data.blocks.push(block)
     this.sectionsCount++
     this.hasPortfolioChanged = true
+    traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
   }
 
   @action

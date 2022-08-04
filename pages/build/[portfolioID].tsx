@@ -6,7 +6,7 @@ import CanvasComponentsModal from "app/core/components/modals/build/CanvasCompon
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
 // import { useTranslation } from 'next-i18next';
 import Builder from "app/build/Builder"
-import { deflate, inflateBase64 } from "helpers"
+import { deflate, inflateBase64, traverseAddIDs } from "helpers"
 import { BuildStore } from "store/build"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import { Ctx } from "@blitzjs/next"
@@ -39,23 +39,12 @@ const BuildPage = ({ portfolio }: { portfolio: IPortfolio }) => {
 
   useEffect(() => {
     if (portfolio?.data) {
-      const traverseJSON = (obj) => {
-        for (let k in obj) {
-          if (obj[k] && typeof obj[k] === "object") {
-            obj[k].id = shortid.generate()
-            BuildStore.pushFlatten(obj[k])
-            traverseJSON(obj[k])
-          } else {
-            // base case, stop recurring
-          }
-        }
-      }
-      // traverseJSON(portfolio.data)
-      // console.log("PORTFOLIO DATA", portfolio.data)
-      BuildStore.data.blocks = portfolio.data
-      traverseJSON(BuildStore.data.blocks)
-      BuildStore.data.name = portfolio.name
-      BuildStore.data.id = portfolio.id
+      BuildStore.setData({
+        blocks: portfolio.data,
+        name: portfolio.name,
+        id: portfolio.id,
+        flattenBlocks: {},
+      })
     }
   }, [portfolio])
 

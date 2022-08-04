@@ -165,9 +165,6 @@ export const renderJSXFromBlock = ({
     )
   ) : undefined
 
-  // if (shouldFlat) {
-  //   BuildStore.pushFlatten(el)
-  // }
   if (element.editType === "element") {
     return (
       <WithElementEdit id={el.id} parentID={parentID} key={el.id}>
@@ -246,6 +243,22 @@ function traverseJSON(obj) {
       }
       traverseJSON(obj[k])
       // traverseJSON(obj[k].props);
+    } else {
+      // base case, stop recurring
+    }
+  }
+}
+
+export function traverseAddIDs(obj) {
+  if (obj && typeof obj === "object") {
+    obj.id = shortid.generate()
+    BuildStore.pushFlatten(obj)
+  }
+  for (let k in obj) {
+    if (obj[k] && typeof obj[k] === "object") {
+      obj[k].id = shortid.generate()
+      BuildStore.pushFlatten(obj[k])
+      traverseAddIDs(obj[k])
     } else {
       // base case, stop recurring
     }
