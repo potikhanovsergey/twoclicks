@@ -127,13 +127,11 @@ export const recursiveTagName = ({
       propValue.type &&
       canvasBuildingBlocks[propValue?.type?.toLowerCase?.()]
     ) {
-      console.log("Тут ломается иконка", props[prop])
       props[prop] = recursiveTagName({
         element: propValue,
         shouldFlat: false,
         withContentEditable: false,
       })
-      console.log(props[prop])
     }
   }
 
@@ -196,9 +194,7 @@ const getElementType = (value) => {
   if (typeof value === "function") {
     const c = value()
     const name = c?.type?.displayName || c?.type?.name
-    console.log("C", c)
     if (name === "IconBase") {
-      console.log("ICON BASE", c)
       return [name, c.props]
     }
     return name
@@ -254,4 +250,8 @@ function traverseJSON(obj) {
       // base case, stop recurring
     }
   }
+}
+
+export function getSerializedJSON(jsonSTRING: string) {
+  return JSON.parse(serialize(JSON.parse(jsonSTRING)))
 }

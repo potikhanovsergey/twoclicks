@@ -95,8 +95,6 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       BuildStore.shouldRefetchLiked = true
       setIsLikeLoading(false)
     } else {
-      console.log(block)
-      console.log(JSON.parse(serialize({ ...block })))
       BuildStore.push({
         ...block,
         id: shortid.generate(),

@@ -4,7 +4,7 @@ import { GetServerSidePropsContext } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React, { useEffect, useMemo, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
-import { recursiveTagName, serialize } from "helpers"
+import { getSerializedJSON, recursiveTagName, serialize } from "helpers"
 import { jsonLanguage } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
 import { useMutation, usePaginatedQuery } from "@blitzjs/rpc"
@@ -13,10 +13,6 @@ import { showNotification } from "@mantine/notifications"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 
 const sections = [FirstHero]
-
-function getParsedJSON(jsonSTRING: string) {
-  return JSON.parse(serialize(JSON.parse(jsonSTRING)))
-}
 
 const ITEMS_PER_PAGE = 100
 
@@ -33,12 +29,6 @@ const DashboardIndex = () => {
     skip: ITEMS_PER_PAGE * page,
     take: ITEMS_PER_PAGE,
   })
-
-  useEffect(() => {
-    if (buildingBlocks) {
-      console.log(buildingBlocks[buildingBlocks.length - 1])
-    }
-  }, [buildingBlocks])
 
   const [error, setError] = useState<string | null>(null)
 
@@ -72,7 +62,7 @@ const DashboardIndex = () => {
   const TagName = useMemo(() => {
     try {
       return recursiveTagName({
-        element: getParsedJSON(json),
+        element: getSerializedJSON(json),
         shouldFlat: false,
         withContentEditable: false,
       })
@@ -86,7 +76,7 @@ const DashboardIndex = () => {
 
   const handleCreateBuildingBlock = async () => {
     try {
-      const buildingBlock = getParsedJSON(json)
+      const buildingBlock = getSerializedJSON(json)
       await createBuildingBlockMutation(buildingBlock)
     } catch (e) {
       console.log(e)

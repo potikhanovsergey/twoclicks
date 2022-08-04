@@ -88,7 +88,6 @@ export async function getServerSideProps(
 
       if (portfolioFromCookie) {
         const inflatedPortfolio = inflateBase64(portfolioFromCookie) as IPortfolio
-        console.log("PORTFOLIO FROM COOKIE")
         const portfolio = await db.portfolio.upsert({
           where: {
             id: inflatedPortfolio.id,
@@ -104,7 +103,6 @@ export async function getServerSideProps(
         deleteCookie(`portfolio-${params.portfolioID}`, ctx)
         return portfolio
       }
-      console.log("PORTFOLIO FROM DB")
       return await getPortfolioByID({ id: params.portfolioID }, { ...ctx, session })
     } else {
       let portfolioFromCookie = getCookie(`portfolio-${params.portfolioID}`, ctx)
