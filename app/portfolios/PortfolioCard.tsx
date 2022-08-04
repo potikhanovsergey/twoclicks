@@ -1,6 +1,5 @@
 import {
   useMantineTheme,
-  Paper,
   Group,
   Stack,
   Anchor,

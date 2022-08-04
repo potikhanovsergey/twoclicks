@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import {
   Stack,
   Button,
@@ -7,25 +6,17 @@ import {
   Container,
   Text,
   Modal,
-  Box,
   useMantineTheme,
-  Center,
   ThemeIcon,
   Group,
 } from "@mantine/core"
-import React, { useContext, useEffect } from "react"
+import React, { useContext } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { deflate, inflateBase64, recursiveTagName } from "helpers"
+import { deflate, recursiveTagName } from "helpers"
 import { BuildStore } from "store/build"
-import { BuildingBlock } from "@prisma/client"
 import { observer } from "mobx-react-lite"
-import { useMutation, useQuery } from "@blitzjs/rpc"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import createPortfolio from "app/portfolios/mutations/createPortfolio"
-import getLatestPortfolio from "app/portfolios/queries/getLatestPortfolio"
 import BuilderHeader from "./BuilderHeader"
 import Onboarding from "./Onboarding"
-import Link from "next/link"
 import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
 import { setCookie } from "cookies-next"
@@ -34,7 +25,7 @@ import { useRouter } from "next/router"
 const useStyles = createStyles((theme) => ({
   builder: {
     width: "100%",
-    height: "calc(100vh - var(--build-header-height))",
+    height: "calc(100vh - var(--layout-header-height))",
     display: "flex",
     flexFlow: "column",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[2],
@@ -157,10 +148,10 @@ const Builder = () => {
         radius="md"
         styles={{
           root: {
-            top: "var(--build-header-height)",
+            top: "var(--layout-header-height)",
           },
           overlay: {
-            top: "var(--build-header-height)",
+            top: "var(--layout-header-height)",
             "> div": {
               top: 0,
             },

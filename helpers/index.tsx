@@ -3,9 +3,6 @@ import {
   StackProps,
   GroupProps,
   TextInputProps,
-  TabsProps,
-  TabProps,
-  Text,
   TextProps,
   Box,
   TitleProps,
@@ -13,16 +10,13 @@ import {
   ImageProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
-import React, { ReactNode, useRef } from "react"
+import React, { ReactNode } from "react"
 import shortid from "shortid"
-// import { CanvasStore } from "../../../store/build"
 import { ICanvasElement, ICanvasBlockProps, ICanvasBlock } from "types"
 import WithElementEdit from "app/build/WithElementEdit"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
-import { Portfolio } from "@prisma/client"
-import { IconBase, IconBaseProps } from "react-icons"
-import { VscLayers } from "react-icons/vsc"
+import { IconBaseProps } from "react-icons"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 

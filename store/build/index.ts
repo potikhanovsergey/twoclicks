@@ -1,4 +1,3 @@
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 

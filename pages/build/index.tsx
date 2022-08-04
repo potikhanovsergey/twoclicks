@@ -1,26 +1,22 @@
-import { Button, Container, createStyles, Group, Space, Title, Text } from "@mantine/core"
+import { Container, createStyles, Group, Space, Title, Text } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useEffect, useState } from "react"
-import LayoutHeader from "app/core/components/layout/LayoutHeader"
+import { useEffect } from "react"
 // import { useTranslation } from 'next-i18next';
 import { Ctx } from "@blitzjs/next"
-import { IPortfolio } from "types"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import { Player } from "@lottiefiles/react-lottie-player"
 import PortfolioCards from "app/portfolios/PortfolioCards"
 import ProfileNoItems from "app/profile/ProfileNoItems"
-import Link from "next/link"
 import { AiFillBuild } from "react-icons/ai"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 import { useTranslation } from "next-i18next"
 import lottieSquirrel from "lotties/squirrel.json"
-import { BuildingBlock, Prisma } from "@prisma/client"
+import { BuildingBlock } from "@prisma/client"
 import ObjectID from "bson-objectid"
-import db from "db"
 import { PortfolioStarterMock } from "db/mocks"
 import { deflate } from "helpers"
-import { getCookie, setCookie } from "cookies-next"
+import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
@@ -35,7 +31,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     color: theme.black,
     width: "100%",
     minHeight: "100vh",
-    paddingTop: "var(--build-header-height)",
+    paddingTop: "var(--layout-header-height)",
   },
 }))
 

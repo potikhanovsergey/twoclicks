@@ -1,6 +1,5 @@
 import { Ctx } from "blitz"
 import db, { BuildingBlock } from "db"
-import { PortfolioStarterMock } from "db/mocks"
 import { deflate } from "helpers"
 
 export default async function createPortfolio(

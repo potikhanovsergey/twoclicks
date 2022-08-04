@@ -14,7 +14,6 @@ import {
 } from "@mantine/core"
 import { useTranslation } from "next-i18next"
 import { useRouter } from "next/router"
-import { email } from "../validations"
 import { hideNotification, showNotification } from "@mantine/notifications"
 import { useEffect } from "react"
 

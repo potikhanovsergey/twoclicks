@@ -1,6 +1,6 @@
-import { Stack, createStyles, Text, Button, MantineProvider, Loader, Center } from "@mantine/core"
+import { createStyles, Text, Loader, Center } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { Suspense, useContext, useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import LayoutHeader from "app/core/components/layout/LayoutHeader"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
@@ -14,7 +14,6 @@ import { PortfolioStarterMock } from "db/mocks"
 import { IPortfolio } from "types"
 import { getSession, useSession } from "@blitzjs/auth"
 import { deleteCookie, getCookie } from "cookies-next"
-import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import db from "db"
 import { useRouter } from "next/router"
 
@@ -28,7 +27,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: "var(--build-header-height)",
+    paddingTop: "var(--layout-header-height)",
   },
 }))
 

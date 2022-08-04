@@ -16,7 +16,7 @@ import {
   useMantineTheme,
 } from "@mantine/core"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
-import { deflate, inflateBase64 } from "helpers"
+import { deflate } from "helpers"
 import { observer } from "mobx-react-lite"
 import React, { Suspense, useState } from "react"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"

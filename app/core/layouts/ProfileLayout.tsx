@@ -21,8 +21,8 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
       <AppShell
         styles={{
           main: {
-            minHeight: "calc(100vh - var(--build-header-height))",
-            paddingTop: "calc(var(--build-header-height, 0px) + 16px)",
+            minHeight: "calc(100vh - var(--layout-header-height))",
+            paddingTop: "calc(var(--layout-header-height, 0px) + 16px)",
             paddingLeft: "calc(var(--mantine-navbar-width, 0px) + 16px)",
             paddingRight: "calc(var(--mantine-aside-width, 0px) + 16px)",
           },

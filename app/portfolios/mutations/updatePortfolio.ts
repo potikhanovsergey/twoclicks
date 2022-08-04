@@ -1,7 +1,5 @@
 import { Ctx } from "blitz"
 import db, { Portfolio } from "db"
-import { PortfolioStarterMock } from "db/mocks"
-import { deflate } from "helpers"
 
 export type IUpdatePortfolio = Pick<Portfolio, "data" | "name" | "id">
 

@@ -1,4 +1,4 @@
-import { useMantineColorScheme, Menu, Text, useMantineTheme } from "@mantine/core"
+import { Menu, Text, useMantineTheme } from "@mantine/core"
 import { useTranslation } from "next-i18next"
 import Link from "next/link"
 import { useRouter } from "next/router"

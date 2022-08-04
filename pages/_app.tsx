@@ -15,7 +15,7 @@ import {
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
-import { appWithTranslation, i18n } from "next-i18next"
+import { appWithTranslation } from "next-i18next"
 import "app/styles/variables.css"
 import router from "next/router"
 import CubeLoader from "app/core/components/CubeLoader"
@@ -25,10 +25,6 @@ import { getCookie, setCookie } from "cookies-next"
 import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
 import { ModalsProvider } from "@mantine/modals"
-import { AppStore } from "store"
-import { useQuery } from "@blitzjs/rpc"
-import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
-import { useSession } from "@blitzjs/auth"
 
 type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {

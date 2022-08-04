@@ -1,28 +1,15 @@
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import {
-  Button,
-  Container,
-  Group,
-  Input,
-  JsonInput,
-  Space,
-  Stack,
-  TextInput,
-  Title,
-  useMantineTheme,
-} from "@mantine/core"
+import { Button, Container, Group, Space, Stack, Title, useMantineTheme } from "@mantine/core"
 import { GetServerSidePropsContext } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import React, { cloneElement, useCallback, useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
 import { recursiveTagName, serialize } from "helpers"
 import { jsonLanguage } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
-import { useForm } from "@mantine/form"
-import { useMutation, usePaginatedQuery, useQuery } from "@blitzjs/rpc"
+import { useMutation, usePaginatedQuery } from "@blitzjs/rpc"
 import CreateBuildingBlock from "app/dashboard/building-blocks/mutations/createBuildingBlock"
 import { showNotification } from "@mantine/notifications"
-import db from "db"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 
 const sections = [FirstHero]

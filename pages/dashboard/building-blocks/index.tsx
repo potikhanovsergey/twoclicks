@@ -8,7 +8,6 @@ import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuilding
 import { Loader, SimpleGrid } from "@mantine/core"
 import ViewListItem from "app/core/components/modals/build/ViewListItem"
 import shortid from "shortid"
-import { ICanvasBlock, ICanvasBlockProps } from "types"
 
 const ITEMS_PER_PAGE = 12
 

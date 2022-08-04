@@ -1,9 +1,6 @@
-import { useQuery } from "@blitzjs/rpc"
-import { Button, useMantineTheme } from "@mantine/core"
 import { observer } from "mobx-react-lite"
 import { AppStore } from "store"
-import PortfolioCard, { PortfolioPreview } from "./PortfolioCard"
-import getUserPortfolios from "./queries/getUserPortfolios"
+import PortfolioCard from "./PortfolioCard"
 
 const PortfolioCards = observer(() => {
   const { portfolios } = AppStore

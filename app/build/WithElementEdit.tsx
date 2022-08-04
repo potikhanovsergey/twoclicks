@@ -1,14 +1,5 @@
 import { ActionIcon, Box, Group, Popover } from "@mantine/core"
-import React, {
-  cloneElement,
-  FormEventHandler,
-  ReactEventHandler,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
+import React, { cloneElement, useMemo, useRef, useState } from "react"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"

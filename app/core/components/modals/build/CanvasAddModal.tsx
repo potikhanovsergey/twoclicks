@@ -18,7 +18,6 @@ import ComponentsModalTabs from "./ModalTabs"
 import { ICanvasModalType, IFilterButton } from "types"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
-import { useHotkeys } from "@mantine/hooks"
 
 interface ICanvasAddModal {
   filterButtons: IFilterButton[]
