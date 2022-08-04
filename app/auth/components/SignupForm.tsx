@@ -1,7 +1,5 @@
-import { PromiseReturnType } from "blitz"
 import signup from "app/auth/mutations/signup"
 import { useMutation } from "@blitzjs/rpc"
-import { Routes } from "@blitzjs/next"
 import { useForm } from "@mantine/form"
 import {
   Divider,

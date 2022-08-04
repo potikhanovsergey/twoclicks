@@ -1,19 +1,27 @@
+import { traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
 class Build {
   data: ICanvasData = {
+    name: null,
+    id: null,
     blocks: [],
     flattenBlocks: {},
   }
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
-  sectionsCount: number = 0
+  hasPortfolioChanged: boolean = false
 
   constructor() {
     makeAutoObservable(this)
   }
   /////////// ACTIONS //////////////
+  @action
+  setData = (data: ICanvasData) => {
+    this.data = data
+    traverseAddIDs(BuildStore.data.blocks)
+  }
   @action
   setBlockTypeFilter = (filter: string) => {
     this.blockTypeFilter = filter
@@ -21,7 +29,8 @@ class Build {
   @action
   push = (block: ICanvasBlock) => {
     this.data.blocks.push(block)
-    this.sectionsCount++
+    this.hasPortfolioChanged = true
+    traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
   }
 
   @action
@@ -36,11 +45,10 @@ class Build {
     const el = this.getElement(id)
     if (el) {
       const elProps = el?.props as ICanvasBlockProps
-      if (elProps && elProps !== newProps) {
-        el.props = {
-          ...elProps,
-          ...newProps,
-        }
+      this.hasPortfolioChanged = true
+      el.props = {
+        ...elProps,
+        ...newProps,
       }
     }
   }
@@ -51,18 +59,26 @@ class Build {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
-        parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
+        this.hasPortfolioChanged = true
+        if (Array.isArray(parentProps.children)) {
+          parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
+        } else {
+          parentProps.children = []
+        }
         delete this.data.flattenBlocks[id]
       }
     } else {
+      this.hasPortfolioChanged = true
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
       delete this.data.flattenBlocks[id]
     }
+    console.log("element deleted", id, parentID)
   }
 
   @action
   moveLeft = ({ id, parentID }: { id: string; parentID: string | null }) => {
     if (parentID) {
+      this.hasPortfolioChanged = true
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
@@ -80,6 +96,7 @@ class Build {
   @action
   moveRight = ({ id, parentID }: { id: string; parentID: string | null }) => {
     if (parentID) {
+      this.hasPortfolioChanged = true
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
@@ -97,6 +114,10 @@ class Build {
   /////////// COMPUTED /////////////
   @computed get isCanvasEmpty() {
     return this.data.blocks.length === 0
+  }
+
+  @computed get sectionsCount() {
+    return this.data.blocks.length
   }
 }
 

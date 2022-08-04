@@ -1,9 +1,8 @@
-import { BuildingBlock } from "@prisma/client"
-import { IBuildingBlockMock, ICanvasBlock } from "types"
+import { IBuildingBlockMock } from "types"
 import shortid from "shortid"
 
 export const pushBlock: IBuildingBlockMock = {
-  component: "textInput",
+  type: "@mantine/core/textInput",
   editType: "element",
   filterType: "form",
   props: {
@@ -15,7 +14,7 @@ export const pushBlock: IBuildingBlockMock = {
 
 export const ButtonsList: IBuildingBlockMock[] = [
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -25,7 +24,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -35,7 +34,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -45,7 +44,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -55,7 +54,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -65,7 +64,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -75,7 +74,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -85,7 +84,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -95,7 +94,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -105,7 +104,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -115,7 +114,7 @@ export const ButtonsList: IBuildingBlockMock[] = [
     },
   },
   {
-    component: "button",
+    type: "@mantine/core/button",
     editType: "element",
     filterType: "button",
     props: {
@@ -136,47 +135,7 @@ export const PortfolioMock = {
   data: [
     {
       id: shortid.generate(),
-      component: "tabs",
-      editType: "element",
-      filterType: "tabs",
-      props: {
-        children: [
-          {
-            id: shortid.generate(),
-            component: "tab",
-            editType: null,
-            filterType: "",
-            props: {
-              label: "Tab 1",
-              children: ["Tab 1 content"],
-            },
-          },
-          {
-            id: shortid.generate(),
-            component: "tab",
-            editType: null,
-            filterType: "",
-            props: {
-              label: "Tab 2",
-              children: ["Tab 2 content"],
-            },
-          },
-          {
-            id: shortid.generate(),
-            component: "tab",
-            editType: null,
-            filterType: "",
-            props: {
-              label: "Tab 3",
-              children: ["Tab 3 content"],
-            },
-          },
-        ],
-      },
-    },
-    {
-      id: shortid.generate(),
-      component: "button",
+      type: "@mantine/core/button",
       editType: "element",
       filterType: "button",
       props: {
@@ -185,14 +144,14 @@ export const PortfolioMock = {
     },
     {
       id: shortid.generate(),
-      component: "stack",
+      type: "@mantine/core/stack",
       editType: "grid",
       filterType: "grid",
       props: {
         children: [
           {
             id: shortid.generate(),
-            component: "group",
+            type: "@mantine/core/group",
             editType: "grid",
             filterType: "grid",
             props: {
@@ -200,7 +159,7 @@ export const PortfolioMock = {
               children: [
                 {
                   id: shortid.generate(),
-                  component: "button",
+                  type: "@mantine/core/button",
                   editType: "element",
                   filterType: "button",
                   props: {
@@ -211,7 +170,7 @@ export const PortfolioMock = {
                 },
                 {
                   id: shortid.generate(),
-                  component: "button",
+                  type: "@mantine/core/button",
                   editType: "element",
                   filterType: "button",
                   props: {
@@ -221,7 +180,7 @@ export const PortfolioMock = {
                 },
                 {
                   id: shortid.generate(),
-                  component: "button",
+                  type: "@mantine/core/button",
                   editType: "element",
                   filterType: "button",
                   props: {

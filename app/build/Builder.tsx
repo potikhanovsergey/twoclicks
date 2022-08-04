@@ -1,4 +1,3 @@
-import { useTranslation } from "next-i18next"
 import {
   Stack,
   Button,
@@ -7,32 +6,26 @@ import {
   Container,
   Text,
   Modal,
-  Box,
   useMantineTheme,
-  Center,
   ThemeIcon,
   Group,
 } from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { inflateBase64, recursiveTagName } from "helpers"
+import { deflate, renderJSXFromBlock } from "helpers"
 import { BuildStore } from "store/build"
-import { BuildingBlock } from "@prisma/client"
 import { observer } from "mobx-react-lite"
-import { useMutation, useQuery } from "@blitzjs/rpc"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import createPortfolio from "app/portfolios/mutations/createPortfolio"
-import getLatestPortfolio from "app/portfolios/queries/getLatestPortfolio"
 import BuilderHeader from "./BuilderHeader"
 import Onboarding from "./Onboarding"
-import Link from "next/link"
 import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
+import { setCookie } from "cookies-next"
+import { useRouter } from "next/router"
 
 const useStyles = createStyles((theme) => ({
   builder: {
     width: "100%",
-    height: "calc(100vh - var(--build-header-height))",
+    height: "calc(100vh - var(--layout-header-height))",
     display: "flex",
     flexFlow: "column",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[2],
@@ -64,11 +57,18 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 const BuilderBlocks = observer(() => {
+  const blocks = BuildStore.data.blocks
   return (
     <>
-      {BuildStore &&
-        BuildStore.data.blocks.map((b, i) => {
-          const TagName = recursiveTagName(b, true)
+      <Text>{BuildStore.sectionsCount}</Text>
+      {blocks &&
+        blocks.map((b, i) => {
+          const TagName = renderJSXFromBlock({
+            element: b,
+            shouldFlat: true,
+            withContentEditable: true,
+            withEditToolbar: true,
+          })
           if (TagName) {
             return TagName
           }
@@ -88,6 +88,22 @@ const Builder = () => {
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
   const session = useSession()
+  const router = useRouter()
+
+  const handleSaveAndRedirect = () => {
+    const portfolio = {
+      id: BuildStore.data.id,
+      name: BuildStore.data.name,
+      data: BuildStore.data.blocks,
+    }
+    setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolio))
+    void router.push(`/auth/?next=/build/${portfolio.id}`)
+  }
+
+  useEffect(() => {
+    console.log(BuildStore.data.flattenBlocks)
+    console.log(BuildStore.data.blocks)
+  })
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
@@ -103,8 +119,6 @@ const Builder = () => {
       >
         <Container size="xl" px={64} py={16} className={classes.canvasContainer}>
           <Stack spacing={0} className={classes.canvas}>
-            <Text>{BuildStore.sectionsCount}</Text>
-            <Text>{JSON.stringify(BuildStore.data.blocks)}</Text>
             <BuilderBlocks />
             <Button
               radius="xs"
@@ -140,10 +154,10 @@ const Builder = () => {
         radius="md"
         styles={{
           root: {
-            top: "var(--build-header-height)",
+            top: "var(--layout-header-height)",
           },
           overlay: {
-            top: "var(--build-header-height)",
+            top: "var(--layout-header-height)",
             "> div": {
               top: 0,
             },
@@ -153,15 +167,15 @@ const Builder = () => {
         <Stack align="center">
           <Group align="center" spacing={8} noWrap>
             <Text weight="bold" size="lg">
-              Please, register or authorize to continue{" "}
+              Please, register or authorize to continue
             </Text>
             <ThemeIcon color="violet" variant="light">
               <MdOutlineEmojiNature size={24} />
             </ThemeIcon>
           </Group>
-          <Link passHref href="/auth/">
-            <Button color="violet">Go to the auth page</Button>
-          </Link>
+          <Button color="violet" onClick={handleSaveAndRedirect}>
+            Save and go to the auth page
+          </Button>
         </Stack>
       </Modal>
     </div>

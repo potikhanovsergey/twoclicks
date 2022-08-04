@@ -28,6 +28,7 @@ model User {
   hashedPassword      String?
   role                Role     @default(USER)
   hasCreatedPortfolio Boolean  @default(false)
+  provider            String?
 
   tokens      Token[]
   sessions    Session[]
@@ -78,7 +79,7 @@ model BuildingBlock {
   id         String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  component  String
+  type       String
   filterType String
   editType   String?
   props      Json?

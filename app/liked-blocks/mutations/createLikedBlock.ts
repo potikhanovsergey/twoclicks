@@ -5,18 +5,24 @@ export default async function createLikedBlock(input, ctx: Ctx) {
   ctx.session.$isAuthorized()
   const userId = ctx.session.userId as string
   const buildingBlockId = input.buildingBlockId as string
-  const likedBlock = await db.likedBlock.upsert({
-    where: {
-      userId_buildingBlockId: {
+
+  try {
+    const likedBlock = await db.likedBlock.upsert({
+      where: {
+        userId_buildingBlockId: {
+          userId,
+          buildingBlockId,
+        },
+      },
+      create: {
         userId,
         buildingBlockId,
       },
-    },
-    create: {
-      userId,
-      buildingBlockId,
-    },
-    update: {},
-  })
-  return likedBlock
+      update: {},
+    })
+    return likedBlock
+  } catch (e) {
+    console.log("Create liked block error", e)
+    return null
+  }
 }

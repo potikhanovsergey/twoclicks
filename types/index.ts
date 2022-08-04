@@ -10,7 +10,7 @@ export interface IFilterButton {
 }
 
 export interface IPortfolio {
-  id?: string
+  id: string
   name: string
   data: BuildingBlock[]
 }
@@ -39,6 +39,8 @@ export interface ICanvasData {
   flattenBlocks: {
     [key: string]: ICanvasBlock
   }
+  id: string | null
+  name: string | null
 }
 
 export interface IFilterButton {

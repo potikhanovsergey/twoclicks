@@ -15,7 +15,7 @@ import {
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
-import { appWithTranslation, i18n } from "next-i18next"
+import { appWithTranslation } from "next-i18next"
 import "app/styles/variables.css"
 import router from "next/router"
 import CubeLoader from "app/core/components/CubeLoader"
@@ -24,6 +24,7 @@ import { getCookie, setCookie } from "cookies-next"
 
 import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
+import { ModalsProvider } from "@mantine/modals"
 
 type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
@@ -172,6 +173,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   // ### NEXT LAYOUT SYSTEM ###
   const getLayout = Component.getLayout || ((page) => page)
+
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider
@@ -180,21 +182,23 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
         theme={CustomTheme}
         emotionCache={emotionCache}
       >
-        <NotificationsProvider>
-          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-            <ModalContext.Provider value={[modalValue, setModalValue]}>
-              <LoadingOverlay
-                sx={() => ({
-                  position: "fixed",
-                })}
-                overlayOpacity={0.85}
-                visible={loadingOverlay}
-                loader={<CubeLoader size={256} />}
-              />
-              <Suspense fallback={<Loader />}>{getLayout(<Component {...pageProps} />)}</Suspense>
-            </ModalContext.Provider>
-          </ColorSchemeProvider>
-        </NotificationsProvider>
+        <ModalsProvider>
+          <NotificationsProvider>
+            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+              <ModalContext.Provider value={[modalValue, setModalValue]}>
+                <LoadingOverlay
+                  sx={() => ({
+                    position: "fixed",
+                  })}
+                  overlayOpacity={0.85}
+                  visible={loadingOverlay}
+                  loader={<CubeLoader size={256} />}
+                />
+                <Suspense fallback={<Loader />}>{getLayout(<Component {...pageProps} />)}</Suspense>
+              </ModalContext.Provider>
+            </ColorSchemeProvider>
+          </NotificationsProvider>
+        </ModalsProvider>
       </MantineProvider>
       <Global
         styles={(theme) => ({
@@ -214,17 +218,17 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
           "::-moz-selection": {
             background: theme.colors.violet[4],
             color: theme.white,
-            "-webkit-text-fill-color": theme.white,
+            WebkitTextFillColor: theme.white,
           },
           "::-webkit-selection": {
             background: theme.colors.violet[4],
             color: theme.white,
-            "-webkit-text-fill-color": theme.white,
+            WebkitTextFillColor: theme.white,
           },
           "::selection": {
             background: theme.colors.violet[4],
             color: theme.white,
-            "-webkit-text-fill-color": theme.white,
+            WebkitTextFillColor: theme.white,
           },
           body: {
             backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],

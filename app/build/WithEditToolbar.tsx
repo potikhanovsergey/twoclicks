@@ -1,27 +1,29 @@
-import { ActionIcon, Group, Popover } from "@mantine/core"
+import { ActionIcon, Box, Group, Popover } from "@mantine/core"
 import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
-import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 import { useDisclosure } from "@mantine/hooks"
 
-interface IWithElementEdit {
+interface IWithEditToolbar {
   children: JSX.Element
   id: string
   parentID: string | null
 }
 
-const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
+const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
   const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
   const hasMoves = useMemo(() => {
     if (parentID) {
-      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.component
-      return parentComponent && (parentComponent === "group" || parentComponent === "stack")
+      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.type
+      return (
+        parentComponent &&
+        (parentComponent === "@mantine/core/group" || parentComponent === "@mantine/core/stack")
+      )
     }
     return false
   }, [parentID])
@@ -30,7 +32,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
     if (hasMoves && parentID) {
       let parent = BuildStore.data.flattenBlocks?.[parentID]
       let parentProps = parent?.props as object | null
-      if (parent?.component === "group") {
+      if (parent?.type === "@mantine/core/group") {
         if (parentProps && parentProps["direction"] === "column") {
           return {
             left: <CgChevronUpR />,
@@ -52,6 +54,8 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
   //     let parent = BuildStore.data.flattenBlocks?.[parentID]
   //   }
   // }, [hasMoves])
+
+  const editableRef = useRef<HTMLDivElement>(null)
   return (
     <Popover
       trapFocus={false}
@@ -62,7 +66,7 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
       width="auto"
     >
       <Popover.Target>
-        <div style={{ width: "fit-content" }}>
+        <Box style={{ width: "fit-content" }}>
           {cloneElement(children, {
             onMouseEnter: () => {
               if (timer?.current) clearTimeout(timer?.current)
@@ -73,8 +77,9 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
                 if (!popupHovered) closeEdit()
               }, 300)
             },
+            ref: editableRef,
           })}
-        </div>
+        </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>
         <Group
@@ -89,7 +94,6 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
             setPopupHovered(false)
           }}
         >
-          {/* <ActionIcon color="green" size="lg"><AiOutlinePlusSquare /></ActionIcon> */}
           {hasMoves && movesIcons && (
             <>
               <ActionIcon size="lg" onClick={() => BuildStore.moveLeft({ id, parentID })}>
@@ -119,4 +123,4 @@ const WithElementEdit = ({ children, id, parentID }: IWithElementEdit) => {
   )
 }
 
-export default WithElementEdit
+export default WithEditToolbar
