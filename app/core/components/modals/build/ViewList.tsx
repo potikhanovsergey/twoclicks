@@ -6,11 +6,10 @@ import {
   LoadingOverlay,
   Pagination,
   createStyles,
-  Skeleton,
   Loader,
 } from "@mantine/core"
 import ViewListItem from "./ViewListItem"
-import { usePaginatedQuery, useQuery } from "@blitzjs/rpc"
+import { usePaginatedQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 import React from "react"
 import { useDebouncedValue } from "@mantine/hooks"

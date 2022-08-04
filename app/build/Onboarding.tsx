@@ -12,7 +12,6 @@ import {
   UnstyledButton,
 } from "@mantine/core"
 import { useEffect, useState } from "react"
-import LayoutHeader from "app/core/components/layout/LayoutHeader"
 // import { useTranslation } from 'next-i18next';
 import { IoIosRocket } from "react-icons/io"
 import { useHover } from "@mantine/hooks"
@@ -20,7 +19,6 @@ import { AiOutlineEdit } from "react-icons/ai"
 import { BsPalette } from "react-icons/bs"
 import { MdOutlineAddBox, MdOutlinePreview } from "react-icons/md"
 import { HiOutlineTemplate } from "react-icons/hi"
-import { useSession } from "@blitzjs/auth"
 
 const Onboarding = () => {
   // const { t } = useTranslation('pagesBuild');

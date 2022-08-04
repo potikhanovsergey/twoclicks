@@ -1,4 +1,4 @@
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import { traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
@@ -11,7 +11,6 @@ class Build {
   }
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
-  sectionsCount: number = 0
   hasPortfolioChanged: boolean = false
 
   constructor() {
@@ -19,14 +18,19 @@ class Build {
   }
   /////////// ACTIONS //////////////
   @action
+  setData = (data: ICanvasData) => {
+    this.data = data
+    traverseAddIDs(BuildStore.data.blocks)
+  }
+  @action
   setBlockTypeFilter = (filter: string) => {
     this.blockTypeFilter = filter
   }
   @action
   push = (block: ICanvasBlock) => {
     this.data.blocks.push(block)
-    this.sectionsCount++
     this.hasPortfolioChanged = true
+    traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
   }
 
   @action
@@ -56,7 +60,11 @@ class Build {
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
         this.hasPortfolioChanged = true
-        parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
+        if (Array.isArray(parentProps.children)) {
+          parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
+        } else {
+          parentProps.children = []
+        }
         delete this.data.flattenBlocks[id]
       }
     } else {
@@ -64,6 +72,7 @@ class Build {
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
       delete this.data.flattenBlocks[id]
     }
+    console.log("element deleted", id, parentID)
   }
 
   @action
@@ -105,6 +114,10 @@ class Build {
   /////////// COMPUTED /////////////
   @computed get isCanvasEmpty() {
     return this.data.blocks.length === 0
+  }
+
+  @computed get sectionsCount() {
+    return this.data.blocks.length
   }
 }
 

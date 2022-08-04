@@ -1,12 +1,12 @@
-import { Stack, createStyles, Text, Button, MantineProvider, Loader, Center } from "@mantine/core"
+import { createStyles, Text, Loader, Center } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { Suspense, useContext, useEffect, useState } from "react"
+import { Suspense, useEffect, useState } from "react"
 import LayoutHeader from "app/core/components/layout/LayoutHeader"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
 // import { useTranslation } from 'next-i18next';
 import Builder from "app/build/Builder"
-import { deflate, inflateBase64 } from "helpers"
+import { deflate, inflateBase64, traverseAddIDs } from "helpers"
 import { BuildStore } from "store/build"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import { Ctx } from "@blitzjs/next"
@@ -14,9 +14,9 @@ import { PortfolioStarterMock } from "db/mocks"
 import { IPortfolio } from "types"
 import { getSession, useSession } from "@blitzjs/auth"
 import { deleteCookie, getCookie } from "cookies-next"
-import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import db from "db"
 import { useRouter } from "next/router"
+import shortid from "shortid"
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   main: {
@@ -28,7 +28,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: "var(--build-header-height)",
+    paddingTop: "var(--layout-header-height)",
   },
 }))
 
@@ -39,9 +39,12 @@ const BuildPage = ({ portfolio }: { portfolio: IPortfolio }) => {
 
   useEffect(() => {
     if (portfolio?.data) {
-      BuildStore.data.blocks = portfolio.data
-      BuildStore.data.name = portfolio.name
-      BuildStore.data.id = portfolio.id
+      BuildStore.setData({
+        blocks: portfolio.data,
+        name: portfolio.name,
+        id: portfolio.id,
+        flattenBlocks: {},
+      })
     }
   }, [portfolio])
 
@@ -89,7 +92,6 @@ export async function getServerSideProps(
 
       if (portfolioFromCookie) {
         const inflatedPortfolio = inflateBase64(portfolioFromCookie) as IPortfolio
-        console.log("PORTFOLIO FROM COOKIE")
         const portfolio = await db.portfolio.upsert({
           where: {
             id: inflatedPortfolio.id,
@@ -105,7 +107,6 @@ export async function getServerSideProps(
         deleteCookie(`portfolio-${params.portfolioID}`, ctx)
         return portfolio
       }
-      console.log("PORTFOLIO FROM DB")
       return await getPortfolioByID({ id: params.portfolioID }, { ...ctx, session })
     } else {
       let portfolioFromCookie = getCookie(`portfolio-${params.portfolioID}`, ctx)

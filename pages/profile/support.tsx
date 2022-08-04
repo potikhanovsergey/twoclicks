@@ -53,7 +53,6 @@ const SupportForm = () => {
     <form
       onSubmit={supportForm.onSubmit((values) => {
         supportForm.validate()
-        console.log("Submitted", values)
       })}
     >
       <Stack spacing="lg" mb={36}>

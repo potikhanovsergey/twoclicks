@@ -6,7 +6,6 @@ import { useEffect, useState } from "react"
 import SignupForm from "app/auth/components/SignupForm"
 import { useRedirectAuthenticated } from "@blitzjs/auth"
 import { showNotification } from "@mantine/notifications"
-import { BuildStore } from "store/build"
 
 type step = "registration" | "authorization"
 

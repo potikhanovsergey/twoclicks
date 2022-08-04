@@ -1,11 +1,7 @@
-import { getSession } from "@blitzjs/auth"
-import { useQuery } from "@blitzjs/rpc"
 import { ColorScheme } from "@mantine/core"
 import { Portfolio } from "@prisma/client"
-import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 import { setCookie } from "cookies-next"
 import { makeAutoObservable, action } from "mobx"
-import { useEffect } from "react"
 
 class Store {
   colorScheme: ColorScheme = "light"

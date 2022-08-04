@@ -1,9 +1,8 @@
 import { Box, Group, ActionIcon, createStyles } from "@mantine/core"
 import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
-import shortid from "shortid"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { recursiveTagName } from "helpers"
+import { renderJSXFromBlock } from "helpers"
 import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
@@ -26,8 +25,10 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
+    maxHeight: "200px",
     aspectRatio: "5/3",
     position: "relative",
+    overflow: "hidden",
     "&:hover": {
       [`& .${getRef("icon")}`]: {
         opacity: 1,
@@ -65,8 +66,8 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const { classes } = useStyles()
 
   const TagName = useMemo(() => {
-    return recursiveTagName({
-      element: { ...block, editType: null, id: shortid.generate() },
+    return renderJSXFromBlock({
+      element: { ...block, editType: null },
       withContentEditable: false,
     })
   }, [block])
@@ -94,10 +95,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       BuildStore.shouldRefetchLiked = true
       setIsLikeLoading(false)
     } else {
-      BuildStore.push({
-        ...block,
-        id: shortid.generate(),
-      })
+      BuildStore.push(block)
       setModalContext((prevValue: IModalContextValue) => ({
         ...prevValue,
         canvasComponentsModal: false,

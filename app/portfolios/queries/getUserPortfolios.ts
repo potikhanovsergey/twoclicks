@@ -10,9 +10,15 @@ export default async function getUserPortfolios(
   { session }: { session: SessionModel }
 ) {
   if (!session.userId) return null
-  const portfolios = await db.portfolio.findMany({
-    where: { userId: session.userId },
-    orderBy: input?.orderBy,
-  })
-  return portfolios
+
+  try {
+    const portfolios = await db.portfolio.findMany({
+      where: { userId: session.userId },
+      orderBy: input?.orderBy,
+    })
+    return portfolios
+  } catch (e) {
+    console.log("Get user portfolios error", e)
+    return null
+  }
 }
