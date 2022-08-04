@@ -17,7 +17,6 @@ import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
 import { IconBaseProps } from "react-icons"
-import { e } from "@blitzjs/auth/dist/index-e729347c"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 

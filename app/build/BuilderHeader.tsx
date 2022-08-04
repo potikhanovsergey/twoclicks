@@ -15,6 +15,7 @@ import {
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
+import { useHotkeys } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { deflate } from "helpers"
 import { observer } from "mobx-react-lite"
@@ -31,8 +32,9 @@ const SaveButton = observer(() => {
     hasPortfolioChanged,
     data: { name, id, blocks },
   } = BuildStore
-  const handleSave = () => {
-    if (name && id) {
+  const handleSave = (e: KeyboardEvent) => {
+    e.preventDefault()
+    if (name && id && hasPortfolioChanged) {
       void updatePortfolioMutation({
         data: deflate(blocks),
         name,
@@ -41,6 +43,7 @@ const SaveButton = observer(() => {
       BuildStore.hasPortfolioChanged = false
     }
   }
+  useHotkeys([["mod+S", handleSave]])
 
   return (
     <Tooltip
