@@ -8,21 +8,13 @@ import { Player } from "@lottiefiles/react-lottie-player"
 import PortfolioCards from "app/portfolios/PortfolioCards"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import { AiFillBuild } from "react-icons/ai"
-import { useMutation, useQuery } from "@blitzjs/rpc"
+import { useQuery } from "@blitzjs/rpc"
 import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 import { useTranslation } from "next-i18next"
 import lottieSquirrel from "lotties/squirrel.json"
-import { BuildingBlock } from "@prisma/client"
-import ObjectID from "bson-objectid"
-import { PortfolioStarterMock } from "db/mocks"
-import { deflate } from "helpers"
-import { setCookie } from "cookies-next"
-import { useRouter } from "next/router"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
-import { useSession } from "@blitzjs/auth"
-import createPortfolio from "app/portfolios/mutations/createPortfolio"
-import DeletePortfolioButton from "app/portfolios/DeletePortfolioButton"
+import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   main: {
@@ -37,25 +29,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
 const Build = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
-  const { classes } = useStyles()
-  const router = useRouter()
-  const session = useSession()
-  const [createPortfolioMutation, { isLoading }] = useMutation(createPortfolio)
-
-  const handleCreatePortfolio = async () => {
-    const portfolio = {
-      id: ObjectID().toHexString(),
-      name: "Brand new portfolio",
-      data: PortfolioStarterMock.data as BuildingBlock[],
-    }
-    if (!session.userId) {
-      setCookie(`portfolio-${portfolio.id}`, deflate(portfolio))
-    } else {
-      await createPortfolioMutation(portfolio)
-    }
-    void router.push(`/build/${portfolio.id}`)
-  }
-
   const { portfolios, setPortfolios } = AppStore
   const [fetchedPortfolios] = useQuery(getUserPortfolios, {
     orderBy: [
@@ -78,7 +51,7 @@ const Build = () => {
         <>
           <Group position="apart" align="center">
             <Title order={1}>{t("title")}</Title>
-            <DeletePortfolioButton
+            <CreatePortfolioButton
               variant="gradient"
               gradient={{ from: "grape", to: "indigo", deg: 110 }}
               size="sm"
@@ -92,7 +65,7 @@ const Build = () => {
         <ProfileNoItems>
           <Text size="xl">{t("noPortfolios")}</Text>
           <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-          <DeletePortfolioButton
+          <CreatePortfolioButton
             variant="gradient"
             gradient={{ from: "grape", to: "indigo", deg: 110 }}
             size="lg"

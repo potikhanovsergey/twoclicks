@@ -13,7 +13,7 @@ import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 import PortfolioCards from "app/portfolios/PortfolioCards"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
-import DeletePortfolioButton from "app/portfolios/DeletePortfolioButton"
+import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 
 const ProfilePortfolios: BlitzPage = observer(() => {
   const { t } = useTranslation("pagesProfilePortfolios")
@@ -38,7 +38,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
       <Group position="apart" align="center">
         <Title order={1}>{t("title")}</Title>
         {portfolios?.length ? (
-          <DeletePortfolioButton
+          <CreatePortfolioButton
             variant="gradient"
             gradient={{ from: "grape", to: "indigo", deg: 110 }}
             size="sm"
@@ -57,7 +57,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
         <ProfileNoItems>
           <Text size="xl">{t("noPortfolios")}</Text>
           <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-          <DeletePortfolioButton
+          <CreatePortfolioButton
             variant="gradient"
             gradient={{ from: "grape", to: "indigo", deg: 110 }}
             size="lg"
