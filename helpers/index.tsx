@@ -180,12 +180,12 @@ export function renderJSXFromBlock({
 
   if (withEditToolbar && element.editType === "element") {
     return (
-      <WithEditToolbar id={el.id} parentID={parentID} key={el.id}>
+      <WithEditToolbar id={el.id} parentID={parentID} key={shortid.generate()}>
         <TagName {...props} />
       </WithEditToolbar>
     )
   }
-  return <TagName key={el.id} {...props} />
+  return <TagName key={shortid.generate()} {...props} />
 }
 
 export const deflate = (data) => {
@@ -256,14 +256,17 @@ function traverseJSON(obj) {
 }
 
 export function traverseAddIDs(obj) {
-  if (obj && typeof obj === "object") {
+  if (typeof obj === "object" && obj?.type) {
     obj.id = shortid.generate()
     BuildStore.pushFlatten(obj)
   }
-  for (let k in obj) {
-    if (obj[k] && typeof obj[k] === "object") {
-      obj[k].id = shortid.generate()
-      BuildStore.pushFlatten(obj[k])
+  if (obj && typeof obj === "object") {
+    for (let k in obj) {
+      if (k === "id") continue
+      if (typeof obj[k] === "object" && obj[k]?.type) {
+        obj[k].id = shortid.generate()
+        BuildStore.pushFlatten(obj[k])
+      }
       traverseAddIDs(obj[k])
     }
   }

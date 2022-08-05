@@ -119,8 +119,8 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
           style={{
             height: "100%",
             padding: "8px 0",
+            width: "100%",
             maxWidth: "160px",
-            flexGrow: 1,
             backgroundColor: dark ? theme.colors.dark[5] : theme.colors.gray[1],
             color: dark ? theme.colors.gray[4] : theme.black,
           }}

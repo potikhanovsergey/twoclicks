@@ -111,11 +111,11 @@ const ViewList = ({ type }: IViewList) => {
       <LoadingOverlay visible={loadingOverlayVisible} />
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={4} className={classes.grid}>
-          {buildingBlocks.map((block) => (
+          {buildingBlocks.map((block, i) => (
             <ViewListItem
               block={block}
               liked={likedBlocks?.includes(block.id)}
-              key={block.id}
+              key={`${block.id} ${i}`}
               hasActions={Boolean(session.userId)}
             />
           ))}
