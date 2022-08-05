@@ -66,7 +66,7 @@ const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
       width="auto"
     >
       <Popover.Target>
-        <Box style={{ width: "fit-content" }}>
+        <Box>
           {cloneElement(children, {
             onMouseEnter: () => {
               if (timer?.current) clearTimeout(timer?.current)

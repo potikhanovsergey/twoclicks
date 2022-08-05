@@ -36,7 +36,7 @@ const Build = () => {
           <PortfolioCards />
         </Suspense>
       </div>
-      <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex", height: "100%" }}>
+      <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
         <Text size="xl">{t("noPortfolios")}</Text>
         <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
         <CreatePortfolioButton
