@@ -52,7 +52,7 @@ const useStyles = createStyles((theme) => ({
     boxShadow: theme.shadows.md,
   },
   onboarding: {
-    position: "absolute",
+    position: "fixed",
     left: "16px",
     bottom: "16px",
   },
