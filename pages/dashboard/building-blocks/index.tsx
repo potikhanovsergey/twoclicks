@@ -1,71 +1,138 @@
-import { Suspense } from "react"
-import Head from "next/head"
-import Link from "next/link"
-import { usePaginatedQuery } from "@blitzjs/rpc"
-import { useRouter } from "next/router"
-import Layout from "app/core/layouts/Layout"
-import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
-import { Loader, SimpleGrid } from "@mantine/core"
-import ViewListItem from "app/core/components/modals/build/ViewListItem"
-import shortid from "shortid"
+import { getBaseLayout } from "app/core/layouts/BaseLayout"
+import { Button, Container, Group, Space, Stack, Title, useMantineTheme } from "@mantine/core"
+import { GetServerSidePropsContext } from "next"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import React, { useEffect, useMemo, useState } from "react"
+import CodeMirror from "@uiw/react-codemirror"
+import { renderJSXFromBlock, serialize } from "helpers"
+import { jsonLanguage } from "@codemirror/lang-json"
+import FirstHero from "app/build/sections/FirstHero"
+import { useMutation } from "@blitzjs/rpc"
+import CreateBuildingBlock from "app/dashboard/building-blocks/mutations/createBuildingBlock"
+import { showNotification } from "@mantine/notifications"
 
-const ITEMS_PER_PAGE = 12
+const sections = [FirstHero]
 
-export const BuildingBlocksList = () => {
-  const router = useRouter()
-  const page = Number(router.query.page) || 0
-  const [{ buildingBlocks, hasMore }] = usePaginatedQuery(getBuildingBlocks, {
-    orderBy: { id: "asc" },
-    skip: ITEMS_PER_PAGE * page,
-    take: ITEMS_PER_PAGE,
-  })
+const DashboardIndex = () => {
+  const getJsonStringFromJSX = (component: JSX.Element) => {
+    const serialized = JSON.parse(serialize(component))
+    return JSON.stringify(serialized, null, 2)
+  }
+  const [error, setError] = useState<string | null>(null)
 
-  const goToPreviousPage = () => router.push({ query: { page: page - 1 } })
-  const goToNextPage = () => router.push({ query: { page: page + 1 } })
+  const [json, setJson] = useState("")
+  const onChange = (value) => {
+    try {
+      const parsedJSON = JSON.stringify(JSON.parse(value), null, 2)
+      setJson(parsedJSON)
+      setError(null)
+    } catch (e) {
+      setError(e.toString())
+    }
+  }
+
+  const theme = useMantineTheme()
+
+  const handlePickBuildingBlock = (selected) => {
+    if (selected !== null) {
+      const invokedComponent = sections[selected]?.()
+      if (invokedComponent) {
+        setJson(getJsonStringFromJSX(invokedComponent))
+        setError(null)
+      }
+    }
+  }
+
+  const JSX = useMemo(() => {
+    if (json.length) {
+      try {
+        return renderJSXFromBlock({
+          element: JSON.parse(json),
+          shouldFlat: false,
+          withContentEditable: false,
+        })
+      } catch (e) {
+        console.log(e)
+      }
+    }
+    return null
+  }, [json])
+
+  const [createBuildingBlockMutation, { isLoading, isSuccess }] = useMutation(CreateBuildingBlock)
+
+  const handleCreateBuildingBlock = async () => {
+    try {
+      const buildingBlock = JSON.parse(json)
+      await createBuildingBlockMutation(buildingBlock)
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    if (isSuccess) {
+      showNotification({
+        title: "Success",
+        color: "green",
+        message: "Building block was successfully created!",
+        autoClose: 5000,
+      })
+    }
+  }, [isSuccess])
 
   return (
-    <div style={{ maxWidth: "1024px", margin: "40px auto" }}>
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
-      <SimpleGrid cols={4} style={{ padding: "20px" }}>
-        {buildingBlocks.map((block) => {
-          return <ViewListItem block={block} key={shortid.generate()} onClick={() => 1} />
-        })}
-      </SimpleGrid>
-      <button disabled={page === 0} onClick={goToPreviousPage}>
-        Previous
-      </button>
-      <button disabled={!hasMore} onClick={goToNextPage}>
-        Next
-      </button>
-    </div>
+    <>
+      <Space h="xl" />
+      <Container size="xl">
+        <Title mb="xl">Building Blocks</Title>
+        <Group mb="xl">
+          {sections.map((S, i) => (
+            <Button key={i} color="red" onClick={() => handlePickBuildingBlock(i)}>
+              {S.name}
+            </Button>
+          ))}
+        </Group>
+        <Stack style={{ minHeight: "480px" }} mb="xl">
+          {error && error}
+          <CodeMirror
+            theme={theme.colorScheme}
+            value={json}
+            height="100%"
+            onChange={onChange}
+            extensions={[jsonLanguage]}
+            indentWithTab
+            style={{
+              fontFamily: "Nunito",
+              fontSize: 12,
+              border: error ? "1px solid red" : "none",
+              maxHeight: "480px",
+              overflow: "auto",
+            }}
+          />
+          {error && error}
+        </Stack>
+      </Container>
+      {JSX && <div>{JSX}</div>}
+      <Container size="xl">
+        <Group>
+          <Button color="yellow" onClick={handleCreateBuildingBlock} loading={isLoading}>
+            Добавить в БД
+          </Button>
+        </Group>
+      </Container>
+    </>
   )
 }
 
-const BuildingBlocksPage = () => {
-  return (
-    <Layout>
-      <Head>
-        <title>BuildingBlocks</title>
-      </Head>
+DashboardIndex.getLayout = getBaseLayout()
+DashboardIndex.suppressFirstRenderFlicker = true
 
-      <div>
-        <p>
-          <Link href={{ pathname: "/dashboard/building-blocks/new" }}>
-            <a>Create BuildingBlock</a>
-          </Link>
-        </p>
+export default DashboardIndex
 
-        <Suspense fallback={<Loader />}>
-          <BuildingBlocksList />
-        </Suspense>
-      </div>
-    </Layout>
-  )
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  return {
+    props: {
+      ...(await serverSideTranslations(context.locale || "ru", ["common"])),
+    },
+  }
 }
-
-export default BuildingBlocksPage

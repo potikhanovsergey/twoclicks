@@ -223,13 +223,14 @@ export function serialize(element: any) {
       case "key":
         return
       case "type":
-        return getElementType(value)
+        const type = getElementType(value)
+        return type
       default:
         return value
     }
   }
   const obj = JSON.parse(JSON.stringify(element, replacer))
-  traverseJSON(obj)
+  traverseJSXChangeType(obj)
   return JSON.stringify(obj)
 }
 
@@ -243,14 +244,14 @@ export const formatDate = (inputDate) => {
   return `${date}/${month}/${year}`
 }
 
-function traverseJSON(obj) {
+function traverseJSXChangeType(obj) {
   for (let k in obj) {
     if (typeof obj[k] === "object") {
       if (obj[k]?.type?.typeName) {
-        obj[k].type = obj[k].type.typeName
         obj[k].props = obj[k].type.props
+        obj[k].type = obj[k].type.typeName
       }
-      traverseJSON(obj[k])
+      traverseJSXChangeType(obj[k])
     }
   }
 }
@@ -270,8 +271,4 @@ export function traverseAddIDs(obj) {
       traverseAddIDs(obj[k])
     }
   }
-}
-
-export function getSerializedJSON(jsonSTRING: string) {
-  return JSON.parse(serialize(JSON.parse(jsonSTRING)))
 }

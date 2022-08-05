@@ -8,7 +8,6 @@ import { useRouter } from "next/router"
 import { deflate } from "helpers"
 import createPortfolio from "./mutations/createPortfolio"
 import { Button, ButtonProps } from "@mantine/core"
-import { AppStore } from "store"
 type ICreatePortfolioButton = Omit<ButtonProps, "onClick" | "children">
 
 const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
