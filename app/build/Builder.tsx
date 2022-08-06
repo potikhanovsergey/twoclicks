@@ -21,6 +21,7 @@ import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
 import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
+import { reaction } from "mobx"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -58,7 +59,9 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 const BuilderBlocks = observer(() => {
-  const blocks = BuildStore.data.blocks
+  const {
+    data: { blocks },
+  } = BuildStore
   return (
     <>
       <Text>{BuildStore.sectionsCount}</Text>
@@ -103,10 +106,6 @@ const Builder = () => {
     void router.push(`/auth/?next=/build/${portfolio.id}`)
   }
 
-  useEffect(() => {
-    console.log(BuildStore.data.flattenBlocks)
-    console.log(BuildStore.data.blocks)
-  })
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />

@@ -7,7 +7,6 @@ export default async function getPortfolioByID({ id }: { id?: string }, ctx: Ctx
   try {
     const portfolio = await db.portfolio.findFirst({
       where: { id, userId: ctx.session.userId },
-      select: { id: true, name: true, data: true },
     })
     return portfolio
   } catch (e) {

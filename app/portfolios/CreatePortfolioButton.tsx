@@ -5,7 +5,7 @@ import { setCookie } from "cookies-next"
 import ObjectID from "bson-objectid"
 import { PortfolioStarterMock } from "db/mocks"
 import { useRouter } from "next/router"
-import { deflate } from "helpers"
+import { deflate, getPortfolioWithDeflatedData } from "helpers"
 import createPortfolio from "./mutations/createPortfolio"
 import { Button, ButtonProps } from "@mantine/core"
 type ICreatePortfolioButton = Omit<ButtonProps, "onClick" | "children">
@@ -21,6 +21,8 @@ const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
       name: "Brand new portfolio",
       data: PortfolioStarterMock.data as BuildingBlock[],
     }
+
+    // Authorized
     if (session.userId) {
       const p = await createPortfolioMutation(portfolio)
       if (p) {
@@ -28,7 +30,11 @@ const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
         return
       }
     }
-    setCookie(`portfolio-${portfolio.id}`, deflate(portfolio))
+
+    // Not authorized
+    const portfolioWithDeflatedData = getPortfolioWithDeflatedData(portfolio)
+    console.log("portfolio with deflated data", portfolioWithDeflatedData)
+    setCookie(`portfolio-${portfolio.id}`, deflate(portfolioWithDeflatedData))
     void router.push(`/build/${portfolio.id}`)
   }
   return (

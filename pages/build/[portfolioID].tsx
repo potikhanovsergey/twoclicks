@@ -6,18 +6,21 @@ import CanvasComponentsModal from "app/core/components/modals/build/CanvasCompon
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
 // import { useTranslation } from 'next-i18next';
 import Builder from "app/build/Builder"
-import { deflate, inflateBase64, traverseAddIDs } from "helpers"
+import { getPortfolioWithInflatedData, inflateBase64 } from "helpers"
 import { BuildStore } from "store/build"
-import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
-import { Ctx } from "@blitzjs/next"
+import { Ctx, useParam } from "@blitzjs/next"
 import { PortfolioStarterMock } from "db/mocks"
 import { IPortfolio } from "types"
 import { getSession, useSession } from "@blitzjs/auth"
 import { deleteCookie, getCookie } from "cookies-next"
-import db from "db"
+import db, { BuildingBlock, Portfolio } from "db"
 import { useRouter } from "next/router"
 import shortid from "shortid"
-
+import { useMutation, useQuery } from "@blitzjs/rpc"
+import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
+import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
+import { useHotkeys } from "@mantine/hooks"
+import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 const useStyles = createStyles((theme, _params, getRef) => ({
   main: {
     // subscribe to color scheme changes right in your styles
@@ -32,10 +35,43 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const BuildPage = ({ portfolio }: { portfolio: IPortfolio }) => {
+const BuildPage = () => {
   // const { t } = useTranslation('pagesBuild');
   const { classes } = useStyles()
   const [menuOpened, setMenuOpened] = useState(false)
+  const session = useSession()
+  const portfolioID = useParam("portfolioID", "string")
+
+  const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
+  const [createOrUpdatePortfolioMutation] = useMutation(createOrUpdatePortfolio)
+
+  const [portfolioFromDB] = useQuery(
+    getPortfolioByID,
+    { id: portfolioID },
+    { refetchOnMount: false, refetchOnReconnect: false, refetchOnWindowFocus: false }
+  )
+  useEffect(() => {
+    const getPortfolio = async () => {
+      let p: IPortfolio | null = null
+      if (!portfolioFromDB) {
+        let portfolioFromCookie = getCookie(`portfolio-${portfolioID}`) as string | undefined
+        if (portfolioFromCookie) {
+          console.log("portfolioFromCookie", portfolioFromCookie)
+          let inflatedPortfolio = getPortfolioWithInflatedData(inflateBase64(portfolioFromCookie))
+          if (session.userId) {
+            void createOrUpdatePortfolioMutation(inflatedPortfolio)
+            deleteCookie(`portfolio-${portfolioID}`)
+          }
+          p = inflatedPortfolio
+        }
+      } else {
+        p = getPortfolioWithInflatedData(portfolioFromDB)
+      }
+      setPortfolio(p)
+    }
+
+    void getPortfolio()
+  }, [portfolioFromDB])
 
   useEffect(() => {
     if (portfolio?.data) {
@@ -48,13 +84,16 @@ const BuildPage = ({ portfolio }: { portfolio: IPortfolio }) => {
     }
   }, [portfolio])
 
-  const session = useSession()
   const router = useRouter()
   useEffect(() => {
-    if (!session.userId && !getCookie(`portfolio-${portfolio?.id}`)) {
+    if (!session.userId && !getCookie(`portfolio-${portfolioID}`)) {
       void router.push("/build/")
     }
   }, [session])
+
+  // const { savePortfolio } = BuildStore
+  // const [updatePortfolioMutation] = useMutation(updatePortfolio)
+
   return (
     <>
       <LayoutHeader menuOpened={menuOpened} setMenuOpened={setMenuOpened} fixed />
@@ -77,60 +116,13 @@ const BuildPage = ({ portfolio }: { portfolio: IPortfolio }) => {
 
 BuildPage.suppressFirstRenderFlicker = true
 
-export async function getServerSideProps(
+export const getServerSideProps = async (
   ctx: Ctx & { params: { portfolioID: string }; locale: string; req: any; res: any }
-) {
-  const { params, locale, req, res } = ctx
-  const session = await getSession(req, res)
-  const isNew = params.portfolioID === "new"
-
-  const getPortfolio = async () => {
-    if (isNew) return await PortfolioStarterMock
-    if (session.userId) {
-      let portfolioFromCookie = getCookie(`portfolio-${params.portfolioID}`, ctx)
-      if (typeof portfolioFromCookie !== "string") portfolioFromCookie = null
-
-      if (portfolioFromCookie) {
-        const inflatedPortfolio = inflateBase64(portfolioFromCookie) as IPortfolio
-        const portfolio = await db.portfolio.upsert({
-          where: {
-            id: inflatedPortfolio.id,
-          },
-          update: {},
-          create: {
-            userId: session.userId,
-            id: inflatedPortfolio.id,
-            name: inflatedPortfolio.name,
-            data: deflate(inflatedPortfolio.data),
-          },
-        })
-        deleteCookie(`portfolio-${params.portfolioID}`, ctx)
-        return portfolio
-      }
-      return await getPortfolioByID({ id: params.portfolioID }, { ...ctx, session })
-    } else {
-      let portfolioFromCookie = getCookie(`portfolio-${params.portfolioID}`, ctx)
-      if (typeof portfolioFromCookie !== "string") portfolioFromCookie = null
-      return portfolioFromCookie ? inflateBase64(portfolioFromCookie) : null
-    }
-  }
-
-  const portfolio = await getPortfolio()
-
-  if (!isNew && portfolio && typeof portfolio.data === "string") {
-    portfolio.data = inflateBase64(portfolio.data.toString())
-  }
-
-  if (portfolio?.createdAt) {
-    portfolio.createdAt = portfolio.createdAt.toString()
-  }
-  if (portfolio?.updatedAt) {
-    portfolio.updatedAt = portfolio.updatedAt.toString()
-  }
+) => {
+  const { locale } = ctx
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "pagesBuild"])),
-      portfolio,
     },
   }
 }

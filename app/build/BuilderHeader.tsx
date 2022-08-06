@@ -17,56 +17,37 @@ import {
 } from "@mantine/core"
 import { useHotkeys } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import { setCookie } from "cookies-next"
 import { deflate } from "helpers"
 import { observer } from "mobx-react-lite"
-import React, { Suspense, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { FaSave } from "react-icons/fa"
 import { BuildStore } from "store/build"
 
 const SaveButton = observer(() => {
   const session = useSession()
-  const [updatePortfolioMutation, { isLoading }] = useMutation(updatePortfolio)
+  const [updatePortfolioMutation, { isLoading, isSuccess }] = useMutation(updatePortfolio)
 
-  const {
-    hasPortfolioChanged,
-    data: { name, id, blocks },
-  } = BuildStore
-  const handleSave = (e?: KeyboardEvent) => {
-    e && e.preventDefault()
-    if (name && id && hasPortfolioChanged) {
-      void updatePortfolioMutation({
-        data: deflate(blocks),
-        name,
-        id,
-      })
-      BuildStore.hasPortfolioChanged = false
-    }
-  }
-  useHotkeys([["mod+S", handleSave]])
+  const { hasPortfolioChanged, savePortfolio, isSaveButtonLoading, setIsSaveButtonLoading } =
+    BuildStore
+  useHotkeys([["mod+S", (e) => savePortfolio({ e, session, updatePortfolioMutation })]])
 
+  useEffect(() => {
+    setIsSaveButtonLoading(isLoading)
+  }, [isLoading])
   return (
-    <Tooltip
-      label="Authorize to save"
-      withArrow
-      position="bottom"
-      offset={8}
-      disabled={Boolean(session.userId)}
+    <Button
+      loading={isSaveButtonLoading}
+      onClick={() => savePortfolio({ session, updatePortfolioMutation })}
+      disabled={!hasPortfolioChanged}
+      variant={hasPortfolioChanged ? "gradient" : "default"}
+      gradient={{ from: "violet", to: "teal", deg: 35 }}
+      size="xs"
+      leftIcon={<FaSave />}
     >
-      <span>
-        <Button
-          loading={isLoading}
-          onClick={() => handleSave()}
-          disabled={!(hasPortfolioChanged && Boolean(session.userId))}
-          variant={hasPortfolioChanged && Boolean(session.userId) ? "gradient" : "default"}
-          gradient={{ from: "violet", to: "teal", deg: 35 }}
-          size="xs"
-          leftIcon={<FaSave />}
-        >
-          Сохранить изменения
-        </Button>
-      </span>
-    </Tooltip>
+      Сохранить изменения
+    </Button>
   )
 })
 

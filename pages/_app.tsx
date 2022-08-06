@@ -77,7 +77,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   }
 
   useHotkeys([["mod+J", () => toggleColorScheme()]])
-
   const { classes } = useStyles()
 
   const CustomTheme: MantineThemeOverride = {

@@ -1,5 +1,5 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
-import { BuildingBlock, Role, User } from "db"
+import { BuildingBlock, Portfolio, Role, User } from "db"
 
 /// ### CANVAS STARTS ###
 
@@ -13,6 +13,8 @@ export interface IPortfolio {
   id: string
   name: string
   data: BuildingBlock[]
+  createdAt?: Date
+  updatedAt?: Date
 }
 
 export type IBuildingBlockMock = Omit<BuildingBlock, "id" | "createdAt" | "updatedAt">

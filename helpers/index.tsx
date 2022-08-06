@@ -12,11 +12,14 @@ import {
 import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
 import shortid from "shortid"
-import { ICanvasElement, ICanvasBlockProps, ICanvasBlock } from "types"
+import { ICanvasElement, ICanvasBlockProps, ICanvasBlock, IPortfolio } from "types"
 import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
 import { IconBaseProps } from "react-icons"
+import { useMutation } from "@blitzjs/rpc"
+import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import { useSession } from "@blitzjs/auth"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -52,6 +55,9 @@ export const canvasBuildingBlocks = {
 }
 
 export const WithEditable = ({ children, parentID, withContentEditable }) => {
+  const [updatePortfolioMutation] = useMutation(updatePortfolio)
+  const session = useSession()
+  const { savePortfolio } = BuildStore
   return (
     <Box
       contentEditable={Boolean(withContentEditable)}
@@ -68,7 +74,7 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
       })}
       onKeyDown={(e) => {
         const el = e.target
-        const parentButton = el.closest("button")
+        const parentButton = el?.closest("button")
         if (parentButton && e.key === "Enter") {
           e.preventDefault()
         }
@@ -76,6 +82,13 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
         if (parentButton && e.which === 32) {
           e.preventDefault()
           document.execCommand("insertText", false, " ") // todo: remove deprecated command
+        }
+        if (
+          e.key === "s" &&
+          (navigator?.userAgentData?.platform.match("mac") ? e.metaKey : e.ctrlKey)
+        ) {
+          e.preventDefault()
+          savePortfolio({ session, updatePortfolioMutation })
         }
       }}
       onBlur={(e) => {
@@ -271,4 +284,18 @@ export function traverseAddIDs(obj) {
       traverseAddIDs(obj[k])
     }
   }
+}
+
+export function getPortfolioWithInflatedData(portfolio) {
+  return {
+    ...portfolio,
+    data: inflateBase64(portfolio.data),
+  } as IPortfolio
+}
+
+export function getPortfolioWithDeflatedData(portfolio) {
+  return {
+    ...portfolio,
+    data: deflate(portfolio.data),
+  } as IPortfolio & { data: string }
 }

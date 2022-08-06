@@ -1,5 +1,10 @@
-import { traverseAddIDs } from "helpers"
-import { makeAutoObservable, action, computed } from "mobx"
+import { ClientSession } from "@blitzjs/auth"
+import { MutateFunction, useMutation } from "@blitzjs/rpc"
+import { Portfolio, Session } from "@prisma/client"
+import updatePortfolio, { IUpdatePortfolio } from "app/portfolios/mutations/updatePortfolio"
+import { setCookie } from "cookies-next"
+import { deflate, traverseAddIDs } from "helpers"
+import { makeAutoObservable, action, computed, autorun, reaction } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
 class Build {
@@ -12,6 +17,8 @@ class Build {
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
   hasPortfolioChanged: boolean = false
+
+  isSaveButtonLoading: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -72,7 +79,6 @@ class Build {
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
       delete this.data.flattenBlocks[id]
     }
-    console.log("element deleted", id, parentID)
   }
 
   @action
@@ -111,6 +117,48 @@ class Build {
     }
   }
 
+  @action
+  setIsSaveButtonLoading = (value: boolean) => {
+    this.isSaveButtonLoading = value
+  }
+
+  @action
+  savePortfolio = async ({
+    e,
+    session,
+    updatePortfolioMutation,
+  }: {
+    e?: KeyboardEvent
+    session: ClientSession
+    updatePortfolioMutation: MutateFunction<
+      Portfolio | undefined,
+      unknown,
+      IUpdatePortfolio,
+      unknown
+    >
+  }) => {
+    e && e.preventDefault()
+    const {
+      data: { name, id, blocks },
+      hasPortfolioChanged,
+    } = this
+    if (name && id && hasPortfolioChanged) {
+      this.setIsSaveButtonLoading(true)
+      const portfolio = {
+        data: deflate(blocks),
+        name,
+        id,
+      }
+      if (session.userId) {
+        await updatePortfolioMutation?.(portfolio)
+      } else {
+        setCookie(`portfolio-${id}`, deflate(portfolio))
+      }
+      this.hasPortfolioChanged = false
+      this.setIsSaveButtonLoading(false)
+    }
+  }
+
   /////////// COMPUTED /////////////
   @computed get isCanvasEmpty() {
     return this.data.blocks.length === 0
@@ -121,4 +169,6 @@ class Build {
   }
 }
 
-export const BuildStore = new Build()
+const BuildStore = new Build()
+
+export { BuildStore }
