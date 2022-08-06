@@ -84,12 +84,12 @@ const BuildPage = () => {
     }
   }, [portfolio])
 
-  const router = useRouter()
-  useEffect(() => {
-    if (!session.userId && !getCookie(`portfolio-${portfolioID}`)) {
-      void router.push("/build/")
-    }
-  }, [session])
+  // const router = useRouter()
+  // useEffect(() => {
+  //   if (!session.userId && !getCookie(`portfolio-${portfolioID}`)) {
+  //     void router.push("/build/")
+  //   }
+  // }, [session])
 
   // const { savePortfolio } = BuildStore
   // const [updatePortfolioMutation] = useMutation(updatePortfolio)
