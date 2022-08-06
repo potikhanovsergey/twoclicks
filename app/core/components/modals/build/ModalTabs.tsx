@@ -4,7 +4,7 @@ import { RiHeartFill } from "react-icons/ri"
 import { GiAnticlockwiseRotation } from "react-icons/gi"
 import { TbCrown } from "react-icons/tb"
 import { Tabs, Text, TabProps, LoadingOverlay, ThemeIcon } from "@mantine/core"
-import { Suspense, useState } from "react"
+import React, { Suspense, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "types"
 import { useSession } from "@blitzjs/auth"
@@ -106,7 +106,7 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
               </Text>
             </Tabs.Tab>
           ) : (
-            <></>
+            <React.Fragment key={i}></React.Fragment>
           )
         )}
       </Tabs.List>
@@ -118,7 +118,7 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
             </Suspense>
           </Tabs.Panel>
         ) : (
-          <></>
+          <React.Fragment key={i}></React.Fragment>
         )
       )}
     </Tabs>
