@@ -18,34 +18,42 @@ import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 
 const Build = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
-  const { portfolios } = AppStore
+  const { portfolios, havePortfoliosLoaded } = AppStore
   return (
     <Container size="lg" style={{ height: "100%", paddingTop: "16px" }}>
+      {havePortfoliosLoaded && portfolios?.length ? (
+        <>
+          <Group position="apart" align="center">
+            <Title order={1}>{t("title")}</Title>
+            <CreatePortfolioButton
+              variant="gradient"
+              gradient={{ from: "grape", to: "indigo", deg: 110 }}
+              size="sm"
+              rightIcon={<AiFillBuild />}
+            />
+          </Group>
+          <Space h="xl" />
+        </>
+      ) : (
+        <></>
+      )}
       <div style={{ display: portfolios?.length ? "block" : "none" }}>
-        <Group position="apart" align="center">
-          <Title order={1}>{t("title")}</Title>
+        <PortfolioCards />
+      </div>
+      {havePortfoliosLoaded && !portfolios?.length ? (
+        <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
+          <Text size="xl">{t("noPortfolios")}</Text>
+          <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
           <CreatePortfolioButton
             variant="gradient"
             gradient={{ from: "grape", to: "indigo", deg: 110 }}
-            size="sm"
+            size="lg"
             rightIcon={<AiFillBuild />}
           />
-        </Group>
-        <Space h="xl" />
-        <Suspense fallback={<Loader />}>
-          <PortfolioCards />
-        </Suspense>
-      </div>
-      <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
-        <Text size="xl">{t("noPortfolios")}</Text>
-        <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-        <CreatePortfolioButton
-          variant="gradient"
-          gradient={{ from: "grape", to: "indigo", deg: 110 }}
-          size="lg"
-          rightIcon={<AiFillBuild />}
-        />
-      </ProfileNoItems>
+        </ProfileNoItems>
+      ) : (
+        <></>
+      )}
     </Container>
   )
 }

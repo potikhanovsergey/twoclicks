@@ -6,6 +6,8 @@ import { makeAutoObservable, action } from "mobx"
 class Store {
   colorScheme: ColorScheme = "light"
   portfolios: Portfolio[] | null = null
+  havePortfoliosLoaded: boolean = false
+
   constructor() {
     makeAutoObservable(this)
   }
@@ -21,6 +23,7 @@ class Store {
   @action
   setPortfolios = (portfolios: Portfolio[]) => {
     this.portfolios = portfolios
+    this.havePortfoliosLoaded = true
   }
 
   @action

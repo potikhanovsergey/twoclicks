@@ -193,7 +193,17 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                   visible={loadingOverlay}
                   loader={<CubeLoader size={256} />}
                 />
-                <Suspense fallback={<Loader />}>{getLayout(<Component {...pageProps} />)}</Suspense>
+                <Suspense
+                  fallback={
+                    <LoadingOverlay
+                      visible={true}
+                      overlayOpacity={0.85}
+                      loader={<Loader size="lg" />}
+                    />
+                  }
+                >
+                  {getLayout(<Component {...pageProps} />)}
+                </Suspense>
               </ModalContext.Provider>
             </ColorSchemeProvider>
           </NotificationsProvider>

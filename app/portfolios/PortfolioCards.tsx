@@ -31,6 +31,7 @@ const PortfolioCards = observer(() => {
     }
     if (!session.userId) setPortfolios([])
   }, [fetchedPortfolios, session])
+
   return isLoading || isFetching || isRefetching ? (
     <Skeleton width="100%" height="120px" animate />
   ) : portfolios ? (

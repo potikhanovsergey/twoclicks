@@ -17,26 +17,7 @@ import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 
 const ProfilePortfolios: BlitzPage = observer(() => {
   const { t } = useTranslation("pagesProfilePortfolios")
-  const { portfolios, setPortfolios } = AppStore
-  const [fetchedPortfolios] = useQuery(
-    getUserPortfolios,
-    {
-      orderBy: [
-        {
-          updatedAt: "desc",
-        },
-      ],
-    },
-    { enabled: portfolios === null }
-  )
-
-  useEffect(() => {
-    if (fetchedPortfolios) {
-      setPortfolios(fetchedPortfolios)
-    } else {
-      setPortfolios([])
-    }
-  }, [fetchedPortfolios])
+  const { portfolios, havePortfoliosLoaded } = AppStore
   return (
     <Container size="xl" style={{ height: "100%" }}>
       <Group position="apart" align="center">
@@ -56,16 +37,18 @@ const ProfilePortfolios: BlitzPage = observer(() => {
         <Space h="xl" />
         <PortfolioCards />
       </div>
-      <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
-        <Text size="xl">{t("noPortfolios")}</Text>
-        <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-        <CreatePortfolioButton
-          variant="gradient"
-          gradient={{ from: "grape", to: "indigo", deg: 110 }}
-          size="lg"
-          rightIcon={<AiFillBuild />}
-        />
-      </ProfileNoItems>
+      {havePortfoliosLoaded && (
+        <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
+          <Text size="xl">{t("noPortfolios")}</Text>
+          <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
+          <CreatePortfolioButton
+            variant="gradient"
+            gradient={{ from: "grape", to: "indigo", deg: 110 }}
+            size="lg"
+            rightIcon={<AiFillBuild />}
+          />
+        </ProfileNoItems>
+      )}
     </Container>
   )
 })

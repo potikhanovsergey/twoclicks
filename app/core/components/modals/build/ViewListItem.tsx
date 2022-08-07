@@ -41,25 +41,32 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     position: "relative",
     overflowX: "hidden",
     overflowY: "scroll",
+    transition: "0.3s ease all",
     "&:hover": {
       [`& .${getRef("icon")}`]: {
         opacity: 1,
       },
+      [`& .${getRef("child")}`]: {
+        transform: "scale(0.97)",
+      },
+      background: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2],
     },
   },
-  // child: {
-  //   transition: "0.4s ease transform",
-  //   "&:hover": {
-  //     transform: "scale(1.2)",
-  //   },
-  // },
+  child: {
+    transition: "0.4s ease transform",
+    ref: getRef("child"),
+  },
   actions: {
     position: "absolute",
     top: "8px",
     right: "8px",
     display: "flex",
   },
+
   actionIcon: {
+    "&:hover": {
+      background: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[3],
+    },
     "&:focus": {
       [`& .${getRef("icon")}`]: {
         opacity: 1,
@@ -149,6 +156,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
           zoom: zoom.value,
           display: zoom.isLoading ? "none" : "flex",
         },
+        className: classes.child,
       })}
       {hasActions && (
         <Group className={classes.actions}>
