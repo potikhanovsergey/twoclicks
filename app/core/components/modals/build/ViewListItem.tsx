@@ -1,4 +1,12 @@
-import { Box, Group, ActionIcon, createStyles, Image, LoadingOverlay } from "@mantine/core"
+import {
+  Box,
+  Group,
+  ActionIcon,
+  createStyles,
+  Image,
+  LoadingOverlay,
+  useMantineTheme,
+} from "@mantine/core"
 import {
   cloneElement,
   createRef,
@@ -19,6 +27,7 @@ import { useMutation } from "@blitzjs/rpc"
 import createLikedBlock from "app/liked-blocks/mutations/createLikedBlock"
 import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
 import { useElementSize } from "@mantine/hooks"
+import { ICanvasBlockProps } from "types"
 
 interface IViewListItem {
   block: BuildingBlock
@@ -33,8 +42,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     background: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1],
     cursor: "pointer",
     display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
+    // justifyContent: "center",
     height: "100%",
     // maxHeight: "200px",
     aspectRatio: "5/3",
@@ -127,6 +135,8 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
 
   const { ref: boxRef, width: boxWidth } = useElementSize<HTMLDivElement>()
 
+  const theme = useMantineTheme()
+
   const zoom = useMemo(() => {
     if (block.editType !== "section")
       return {
@@ -136,7 +146,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
     if (boxWidth !== 0) {
       return {
         isLoading: false,
-        value: boxWidth / 1440,
+        value: boxWidth / theme.breakpoints.xl,
       }
     }
     return {
@@ -149,15 +159,18 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
     <Box
       ref={boxRef}
       className={classes.box}
+      // style={{ alignItems: block.editType === "element" ? "center" : "flex-start" }}
       onClick={(e: React.MouseEvent<HTMLDivElement>) => (onClick ? onClick() : handleBoxClick(e))}
     >
-      {cloneElement(JSX, {
-        style: {
-          zoom: zoom.value,
-          display: zoom.isLoading ? "none" : "flex",
-        },
-        className: classes.child,
-      })}
+      <div style={{ margin: "auto" }}>
+        {cloneElement(JSX, {
+          style: {
+            zoom: zoom.value,
+            display: zoom.isLoading ? "none" : "flex",
+          },
+          className: classes.child,
+        })}
+      </div>
       {hasActions && (
         <Group className={classes.actions}>
           <ActionIcon
