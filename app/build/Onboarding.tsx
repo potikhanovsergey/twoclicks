@@ -84,13 +84,19 @@ const Onboarding = () => {
         </Popover.Target>
         <Popover.Dropdown p="sm">
           <Group align="center" spacing={6} mb="xs">
-            <Text size="xl" weight="bold">
+            <Text
+              size="xl"
+              weight="bold"
+              color={theme.colorScheme === "dark" ? theme.white : theme.black}
+            >
               Getting Started!
             </Text>
             <IoIosRocket size={24} style={{ fill: "url(#onboarding-rocket-gradient)" }} />
           </Group>
           <Group align="center" position="apart" noWrap mb={4}>
-            <Text size="xs">60% complete</Text>
+            <Text size="xs" color={theme.colorScheme === "dark" ? theme.white : theme.black}>
+              60% complete
+            </Text>
             <Badge color="cyan" size="xs" radius="sm" variant="light">
               10% discount reward
             </Badge>
