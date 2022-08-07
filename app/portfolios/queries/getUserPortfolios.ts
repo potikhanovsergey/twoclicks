@@ -1,4 +1,4 @@
-import { Session, SessionModel } from "@blitzjs/auth"
+import { ClientSession } from "@blitzjs/auth"
 import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 
@@ -7,7 +7,7 @@ interface getUserPortfoliosInput
 
 export default async function getUserPortfolios(
   input: getUserPortfoliosInput | null,
-  { session }: { session: SessionModel }
+  { session }: { session: ClientSession }
 ) {
   if (!session.userId) return null
 

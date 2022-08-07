@@ -47,10 +47,10 @@ const ComponentsModalTabsArr: IModalTab[] = [
 ]
 
 interface IComponentsModalTabs {
-  type: ICanvasModalType
+  modalType: ICanvasModalType
 }
 
-const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
+const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
   const [activeTab, setActiveTab] = useState<string | null>("All")
   const session = useSession()
   return (
@@ -114,7 +114,7 @@ const ComponentsModalTabs = ({ type }: IComponentsModalTabs) => {
         tab.viewlistType !== "liked" || session.userId ? (
           <Tabs.Panel value={tab.value} key={i}>
             <Suspense fallback={<LoadingOverlay visible={true} />}>
-              <ViewList type={tab.viewlistType} />
+              <ViewList type={tab.viewlistType} modalType={modalType} />
             </Suspense>
           </Tabs.Panel>
         ) : (

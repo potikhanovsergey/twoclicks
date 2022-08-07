@@ -1,5 +1,15 @@
-import { Box, Group, ActionIcon, createStyles } from "@mantine/core"
-import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
+import { Box, Group, ActionIcon, createStyles, Image, LoadingOverlay } from "@mantine/core"
+import {
+  cloneElement,
+  createRef,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { renderJSXFromBlock } from "helpers"
@@ -8,6 +18,7 @@ import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
 import createLikedBlock from "app/liked-blocks/mutations/createLikedBlock"
 import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
+import { useElementSize } from "@mantine/hooks"
 
 interface IViewListItem {
   block: BuildingBlock
@@ -25,22 +36,23 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     justifyContent: "center",
     alignItems: "center",
     height: "100%",
-    maxHeight: "200px",
+    // maxHeight: "200px",
     aspectRatio: "5/3",
     position: "relative",
-    overflow: "hidden",
+    overflowX: "hidden",
+    overflowY: "scroll",
     "&:hover": {
       [`& .${getRef("icon")}`]: {
         opacity: 1,
       },
     },
   },
-  child: {
-    transition: "0.4s ease transform",
-    "&:hover": {
-      transform: "scale(1.2)",
-    },
-  },
+  // child: {
+  //   transition: "0.4s ease transform",
+  //   "&:hover": {
+  //     transform: "scale(1.2)",
+  //   },
+  // },
   actions: {
     position: "absolute",
     top: "8px",
@@ -105,36 +117,61 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   }
   const [likeBuildingBlock] = useMutation(createLikedBlock)
   const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
+
+  const { ref: boxRef, width: boxWidth } = useElementSize<HTMLDivElement>()
+
+  const zoom = useMemo(() => {
+    if (block.editType !== "section")
+      return {
+        isLoading: false,
+        value: 1,
+      }
+    if (boxWidth !== 0) {
+      return {
+        isLoading: false,
+        value: boxWidth / 1440,
+      }
+    }
+    return {
+      isLoading: true,
+      value: 1,
+    }
+  }, [boxWidth])
+
   return (
-    <div>
-      <Box
-        className={classes.box}
-        onClick={(e: React.MouseEvent<HTMLDivElement>) => (onClick ? onClick() : handleBoxClick(e))}
-      >
-        {cloneElement(JSX, { className: classes.child })}
-        {hasActions && (
-          <Group className={classes.actions}>
-            <ActionIcon
-              sx={(theme) => ({
-                color: theme.colors.red[5],
-              })}
-              ref={iconRef}
-              loading={isLikeLoading}
-              className={classes.actionIcon}
-            >
-              <RiHeartAddFill
-                className={classes.icon}
-                style={{ display: isLiked ? "block" : "none", opacity: 1 }}
-              />
-              <RiHeartAddLine
-                className={classes.icon}
-                style={{ display: !isLiked ? "block" : "none" }}
-              />
-            </ActionIcon>
-          </Group>
-        )}
-      </Box>
-    </div>
+    <Box
+      ref={boxRef}
+      className={classes.box}
+      onClick={(e: React.MouseEvent<HTMLDivElement>) => (onClick ? onClick() : handleBoxClick(e))}
+    >
+      {cloneElement(JSX, {
+        style: {
+          zoom: zoom.value,
+          display: zoom.isLoading ? "none" : "flex",
+        },
+      })}
+      {hasActions && (
+        <Group className={classes.actions}>
+          <ActionIcon
+            sx={(theme) => ({
+              color: theme.colors.red[5],
+            })}
+            ref={iconRef}
+            loading={isLikeLoading}
+            className={classes.actionIcon}
+          >
+            <RiHeartAddFill
+              className={classes.icon}
+              style={{ display: isLiked ? "block" : "none", opacity: 1 }}
+            />
+            <RiHeartAddLine
+              className={classes.icon}
+              style={{ display: !isLiked ? "block" : "none" }}
+            />
+          </ActionIcon>
+        </Group>
+      )}
+    </Box>
   )
 }
 

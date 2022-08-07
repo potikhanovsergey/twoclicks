@@ -17,6 +17,7 @@ import { useSession } from "@blitzjs/auth"
 import { useCurrentUserLikedBlocks } from "app/core/hooks/useCurrentUserLikedBlocks"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
+import { ICanvasModalType } from "types"
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -36,11 +37,12 @@ const useStyles = createStyles(() => ({
 }))
 interface IViewList {
   type: string
+  modalType: ICanvasModalType
 }
 
 const ITEMS_PER_PAGE = 12
 
-const ViewList = ({ type }: IViewList) => {
+const ViewList = ({ type, modalType }: IViewList) => {
   const session = useSession()
   const { shouldRefetchLiked, blockTypeFilter } = BuildStore
   const [activePage, setActivePage] = useState(1) // Mantine pagination starts with the index of "1"
@@ -106,11 +108,12 @@ const ViewList = ({ type }: IViewList) => {
       setActivePage(debouncedTotalPages)
     }
   }, [debouncedTotalPages])
+
   return (
     <div className={classes.wrapper}>
       <LoadingOverlay visible={loadingOverlayVisible} />
       <ScrollArea className={classes.scrollArea}>
-        <SimpleGrid cols={4} className={classes.grid}>
+        <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
           {buildingBlocks.map((block, i) => (
             <ViewListItem
               block={block}

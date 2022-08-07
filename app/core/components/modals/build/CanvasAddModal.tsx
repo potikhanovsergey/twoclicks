@@ -144,7 +144,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
           }}
         >
           <Suspense fallback={<Loader />}>
-            <ComponentsModalTabs type={type} />
+            <ComponentsModalTabs modalType={type} />
           </Suspense>
         </Stack>
       </Group>

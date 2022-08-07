@@ -88,7 +88,7 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
           (navigator?.userAgentData?.platform.match("mac") ? e.metaKey : e.ctrlKey)
         ) {
           e.preventDefault()
-          savePortfolio({ session, updatePortfolioMutation })
+          void savePortfolio({ session, updatePortfolioMutation })
         }
       }}
       onBlur={(e) => {
@@ -191,7 +191,7 @@ export function renderJSXFromBlock({
     }
   }
 
-  if (withEditToolbar && element.editType === "element") {
+  if (withEditToolbar && (element.editType === "element" || element.editType === "section")) {
     return (
       <WithEditToolbar id={el.id} parentID={parentID} key={shortid.generate()}>
         <TagName {...props} />
