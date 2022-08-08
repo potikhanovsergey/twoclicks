@@ -54,7 +54,7 @@ const useStyles = createStyles((theme) => ({
   },
   onboarding: {
     position: "fixed",
-    left: "16px",
+    left: `calc((100vw - ${theme.breakpoints.xl}px + 32px) / 2)`,
     bottom: "16px",
   },
 }))

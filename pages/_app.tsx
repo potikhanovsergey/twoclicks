@@ -11,6 +11,7 @@ import {
   createEmotionCache,
   createStyles,
   Loader,
+  useMantineTheme,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -38,6 +39,9 @@ const emotionCache = createEmotionCache({ key: "mantine" })
 const useStyles = createStyles((theme) => ({
   container: {
     width: "100%",
+  },
+  paper: {
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
 }))
 
@@ -79,6 +83,8 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   useHotkeys([["mod+J", () => toggleColorScheme()]])
   const { classes } = useStyles()
 
+  const theme = useMantineTheme()
+
   const CustomTheme: MantineThemeOverride = {
     colorScheme,
     fontFamily: "'Nunito', sans-serif;",
@@ -114,6 +120,13 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
     primaryColor: "primary",
     primaryShade: 5,
     components: {
+      Paper: {
+        styles: {
+          root: {
+            color: colorScheme === "dark" ? theme.white : theme.black,
+          },
+        },
+      },
       Container: {
         defaultProps: {
           sizes: {

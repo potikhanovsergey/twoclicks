@@ -6,6 +6,8 @@ import {
   Image,
   LoadingOverlay,
   useMantineTheme,
+  MantineProvider,
+  ColorSchemeProvider,
 } from "@mantine/core"
 import {
   cloneElement,
@@ -44,20 +46,21 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     display: "flex",
     // justifyContent: "center",
     height: "100%",
-    // maxHeight: "200px",
     aspectRatio: "5/3",
     position: "relative",
     overflowX: "hidden",
     overflowY: "scroll",
-    transition: "0.3s ease all",
+    transition: "0.4s ease all",
     "&:hover": {
       [`& .${getRef("icon")}`]: {
         opacity: 1,
       },
       [`& .${getRef("child")}`]: {
-        transform: "scale(0.97)",
+        // transform: `scale(0.97)`,
+        // transform: "translate(12px, -12px)",
       },
-      background: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2],
+      transform: "scale(0.98)",
+      background: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3],
     },
   },
   child: {
@@ -133,7 +136,12 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const [likeBuildingBlock] = useMutation(createLikedBlock)
   const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
 
-  const { ref: boxRef, width: boxWidth } = useElementSize<HTMLDivElement>()
+  const { ref: boxRef, width: boxWidth, height: boxHeight } = useElementSize<HTMLDivElement>()
+  const {
+    ref: contentRef,
+    width: contentWidth,
+    height: contentHeight,
+  } = useElementSize<HTMLDivElement>()
 
   const theme = useMantineTheme()
 
@@ -155,21 +163,54 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
     }
   }, [boxWidth])
 
+  const [width, setWidth] = useState(0)
+  const [height, setHeight] = useState(0)
+
+  useEffect(() => {
+    if (!width && contentWidth) {
+      setWidth(contentWidth)
+    }
+  }, [contentWidth])
+
+  useEffect(() => {
+    if (!height && contentHeight) {
+      setHeight(contentHeight)
+    }
+  }, [contentHeight])
+
+  const hasRendered = useMemo(() => {
+    return width && height
+  }, [width, height])
+
   return (
     <Box
       ref={boxRef}
       className={classes.box}
-      // style={{ alignItems: block.editType === "element" ? "center" : "flex-start" }}
+      style={{ pointerEvents: hasRendered ? "all" : "none" }}
       onClick={(e: React.MouseEvent<HTMLDivElement>) => (onClick ? onClick() : handleBoxClick(e))}
     >
-      <div style={{ margin: "auto" }}>
-        {cloneElement(JSX, {
-          style: {
-            zoom: zoom.value,
-            display: zoom.isLoading ? "none" : "flex",
-          },
-          className: classes.child,
-        })}
+      <div
+        style={{
+          marginLeft: hasRendered ? "auto" : `calc(50% - 50vw)`,
+          marginRight: hasRendered ? "auto" : `calc(50% - 50vw)`,
+          marginTop: "auto",
+          marginBottom: "auto",
+        }}
+      >
+        <div
+          ref={contentRef}
+          style={{
+            transform: `scale(${zoom.value})`,
+            margin: `${-(height - height * zoom.value) / 2}px ${
+              -(width - width * zoom.value) / 2
+            }px`,
+            opacity: hasRendered ? 1 : 0,
+          }}
+        >
+          {cloneElement(JSX, {
+            className: classes.child,
+          })}
+        </div>
       </div>
       {hasActions && (
         <Group className={classes.actions}>
