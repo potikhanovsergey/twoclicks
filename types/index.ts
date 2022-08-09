@@ -43,6 +43,11 @@ export interface ICanvasData {
   }
   id: string | null
   name: string | null
+  colors?: {
+    [key: string]: {
+      value: string
+    }
+  }
 }
 
 export interface IFilterButton {

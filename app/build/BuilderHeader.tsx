@@ -5,17 +5,19 @@ import {
   Anchor,
   Button,
   Center,
+  ColorPicker,
   ColorSwatch,
   Container,
   CopyButton,
   Group,
   Loader,
+  Popover,
   Switch,
   Text,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
-import { useFullscreen, useHotkeys } from "@mantine/hooks"
+import { useClickOutside, useFullscreen, useHotkeys } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { setCookie } from "cookies-next"
 import { deflate } from "helpers"
@@ -25,6 +27,8 @@ import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { FaSave } from "react-icons/fa"
 import { BuildStore } from "store/build"
+import PaletteItem from "./PaletteItem"
+import PaletteItems from "./PaletteItems"
 
 const SaveButton = observer(() => {
   const session = useSession()
@@ -54,7 +58,6 @@ const SaveButton = observer(() => {
 
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
-  const [colors] = useState(["violet", "primary", "accent"])
   const theme = useMantineTheme()
   const { toggle, fullscreen } = useFullscreen()
 
@@ -78,16 +81,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               </CopyButton>
             </Group>
             <Switch label="Publish" radius="xl" color="violet" />
-            <Group spacing={8} align="center">
-              <Text size="sm">Palette:</Text>
-              <Group spacing={4}>
-                {colors.map((c) => {
-                  const color = theme.colors[c]
-                  if (color) return <ColorSwatch radius="xs" color={color[5]} key={c} />
-                  return <></>
-                })}
-              </Group>
-            </Group>
+            <PaletteItems />
           </Group>
           <Group spacing={4}>
             <ActionIcon onClick={toggle} color="violet" variant="filled">
