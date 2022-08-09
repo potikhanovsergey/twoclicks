@@ -24,7 +24,7 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
       </Anchor>
       <CopyButton value={`${baseURL}/p/${id}`} timeout={10000}>
         {({ copied, copy }) => (
-          <Tooltip label={copied ? "Link copied" : "Copy link"} withArrow position="top">
+          <Tooltip label={copied ? "Link copied" : "Copy link"} withArrow position="bottom">
             <ActionIcon color={copied ? "teal" : "gray"} onClick={copy} size="sm">
               {copied ? <BiCheckDouble size={16} /> : <BiCopy size={16} />}
             </ActionIcon>

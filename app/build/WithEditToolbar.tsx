@@ -66,7 +66,7 @@ const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
       width="auto"
     >
       <Popover.Target>
-        <Box style={{ display: "inline-block" }}>
+        <Box>
           {cloneElement(children, {
             onMouseEnter: () => {
               if (timer?.current) clearTimeout(timer?.current)
@@ -81,7 +81,7 @@ const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
           })}
         </Box>
       </Popover.Target>
-      <Popover.Dropdown style={{ padding: 0 }}>
+      <Popover.Dropdown style={{ padding: 0, width: "fit-content" }}>
         <Group
           noWrap
           spacing={0}
