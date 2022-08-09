@@ -21,24 +21,10 @@ import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
 import { useHotkeys } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
-const useStyles = createStyles((theme, _params, getRef) => ({
-  main: {
-    // subscribe to color scheme changes right in your styles
-    backgroundColor: theme.colors.gray[1],
-    color: theme.black,
-    width: "100%",
-    minHeight: "100vh",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    paddingTop: "var(--layout-header-height)",
-  },
-}))
+import { getBaseLayout } from "app/core/layouts/BaseLayout"
 
 const BuildPage = () => {
   // const { t } = useTranslation('pagesBuild');
-  const { classes } = useStyles()
-  const [menuOpened, setMenuOpened] = useState(false)
   const session = useSession()
   const portfolioID = useParam("portfolioID", "string")
 
@@ -56,7 +42,6 @@ const BuildPage = () => {
       if (!portfolioFromDB) {
         let portfolioFromCookie = getCookie(`portfolio-${portfolioID}`) as string | undefined
         if (portfolioFromCookie) {
-          console.log("portfolioFromCookie", portfolioFromCookie)
           let inflatedPortfolio = getPortfolioWithInflatedData(inflateBase64(portfolioFromCookie))
           if (session.userId) {
             void createOrUpdatePortfolioMutation(inflatedPortfolio)
@@ -96,24 +81,22 @@ const BuildPage = () => {
 
   return (
     <>
-      <LayoutHeader menuOpened={menuOpened} setMenuOpened={setMenuOpened} fixed />
-      <main className={classes.main}>
-        {portfolio ? (
-          <Suspense fallback={<Loader />}>
-            <Builder />
-            <CanvasComponentsModal />
-            <CanvasSectionsModal />
-          </Suspense>
-        ) : (
-          <Center>
-            <Text>Портфолио не найдено</Text>
-          </Center>
-        )}
-      </main>
+      {portfolio ? (
+        <Suspense fallback={<Loader />}>
+          <Builder />
+          <CanvasComponentsModal />
+          <CanvasSectionsModal />
+        </Suspense>
+      ) : (
+        <Center>
+          <Text>Портфолио не найдено</Text>
+        </Center>
+      )}
     </>
   )
 }
 
+BuildPage.getLayout = getBaseLayout()
 BuildPage.suppressFirstRenderFlicker = true
 
 export const getServerSideProps = async (
