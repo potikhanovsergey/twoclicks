@@ -25,6 +25,7 @@ import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { FaSave } from "react-icons/fa"
 import { BuildStore } from "store/build"
+import PortfolioLink from "./PortfolioLink"
 
 const SaveButton = observer(() => {
   const session = useSession()
@@ -62,21 +63,8 @@ const BuilderHeader = ({ className }: { className?: string }) => {
     <Center className={className}>
       <Container size="xl">
         <Group style={{ width: "100%" }} position="apart">
-          <Group spacing={32}>
-            <Group spacing={4}>
-              <Anchor color="blue" target="_blank">
-                https://cubeproject.com/p/potikhanov
-              </Anchor>
-              <CopyButton value="https://cubeproject.com/p/potikhanov" timeout={10000}>
-                {({ copied, copy }) => (
-                  <Tooltip label={copied ? "Link copied" : "Copy link"} withArrow position="top">
-                    <ActionIcon color={copied ? "teal" : "gray"} onClick={copy} size="sm">
-                      {copied ? <BiCheckDouble size={16} /> : <BiCopy size={16} />}
-                    </ActionIcon>
-                  </Tooltip>
-                )}
-              </CopyButton>
-            </Group>
+          <Group spacing={32} align="center">
+            {BuildStore.data.id && <PortfolioLink id={BuildStore.data.id} withEllipsis={true} />}
             <Switch label="Publish" radius="xl" color="violet" />
             <Group spacing={8} align="center">
               <Text size="sm">Palette:</Text>
