@@ -12,7 +12,7 @@ import {
 } from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { deflate, renderJSXFromBlock } from "helpers"
+import { deflate, getPortfolioWithDeflatedData, renderJSXFromBlock } from "helpers"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -104,7 +104,8 @@ const Builder = () => {
       name: BuildStore.data.name,
       data: BuildStore.data.blocks,
     }
-    setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolio))
+    const portfolioWithDeflatedData = getPortfolioWithDeflatedData(portfolio)
+    setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolioWithDeflatedData))
     void router.push(`/auth/?next=/build/${portfolio.id}`)
   }
 

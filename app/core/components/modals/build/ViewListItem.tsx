@@ -163,24 +163,9 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
     }
   }, [boxWidth])
 
-  const [width, setWidth] = useState(0)
-  const [height, setHeight] = useState(0)
-
-  useEffect(() => {
-    if (!width && contentWidth) {
-      setWidth(contentWidth)
-    }
-  }, [contentWidth])
-
-  useEffect(() => {
-    if (!height && contentHeight) {
-      setHeight(contentHeight)
-    }
-  }, [contentHeight])
-
   const hasRendered = useMemo(() => {
-    return width && height
-  }, [width, height])
+    return contentWidth && contentHeight
+  }, [contentWidth, contentHeight])
 
   return (
     <Box
@@ -201,8 +186,8 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
           ref={contentRef}
           style={{
             transform: `scale(${zoom.value})`,
-            margin: `${-(height - height * zoom.value) / 2}px ${
-              -(width - width * zoom.value) / 2
+            margin: `${-(contentHeight - contentHeight * zoom.value) / 2}px ${
+              -(contentWidth - contentWidth * zoom.value) / 2
             }px`,
             opacity: hasRendered ? 1 : 0,
           }}
