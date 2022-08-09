@@ -8,6 +8,7 @@ import {
   useMantineTheme,
   MantineProvider,
   ColorSchemeProvider,
+  ScrollArea,
 } from "@mantine/core"
 import {
   cloneElement,
@@ -48,8 +49,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     height: "100%",
     aspectRatio: "5/3",
     position: "relative",
-    overflowX: "hidden",
-    overflowY: "scroll",
+    // overflowX: "hidden",
+    // overflowY: "scroll",
+    overflow: "hidden",
     transition: "0.4s ease all",
     "&:hover": {
       [`& .${getRef("icon")}`]: {
@@ -178,24 +180,36 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
         style={{
           marginLeft: hasRendered ? "auto" : `calc(50% - 50vw)`,
           marginRight: hasRendered ? "auto" : `calc(50% - 50vw)`,
-          marginTop: "auto",
-          marginBottom: "auto",
+          // marginTop: "auto",
+          // marginBottom: "auto",
         }}
       >
-        <div
-          ref={contentRef}
-          style={{
-            transform: `scale(${zoom.value})`,
-            margin: `${-(contentHeight - contentHeight * zoom.value) / 2}px ${
-              -(contentWidth - contentWidth * zoom.value) / 2
-            }px`,
-            opacity: hasRendered ? 1 : 0,
+        <ScrollArea
+          style={{ height: boxHeight }}
+          styles={{
+            viewport: {
+              display: "flex",
+              alignItems: "center",
+              "> div": { marginTop: "auto", marginBottom: "auto" },
+            },
           }}
+          type="never"
         >
-          {cloneElement(JSX, {
-            className: classes.child,
-          })}
-        </div>
+          <div
+            ref={contentRef}
+            style={{
+              transform: `scale(${zoom.value})`,
+              margin: `${-(contentHeight - contentHeight * zoom.value) / 2}px ${
+                -(contentWidth - contentWidth * zoom.value) / 2
+              }px`,
+              opacity: hasRendered ? 1 : 0,
+            }}
+          >
+            {cloneElement(JSX, {
+              className: classes.child,
+            })}
+          </div>
+        </ScrollArea>
       </div>
       {hasActions && (
         <Group className={classes.actions}>
