@@ -15,12 +15,13 @@ import {
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
-import { useHotkeys } from "@mantine/hooks"
+import { useFullscreen, useHotkeys } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { setCookie } from "cookies-next"
 import { deflate } from "helpers"
 import { observer } from "mobx-react-lite"
 import React, { Suspense, useEffect, useState } from "react"
+import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { FaSave } from "react-icons/fa"
 import { BuildStore } from "store/build"
@@ -55,6 +56,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
   const [colors] = useState(["violet", "primary", "accent"])
   const theme = useMantineTheme()
+  const { toggle, fullscreen } = useFullscreen()
 
   return (
     <Center className={className}>
@@ -88,6 +90,9 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             </Group>
           </Group>
           <Group spacing={4}>
+            <ActionIcon onClick={toggle} color="violet" variant="filled">
+              {fullscreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />}
+            </ActionIcon>
             <Suspense fallback={<Loader />}>
               <SaveButton />
             </Suspense>

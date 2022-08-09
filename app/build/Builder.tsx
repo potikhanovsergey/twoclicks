@@ -22,6 +22,7 @@ import { MdOutlineEmojiNature } from "react-icons/md"
 import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import { reaction } from "mobx"
+import { useHotkeys } from "@mantine/hooks"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -62,6 +63,7 @@ const BuilderBlocks = observer(() => {
   const {
     data: { blocks },
   } = BuildStore
+
   return (
     <>
       <Text>{BuildStore.sectionsCount}</Text>
