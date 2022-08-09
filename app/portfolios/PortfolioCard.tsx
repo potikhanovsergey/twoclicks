@@ -11,6 +11,7 @@ import {
   Text,
   Box,
   Mark,
+  Space,
 } from "@mantine/core"
 import { formatDate } from "helpers"
 import Link from "next/link"
@@ -24,16 +25,13 @@ import { useMutation } from "@blitzjs/rpc"
 import deletePortfolio from "./mutations/deletePortfolio"
 import { useEffect } from "react"
 import { AppStore } from "store"
+import PortfolioLink from "app/build/PortfolioLink"
 
 export type PortfolioPreview = Pick<Portfolio, "name" | "id" | "updatedAt">
 
 const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
   // const { t } = useTranslation('pagesBuild');
   const theme = useMantineTheme()
-  const baseURL =
-    process.env.NODE_ENV === "development"
-      ? "localhost:3000"
-      : process.env.NEXT_PUBLIC_PRODUCTION_URL
 
   const [deletePortfolioMutation, { isSuccess }] = useMutation(deletePortfolio)
 
@@ -79,20 +77,8 @@ const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
           <Text weight="bold" size="xl">
             {name}
           </Text>
-          <Group spacing={4} mb="xs">
-            <Anchor href={`${baseURL}/p/${id}`} target="_blank" color="blue">
-              {`${baseURL}/p/${id}`}
-            </Anchor>
-            <CopyButton value={`${baseURL}/p/${id}`} timeout={10000}>
-              {({ copied, copy }) => (
-                <Tooltip label={copied ? "Link copied" : "Copy link"} withArrow position="top">
-                  <ActionIcon color={copied ? "teal" : "gray"} onClick={copy} size="sm">
-                    {copied ? <BiCheckDouble size={16} /> : <BiCopy size={16} />}
-                  </ActionIcon>
-                </Tooltip>
-              )}
-            </CopyButton>
-          </Group>
+          <PortfolioLink id={id} />
+          <Space h="xs" />
           <Switch label="Publish" radius="xl" color="violet" />
         </Stack>
         <Stack spacing="xs">
