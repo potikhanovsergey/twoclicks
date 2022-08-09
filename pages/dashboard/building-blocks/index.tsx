@@ -1,5 +1,14 @@
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import { Button, Container, Group, Space, Stack, Title, useMantineTheme } from "@mantine/core"
+import {
+  Button,
+  Center,
+  Container,
+  Group,
+  Space,
+  Stack,
+  Title,
+  useMantineTheme,
+} from "@mantine/core"
 import { GetServerSidePropsContext } from "next"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React, { useEffect, useMemo, useState } from "react"
@@ -10,11 +19,14 @@ import FirstHero from "app/build/sections/FirstHero"
 import { useMutation } from "@blitzjs/rpc"
 import CreateBuildingBlock from "app/dashboard/building-blocks/mutations/createBuildingBlock"
 import { showNotification } from "@mantine/notifications"
+import { useQuery } from "@blitzjs/rpc"
+import getAllBuildingBlocks from "app/dashboard/building-blocks/queries/getAllBuildingBlocks"
 
 const sections = [FirstHero]
 
 const DashboardIndex = () => {
-  const getJsonStringFromJSX = (component: JSX.Element) => {
+  const [sectionsDB] = useQuery(getAllBuildingBlocks)
+  const getJsonString = (component: JSX.Element | Object) => {
     const serialized = JSON.parse(serialize(component))
     return JSON.stringify(serialized, null, 2)
   }
@@ -33,13 +45,25 @@ const DashboardIndex = () => {
 
   const theme = useMantineTheme()
 
-  const handlePickBuildingBlock = (selected) => {
-    if (selected !== null) {
-      const invokedComponent = sections[selected]?.()
-      if (invokedComponent) {
-        setJson(getJsonStringFromJSX(invokedComponent))
-        setError(null)
+  const handlePickBuildingBlock = (selected, isCodeSection = true) => {
+    if (isCodeSection) {
+      if (selected !== null) {
+        const invokedComponent = sections[selected]?.()
+        if (invokedComponent) {
+          setJson(getJsonString(invokedComponent))
+          setError(null)
+        }
       }
+    } else {
+      const element = {
+        type: selected.type,
+        editType: selected.editType,
+        props: selected.props,
+      }
+      const serialized = getJsonString(element)
+      console.log(serialized)
+      setJson(serialized)
+      setError(null)
     }
   }
 
@@ -92,6 +116,14 @@ const DashboardIndex = () => {
             </Button>
           ))}
         </Group>
+        <Title mb="xl">DB Building Blocks</Title>
+        <Group mb="xl">
+          {sectionsDB.map((S, i) => (
+            <Button key={i} color="violet" onClick={() => handlePickBuildingBlock(S, false)}>
+              {i}
+            </Button>
+          ))}
+        </Group>
         <Stack style={{ minHeight: "480px" }} mb="xl">
           {error && error}
           <CodeMirror
@@ -112,7 +144,7 @@ const DashboardIndex = () => {
           {error && error}
         </Stack>
       </Container>
-      {JSX && <div>{JSX}</div>}
+      {JSX && <Center mb="xl">{JSX}</Center>}
       <Container size="xl">
         <Group>
           <Button color="yellow" onClick={handleCreateBuildingBlock} loading={isLoading}>
