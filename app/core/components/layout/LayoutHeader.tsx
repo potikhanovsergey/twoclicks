@@ -46,6 +46,7 @@ const LayoutHeader = ({
       fixed={fixed}
       py={0}
       style={style}
+      zIndex="301"
     >
       <Container
         size="xl"
