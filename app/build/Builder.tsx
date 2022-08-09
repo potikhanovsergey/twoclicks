@@ -12,7 +12,7 @@ import {
 } from "@mantine/core"
 import React, { useContext, useEffect } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { deflate, getPortfolioWithDeflatedData, renderJSXFromBlock } from "helpers"
+import { deflate, renderJSXFromBlock } from "helpers"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -44,6 +44,7 @@ const useStyles = createStyles((theme) => ({
   },
   canvas: {
     backgroundColor: theme.white,
+    color: theme.black,
     boxShadow: theme.shadows.sm,
     height: "100%",
   },
@@ -104,8 +105,7 @@ const Builder = () => {
       name: BuildStore.data.name,
       data: BuildStore.data.blocks,
     }
-    const portfolioWithDeflatedData = getPortfolioWithDeflatedData(portfolio)
-    setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolioWithDeflatedData))
+    setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolio))
     void router.push(`/auth/?next=/build/${portfolio.id}`)
   }
 
