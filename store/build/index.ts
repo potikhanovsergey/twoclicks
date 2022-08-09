@@ -38,18 +38,8 @@ class Build {
   @action
   setData = (data: ICanvasData) => {
     this.data = {
+      ...this.data,
       ...data,
-      colors: {
-        primary: {
-          value: "#0cf734",
-        },
-        secondary: {
-          value: "#6a0cf7",
-        },
-        accent: {
-          value: "#ffc0cb",
-        },
-      },
     }
     traverseAddIDs(BuildStore.data.blocks)
   }
