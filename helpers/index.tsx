@@ -72,7 +72,45 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
         outline: "none",
         wordBreak: "break-word",
       })}
+      onDragOver={(e) => {
+        e.preventDefault()
+      }}
+      onPaste={(e) => {
+        // Prevent the default action
+        e.preventDefault()
+
+        // Get the copied text from the clipboard
+        const text = e.clipboardData
+          ? (e.originalEvent || e).clipboardData.getData("text/plain")
+          : ""
+
+        if (document.queryCommandSupported("insertText")) {
+          document.execCommand("insertText", false, text)
+        } else if (document.getSelection()) {
+          // Insert text at the current position of caret
+          const range = document.getSelection()?.getRangeAt(0)
+          if (range) {
+            range.deleteContents()
+
+            const textNode = document.createTextNode(text)
+            range.insertNode(textNode)
+            range.selectNodeContents(textNode)
+            range.collapse(false)
+
+            const selection = window.getSelection()
+            if (selection) {
+              selection.removeAllRanges()
+              selection.addRange(range)
+            }
+          }
+        }
+      }}
       onKeyDown={(e) => {
+        e.ctrlKey ||
+          (e.metaKey &&
+            ![`c`, `v`, `ArrowLeft`, `ArrowRight`, `ArrowUp`, `ArrowDown`].includes(e.key) &&
+            e.preventDefault())
+
         const el = e.target
         const parentButton = el?.closest("button")
         if (parentButton && e.key === "Enter") {
@@ -92,12 +130,12 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
         }
       }}
       onBlur={(e) => {
-        if (e?.target?.innerHTML) {
+        if (e?.target?.innerText) {
           let parent = BuildStore.data.flattenBlocks[parentID]
           if (parent) {
             let parentProps = parent.props as ICanvasBlockProps
-            if (parentProps?.children !== e.target.innerHTML) {
-              BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerHTML } })
+            if (parentProps?.children !== e.target.innerText) {
+              BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerText } })
             }
           }
         }
