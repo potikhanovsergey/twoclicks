@@ -11,12 +11,12 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
         <title>{title || "skillcase"}</title>
         <link rel="icon" href="/favicon.svg" />
       </Head>
-
       <AppShell
         styles={{
           main: {
             minHeight: "calc(100vh - var(--layout-header-height))",
             paddingTop: "calc(var(--layout-header-height, 0px))",
+            paddingBottom: "calc(var(--layout-footer-height, 0px))",
             paddingLeft: 0,
             paddingRight: 0,
           },
@@ -24,7 +24,6 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
         header={<LayoutHeader fixed menuOpened={opened} setMenuOpened={setOpened} />}
-        footer={<Footer height={0}>Footer</Footer>}
       >
         {children}
       </AppShell>
