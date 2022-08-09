@@ -204,7 +204,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                   })}
                   overlayOpacity={0.85}
                   visible={loadingOverlay}
-                  loader={<CubeLoader size={256} />}
+                  loader={<CubeLoader size={194} />}
                 />
                 <Suspense
                   fallback={
