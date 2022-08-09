@@ -13,6 +13,17 @@ class Build {
     id: null,
     blocks: [],
     flattenBlocks: {},
+    colors: {
+      primary: {
+        value: "#0cf734",
+      },
+      secondary: {
+        value: "#6a0cf7",
+      },
+      accent: {
+        value: "#ffc0cb",
+      },
+    },
   }
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
@@ -26,7 +37,20 @@ class Build {
   /////////// ACTIONS //////////////
   @action
   setData = (data: ICanvasData) => {
-    this.data = data
+    this.data = {
+      ...data,
+      colors: {
+        primary: {
+          value: "#0cf734",
+        },
+        secondary: {
+          value: "#6a0cf7",
+        },
+        accent: {
+          value: "#ffc0cb",
+        },
+      },
+    }
     traverseAddIDs(BuildStore.data.blocks)
   }
   @action

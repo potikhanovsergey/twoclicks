@@ -5,17 +5,19 @@ import {
   Anchor,
   Button,
   Center,
+  ColorPicker,
   ColorSwatch,
   Container,
   CopyButton,
   Group,
   Loader,
+  Popover,
   Switch,
   Text,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
-import { useFullscreen, useHotkeys } from "@mantine/hooks"
+import { useClickOutside, useFullscreen, useHotkeys } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { setCookie } from "cookies-next"
 import { deflate } from "helpers"
@@ -25,6 +27,7 @@ import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { FaSave } from "react-icons/fa"
 import { BuildStore } from "store/build"
+import PaletteItems from "./PaletteItems"
 import PortfolioLink from "./PortfolioLink"
 
 const SaveButton = observer(() => {
@@ -55,7 +58,6 @@ const SaveButton = observer(() => {
 
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
-  const [colors] = useState(["violet", "primary", "accent"])
   const theme = useMantineTheme()
   const { toggle, fullscreen } = useFullscreen()
 
@@ -66,16 +68,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
           <Group spacing={32} align="center">
             {BuildStore.data.id && <PortfolioLink id={BuildStore.data.id} withEllipsis={true} />}
             <Switch label="Publish" radius="xl" color="violet" />
-            <Group spacing={8} align="center">
-              <Text size="sm">Palette:</Text>
-              <Group spacing={4}>
-                {colors.map((c) => {
-                  const color = theme.colors[c]
-                  if (color) return <ColorSwatch radius="xs" color={color[5]} key={c} />
-                  return <></>
-                })}
-              </Group>
-            </Group>
+            <PaletteItems />
           </Group>
           <Group spacing={8}>
             <ActionIcon onClick={toggle} color="violet" variant="filled">
