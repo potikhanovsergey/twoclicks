@@ -89,7 +89,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               </Group>
             </Group>
           </Group>
-          <Group spacing={4}>
+          <Group spacing={8}>
             <ActionIcon onClick={toggle} color="violet" variant="filled">
               {fullscreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />}
             </ActionIcon>
