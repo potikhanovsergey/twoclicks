@@ -84,15 +84,42 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
           ? (e.originalEvent || e).clipboardData.getData("text/plain")
           : ""
 
-        if (document.queryCommandSupported("insertText")) {
-          document.execCommand("insertText", false, text)
-        } else if (document.getSelection()) {
+        // Insert text at the current position of caret
+        const range = document.getSelection()?.getRangeAt(0)
+        if (range) {
+          range.deleteContents()
+
+          const textNode = document.createTextNode(text)
+          range.insertNode(textNode)
+          range.selectNodeContents(textNode)
+          range.collapse(false)
+
+          const selection = window.getSelection()
+          if (selection) {
+            selection.removeAllRanges()
+            selection.addRange(range)
+          }
+        }
+      }}
+      onKeyDown={(e) => {
+        ;(e.ctrlKey || e.metaKey) &&
+          ![`c`, `v`, `ArrowLeft`, `ArrowRight`, `ArrowUp`, `ArrowDown`, `z`].includes(e.key) &&
+          e.preventDefault()
+
+        const el = e.target
+        const parentButton = el?.closest("button")
+        if (parentButton && e.key === "Enter") {
+          e.preventDefault()
+        }
+        // 32 = space button
+        if (parentButton && e.which === 32) {
+          e.preventDefault()
           // Insert text at the current position of caret
           const range = document.getSelection()?.getRangeAt(0)
           if (range) {
             range.deleteContents()
 
-            const textNode = document.createTextNode(text)
+            const textNode = document.createTextNode(" ")
             range.insertNode(textNode)
             range.selectNodeContents(textNode)
             range.collapse(false)
@@ -103,23 +130,6 @@ export const WithEditable = ({ children, parentID, withContentEditable }) => {
               selection.addRange(range)
             }
           }
-        }
-      }}
-      onKeyDown={(e) => {
-        e.ctrlKey ||
-          (e.metaKey &&
-            ![`c`, `v`, `ArrowLeft`, `ArrowRight`, `ArrowUp`, `ArrowDown`].includes(e.key) &&
-            e.preventDefault())
-
-        const el = e.target
-        const parentButton = el?.closest("button")
-        if (parentButton && e.key === "Enter") {
-          e.preventDefault()
-        }
-        // 32 = space button
-        if (parentButton && e.which === 32) {
-          e.preventDefault()
-          document.execCommand("insertText", false, " ") // todo: remove deprecated command
         }
         if (
           e.key === "s" &&
@@ -231,7 +241,12 @@ export function renderJSXFromBlock({
 
   if (withEditToolbar && (element.editType === "element" || element.editType === "section")) {
     return (
-      <WithEditToolbar id={el.id} parentID={parentID} key={shortid.generate()}>
+      <WithEditToolbar
+        id={el.id}
+        parentID={parentID}
+        key={shortid.generate()}
+        editType={el.editType}
+      >
         <TagName {...props} />
       </WithEditToolbar>
     )

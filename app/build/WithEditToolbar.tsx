@@ -10,9 +10,10 @@ interface IWithEditToolbar {
   children: JSX.Element
   id: string
   parentID: string | null
+  editType: string
 }
 
-const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
+const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar) => {
   const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
@@ -57,16 +58,9 @@ const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
 
   const editableRef = useRef<HTMLDivElement>(null)
   return (
-    <Popover
-      trapFocus={false}
-      withArrow
-      opened={editOpened}
-      onClose={closeEdit}
-      position="top-end"
-      width="auto"
-    >
+    <Popover trapFocus={false} withArrow opened={editOpened} onClose={closeEdit} position="top-end">
       <Popover.Target>
-        <Box>
+        <Box style={{ width: editType === "element" ? "fit-content" : "auto" }}>
           {cloneElement(children, {
             onMouseEnter: () => {
               if (timer?.current) clearTimeout(timer?.current)
@@ -81,7 +75,7 @@ const WithEditToolbar = ({ children, id, parentID }: IWithEditToolbar) => {
           })}
         </Box>
       </Popover.Target>
-      <Popover.Dropdown style={{ padding: 0, width: "fit-content" }}>
+      <Popover.Dropdown style={{ padding: 0 }}>
         <Group
           noWrap
           spacing={0}
