@@ -93,9 +93,11 @@ const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
                 Edit portfolio
               </Button>
             </Link>
-            <ActionIcon color="red" variant="filled" size="lg" onClick={openDeleteModal}>
-              <RiDeleteBinLine />
-            </ActionIcon>
+            <Tooltip label="Delete portfolio" withArrow position="bottom">
+              <ActionIcon color="red" variant="filled" size="lg" onClick={openDeleteModal}>
+                <RiDeleteBinLine />
+              </ActionIcon>
+            </Tooltip>
           </Group>
           <Text color={theme.colors.gray[6]} align="end" size="xs">
             last edit {formatDate(updatedAt)}
