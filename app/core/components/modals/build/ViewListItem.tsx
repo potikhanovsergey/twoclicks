@@ -21,7 +21,7 @@ import {
   useRef,
   useState,
 } from "react"
-import { RiHeartAddFill, RiHeartAddLine } from "react-icons/ri"
+import { RiHeartsFill, RiHeartAddLine } from "react-icons/ri"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { renderJSXFromBlock } from "helpers"
 import { BuildingBlock } from "@prisma/client"
@@ -78,7 +78,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 
   actionIcon: {
     "&:hover": {
-      background: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[3],
+      background: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[8],
     },
     "&:focus": {
       [`& .${getRef("icon")}`]: {
@@ -222,7 +222,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
             loading={isLikeLoading}
             className={classes.actionIcon}
           >
-            <RiHeartAddFill
+            <RiHeartsFill
               className={classes.icon}
               style={{ display: isLiked ? "block" : "none", opacity: 1 }}
             />
