@@ -31,6 +31,7 @@ import createLikedBlock from "app/liked-blocks/mutations/createLikedBlock"
 import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
 import { useElementSize } from "@mantine/hooks"
 import { ICanvasBlockProps } from "types"
+import SafeWrapper from "../../SafeWrapper"
 
 interface IViewListItem {
   block: BuildingBlock
@@ -206,9 +207,11 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
               opacity: hasRendered ? 1 : 0,
             }}
           >
-            {cloneElement(JSX, {
-              className: classes.child,
-            })}
+            <SafeWrapper resetKeys={[JSX]}>
+              {cloneElement(JSX, {
+                className: classes.child,
+              })}
+            </SafeWrapper>
           </div>
         </ScrollArea>
       </div>

@@ -10,7 +10,7 @@ const Inner = ({ children }) => children
 
 const SafeWrapper = ({ children, resetKeys }: { children: ReactNode; resetKeys?: unknown[] }) => {
   return (
-    <ErrorBoundary fallback={<>The JSX cannot be rendered</>} resetKeys={resetKeys}>
+    <ErrorBoundary fallback={<>The element cannot be rendered</>} resetKeys={resetKeys}>
       <Inner>{children}</Inner>
     </ErrorBoundary>
   )

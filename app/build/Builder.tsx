@@ -23,6 +23,7 @@ import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import { reaction } from "mobx"
 import { useHotkeys } from "@mantine/hooks"
+import SafeWrapper from "app/core/components/SafeWrapper"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -79,7 +80,7 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
               withPalette: true,
             })
             if (JSX) {
-              return JSX
+              return <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
             }
             return <React.Fragment key={i} />
           })}

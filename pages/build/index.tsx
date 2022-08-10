@@ -20,7 +20,7 @@ const Build = () => {
   const { t } = useTranslation("pagesProfilePortfolios")
   const { portfolios, havePortfoliosLoaded } = AppStore
   return (
-    <Container size="lg" style={{ height: "100%", paddingTop: "16px" }}>
+    <Container size="lg" style={{ height: "100%" }} py={16}>
       {havePortfoliosLoaded && portfolios?.length ? (
         <>
           <Group position="apart" align="center">

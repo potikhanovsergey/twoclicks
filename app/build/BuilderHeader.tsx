@@ -41,6 +41,7 @@ const SaveButton = observer(() => {
       gradient={{ from: "violet", to: "teal", deg: 35 }}
       size="xs"
       leftIcon={<FaSave size={15} />}
+      sx={({}) => ({ ":disabled": { border: 0 } })}
     >
       Сохранить изменения
     </Button>
