@@ -242,7 +242,7 @@ export function renderJSXFromBlock({
   }
 
   if (el.type.toLowerCase().match("button") && !props.color) {
-    props.color = BuildStore.data.colors?.primary
+    props.color = BuildStore.data.palette?.primary
   }
 
   if (withEditToolbar && (element.editType === "element" || element.editType === "section")) {

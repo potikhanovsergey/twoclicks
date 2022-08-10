@@ -10,9 +10,7 @@ import { getHexesFromThemeColors, getHexFromThemeColor, getThemeColorValueArray 
 import { useMemo, useState } from "react"
 import { BuildStore } from "store/build"
 interface IPaletteItem {
-  color: {
-    value: string
-  }
+  color: string
   paletteKey: string
 }
 

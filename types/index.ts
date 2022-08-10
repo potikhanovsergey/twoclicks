@@ -37,6 +37,10 @@ export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt">
 
 export type ICanvasElement = ICanvasBlock | undefined | string | null // Element can be either block, string (text), or nothing
 
+export type ICanvasPalette = {
+  [key: string]: ExtendedCustomColors
+}
+
 export interface ICanvasData {
   blocks: ICanvasBlock[]
   flattenBlocks: {
@@ -44,9 +48,7 @@ export interface ICanvasData {
   }
   id: string | null
   name: string | null
-  colors?: {
-    [key: string]: ExtendedCustomColors
-  }
+  palette?: ICanvasPalette
 }
 
 export interface IFilterButton {

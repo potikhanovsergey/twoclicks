@@ -6,16 +6,16 @@ import PaletteItem from "./PaletteItem"
 
 const PaletteItems = () => {
   const {
-    data: { colors },
+    data: { palette },
   } = BuildStore
   return (
     <Group spacing={8} align="center">
       <Text size="sm">Palette:</Text>
-      {colors && (
+      {palette && (
         <Group spacing={4}>
-          {Object.keys(colors).map((cKey, i) => {
-            return colors?.[cKey] ? (
-              <PaletteItem color={colors[cKey]} paletteKey={cKey} key={i} />
+          {Object.keys(palette).map((cKey, i) => {
+            return palette?.[cKey] ? (
+              <PaletteItem color={palette[cKey]} paletteKey={cKey} key={i} />
             ) : (
               <></>
             )
