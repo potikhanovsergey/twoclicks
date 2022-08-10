@@ -10,7 +10,7 @@ interface IWithEditToolbar {
   children: JSX.Element
   id: string
   parentID: string | null
-  editType: string
+  editType: string | null
 }
 
 const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar) => {

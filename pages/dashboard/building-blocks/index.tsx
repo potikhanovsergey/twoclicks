@@ -21,11 +21,12 @@ import CreateBuildingBlock from "app/dashboard/building-blocks/mutations/createB
 import { showNotification } from "@mantine/notifications"
 import { useQuery } from "@blitzjs/rpc"
 import getAllBuildingBlocks from "app/dashboard/building-blocks/queries/getAllBuildingBlocks"
+import SafeWrapper from "app/core/components/SafeWrapper"
 
 const sections = [FirstHero]
 
 const DashboardIndex = () => {
-  const [sectionsDB] = useQuery(getAllBuildingBlocks)
+  const [sectionsDB] = useQuery(getAllBuildingBlocks, null)
   const getJsonString = (component: JSX.Element | Object) => {
     const serialized = JSON.parse(serialize(component))
     return JSON.stringify(serialized, null, 2)
@@ -61,7 +62,6 @@ const DashboardIndex = () => {
         props: selected.props,
       }
       const serialized = getJsonString(element)
-      console.log(serialized)
       setJson(serialized)
       setError(null)
     }
@@ -116,14 +116,18 @@ const DashboardIndex = () => {
             </Button>
           ))}
         </Group>
-        <Title mb="xl">DB Building Blocks</Title>
-        <Group mb="xl">
-          {sectionsDB.map((S, i) => (
-            <Button key={i} color="violet" onClick={() => handlePickBuildingBlock(S, false)}>
-              {i}
-            </Button>
-          ))}
-        </Group>
+        {sectionsDB && (
+          <>
+            <Title mb="xl">DB Building Blocks</Title>
+            <Group mb="xl">
+              {sectionsDB.map((S, i) => (
+                <Button key={i} color="violet" onClick={() => handlePickBuildingBlock(S, false)}>
+                  {i}
+                </Button>
+              ))}
+            </Group>
+          </>
+        )}
         <Stack style={{ minHeight: "480px" }} mb="xl">
           {error && error}
           <CodeMirror
@@ -144,7 +148,11 @@ const DashboardIndex = () => {
           {error && error}
         </Stack>
       </Container>
-      {JSX && <Center mb="xl">{JSX}</Center>}
+      {JSX && (
+        <Center mb="xl">
+          <SafeWrapper>{JSX}</SafeWrapper>
+        </Center>
+      )}
       <Container size="xl">
         <Group>
           <Button color="yellow" onClick={handleCreateBuildingBlock} loading={isLoading}>
