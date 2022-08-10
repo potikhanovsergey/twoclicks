@@ -1,11 +1,17 @@
 import { ClientSession } from "@blitzjs/auth"
 import { MutateFunction, useMutation } from "@blitzjs/rpc"
-import { Portfolio, Session } from "@prisma/client"
+import { Portfolio, Prisma, Session } from "@prisma/client"
 import updatePortfolio, { IUpdatePortfolio } from "app/portfolios/mutations/updatePortfolio"
 import { setCookie } from "cookies-next"
 import { deflate, traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed, autorun, reaction } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
+
+const defaultPalette = {
+  primary: "violet",
+  // secondary: "blue",
+  // accent: "teal",
+}
 
 class Build {
   data: ICanvasData = {
@@ -13,11 +19,7 @@ class Build {
     id: null,
     blocks: [],
     flattenBlocks: {},
-    palette: {
-      primary: "violet",
-      // secondary: "blue",
-      // accent: "teal",
-    },
+    palette: {},
   }
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
@@ -31,6 +33,7 @@ class Build {
   /////////// ACTIONS //////////////
   @action
   setData = (data: ICanvasData) => {
+    console.log("DATA", data)
     this.data = {
       ...this.data,
       ...data,
@@ -147,7 +150,7 @@ class Build {
   }) => {
     e && e.preventDefault()
     const {
-      data: { name, id, blocks },
+      data: { name, id, blocks, palette },
       hasPortfolioChanged,
     } = this
     if (name && id && hasPortfolioChanged) {
@@ -156,6 +159,7 @@ class Build {
         data: deflate(blocks),
         name,
         id,
+        palette: palette as Prisma.JsonObject,
       }
       if (session.userId) {
         await updatePortfolioMutation?.(portfolio)
@@ -168,9 +172,10 @@ class Build {
   }
 
   @action
-  changeColor = ({ paletteKey, value }: { paletteKey: string; value: string }) => {
+  changePalette = ({ paletteKey, value }: { paletteKey: string; value: string }) => {
     if (this.data.palette?.[paletteKey]) {
       this.data.palette[paletteKey] = value
+      this.hasPortfolioChanged = true
     }
   }
 

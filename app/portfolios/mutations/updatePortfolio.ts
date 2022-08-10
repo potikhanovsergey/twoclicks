@@ -1,11 +1,12 @@
 import { Ctx } from "blitz"
-import db, { Portfolio } from "db"
+import db, { Portfolio, Prisma } from "db"
 
-export type IUpdatePortfolio = Pick<Portfolio, "data" | "name" | "id">
+export type IUpdatePortfolio = Pick<Portfolio, "data" | "name" | "id" | "palette">
 
 export default async function updatePortfolio(input: IUpdatePortfolio, ctx: Ctx) {
   ctx.session.$isAuthorized()
   const { name, data, id } = input
+  const palette = input.palette as Prisma.JsonObject
   try {
     const portfolio = await db.portfolio.update({
       where: {
@@ -14,6 +15,7 @@ export default async function updatePortfolio(input: IUpdatePortfolio, ctx: Ctx)
       data: {
         name,
         data,
+        palette,
       },
     })
     return portfolio

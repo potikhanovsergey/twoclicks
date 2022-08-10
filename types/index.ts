@@ -10,10 +10,14 @@ export interface IFilterButton {
   text: string
 }
 
+export type ICanvasPalette = {
+  [key: string]: ExtendedCustomColors
+}
 export interface IPortfolio {
   id: string
   name: string
   data: BuildingBlock[]
+  palette: ICanvasPalette
   createdAt?: Date
   updatedAt?: Date
 }
@@ -36,10 +40,6 @@ export interface ICanvasBlockProps {
 export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt">
 
 export type ICanvasElement = ICanvasBlock | undefined | string | null // Element can be either block, string (text), or nothing
-
-export type ICanvasPalette = {
-  [key: string]: ExtendedCustomColors
-}
 
 export interface ICanvasData {
   blocks: ICanvasBlock[]

@@ -16,7 +16,7 @@ interface IPaletteItem {
 
 const PaletteItem = ({ color, paletteKey }: IPaletteItem) => {
   const theme = useMantineTheme()
-  const { changeColor } = BuildStore
+  const { changePalette } = BuildStore
 
   const colorValue = getHexFromThemeColor({ theme, color })
   const [colorValueArray] = useState(getThemeColorValueArray({ theme }))
@@ -37,7 +37,7 @@ const PaletteItem = ({ color, paletteKey }: IPaletteItem) => {
           swatches={swatches}
           value={colorValue}
           onChange={(value) => {
-            changeColor({
+            changePalette({
               paletteKey,
               value: colorValueArray.find?.((item) => item.value === value)?.color || value,
             })

@@ -64,6 +64,7 @@ const BuildPage = () => {
         blocks: portfolio.data,
         name: portfolio.name,
         id: portfolio.id,
+        palette: portfolio.palette,
         flattenBlocks: {},
       })
     }

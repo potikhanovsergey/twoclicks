@@ -94,6 +94,8 @@ model Portfolio {
   updatedAt DateTime @updatedAt
   name      String
   data      String
+  palette   Json     @default("{ \"primary\": \"violet\" }")
+
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @db.ObjectId
