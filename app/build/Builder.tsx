@@ -76,6 +76,7 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
               shouldFlat: true,
               withContentEditable: true,
               withEditToolbar: true,
+              withPalette: true,
             })
             if (JSX) {
               return JSX

@@ -13,14 +13,20 @@ const defaultPalette = {
   // accent: "teal",
 }
 
+const initialData = {
+  name: null,
+  id: null,
+  blocks: [],
+  flattenBlocks: {},
+  palette: defaultPalette,
+}
+
+const getInitialData: () => ICanvasData = () => {
+  return JSON.parse(JSON.stringify(initialData))
+}
+
 class Build {
-  data: ICanvasData = {
-    name: null,
-    id: null,
-    blocks: [],
-    flattenBlocks: {},
-    palette: {},
-  }
+  data: ICanvasData = getInitialData()
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
   hasPortfolioChanged: boolean = false
@@ -33,13 +39,18 @@ class Build {
   /////////// ACTIONS //////////////
   @action
   setData = (data: ICanvasData) => {
-    console.log("DATA", data)
     this.data = {
       ...this.data,
       ...data,
     }
     traverseAddIDs(BuildStore.data.blocks)
   }
+
+  @action
+  resetData = () => {
+    this.data = getInitialData()
+  }
+
   @action
   setBlockTypeFilter = (filter: string) => {
     this.blockTypeFilter = filter

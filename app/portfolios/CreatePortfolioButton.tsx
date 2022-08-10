@@ -20,6 +20,7 @@ const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
       id: ObjectID().toHexString(),
       name: "Brand new portfolio",
       data: PortfolioStarterMock.data as BuildingBlock[],
+      palette: PortfolioStarterMock.palette,
     }
 
     // Authorized

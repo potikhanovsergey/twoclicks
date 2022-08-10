@@ -101,6 +101,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
     return renderJSXFromBlock({
       element: { ...block, editType: null },
       withContentEditable: false,
+      withPalette: true,
     })
   }, [block])
 

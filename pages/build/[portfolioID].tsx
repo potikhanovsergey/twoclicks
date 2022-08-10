@@ -1,7 +1,6 @@
-import { createStyles, Text, Loader, Center } from "@mantine/core"
+import { Text, Loader, Center } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Suspense, useEffect, useState } from "react"
-import LayoutHeader from "app/core/components/layout/LayoutHeader"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
 // import { useTranslation } from 'next-i18next';
@@ -9,18 +8,12 @@ import Builder from "app/build/Builder"
 import { getPortfolioWithInflatedData, inflateBase64 } from "helpers"
 import { BuildStore } from "store/build"
 import { Ctx, useParam } from "@blitzjs/next"
-import { PortfolioStarterMock } from "db/mocks"
 import { IPortfolio } from "types"
-import { getSession, useSession } from "@blitzjs/auth"
+import { useSession } from "@blitzjs/auth"
 import { deleteCookie, getCookie } from "cookies-next"
-import db, { BuildingBlock, Portfolio } from "db"
-import { useRouter } from "next/router"
-import shortid from "shortid"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
-import { useHotkeys } from "@mantine/hooks"
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 
 const BuildPage = () => {
@@ -31,7 +24,7 @@ const BuildPage = () => {
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
   const [createOrUpdatePortfolioMutation] = useMutation(createOrUpdatePortfolio)
 
-  const [portfolioFromDB] = useQuery(
+  const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
     getPortfolioByID,
     { id: portfolioID },
     { refetchOnMount: false, refetchOnReconnect: false, refetchOnWindowFocus: false }
@@ -58,9 +51,11 @@ const BuildPage = () => {
     void getPortfolio()
   }, [portfolioFromDB])
 
+  const { resetData, setData } = BuildStore
+
   useEffect(() => {
     if (portfolio?.data) {
-      BuildStore.setData({
+      setData({
         blocks: portfolio.data,
         name: portfolio.name,
         id: portfolio.id,
@@ -68,17 +63,14 @@ const BuildPage = () => {
         flattenBlocks: {},
       })
     }
+    return () => resetData()
   }, [portfolio])
 
-  // const router = useRouter()
-  // useEffect(() => {
-  //   if (!session.userId && !getCookie(`portfolio-${portfolioID}`)) {
-  //     void router.push("/build/")
-  //   }
-  // }, [session])
-
-  // const { savePortfolio } = BuildStore
-  // const [updatePortfolioMutation] = useMutation(updatePortfolio)
+  useEffect(() => {
+    if (session && !portfolioFromDB) {
+      void refetchPortfolioFromDB()
+    }
+  }, [session])
 
   return (
     <>
@@ -89,7 +81,7 @@ const BuildPage = () => {
           <CanvasSectionsModal />
         </Suspense>
       ) : (
-        <Center>
+        <Center style={{ height: "100%" }}>
           <Text>Портфолио не найдено</Text>
         </Center>
       )}

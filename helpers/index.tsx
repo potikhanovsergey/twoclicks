@@ -164,6 +164,7 @@ function traverseProp({
   parentID,
   withContentEditable,
   withEditToolbar,
+  withPalette,
 }) {
   if (prop === "children" && typeof propValue === "string" && withContentEditable)
     return (
@@ -178,6 +179,7 @@ function traverseProp({
       parentID,
       withContentEditable,
       withEditToolbar,
+      withPalette,
     })
   } else {
     return propValue
@@ -190,12 +192,14 @@ export function renderJSXFromBlock({
   parentID = null,
   withContentEditable = false,
   withEditToolbar = false,
+  withPalette = false,
 }: {
   element: ICanvasElement
   shouldFlat?: boolean
   parentID?: string | null
   withContentEditable?: boolean
   withEditToolbar?: boolean
+  withPalette?: boolean
 }) {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
@@ -224,6 +228,7 @@ export function renderJSXFromBlock({
           parentID: el.id,
           withContentEditable,
           withEditToolbar,
+          withPalette,
         })
       }
     } else {
@@ -234,6 +239,7 @@ export function renderJSXFromBlock({
         parentID: el.id,
         withContentEditable,
         withEditToolbar,
+        withPalette,
       })
       if (traversedProp) {
         props[prop] = traversedProp
@@ -241,8 +247,10 @@ export function renderJSXFromBlock({
     }
   }
 
-  if (el.type.toLowerCase().match("button") && !props.color) {
-    props.color = BuildStore.data.palette?.primary
+  if (withPalette) {
+    if (el.type.toLowerCase().match("button") && !props.color) {
+      props.color = BuildStore.data.palette?.primary
+    }
   }
 
   if (withEditToolbar && (element.editType === "element" || element.editType === "section")) {
