@@ -18,33 +18,47 @@ const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
 
+  const {
+    moveLeft,
+    moveRight,
+    deleteElement,
+    data: { blocks },
+  } = BuildStore
+
   const hasMoves = useMemo(() => {
-    if (parentID) {
-      let parentComponent = BuildStore.data.flattenBlocks[parentID]?.type
-      return (
-        parentComponent &&
-        (parentComponent === "@mantine/core/group" || parentComponent === "@mantine/core/stack")
-      )
-    }
+    // if (parentID) {
+    //   let parentComponent = BuildStore.data.flattenBlocks[parentID]?.type
+    //   return (
+    //     parentComponent &&
+    //     (parentComponent === "@mantine/core/group" || parentComponent === "@mantine/core/stack")
+    //   )
+    // }
+    if (editType === "section") return blocks.length > 1
     return false
   }, [parentID])
 
   const movesIcons = useMemo(() => {
-    if (hasMoves && parentID) {
-      let parent = BuildStore.data.flattenBlocks?.[parentID]
-      let parentProps = parent?.props as object | null
-      if (parent?.type === "@mantine/core/group") {
-        if (parentProps && parentProps["direction"] === "column") {
-          return {
-            left: <CgChevronUpR />,
-            right: <CgChevronDownR />,
-          }
-        } else {
-          return {
-            left: <CgChevronLeftR />,
-            right: <CgChevronRightR />,
-          }
-        }
+    // if (hasMoves && parentID) {
+    //   let parent = BuildStore.data.flattenBlocks?.[parentID]
+    //   let parentProps = parent?.props as object | null
+    //   if (parent?.type === "@mantine/core/group") {
+    //     if (parentProps && parentProps["direction"] === "column") {
+    //       return {
+    //         left: <CgChevronUpR />,
+    //         right: <CgChevronDownR />,
+    //       }
+    //     } else {
+    //       return {
+    //         left: <CgChevronLeftR />,
+    //         right: <CgChevronRightR />,
+    //       }
+    //     }
+    //   }
+    // }
+    if (hasMoves) {
+      return {
+        left: <CgChevronUpR />,
+        right: <CgChevronDownR />,
       }
     }
     return null
@@ -69,7 +83,7 @@ const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar)
             onMouseLeave: () => {
               timer.current = setTimeout(() => {
                 if (!popupHovered) closeEdit()
-              }, 300)
+              }, 600)
             },
             ref: editableRef,
           })}
@@ -90,10 +104,18 @@ const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar)
         >
           {hasMoves && movesIcons && (
             <>
-              <ActionIcon size="lg" onClick={() => BuildStore.moveLeft({ id, parentID })}>
+              <ActionIcon
+                size="lg"
+                onClick={() => moveLeft({ id, parentID, editType })}
+                disabled={id === blocks[0]?.id}
+              >
                 {movesIcons.left}
               </ActionIcon>
-              <ActionIcon size="lg" onClick={() => BuildStore.moveRight({ id, parentID })}>
+              <ActionIcon
+                size="lg"
+                onClick={() => moveRight({ id, parentID, editType })}
+                disabled={id === blocks[blocks.length - 1]?.id}
+              >
                 {movesIcons.right}
               </ActionIcon>
             </>
@@ -105,7 +127,7 @@ const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar)
             color="red"
             size="lg"
             onClick={() => {
-              BuildStore.deleteElement({ id, parentID })
+              deleteElement({ id, parentID })
               closeEdit()
             }}
           >

@@ -104,36 +104,78 @@ class Build {
   }
 
   @action
-  moveLeft = ({ id, parentID }: { id: string; parentID: string | null }) => {
-    if (parentID) {
-      this.hasPortfolioChanged = true
-      const parent = this.getElement(parentID)
-      const parentProps = parent?.props as ICanvasBlockProps
-      if (parentProps?.children) {
-        let indexOfId = parentProps.children.findIndex((a) => typeof a === "object" && a?.id === id)
-        if (indexOfId !== -1 && indexOfId > 0) {
-          ;[parentProps.children[indexOfId], parentProps.children[indexOfId - 1]] = [
-            parentProps.children[indexOfId - 1],
-            parentProps.children[indexOfId],
-          ]
+  moveLeft = ({
+    id,
+    parentID,
+    editType,
+  }: {
+    id: string
+    parentID: string | null
+    editType: string | null
+  }) => {
+    if (editType === "section") {
+      const indexOfId = this.data.blocks.findIndex((section) => section?.id === id)
+      if (indexOfId !== -1 && indexOfId > 0) {
+        ;[this.data.blocks[indexOfId], this.data.blocks[indexOfId - 1]] = [
+          this.data.blocks[indexOfId - 1],
+          this.data.blocks[indexOfId],
+        ]
+        this.hasPortfolioChanged = true
+      }
+    } else {
+      if (parentID) {
+        const parent = this.getElement(parentID)
+        const parentProps = parent?.props as ICanvasBlockProps
+        if (parentProps?.children) {
+          let indexOfId = parentProps.children.findIndex(
+            (a) => typeof a === "object" && a?.id === id
+          )
+          if (indexOfId !== -1 && indexOfId > 0) {
+            ;[parentProps.children[indexOfId], parentProps.children[indexOfId - 1]] = [
+              parentProps.children[indexOfId - 1],
+              parentProps.children[indexOfId],
+            ]
+            this.hasPortfolioChanged = true
+          }
         }
       }
     }
   }
 
   @action
-  moveRight = ({ id, parentID }: { id: string; parentID: string | null }) => {
-    if (parentID) {
-      this.hasPortfolioChanged = true
-      const parent = this.getElement(parentID)
-      const parentProps = parent?.props as ICanvasBlockProps
-      if (parentProps?.children) {
-        let indexOfId = parentProps.children.findIndex((a) => typeof a === "object" && a?.id === id)
-        if (indexOfId !== -1 && indexOfId < parentProps.children.length - 1) {
-          ;[parentProps.children[indexOfId + 1], parentProps.children[indexOfId]] = [
-            parentProps.children[indexOfId],
-            parentProps.children[indexOfId + 1],
-          ]
+  moveRight = ({
+    id,
+    parentID,
+    editType,
+  }: {
+    id: string
+    parentID: string | null
+    editType: string | null
+  }) => {
+    if (editType === "section") {
+      const indexOfId = this.data.blocks.findIndex((section) => section?.id === id)
+      if (indexOfId !== -1 && indexOfId < this.data.blocks.length - 1) {
+        ;[this.data.blocks[indexOfId + 1], this.data.blocks[indexOfId]] = [
+          this.data.blocks[indexOfId],
+          this.data.blocks[indexOfId + 1],
+        ]
+        this.hasPortfolioChanged = true
+      }
+    } else {
+      if (parentID) {
+        const parent = this.getElement(parentID)
+        const parentProps = parent?.props as ICanvasBlockProps
+        if (parentProps?.children) {
+          let indexOfId = parentProps.children.findIndex(
+            (a) => typeof a === "object" && a?.id === id
+          )
+          if (indexOfId !== -1 && indexOfId < parentProps.children.length - 1) {
+            ;[parentProps.children[indexOfId + 1], parentProps.children[indexOfId]] = [
+              parentProps.children[indexOfId],
+              parentProps.children[indexOfId + 1],
+            ]
+            this.hasPortfolioChanged = true
+          }
         }
       }
     }
