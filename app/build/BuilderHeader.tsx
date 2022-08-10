@@ -49,7 +49,7 @@ const SaveButton = observer(() => {
       variant={hasPortfolioChanged ? "gradient" : "default"}
       gradient={{ from: "violet", to: "teal", deg: 35 }}
       size="xs"
-      leftIcon={<FaSave />}
+      leftIcon={<FaSave size={15} />}
     >
       Сохранить изменения
     </Button>
