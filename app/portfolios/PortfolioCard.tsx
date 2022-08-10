@@ -2,11 +2,8 @@ import {
   useMantineTheme,
   Group,
   Stack,
-  Anchor,
-  CopyButton,
   Tooltip,
   ActionIcon,
-  Switch,
   Button,
   Text,
   Box,
@@ -15,7 +12,6 @@ import {
 } from "@mantine/core"
 import { formatDate } from "helpers"
 import Link from "next/link"
-import { BiCheckDouble, BiCopy } from "react-icons/bi"
 
 import { Portfolio } from "@prisma/client"
 import { HiPencilAlt } from "react-icons/hi"
@@ -26,6 +22,7 @@ import deletePortfolio from "./mutations/deletePortfolio"
 import { useEffect } from "react"
 import { AppStore } from "store"
 import PortfolioLink from "app/build/PortfolioLink"
+import TogglePublishPortfilio from "app/build/TogglePublishPortfolio"
 
 export type PortfolioPreview = Pick<Portfolio, "name" | "id" | "updatedAt">
 
@@ -79,7 +76,7 @@ const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
           </Text>
           <PortfolioLink id={id} />
           <Space h="xs" />
-          <Switch label="Publish" radius="xl" color="violet" />
+          <TogglePublishPortfilio />
         </Stack>
         <Stack spacing="xs">
           <Group spacing="xs">

@@ -2,33 +2,24 @@ import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
 import {
   ActionIcon,
-  Anchor,
   Button,
   Center,
-  ColorPicker,
-  ColorSwatch,
   Container,
-  CopyButton,
   Group,
   Loader,
-  Popover,
-  Switch,
-  Text,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
-import { useClickOutside, useFullscreen, useHotkeys, useHover } from "@mantine/hooks"
+import { useFullscreen, useHotkeys, useHover } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
-import { setCookie } from "cookies-next"
-import { deflate } from "helpers"
 import { observer } from "mobx-react-lite"
-import React, { Suspense, useEffect, useState } from "react"
+import React, { Suspense, useEffect } from "react"
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
-import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { FaSave } from "react-icons/fa"
 import { BuildStore } from "store/build"
 import PaletteItems from "./PaletteItems"
 import PortfolioLink from "./PortfolioLink"
+import TogglePublishPortfilio from "./TogglePublishPortfolio"
 
 const SaveButton = observer(() => {
   const session = useSession()
@@ -68,7 +59,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
         <Group style={{ width: "100%" }} position="apart">
           <Group spacing={32} align="center">
             {BuildStore.data.id && <PortfolioLink id={BuildStore.data.id} withEllipsis={true} />}
-            <Switch label="Publish" radius="xl" color="violet" />
+            <TogglePublishPortfilio />
             <PaletteItems />
           </Group>
           <Group spacing={8}>
