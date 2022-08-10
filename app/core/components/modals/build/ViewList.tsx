@@ -60,6 +60,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
             : { updatedAt: "desc" },
         where: {
           filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
+          editType: modalType === "sections" ? "section" : "element",
           LikedBlocks:
             type === "liked" && session.userId
               ? {
