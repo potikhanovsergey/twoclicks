@@ -211,7 +211,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                     <LoadingOverlay
                       visible={true}
                       overlayOpacity={0.85}
-                      loader={<Loader size="lg" />}
+                      loader={<CubeLoader size={194} />}
                     />
                   }
                 >

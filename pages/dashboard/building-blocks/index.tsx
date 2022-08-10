@@ -150,7 +150,7 @@ const DashboardIndex = () => {
       </Container>
       {JSX && (
         <Center mb="xl">
-          <SafeWrapper>{JSX}</SafeWrapper>
+          <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
         </Center>
       )}
       <Container size="xl">
