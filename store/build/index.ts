@@ -14,15 +14,9 @@ class Build {
     blocks: [],
     flattenBlocks: {},
     colors: {
-      primary: {
-        value: "violet",
-      },
-      secondary: {
-        value: "blue",
-      },
-      accent: {
-        value: "teal",
-      },
+      primary: "violet",
+      secondary: "blue",
+      accent: "teal",
     },
   }
   shouldRefetchLiked: boolean = false
@@ -176,9 +170,7 @@ class Build {
   @action
   changeColor = ({ paletteKey, value }: { paletteKey: string; value: string }) => {
     if (this.data.colors?.[paletteKey]) {
-      this.data.colors[paletteKey] = {
-        value,
-      }
+      this.data.colors[paletteKey] = value
     }
   }
 

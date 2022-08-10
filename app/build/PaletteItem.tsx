@@ -20,7 +20,7 @@ const PaletteItem = ({ color, paletteKey }: IPaletteItem) => {
   const theme = useMantineTheme()
   const { changeColor } = BuildStore
 
-  const colorValue = getHexFromThemeColor({ theme, color: color.value })
+  const colorValue = getHexFromThemeColor({ theme, color })
   const [colorValueArray] = useState(getThemeColorValueArray({ theme }))
   const swatches = useMemo(() => {
     return colorValueArray.map((item) => item.value)
