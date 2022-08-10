@@ -80,7 +80,11 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
               withPalette: true,
             })
             if (JSX) {
-              return <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
+              return (
+                <SafeWrapper resetKeys={[JSX]} key={b.id}>
+                  {JSX}
+                </SafeWrapper>
+              )
             }
             return <React.Fragment key={i} />
           })}
