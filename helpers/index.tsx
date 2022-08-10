@@ -8,6 +8,7 @@ import {
   TitleProps,
   ContainerProps,
   ImageProps,
+  MantineTheme,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
@@ -20,6 +21,7 @@ import { IconBaseProps } from "react-icons"
 import { useMutation } from "@blitzjs/rpc"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { useSession } from "@blitzjs/auth"
+import { ExtendedCustomColors } from "pages/_app"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -208,7 +210,7 @@ export function renderJSXFromBlock({
   }
 
   const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
-  const TagName = canvasBuildingBlocks[element?.type?.toLowerCase?.()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
+  const TagName = canvasBuildingBlocks[element?.type?.toLowerCase()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
   // not only children, byt any other element's prop can be React.Node or JSX.Element. We need to traverse it to make sure all props are rendered as they should
@@ -237,6 +239,10 @@ export function renderJSXFromBlock({
         props[prop] = traversedProp
       }
     }
+  }
+
+  if (el.type.toLowerCase().match("button") && !props.color) {
+    props.color = BuildStore.data.colors?.primary?.value
   }
 
   if (withEditToolbar && (element.editType === "element" || element.editType === "section")) {
@@ -351,4 +357,46 @@ export function getPortfolioWithDeflatedData(portfolio) {
     ...portfolio,
     data: deflate(portfolio.data),
   } as IPortfolio & { data: string }
+}
+
+export const getHexFromThemeColor: ({
+  theme,
+  color,
+}: {
+  theme: MantineTheme
+  color: ExtendedCustomColors
+}) => string = ({ theme, color }) => {
+  return (
+    theme.colors?.[color]?.[typeof theme.primaryShade === "number" ? theme.primaryShade : 5] ||
+    color
+  )
+}
+
+export const getHexesFromThemeColors: (theme: MantineTheme) => string[] = (theme) => {
+  return Object.keys(theme.colors).map((color: ExtendedCustomColors) =>
+    getHexFromThemeColor({ theme, color })
+  )
+}
+
+export const getThemeColorValueArray: ({
+  theme,
+  shade,
+}: {
+  theme: MantineTheme
+  shade?: number
+}) => { color: string; value: string }[] = ({ theme, shade }) => {
+  const themeColors = Object.keys(theme.colors)
+  const colorShade =
+    shade && shade >= 0 && shade < 10
+      ? shade
+      : typeof theme.primaryShade === "number"
+      ? theme.primaryShade
+      : 5
+
+  return themeColors.map((color: ExtendedCustomColors) => {
+    return {
+      color,
+      value: theme.colors[color][colorShade],
+    }
+  })
 }

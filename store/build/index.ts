@@ -15,13 +15,13 @@ class Build {
     flattenBlocks: {},
     colors: {
       primary: {
-        value: "#0cf734",
+        value: "violet",
       },
       secondary: {
-        value: "#6a0cf7",
+        value: "blue",
       },
       accent: {
-        value: "#ffc0cb",
+        value: "teal",
       },
     },
   }
@@ -170,6 +170,15 @@ class Build {
       }
       this.hasPortfolioChanged = false
       this.setIsSaveButtonLoading(false)
+    }
+  }
+
+  @action
+  changeColor = ({ paletteKey, value }: { paletteKey: string; value: string }) => {
+    if (this.data.colors?.[paletteKey]) {
+      this.data.colors[paletteKey] = {
+        value,
+      }
     }
   }
 

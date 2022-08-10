@@ -1,4 +1,5 @@
-import { Group, Text } from "@mantine/core"
+import { Group, Text, useMantineTheme } from "@mantine/core"
+import { getThemeColorValueArray } from "helpers"
 import { observer } from "mobx-react-lite"
 import { BuildStore } from "store/build"
 import PaletteItem from "./PaletteItem"
@@ -13,7 +14,11 @@ const PaletteItems = () => {
       {colors && (
         <Group spacing={4}>
           {Object.keys(colors).map((cKey, i) => {
-            return colors?.[cKey] ? <PaletteItem color={colors[cKey]!} key={i} /> : <></>
+            return colors?.[cKey] ? (
+              <PaletteItem color={colors[cKey]} paletteKey={cKey} key={i} />
+            ) : (
+              <></>
+            )
           })}
         </Group>
       )}

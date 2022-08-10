@@ -60,7 +60,7 @@ const useStyles = createStyles((theme) => ({
     bottom: "16px",
   },
 }))
-const BuilderBlocks = observer(() => {
+const BuilderBlocks = observer(({ className }: { className?: string }) => {
   const {
     data: { blocks },
   } = BuildStore
@@ -68,7 +68,7 @@ const BuilderBlocks = observer(() => {
   return (
     <>
       <Text>{BuildStore.sectionsCount}</Text>
-      <div>
+      <div className={className}>
         {blocks &&
           blocks.map((b, i) => {
             const JSX = renderJSXFromBlock({

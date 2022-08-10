@@ -27,7 +27,7 @@ import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
 import { ModalsProvider } from "@mantine/modals"
 
-type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
+export type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
   export interface MantineThemeColorsOverride {
     colors: Record<ExtendedCustomColors, Tuple<string, 10>>
