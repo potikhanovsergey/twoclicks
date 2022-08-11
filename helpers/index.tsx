@@ -86,7 +86,7 @@ function traverseProp({
   }
 }
 
-const PaletteTypePropColor: {
+export const PaletteTypePropColor: {
   [key: string]: {
     prop: string
     color: string
@@ -96,6 +96,10 @@ const PaletteTypePropColor: {
     prop: "color",
     color: "primary",
   },
+}
+
+export function hasElementPalette(type: string) {
+  return Boolean(PaletteTypePropColor[type])
 }
 
 export function renderJSXFromBlock({
@@ -162,13 +166,10 @@ export function renderJSXFromBlock({
 
   if (withPalette) {
     const lcType = el.type.toLowerCase()
-    if (PaletteTypePropColor[lcType] && !props[PaletteTypePropColor[lcType].prop]) {
+    if (hasElementPalette(lcType) && !props[PaletteTypePropColor[lcType].prop]) {
       props[PaletteTypePropColor[lcType].prop] =
         BuildStore.data.palette?.[PaletteTypePropColor[lcType].color]
     }
-    // if (el.type.toLowerCase().match("button") && !props.color) {
-    //   props.color = BuildStore.data.palette?.primary
-    // }
   }
 
   if (withEditToolbar && (element.editType === "element" || element.editType === "section")) {
@@ -179,6 +180,8 @@ export function renderJSXFromBlock({
         key={shortid.generate()}
         editType={el.editType}
         name={el.name}
+        type={el.type}
+        props={props}
       >
         <TagName {...props} />
       </WithEditToolbar>

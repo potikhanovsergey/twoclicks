@@ -41,12 +41,12 @@ const LayoutHeader = ({
       position={position}
       sx={(theme) => ({
         backgroundColor: dark ? theme.colors.dark[7] : theme.colors.gray[0],
+        zIndex: 301,
       })}
       height="var(--layout-header-height)"
       fixed={fixed}
       py={0}
       style={style}
-      zIndex="301"
     >
       <Container
         size="xl"

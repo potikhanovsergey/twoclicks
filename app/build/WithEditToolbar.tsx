@@ -1,20 +1,39 @@
-import { ActionIcon, Box, Group, Popover, Text } from "@mantine/core"
+import { ActionIcon, Box, Group, Popover, Text, useMantineTheme } from "@mantine/core"
 import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 import { useDisclosure } from "@mantine/hooks"
+import {
+  getHexFromThemeColor,
+  getThemeColorValueArray,
+  hasElementPalette,
+  PaletteTypePropColor,
+} from "helpers"
+import { i } from "@blitzjs/auth/dist/index-57d74361"
+import PaletteItem from "./PaletteItem"
+import { ICanvasBlockProps } from "types"
 
 interface IWithEditToolbar {
   children: JSX.Element
   id: string
   parentID: string | null
   editType: string | null
+  type?: string
   name?: string
+  props?: ICanvasBlockProps
 }
 
-const WithEditToolbar = ({ children, id, parentID, editType, name }: IWithEditToolbar) => {
+const WithEditToolbar = ({
+  children,
+  id,
+  parentID,
+  editType,
+  name,
+  type,
+  props,
+}: IWithEditToolbar) => {
   const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
@@ -72,6 +91,16 @@ const WithEditToolbar = ({ children, id, parentID, editType, name }: IWithEditTo
   // }, [hasMoves])
 
   const editableRef = useRef<HTMLDivElement>(null)
+
+  const theme = useMantineTheme()
+
+  const [colorValueArray] = useState(getThemeColorValueArray({ theme }))
+  const swatches = useMemo(() => {
+    return colorValueArray.map((item) => item.value)
+  }, [colorValueArray])
+
+  const { changeProp } = BuildStore
+
   return (
     <Popover trapFocus={false} withArrow opened={editOpened} onClose={closeEdit} position="top-end">
       <Popover.Target>
@@ -84,7 +113,7 @@ const WithEditToolbar = ({ children, id, parentID, editType, name }: IWithEditTo
             onMouseLeave: () => {
               timer.current = setTimeout(() => {
                 if (!popupHovered) closeEdit()
-              }, 600)
+              }, 450)
             },
             ref: editableRef,
           })}
@@ -103,19 +132,36 @@ const WithEditToolbar = ({ children, id, parentID, editType, name }: IWithEditTo
             setPopupHovered(false)
           }}
         >
-          {name && (
-            <Text
-              ml="xs"
-              size="sm"
-              weight="bold"
-              sx={(theme) => ({
-                color: theme.colorScheme === "dark" ? theme.white : theme.black,
-                textTransform: "capitalize",
-              })}
-            >
-              {name}
-            </Text>
-          )}
+          <Group spacing={4} pl="xs" align="center">
+            {name && (
+              <Text
+                size="sm"
+                weight="bold"
+                sx={(theme) => ({
+                  color: theme.colorScheme === "dark" ? theme.white : theme.black,
+                  textTransform: "capitalize",
+                })}
+              >
+                {name}
+              </Text>
+            )}
+            {type &&
+              hasElementPalette(type.toLowerCase()) &&
+              props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
+                <PaletteItem
+                  color={getHexFromThemeColor({
+                    theme,
+                    color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
+                  })}
+                  onChange={(value) => {
+                    changeProp({
+                      id,
+                      newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: value },
+                    })
+                  }}
+                />
+              )}
+          </Group>
           {hasMoves && movesIcons && (
             <>
               {id !== blocks[0].id && (

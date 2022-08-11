@@ -1,32 +1,26 @@
-import {
-  Popover,
-  ColorSwatch,
-  ColorPicker,
-  DEFAULT_THEME,
-  useMantineTheme,
-  MantineTheme,
-} from "@mantine/core"
+import { Popover, ColorSwatch, ColorPicker, useMantineTheme } from "@mantine/core"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
-import { useMemo, useState } from "react"
-import { BuildStore } from "store/build"
+import { useState, useMemo } from "react"
 interface IPaletteItem {
   color: string
-  paletteKey: string
+  onChange: (value: string) => void
 }
 
-const PaletteItem = ({ color, paletteKey }: IPaletteItem) => {
+const PaletteItem = ({ color, onChange }: IPaletteItem) => {
   const theme = useMantineTheme()
-  const { changePalette } = BuildStore
 
-  const colorValue = getHexFromThemeColor({ theme, color })
   const [colorValueArray] = useState(getThemeColorValueArray({ theme }))
   const swatches = useMemo(() => {
     return colorValueArray.map((item) => item.value)
   }, [colorValueArray])
+
+  const hexColor = useMemo(() => {
+    return getHexFromThemeColor({ theme, color })
+  }, [color])
   return (
     <Popover width={200} position="bottom" shadow="md">
       <Popover.Target>
-        <ColorSwatch radius="xs" size={20} color={colorValue} style={{ cursor: "pointer" }} />
+        <ColorSwatch radius="xs" size={20} color={hexColor} style={{ cursor: "pointer" }} />
       </Popover.Target>
       <Popover.Dropdown py={4} px={8}>
         <ColorPicker
@@ -35,13 +29,10 @@ const PaletteItem = ({ color, paletteKey }: IPaletteItem) => {
           swatchesPerRow={8}
           fullWidth
           swatches={swatches}
-          value={colorValue}
-          onChange={(value) => {
-            changePalette({
-              paletteKey,
-              value: colorValueArray.find?.((item) => item.value === value)?.color || value,
-            })
-          }}
+          value={hexColor}
+          onChange={(value) =>
+            onChange(colorValueArray.find?.((item) => item.value === value)?.color || value)
+          }
         />
       </Popover.Dropdown>
     </Popover>
