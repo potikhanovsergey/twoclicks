@@ -67,29 +67,26 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
   } = BuildStore
 
   return (
-    <>
-      <Text>{BuildStore.sectionsCount}</Text>
-      <div className={className}>
-        {blocks &&
-          blocks.map((b, i) => {
-            const JSX = renderJSXFromBlock({
-              element: b,
-              shouldFlat: true,
-              withContentEditable: true,
-              withEditToolbar: true,
-              withPalette: true,
-            })
-            if (JSX) {
-              return (
-                <SafeWrapper resetKeys={[JSX]} key={b.id}>
-                  {JSX}
-                </SafeWrapper>
-              )
-            }
-            return <React.Fragment key={i} />
-          })}
-      </div>
-    </>
+    <div className={className}>
+      {blocks &&
+        blocks.map((b, i) => {
+          const JSX = renderJSXFromBlock({
+            element: b,
+            shouldFlat: true,
+            withContentEditable: true,
+            withEditToolbar: true,
+            withPalette: true,
+          })
+          if (JSX) {
+            return (
+              <SafeWrapper resetKeys={[JSX]} key={b.id}>
+                {JSX}
+              </SafeWrapper>
+            )
+          }
+          return <React.Fragment key={i} />
+        })}
+    </div>
   )
 })
 

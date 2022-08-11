@@ -6,7 +6,7 @@ function ColorSchemeToggle() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()
   const { t } = useTranslation("common")
   return (
-    <Tooltip label={t("switchTheme")} withArrow id="Switch theme tooltip">
+    <Tooltip label={t("switchTheme")} withArrow id="Switch theme tooltip" color="violet">
       <ActionIcon
         aria-describedby="Switch theme tooltip"
         onClick={() => toggleColorScheme()}

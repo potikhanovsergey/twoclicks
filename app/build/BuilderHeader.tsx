@@ -7,6 +7,7 @@ import {
   Container,
   Group,
   Loader,
+  Skeleton,
   Tooltip,
   useMantineTheme,
 } from "@mantine/core"
@@ -65,6 +66,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
           </Group>
           <Group spacing={8}>
             <Tooltip
+              color="violet"
               label="Toggle fullscreen mode"
               withArrow
               position="bottom"
@@ -74,7 +76,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
                 {fullscreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />}
               </ActionIcon>
             </Tooltip>
-            <Suspense fallback={<Loader />}>
+            <Suspense fallback={<Skeleton height={32} width={90} />}>
               <SaveButton />
             </Suspense>
           </Group>

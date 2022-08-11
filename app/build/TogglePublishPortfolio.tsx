@@ -9,6 +9,7 @@ const TogglePublishPortfilio = () => {
       label={checked ? "Hide your portfolio" : "Publish your portfilio"}
       withArrow
       position="bottom"
+      color="violet"
     >
       <Switch
         label="Publish"

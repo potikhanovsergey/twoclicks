@@ -64,7 +64,7 @@ const Onboarding = () => {
               },
             })}
           >
-            <Tooltip label="Getting Started" opened={tooltipOpened}>
+            <Tooltip label="Getting Started" opened={tooltipOpened} color="violet">
               <ThemeIcon
                 sx={() => ({
                   WebkitBoxShadow: "0px 5px 10px 2px rgba(34, 60, 80, 0.2)",

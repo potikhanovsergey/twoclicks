@@ -103,6 +103,38 @@ class Build {
     }
   }
 
+  findParentsChildren = ({
+    id,
+    parentID,
+    editType,
+  }: {
+    id: string
+    parentID: string | null
+    editType: string | null
+  }) => {
+    let indexOfId: number | undefined
+    let parentArray
+    // Search for index of the element inside parent's children array
+    if (editType === "section") {
+      parentArray = this.data.blocks
+      indexOfId = parentArray.findIndex((section) => section?.id === id)
+    } else {
+      if (parentID) {
+        const parent = this.getElement(parentID)
+        const parentProps = parent?.props as ICanvasBlockProps
+        if (parentProps?.children) {
+          parentArray = parentProps.children
+          indexOfId = parentArray.findIndex((a) => typeof a === "object" && a?.id === id)
+        }
+      }
+    }
+
+    return {
+      indexOfId,
+      parentArray,
+    }
+  }
+
   @action
   moveLeft = ({
     id,
@@ -113,32 +145,14 @@ class Build {
     parentID: string | null
     editType: string | null
   }) => {
-    if (editType === "section") {
-      const indexOfId = this.data.blocks.findIndex((section) => section?.id === id)
-      if (indexOfId !== -1 && indexOfId > 0) {
-        ;[this.data.blocks[indexOfId], this.data.blocks[indexOfId - 1]] = [
-          this.data.blocks[indexOfId - 1],
-          this.data.blocks[indexOfId],
-        ]
-        this.hasPortfolioChanged = true
-      }
-    } else {
-      if (parentID) {
-        const parent = this.getElement(parentID)
-        const parentProps = parent?.props as ICanvasBlockProps
-        if (parentProps?.children) {
-          let indexOfId = parentProps.children.findIndex(
-            (a) => typeof a === "object" && a?.id === id
-          )
-          if (indexOfId !== -1 && indexOfId > 0) {
-            ;[parentProps.children[indexOfId], parentProps.children[indexOfId - 1]] = [
-              parentProps.children[indexOfId - 1],
-              parentProps.children[indexOfId],
-            ]
-            this.hasPortfolioChanged = true
-          }
-        }
-      }
+    const { indexOfId, parentArray } = this.findParentsChildren({ id, parentID, editType })
+
+    if (typeof indexOfId === "number" && indexOfId !== -1 && indexOfId > 0) {
+      ;[parentArray[indexOfId], parentArray[indexOfId - 1]] = [
+        parentArray[indexOfId - 1],
+        parentArray[indexOfId],
+      ]
+      this.hasPortfolioChanged = true
     }
   }
 
@@ -152,32 +166,14 @@ class Build {
     parentID: string | null
     editType: string | null
   }) => {
-    if (editType === "section") {
-      const indexOfId = this.data.blocks.findIndex((section) => section?.id === id)
-      if (indexOfId !== -1 && indexOfId < this.data.blocks.length - 1) {
-        ;[this.data.blocks[indexOfId + 1], this.data.blocks[indexOfId]] = [
-          this.data.blocks[indexOfId],
-          this.data.blocks[indexOfId + 1],
-        ]
-        this.hasPortfolioChanged = true
-      }
-    } else {
-      if (parentID) {
-        const parent = this.getElement(parentID)
-        const parentProps = parent?.props as ICanvasBlockProps
-        if (parentProps?.children) {
-          let indexOfId = parentProps.children.findIndex(
-            (a) => typeof a === "object" && a?.id === id
-          )
-          if (indexOfId !== -1 && indexOfId < parentProps.children.length - 1) {
-            ;[parentProps.children[indexOfId + 1], parentProps.children[indexOfId]] = [
-              parentProps.children[indexOfId],
-              parentProps.children[indexOfId + 1],
-            ]
-            this.hasPortfolioChanged = true
-          }
-        }
-      }
+    const { indexOfId, parentArray } = this.findParentsChildren({ id, parentID, editType })
+
+    if (typeof indexOfId === "number" && indexOfId !== -1 && indexOfId < parentArray.length - 1) {
+      ;[parentArray[indexOfId + 1], parentArray[indexOfId]] = [
+        parentArray[indexOfId],
+        parentArray[indexOfId + 1],
+      ]
+      this.hasPortfolioChanged = true
     }
   }
 

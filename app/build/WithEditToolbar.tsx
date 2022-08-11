@@ -104,20 +104,16 @@ const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar)
         >
           {hasMoves && movesIcons && (
             <>
-              <ActionIcon
-                size="lg"
-                onClick={() => moveLeft({ id, parentID, editType })}
-                disabled={id === blocks[0]?.id}
-              >
-                {movesIcons.left}
-              </ActionIcon>
-              <ActionIcon
-                size="lg"
-                onClick={() => moveRight({ id, parentID, editType })}
-                disabled={id === blocks[blocks.length - 1]?.id}
-              >
-                {movesIcons.right}
-              </ActionIcon>
+              {id !== blocks[0].id && (
+                <ActionIcon size="lg" onClick={() => moveLeft({ id, parentID, editType })}>
+                  {movesIcons.left}
+                </ActionIcon>
+              )}
+              {id !== blocks[blocks.length - 1].id && (
+                <ActionIcon size="lg" onClick={() => moveRight({ id, parentID, editType })}>
+                  {movesIcons.right}
+                </ActionIcon>
+              )}
             </>
           )}
           <ActionIcon size="lg">

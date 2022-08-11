@@ -186,6 +186,18 @@ function traverseProp({
   }
 }
 
+const PaletteTypePropColor: {
+  [key: string]: {
+    prop: string
+    color: string
+  }
+} = {
+  "@mantine/core/button": {
+    prop: "color",
+    color: "primary",
+  },
+}
+
 export function renderJSXFromBlock({
   element,
   shouldFlat = false,
@@ -217,7 +229,8 @@ export function renderJSXFromBlock({
   const TagName = canvasBuildingBlocks[element?.type?.toLowerCase()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
-  // not only children, byt any other element's prop can be React.Node or JSX.Element. We need to traverse it to make sure all props are rendered as they should
+  // not only children, byt any other element's prop can be React.Node or JSX.Element.
+  // We need to traverse it to make sure all props are rendered as they should
   for (const prop in props) {
     if (Array.isArray(props[prop])) {
       for (let i = 0; i < props[prop].length; i++) {
@@ -248,9 +261,14 @@ export function renderJSXFromBlock({
   }
 
   if (withPalette) {
-    if (el.type.toLowerCase().match("button") && !props.color) {
-      props.color = BuildStore.data.palette?.primary
+    const lcType = el.type.toLowerCase()
+    if (PaletteTypePropColor[lcType] && !props[PaletteTypePropColor[lcType].prop]) {
+      props[PaletteTypePropColor[lcType].prop] =
+        BuildStore.data.palette?.[PaletteTypePropColor[lcType].color]
     }
+    // if (el.type.toLowerCase().match("button") && !props.color) {
+    //   props.color = BuildStore.data.palette?.primary
+    // }
   }
 
   if (withEditToolbar && (element.editType === "element" || element.editType === "section")) {
