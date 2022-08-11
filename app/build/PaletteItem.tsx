@@ -6,7 +6,7 @@ import {
   useMantineTheme,
   MantineTheme,
 } from "@mantine/core"
-import { getHexesFromThemeColors, getHexFromThemeColor, getThemeColorValueArray } from "helpers"
+import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
 import { useMemo, useState } from "react"
 import { BuildStore } from "store/build"
 interface IPaletteItem {
