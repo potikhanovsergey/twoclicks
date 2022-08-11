@@ -178,6 +178,7 @@ export function renderJSXFromBlock({
         parentID={parentID}
         key={shortid.generate()}
         editType={el.editType}
+        name={el.name}
       >
         <TagName {...props} />
       </WithEditToolbar>
