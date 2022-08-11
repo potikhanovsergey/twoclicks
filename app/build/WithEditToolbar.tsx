@@ -1,4 +1,4 @@
-import { ActionIcon, Box, Group, Popover } from "@mantine/core"
+import { ActionIcon, Box, Group, Popover, Text } from "@mantine/core"
 import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
@@ -11,9 +11,10 @@ interface IWithEditToolbar {
   id: string
   parentID: string | null
   editType: string | null
+  name?: string
 }
 
-const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar) => {
+const WithEditToolbar = ({ children, id, parentID, editType, name }: IWithEditToolbar) => {
   const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
   const [popupHovered, setPopupHovered] = useState(false)
   const timer = useRef<ReturnType<typeof setTimeout>>()
@@ -102,6 +103,19 @@ const WithEditToolbar = ({ children, id, parentID, editType }: IWithEditToolbar)
             setPopupHovered(false)
           }}
         >
+          {name && (
+            <Text
+              ml="xs"
+              size="sm"
+              weight="bold"
+              sx={(theme) => ({
+                color: theme.colorScheme === "dark" ? theme.white : theme.black,
+                textTransform: "capitalize",
+              })}
+            >
+              {name}
+            </Text>
+          )}
           {hasMoves && movesIcons && (
             <>
               {id !== blocks[0].id && (
