@@ -22,16 +22,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
     <Container size="xl" style={{ height: "100%" }}>
       <Group position="apart" align="center">
         <Title order={1}>{t("title")}</Title>
-        {portfolios?.length ? (
-          <CreatePortfolioButton
-            variant="gradient"
-            gradient={{ from: "grape", to: "indigo", deg: 110 }}
-            size="sm"
-            rightIcon={<AiFillBuild />}
-          />
-        ) : (
-          <></>
-        )}
+        {portfolios?.length ? <CreatePortfolioButton size="sm" /> : <></>}
       </Group>
       <div style={{ display: portfolios?.length ? "block" : "none" }}>
         <Space h="xl" />
@@ -41,12 +32,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
         <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
           <Text size="xl">{t("noPortfolios")}</Text>
           <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-          <CreatePortfolioButton
-            variant="gradient"
-            gradient={{ from: "grape", to: "indigo", deg: 110 }}
-            size="lg"
-            rightIcon={<AiFillBuild />}
-          />
+          <CreatePortfolioButton size="lg" />
         </ProfileNoItems>
       )}
     </Container>

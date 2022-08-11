@@ -25,12 +25,7 @@ const Build = () => {
         <>
           <Group position="apart" align="center">
             <Title order={1}>{t("title")}</Title>
-            <CreatePortfolioButton
-              variant="gradient"
-              gradient={{ from: "grape", to: "indigo", deg: 110 }}
-              size="sm"
-              rightIcon={<AiFillBuild />}
-            />
+            <CreatePortfolioButton size="sm" />
           </Group>
           <Space h="xl" />
         </>
@@ -44,12 +39,7 @@ const Build = () => {
         <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
           <Text size="xl">{t("noPortfolios")}</Text>
           <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
-          <CreatePortfolioButton
-            variant="gradient"
-            gradient={{ from: "grape", to: "indigo", deg: 110 }}
-            size="lg"
-            rightIcon={<AiFillBuild />}
-          />
+          <CreatePortfolioButton size="lg" />
         </ProfileNoItems>
       ) : (
         <></>

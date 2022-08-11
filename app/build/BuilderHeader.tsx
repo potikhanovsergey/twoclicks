@@ -20,34 +20,8 @@ import { FaSave } from "react-icons/fa"
 import { BuildStore } from "store/build"
 import PaletteItems from "./PaletteItems"
 import PortfolioLink from "./PortfolioLink"
+import SaveButton from "./SaveButton"
 import TogglePublishPortfilio from "./TogglePublishPortfolio"
-
-const SaveButton = observer(() => {
-  const session = useSession()
-  const [updatePortfolioMutation, { isLoading, isSuccess }] = useMutation(updatePortfolio)
-
-  const { hasPortfolioChanged, savePortfolio, isSaveButtonLoading, setIsSaveButtonLoading } =
-    BuildStore
-  useHotkeys([["mod+S", (e) => savePortfolio({ e, session, updatePortfolioMutation })]])
-
-  useEffect(() => {
-    setIsSaveButtonLoading(isLoading)
-  }, [isLoading])
-  return (
-    <Button
-      loading={isSaveButtonLoading}
-      onClick={() => savePortfolio({ session, updatePortfolioMutation })}
-      disabled={!hasPortfolioChanged}
-      variant={hasPortfolioChanged ? "gradient" : "default"}
-      gradient={{ from: "violet", to: "teal", deg: 35 }}
-      size="xs"
-      leftIcon={<FaSave size={15} />}
-      sx={({}) => ({ ":disabled": { border: 0 } })}
-    >
-      Сохранить изменения
-    </Button>
-  )
-})
 
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
@@ -72,7 +46,13 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               position="bottom"
               opened={fullscreenHovered}
             >
-              <ActionIcon onClick={toggle} color="violet" variant="filled" ref={fullscreenRef}>
+              <ActionIcon
+                onClick={toggle}
+                color="violet"
+                variant="filled"
+                size="md"
+                ref={fullscreenRef}
+              >
                 {fullscreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />}
               </ActionIcon>
             </Tooltip>

@@ -21,9 +21,7 @@ import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
 import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
-import { reaction } from "mobx"
-import { useHotkeys } from "@mantine/hooks"
-import SafeWrapper from "app/core/components/SafeWrapper"
+import BuilderBlocks from "./BuilderBlocks"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -61,34 +59,6 @@ const useStyles = createStyles((theme) => ({
     bottom: "16px",
   },
 }))
-const BuilderBlocks = observer(({ className }: { className?: string }) => {
-  const {
-    data: { blocks },
-  } = BuildStore
-
-  return (
-    <div className={className}>
-      {blocks &&
-        blocks.map((b, i) => {
-          const JSX = renderJSXFromBlock({
-            element: b,
-            shouldFlat: true,
-            withContentEditable: true,
-            withEditToolbar: true,
-            withPalette: true,
-          })
-          if (JSX) {
-            return (
-              <SafeWrapper resetKeys={[JSX]} key={b.id}>
-                {JSX}
-              </SafeWrapper>
-            )
-          }
-          return <React.Fragment key={i} />
-        })}
-    </div>
-  )
-})
 
 const Builder = () => {
   // const { t } = useTranslation('pagesBuild');

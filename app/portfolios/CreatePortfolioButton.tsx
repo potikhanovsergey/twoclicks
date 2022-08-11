@@ -8,6 +8,7 @@ import { useRouter } from "next/router"
 import { deflate, getPortfolioWithDeflatedData } from "helpers"
 import createPortfolio from "./mutations/createPortfolio"
 import { Button, ButtonProps } from "@mantine/core"
+import { AiFillBuild } from "react-icons/ai"
 type ICreatePortfolioButton = Omit<ButtonProps, "onClick" | "children">
 
 const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
@@ -39,7 +40,13 @@ const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
     void router.push(`/build/${portfolio.id}`)
   }
   return (
-    <Button onClick={handleCreatePortfolio} {...props}>
+    <Button
+      onClick={handleCreatePortfolio}
+      variant="gradient"
+      gradient={{ from: "violet", to: "red", deg: 110 }}
+      rightIcon={<AiFillBuild />}
+      {...props}
+    >
       Создать портфолио
     </Button>
   )

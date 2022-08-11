@@ -81,12 +81,7 @@ const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
         <Stack spacing="xs">
           <Group spacing="xs">
             <Link passHref href={`/build/${id}`}>
-              <Button
-                variant="gradient"
-                gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-                component="a"
-                rightIcon={<HiPencilAlt />}
-              >
+              <Button color="violet" component="a" rightIcon={<HiPencilAlt />}>
                 Edit portfolio
               </Button>
             </Link>
