@@ -1,12 +1,14 @@
 import { Popover, ColorSwatch, ColorPicker, useMantineTheme } from "@mantine/core"
+import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
 import { useState, useMemo } from "react"
 interface IPaletteItem {
   color: string
   onChange: (value: string) => void
+  popoverPosition?: FloatingPosition
 }
 
-const PaletteItem = ({ color, onChange }: IPaletteItem) => {
+const PaletteItem = ({ color, onChange, popoverPosition = "bottom" }: IPaletteItem) => {
   const theme = useMantineTheme()
 
   const [colorValueArray] = useState(getThemeColorValueArray({ theme }))
@@ -18,7 +20,7 @@ const PaletteItem = ({ color, onChange }: IPaletteItem) => {
     return getHexFromThemeColor({ theme, color })
   }, [color])
   return (
-    <Popover width={200} position="bottom" shadow="md">
+    <Popover width={200} position={popoverPosition} shadow="md">
       <Popover.Target>
         <ColorSwatch radius="xs" size={20} color={hexColor} style={{ cursor: "pointer" }} />
       </Popover.Target>

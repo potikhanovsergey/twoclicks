@@ -46,35 +46,11 @@ const WithEditToolbar = ({
   } = BuildStore
 
   const hasMoves = useMemo(() => {
-    // if (parentID) {
-    //   let parentComponent = BuildStore.data.flattenBlocks[parentID]?.type
-    //   return (
-    //     parentComponent &&
-    //     (parentComponent === "@mantine/core/group" || parentComponent === "@mantine/core/stack")
-    //   )
-    // }
     if (editType === "section") return blocks.length > 1
     return false
   }, [parentID])
 
   const movesIcons = useMemo(() => {
-    // if (hasMoves && parentID) {
-    //   let parent = BuildStore.data.flattenBlocks?.[parentID]
-    //   let parentProps = parent?.props as object | null
-    //   if (parent?.type === "@mantine/core/group") {
-    //     if (parentProps && parentProps["direction"] === "column") {
-    //       return {
-    //         left: <CgChevronUpR />,
-    //         right: <CgChevronDownR />,
-    //       }
-    //     } else {
-    //       return {
-    //         left: <CgChevronLeftR />,
-    //         right: <CgChevronRightR />,
-    //       }
-    //     }
-    //   }
-    // }
     if (hasMoves) {
       return {
         left: <CgChevronUpR />,
@@ -84,39 +60,29 @@ const WithEditToolbar = ({
     return null
   }, [hasMoves])
 
-  // useEffect(() => {
-  //   if (hasMoves && parentID) {
-  //     let parent = BuildStore.data.flattenBlocks?.[parentID]
-  //   }
-  // }, [hasMoves])
-
   const editableRef = useRef<HTMLDivElement>(null)
 
   const theme = useMantineTheme()
-
-  const [colorValueArray] = useState(getThemeColorValueArray({ theme }))
-  const swatches = useMemo(() => {
-    return colorValueArray.map((item) => item.value)
-  }, [colorValueArray])
 
   const { changeProp } = BuildStore
 
   return (
     <Popover trapFocus={false} withArrow opened={editOpened} onClose={closeEdit} position="top-end">
       <Popover.Target>
-        <Box style={{ width: editType === "element" ? "fit-content" : "auto" }}>
-          {cloneElement(children, {
-            onMouseEnter: () => {
-              if (timer?.current) clearTimeout(timer?.current)
-              openEdit()
-            },
-            onMouseLeave: () => {
-              timer.current = setTimeout(() => {
-                if (!popupHovered) closeEdit()
-              }, 450)
-            },
-            ref: editableRef,
-          })}
+        <Box
+          style={{ width: editType === "element" ? "fit-content" : "auto" }}
+          onMouseEnter={() => {
+            if (timer?.current) clearTimeout(timer?.current)
+            openEdit()
+          }}
+          onMouseLeave={() => {
+            timer.current = setTimeout(() => {
+              if (!popupHovered) closeEdit()
+            }, 450)
+          }}
+          ref={editableRef}
+        >
+          {children}
         </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>
@@ -149,6 +115,7 @@ const WithEditToolbar = ({
               hasElementPalette(type.toLowerCase()) &&
               props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
                 <PaletteItem
+                  popoverPosition="top"
                   color={getHexFromThemeColor({
                     theme,
                     color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
