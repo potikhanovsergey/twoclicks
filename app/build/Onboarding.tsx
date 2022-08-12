@@ -42,8 +42,8 @@ const Onboarding = () => {
           y2="0%"
           gradientTransform="rotate(60)"
         >
-          <stop stopColor={theme.colors.teal[5]} offset="0%" />
-          <stop stopColor={theme.colors.blue[5]} offset="100%" />
+          <stop stopColor={theme.colors.violet[5]} offset="0%" />
+          <stop stopColor={theme.colors.red[5]} offset="100%" />
         </linearGradient>
       </svg>
       <Popover
@@ -75,7 +75,7 @@ const Onboarding = () => {
                 radius="xl"
                 variant="gradient"
                 size="xl"
-                gradient={{ from: theme.colors.violet[5], to: theme.colors.teal[5], deg: 35 }}
+                gradient={{ from: theme.colors.violet[5], to: theme.colors.red[5], deg: 35 }}
               >
                 <IoIosRocket size={24} />
               </ThemeIcon>
@@ -97,7 +97,12 @@ const Onboarding = () => {
             <Text size="xs" color={theme.colorScheme === "dark" ? theme.white : theme.black}>
               60% complete
             </Text>
-            <Badge color="cyan" size="xs" radius="sm" variant="light">
+            <Badge
+              size="xs"
+              radius="sm"
+              variant="gradient"
+              gradient={{ from: "violet", to: "red" }}
+            >
               10% discount reward
             </Badge>
           </Group>
@@ -121,7 +126,7 @@ const Onboarding = () => {
           >
             <List.Item
               icon={
-                <ActionIcon color="indigo" variant="light">
+                <ActionIcon color="violet" variant="light">
                   <HiOutlineTemplate size={16} />
                 </ActionIcon>
               }
@@ -130,7 +135,7 @@ const Onboarding = () => {
             </List.Item>
             <List.Item
               icon={
-                <ActionIcon color="indigo" variant="light">
+                <ActionIcon color="violet" variant="light">
                   <AiOutlineEdit size={16} />
                 </ActionIcon>
               }
@@ -139,7 +144,7 @@ const Onboarding = () => {
             </List.Item>
             <List.Item
               icon={
-                <ActionIcon color="indigo" variant="light">
+                <ActionIcon color="violet" variant="light">
                   <BsPalette size={16} />
                 </ActionIcon>
               }
@@ -148,7 +153,7 @@ const Onboarding = () => {
             </List.Item>
             <List.Item
               icon={
-                <ActionIcon color="indigo" variant="light">
+                <ActionIcon color="violet" variant="light">
                   <MdOutlineAddBox size={16} />
                 </ActionIcon>
               }
@@ -157,7 +162,7 @@ const Onboarding = () => {
             </List.Item>
             <List.Item
               icon={
-                <ActionIcon color="indigo" variant="light">
+                <ActionIcon color="violet" variant="light">
                   <MdOutlinePreview size={16} />
                 </ActionIcon>
               }

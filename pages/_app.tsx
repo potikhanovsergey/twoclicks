@@ -117,7 +117,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
         "#663552",
       ],
     },
-    primaryColor: "primary",
+    primaryColor: "violet",
     primaryShade: 5,
     components: {
       Paper: {

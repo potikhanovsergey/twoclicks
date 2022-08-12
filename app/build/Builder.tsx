@@ -62,7 +62,6 @@ const useStyles = createStyles((theme) => ({
 
 const Builder = () => {
   // const { t } = useTranslation('pagesBuild');
-  const [, setModalContext = () => ({})] = useContext(ModalContext)
 
   const { classes } = useStyles()
   const theme = useMantineTheme()
@@ -101,18 +100,6 @@ const Builder = () => {
         <Container size="xl" px={64} py={16} className={classes.canvasContainer} ref={containerRef}>
           <Stack spacing={0} className={classes.canvas}>
             <BuilderBlocks />
-            <Button
-              radius="xs"
-              color="red"
-              onClick={() =>
-                setModalContext((prevValue: IModalContextValue) => ({
-                  ...prevValue,
-                  canvasSectionsModal: true,
-                }))
-              }
-            >
-              Add section
-            </Button>
           </Stack>
           {session.userId ? (
             <div
