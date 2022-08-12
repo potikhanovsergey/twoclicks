@@ -57,7 +57,6 @@ const useStyles = createStyles((theme) => ({
   onboarding: {
     position: "fixed",
     bottom: "16px",
-    transform: "translateX(-120%)",
   },
 }))
 
@@ -84,6 +83,7 @@ const Builder = () => {
   }
 
   const { ref: containerRef, width: containerWidth } = useElementSize()
+  const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
 
   return (
     <div className={classes.builder}>
@@ -116,8 +116,11 @@ const Builder = () => {
           </Stack>
           {session.userId ? (
             <div
+              ref={onboardingRef}
               className={classes.onboarding}
-              style={{ left: `calc((100vw - ${containerWidth}px) / 2)` }}
+              style={{
+                left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
+              }}
             >
               <Onboarding />
             </div>
