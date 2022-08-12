@@ -1,10 +1,10 @@
 import { ActionIcon, Box, Group, Popover, Text, useMantineTheme } from "@mantine/core"
-import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
+import React, { cloneElement, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
 import { FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
-import { useDisclosure } from "@mantine/hooks"
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks"
 import {
   getHexFromThemeColor,
   getThemeColorValueArray,
@@ -15,6 +15,7 @@ import { i } from "@blitzjs/auth/dist/index-57d74361"
 import PaletteItem from "./PaletteItem"
 import { ICanvasBlockProps } from "types"
 import { observer } from "mobx-react-lite"
+import { useDidMount } from "hooks/useDidMount"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -35,15 +36,13 @@ const WithEditToolbar = ({
   type,
   props,
 }: IWithEditToolbar) => {
-  const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
-  const [popupHovered, setPopupHovered] = useState(false)
-  const timer = useRef<ReturnType<typeof setTimeout>>()
-
   const {
     moveLeft,
     moveRight,
     deleteElement,
     data: { blocks },
+    changeProp,
+    activeEditToolbars,
   } = BuildStore
 
   const hasMoves = useMemo(() => {
@@ -65,53 +64,44 @@ const WithEditToolbar = ({
 
   const theme = useMantineTheme()
 
-  const { changeProp, activeEditToolbars } = BuildStore
+  const [popupHovered, { close: leavePopup, open: enterPopup }] = useDisclosure(false)
+  const [editableHovered, { close: leaveEditable, open: enterEditable }] = useDisclosure(false)
+
+  const [debouncedPopupHovered] = useDebouncedValue(popupHovered, 450)
+  const [debouncedEditableHovered] = useDebouncedValue(editableHovered, 450)
+
+  const didMount = useDidMount()
+
+  useEffect(() => {
+    if (!didMount) {
+      const activeValue = debouncedEditableHovered || debouncedPopupHovered
+      activeEditToolbars[id] = activeValue
+      console.log(debouncedEditableHovered, debouncedPopupHovered, activeEditToolbars[id])
+      if (!activeValue) {
+        BuildStore.openedPalette = ""
+      }
+    }
+  }, [debouncedEditableHovered, debouncedPopupHovered])
 
   return (
     <Popover
       trapFocus={false}
       withArrow
-      opened={activeEditToolbars.includes(id)}
-      onClose={closeEdit}
+      opened={activeEditToolbars[id] || popupHovered || editableHovered}
       position="top-end"
     >
       <Popover.Target>
         <Box
           style={{ width: editType === "element" ? "fit-content" : "auto" }}
-          onMouseEnter={() => {
-            if (timer?.current) clearTimeout(timer?.current)
-            openEdit()
-            BuildStore.activeEditToolbars.push(id)
-          }}
-          onMouseLeave={() => {
-            timer.current = setTimeout(() => {
-              if (!popupHovered) {
-                closeEdit()
-                BuildStore.activeEditToolbars = BuildStore.activeEditToolbars.filter(
-                  (item) => item !== id
-                )
-                BuildStore.openedPalette = ""
-              }
-            }, 450)
-          }}
+          onMouseEnter={enterEditable}
+          onMouseLeave={leaveEditable}
           ref={editableRef}
         >
           {children}
         </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>
-        <Group
-          noWrap
-          spacing={0}
-          onMouseEnter={() => {
-            if (timer.current) clearTimeout(timer.current)
-            setPopupHovered(true)
-          }}
-          onMouseLeave={() => {
-            // closeEdit()
-            setPopupHovered(false)
-          }}
-        >
+        <Group noWrap spacing={0} onMouseEnter={enterPopup} onMouseLeave={leavePopup}>
           <Group spacing={4} pl="xs" align="center">
             {name && (
               <Text
@@ -168,7 +158,6 @@ const WithEditToolbar = ({
             size="lg"
             onClick={() => {
               deleteElement({ id, parentID })
-              closeEdit()
             }}
           >
             <RiDeleteBin6Line />
@@ -179,4 +168,4 @@ const WithEditToolbar = ({
   )
 }
 
-export default WithEditToolbar
+export default observer(WithEditToolbar)

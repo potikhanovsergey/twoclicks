@@ -7,6 +7,12 @@ import { deflate, traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed, autorun, reaction } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
+import { configure } from "mobx"
+
+configure({
+  enforceActions: "never",
+})
+
 const defaultPalette = {
   primary: "violet",
   // secondary: "blue",
@@ -33,7 +39,7 @@ class Build {
 
   isSaveButtonLoading: boolean = false
 
-  activeEditToolbars: string[] = []
+  activeEditToolbars: { [key: string]: boolean } = {}
   openedPalette: string = ""
 
   constructor() {
