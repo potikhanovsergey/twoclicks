@@ -55,7 +55,7 @@ const useStyles = createStyles((theme) => ({
   },
   onboarding: {
     position: "fixed",
-    bottom: "16px",
+    bottom: "24px",
   },
 }))
 
@@ -98,7 +98,13 @@ const Builder = () => {
           },
         }}
       >
-        <Container size="xl" p={64} className={classes.canvasContainer} ref={containerRef}>
+        <Container
+          size="xl"
+          px={64}
+          py={isCanvasEmpty ? 24 : 64}
+          className={classes.canvasContainer}
+          ref={containerRef}
+        >
           <Stack
             spacing={0}
             className={classes.canvas}

@@ -1,6 +1,7 @@
 import { ActionIcon, Tooltip, useMantineColorScheme } from "@mantine/core"
-import { BsFillMoonStarsFill, BsFillSunFill } from "react-icons/bs"
+import { BsFillMoonStarsFill } from "react-icons/bs"
 import { useTranslation } from "next-i18next"
+import { ImSun } from "react-icons/im"
 
 function ColorSchemeToggle() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()
@@ -15,7 +16,7 @@ function ColorSchemeToggle() {
         variant="filled"
       >
         {colorScheme === "dark" ? (
-          <BsFillSunFill width={20} height={20} />
+          <ImSun width={20} height={20} />
         ) : (
           <BsFillMoonStarsFill width={20} height={20} />
         )}
