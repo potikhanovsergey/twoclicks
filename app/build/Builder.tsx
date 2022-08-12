@@ -22,6 +22,7 @@ import { MdOutlineEmojiNature } from "react-icons/md"
 import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import BuilderBlocks from "./BuilderBlocks"
+import { useElementSize } from "@mantine/hooks"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -55,8 +56,8 @@ const useStyles = createStyles((theme) => ({
   },
   onboarding: {
     position: "fixed",
-    left: `calc((100vw - ${theme.breakpoints.xl}px + 32px) / 2)`,
     bottom: "16px",
+    transform: "translateX(-120%)",
   },
 }))
 
@@ -82,6 +83,8 @@ const Builder = () => {
     void router.push(`/auth/?next=/build/${portfolio.id}`)
   }
 
+  const { ref: containerRef, width: containerWidth } = useElementSize()
+
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
@@ -95,7 +98,7 @@ const Builder = () => {
           },
         }}
       >
-        <Container size="xl" px={64} py={16} className={classes.canvasContainer}>
+        <Container size="xl" px={64} py={16} className={classes.canvasContainer} ref={containerRef}>
           <Stack spacing={0} className={classes.canvas}>
             <BuilderBlocks />
             <Button
@@ -112,7 +115,10 @@ const Builder = () => {
             </Button>
           </Stack>
           {session.userId ? (
-            <div className={classes.onboarding}>
+            <div
+              className={classes.onboarding}
+              style={{ left: `calc((100vw - ${containerWidth}px) / 2)` }}
+            >
               <Onboarding />
             </div>
           ) : (
