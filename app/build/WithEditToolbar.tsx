@@ -14,6 +14,7 @@ import {
 import { i } from "@blitzjs/auth/dist/index-57d74361"
 import PaletteItem from "./PaletteItem"
 import { ICanvasBlockProps } from "types"
+import { observer } from "mobx-react-lite"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -64,20 +65,33 @@ const WithEditToolbar = ({
 
   const theme = useMantineTheme()
 
-  const { changeProp } = BuildStore
+  const { changeProp, activeEditToolbars } = BuildStore
 
   return (
-    <Popover trapFocus={false} withArrow opened={editOpened} onClose={closeEdit} position="top-end">
+    <Popover
+      trapFocus={false}
+      withArrow
+      opened={activeEditToolbars.includes(id)}
+      onClose={closeEdit}
+      position="top-end"
+    >
       <Popover.Target>
         <Box
           style={{ width: editType === "element" ? "fit-content" : "auto" }}
           onMouseEnter={() => {
             if (timer?.current) clearTimeout(timer?.current)
             openEdit()
+            BuildStore.activeEditToolbars.push(id)
           }}
           onMouseLeave={() => {
             timer.current = setTimeout(() => {
-              if (!popupHovered) closeEdit()
+              if (!popupHovered) {
+                closeEdit()
+                BuildStore.activeEditToolbars = BuildStore.activeEditToolbars.filter(
+                  (item) => item !== id
+                )
+                BuildStore.openedPalette = ""
+              }
             }, 450)
           }}
           ref={editableRef}
@@ -94,7 +108,7 @@ const WithEditToolbar = ({
             setPopupHovered(true)
           }}
           onMouseLeave={() => {
-            closeEdit()
+            // closeEdit()
             setPopupHovered(false)
           }}
         >
@@ -115,12 +129,15 @@ const WithEditToolbar = ({
               hasElementPalette(type.toLowerCase()) &&
               props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
                 <PaletteItem
+                  defaultOpened={id === BuildStore.openedPalette}
+                  onOpen={() => (BuildStore.openedPalette = id)}
+                  onClose={() => (BuildStore.openedPalette = "")}
                   popoverPosition="top"
                   color={getHexFromThemeColor({
                     theme,
                     color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
                   })}
-                  onChange={(value) => {
+                  onColorChange={(value) => {
                     changeProp({
                       id,
                       newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: value },

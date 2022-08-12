@@ -33,6 +33,9 @@ class Build {
 
   isSaveButtonLoading: boolean = false
 
+  activeEditToolbars: string[] = []
+  openedPalette: string = ""
+
   constructor() {
     makeAutoObservable(this)
   }

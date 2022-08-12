@@ -1,15 +1,17 @@
-import { Popover, ColorSwatch, ColorPicker, useMantineTheme } from "@mantine/core"
+import { Popover, ColorSwatch, ColorPicker, useMantineTheme, PopoverProps } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
 import { useState, useMemo } from "react"
-interface IPaletteItem {
+interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
-  onChange: (value: string) => void
+  onColorChange: (value: string) => void
   popoverPosition?: FloatingPosition
 }
 
-const PaletteItem = ({ color, onChange, popoverPosition = "bottom" }: IPaletteItem) => {
+const PaletteItem = (props: IPaletteItem) => {
   const theme = useMantineTheme()
+
+  const { color, onColorChange, popoverPosition, ...popoverProps } = props
 
   const [colorValueArray] = useState(getThemeColorValueArray({ theme }))
   const swatches = useMemo(() => {
@@ -20,7 +22,7 @@ const PaletteItem = ({ color, onChange, popoverPosition = "bottom" }: IPaletteIt
     return getHexFromThemeColor({ theme, color })
   }, [color])
   return (
-    <Popover width={200} position={popoverPosition} shadow="md">
+    <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
       <Popover.Target>
         <ColorSwatch radius="xs" size={20} color={hexColor} style={{ cursor: "pointer" }} />
       </Popover.Target>
@@ -33,7 +35,7 @@ const PaletteItem = ({ color, onChange, popoverPosition = "bottom" }: IPaletteIt
           swatches={swatches}
           value={hexColor}
           onChange={(value) =>
-            onChange(colorValueArray.find?.((item) => item.value === value)?.color || value)
+            onColorChange(colorValueArray.find?.((item) => item.value === value)?.color || value)
           }
         />
       </Popover.Dropdown>

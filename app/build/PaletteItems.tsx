@@ -21,7 +21,7 @@ const PaletteItems = () => {
               <PaletteItem
                 color={palette[paletteKey]}
                 key={i}
-                onChange={(value) => {
+                onColorChange={(value) => {
                   changePalette({
                     paletteKey,
                     value,
