@@ -109,6 +109,7 @@ export function renderJSXFromBlock({
   withContentEditable = false,
   withEditToolbar = false,
   withPalette = false,
+  sectionIndex,
 }: {
   element: ICanvasElement
   shouldFlat?: boolean
@@ -116,6 +117,7 @@ export function renderJSXFromBlock({
   withContentEditable?: boolean
   withEditToolbar?: boolean
   withPalette?: boolean
+  sectionIndex?: number
 }) {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
@@ -182,6 +184,7 @@ export function renderJSXFromBlock({
         name={el.name}
         type={el.type}
         props={props}
+        sectionIndex={sectionIndex}
       >
         <TagName {...props} />
       </WithEditToolbar>

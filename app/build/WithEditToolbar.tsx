@@ -16,6 +16,7 @@ import PaletteItem from "./PaletteItem"
 import { ICanvasBlockProps } from "types"
 import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
+import { useDelayedHover } from "hooks/useDelayedHover"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -25,6 +26,7 @@ interface IWithEditToolbar {
   type?: string
   name?: string
   props?: ICanvasBlockProps
+  sectionIndex?: number
 }
 
 const WithEditToolbar = ({
@@ -35,6 +37,7 @@ const WithEditToolbar = ({
   name,
   type,
   props,
+  sectionIndex,
 }: IWithEditToolbar) => {
   const {
     moveLeft,
@@ -43,6 +46,7 @@ const WithEditToolbar = ({
     data: { blocks },
     changeProp,
     activeEditToolbars,
+    openedPalette,
   } = BuildStore
 
   const hasMoves = useMemo(() => {
@@ -64,44 +68,58 @@ const WithEditToolbar = ({
 
   const theme = useMantineTheme()
 
-  const [popupHovered, { close: leavePopup, open: enterPopup }] = useDisclosure(false)
-  const [editableHovered, { close: leaveEditable, open: enterEditable }] = useDisclosure(false)
-
-  const [debouncedPopupHovered] = useDebouncedValue(popupHovered, 450)
-  const [debouncedEditableHovered] = useDebouncedValue(editableHovered, 450)
-
+  const [popoverOpened, { close: closePopover, open: openPopover }] = useDisclosure(false)
+  const [editableOpened, { close: closeEditable, open: openEditable }] = useDisclosure(false)
   const didMount = useDidMount()
+
+  const [isElementActive, setIsElementActive] = useState(
+    activeEditToolbars[id] || popoverOpened || editableOpened
+  )
 
   useEffect(() => {
     if (!didMount) {
-      const activeValue = debouncedEditableHovered || debouncedPopupHovered
+      const activeValue = editableOpened || popoverOpened
+      setIsElementActive(activeValue)
       activeEditToolbars[id] = activeValue
-      console.log(debouncedEditableHovered, debouncedPopupHovered, activeEditToolbars[id])
+
       if (!activeValue) {
-        BuildStore.openedPalette = ""
+        BuildStore.openedPalette = null
       }
     }
-  }, [debouncedEditableHovered, debouncedPopupHovered])
+  }, [editableOpened, popoverOpened])
+
+  const sectionNumber = typeof sectionIndex === "number" ? sectionIndex + 1 : null
+
+  const { openDropdown: openDelayedEditable, closeDropdown: closeDelayedEditable } =
+    useDelayedHover({
+      open: openEditable,
+      close: closeEditable,
+      closeDelay: 400,
+      openDelay: 100,
+    })
 
   return (
     <Popover
       trapFocus={false}
       withArrow
-      opened={activeEditToolbars[id] || popupHovered || editableHovered}
+      opened={isElementActive || activeEditToolbars[id]}
       position="top-end"
     >
       <Popover.Target>
         <Box
-          style={{ width: editType === "element" ? "fit-content" : "auto" }}
-          onMouseEnter={enterEditable}
-          onMouseLeave={leaveEditable}
+          style={{
+            width: editType === "element" ? "fit-content" : "auto",
+            border: isElementActive ? "1px dotted gray" : "1px solid transparent",
+          }}
+          onMouseEnter={openDelayedEditable}
+          onMouseLeave={closeDelayedEditable}
           ref={editableRef}
         >
           {children}
         </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>
-        <Group noWrap spacing={0} onMouseEnter={enterPopup} onMouseLeave={leavePopup}>
+        <Group noWrap spacing={0} onMouseEnter={openPopover} onMouseLeave={closePopover}>
           <Group spacing={4} pl="xs" align="center">
             {name && (
               <Text
@@ -112,17 +130,18 @@ const WithEditToolbar = ({
                   textTransform: "capitalize",
                 })}
               >
-                {name}
+                {name} {editType === "section" && sectionNumber !== null && ` ${sectionNumber}`}
               </Text>
             )}
             {type &&
               hasElementPalette(type.toLowerCase()) &&
               props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
                 <PaletteItem
-                  defaultOpened={id === BuildStore.openedPalette}
+                  defaultOpened={id === openedPalette}
                   onOpen={() => (BuildStore.openedPalette = id)}
                   onClose={() => (BuildStore.openedPalette = "")}
                   popoverPosition="top"
+                  offset={6}
                   color={getHexFromThemeColor({
                     theme,
                     color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],

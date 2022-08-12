@@ -25,7 +25,7 @@ const SaveButton = observer(() => {
       onClick={() => savePortfolio({ session, updatePortfolioMutation })}
       disabled={!hasPortfolioChanged}
       variant={hasPortfolioChanged ? "gradient" : "default"}
-      gradient={{ from: "violet", to: "teal", deg: 35 }}
+      gradient={{ from: "violet", to: "red", deg: 35 }}
       size="xs"
       leftIcon={<FaSave size={15} />}
       sx={({}) => ({ ":disabled": { border: 0 } })}

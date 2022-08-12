@@ -40,7 +40,7 @@ class Build {
   isSaveButtonLoading: boolean = false
 
   activeEditToolbars: { [key: string]: boolean } = {}
-  openedPalette: string = ""
+  openedPalette: string | null = ""
 
   constructor() {
     makeAutoObservable(this)

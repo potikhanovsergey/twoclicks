@@ -19,6 +19,7 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
             withContentEditable: true,
             withEditToolbar: true,
             withPalette: true,
+            sectionIndex: i,
           })
           if (JSX) {
             return (
