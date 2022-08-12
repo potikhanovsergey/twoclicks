@@ -194,7 +194,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
         theme={CustomTheme}
         emotionCache={emotionCache}
       >
-        <ModalsProvider>
+        <ModalsProvider modalProps={{ zIndex: 1000 }}>
           <NotificationsProvider>
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
               <ModalContext.Provider value={[modalValue, setModalValue]}>
