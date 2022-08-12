@@ -70,7 +70,7 @@ const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
       })}
     >
       <Group position="apart" align="flex-start">
-        <Stack spacing={0}>
+        <Stack spacing={0} align="flex-start">
           <Text weight="bold" size="xl">
             {name}
           </Text>

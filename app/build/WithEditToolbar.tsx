@@ -107,10 +107,12 @@ const WithEditToolbar = ({
     >
       <Popover.Target>
         <Box
-          style={{
+          sx={(theme) => ({
             width: editType === "element" ? "fit-content" : "auto",
-            border: isElementActive ? "1px dotted gray" : "1px solid transparent",
-          }}
+            border: isElementActive
+              ? `1px dotted ${theme.colors.gray[5]}`
+              : "1px solid transparent",
+          })}
           onMouseEnter={openDelayedEditable}
           onMouseLeave={closeDelayedEditable}
           ref={editableRef}

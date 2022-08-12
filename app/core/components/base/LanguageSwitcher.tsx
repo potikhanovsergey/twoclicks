@@ -57,15 +57,8 @@ const LanguageSwitcher = () => {
               ref={tooltipRef}
               onClick={() => 1}
               size="lg"
-              color="dark"
-              sx={(theme) => ({
-                backgroundColor:
-                  theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
-                ":hover": {
-                  backgroundColor:
-                    theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2],
-                },
-              })}
+              color="violet"
+              variant="filled"
             >
               <IoLanguageSharp />
             </ActionIcon>

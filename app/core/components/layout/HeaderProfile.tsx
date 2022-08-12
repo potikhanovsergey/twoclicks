@@ -26,7 +26,6 @@ import logout from "app/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Link from "next/link"
-import { useEffect, useState } from "react"
 
 const ProfileItem = {
   icon: (
@@ -94,12 +93,7 @@ function HeaderProfile() {
   const [logoutMutation] = useMutation(logout)
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
   const router = useRouter()
-  const [menuOpened, setMenuOpened] = useState(false)
-
-  useEffect(() => {
-    setMenuOpened(false)
-  }, [router])
-
+  console.log(router)
   return (
     <Group position="center">
       {!user && (
@@ -121,8 +115,6 @@ function HeaderProfile() {
         closeOnItemClick={false}
         width="256px"
         radius="md"
-        opened={menuOpened}
-        onChange={setMenuOpened}
       >
         <Menu.Target>
           <Group
