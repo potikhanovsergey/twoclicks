@@ -1,6 +1,23 @@
-import { ActionIcon, Box, Group, Popover, Text, useMantineTheme } from "@mantine/core"
-import React, { cloneElement, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react"
-import { FiSettings } from "react-icons/fi"
+import {
+  ActionIcon,
+  Box,
+  Button,
+  ButtonProps,
+  Group,
+  Popover,
+  Text,
+  useMantineTheme,
+} from "@mantine/core"
+import React, {
+  cloneElement,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
+import { FiPlusSquare, FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
@@ -17,6 +34,7 @@ import { ICanvasBlockProps } from "types"
 import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
+import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -27,6 +45,36 @@ interface IWithEditToolbar {
   name?: string
   props?: ICanvasBlockProps
   sectionIndex?: number
+}
+
+interface InnerAddSectionButtonProps extends Omit<ButtonProps, "style" | "children"> {
+  sectionToBeAddedIndex: number
+}
+
+const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
+  const [, setModalContext = () => ({})] = useContext(ModalContext)
+
+  const { sectionToBeAddedIndex, ...otherProps } = props
+  return (
+    <Button
+      style={{ position: "absolute", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1 }}
+      size="sm"
+      variant="gradient"
+      rightIcon={<FiPlusSquare />}
+      compact
+      gradient={{ from: "violet", to: "red" }}
+      onClick={() => {
+        BuildStore.sectionToBeAddedIndex = sectionToBeAddedIndex
+        setModalContext((prevValue: IModalContextValue) => ({
+          ...prevValue,
+          canvasSectionsModal: true,
+        }))
+      }}
+      {...otherProps}
+    >
+      Add new section
+    </Button>
+  )
 }
 
 const WithEditToolbar = ({
@@ -112,12 +160,20 @@ const WithEditToolbar = ({
             border: isElementActive
               ? `1px dotted ${theme.colors.gray[5]}`
               : "1px solid transparent",
+            marginTop: "-1px",
+            position: "relative",
           })}
           onMouseEnter={openDelayedEditable}
           onMouseLeave={closeDelayedEditable}
           ref={editableRef}
         >
+          {editType === "section" && sectionIndex === 0 && (
+            <InnerAddSectionButton sectionToBeAddedIndex={0} />
+          )}
           {children}
+          {editType === "section" && sectionIndex !== undefined && (
+            <InnerAddSectionButton sectionToBeAddedIndex={sectionIndex + 1} />
+          )}
         </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>

@@ -39,6 +39,7 @@ class Build {
 
   isSaveButtonLoading: boolean = false
 
+  sectionToBeAddedIndex: number | null = null
   activeEditToolbars: { [key: string]: boolean } = {}
   openedPalette: string | null = ""
 
@@ -66,9 +67,15 @@ class Build {
   }
   @action
   push = (block: ICanvasBlock) => {
-    this.data.blocks.push(block)
+    if (this.sectionToBeAddedIndex === null) {
+      this.data.blocks.push(block)
+      traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
+    } else {
+      this.data.blocks.splice(this.sectionToBeAddedIndex, 0, block)
+      traverseAddIDs(BuildStore.data.blocks[this.sectionToBeAddedIndex])
+      this.sectionToBeAddedIndex = null
+    }
     this.hasPortfolioChanged = true
-    traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
   }
 
   @action

@@ -113,6 +113,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
       padding={0}
       opened={modalContext?.[modal] || false}
       onClose={handleModalClose}
+      zIndex={1000}
     >
       <Group style={{ height: "100%" }} spacing={0} noWrap>
         <Stack

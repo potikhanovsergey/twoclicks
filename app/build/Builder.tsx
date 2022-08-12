@@ -46,7 +46,6 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.white,
     color: theme.black,
     boxShadow: theme.shadows.sm,
-    height: "100%",
   },
   header: {
     minHeight: "40px",
@@ -84,6 +83,8 @@ const Builder = () => {
   const { ref: containerRef, width: containerWidth } = useElementSize()
   const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
 
+  const { isCanvasEmpty } = BuildStore
+
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
@@ -97,8 +98,12 @@ const Builder = () => {
           },
         }}
       >
-        <Container size="xl" px={64} py={16} className={classes.canvasContainer} ref={containerRef}>
-          <Stack spacing={0} className={classes.canvas}>
+        <Container size="xl" p={64} className={classes.canvasContainer} ref={containerRef}>
+          <Stack
+            spacing={0}
+            className={classes.canvas}
+            style={{ height: isCanvasEmpty ? "100%" : "auto" }}
+          >
             <BuilderBlocks />
           </Stack>
           {session.userId ? (
@@ -156,4 +161,4 @@ const Builder = () => {
   )
 }
 
-export default Builder
+export default observer(Builder)
