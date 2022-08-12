@@ -50,7 +50,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
                 onClick={toggle}
                 color="violet"
                 variant="filled"
-                size="md"
+                size={30}
                 ref={fullscreenRef}
               >
                 {fullscreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />}
