@@ -63,7 +63,7 @@ const BuildPage = () => {
         flattenBlocks: {},
       })
     }
-    return () => resetData()
+    // return () => resetData()
   }, [portfolio])
 
   useEffect(() => {

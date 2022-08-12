@@ -82,24 +82,19 @@ const Page404 = () => {
   const { t } = useTranslation("pages404")
   return (
     <>
-      <Head>
-        <title>404 Page not found</title>
-      </Head>
-      <main>
-        <Center style={{ width: "100vw", minHeight: "100vh" }}>
-          <Stack>
-            <Title align="center">Oops, page not found!</Title>
-            <Center>
-              <Player autoplay loop src={error_404} style={{ height: "400px", width: "400px" }} />
-            </Center>
-            <Group position="center">
-              <Suspense fallback={<Skeleton height={45} animate />}>
-                <Links />
-              </Suspense>
-            </Group>
-          </Stack>
-        </Center>
-      </main>
+      <Center style={{ width: "100vw", minHeight: "100vh" }}>
+        <Stack>
+          <Title align="center">Oops, page not found!</Title>
+          <Center>
+            <Player autoplay loop src={error_404} style={{ height: "400px", width: "400px" }} />
+          </Center>
+          <Group position="center">
+            <Suspense fallback={<Skeleton height={45} animate />}>
+              <Links />
+            </Suspense>
+          </Group>
+        </Stack>
+      </Center>
     </>
   )
 }
