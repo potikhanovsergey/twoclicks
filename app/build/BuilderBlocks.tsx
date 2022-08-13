@@ -10,7 +10,7 @@ import { FiPlusSquare } from "react-icons/fi"
 
 const BuilderBlocks = observer(({ className }: { className?: string }) => {
   const {
-    data: { blocks },
+    data: { blocks, palette },
   } = BuildStore
 
   const [, setModalContext = () => ({})] = useContext(ModalContext)
@@ -25,6 +25,7 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
             withContentEditable: true,
             withEditToolbar: true,
             withPalette: true,
+            palette,
             sectionIndex: i,
           })
           if (JSX) {

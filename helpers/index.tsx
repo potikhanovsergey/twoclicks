@@ -23,6 +23,7 @@ import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { useSession } from "@blitzjs/auth"
 import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
+import { ICanvasPalette } from "types"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -65,6 +66,7 @@ function traverseProp({
   withContentEditable,
   withEditToolbar,
   withPalette,
+  palette,
 }) {
   if (prop === "children" && typeof propValue === "string" && withContentEditable)
     return (
@@ -80,6 +82,7 @@ function traverseProp({
       withContentEditable,
       withEditToolbar,
       withPalette,
+      palette,
     })
   } else {
     return propValue
@@ -110,6 +113,7 @@ export function renderJSXFromBlock({
   withEditToolbar = false,
   withPalette = false,
   sectionIndex,
+  palette,
 }: {
   element: ICanvasElement
   shouldFlat?: boolean
@@ -118,6 +122,7 @@ export function renderJSXFromBlock({
   withEditToolbar?: boolean
   withPalette?: boolean
   sectionIndex?: number
+  palette?: ICanvasPalette
 }) {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
@@ -148,6 +153,7 @@ export function renderJSXFromBlock({
           withContentEditable,
           withEditToolbar,
           withPalette,
+          palette,
         })
       }
     } else {
@@ -159,6 +165,7 @@ export function renderJSXFromBlock({
         withContentEditable,
         withEditToolbar,
         withPalette,
+        palette,
       })
       if (traversedProp) {
         props[prop] = traversedProp
@@ -169,8 +176,7 @@ export function renderJSXFromBlock({
   if (withPalette) {
     const lcType = el.type.toLowerCase()
     if (hasElementPalette(lcType) && !props[PaletteTypePropColor[lcType].prop]) {
-      props[PaletteTypePropColor[lcType].prop] =
-        BuildStore.data.palette?.[PaletteTypePropColor[lcType].color]
+      props[PaletteTypePropColor[lcType].prop] = palette?.[PaletteTypePropColor[lcType].color]
     }
   }
 
