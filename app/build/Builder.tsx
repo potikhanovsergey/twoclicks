@@ -23,6 +23,8 @@ import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import BuilderBlocks from "./BuilderBlocks"
 import { useElementSize } from "@mantine/hooks"
+import { useMutation } from "@blitzjs/rpc"
+import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -70,14 +72,13 @@ const Builder = () => {
   const session = useSession()
   const router = useRouter()
 
+  const { savePortfolio } = BuildStore
+
+  const [updatePortfolioMutation] = useMutation(updatePortfolio)
+
   const handleSaveAndRedirect = () => {
-    const portfolio = {
-      id: BuildStore.data.id,
-      name: BuildStore.data.name,
-      data: BuildStore.data.blocks,
-    }
-    setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolio))
-    void router.push(`/auth/?next=/build/${portfolio.id}`)
+    void savePortfolio({ session, updatePortfolioMutation })
+    void router.push(`/auth/?next=/build/${BuildStore.data.id}`)
   }
 
   const { ref: containerRef, width: containerWidth } = useElementSize()
