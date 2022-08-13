@@ -1,4 +1,4 @@
-import { Text, Loader, Center } from "@mantine/core"
+import { Text, Loader, Center, LoadingOverlay } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Suspense, useEffect, useState } from "react"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
@@ -15,6 +15,7 @@ import { useMutation, useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
+import CubeLoader from "app/core/components/CubeLoader"
 
 const BuildPage = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -24,10 +25,18 @@ const BuildPage = () => {
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
   const [createOrUpdatePortfolioMutation] = useMutation(createOrUpdatePortfolio)
 
-  const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
+  const [
+    portfolioFromDB,
+    {
+      refetch: refetchPortfolioFromDB,
+      isLoading: isPortfolioLoading,
+      isFetching: isPortfolioFetching,
+      isRefetching: isPortfolioRefetching,
+    },
+  ] = useQuery(
     getPortfolioByID,
     { id: portfolioID, isPublic: false },
-    { refetchOnMount: false, refetchOnReconnect: false, refetchOnWindowFocus: false }
+    { refetchOnReconnect: false, refetchOnWindowFocus: false }
   )
   useEffect(() => {
     const getPortfolio = async () => {
@@ -49,9 +58,11 @@ const BuildPage = () => {
     }
 
     void getPortfolio()
+    setIsLoading(false)
   }, [portfolioFromDB])
 
   const { resetData, setData } = BuildStore
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (portfolio?.data) {
@@ -71,6 +82,8 @@ const BuildPage = () => {
       void refetchPortfolioFromDB()
     }
   }, [session])
+
+  if (isLoading) return <LoadingOverlay visible={true} loader={<CubeLoader size={128} />} />
 
   return (
     <>

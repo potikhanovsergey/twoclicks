@@ -1,4 +1,4 @@
-import { Text, Loader, Center } from "@mantine/core"
+import { Text, Loader, Center, LoadingOverlay } from "@mantine/core"
 import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Suspense, useEffect, useState } from "react"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
@@ -16,6 +16,7 @@ import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import Portfolio from "app/p/Portfolio"
+import CubeLoader from "app/core/components/CubeLoader"
 
 const PortfolioPage = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -26,7 +27,7 @@ const PortfolioPage = () => {
   const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
     getPortfolioByID,
     { id: portfolioID },
-    { refetchOnMount: false, refetchOnReconnect: false, refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false }
   )
   useEffect(() => {
     const getPortfolio = async () => {
@@ -35,7 +36,12 @@ const PortfolioPage = () => {
       setPortfolio(p)
     }
     void getPortfolio()
+    setIsLoading(false)
   }, [portfolioFromDB])
+
+  const [isLoading, setIsLoading] = useState(true)
+
+  if (isLoading) return <LoadingOverlay visible={true} loader={<CubeLoader size={128} />} />
 
   return (
     <>
