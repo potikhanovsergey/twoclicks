@@ -11,7 +11,7 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
   return (
     <Group spacing={4}>
       <Anchor
-        href={`${baseURL}/p/${id}`}
+        href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
         target="_blank"
         color="blue"
         style={
