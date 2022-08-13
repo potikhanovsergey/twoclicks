@@ -79,3 +79,15 @@ export interface IBuildingBlocksData {
   }
 }
 // ### CANVAS ENDS ###
+
+// ### BLITZ STARTS ###
+declare module "@blitzjs/auth" {
+  export interface Session {
+    isAuthorized: SimpleRolesIsAuthorized<Role>
+    PublicData: {
+      userId: User["id"]
+      role: Role
+    }
+  }
+}
+// ### BLITZ ENDS ###
