@@ -10,16 +10,13 @@ import {
   ThemeIcon,
   Group,
 } from "@mantine/core"
-import React, { useContext, useEffect } from "react"
-import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { deflate, renderJSXFromBlock } from "helpers"
+import React from "react"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
 import Onboarding from "./Onboarding"
 import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
-import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import BuilderBlocks from "./BuilderBlocks"
 import { useElementSize } from "@mantine/hooks"
@@ -33,7 +30,6 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexFlow: "column",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2],
-    // color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
   canvasContainer: {
     width: "100%",
@@ -61,6 +57,29 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
+const SaveRedirectButton = observer(() => {
+  const session = useSession()
+  const router = useRouter()
+
+  const {
+    savePortfolio,
+    data: { id: portfolioID },
+  } = BuildStore
+
+  const [updatePortfolioMutation] = useMutation(updatePortfolio)
+
+  const handleSaveAndRedirect = () => {
+    void savePortfolio({ session, updatePortfolioMutation })
+    void router.push(`/auth/?next=/build/${portfolioID}`)
+  }
+
+  return (
+    <Button color="violet" onClick={handleSaveAndRedirect}>
+      Save and go to the auth page
+    </Button>
+  )
+})
+
 const Builder = () => {
   // const { t } = useTranslation('pagesBuild');
 
@@ -70,16 +89,6 @@ const Builder = () => {
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
   const session = useSession()
-  const router = useRouter()
-
-  const { savePortfolio } = BuildStore
-
-  const [updatePortfolioMutation] = useMutation(updatePortfolio)
-
-  const handleSaveAndRedirect = () => {
-    void savePortfolio({ session, updatePortfolioMutation })
-    void router.push(`/auth/?next=/build/${BuildStore.data.id}`)
-  }
 
   const { ref: containerRef, width: containerWidth } = useElementSize()
   const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
@@ -159,13 +168,11 @@ const Builder = () => {
               <MdOutlineEmojiNature size={24} />
             </ThemeIcon>
           </Group>
-          <Button color="violet" onClick={handleSaveAndRedirect}>
-            Save and go to the auth page
-          </Button>
+          <SaveRedirectButton />
         </Stack>
       </Modal>
     </div>
   )
 }
 
-export default observer(Builder)
+export default Builder
