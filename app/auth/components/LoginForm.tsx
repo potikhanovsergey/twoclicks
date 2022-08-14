@@ -129,16 +129,16 @@ export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
           </Grid.Col>
         </Grid>
         <Group position="right" mb="md">
-          <Button variant="subtle" size="sm" compact color="blue">
+          <Button variant="subtle" size="sm" compact color="violet">
             Forgot your password?
           </Button>
         </Group>
-        <Button size="md" color="blue" fullWidth type="submit" my="sm">
+        <Button size="md" color="violet" fullWidth type="submit" my="sm">
           Login
         </Button>
         <Group position="center">
           <Text>{t("notAMemberYet")}</Text>
-          <Button variant="subtle" color="blue" compact onClick={onSignup}>
+          <Button variant="subtle" color="violet" compact onClick={onSignup}>
             Sign up
           </Button>
         </Group>

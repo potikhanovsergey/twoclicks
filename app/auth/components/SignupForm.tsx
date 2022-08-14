@@ -141,7 +141,7 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
             <Checkbox
               {...registrationForm.getInputProps("termsOfService", { type: "checkbox" })}
               required
-              color="blue"
+              color="violet"
               my="sm"
               size="sm"
               label={
@@ -149,10 +149,10 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
                   i18nKey="components:termsOfServiceText"
                   components={{
                     termsOfService: (
-                      <Anchor size="sm" color="blue" target="_blank" href="terms-of-service" />
+                      <Anchor size="sm" color="violet" target="_blank" href="terms-of-service" />
                     ),
                     privacyPolicy: (
-                      <Anchor size="sm" color="blue" target="_blank" href="privacy-policy" />
+                      <Anchor size="sm" color="violet" target="_blank" href="privacy-policy" />
                     ),
                   }}
                   defaultTrans={t("termsOfServiceText")}
@@ -161,12 +161,12 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
             />
           </Grid.Col>
         </Grid>
-        <Button size="md" color="blue" fullWidth type="submit" my="sm">
+        <Button size="md" color="violet" fullWidth type="submit" my="sm">
           Sign Up
         </Button>
         <Group position="center">
           <Text>{t("alreadyAMember")}</Text>
-          <Button variant="subtle" color="blue" compact onClick={onLogin}>
+          <Button variant="subtle" color="violet" compact onClick={onLogin}>
             Sign in
           </Button>
         </Group>
