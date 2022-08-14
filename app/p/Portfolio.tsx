@@ -14,10 +14,6 @@ import { observer } from "mobx-react-lite"
 
 const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
   // const { t } = useTranslation('pagesBuild');
-
-  const theme = useMantineTheme()
-  const { colorScheme } = theme
-
   if (portfolio) {
     return (
       <>
