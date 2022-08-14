@@ -10,7 +10,7 @@ import {
   ThemeIcon,
   Group,
 } from "@mantine/core"
-import React from "react"
+import React, { useRef } from "react"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -26,7 +26,7 @@ import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 const useStyles = createStyles((theme) => ({
   builder: {
     width: "100%",
-    height: "calc(100vh - var(--layout-header-height))",
+    height: "100%",
     display: "flex",
     flexFlow: "column",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2],
@@ -94,49 +94,37 @@ const Builder = () => {
   const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
 
   const { isCanvasEmpty } = BuildStore
-
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
-      <ScrollArea
-        className={classes.canvasScroll}
-        styles={{
-          viewport: {
-            "> div": {
-              height: "100%",
-            },
-          },
-        }}
+      <Container
+        size="xl"
+        px={64}
+        py={isCanvasEmpty ? 24 : 64}
+        className={classes.canvasContainer}
+        ref={containerRef}
       >
-        <Container
-          size="xl"
-          px={64}
-          py={isCanvasEmpty ? 24 : 64}
-          className={classes.canvasContainer}
-          ref={containerRef}
+        <Stack
+          spacing={0}
+          className={classes.canvas}
+          style={{ height: isCanvasEmpty ? "100%" : "auto" }}
         >
-          <Stack
-            spacing={0}
-            className={classes.canvas}
-            style={{ height: isCanvasEmpty ? "100%" : "auto" }}
+          <BuilderBlocks />
+        </Stack>
+        {session.userId ? (
+          <div
+            ref={onboardingRef}
+            className={classes.onboarding}
+            style={{
+              left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
+            }}
           >
-            <BuilderBlocks />
-          </Stack>
-          {session.userId ? (
-            <div
-              ref={onboardingRef}
-              className={classes.onboarding}
-              style={{
-                left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
-              }}
-            >
-              <Onboarding />
-            </div>
-          ) : (
-            <></>
-          )}
-        </Container>
-      </ScrollArea>
+            <Onboarding />
+          </div>
+        ) : (
+          <></>
+        )}
+      </Container>
       <Modal
         opened={BuildStore.sectionsCount >= 3 && !session.userId}
         onClose={() => 1}
