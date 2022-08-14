@@ -20,7 +20,7 @@ const PaletteItems = () => {
             return palette?.[paletteKey] ? (
               <PaletteItem
                 color={palette[paletteKey]}
-                key={i}
+                key={paletteKey}
                 onColorChange={(value) => {
                   changePalette({
                     paletteKey,

@@ -78,7 +78,7 @@ const LanguageSwitcher = () => {
                   i: number // TODO: i18n
                 ) => (
                   <Menu.Item
-                    key={i}
+                    key={l}
                     onClick={() => changeLocale(l)}
                     title={`Сменить язык на ${languages[l]}`}
                   >

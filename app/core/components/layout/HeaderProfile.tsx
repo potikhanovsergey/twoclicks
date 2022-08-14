@@ -179,7 +179,7 @@ function HeaderProfile() {
           {/* MENU STARTS */}
           {session.userId && <HeaderMenuItem {...ProfileItem} />}
           {ConstMenuItems.map((menuItem, i) => (
-            <HeaderMenuItem key={i} {...menuItem} />
+            <HeaderMenuItem key={menuItem.title} {...menuItem} />
           ))}
           {/* MENU ENDS */}
           {session.userId && (

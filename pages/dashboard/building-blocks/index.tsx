@@ -109,7 +109,7 @@ const DashboardIndex = () => {
         <Title mb="xl">Building Blocks</Title>
         <Group mb="xl">
           {sections.map((S, i) => (
-            <Button key={i} color="red" onClick={() => handlePickBuildingBlock(i)}>
+            <Button key={S.name} color="red" onClick={() => handlePickBuildingBlock(i)}>
               {S.name}
             </Button>
           ))}
@@ -119,7 +119,7 @@ const DashboardIndex = () => {
             <Title mb="xl">DB Building Blocks</Title>
             <Group mb="xl">
               {sectionsDB.map((S, i) => (
-                <Button key={i} color="violet" onClick={() => handlePickBuildingBlock(S, false)}>
+                <Button key={S.id} color="violet" onClick={() => handlePickBuildingBlock(S, false)}>
                   {i}
                 </Button>
               ))}
