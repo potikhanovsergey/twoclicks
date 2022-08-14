@@ -42,12 +42,14 @@ const BuildPage = () => {
     const getPortfolio = async () => {
       let p: IPortfolio | null = null
       if (!portfolioFromDB) {
-        let portfolioFromCookie = getCookie(`portfolio-${portfolioID}`) as string | undefined
+        let portfolioFromCookie = localStorage?.getItem(`portfolio-${portfolioID}`) as
+          | string
+          | undefined
         if (portfolioFromCookie) {
           let inflatedPortfolio = getPortfolioWithInflatedData(inflateBase64(portfolioFromCookie))
           if (session.userId) {
             void createOrUpdatePortfolioMutation(inflatedPortfolio)
-            deleteCookie(`portfolio-${portfolioID}`)
+            localStorage?.removeItem(`portfolio-${portfolioID}`)
           }
           p = inflatedPortfolio
         }

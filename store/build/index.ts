@@ -229,7 +229,7 @@ class Build {
       if (session.userId) {
         await updatePortfolioMutation?.(portfolio)
       } else {
-        setCookie(`portfolio-${id}`, deflate(portfolio))
+        localStorage?.setItem(`portfolio-${id}`, deflate(portfolio))
       }
       this.hasPortfolioChanged = false
       this.setIsSaveButtonLoading(false)
