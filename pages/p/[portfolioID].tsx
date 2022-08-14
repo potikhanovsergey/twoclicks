@@ -1,7 +1,6 @@
 import { Text, Loader, Center, LoadingOverlay } from "@mantine/core"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Suspense, useEffect, useState } from "react"
-// import { useTranslation } from 'next-i18next';
+import useTranslation from "next-translate/useTranslation"
 import { getPortfolioWithInflatedData } from "helpers"
 import { Ctx, useParam } from "@blitzjs/next"
 import { IPortfolio } from "types"
@@ -53,16 +52,5 @@ const PortfolioPage = () => {
 
 PortfolioPage.getLayout = getBaseLayout()
 PortfolioPage.suppressFirstRenderFlicker = true
-
-export const getServerSideProps = async (
-  ctx: Ctx & { params: { portfolioID: string }; locale: string; req: any; res: any }
-) => {
-  const { locale } = ctx
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common", "pagesBuild"])),
-    },
-  }
-}
 
 export default PortfolioPage

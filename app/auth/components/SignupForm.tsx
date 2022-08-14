@@ -13,8 +13,10 @@ import {
   Anchor,
   Checkbox,
 } from "@mantine/core"
-import { useTranslation, Trans } from "next-i18next"
+// import { useTranslation, Trans } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
+import Trans from "next-translate/Trans"
 
 type SignupFormProps = {
   onSuccess?: () => void
@@ -153,9 +155,8 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
                       <Anchor size="sm" color="blue" target="_blank" href="privacy-policy" />
                     ),
                   }}
-                >
-                  {t("termsOfServiceText")}
-                </Trans>
+                  defaultTrans={t("termsOfServiceText")}
+                />
               }
             />
           </Grid.Col>

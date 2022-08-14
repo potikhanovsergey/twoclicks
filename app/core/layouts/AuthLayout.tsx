@@ -1,6 +1,6 @@
 import { Center, Group, Stack, useMantineTheme, Title, Loader, Button } from "@mantine/core"
 import { ReactNode, Suspense } from "react"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import { Player } from "@lottiefiles/react-lottie-player"
 import Head from "next/head"
 import { FC } from "react"

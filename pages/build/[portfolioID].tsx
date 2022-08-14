@@ -1,9 +1,8 @@
 import { Text, Loader, Center, LoadingOverlay } from "@mantine/core"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { Suspense, useEffect, useState } from "react"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
-// import { useTranslation } from 'next-i18next';
+import useTranslation from "next-translate/useTranslation"
 import Builder from "app/build/Builder"
 import { getPortfolioWithInflatedData, inflateBase64 } from "helpers"
 import { BuildStore } from "store/build"
@@ -106,16 +105,5 @@ const BuildPage = () => {
 
 BuildPage.getLayout = getBaseLayout()
 BuildPage.suppressFirstRenderFlicker = true
-
-export const getServerSideProps = async (
-  ctx: Ctx & { params: { portfolioID: string }; locale: string; req: any; res: any }
-) => {
-  const { locale } = ctx
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common", "pagesBuild"])),
-    },
-  }
-}
 
 export default BuildPage

@@ -1,6 +1,5 @@
 import Head from "next/head"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import {
   Button,
   Center,
@@ -79,7 +78,7 @@ const Links = () => {
 }
 
 const Page404 = () => {
-  const { t } = useTranslation("pages404")
+  const { t } = useTranslation()
   return (
     <>
       <Center style={{ width: "100vw", minHeight: "100vh" }}>
@@ -102,11 +101,3 @@ const Page404 = () => {
 Page404.suppressFirstRenderFlicker = true
 
 export default Page404
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["pages404"])),
-    },
-  }
-}

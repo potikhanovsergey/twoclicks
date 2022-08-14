@@ -13,7 +13,7 @@ import {
   Stack,
 } from "@mantine/core"
 import { useEffect, useState } from "react"
-// import { useTranslation } from 'next-i18next';
+import useTranslation from "next-translate/useTranslation"
 import { IoIosRocket } from "react-icons/io"
 import { useHover } from "@mantine/hooks"
 import { AiOutlineEdit } from "react-icons/ai"

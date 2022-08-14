@@ -1,6 +1,7 @@
 import { useSession } from "@blitzjs/auth"
 import { useQuery } from "@blitzjs/rpc"
 import { Loader, Skeleton } from "@mantine/core"
+import { useDidMount } from "hooks/useDidMount"
 import { observer } from "mobx-react-lite"
 import { useEffect } from "react"
 import { AppStore } from "store"
@@ -10,6 +11,7 @@ import getUserPortfolios from "./queries/getUserPortfolios"
 const PortfolioCards = observer(() => {
   const { portfolios, setPortfolios } = AppStore
   const session = useSession()
+
   const [fetchedPortfolios, { isLoading, isFetching, isRefetching }] = useQuery(
     getUserPortfolios,
     {
@@ -32,7 +34,7 @@ const PortfolioCards = observer(() => {
     if (!session.userId) setPortfolios([])
   }, [fetchedPortfolios, session])
 
-  return isLoading || isFetching || isRefetching ? (
+  return isLoading ? (
     <Skeleton width="100%" height="120px" animate />
   ) : portfolios ? (
     <ul style={{ padding: 0, margin: 0 }}>

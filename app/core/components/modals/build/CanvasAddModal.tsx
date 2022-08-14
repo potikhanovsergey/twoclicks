@@ -11,7 +11,7 @@ import {
   Loader,
 } from "@mantine/core"
 import { Suspense, useContext, useState } from "react"
-// import { useTranslation } from 'next-i18next';
+import useTranslation from "next-translate/useTranslation"
 import { VscChromeClose } from "react-icons/vsc"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import ComponentsModalTabs from "./ModalTabs"

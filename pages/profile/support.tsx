@@ -12,13 +12,12 @@ import {
   Input,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React, { Suspense, useEffect } from "react"
 import { MdAlternateEmail } from "react-icons/md"
 import FileDropzone, { filesType } from "app/core/components/base/FileDropzone"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import useTranslation from "next-translate/useTranslation"
 
 interface IFormValues {
   email: string
@@ -126,11 +125,3 @@ ProfileSupport.getLayout = getProfileLayout()
 ProfileSupport.suppressFirstRenderFlicker = true
 
 export default ProfileSupport
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["pagesProfileSupport", "common"])),
-    },
-  }
-}

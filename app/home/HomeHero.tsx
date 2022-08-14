@@ -11,7 +11,7 @@ import {
   Container,
   useMantineTheme,
 } from "@mantine/core"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import { FaArrowRight } from "react-icons/fa"
 import { BsBack } from "react-icons/bs"
 import { MdSlowMotionVideo } from "react-icons/md"

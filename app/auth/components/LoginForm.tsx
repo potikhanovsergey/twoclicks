@@ -12,7 +12,7 @@ import {
   PasswordInput,
   Group,
 } from "@mantine/core"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { hideNotification, showNotification } from "@mantine/notifications"
 import { useEffect } from "react"

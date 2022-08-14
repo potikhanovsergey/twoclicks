@@ -12,7 +12,7 @@ import {
 import { FaChevronDown, FaSignOutAlt, FaBook } from "react-icons/fa"
 import { AiFillBuild } from "react-icons/ai"
 import { BsPersonFill, BsQuestionCircleFill } from "react-icons/bs"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 // import { signOut, useSession } from 'next-auth/react';
 import { useDisclosure } from "@mantine/hooks"
 import { IoNewspaper } from "react-icons/io5"

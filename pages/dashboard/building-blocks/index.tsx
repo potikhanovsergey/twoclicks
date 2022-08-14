@@ -9,8 +9,6 @@ import {
   Title,
   useMantineTheme,
 } from "@mantine/core"
-import { GetServerSidePropsContext } from "next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React, { useEffect, useMemo, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
 import { renderJSXFromBlock, serialize } from "helpers"
@@ -168,11 +166,3 @@ DashboardIndex.getLayout = getBaseLayout()
 DashboardIndex.suppressFirstRenderFlicker = true
 
 export default DashboardIndex
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-  return {
-    props: {
-      ...(await serverSideTranslations(context.locale || "ru", ["common"])),
-    },
-  }
-}
