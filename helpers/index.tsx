@@ -191,6 +191,7 @@ export function renderJSXFromBlock({
         type={el.type}
         props={props}
         sectionIndex={sectionIndex}
+        element={element}
       >
         <TagName {...props} />
       </WithEditToolbar>
