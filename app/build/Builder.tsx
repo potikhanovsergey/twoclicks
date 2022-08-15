@@ -46,6 +46,9 @@ const useStyles = createStyles((theme) => ({
     boxShadow: theme.shadows.sm,
   },
   header: {
+    position: "sticky",
+    top: "var(--layout-header-height)",
+    zIndex: 500,
     minHeight: "40px",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
