@@ -15,16 +15,19 @@ import { renderJSXFromBlock, serialize } from "helpers"
 import { jsonLanguage } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
 import { useMutation } from "@blitzjs/rpc"
-import CreateBuildingBlock from "app/dashboard/building-blocks/mutations/createBuildingBlock"
+import createBuildingBlock from "app/dashboard/building-blocks/mutations/createBuildingBlock"
 import { showNotification } from "@mantine/notifications"
 import { useQuery } from "@blitzjs/rpc"
 import getAllBuildingBlocks from "app/dashboard/building-blocks/queries/getAllBuildingBlocks"
 import SafeWrapper from "app/core/components/SafeWrapper"
+import deleteBuildingBlock from "app/dashboard/building-blocks/mutations/deleteBuildingBlock"
+import { BuildingBlock } from "@prisma/client"
+import updateBuildingBlock from "app/dashboard/building-blocks/mutations/updateBuildingBlock"
 
 const sections = [FirstHero]
 
 const DashboardIndex = () => {
-  const [sectionsDB] = useQuery(getAllBuildingBlocks, null)
+  const [sectionsDB, { refetch: refetchBuildingBlocks }] = useQuery(getAllBuildingBlocks, null)
   const getJsonString = (component: JSX.Element | Object) => {
     const serialized = JSON.parse(serialize(component))
     return JSON.stringify(serialized, null, 2)
@@ -44,11 +47,16 @@ const DashboardIndex = () => {
 
   const theme = useMantineTheme()
 
-  const handlePickBuildingBlock = (selected, isCodeSection = true) => {
-    if (isCodeSection) {
+  const [selectedSectionType, setSelectedSectionType] = useState<string | null>(null)
+  const [selectedDBElement, setSelectedDBElement] = useState<BuildingBlock | null>(null)
+
+  const handlePickBuildingBlock = (selected, sectionType = "code") => {
+    if (sectionType === "code") {
       if (selected !== null) {
         const invokedComponent = sections[selected]?.()
         if (invokedComponent) {
+          setSelectedSectionType("code")
+          setSelectedDBElement(null)
           setJson(getJsonString(invokedComponent))
           setError(null)
         }
@@ -59,6 +67,8 @@ const DashboardIndex = () => {
         editType: selected.editType,
         props: selected.props,
       }
+      setSelectedDBElement(selected)
+      setSelectedSectionType("db")
       const serialized = getJsonString(element)
       setJson(serialized)
       setError(null)
@@ -80,7 +90,12 @@ const DashboardIndex = () => {
     return null
   }, [json])
 
-  const [createBuildingBlockMutation, { isLoading, isSuccess }] = useMutation(CreateBuildingBlock)
+  const [createBuildingBlockMutation, { isLoading: isCreating, isSuccess: isSuccessfullyCreated }] =
+    useMutation(createBuildingBlock)
+  const [deleteBuildingBlockMutation, { isLoading: isDeleting, isSuccess: isSuccessfullyDeleted }] =
+    useMutation(deleteBuildingBlock)
+  const [updateBuildingBlockMutation, { isLoading: isUpdating, isSuccess: isSuccessfullyUpdated }] =
+    useMutation(updateBuildingBlock)
 
   const handleCreateBuildingBlock = async () => {
     try {
@@ -92,15 +107,37 @@ const DashboardIndex = () => {
   }
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isSuccessfullyCreated) {
       showNotification({
-        title: "Success",
+        title: "Created!",
         color: "green",
-        message: "Building block was successfully created!",
+        message: "Building block was successfully created.",
         autoClose: 5000,
       })
     }
-  }, [isSuccess])
+  }, [isSuccessfullyCreated])
+
+  useEffect(() => {
+    if (isSuccessfullyDeleted) {
+      showNotification({
+        title: "Deleted!",
+        color: "green",
+        message: "Building block was successfully deleted from DB.",
+        autoClose: 5000,
+      })
+    }
+  }, [isSuccessfullyDeleted])
+
+  useEffect(() => {
+    if (isSuccessfullyUpdated) {
+      showNotification({
+        title: "Updated!",
+        color: "green",
+        message: "Building block was successfully updated.",
+        autoClose: 5000,
+      })
+    }
+  }, [isSuccessfullyUpdated])
 
   return (
     <>
@@ -119,7 +156,7 @@ const DashboardIndex = () => {
             <Title mb="xl">DB Building Blocks</Title>
             <Group mb="xl">
               {sectionsDB.map((S, i) => (
-                <Button key={S.id} color="violet" onClick={() => handlePickBuildingBlock(S, false)}>
+                <Button key={S.id} color="violet" onClick={() => handlePickBuildingBlock(S, "db")}>
                   {i}
                 </Button>
               ))}
@@ -151,11 +188,43 @@ const DashboardIndex = () => {
           <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
         </Center>
       )}
-      <Container size="xl">
+      <Container size="xl" pb="xl">
         <Group>
-          <Button color="yellow" onClick={handleCreateBuildingBlock} loading={isLoading}>
-            Добавить в БД
-          </Button>
+          {selectedSectionType && (
+            <Button color="green" onClick={handleCreateBuildingBlock} loading={isCreating}>
+              Добавить в БД
+            </Button>
+          )}
+          {selectedSectionType === "db" && (
+            <>
+              <Button
+                color="yellow"
+                onClick={async () => {
+                  if (selectedDBElement) {
+                    const data = JSON.parse(json) as BuildingBlock
+                    await updateBuildingBlockMutation({ id: selectedDBElement.id, data })
+                    void refetchBuildingBlocks()
+                  }
+                }}
+              >
+                Обновить блок в БД
+              </Button>
+              <Button
+                color="red"
+                onClick={async () => {
+                  if (selectedDBElement) {
+                    await deleteBuildingBlockMutation({ id: selectedDBElement.id })
+                    void refetchBuildingBlocks()
+                    setSelectedDBElement(null)
+                    setSelectedSectionType(null)
+                    setJson("")
+                  }
+                }}
+              >
+                Удалить из БД
+              </Button>
+            </>
+          )}
         </Group>
       </Container>
     </>
