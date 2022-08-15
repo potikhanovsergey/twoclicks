@@ -30,7 +30,7 @@ import {
 } from "helpers"
 import { i } from "@blitzjs/auth/dist/index-57d74361"
 import PaletteItem from "./PaletteItem"
-import { ICanvasBlockProps } from "types"
+import { ICanvasBlock, ICanvasBlockProps } from "types"
 import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
@@ -45,6 +45,7 @@ interface IWithEditToolbar {
   name?: string
   props?: ICanvasBlockProps
   sectionIndex?: number
+  element?: ICanvasBlock
 }
 
 interface InnerAddSectionButtonProps extends Omit<ButtonProps, "style" | "children"> {
@@ -86,6 +87,7 @@ const WithEditToolbar = ({
   type,
   props,
   sectionIndex,
+  element,
 }: IWithEditToolbar) => {
   const {
     moveLeft,
@@ -205,10 +207,19 @@ const WithEditToolbar = ({
                     theme,
                     color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
                   })}
+                  withReset={
+                    element?.props?.[PaletteTypePropColor[type.toLowerCase()].prop] !== undefined
+                  }
                   onColorChange={(value) => {
                     changeProp({
                       id,
                       newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: value },
+                    })
+                  }}
+                  onResetClick={() => {
+                    changeProp({
+                      id,
+                      newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: undefined },
                     })
                   }}
                 />
