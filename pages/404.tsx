@@ -1,5 +1,6 @@
 import Head from "next/head"
-import useTranslation from "next-translate/useTranslation"
+import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import { useTranslation } from "next-i18next"
 import {
   Button,
   Center,
@@ -18,6 +19,7 @@ import { Suspense } from "react"
 import { Player } from "@lottiefiles/react-lottie-player"
 import error_404 from "lotties/404-cat.json"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import { getBaseLayout } from "app/core/layouts/BaseLayout"
 
 const Links = () => {
   const user = useCurrentUser()
@@ -27,7 +29,7 @@ const Links = () => {
   return (
     <>
       <Button
-        size="lg"
+        size="md"
         variant={dark ? "light" : "filled"}
         color={dark ? "gray" : "dark"}
         title={t("goToTheAboutUs")}
@@ -43,7 +45,7 @@ const Links = () => {
       </Button>
       {user && (
         <Button
-          size="lg"
+          size="md"
           variant={dark ? "light" : "filled"}
           color={dark ? "gray" : "dark"}
           title={t("goToTheProfile")}
@@ -59,7 +61,7 @@ const Links = () => {
         </Button>
       )}
       <Button
-        size="lg"
+        size="md"
         variant="filled"
         color="violet"
         title={t("openThePageBuilder")}
@@ -78,14 +80,17 @@ const Links = () => {
 }
 
 const Page404 = () => {
-  const { t } = useTranslation()
+  const { t } = useTranslation("pages404")
   return (
     <>
-      <Center style={{ width: "100vw", minHeight: "100vh" }}>
+      <Head>
+        <title>404 Page not found</title>
+      </Head>
+      <Center style={{ height: "100%" }}>
         <Stack>
           <Title align="center">Oops, page not found!</Title>
           <Center>
-            <Player autoplay loop src={error_404} style={{ height: "400px", width: "400px" }} />
+            <Player autoplay loop src={error_404} style={{ height: "300px", width: "300px" }} />
           </Center>
           <Group position="center">
             <Suspense fallback={<Skeleton height={45} animate />}>
@@ -98,6 +103,15 @@ const Page404 = () => {
   )
 }
 
+Page404.getLayout = getBaseLayout()
 Page404.suppressFirstRenderFlicker = true
 
 export default Page404
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["pages404"])),
+    },
+  }
+}
