@@ -9,6 +9,7 @@ import {
   MantineProvider,
   ColorSchemeProvider,
   ScrollArea,
+  Tooltip,
 } from "@mantine/core"
 import {
   cloneElement,
@@ -63,7 +64,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         // transform: `scale(0.97)`,
         // transform: "translate(12px, -12px)",
       },
-      transform: "scale(0.98)",
+      // transform: "scale(0.98)",
       background: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3],
     },
   },
@@ -222,23 +223,35 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       </div>
       {hasActions && (
         <Group className={classes.actions}>
-          <ActionIcon
-            sx={(theme) => ({
-              color: theme.colors.red[5],
-            })}
-            ref={iconRef}
-            loading={isLikeLoading}
-            className={classes.actionIcon}
+          <Tooltip
+            label={isLiked ? "Remove from favs" : "Add to favs"}
+            position="bottom"
+            color="violet"
+            withArrow
+            withinPortal
+            zIndex={1000}
           >
-            <RiHeartsFill
-              className={classes.icon}
-              style={{ display: isLiked ? "block" : "none", opacity: 1 }}
-            />
-            <RiHeartAddLine
-              className={classes.icon}
-              style={{ display: !isLiked ? "block" : "none" }}
-            />
-          </ActionIcon>
+            <ActionIcon
+              sx={(theme) => ({
+                color: theme.colors.red[5],
+              })}
+              ref={iconRef}
+              loading={isLikeLoading}
+              className={classes.actionIcon}
+            >
+              {isLiked ? (
+                <RiHeartsFill
+                  className={classes.icon}
+                  style={{ display: isLiked ? "block" : "none", opacity: 1 }}
+                />
+              ) : (
+                <RiHeartAddLine
+                  className={classes.icon}
+                  style={{ display: !isLiked ? "block" : "none" }}
+                />
+              )}
+            </ActionIcon>
+          </Tooltip>
         </Group>
       )}
     </Box>
