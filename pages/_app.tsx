@@ -16,7 +16,6 @@ import {
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
-import { appWithTranslation } from "next-i18next"
 import "app/styles/variables.css"
 import router from "next/router"
 import CubeLoader from "app/core/components/CubeLoader"
@@ -117,7 +116,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
         "#663552",
       ],
     },
-    primaryColor: "primary",
+    primaryColor: "violet",
     primaryShade: 5,
     components: {
       Paper: {
@@ -194,7 +193,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
         theme={CustomTheme}
         emotionCache={emotionCache}
       >
-        <ModalsProvider>
+        <ModalsProvider modalProps={{ zIndex: 1000 }}>
           <NotificationsProvider>
             <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
               <ModalContext.Provider value={[modalValue, setModalValue]}>
@@ -263,8 +262,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   )
 }
 
-const appWithI18n = appWithTranslation(App)
-const appWithBlitz = withBlitz(appWithI18n)
+const appWithBlitz = withBlitz(App)
 
 appWithBlitz["getInitialProps"] = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
   // get color scheme from cookie

@@ -9,14 +9,16 @@ import {
   Button,
   Highlight,
   Container,
+  useMantineTheme,
 } from "@mantine/core"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import { FaArrowRight } from "react-icons/fa"
 import { BsBack } from "react-icons/bs"
 import { MdSlowMotionVideo } from "react-icons/md"
 
 const HomeHero = () => {
-  const { colorScheme } = useMantineColorScheme()
+  const theme = useMantineTheme()
+  const { colorScheme } = theme
   const dark = colorScheme === "dark"
   const { t } = useTranslation("pagesHome")
 
@@ -31,7 +33,6 @@ const HomeHero = () => {
             order={1}
             mb="md"
           >
-            {/* {t('title')} */}
             <Highlight
               highlight={["show", "your", "best", "jobs", "покажите", "ваши работы"]}
               sx={() => ({
@@ -42,8 +43,8 @@ const HomeHero = () => {
               highlightStyles={(theme) => ({
                 backgroundImage: theme.fn.linearGradient(
                   45,
-                  theme.colors.primary[5],
-                  theme.colors.indigo[5]
+                  theme.colors.violet[8],
+                  theme.colors.red[4]
                 ),
                 fontWeight: 700,
                 WebkitBackgroundClip: "text",
@@ -65,7 +66,7 @@ const HomeHero = () => {
           <Grid pt={48} gutter={96} style={{ maxWidth: "640px" }}>
             <Grid.Col span={6}>
               <Stack spacing={0}>
-                <BsBack size={72} />
+                <BsBack size={64} />
                 <Text weight="bold" mt="lg" style={{ fontSize: 24 }}>
                   {t("amazingBuilder")}
                 </Text>
@@ -73,9 +74,9 @@ const HomeHero = () => {
                 <Space h={32} />
                 <Button
                   radius="md"
-                  size="xl"
+                  size="lg"
                   variant="gradient"
-                  gradient={{ from: "orange", to: "red" }}
+                  gradient={{ from: "violet", to: "red" }}
                   rightIcon={<FaArrowRight />}
                 >
                   {t("getStarted")}
@@ -84,7 +85,7 @@ const HomeHero = () => {
             </Grid.Col>
             <Grid.Col span={6}>
               <Stack spacing={0}>
-                <BsBack size={72} />
+                <BsBack size={64} />
                 <Text weight="bold" mt="lg" style={{ fontSize: 24 }}>
                   {t("manyTemplates")}
                 </Text>
@@ -93,7 +94,7 @@ const HomeHero = () => {
                 <Button
                   rightIcon={<MdSlowMotionVideo />}
                   radius="md"
-                  size="xl"
+                  size="lg"
                   variant="outline"
                   color="violet"
                 >

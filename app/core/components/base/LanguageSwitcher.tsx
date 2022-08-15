@@ -1,19 +1,24 @@
 import { ActionIcon, Divider, Menu, Tooltip } from "@mantine/core"
 import { useClickOutside, useDisclosure, useHover, useLocalStorage } from "@mantine/hooks"
-import { i18n, useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { IoLanguageSharp } from "react-icons/io5"
 import { languages } from "../../../../public/languages"
+import setLanguage from "next-translate/setLanguage"
 
 const LanguageSwitcher = () => {
   const { t } = useTranslation("common")
   const router = useRouter()
   const { pathname, asPath, query } = router
-  const [, setLocale] = useLocalStorage({ key: "locale", defaultValue: i18n?.language || "ru" })
-  const changeLocale = (l: string) => {
+  const [locale, setLocale] = useLocalStorage({
+    key: "locale",
+    defaultValue: "ru",
+  })
+  const changeLocale = async (l: string) => {
     setLocale(l)
-    void router.push({ pathname, query }, asPath, { locale: l })
+    await setLanguage(l)
+    // void router.push({ pathname, query }, asPath, { locale: l })
   }
   const { hovered: tooltipHovered, ref: tooltipRef } = useHover<HTMLButtonElement>()
   const [tooltipOpened, setTooltipOpened] = useState(false)
@@ -57,15 +62,8 @@ const LanguageSwitcher = () => {
               ref={tooltipRef}
               onClick={() => 1}
               size="lg"
-              color="dark"
-              sx={(theme) => ({
-                backgroundColor:
-                  theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
-                ":hover": {
-                  backgroundColor:
-                    theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[2],
-                },
-              })}
+              color="violet"
+              variant="filled"
             >
               <IoLanguageSharp />
             </ActionIcon>
@@ -73,14 +71,14 @@ const LanguageSwitcher = () => {
           <Menu.Dropdown>
             <Menu.Label>{t("language")}</Menu.Label>
             {Object.keys(languages)
-              .filter((l: string) => l !== i18n?.language)
+              .filter((l: string) => l !== locale)
               .map(
                 (
                   l: string,
                   i: number // TODO: i18n
                 ) => (
                   <Menu.Item
-                    key={i}
+                    key={l}
                     onClick={() => changeLocale(l)}
                     title={`Сменить язык на ${languages[l]}`}
                   >
@@ -89,7 +87,7 @@ const LanguageSwitcher = () => {
                 )
               )}
             <Divider />
-            <Menu.Label>{languages[i18n?.language || "ru"]}</Menu.Label>
+            <Menu.Label>{languages[locale || "ru"]}</Menu.Label>
           </Menu.Dropdown>
         </Menu>
       </div>

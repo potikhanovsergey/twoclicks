@@ -1,10 +1,27 @@
-import { ActionIcon, Box, Group, Popover, Text, useMantineTheme } from "@mantine/core"
-import React, { cloneElement, useEffect, useMemo, useRef, useState } from "react"
-import { FiSettings } from "react-icons/fi"
+import {
+  ActionIcon,
+  Box,
+  Button,
+  ButtonProps,
+  Group,
+  Popover,
+  Text,
+  useMantineTheme,
+} from "@mantine/core"
+import React, {
+  cloneElement,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
+import { FiPlusSquare, FiSettings } from "react-icons/fi"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
-import { useDisclosure } from "@mantine/hooks"
+import { useDebouncedValue, useDisclosure } from "@mantine/hooks"
 import {
   getHexFromThemeColor,
   getThemeColorValueArray,
@@ -15,6 +32,9 @@ import { i } from "@blitzjs/auth/dist/index-57d74361"
 import PaletteItem from "./PaletteItem"
 import { ICanvasBlockProps } from "types"
 import { observer } from "mobx-react-lite"
+import { useDidMount } from "hooks/useDidMount"
+import { useDelayedHover } from "hooks/useDelayedHover"
+import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -24,6 +44,37 @@ interface IWithEditToolbar {
   type?: string
   name?: string
   props?: ICanvasBlockProps
+  sectionIndex?: number
+}
+
+interface InnerAddSectionButtonProps extends Omit<ButtonProps, "style" | "children"> {
+  sectionToBeAddedIndex: number
+}
+
+const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
+  const [, setModalContext = () => ({})] = useContext(ModalContext)
+
+  const { sectionToBeAddedIndex, ...otherProps } = props
+  return (
+    <Button
+      style={{ position: "absolute", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1 }}
+      size="sm"
+      variant="gradient"
+      rightIcon={<FiPlusSquare />}
+      compact
+      gradient={{ from: "violet", to: "red" }}
+      onClick={() => {
+        BuildStore.sectionToBeAddedIndex = sectionToBeAddedIndex
+        setModalContext((prevValue: IModalContextValue) => ({
+          ...prevValue,
+          canvasSectionsModal: true,
+        }))
+      }}
+      {...otherProps}
+    >
+      Add new section
+    </Button>
+  )
 }
 
 const WithEditToolbar = ({
@@ -34,16 +85,16 @@ const WithEditToolbar = ({
   name,
   type,
   props,
+  sectionIndex,
 }: IWithEditToolbar) => {
-  const [editOpened, { close: closeEdit, open: openEdit }] = useDisclosure(false)
-  const [popupHovered, setPopupHovered] = useState(false)
-  const timer = useRef<ReturnType<typeof setTimeout>>()
-
   const {
     moveLeft,
     moveRight,
     deleteElement,
     data: { blocks },
+    changeProp,
+    activeEditToolbars,
+    openedPalette,
   } = BuildStore
 
   const hasMoves = useMemo(() => {
@@ -65,53 +116,69 @@ const WithEditToolbar = ({
 
   const theme = useMantineTheme()
 
-  const { changeProp, activeEditToolbars } = BuildStore
+  const [popoverOpened, { close: closePopover, open: openPopover }] = useDisclosure(false)
+  const [editableOpened, { close: closeEditable, open: openEditable }] = useDisclosure(false)
+  const didMount = useDidMount()
+
+  const [isElementActive, setIsElementActive] = useState(
+    activeEditToolbars[id] || popoverOpened || editableOpened
+  )
+
+  useEffect(() => {
+    if (!didMount) {
+      const activeValue = editableOpened || popoverOpened
+      setIsElementActive(activeValue)
+      activeEditToolbars[id] = activeValue
+
+      if (!activeValue) {
+        BuildStore.openedPalette = null
+      }
+    }
+  }, [editableOpened, popoverOpened])
+
+  const sectionNumber = typeof sectionIndex === "number" ? sectionIndex + 1 : null
+
+  const { openDropdown: openDelayedEditable, closeDropdown: closeDelayedEditable } =
+    useDelayedHover({
+      open: openEditable,
+      close: closeEditable,
+      closeDelay: 400,
+      openDelay: 100,
+    })
 
   return (
     <Popover
       trapFocus={false}
-      withArrow
-      opened={activeEditToolbars.includes(id)}
-      onClose={closeEdit}
+      withArrow={editType !== "section"}
+      opened={isElementActive || activeEditToolbars[id]}
       position="top-end"
+      offset={editType === "section" ? -36 : undefined}
     >
       <Popover.Target>
         <Box
-          style={{ width: editType === "element" ? "fit-content" : "auto" }}
-          onMouseEnter={() => {
-            if (timer?.current) clearTimeout(timer?.current)
-            openEdit()
-            BuildStore.activeEditToolbars.push(id)
-          }}
-          onMouseLeave={() => {
-            timer.current = setTimeout(() => {
-              if (!popupHovered) {
-                closeEdit()
-                BuildStore.activeEditToolbars = BuildStore.activeEditToolbars.filter(
-                  (item) => item !== id
-                )
-                BuildStore.openedPalette = ""
-              }
-            }, 450)
-          }}
+          sx={(theme) => ({
+            width: editType === "element" ? "fit-content" : "auto",
+            border: isElementActive
+              ? `1px dotted ${theme.colors.gray[5]}`
+              : "1px solid transparent",
+            marginTop: "-1px",
+            position: "relative",
+          })}
+          onMouseEnter={openDelayedEditable}
+          onMouseLeave={closeDelayedEditable}
           ref={editableRef}
         >
+          {editType === "section" && sectionIndex === 0 && (
+            <InnerAddSectionButton sectionToBeAddedIndex={0} />
+          )}
           {children}
+          {editType === "section" && sectionIndex !== undefined && (
+            <InnerAddSectionButton sectionToBeAddedIndex={sectionIndex + 1} />
+          )}
         </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>
-        <Group
-          noWrap
-          spacing={0}
-          onMouseEnter={() => {
-            if (timer.current) clearTimeout(timer.current)
-            setPopupHovered(true)
-          }}
-          onMouseLeave={() => {
-            // closeEdit()
-            setPopupHovered(false)
-          }}
-        >
+        <Group noWrap spacing={0} onMouseEnter={openPopover} onMouseLeave={closePopover}>
           <Group spacing={4} pl="xs" align="center">
             {name && (
               <Text
@@ -122,17 +189,18 @@ const WithEditToolbar = ({
                   textTransform: "capitalize",
                 })}
               >
-                {name}
+                {name} {editType === "section" && sectionNumber !== null && ` ${sectionNumber}`}
               </Text>
             )}
             {type &&
               hasElementPalette(type.toLowerCase()) &&
               props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
                 <PaletteItem
-                  defaultOpened={id === BuildStore.openedPalette}
+                  defaultOpened={id === openedPalette}
                   onOpen={() => (BuildStore.openedPalette = id)}
                   onClose={() => (BuildStore.openedPalette = "")}
                   popoverPosition="top"
+                  offset={6}
                   color={getHexFromThemeColor({
                     theme,
                     color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
@@ -168,7 +236,6 @@ const WithEditToolbar = ({
             size="lg"
             onClick={() => {
               deleteElement({ id, parentID })
-              closeEdit()
             }}
           >
             <RiDeleteBin6Line />
@@ -179,4 +246,4 @@ const WithEditToolbar = ({
   )
 }
 
-export default WithEditToolbar
+export default observer(WithEditToolbar)

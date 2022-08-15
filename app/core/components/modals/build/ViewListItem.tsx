@@ -32,6 +32,7 @@ import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
 import { useElementSize } from "@mantine/hooks"
 import { ICanvasBlockProps } from "types"
 import SafeWrapper from "../../SafeWrapper"
+import { observer } from "mobx-react-lite"
 
 interface IViewListItem {
   block: BuildingBlock
@@ -97,12 +98,16 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListItem) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
+  const {
+    data: { palette },
+  } = BuildStore
 
   const JSX = useMemo(() => {
     return renderJSXFromBlock({
       element: { ...block, editType: null },
       withContentEditable: false,
       withPalette: true,
+      palette,
     })
   }, [block])
 
@@ -240,4 +245,4 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   )
 }
 
-export default ViewListItem
+export default observer(ViewListItem)

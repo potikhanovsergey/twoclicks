@@ -13,8 +13,10 @@ import {
   Anchor,
   Checkbox,
 } from "@mantine/core"
-import { useTranslation, Trans } from "next-i18next"
+// import { useTranslation, Trans } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
+import Trans from "next-translate/Trans"
 
 type SignupFormProps = {
   onSuccess?: () => void
@@ -139,7 +141,7 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
             <Checkbox
               {...registrationForm.getInputProps("termsOfService", { type: "checkbox" })}
               required
-              color="blue"
+              color="violet"
               my="sm"
               size="sm"
               label={
@@ -147,25 +149,24 @@ export const SignupForm = ({ onSuccess, onLogin }: SignupFormProps) => {
                   i18nKey="components:termsOfServiceText"
                   components={{
                     termsOfService: (
-                      <Anchor size="sm" color="blue" target="_blank" href="terms-of-service" />
+                      <Anchor size="sm" color="violet" target="_blank" href="terms-of-service" />
                     ),
                     privacyPolicy: (
-                      <Anchor size="sm" color="blue" target="_blank" href="privacy-policy" />
+                      <Anchor size="sm" color="violet" target="_blank" href="privacy-policy" />
                     ),
                   }}
-                >
-                  {t("termsOfServiceText")}
-                </Trans>
+                  defaultTrans={t("termsOfServiceText")}
+                />
               }
             />
           </Grid.Col>
         </Grid>
-        <Button size="md" color="blue" fullWidth type="submit" my="sm">
+        <Button size="md" color="violet" fullWidth type="submit" my="sm">
           Sign Up
         </Button>
         <Group position="center">
           <Text>{t("alreadyAMember")}</Text>
-          <Button variant="subtle" color="blue" compact onClick={onLogin}>
+          <Button variant="subtle" color="violet" compact onClick={onLogin}>
             Sign in
           </Button>
         </Group>

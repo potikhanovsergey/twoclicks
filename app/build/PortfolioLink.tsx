@@ -11,7 +11,7 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
   return (
     <Group spacing={4}>
       <Anchor
-        href={`${baseURL}/p/${id}`}
+        href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
         target="_blank"
         color="blue"
         style={
@@ -22,7 +22,7 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
       >
         {`${baseURL}/p/${id}`}
       </Anchor>
-      <CopyButton value={`${baseURL}/p/${id}`} timeout={10000}>
+      <CopyButton value={`${baseURL}/p/${id}`} timeout={5000}>
         {({ copied, copy }) => (
           <Tooltip
             label={copied ? "Link copied" : "Copy link"}
@@ -30,7 +30,12 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
             position="bottom"
             color="violet"
           >
-            <ActionIcon color={copied ? "teal" : "gray"} onClick={copy} size="sm">
+            <ActionIcon
+              color={copied ? "teal" : "violet"}
+              variant="subtle"
+              onClick={copy}
+              size="sm"
+            >
               {copied ? <BiCheckDouble size={16} /> : <BiCopy size={16} />}
             </ActionIcon>
           </Tooltip>

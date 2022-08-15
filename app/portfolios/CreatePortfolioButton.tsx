@@ -35,8 +35,7 @@ const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
 
     // Not authorized
     const portfolioWithDeflatedData = getPortfolioWithDeflatedData(portfolio)
-    console.log("portfolio with deflated data", portfolioWithDeflatedData)
-    setCookie(`portfolio-${portfolio.id}`, deflate(portfolioWithDeflatedData))
+    localStorage?.setItem(`portfolio-${portfolio.id}`, deflate(portfolioWithDeflatedData))
     void router.push(`/build/${portfolio.id}`)
   }
   return (

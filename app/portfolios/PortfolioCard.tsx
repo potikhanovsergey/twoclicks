@@ -43,16 +43,18 @@ const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
       title: <Text weight="bold">Delete your portfolio</Text>,
       centered: true,
       children: (
-        <Text size="sm">
-          Are you sure you want to delete your portfolio? <br />
-          This action is &nbsp;
-          <Mark color="red">
-            <strong>irreversible</strong>
-          </Mark>
-          .
-        </Text>
+        <>
+          <Text size="sm">
+            Are you sure you want to delete your portfolio? <br />
+            This action is &nbsp;
+            <Mark color="red">
+              <strong>irreversible</strong>
+            </Mark>
+            .
+          </Text>
+        </>
       ),
-      labels: { confirm: "Delete portfolio", cancel: "No don't delete it" },
+      labels: { confirm: "Yes, delete the portfolio", cancel: "No, don't delete it" },
       confirmProps: { color: "red" },
       onConfirm: () => deletePortfolioMutation({ id }),
     })
@@ -70,7 +72,7 @@ const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
       })}
     >
       <Group position="apart" align="flex-start">
-        <Stack spacing={0}>
+        <Stack spacing={0} align="flex-start">
           <Text weight="bold" size="xl">
             {name}
           </Text>

@@ -1,4 +1,4 @@
-// import { useTranslation } from 'next-i18next';
+import useTranslation from "next-translate/useTranslation"
 import CanvasAddModal from "./CanvasAddModal"
 import { IFilterButton } from "types"
 

@@ -78,7 +78,7 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
                   outline: "none",
                 },
               })}
-              key={i}
+              key={tab.value}
               color={tab.color}
               icon={
                 <ThemeIcon variant="light" color={tab.color} size="sm">
@@ -112,7 +112,7 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
       </Tabs.List>
       {ComponentsModalTabsArr.map((tab, i) =>
         tab.viewlistType !== "liked" || session.userId ? (
-          <Tabs.Panel value={tab.value} key={i}>
+          <Tabs.Panel value={tab.value} key={tab.value}>
             <Suspense fallback={<LoadingOverlay visible={true} />}>
               <ViewList type={tab.viewlistType} modalType={modalType} />
             </Suspense>

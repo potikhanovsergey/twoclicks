@@ -19,13 +19,14 @@ export const authenticateUser = async (email: string, password: string) => {
   return rest
 }
 
-export default resolver.pipe(
-  async ({ email, password }: { email: string; password: string }, ctx) => {
-    // This throws an error if credentials are invalid
-    const user = await authenticateUser(email, password)
+export default async function createSession(
+  { email, password }: { email: string; password: string },
+  ctx
+) {
+  // This throws an error if credentials are invalid
+  const user = await authenticateUser(email, password)
 
-    await ctx.session.$create({ userId: user.id, role: user.role as Role })
+  await ctx.session.$create({ userId: user.id, role: user.role as Role })
 
-    return user
-  }
-)
+  return user
+}

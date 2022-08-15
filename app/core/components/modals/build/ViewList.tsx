@@ -144,7 +144,6 @@ const ViewList = ({ type, modalType }: IViewList) => {
                 return undefined
             }
           }}
-          color="blue"
           total={debouncedTotalPages}
           page={activePage}
           onChange={handlePaginationChange}

@@ -5,7 +5,7 @@ import { BiStats } from "react-icons/bi"
 import { RiVipCrown2Fill } from "react-icons/ri"
 import { BsQuestionCircleFill } from "react-icons/bs"
 import { useRouter } from "next/router"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 
 interface IProfileLink {

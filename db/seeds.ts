@@ -1,5 +1,4 @@
 import db from "./index"
-import { ButtonsList } from "./mocks"
 
 /*
  * This seed function is executed when you run `blitz db seed`.
@@ -8,33 +7,18 @@ import { ButtonsList } from "./mocks"
  * to easily generate realistic data.
  */
 
-// "blitz db seed" to push buttons to database building blocks
+// "blitz db seed" to run this
 const seed = async () => {
-  for (let i = 0; i < ButtonsList.length; i++) {
-    const block = ButtonsList[i]
-    if (block) {
-      const { type, editType, props, filterType } = block
-      block &&
-        (await db.buildingBlock.create({
-          data: {
-            type,
-            editType,
-            props,
-            filterType,
-          },
-        }))
-    }
-  }
-  await db.buildingBlock.create({
-    data: {
-      type: "@mantine/core/text",
-      props: {
-        size: "lg",
-        children: "Text",
-      },
-      filterType: "text",
-    },
-  })
+  // await db.buildingBlock.create({
+  //   data: {
+  //     type: "@mantine/core/text",
+  //     props: {
+  //       size: "lg",
+  //       children: "Text",
+  //     },
+  //     filterType: "text",
+  //   },
+  // })
 }
 
 export default seed

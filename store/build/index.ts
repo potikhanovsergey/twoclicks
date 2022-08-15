@@ -7,6 +7,13 @@ import { deflate, traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed, autorun, reaction } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
+import { configure } from "mobx"
+import React, { RefObject } from "react"
+
+configure({
+  enforceActions: "never",
+})
+
 const defaultPalette = {
   primary: "violet",
   // secondary: "blue",
@@ -33,8 +40,11 @@ class Build {
 
   isSaveButtonLoading: boolean = false
 
-  activeEditToolbars: string[] = []
-  openedPalette: string = ""
+  sectionToBeAddedIndex: number | null = null
+  activeEditToolbars: { [key: string]: boolean } = {}
+  openedPalette: string | null = ""
+
+  sectionsRef: RefObject<HTMLDivElement>
 
   constructor() {
     makeAutoObservable(this)
@@ -60,9 +70,15 @@ class Build {
   }
   @action
   push = (block: ICanvasBlock) => {
-    this.data.blocks.push(block)
+    if (this.sectionToBeAddedIndex === null) {
+      this.data.blocks.push(block)
+      traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
+    } else {
+      this.data.blocks.splice(this.sectionToBeAddedIndex, 0, block)
+      traverseAddIDs(BuildStore.data.blocks[this.sectionToBeAddedIndex])
+      this.sectionToBeAddedIndex = null
+    }
     this.hasPortfolioChanged = true
-    traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
   }
 
   @action
@@ -156,6 +172,10 @@ class Build {
         parentArray[indexOfId],
       ]
       this.hasPortfolioChanged = true
+      this.sectionsRef.current
+        ?.querySelectorAll(".builder-block")
+        ?.[indexOfId - 1]?.scrollIntoView({ block: "start" })
+      window.scrollBy(0, -100)
     }
   }
 
@@ -177,6 +197,13 @@ class Build {
         parentArray[indexOfId + 1],
       ]
       this.hasPortfolioChanged = true
+      console.log(this.sectionsRef.current?.querySelectorAll(".builder-block")[indexOfId + 1])
+      setTimeout(() => {
+        this.sectionsRef.current
+          ?.querySelectorAll(".builder-block")
+          ?.[indexOfId + 1]?.scrollIntoView({ block: "start" })
+        window.scrollBy(0, -100)
+      }, 0)
     }
   }
 
@@ -216,7 +243,7 @@ class Build {
       if (session.userId) {
         await updatePortfolioMutation?.(portfolio)
       } else {
-        setCookie(`portfolio-${id}`, deflate(portfolio))
+        localStorage?.setItem(`portfolio-${id}`, deflate(portfolio))
       }
       this.hasPortfolioChanged = false
       this.setIsSaveButtonLoading(false)

@@ -1,16 +1,22 @@
 import { Ctx } from "blitz"
 import db from "db"
 
-export default async function getPortfolioByID({ id }: { id?: string }, ctx: Ctx) {
-  if (!ctx.session?.userId) return null
+export default async function getPortfolioByID(
+  { id, isPublic = true }: { id?: string; isPublic?: boolean },
+  ctx: Ctx
+) {
+  if (!isPublic && !ctx.session.userId) return null
   if (!id) return null
-  try {
+
+  if (isPublic) {
     const portfolio = await db.portfolio.findFirst({
-      where: { id, userId: ctx.session.userId },
+      where: { id },
     })
     return portfolio
-  } catch (e) {
-    console.log("Get portfolio by ID error", e)
-    return null
+  } else if (ctx.session.userId) {
+    const portfolio = await db.portfolio.findFirst({
+      where: { id, userId: isPublic ? undefined : ctx.session.userId },
+    })
+    return portfolio
   }
 }

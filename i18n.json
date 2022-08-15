@@ -1,0 +1,15 @@
+{
+  "locales": ["ru", "en"],
+  "defaultLocale": "ru",
+  "pages": {
+    "*": ["common"],
+    "/": ["pagesHome"],
+    "/404": ["pages404"],
+    "/components": ["pagesComponents"],
+    "/profile": ["pagesProfilePortfolios"],
+    "/profile/premium": ["pagesProfilePremium"],
+    "/profile/statistics": ["pagesProfileStatistics"],
+    "/profile/support": ["pagesProfileSupport"],
+    "/build": ["pagesProfilePortfolios"]
+  }
+}

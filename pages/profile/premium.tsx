@@ -1,6 +1,5 @@
 import { Title } from "@mantine/core"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
+import useTranslation from "next-translate/useTranslation"
 import React from "react"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 
@@ -17,11 +16,3 @@ ProfilePremium.getLayout = getProfileLayout()
 ProfilePremium.suppressFirstRenderFlicker = true
 
 export default ProfilePremium
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["pagesProfilePremium", "common"])),
-    },
-  }
-}

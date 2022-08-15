@@ -1,7 +1,6 @@
 import { LoginForm } from "app/auth/components/LoginForm"
 import { useRouter } from "next/router"
 import AuthLayout from "app/core/layouts/AuthLayout"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import { useEffect, useState } from "react"
 import SignupForm from "app/auth/components/SignupForm"
 import { useRedirectAuthenticated } from "@blitzjs/auth"
@@ -53,11 +52,3 @@ const AuthPage = () => {
 AuthPage.suppressFirstRenderFlicker = true
 
 export default AuthPage
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["common"])),
-    },
-  }
-}

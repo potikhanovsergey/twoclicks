@@ -12,7 +12,7 @@ import {
 import { FaChevronDown, FaSignOutAlt, FaBook } from "react-icons/fa"
 import { AiFillBuild } from "react-icons/ai"
 import { BsPersonFill, BsQuestionCircleFill } from "react-icons/bs"
-import { useTranslation } from "next-i18next"
+import useTranslation from "next-translate/useTranslation"
 // import { signOut, useSession } from 'next-auth/react';
 import { useDisclosure } from "@mantine/hooks"
 import { IoNewspaper } from "react-icons/io5"
@@ -97,9 +97,16 @@ function HeaderProfile() {
   const [menuOpened, setMenuOpened] = useState(false)
 
   useEffect(() => {
-    setMenuOpened(false)
-  }, [router])
+    const handleComplete = () => {
+      setMenuOpened(false)
+    }
 
+    router.events.on("routeChangeComplete", handleComplete)
+
+    return () => {
+      router.events.off("routeChangeComplete", handleComplete)
+    }
+  })
   return (
     <Group position="center">
       {!user && (
@@ -116,13 +123,13 @@ function HeaderProfile() {
         </Link>
       )}
       <Menu
+        opened={menuOpened}
+        onChange={setMenuOpened}
         closeOnClickOutside
         position="bottom-end"
         closeOnItemClick={false}
         width="256px"
         radius="md"
-        opened={menuOpened}
-        onChange={setMenuOpened}
       >
         <Menu.Target>
           <Group
@@ -172,7 +179,7 @@ function HeaderProfile() {
           {/* MENU STARTS */}
           {session.userId && <HeaderMenuItem {...ProfileItem} />}
           {ConstMenuItems.map((menuItem, i) => (
-            <HeaderMenuItem key={i} {...menuItem} />
+            <HeaderMenuItem key={menuItem.title} {...menuItem} />
           ))}
           {/* MENU ENDS */}
           {session.userId && (

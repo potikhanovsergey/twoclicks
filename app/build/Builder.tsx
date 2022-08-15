@@ -10,28 +10,26 @@ import {
   ThemeIcon,
   Group,
 } from "@mantine/core"
-import React, { useContext, useEffect } from "react"
-import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { deflate, renderJSXFromBlock } from "helpers"
+import React, { useRef } from "react"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
 import Onboarding from "./Onboarding"
 import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
-import { setCookie } from "cookies-next"
 import { useRouter } from "next/router"
 import BuilderBlocks from "./BuilderBlocks"
 import { useElementSize } from "@mantine/hooks"
+import { useMutation } from "@blitzjs/rpc"
+import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 
 const useStyles = createStyles((theme) => ({
   builder: {
     width: "100%",
-    height: "calc(100vh - var(--layout-header-height))",
+    height: "100%",
     display: "flex",
     flexFlow: "column",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2],
-    // color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
   canvasContainer: {
     width: "100%",
@@ -46,7 +44,6 @@ const useStyles = createStyles((theme) => ({
     backgroundColor: theme.white,
     color: theme.black,
     boxShadow: theme.shadows.sm,
-    height: "100%",
   },
   header: {
     minHeight: "40px",
@@ -56,13 +53,35 @@ const useStyles = createStyles((theme) => ({
   },
   onboarding: {
     position: "fixed",
-    bottom: "16px",
+    bottom: "24px",
   },
 }))
 
+const SaveRedirectButton = observer(() => {
+  const session = useSession()
+  const router = useRouter()
+
+  const {
+    savePortfolio,
+    data: { id: portfolioID },
+  } = BuildStore
+
+  const [updatePortfolioMutation] = useMutation(updatePortfolio)
+
+  const handleSaveAndRedirect = () => {
+    void savePortfolio({ session, updatePortfolioMutation })
+    void router.push(`/auth/?next=/build/${portfolioID}`)
+  }
+
+  return (
+    <Button color="violet" onClick={handleSaveAndRedirect}>
+      Save and go to the auth page
+    </Button>
+  )
+})
+
 const Builder = () => {
   // const { t } = useTranslation('pagesBuild');
-  const [, setModalContext = () => ({})] = useContext(ModalContext)
 
   const { classes } = useStyles()
   const theme = useMantineTheme()
@@ -70,65 +89,42 @@ const Builder = () => {
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
   const session = useSession()
-  const router = useRouter()
-
-  const handleSaveAndRedirect = () => {
-    const portfolio = {
-      id: BuildStore.data.id,
-      name: BuildStore.data.name,
-      data: BuildStore.data.blocks,
-    }
-    setCookie(`portfolio-${BuildStore.data.id}`, deflate(portfolio))
-    void router.push(`/auth/?next=/build/${portfolio.id}`)
-  }
 
   const { ref: containerRef, width: containerWidth } = useElementSize()
   const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
 
+  const { isCanvasEmpty } = BuildStore
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
-      <ScrollArea
-        className={classes.canvasScroll}
-        styles={{
-          viewport: {
-            "> div": {
-              height: "100%",
-            },
-          },
-        }}
+      <Container
+        size="xl"
+        px={64}
+        py={isCanvasEmpty ? 24 : 64}
+        className={classes.canvasContainer}
+        ref={containerRef}
       >
-        <Container size="xl" px={64} py={16} className={classes.canvasContainer} ref={containerRef}>
-          <Stack spacing={0} className={classes.canvas}>
-            <BuilderBlocks />
-            <Button
-              radius="xs"
-              color="red"
-              onClick={() =>
-                setModalContext((prevValue: IModalContextValue) => ({
-                  ...prevValue,
-                  canvasSectionsModal: true,
-                }))
-              }
-            >
-              Add section
-            </Button>
-          </Stack>
-          {session.userId ? (
-            <div
-              ref={onboardingRef}
-              className={classes.onboarding}
-              style={{
-                left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
-              }}
-            >
-              <Onboarding />
-            </div>
-          ) : (
-            <></>
-          )}
-        </Container>
-      </ScrollArea>
+        <Stack
+          spacing={0}
+          className={classes.canvas}
+          style={{ height: isCanvasEmpty ? "100%" : "auto" }}
+        >
+          <BuilderBlocks />
+        </Stack>
+        {session.userId ? (
+          <div
+            ref={onboardingRef}
+            className={classes.onboarding}
+            style={{
+              left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
+            }}
+          >
+            <Onboarding />
+          </div>
+        ) : (
+          <></>
+        )}
+      </Container>
       <Modal
         opened={BuildStore.sectionsCount >= 3 && !session.userId}
         onClose={() => 1}
@@ -160,9 +156,7 @@ const Builder = () => {
               <MdOutlineEmojiNature size={24} />
             </ThemeIcon>
           </Group>
-          <Button color="violet" onClick={handleSaveAndRedirect}>
-            Save and go to the auth page
-          </Button>
+          <SaveRedirectButton />
         </Stack>
       </Modal>
     </div>

@@ -10,9 +10,10 @@ import {
   Badge,
   List,
   UnstyledButton,
+  Stack,
 } from "@mantine/core"
 import { useEffect, useState } from "react"
-// import { useTranslation } from 'next-i18next';
+import useTranslation from "next-translate/useTranslation"
 import { IoIosRocket } from "react-icons/io"
 import { useHover } from "@mantine/hooks"
 import { AiOutlineEdit } from "react-icons/ai"
@@ -42,8 +43,8 @@ const Onboarding = () => {
           y2="0%"
           gradientTransform="rotate(60)"
         >
-          <stop stopColor={theme.colors.teal[5]} offset="0%" />
-          <stop stopColor={theme.colors.blue[5]} offset="100%" />
+          <stop stopColor={theme.colors.violet[5]} offset="0%" />
+          <stop stopColor={theme.colors.red[5]} offset="100%" />
         </linearGradient>
       </svg>
       <Popover
@@ -75,7 +76,7 @@ const Onboarding = () => {
                 radius="xl"
                 variant="gradient"
                 size="xl"
-                gradient={{ from: theme.colors.violet[5], to: theme.colors.teal[5], deg: 35 }}
+                gradient={{ from: theme.colors.violet[5], to: theme.colors.red[5], deg: 35 }}
               >
                 <IoIosRocket size={24} />
               </ThemeIcon>
@@ -97,74 +98,58 @@ const Onboarding = () => {
             <Text size="xs" color={theme.colorScheme === "dark" ? theme.white : theme.black}>
               60% complete
             </Text>
-            <Badge color="cyan" size="xs" radius="sm" variant="light">
+            <Badge
+              size="xs"
+              radius="sm"
+              variant="gradient"
+              gradient={{ from: "violet", to: "red" }}
+            >
               10% discount reward
             </Badge>
           </Group>
           <Progress mb="sm" />
-          <List
-            size="sm"
-            spacing={4}
-            styles={{
-              itemWrapper: {
-                display: "flex !important",
-                flexDirection: "row-reverse",
-                justifyContent: "space-between",
-                alignItems: "center !important",
-              },
-              itemIcon: {
-                display: "flex !important",
-                alignItems: "center",
-                marginRight: 0,
-              },
-            }}
-          >
-            <List.Item
-              icon={
-                <ActionIcon color="indigo" variant="light">
-                  <HiOutlineTemplate size={16} />
-                </ActionIcon>
-              }
-            >
-              Select a Template
-            </List.Item>
-            <List.Item
-              icon={
-                <ActionIcon color="indigo" variant="light">
-                  <AiOutlineEdit size={16} />
-                </ActionIcon>
-              }
-            >
-              Edit a component/section
-            </List.Item>
-            <List.Item
-              icon={
-                <ActionIcon color="indigo" variant="light">
-                  <BsPalette size={16} />
-                </ActionIcon>
-              }
-            >
-              Change the Palette
-            </List.Item>
-            <List.Item
-              icon={
-                <ActionIcon color="indigo" variant="light">
-                  <MdOutlineAddBox size={16} />
-                </ActionIcon>
-              }
-            >
-              Add a new Section
-            </List.Item>
-            <List.Item
-              icon={
-                <ActionIcon color="indigo" variant="light">
-                  <MdOutlinePreview size={16} />
-                </ActionIcon>
-              }
-            >
-              Preview the Portfolio
-            </List.Item>
-          </List>
+          <Stack spacing={4}>
+            <Group position="apart">
+              <Text size="sm" color="gray">
+                Select a Template
+              </Text>
+              <ActionIcon color="indigo" variant="light">
+                <HiOutlineTemplate size={16} />
+              </ActionIcon>
+            </Group>
+            <Group position="apart">
+              <Text size="sm" color="gray">
+                Edit a component/section
+              </Text>
+              <ActionIcon color="indigo" variant="light">
+                <AiOutlineEdit size={16} />
+              </ActionIcon>
+            </Group>
+            <Group position="apart">
+              <Text size="sm" color="gray">
+                Change the Palette
+              </Text>
+              <ActionIcon color="indigo" variant="light">
+                <BsPalette size={16} />
+              </ActionIcon>
+            </Group>
+            <Group position="apart">
+              <Text size="sm" color="gray">
+                Add a new Section
+              </Text>
+              <ActionIcon color="indigo" variant="light">
+                <MdOutlineAddBox size={16} />
+              </ActionIcon>
+            </Group>
+            <Group position="apart">
+              <Text size="sm" color="gray">
+                Preview the Portfolio
+              </Text>
+              <ActionIcon color="indigo" variant="light">
+                <MdOutlinePreview size={16} />
+              </ActionIcon>
+            </Group>
+          </Stack>
         </Popover.Dropdown>
       </Popover>
     </>

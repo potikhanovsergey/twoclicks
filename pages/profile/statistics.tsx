@@ -1,12 +1,11 @@
 import { Player } from "@lottiefiles/react-lottie-player"
 import { Box, Center, SegmentedControl, Text, Title } from "@mantine/core"
-import { useTranslation } from "next-i18next"
-import { serverSideTranslations } from "next-i18next/serverSideTranslations"
 import React, { useState } from "react"
 import { MdOutlineCalendarViewMonth, MdViewWeek, MdViewDay } from "react-icons/md"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import statBars from "lotties/stat-bars.json"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
+import useTranslation from "next-translate/useTranslation"
 
 const ProfileStatistics = () => {
   const { t } = useTranslation("pagesProfileStatistics")
@@ -64,11 +63,3 @@ ProfileStatistics.getLayout = getProfileLayout()
 ProfileStatistics.suppressFirstRenderFlicker = true
 
 export default ProfileStatistics
-
-export async function getStaticProps({ locale }: { locale: string }) {
-  return {
-    props: {
-      ...(await serverSideTranslations(locale, ["pagesProfileStatistics", "common"])),
-    },
-  }
-}

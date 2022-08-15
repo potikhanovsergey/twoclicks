@@ -90,7 +90,7 @@ const Page404 = () => {
         <Stack>
           <Title align="center">Oops, page not found!</Title>
           <Center>
-            <Player autoplay loop src={error_404} style={{ height: "300px", width: "400px" }} />
+            <Player autoplay loop src={error_404} style={{ height: "300px", width: "300px" }} />
           </Center>
           <Group position="center">
             <Suspense fallback={<Skeleton height={45} animate />}>
