@@ -23,6 +23,19 @@ import PortfolioLink from "./PortfolioLink"
 import SaveButton from "./SaveButton"
 import TogglePublishPortfilio from "./TogglePublishPortfolio"
 
+const AuthorizedActions = () => {
+  const session = useSession()
+
+  return session.userId ? (
+    <>
+      {BuildStore.data.id && <PortfolioLink id={BuildStore.data.id} withEllipsis={true} />}
+      <TogglePublishPortfilio />
+    </>
+  ) : (
+    <></>
+  )
+}
+
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
   const theme = useMantineTheme()
@@ -34,8 +47,16 @@ const BuilderHeader = ({ className }: { className?: string }) => {
       <Container size="xl">
         <Group style={{ width: "100%" }} position="apart">
           <Group spacing={32} align="center">
-            {BuildStore.data.id && <PortfolioLink id={BuildStore.data.id} withEllipsis={true} />}
-            <TogglePublishPortfilio />
+            <Suspense
+              fallback={
+                <Group>
+                  <Skeleton height={32} width={90} />
+                  <Skeleton height={32} width={90} />
+                </Group>
+              }
+            >
+              <AuthorizedActions />
+            </Suspense>
             <PaletteItems />
           </Group>
           <Group spacing={8}>
