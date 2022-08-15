@@ -8,6 +8,7 @@ import { makeAutoObservable, action, computed, autorun, reaction } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
 import { configure } from "mobx"
+import React, { RefObject } from "react"
 
 configure({
   enforceActions: "never",
@@ -42,6 +43,8 @@ class Build {
   sectionToBeAddedIndex: number | null = null
   activeEditToolbars: { [key: string]: boolean } = {}
   openedPalette: string | null = ""
+
+  sectionsRef: RefObject<HTMLDivElement>
 
   constructor() {
     makeAutoObservable(this)
@@ -169,6 +172,10 @@ class Build {
         parentArray[indexOfId],
       ]
       this.hasPortfolioChanged = true
+      this.sectionsRef.current
+        ?.querySelectorAll(".builder-block")
+        [indexOfId - 1].scrollIntoView({ block: "start" })
+      window.scrollBy(0, -100)
     }
   }
 
@@ -190,6 +197,13 @@ class Build {
         parentArray[indexOfId + 1],
       ]
       this.hasPortfolioChanged = true
+      console.log(this.sectionsRef.current?.querySelectorAll(".builder-block")[indexOfId + 1])
+      setTimeout(() => {
+        this.sectionsRef.current
+          ?.querySelectorAll(".builder-block")
+          [indexOfId + 1].scrollIntoView({ block: "start" })
+        window.scrollBy(0, -100)
+      }, 0)
     }
   }
 

@@ -3,7 +3,7 @@ import SafeWrapper from "app/core/components/SafeWrapper"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { renderJSXFromBlock } from "helpers"
 import { observer } from "mobx-react-lite"
-import React, { useContext } from "react"
+import React, { useContext, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
 import { GrNewWindow } from "react-icons/gr"
 import { FiPlusSquare } from "react-icons/fi"
@@ -15,8 +15,13 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
 
   const [, setModalContext = () => ({})] = useContext(ModalContext)
 
+  const sectionsRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    BuildStore.sectionsRef = sectionsRef
+  }, [sectionsRef])
   return (
-    <div className={className} style={{ height: "100%" }}>
+    <div className={className} style={{ height: "100%" }} ref={sectionsRef}>
       {blocks && blocks.length > 0 ? (
         blocks.map((b, i) => {
           const JSX = renderJSXFromBlock({
@@ -30,9 +35,11 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
           })
           if (JSX) {
             return (
-              <SafeWrapper resetKeys={[JSX]} key={b.id}>
-                {JSX}
-              </SafeWrapper>
+              <div className="builder-block" key={b.id}>
+                <SafeWrapper resetKeys={[JSX]} key={b.id}>
+                  {JSX}
+                </SafeWrapper>
+              </div>
             )
           }
           return <React.Fragment key={i} />
