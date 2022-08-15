@@ -203,7 +203,6 @@ const DashboardIndex = () => {
                   if (selectedDBElement) {
                     const data = JSON.parse(json) as BuildingBlock
                     await updateBuildingBlockMutation({ id: selectedDBElement.id, data })
-                    void refetchBuildingBlocks()
                   }
                 }}
               >
@@ -214,7 +213,6 @@ const DashboardIndex = () => {
                 onClick={async () => {
                   if (selectedDBElement) {
                     await deleteBuildingBlockMutation({ id: selectedDBElement.id })
-                    void refetchBuildingBlocks()
                     setSelectedDBElement(null)
                     setSelectedSectionType(null)
                     setJson("")
