@@ -174,7 +174,7 @@ class Build {
       this.hasPortfolioChanged = true
       this.sectionsRef.current
         ?.querySelectorAll(".builder-block")
-        [indexOfId - 1].scrollIntoView({ block: "start" })
+        ?.[indexOfId - 1]?.scrollIntoView({ block: "start" })
       window.scrollBy(0, -100)
     }
   }
@@ -201,7 +201,7 @@ class Build {
       setTimeout(() => {
         this.sectionsRef.current
           ?.querySelectorAll(".builder-block")
-          [indexOfId + 1].scrollIntoView({ block: "start" })
+          ?.[indexOfId + 1]?.scrollIntoView({ block: "start" })
         window.scrollBy(0, -100)
       }, 0)
     }
