@@ -159,7 +159,7 @@ const WithEditToolbar = ({
       trapFocus={false}
       withArrow={editType !== "section"}
       opened={isElementActive || activeEditToolbars[id]}
-      position={editType === "section" ? "right" : "top-end"}
+      position={editType === "section" ? "right-end" : "top-end"}
       offset={editType === "section" ? 0 : undefined}
     >
       <Popover.Target>
