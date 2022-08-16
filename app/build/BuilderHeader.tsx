@@ -17,25 +17,44 @@ import { observer } from "mobx-react-lite"
 import React, { Suspense, useEffect } from "react"
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
 import { FaSave } from "react-icons/fa"
+import { MdOutlinePreview } from "react-icons/md"
 import { BuildStore } from "store/build"
 import PaletteItems from "./PaletteItems"
 import PortfolioLink from "./PortfolioLink"
+import PreviewButton from "./PreviewButton"
 import SaveButton from "./SaveButton"
 import TogglePublishPortfilio from "./TogglePublishPortfolio"
 import ViewportButtons from "./ViewportButtons"
 
-const AuthorizedActions = () => {
+const AuthorizedActions = observer(() => {
   const session = useSession()
+  const {
+    data: { id },
+  } = BuildStore
 
   return session.userId ? (
     <>
-      {BuildStore.data.id && <PortfolioLink id={BuildStore.data.id} withEllipsis={true} />}
+      {id && <PortfolioLink id={id} withEllipsis={true} />}
       <TogglePublishPortfilio />
     </>
   ) : (
     <></>
   )
-}
+})
+
+const ObservePreviewPortfolio = observer(() => {
+  const { isCanvasEmpty } = BuildStore
+
+  return !isCanvasEmpty ? (
+    <Tooltip label="Preview mode" position="bottom" color="violet" withArrow>
+      <PreviewButton variant="filled" color="violet" size={30}>
+        <MdOutlinePreview size={16} />
+      </PreviewButton>
+    </Tooltip>
+  ) : (
+    <></>
+  )
+})
 
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
@@ -62,6 +81,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
           </Group>
           <Group spacing={8}>
             <ViewportButtons color="violet" size={30} variant="filled" />
+            <ObservePreviewPortfolio />
             <Tooltip
               color="violet"
               label="Toggle fullscreen mode"
