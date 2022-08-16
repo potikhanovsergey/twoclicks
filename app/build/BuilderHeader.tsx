@@ -22,6 +22,7 @@ import PaletteItems from "./PaletteItems"
 import PortfolioLink from "./PortfolioLink"
 import SaveButton from "./SaveButton"
 import TogglePublishPortfilio from "./TogglePublishPortfolio"
+import ViewportButtons from "./ViewportButtons"
 
 const AuthorizedActions = () => {
   const session = useSession()
@@ -60,6 +61,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <PaletteItems />
           </Group>
           <Group spacing={8}>
+            <ViewportButtons color="violet" size={30} variant="filled" />
             <Tooltip
               color="violet"
               label="Toggle fullscreen mode"
