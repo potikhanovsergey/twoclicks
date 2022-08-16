@@ -159,8 +159,8 @@ const WithEditToolbar = ({
       trapFocus={false}
       withArrow={editType !== "section"}
       opened={isElementActive || activeEditToolbars[id]}
-      position="top-end"
-      offset={editType === "section" ? -36 : undefined}
+      position={editType === "section" ? "right" : "top-end"}
+      offset={editType === "section" ? 0 : undefined}
     >
       <Popover.Target>
         <Box
@@ -186,7 +186,13 @@ const WithEditToolbar = ({
         </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>
-        <Group noWrap spacing={4} onMouseEnter={openPopover} onMouseLeave={closePopover}>
+        <Group
+          noWrap
+          spacing={4}
+          onMouseEnter={openPopover}
+          onMouseLeave={closePopover}
+          style={{ flexDirection: editType === "section" ? "column" : "row" }}
+        >
           {name && (
             <Text
               ml="xs"
@@ -197,7 +203,8 @@ const WithEditToolbar = ({
                 textTransform: "capitalize",
               })}
             >
-              {name} {editType === "section" && sectionNumber !== null && ` ${sectionNumber}`}
+              {editType !== "section" && name}
+              {/* {editType === "section" && sectionNumber !== null && ` ${sectionNumber}`} */}
             </Text>
           )}
           {type && TypeVariants[type.toLowerCase()] && (
