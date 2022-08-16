@@ -18,13 +18,15 @@ const PortfolioPage = () => {
 
   const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
     getPortfolioByID,
-    { id: portfolioID },
+    { id: portfolioID, isPublic: true },
     { refetchOnWindowFocus: false }
   )
   useEffect(() => {
     const getPortfolio = async () => {
       let p: IPortfolio | null = null
-      p = getPortfolioWithInflatedData(portfolioFromDB)
+      if (portfolioFromDB) {
+        p = getPortfolioWithInflatedData(portfolioFromDB)
+      }
       setPortfolio(p)
     }
     void getPortfolio()

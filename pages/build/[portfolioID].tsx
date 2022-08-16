@@ -73,6 +73,7 @@ const BuildPage = () => {
         id: portfolio.id,
         palette: portfolio.palette,
         flattenBlocks: {},
+        isPublished: portfolio.isPublished,
       })
     }
     // return () => resetData()
