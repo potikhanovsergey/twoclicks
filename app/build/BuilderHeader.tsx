@@ -29,13 +29,17 @@ import ViewportButtons from "./ViewportButtons"
 const AuthorizedActions = observer(() => {
   const session = useSession()
   const {
-    data: { id },
+    data: { id, isPublished },
   } = BuildStore
 
   return session.userId ? (
     <>
-      {id && <PortfolioLink id={id} withEllipsis={true} />}
-      <TogglePublishPortfilio />
+      {id && typeof isPublished === "boolean" && (
+        <PortfolioLink id={id} withEllipsis={true} isPublished={isPublished} />
+      )}
+      {id && typeof isPublished === "boolean" && (
+        <TogglePublishPortfilio id={id} isPublished={isPublished} />
+      )}
     </>
   ) : (
     <></>

@@ -18,6 +18,7 @@ const PortfolioCardsItems = observer(() => {
           id={portfolio.id}
           updatedAt={portfolio.updatedAt}
           key={portfolio.id}
+          isPublished={portfolio.isPublished}
         />
       ))}
     </ul>

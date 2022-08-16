@@ -24,9 +24,9 @@ import { AppStore } from "store"
 import PortfolioLink from "app/build/PortfolioLink"
 import TogglePublishPortfilio from "app/build/TogglePublishPortfolio"
 
-export type PortfolioPreview = Pick<Portfolio, "name" | "id" | "updatedAt">
+export type PortfolioPreview = Pick<Portfolio, "name" | "id" | "updatedAt" | "isPublished">
 
-const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
+const PortfolioCard = ({ name, id, updatedAt, isPublished }: PortfolioPreview) => {
   // const { t } = useTranslation('pagesBuild');
   const theme = useMantineTheme()
 
@@ -76,9 +76,9 @@ const PortfolioCard = ({ name, id, updatedAt }: PortfolioPreview) => {
           <Text weight="bold" size="xl">
             {name}
           </Text>
-          <PortfolioLink id={id} />
+          <PortfolioLink id={id} isPublished={isPublished} />
           <Space h="xs" />
-          <TogglePublishPortfilio />
+          <TogglePublishPortfilio id={id} isPublished={isPublished} />
         </Stack>
         <Stack spacing="xs">
           <Group spacing="xs">
