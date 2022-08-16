@@ -20,6 +20,7 @@ import { AiOutlineEdit } from "react-icons/ai"
 import { BsPalette } from "react-icons/bs"
 import { MdOutlineAddBox, MdOutlinePreview } from "react-icons/md"
 import { HiOutlineTemplate } from "react-icons/hi"
+import PreviewButton from "./PreviewButton"
 
 const Onboarding = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -145,9 +146,9 @@ const Onboarding = () => {
               <Text size="sm" color="gray">
                 Preview the Portfolio
               </Text>
-              <ActionIcon color="indigo" variant="light">
+              <PreviewButton color="indigo" variant="light">
                 <MdOutlinePreview size={16} />
-              </ActionIcon>
+              </PreviewButton>
             </Group>
           </Stack>
         </Popover.Dropdown>
