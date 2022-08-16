@@ -5,6 +5,7 @@ import {
   ButtonProps,
   Group,
   Popover,
+  Stack,
   Text,
   useMantineTheme,
 } from "@mantine/core"
@@ -27,6 +28,7 @@ import {
   getThemeColorValueArray,
   hasElementPalette,
   PaletteTypePropColor,
+  TypeVariants,
 } from "helpers"
 import { i } from "@blitzjs/auth/dist/index-57d74361"
 import PaletteItem from "./PaletteItem"
@@ -35,6 +37,7 @@ import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
+import { FaMagic } from "react-icons/fa"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -97,6 +100,7 @@ const WithEditToolbar = ({
     changeProp,
     activeEditToolbars,
     openedPalette,
+    openedVariant,
   } = BuildStore
 
   const hasMoves = useMemo(() => {
@@ -134,6 +138,7 @@ const WithEditToolbar = ({
 
       if (!activeValue) {
         BuildStore.openedPalette = null
+        BuildStore.openedVariant = null
       }
     }
   }, [editableOpened, popoverOpened])
@@ -193,6 +198,48 @@ const WithEditToolbar = ({
               >
                 {name} {editType === "section" && sectionNumber !== null && ` ${sectionNumber}`}
               </Text>
+            )}
+            {type && TypeVariants[type.toLowerCase()] && (
+              <Popover
+                position="top"
+                closeOnClickOutside={false}
+                offset={2}
+                defaultOpened={id === openedVariant}
+                onOpen={() => (BuildStore.openedVariant = id)}
+                onClose={() => (BuildStore.openedVariant = null)}
+              >
+                <Popover.Target>
+                  <ActionIcon color="violet">
+                    <FaMagic />
+                  </ActionIcon>
+                </Popover.Target>
+                <Popover.Dropdown p={4}>
+                  <Stack spacing={0} align="stretch">
+                    {TypeVariants[type.toLowerCase()].map((variant) => (
+                      <Button
+                        sx={({}) => ({ textTransform: "capitalize" })}
+                        variant="subtle"
+                        size="sm"
+                        compact
+                        key={variant}
+                        disabled={
+                          props?.variant === undefined
+                            ? variant === "filled"
+                            : variant === props?.variant
+                        }
+                        onClick={() => [
+                          changeProp({
+                            id,
+                            newProps: { variant },
+                          }),
+                        ]}
+                      >
+                        {variant}
+                      </Button>
+                    ))}
+                  </Stack>
+                </Popover.Dropdown>
+              </Popover>
             )}
             {type &&
               hasElementPalette(type.toLowerCase()) &&

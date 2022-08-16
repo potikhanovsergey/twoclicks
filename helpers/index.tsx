@@ -18,9 +18,6 @@ import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
 import { IconBaseProps } from "react-icons"
-import { useMutation } from "@blitzjs/rpc"
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
-import { useSession } from "@blitzjs/auth"
 import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
@@ -99,6 +96,12 @@ export const PaletteTypePropColor: {
     prop: "color",
     color: "primary",
   },
+}
+
+export const TypeVariants: {
+  [key: string]: string[]
+} = {
+  "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle"],
 }
 
 export function hasElementPalette(type: string) {

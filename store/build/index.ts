@@ -43,6 +43,7 @@ class Build {
   sectionToBeAddedIndex: number | null = null
   activeEditToolbars: { [key: string]: boolean } = {}
   openedPalette: string | null = null
+  openedVariant: string | null = null
 
   sectionsRef: RefObject<HTMLDivElement>
 
