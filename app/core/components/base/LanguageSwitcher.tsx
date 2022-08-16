@@ -1,4 +1,4 @@
-import { ActionIcon, Divider, Menu, Tooltip } from "@mantine/core"
+import { ActionIcon, Divider, Menu, Tooltip, useMantineColorScheme } from "@mantine/core"
 import { useClickOutside, useDisclosure, useHover, useLocalStorage } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
@@ -25,6 +25,8 @@ const LanguageSwitcher = () => {
   const [menuOpened, menuOpenedHandlers] = useDisclosure(false)
   const clickOutsideMenuRef = useClickOutside(() => menuOpenedHandlers.close())
 
+  const { colorScheme } = useMantineColorScheme()
+
   useEffect(() => {
     if (!menuOpened) {
       setTooltipOpened(tooltipHovered)
@@ -41,6 +43,7 @@ const LanguageSwitcher = () => {
       withArrow
       id="Change language tooltip"
       color="violet"
+      position="bottom"
     >
       <div ref={clickOutsideMenuRef}>
         <Menu
@@ -62,8 +65,8 @@ const LanguageSwitcher = () => {
               ref={tooltipRef}
               onClick={() => 1}
               size="lg"
-              color="violet"
-              variant="filled"
+              color={colorScheme === "dark" ? "dark" : "gray"}
+              variant={colorScheme === "dark" ? "filled" : "light"}
             >
               <IoLanguageSharp />
             </ActionIcon>

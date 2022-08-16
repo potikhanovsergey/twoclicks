@@ -7,13 +7,19 @@ function ColorSchemeToggle() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()
   const { t } = useTranslation("common")
   return (
-    <Tooltip label={t("switchTheme")} withArrow id="Switch theme tooltip" color="violet">
+    <Tooltip
+      label={t("switchTheme")}
+      withArrow
+      id="Switch theme tooltip"
+      color="violet"
+      position="bottom"
+    >
       <ActionIcon
         aria-describedby="Switch theme tooltip"
         onClick={() => toggleColorScheme()}
         size="lg"
-        color="violet"
-        variant="filled"
+        color={colorScheme === "dark" ? "dark" : "gray"}
+        variant={colorScheme === "dark" ? "filled" : "light"}
       >
         {colorScheme === "dark" ? (
           <ImSun width={20} height={20} />
