@@ -4,6 +4,7 @@ import { useHover } from "@mantine/hooks"
 import togglePortfolioPublished from "app/portfolios/mutations/togglePortfolioPublished"
 import { observer } from "mobx-react-lite"
 import { ChangeEventHandler, useEffect, useState } from "react"
+import { FaEyeSlash, FaEye } from "react-icons/fa"
 import { BuildStore } from "store/build"
 
 interface ITogglePublishPortfolio {
@@ -28,7 +29,13 @@ const TogglePublishPortfilio = ({ id, isPublished }: ITogglePublishPortfolio) =>
     }
   }, [isSuccess])
   return (
-    <Button color="violet" onClick={handleToggle} size="xs" loading={isLoading}>
+    <Button
+      color="violet"
+      onClick={handleToggle}
+      size="xs"
+      loading={isLoading}
+      leftIcon={isPortfolioPublished ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
+    >
       {isPortfolioPublished ? "Hide portfolio" : "Publish portfolio"}
     </Button>
   )
