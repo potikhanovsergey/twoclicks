@@ -9,6 +9,7 @@ import {
   useMantineTheme,
   ThemeIcon,
   Group,
+  MantineProvider,
 } from "@mantine/core"
 import React, { useRef } from "react"
 import { BuildStore } from "store/build"
@@ -115,7 +116,9 @@ const Builder = () => {
           className={classes.canvas}
           style={{ height: isCanvasEmpty ? "100%" : "auto" }}
         >
-          <BuilderBlocks />
+          <MantineProvider inherit theme={{ colorScheme: "light" }}>
+            <BuilderBlocks />
+          </MantineProvider>
           {session.userId ? (
             <div
               ref={onboardingRef}

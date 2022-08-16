@@ -35,19 +35,6 @@ const Onboarding = () => {
 
   return (
     <>
-      <svg width="0" height="0">
-        <linearGradient
-          id="onboarding-rocket-gradient"
-          x1="100%"
-          y1="100%"
-          x2="0%"
-          y2="0%"
-          gradientTransform="rotate(60)"
-        >
-          <stop stopColor={theme.colors.violet[5]} offset="0%" />
-          <stop stopColor={theme.colors.red[5]} offset="100%" />
-        </linearGradient>
-      </svg>
       <Popover
         position="top-start"
         opened={popoverOpened}
@@ -66,13 +53,7 @@ const Onboarding = () => {
               },
             })}
           >
-            <Tooltip
-              label="Getting Started"
-              opened={tooltipOpened}
-              color="violet"
-              withArrow
-              position="top"
-            >
+            <Tooltip label="Getting Started" opened={tooltipOpened} color="violet" position="top">
               <ThemeIcon
                 sx={() => ({
                   WebkitBoxShadow: "0px 5px 10px 2px rgba(34, 60, 80, 0.2)",
@@ -99,7 +80,7 @@ const Onboarding = () => {
             >
               Getting Started!
             </Text>
-            <IoIosRocket size={24} style={{ fill: "url(#onboarding-rocket-gradient)" }} />
+            <IoIosRocket size={24} style={{ fill: "url(#violet-red-gradient)" }} />
           </Group>
           <Group align="center" position="apart" noWrap mb={4}>
             <Text size="xs" color={theme.colorScheme === "dark" ? theme.white : theme.black}>

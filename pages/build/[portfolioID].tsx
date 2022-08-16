@@ -1,4 +1,11 @@
-import { Text, Loader, Center, LoadingOverlay } from "@mantine/core"
+import {
+  Text,
+  Loader,
+  Center,
+  LoadingOverlay,
+  ColorSchemeProvider,
+  MantineProvider,
+} from "@mantine/core"
 import { Suspense, useEffect, useState } from "react"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
@@ -15,6 +22,7 @@ import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import CubeLoader from "app/core/components/CubeLoader"
+import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 
 const BuildPage = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -94,6 +102,7 @@ const BuildPage = () => {
           <Builder />
           <CanvasComponentsModal />
           <CanvasSectionsModal />
+          <VioletRedGradient />
         </Suspense>
       ) : (
         <Center style={{ height: "100%" }}>

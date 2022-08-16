@@ -1,4 +1,4 @@
-import { Text, Loader, Center, LoadingOverlay } from "@mantine/core"
+import { Text, Loader, Center, LoadingOverlay, MantineProvider } from "@mantine/core"
 import { Suspense, useEffect, useState } from "react"
 import useTranslation from "next-translate/useTranslation"
 import { getPortfolioWithInflatedData } from "helpers"
@@ -9,6 +9,7 @@ import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import Portfolio from "app/p/Portfolio"
 import CubeLoader from "app/core/components/CubeLoader"
+import { ThemeProvider } from "@emotion/react"
 
 const PortfolioPage = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -41,7 +42,9 @@ const PortfolioPage = () => {
     <>
       {portfolio ? (
         <Suspense fallback={<Loader />}>
-          <Portfolio portfolio={portfolio} />
+          <MantineProvider inherit theme={{ colorScheme: "light" }}>
+            <Portfolio portfolio={portfolio} />
+          </MantineProvider>
         </Suspense>
       ) : (
         <Center style={{ height: "100%" }}>

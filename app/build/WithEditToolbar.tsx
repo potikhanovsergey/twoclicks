@@ -210,7 +210,7 @@ const WithEditToolbar = ({
               >
                 <Popover.Target>
                   <ActionIcon color="violet">
-                    <FaMagic />
+                    <FaMagic style={{ fill: "url(#violet-red-gradient)" }} />
                   </ActionIcon>
                 </Popover.Target>
                 <Popover.Dropdown p={4}>
