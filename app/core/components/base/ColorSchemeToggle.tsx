@@ -18,7 +18,7 @@ function ColorSchemeToggle() {
         aria-describedby="Switch theme tooltip"
         onClick={() => toggleColorScheme()}
         size="lg"
-        color={colorScheme === "dark" ? "dark" : "gray"}
+        color={colorScheme === "dark" ? "dark.4" : "gray"}
         variant={colorScheme === "dark" ? "filled" : "light"}
       >
         {colorScheme === "dark" ? (

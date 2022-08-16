@@ -57,6 +57,7 @@ const PaletteItem = (props: IPaletteItem) => {
           {withReset && onResetClick && (
             <Button
               size="sm"
+              fullWidth
               onClick={onResetClick}
               compact
               variant="subtle"

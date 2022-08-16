@@ -65,7 +65,7 @@ const LanguageSwitcher = () => {
               ref={tooltipRef}
               onClick={() => 1}
               size="lg"
-              color={colorScheme === "dark" ? "dark" : "gray"}
+              color={colorScheme === "dark" ? "dark.4" : "gray"}
               variant={colorScheme === "dark" ? "filled" : "light"}
             >
               <IoLanguageSharp />
