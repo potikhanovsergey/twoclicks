@@ -3,7 +3,11 @@ import { useMantineTheme } from "@mantine/core"
 const VioletRedGradient = () => {
   const theme = useMantineTheme()
   return (
-    <svg width="0" height="0" style={{ visibility: "hidden", position: "absolute" }}>
+    <svg
+      width="0"
+      height="0"
+      style={{ visibility: "hidden", position: "absolute", overflow: "hidden" }}
+    >
       <linearGradient
         id="violet-red-gradient"
         x1="100%"

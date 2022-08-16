@@ -4,6 +4,7 @@ import {
   Button,
   ButtonProps,
   Group,
+  Menu,
   Popover,
   Stack,
   Text,
@@ -185,121 +186,118 @@ const WithEditToolbar = ({
         </Box>
       </Popover.Target>
       <Popover.Dropdown style={{ padding: 0 }}>
-        <Group noWrap spacing={0} onMouseEnter={openPopover} onMouseLeave={closePopover}>
-          <Group spacing={4} pl="xs" align="center">
-            {name && (
-              <Text
-                size="sm"
-                weight="bold"
-                sx={(theme) => ({
-                  color: theme.colorScheme === "dark" ? theme.white : theme.black,
-                  textTransform: "capitalize",
+        <Group noWrap spacing={4} onMouseEnter={openPopover} onMouseLeave={closePopover}>
+          {name && (
+            <Text
+              ml="xs"
+              size="sm"
+              weight="bold"
+              sx={(theme) => ({
+                color: theme.colorScheme === "dark" ? theme.white : theme.black,
+                textTransform: "capitalize",
+              })}
+            >
+              {name} {editType === "section" && sectionNumber !== null && ` ${sectionNumber}`}
+            </Text>
+          )}
+          {type && TypeVariants[type.toLowerCase()] && (
+            <Menu
+              position="top"
+              closeOnClickOutside={false}
+              offset={0}
+              defaultOpened={id === openedVariant}
+              onOpen={() => (BuildStore.openedVariant = id)}
+              onClose={() => (BuildStore.openedVariant = null)}
+              closeOnItemClick={false}
+            >
+              <Menu.Target>
+                <ActionIcon color="violet">
+                  <FaMagic style={{ fill: "url(#violet-red-gradient)" }} />
+                </ActionIcon>
+              </Menu.Target>
+              <Menu.Dropdown p={0}>
+                <Stack spacing={0} align="stretch">
+                  {TypeVariants[type.toLowerCase()].map((variant) => (
+                    <Button
+                      sx={({}) => ({ textTransform: "capitalize" })}
+                      variant="subtle"
+                      size="sm"
+                      compact
+                      key={variant}
+                      disabled={
+                        props?.variant === undefined
+                          ? variant === "filled"
+                          : variant === props?.variant
+                      }
+                      onClick={() => [
+                        changeProp({
+                          id,
+                          newProps: { variant },
+                        }),
+                      ]}
+                    >
+                      {variant}
+                    </Button>
+                  ))}
+                </Stack>
+              </Menu.Dropdown>
+            </Menu>
+          )}
+          {type &&
+            hasElementPalette(type.toLowerCase()) &&
+            props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
+              <PaletteItem
+                currentPaletteColor={
+                  palette?.[PaletteTypePropColor[type.toLowerCase()].color]
+                    ? getHexFromThemeColor({
+                        theme,
+                        color: palette?.[PaletteTypePropColor[type.toLowerCase()].color],
+                      })
+                    : undefined
+                }
+                defaultOpened={id === openedPalette}
+                onOpen={() => (BuildStore.openedPalette = id)}
+                onClose={() => (BuildStore.openedPalette = null)}
+                popoverPosition="top"
+                offset={6}
+                color={getHexFromThemeColor({
+                  theme,
+                  color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
                 })}
-              >
-                {name} {editType === "section" && sectionNumber !== null && ` ${sectionNumber}`}
-              </Text>
+                withReset={
+                  element?.props?.[PaletteTypePropColor[type.toLowerCase()].prop] !== undefined
+                }
+                onColorChange={(value) => {
+                  changeProp({
+                    id,
+                    newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: value },
+                  })
+                }}
+                onResetClick={() => {
+                  changeProp({
+                    id,
+                    newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: undefined },
+                  })
+                }}
+              />
             )}
-            {type && TypeVariants[type.toLowerCase()] && (
-              <Popover
-                position="top"
-                closeOnClickOutside={false}
-                offset={2}
-                defaultOpened={id === openedVariant}
-                onOpen={() => (BuildStore.openedVariant = id)}
-                onClose={() => (BuildStore.openedVariant = null)}
-              >
-                <Popover.Target>
-                  <ActionIcon color="violet">
-                    <FaMagic style={{ fill: "url(#violet-red-gradient)" }} />
-                  </ActionIcon>
-                </Popover.Target>
-                <Popover.Dropdown p={4}>
-                  <Stack spacing={0} align="stretch">
-                    {TypeVariants[type.toLowerCase()].map((variant) => (
-                      <Button
-                        sx={({}) => ({ textTransform: "capitalize" })}
-                        variant="subtle"
-                        size="sm"
-                        compact
-                        key={variant}
-                        disabled={
-                          props?.variant === undefined
-                            ? variant === "filled"
-                            : variant === props?.variant
-                        }
-                        onClick={() => [
-                          changeProp({
-                            id,
-                            newProps: { variant },
-                          }),
-                        ]}
-                      >
-                        {variant}
-                      </Button>
-                    ))}
-                  </Stack>
-                </Popover.Dropdown>
-              </Popover>
-            )}
-            {type &&
-              hasElementPalette(type.toLowerCase()) &&
-              props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
-                <PaletteItem
-                  currentPaletteColor={
-                    palette?.[PaletteTypePropColor[type.toLowerCase()].color]
-                      ? getHexFromThemeColor({
-                          theme,
-                          color: palette?.[PaletteTypePropColor[type.toLowerCase()].color],
-                        })
-                      : undefined
-                  }
-                  defaultOpened={id === openedPalette}
-                  onOpen={() => (BuildStore.openedPalette = id)}
-                  onClose={() => (BuildStore.openedPalette = null)}
-                  popoverPosition="top"
-                  offset={6}
-                  color={getHexFromThemeColor({
-                    theme,
-                    color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
-                  })}
-                  withReset={
-                    element?.props?.[PaletteTypePropColor[type.toLowerCase()].prop] !== undefined
-                  }
-                  onColorChange={(value) => {
-                    changeProp({
-                      id,
-                      newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: value },
-                    })
-                  }}
-                  onResetClick={() => {
-                    changeProp({
-                      id,
-                      newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: undefined },
-                    })
-                  }}
-                />
-              )}
-          </Group>
           {hasMoves && movesIcons && (
             <>
               {id !== blocks[0].id && (
-                <ActionIcon size="lg" onClick={() => moveLeft({ id, parentID, editType })}>
+                <ActionIcon size="md" onClick={() => moveLeft({ id, parentID, editType })}>
                   {movesIcons.left}
                 </ActionIcon>
               )}
               {id !== blocks[blocks.length - 1].id && (
-                <ActionIcon size="lg" onClick={() => moveRight({ id, parentID, editType })}>
+                <ActionIcon size="md" onClick={() => moveRight({ id, parentID, editType })}>
                   {movesIcons.right}
                 </ActionIcon>
               )}
             </>
           )}
-          <ActionIcon size="lg">
-            <FiSettings />
-          </ActionIcon>
           <ActionIcon
             color="red"
-            size="lg"
+            size="md"
             onClick={() => {
               deleteElement({ id, parentID })
             }}

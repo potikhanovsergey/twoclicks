@@ -50,7 +50,7 @@ const PaletteItem = (props: IPaletteItem) => {
   return (
     <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
       <Popover.Target>
-        <ColorSwatch radius="xs" size={20} color={hexColor} style={{ cursor: "pointer" }} />
+        <ColorSwatch radius="xs" size={16} color={hexColor} style={{ cursor: "pointer" }} />
       </Popover.Target>
       <Popover.Dropdown p={0}>
         <Box py={4} px={8} onMouseLeave={onPopoverMouseLeave} onMouseEnter={onPopoverMouseEnter}>
