@@ -36,7 +36,7 @@
     "@mantine/modals": "5.1.1",
     "@mantine/next": "5.1.1",
     "@mantine/notifications": "5.1.1",
-    "@prisma/client": "4.1.0",
+    "@prisma/client": "4.0.0",
     "@uiw/react-codemirror": "4.11.4",
     "blitz": "2.0.0-alpha.66",
     "bson-objectid": "2.0.3",

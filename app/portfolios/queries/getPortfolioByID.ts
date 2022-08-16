@@ -10,7 +10,10 @@ export default async function getPortfolioByID(
 
   if (isPublic) {
     const portfolio = await db.portfolio.findFirst({
-      where: { id },
+      where: {
+        id,
+        isPublished: true,
+      },
     })
     return portfolio
   } else if (ctx.session.userId) {

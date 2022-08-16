@@ -20,6 +20,7 @@ export interface IPortfolio {
   palette: ICanvasPalette
   createdAt?: Date
   updatedAt?: Date
+  isPublished: boolean
 }
 
 export type IBuildingBlockMock = Omit<BuildingBlock, "id" | "createdAt" | "updatedAt">
@@ -49,6 +50,7 @@ export interface ICanvasData {
   id: string | null
   name: string | null
   palette?: ICanvasPalette
+  isPublished?: boolean
 }
 
 export interface IFilterButton {
