@@ -41,7 +41,7 @@ const LayoutHeader = ({
       position={position}
       sx={(theme) => ({
         backgroundColor: dark ? theme.colors.dark[7] : theme.colors.gray[0],
-        zIndex: 301,
+        zIndex: 302,
       })}
       height="var(--layout-header-height)"
       fixed={fixed}

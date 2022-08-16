@@ -9,7 +9,9 @@ import {
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
+import { observer } from "mobx-react-lite"
 import { useState, useMemo } from "react"
+import { BuildStore } from "store/build"
 interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
   onColorChange: (value: string) => void
@@ -18,6 +20,7 @@ interface IPaletteItem extends Omit<PopoverProps, "children"> {
   onPopoverMouseEnter?: () => void
   onResetClick?: () => void
   withReset?: boolean
+  currentPaletteColor?: string
 }
 
 const PaletteItem = (props: IPaletteItem) => {
@@ -31,6 +34,7 @@ const PaletteItem = (props: IPaletteItem) => {
     popoverPosition,
     onPopoverMouseLeave,
     onPopoverMouseEnter,
+    currentPaletteColor,
     ...popoverProps
   } = props
 
@@ -42,6 +46,7 @@ const PaletteItem = (props: IPaletteItem) => {
   const hexColor = useMemo(() => {
     return getHexFromThemeColor({ theme, color })
   }, [color])
+
   return (
     <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
       <Popover.Target>
@@ -50,8 +55,18 @@ const PaletteItem = (props: IPaletteItem) => {
       <Popover.Dropdown p={0}>
         <Box py={4} px={8} onMouseLeave={onPopoverMouseLeave} onMouseEnter={onPopoverMouseEnter}>
           {withReset && onResetClick && (
-            <Button size="xs" onClick={onResetClick} compact variant="subtle">
-              Take palette color
+            <Button
+              size="sm"
+              onClick={onResetClick}
+              compact
+              variant="subtle"
+              rightIcon={
+                currentPaletteColor ? (
+                  <ColorSwatch color={currentPaletteColor} radius="xs" size={16} />
+                ) : undefined
+              }
+            >
+              Inherit palette color
             </Button>
           )}
           <ColorPicker

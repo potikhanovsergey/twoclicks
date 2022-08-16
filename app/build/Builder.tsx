@@ -48,15 +48,18 @@ const useStyles = createStyles((theme) => ({
   header: {
     position: "sticky",
     top: "var(--layout-header-height)",
-    zIndex: 500,
+    zIndex: 301,
     minHeight: "40px",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
     boxShadow: theme.shadows.md,
   },
   onboarding: {
-    position: "fixed",
-    bottom: "24px",
+    position: "sticky",
+    bottom: "12px",
+    marginLeft: "-48px",
+    height: 0,
+    transform: "translateY(-40px)",
   },
 }))
 
@@ -113,20 +116,20 @@ const Builder = () => {
           style={{ height: isCanvasEmpty ? "100%" : "auto" }}
         >
           <BuilderBlocks />
+          {session.userId ? (
+            <div
+              ref={onboardingRef}
+              className={classes.onboarding}
+              style={{
+                left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
+              }}
+            >
+              <Onboarding />
+            </div>
+          ) : (
+            <></>
+          )}
         </Stack>
-        {session.userId ? (
-          <div
-            ref={onboardingRef}
-            className={classes.onboarding}
-            style={{
-              left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
-            }}
-          >
-            <Onboarding />
-          </div>
-        ) : (
-          <></>
-        )}
       </Container>
       <Modal
         opened={BuildStore.sectionsCount >= 3 && !session.userId}

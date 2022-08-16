@@ -93,7 +93,7 @@ const WithEditToolbar = ({
     moveLeft,
     moveRight,
     deleteElement,
-    data: { blocks },
+    data: { blocks, palette },
     changeProp,
     activeEditToolbars,
     openedPalette,
@@ -198,9 +198,17 @@ const WithEditToolbar = ({
               hasElementPalette(type.toLowerCase()) &&
               props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
                 <PaletteItem
+                  currentPaletteColor={
+                    palette?.[PaletteTypePropColor[type.toLowerCase()].color]
+                      ? getHexFromThemeColor({
+                          theme,
+                          color: palette?.[PaletteTypePropColor[type.toLowerCase()].color],
+                        })
+                      : undefined
+                  }
                   defaultOpened={id === openedPalette}
                   onOpen={() => (BuildStore.openedPalette = id)}
-                  onClose={() => (BuildStore.openedPalette = "")}
+                  onClose={() => (BuildStore.openedPalette = null)}
                   popoverPosition="top"
                   offset={6}
                   color={getHexFromThemeColor({
