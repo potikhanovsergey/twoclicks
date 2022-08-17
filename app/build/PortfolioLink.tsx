@@ -1,22 +1,17 @@
 import { Group, Anchor, CopyButton, Tooltip, ActionIcon } from "@mantine/core"
 import { PortfolioPreview } from "app/portfolios/PortfolioCard"
+import { observer } from "mobx-react-lite"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
+import { AppStore } from "store"
 
-const PortfolioLink = ({
-  id,
-  withEllipsis = false,
-  isPublished,
-}: {
-  id: string
-  withEllipsis?: boolean
-  isPublished: boolean
-}) => {
+const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?: boolean }) => {
   const baseURL =
     process.env.NODE_ENV === "development"
       ? "localhost:3000"
       : process.env.NEXT_PUBLIC_PRODUCTION_URL
 
-  return isPublished ? (
+  const portfolio = AppStore.portfolios.find((p) => p.id === id)
+  return portfolio?.isPublished ? (
     <Group spacing={4}>
       <Anchor
         href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
@@ -55,4 +50,4 @@ const PortfolioLink = ({
   )
 }
 
-export default PortfolioLink
+export default observer(PortfolioLink)

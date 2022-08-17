@@ -23,6 +23,7 @@ import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePort
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import CubeLoader from "app/core/components/CubeLoader"
 import VioletRedGradient from "app/core/components/base/VioletRedGradient"
+import { AppStore } from "store"
 
 const BuildPage = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -62,6 +63,9 @@ const BuildPage = () => {
         }
       } else {
         p = getPortfolioWithInflatedData(portfolioFromDB)
+        if (!AppStore.portfolios.find((p) => p.id === portfolioFromDB.id)) {
+          AppStore.portfolios.push(portfolioFromDB)
+        }
       }
       setPortfolio(p)
     }

@@ -5,7 +5,7 @@ import { makeAutoObservable, action } from "mobx"
 
 class Store {
   colorScheme: ColorScheme = "light"
-  portfolios: Portfolio[] | null = null
+  portfolios: Portfolio[] = []
   havePortfoliosLoaded: boolean = false
 
   constructor() {

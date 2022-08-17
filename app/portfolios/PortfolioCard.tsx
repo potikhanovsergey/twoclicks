@@ -76,7 +76,7 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished }: PortfolioPreview) =
           <Text weight="bold" size="xl">
             {name}
           </Text>
-          <PortfolioLink id={id} isPublished={isPublished} />
+          <PortfolioLink id={id} />
           <Space h="xs" />
           <TogglePublishPortfilio id={id} isPublished={isPublished} />
         </Stack>

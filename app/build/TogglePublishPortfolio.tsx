@@ -5,6 +5,7 @@ import togglePortfolioPublished from "app/portfolios/mutations/togglePortfolioPu
 import { observer } from "mobx-react-lite"
 import { ChangeEventHandler, useEffect, useState } from "react"
 import { FaEyeSlash, FaEye } from "react-icons/fa"
+import { AppStore } from "store"
 import { BuildStore } from "store/build"
 
 interface ITogglePublishPortfolio {
@@ -13,10 +14,11 @@ interface ITogglePublishPortfolio {
 }
 
 const TogglePublishPortfilio = ({ id, isPublished }: ITogglePublishPortfolio) => {
-  const [isPortfolioPublished, setIsPortfolioPublished] = useState(isPublished)
+  const portfolio = AppStore.portfolios?.find((p) => p.id === id)
+
   const handleToggle = (e) => {
-    if (id) {
-      const newIsPublished = !isPublished
+    if (portfolio) {
+      const newIsPublished = !portfolio.isPublished
       void togglePortfolioPublishedMutation({ id, isPublished: newIsPublished })
     }
   }
@@ -24,8 +26,8 @@ const TogglePublishPortfilio = ({ id, isPublished }: ITogglePublishPortfolio) =>
     useMutation(togglePortfolioPublished)
 
   useEffect(() => {
-    if (isSuccess) {
-      setIsPortfolioPublished(!isPortfolioPublished)
+    if (isSuccess && portfolio) {
+      portfolio.isPublished = !portfolio.isPublished
     }
   }, [isSuccess])
   return (
@@ -34,9 +36,9 @@ const TogglePublishPortfilio = ({ id, isPublished }: ITogglePublishPortfolio) =>
       onClick={handleToggle}
       size="xs"
       loading={isLoading}
-      leftIcon={isPortfolioPublished ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
+      leftIcon={portfolio?.isPublished ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
     >
-      {isPortfolioPublished ? "Hide portfolio" : "Publish portfolio"}
+      {portfolio?.isPublished ? "Hide portfolio" : "Publish portfolio"}
     </Button>
   )
 }

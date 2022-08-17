@@ -34,9 +34,7 @@ const AuthorizedActions = observer(() => {
 
   return session.userId ? (
     <>
-      {id && typeof isPublished === "boolean" && (
-        <PortfolioLink id={id} withEllipsis={true} isPublished={isPublished} />
-      )}
+      {id && typeof isPublished === "boolean" && <PortfolioLink id={id} withEllipsis={true} />}
       {id && typeof isPublished === "boolean" && (
         <TogglePublishPortfilio id={id} isPublished={isPublished} />
       )}
