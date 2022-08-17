@@ -100,8 +100,7 @@ const WithEditToolbar = ({
     data: { blocks, palette },
     changeProp,
     activeEditToolbars,
-    openedPalette,
-    openedVariant,
+    openedAction,
   } = BuildStore
 
   const hasMoves = useMemo(() => {
@@ -138,13 +137,10 @@ const WithEditToolbar = ({
       activeEditToolbars[id] = activeValue
 
       if (!activeValue) {
-        BuildStore.openedPalette = null
-        BuildStore.openedVariant = null
+        BuildStore.openedAction = {}
       }
     }
   }, [editableOpened, popoverOpened])
-
-  const sectionNumber = typeof sectionIndex === "number" ? sectionIndex + 1 : null
 
   const { openDropdown: openDelayedEditable, closeDropdown: closeDelayedEditable } =
     useDelayedHover({
@@ -209,11 +205,12 @@ const WithEditToolbar = ({
           {type && TypeVariants[type.toLowerCase()] && (
             <Menu
               position="top"
-              closeOnClickOutside={false}
               offset={0}
-              defaultOpened={id === openedVariant}
-              onOpen={() => (BuildStore.openedVariant = id)}
-              onClose={() => (BuildStore.openedVariant = null)}
+              defaultOpened={openedAction?.[id] === "variant"}
+              onOpen={() => {
+                BuildStore.openedAction[id] = "variant"
+              }}
+              onClose={() => (BuildStore.openedAction = {})}
               closeOnItemClick={false}
             >
               <Menu.Target>
@@ -261,9 +258,11 @@ const WithEditToolbar = ({
                       })
                     : undefined
                 }
-                defaultOpened={id === openedPalette}
-                onOpen={() => (BuildStore.openedPalette = id)}
-                onClose={() => (BuildStore.openedPalette = null)}
+                defaultOpened={openedAction?.[id] === "palette"}
+                onOpen={() => {
+                  BuildStore.openedAction[id] = "palette"
+                }}
+                onClose={() => (BuildStore.openedAction = {})}
                 popoverPosition="top"
                 offset={6}
                 color={getHexFromThemeColor({

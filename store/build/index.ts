@@ -16,8 +16,6 @@ configure({
 
 const defaultPalette = {
   primary: "violet",
-  // secondary: "blue",
-  // accent: "teal",
 }
 
 const initialData = {
@@ -42,8 +40,10 @@ class Build {
 
   sectionToBeAddedIndex: number | null = null
   activeEditToolbars: { [key: string]: boolean } = {}
-  openedPalette: string | null = null
-  openedVariant: string | null = null
+
+  openedAction: {
+    [key: string]: string
+  } = {}
 
   sectionsRef: RefObject<HTMLDivElement>
 
