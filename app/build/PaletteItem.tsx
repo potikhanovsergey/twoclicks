@@ -9,9 +9,7 @@ import {
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
-import { observer } from "mobx-react-lite"
 import { useState, useMemo } from "react"
-import { BuildStore } from "store/build"
 interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
   onColorChange: (value: string) => void

@@ -8,6 +8,7 @@ import {
   Popover,
   Stack,
   Text,
+  Tooltip,
   useMantineTheme,
 } from "@mantine/core"
 import React, {
@@ -214,9 +215,11 @@ const WithEditToolbar = ({
               closeOnItemClick={false}
             >
               <Menu.Target>
-                <ActionIcon color="violet">
-                  <FaMagic style={{ fill: "url(#violet-red-gradient)" }} />
-                </ActionIcon>
+                <Tooltip label="Variants" color="violet" withArrow>
+                  <ActionIcon color="violet">
+                    <FaMagic style={{ fill: "url(#violet-red-gradient)" }} />
+                  </ActionIcon>
+                </Tooltip>
               </Menu.Target>
               <Menu.Dropdown p={0}>
                 <Stack spacing={0} align="stretch">
@@ -249,66 +252,91 @@ const WithEditToolbar = ({
           {type &&
             hasElementPalette(type.toLowerCase()) &&
             props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
-              <PaletteItem
-                currentPaletteColor={
-                  palette?.[PaletteTypePropColor[type.toLowerCase()].color]
-                    ? getHexFromThemeColor({
-                        theme,
-                        color: palette?.[PaletteTypePropColor[type.toLowerCase()].color],
+              <Tooltip label="Change color" color="violet" withArrow>
+                <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
+                  <PaletteItem
+                    currentPaletteColor={
+                      palette?.[PaletteTypePropColor[type.toLowerCase()].color]
+                        ? getHexFromThemeColor({
+                            theme,
+                            color: palette?.[PaletteTypePropColor[type.toLowerCase()].color],
+                          })
+                        : undefined
+                    }
+                    defaultOpened={openedAction?.[id] === "palette"}
+                    onOpen={() => {
+                      BuildStore.openedAction[id] = "palette"
+                    }}
+                    onClose={() => (BuildStore.openedAction = {})}
+                    popoverPosition="top"
+                    offset={6}
+                    color={getHexFromThemeColor({
+                      theme,
+                      color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
+                    })}
+                    withReset={
+                      element?.props?.[PaletteTypePropColor[type.toLowerCase()].prop] !== undefined
+                    }
+                    onColorChange={(value) => {
+                      changeProp({
+                        id,
+                        newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: value },
                       })
-                    : undefined
-                }
-                defaultOpened={openedAction?.[id] === "palette"}
-                onOpen={() => {
-                  BuildStore.openedAction[id] = "palette"
-                }}
-                onClose={() => (BuildStore.openedAction = {})}
-                popoverPosition="top"
-                offset={6}
-                color={getHexFromThemeColor({
-                  theme,
-                  color: props?.[PaletteTypePropColor[type.toLowerCase()].prop],
-                })}
-                withReset={
-                  element?.props?.[PaletteTypePropColor[type.toLowerCase()].prop] !== undefined
-                }
-                onColorChange={(value) => {
-                  changeProp({
-                    id,
-                    newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: value },
-                  })
-                }}
-                onResetClick={() => {
-                  changeProp({
-                    id,
-                    newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: undefined },
-                  })
-                }}
-              />
+                    }}
+                    onResetClick={() => {
+                      changeProp({
+                        id,
+                        newProps: { [PaletteTypePropColor[type.toLowerCase()].prop]: undefined },
+                      })
+                    }}
+                  />
+                </Box>
+              </Tooltip>
             )}
           {hasMoves && movesIcons && (
             <>
               {id !== blocks[0].id && (
-                <ActionIcon size="md" onClick={() => moveLeft({ id, parentID, editType })}>
-                  {movesIcons.left}
-                </ActionIcon>
+                <Tooltip
+                  label="Move Up"
+                  color="violet"
+                  withArrow
+                  position={editType === "section" ? "left" : "top"}
+                >
+                  <ActionIcon size="md" onClick={() => moveLeft({ id, parentID, editType })}>
+                    {movesIcons.left}
+                  </ActionIcon>
+                </Tooltip>
               )}
               {id !== blocks[blocks.length - 1].id && (
-                <ActionIcon size="md" onClick={() => moveRight({ id, parentID, editType })}>
-                  {movesIcons.right}
-                </ActionIcon>
+                <Tooltip
+                  label="Move Down"
+                  color="violet"
+                  withArrow
+                  position={editType === "section" ? "left" : "top"}
+                >
+                  <ActionIcon size="md" onClick={() => moveRight({ id, parentID, editType })}>
+                    {movesIcons.right}
+                  </ActionIcon>
+                </Tooltip>
               )}
             </>
           )}
-          <ActionIcon
-            color="red"
-            size="md"
-            onClick={() => {
-              deleteElement({ id, parentID })
-            }}
+          <Tooltip
+            label="Delete"
+            color="violet"
+            withArrow
+            position={editType === "section" ? "left" : "top"}
           >
-            <RiDeleteBin6Line />
-          </ActionIcon>
+            <ActionIcon
+              color="red"
+              size="md"
+              onClick={() => {
+                deleteElement({ id, parentID })
+              }}
+            >
+              <RiDeleteBin6Line />
+            </ActionIcon>
+          </Tooltip>
         </Group>
       </Popover.Dropdown>
     </Popover>
