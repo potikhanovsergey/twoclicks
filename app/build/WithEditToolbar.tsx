@@ -193,7 +193,7 @@ const WithEditToolbar = ({
           onMouseLeave={closePopover}
           style={{ flexDirection: editType === "section" ? "column" : "row" }}
         >
-          {name && (
+          {editType !== "section" && name && (
             <Text
               ml="xs"
               size="sm"
@@ -203,8 +203,7 @@ const WithEditToolbar = ({
                 textTransform: "capitalize",
               })}
             >
-              {editType !== "section" && name}
-              {/* {editType === "section" && sectionNumber !== null && ` ${sectionNumber}`} */}
+              {name}
             </Text>
           )}
           {type && TypeVariants[type.toLowerCase()] && (

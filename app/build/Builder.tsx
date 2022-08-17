@@ -37,10 +37,6 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
     position: "relative",
   },
-  canvasScroll: {
-    width: "100%",
-    height: "100%",
-  },
   canvas: {
     backgroundColor: theme.white,
     color: theme.black,
@@ -172,4 +168,4 @@ const Builder = () => {
   )
 }
 
-export default Builder
+export default observer(Builder)

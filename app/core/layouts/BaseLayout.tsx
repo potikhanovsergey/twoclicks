@@ -13,6 +13,12 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
       </Head>
       <AppShell
         styles={{
+          body: {
+            minHeight: "100vh",
+          },
+          root: {
+            minHeight: "100vh",
+          },
           main: {
             minHeight: "calc(100vh - var(--layout-header-height))",
             paddingTop: "calc(var(--layout-header-height, 0px))",
