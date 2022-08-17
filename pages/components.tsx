@@ -1,14 +1,25 @@
-import { Group, Container, Title, Stack, Text, Button, Image, MediaQuery } from "@mantine/core"
+import {
+  Group,
+  Container,
+  Title,
+  Stack,
+  Text,
+  Button,
+  Image,
+  MediaQuery,
+  Center,
+} from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
 import BaseLayout from "app/core/layouts/BaseLayout"
-import { AiOutlineArrowRight } from "react-icons/ai"
-import FirstHero from "app/build/sections/FirstHero"
+import IconPicker from "app/core/components/base/IconPicker"
 
 const ComponentsPage = () => {
   // const { t } = useTranslation('pagesBuild');
   return (
     <BaseLayout>
-      <FirstHero />
+      <Center style={{ height: "100%" }}>
+        <IconPicker />
+      </Center>
     </BaseLayout>
   )
 }
