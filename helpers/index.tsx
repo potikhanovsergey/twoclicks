@@ -183,7 +183,7 @@ export function renderJSXFromBlock({
     }
   }
 
-  if (withEditToolbar && (element.editType === "element" || element.editType === "section")) {
+  if (withEditToolbar && el.editType) {
     return (
       <WithEditToolbar
         id={el.id}

@@ -9,16 +9,25 @@ import {
   Tooltip,
   Text,
   LoadingOverlay,
+  MenuProps,
 } from "@mantine/core"
 import { useDebouncedState, useDebouncedValue } from "@mantine/hooks"
-import { useEffect, useMemo, useState } from "react"
+import { serialize } from "helpers"
+import { ReactNode, useEffect, useMemo, useState } from "react"
 import * as icons from "react-icons/fa"
 import { MdClear } from "react-icons/md"
 
 const FirstIcon = Object.values(icons)[0]
 
-const IconPicker = () => {
-  const [icon, setIcon] = useState(<FirstIcon />)
+const IconPicker = ({
+  icon = <FirstIcon />,
+  onChange,
+  menuProps,
+}: {
+  icon: ReactNode
+  onChange: (ReactNode) => void
+  menuProps?: MenuProps
+}) => {
   const [searchValue, setSearchValue] = useState("")
 
   const [debouncedSearchValue] = useDebouncedValue(searchValue, 200)
@@ -27,7 +36,7 @@ const IconPicker = () => {
     const output = Object.entries(icons)
       .filter(([name]) => name.toLowerCase().includes(debouncedSearchValue.toLowerCase()))
       .map(([name, Icon]) => (
-        <ActionIcon key={name} onClick={() => setIcon(<Icon />)}>
+        <ActionIcon key={name} onClick={() => onChange(JSON.parse(serialize(<Icon />)))}>
           <Icon />
         </ActionIcon>
       ))
@@ -45,10 +54,10 @@ const IconPicker = () => {
           flexDirection: "column",
         },
       }}
-      closeOnClickOutside
+      {...menuProps}
     >
       <Menu.Target>
-        <ActionIcon>{icon}</ActionIcon>
+        <div>{icon}</div>
       </Menu.Target>
       <Menu.Dropdown>
         <TextInput

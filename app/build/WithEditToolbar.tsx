@@ -40,6 +40,7 @@ import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { FaMagic } from "react-icons/fa"
+import IconPicker from "app/core/components/base/IconPicker"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -51,6 +52,7 @@ interface IWithEditToolbar {
   props?: ICanvasBlockProps
   sectionIndex?: number
   element?: ICanvasBlock
+  isIcon?: boolean
 }
 
 interface InnerAddSectionButtonProps extends Omit<ButtonProps, "style" | "children"> {
@@ -93,6 +95,7 @@ const WithEditToolbar = ({
   props,
   sectionIndex,
   element,
+  isIcon = false,
 }: IWithEditToolbar) => {
   const {
     moveLeft,
@@ -151,6 +154,10 @@ const WithEditToolbar = ({
       openDelay: 100,
     })
 
+  if (isIcon) {
+    console.log(element)
+  }
+
   return (
     <Popover
       trapFocus={false}
@@ -176,7 +183,19 @@ const WithEditToolbar = ({
           {editType === "section" && sectionIndex === 0 && (
             <InnerAddSectionButton sectionToBeAddedIndex={0} />
           )}
-          {children}
+          {editType === "icon" ? (
+            <IconPicker
+              icon={children}
+              onChange={(icon) => {
+                if (icon?.type?.props) {
+                  let newProps = icon.type.props as ICanvasBlockProps
+                  changeProp({ id, newProps })
+                }
+              }}
+            />
+          ) : (
+            children
+          )}
           {editType === "section" && sectionIndex !== undefined && (
             <InnerAddSectionButton sectionToBeAddedIndex={sectionIndex + 1} />
           )}
@@ -323,6 +342,7 @@ const WithEditToolbar = ({
               )}
             </>
           )}
+
           <Tooltip
             label="Delete"
             color="violet"
