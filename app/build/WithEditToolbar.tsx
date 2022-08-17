@@ -215,11 +215,13 @@ const WithEditToolbar = ({
               closeOnItemClick={false}
             >
               <Menu.Target>
-                <Tooltip label="Variants" color="violet" withArrow>
-                  <ActionIcon color="violet">
-                    <FaMagic style={{ fill: "url(#violet-red-gradient)" }} />
-                  </ActionIcon>
-                </Tooltip>
+                <div>
+                  <Tooltip label="Variants" color="violet" withArrow>
+                    <ActionIcon color="violet">
+                      <FaMagic style={{ fill: "url(#violet-red-gradient)" }} />
+                    </ActionIcon>
+                  </Tooltip>
+                </div>
               </Menu.Target>
               <Menu.Dropdown p={0}>
                 <Stack spacing={0} align="stretch">
