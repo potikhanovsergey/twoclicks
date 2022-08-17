@@ -24,9 +24,12 @@ import { AppStore } from "store"
 import PortfolioLink from "app/build/PortfolioLink"
 import TogglePublishPortfilio from "app/build/TogglePublishPortfolio"
 
-export type PortfolioPreview = Pick<Portfolio, "name" | "id" | "updatedAt" | "isPublished">
+export interface PortfolioPreview
+  extends Pick<Portfolio, "name" | "id" | "updatedAt" | "isPublished"> {
+  withEdit?: boolean
+}
 
-const PortfolioCard = ({ name, id, updatedAt, isPublished }: PortfolioPreview) => {
+const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: PortfolioPreview) => {
   // const { t } = useTranslation('pagesBuild');
   const theme = useMantineTheme()
 
@@ -81,12 +84,14 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished }: PortfolioPreview) =
           <TogglePublishPortfilio id={id} isPublished={isPublished} />
         </Stack>
         <Stack spacing="xs">
-          <Group spacing="xs">
-            <Link passHref href={`/build/${id}`}>
-              <Button color="violet" component="a" rightIcon={<HiPencilAlt />}>
-                Edit portfolio
-              </Button>
-            </Link>
+          <Group spacing="xs" position="right">
+            {withEdit && (
+              <Link passHref href={`/build/${id}`}>
+                <Button color="violet" component="a" rightIcon={<HiPencilAlt />}>
+                  Edit portfolio
+                </Button>
+              </Link>
+            )}
             <Tooltip label="Delete portfolio" withArrow position="bottom" color="violet">
               <ActionIcon color="red" variant="filled" size="lg" onClick={openDeleteModal}>
                 <RiDeleteBinLine />
