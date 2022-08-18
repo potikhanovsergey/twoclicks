@@ -359,3 +359,12 @@ export const getThemeColorValueArray: ({
     }
   })
 }
+
+export function getBase64(file: File, callback) {
+  const reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = callback
+  reader.onerror = function (error) {
+    console.log("File Reader Error: ", error)
+  }
+}

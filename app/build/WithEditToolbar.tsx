@@ -26,6 +26,7 @@ import { BuildStore } from "store/build"
 import { CgChevronLeftR, CgChevronRightR, CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 import { useDebouncedValue, useDisclosure } from "@mantine/hooks"
 import {
+  getBase64,
   getHexFromThemeColor,
   getThemeColorValueArray,
   hasElementPalette,
@@ -41,6 +42,7 @@ import { useDelayedHover } from "hooks/useDelayedHover"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { FaMagic } from "react-icons/fa"
 import IconPicker from "app/core/components/base/IconPicker"
+import ImagePicker from "app/core/components/base/ImagePicker"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -177,7 +179,27 @@ const WithEditToolbar = ({
           {editType === "section" && sectionIndex === 0 && (
             <InnerAddSectionButton sectionToBeAddedIndex={0} />
           )}
-          {children}
+          {editType === "image" ? (
+            <ImagePicker
+              onDrop={(files) => {
+                const file = files[0]
+                const reader = new FileReader()
+                reader.readAsDataURL(file)
+                reader.onload = () => {
+                  changeProp({ id, newProps: { src: reader.result } })
+                }
+                reader.onerror = function (error) {
+                  console.log("File Reader Error: ", error)
+                }
+                // const url = URL.createObjectURL(files[0])
+                // changeProp({ id, newProps: { src: url } })
+              }}
+            >
+              {children}
+            </ImagePicker>
+          ) : (
+            children
+          )}
           {editType === "section" && sectionIndex !== undefined && (
             <InnerAddSectionButton sectionToBeAddedIndex={sectionIndex + 1} />
           )}
