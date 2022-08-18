@@ -111,6 +111,7 @@ export const TypeSizes: {
   [key: string]: string[]
 } = {
   "@mantine/core/button": sizes,
+  "@mantine/core/text": sizes,
 }
 
 export function hasElementPalette(type: string) {
