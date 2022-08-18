@@ -10,6 +10,8 @@ import {
   Text,
   LoadingOverlay,
   MenuProps,
+  useMantineColorScheme,
+  Box,
 } from "@mantine/core"
 import { useDebouncedState, useDebouncedValue } from "@mantine/hooks"
 import { serialize } from "helpers"
@@ -18,6 +20,10 @@ import * as icons from "react-icons/fa"
 import { MdClear } from "react-icons/md"
 
 const FirstIcon = Object.values(icons)[0]
+
+const formatOutput = (icon: JSX.Element) => {
+  return JSON.parse(serialize(icon))?.type
+}
 
 const IconPicker = ({
   icon = <FirstIcon />,
@@ -36,12 +42,14 @@ const IconPicker = ({
     const output = Object.entries(icons)
       .filter(([name]) => name.toLowerCase().includes(debouncedSearchValue.toLowerCase()))
       .map(([name, Icon]) => (
-        <ActionIcon key={name} onClick={() => onChange(JSON.parse(serialize(<Icon />)))}>
+        <ActionIcon key={name} onClick={() => onChange(formatOutput(<Icon />))}>
           <Icon />
         </ActionIcon>
       ))
     return output
   }, [debouncedSearchValue])
+
+  const { colorScheme } = useMantineColorScheme()
 
   return (
     <Menu
@@ -57,7 +65,7 @@ const IconPicker = ({
       {...menuProps}
     >
       <Menu.Target>
-        <div>{icon}</div>
+        <Box sx={{ cursor: "pointer" }}>{icon}</Box>
       </Menu.Target>
       <Menu.Dropdown>
         <TextInput
@@ -84,7 +92,7 @@ const IconPicker = ({
               {filteredIcons}
             </SimpleGrid>
           ) : (
-            <Text align="center" py={8}>
+            <Text align="center" py={8} color={colorScheme === "dark" ? "gray" : "dark"}>
               No icons found
             </Text>
           )}

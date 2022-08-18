@@ -21,6 +21,7 @@ import { IconBaseProps } from "react-icons"
 import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
+import IconPicker from "app/core/components/base/IconPicker"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -181,6 +182,21 @@ export function renderJSXFromBlock({
     if (hasElementPalette(lcType) && !props[PaletteTypePropColor[lcType].prop]) {
       props[PaletteTypePropColor[lcType].prop] = palette?.[PaletteTypePropColor[lcType].color]
     }
+  }
+
+  if (withEditToolbar && el?.editType === "icon") {
+    return (
+      <IconPicker
+        icon={<TagName {...props} />}
+        onChange={(icon) => {
+          console.log(icon)
+          if (icon?.props) {
+            let newProps = icon.props as ICanvasBlockProps
+            BuildStore.changeProp({ id: el.id, newProps })
+          }
+        }}
+      />
+    )
   }
 
   if (withEditToolbar && el.editType) {

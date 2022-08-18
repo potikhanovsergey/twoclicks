@@ -114,6 +114,7 @@ const DashboardIndex = () => {
         message: "Building block was successfully created.",
         autoClose: 5000,
       })
+      void refetchBuildingBlocks()
     }
   }, [isSuccessfullyCreated])
 
@@ -125,6 +126,7 @@ const DashboardIndex = () => {
         message: "Building block was successfully deleted from DB.",
         autoClose: 5000,
       })
+      void refetchBuildingBlocks()
     }
   }, [isSuccessfullyDeleted])
 
@@ -136,6 +138,7 @@ const DashboardIndex = () => {
         message: "Building block was successfully updated.",
         autoClose: 5000,
       })
+      void refetchBuildingBlocks()
     }
   }, [isSuccessfullyUpdated])
 
