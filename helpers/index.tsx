@@ -121,6 +121,12 @@ export const TypeRadius: {
   "@mantine/core/image": sizes,
 }
 
+export const TypeGradients: {
+  [key: string]: boolean
+} = {
+  "@mantine/core/button": true,
+}
+
 export function hasElementPalette(type: string) {
   return Boolean(PaletteTypePropColor[type])
 }

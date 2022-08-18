@@ -3,13 +3,17 @@ import {
   Box,
   Button,
   ButtonProps,
+  Center,
+  ColorSwatch,
   Group,
   Menu,
   Popover,
   Stack,
   Text,
+  ThemeIcon,
   Tooltip,
   useMantineTheme,
+  DEFAULT_THEME,
 } from "@mantine/core"
 import React, {
   cloneElement,
@@ -34,6 +38,7 @@ import {
   TypeVariants,
   TypeSizes,
   TypeRadius,
+  TypeGradients,
 } from "helpers"
 import { i } from "@blitzjs/auth/dist/index-57d74361"
 import PaletteItem from "./PaletteItem"
@@ -42,11 +47,12 @@ import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { FaMagic } from "react-icons/fa"
+import { FaLongArrowAltRight, FaMagic } from "react-icons/fa"
 import IconPicker from "app/core/components/base/IconPicker"
 import ImagePicker from "app/core/components/base/ImagePicker"
 import { GiResize } from "react-icons/gi"
 import { AiOutlineRadiusBottomleft } from "react-icons/ai"
+import { HiArrowNarrowRight } from "react-icons/hi"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -368,8 +374,105 @@ const WithEditToolbar = ({
               </Menu.Dropdown>
             </Menu>
           )}
+          {type && TypeGradients[type.toLowerCase()] && props?.variant === "gradient" && (
+            <Menu
+              position="top"
+              offset={0}
+              defaultOpened={openedAction?.[id]?.includes("gradient")}
+              onOpen={() => {
+                BuildStore.openedAction[id] = "gradient"
+              }}
+              onClose={() => (BuildStore.openedAction = {})}
+              closeOnItemClick={false}
+            >
+              <Menu.Target>
+                <div>
+                  <Tooltip label="Gradient" color="violet" withArrow>
+                    <Center sx={{ height: "100%", cursor: "pointer" }}>
+                      <ActionIcon>
+                        <Box
+                          sx={(theme) => ({
+                            background: theme.fn.linearGradient(
+                              theme.defaultGradient.deg || 45,
+                              theme.colors?.[props?.gradient?.from]?.[5] ||
+                                theme.colors[theme.defaultGradient.from][5],
+                              theme.colors?.[props?.gradient?.to]?.[5] ||
+                                theme.colors[theme.defaultGradient.to][5]
+                            ),
+                            width: "65%",
+                            height: "65%",
+                            borderRadius: theme.radius.xs,
+                          })}
+                        />
+                      </ActionIcon>
+                    </Center>
+                  </Tooltip>
+                </div>
+              </Menu.Target>
+              <Menu.Dropdown p={4}>
+                <Group noWrap spacing={4}>
+                  <Tooltip label='Change "From" color' color="violet" withArrow>
+                    <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
+                      <PaletteItem
+                        defaultOpened={openedAction?.[id] === "gradient-from"}
+                        onOpen={() => {
+                          BuildStore.openedAction[id] = "gradient-from"
+                        }}
+                        popoverPosition="top"
+                        offset={6}
+                        color={getHexFromThemeColor({
+                          theme,
+                          color: props?.gradient?.from || theme.defaultGradient.from,
+                        })}
+                        onColorChange={(value) => {
+                          changeProp({
+                            id,
+                            newProps: {
+                              gradient: {
+                                ...props.gradient,
+                                from: value,
+                              },
+                            },
+                          })
+                        }}
+                      />
+                    </Box>
+                  </Tooltip>
+                  <HiArrowNarrowRight />
+                  <Tooltip label='Change "To" color' color="violet" withArrow>
+                    <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
+                      <PaletteItem
+                        defaultOpened={openedAction?.[id] === "gradient-to"}
+                        onOpen={() => {
+                          BuildStore.openedAction[id] = "gradient-to"
+                        }}
+                        popoverPosition="top"
+                        offset={6}
+                        color={getHexFromThemeColor({
+                          theme,
+                          color: props?.gradient?.to || theme.defaultGradient.to,
+                        })}
+                        onColorChange={(value) => {
+                          changeProp({
+                            id,
+                            newProps: {
+                              gradient: {
+                                ...props.gradient,
+                                to: value,
+                              },
+                            },
+                          })
+                        }}
+                      />
+                    </Box>
+                  </Tooltip>
+                </Group>
+              </Menu.Dropdown>
+            </Menu>
+          )}
           {type &&
             hasElementPalette(type.toLowerCase()) &&
+            props?.variant !== "gradient" &&
             props?.[PaletteTypePropColor[type.toLowerCase()].prop] && (
               <Tooltip label="Change color" color="violet" withArrow>
                 <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
