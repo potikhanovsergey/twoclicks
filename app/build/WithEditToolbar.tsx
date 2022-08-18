@@ -33,6 +33,7 @@ import {
   PaletteTypePropColor,
   TypeVariants,
   TypeSizes,
+  TypeRadius,
 } from "helpers"
 import { i } from "@blitzjs/auth/dist/index-57d74361"
 import PaletteItem from "./PaletteItem"
@@ -45,6 +46,7 @@ import { FaMagic } from "react-icons/fa"
 import IconPicker from "app/core/components/base/IconPicker"
 import ImagePicker from "app/core/components/base/ImagePicker"
 import { GiResize } from "react-icons/gi"
+import { AiOutlineRadiusBottomleft } from "react-icons/ai"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -315,6 +317,51 @@ const WithEditToolbar = ({
                       ]}
                     >
                       {size}
+                    </Button>
+                  ))}
+                </Stack>
+              </Menu.Dropdown>
+            </Menu>
+          )}
+          {type && TypeRadius[type.toLowerCase()] && (
+            <Menu
+              position="top"
+              offset={0}
+              defaultOpened={openedAction?.[id] === "radius"}
+              onOpen={() => {
+                BuildStore.openedAction[id] = "radius"
+              }}
+              onClose={() => (BuildStore.openedAction = {})}
+              closeOnItemClick={false}
+            >
+              <Menu.Target>
+                <div>
+                  <Tooltip label="Radius" color="violet" withArrow>
+                    <ActionIcon color="violet">
+                      <AiOutlineRadiusBottomleft style={{ fill: "url(#violet-red-gradient)" }} />
+                    </ActionIcon>
+                  </Tooltip>
+                </div>
+              </Menu.Target>
+              <Menu.Dropdown p={0}>
+                <Stack spacing={0} align="stretch">
+                  {TypeRadius[type.toLowerCase()].map((radius) => (
+                    <Button
+                      variant="subtle"
+                      size="sm"
+                      compact
+                      key={radius}
+                      disabled={
+                        props?.radius === undefined ? radius === "filled" : radius === props?.radius
+                      }
+                      onClick={() => [
+                        changeProp({
+                          id,
+                          newProps: { radius },
+                        }),
+                      ]}
+                    >
+                      {radius}
                     </Button>
                   ))}
                 </Stack>

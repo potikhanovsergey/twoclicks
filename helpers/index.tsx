@@ -114,6 +114,13 @@ export const TypeSizes: {
   "@mantine/core/text": sizes,
 }
 
+export const TypeRadius: {
+  [key: string]: string[]
+} = {
+  "@mantine/core/button": sizes,
+  "@mantine/core/image": sizes,
+}
+
 export function hasElementPalette(type: string) {
   return Boolean(PaletteTypePropColor[type])
 }
