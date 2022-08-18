@@ -31,6 +31,7 @@ import {
   hasElementPalette,
   PaletteTypePropColor,
   TypeVariants,
+  TypeSizes,
 } from "helpers"
 import { i } from "@blitzjs/auth/dist/index-57d74361"
 import PaletteItem from "./PaletteItem"
@@ -41,6 +42,7 @@ import { useDelayedHover } from "hooks/useDelayedHover"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { FaMagic } from "react-icons/fa"
 import IconPicker from "app/core/components/base/IconPicker"
+import { GiResize } from "react-icons/gi"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -186,7 +188,7 @@ const WithEditToolbar = ({
       <Popover.Dropdown style={{ padding: 0 }}>
         <Group
           noWrap
-          spacing={4}
+          spacing={0}
           onMouseEnter={openPopover}
           onMouseLeave={closePopover}
           style={{ flexDirection: editType === "section" ? "column" : "row" }}
@@ -246,6 +248,51 @@ const WithEditToolbar = ({
                       ]}
                     >
                       {variant}
+                    </Button>
+                  ))}
+                </Stack>
+              </Menu.Dropdown>
+            </Menu>
+          )}
+          {type && TypeSizes[type.toLowerCase()] && (
+            <Menu
+              position="top"
+              offset={0}
+              defaultOpened={openedAction?.[id] === "size"}
+              onOpen={() => {
+                BuildStore.openedAction[id] = "size"
+              }}
+              onClose={() => (BuildStore.openedAction = {})}
+              closeOnItemClick={false}
+            >
+              <Menu.Target>
+                <div>
+                  <Tooltip label="Sizes" color="violet" withArrow>
+                    <ActionIcon color="violet">
+                      <GiResize style={{ fill: "url(#violet-red-gradient)" }} />
+                    </ActionIcon>
+                  </Tooltip>
+                </div>
+              </Menu.Target>
+              <Menu.Dropdown p={0}>
+                <Stack spacing={0} align="stretch">
+                  {TypeSizes[type.toLowerCase()].map((size) => (
+                    <Button
+                      variant="subtle"
+                      size="sm"
+                      compact
+                      key={size}
+                      disabled={
+                        props?.size === undefined ? size === "filled" : size === props?.size
+                      }
+                      onClick={() => [
+                        changeProp({
+                          id,
+                          newProps: { size },
+                        }),
+                      ]}
+                    >
+                      {size}
                     </Button>
                   ))}
                 </Stack>

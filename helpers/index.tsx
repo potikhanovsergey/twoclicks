@@ -105,6 +105,14 @@ export const TypeVariants: {
   "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle"],
 }
 
+const sizes = ["xs", "sm", "md", "lg", "xl"]
+
+export const TypeSizes: {
+  [key: string]: string[]
+} = {
+  "@mantine/core/button": sizes,
+}
+
 export function hasElementPalette(type: string) {
   return Boolean(PaletteTypePropColor[type])
 }
