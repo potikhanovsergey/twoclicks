@@ -18,8 +18,7 @@ const ImagePicker = ({
         component={Dropzone}
         onDrop={onDrop}
         multiple={false}
-        accept={["image/*"]}
-        maxSize={10 * 1024 ** 2}
+        accept={[MIME_TYPES.png, MIME_TYPES.jpeg]}
         sx={(theme) => ({
           display: "flex",
           justifyContent: "center",
@@ -40,34 +39,11 @@ const ImagePicker = ({
             backgroundColor: theme.colors.dark[6],
           },
         })}
-        opacity={0.75}
+        opacity={0.8}
       >
-        <></>
+        {hovered && <FaImage size={128} color="#fff" />}
       </Overlay>
       {children}
-      {hovered && (
-        <Box
-          sx={{
-            position: "absolute",
-            zIndex: 300,
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            pointerEvents: "none",
-          }}
-        >
-          {hovered && (
-            <ThemeIcon
-              variant="gradient"
-              gradient={{ from: "violet", to: "red" }}
-              size={64}
-              radius="md"
-            >
-              <FaImage size={48} color="#fff" />
-            </ThemeIcon>
-          )}
-        </Box>
-      )}
     </Box>
   )
 }

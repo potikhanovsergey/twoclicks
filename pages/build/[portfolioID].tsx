@@ -79,6 +79,7 @@ const BuildPage = () => {
 
   useEffect(() => {
     if (portfolio?.data) {
+      console.log(portfolio)
       setData({
         blocks: portfolio.data,
         name: portfolio.name,

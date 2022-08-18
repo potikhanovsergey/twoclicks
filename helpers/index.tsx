@@ -298,14 +298,14 @@ function traverseJSXChangeType(obj) {
 
 export function traverseAddIDs(obj) {
   if (typeof obj === "object" && obj?.type) {
-    obj.id = shortid.generate()
+    if (!obj.id) obj.id = shortid.generate()
     BuildStore.pushFlatten(obj)
   }
   if (obj && typeof obj === "object") {
     for (let k in obj) {
       if (k === "id") continue
       if (typeof obj[k] === "object" && obj[k]?.type) {
-        obj[k].id = shortid.generate()
+        if (!obj.id) obj.id = shortid.generate()
         BuildStore.pushFlatten(obj[k])
       }
       traverseAddIDs(obj[k])
