@@ -10,10 +10,9 @@ import { BuildStore } from "store/build"
 
 interface ITogglePublishPortfolio {
   id: string
-  isPublished: boolean
 }
 
-const TogglePublishPortfilio = ({ id, isPublished }: ITogglePublishPortfolio) => {
+const TogglePublishPortfilio = ({ id }: ITogglePublishPortfolio) => {
   const portfolio = AppStore.portfolios?.find((p) => p.id === id)
 
   const handleToggle = (e) => {
@@ -36,6 +35,7 @@ const TogglePublishPortfilio = ({ id, isPublished }: ITogglePublishPortfolio) =>
       onClick={handleToggle}
       size="xs"
       loading={isLoading}
+      variant="filled"
       leftIcon={portfolio?.isPublished ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
     >
       {portfolio?.isPublished ? "Hide portfolio" : "Publish portfolio"}

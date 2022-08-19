@@ -10,6 +10,9 @@ import {
   Skeleton,
   Tooltip,
   useMantineTheme,
+  Text,
+  HoverCard,
+  Box,
 } from "@mantine/core"
 import { useFullscreen, useHotkeys, useHover } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
@@ -18,6 +21,7 @@ import React, { Suspense, useEffect } from "react"
 import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
 import { FaSave } from "react-icons/fa"
 import { MdOutlinePreview } from "react-icons/md"
+import { AppStore } from "store"
 import { BuildStore } from "store/build"
 import PaletteItems from "./PaletteItems"
 import PortfolioLink from "./PortfolioLink"
@@ -29,32 +33,45 @@ import ViewportButtons from "./ViewportButtons"
 const AuthorizedActions = observer(() => {
   const session = useSession()
   const {
-    data: { id, isPublished },
+    data: { id },
   } = BuildStore
-
-  return session.userId ? (
-    <>
-      {id && typeof isPublished === "boolean" && <PortfolioLink id={id} withEllipsis={true} />}
-      {id && typeof isPublished === "boolean" && (
-        <TogglePublishPortfilio id={id} isPublished={isPublished} />
-      )}
-    </>
-  ) : (
-    <></>
-  )
+  return session.userId ? <>{id && <TogglePublishPortfilio id={id} />}</> : <></>
 })
 
-const ObservePreviewPortfolio = observer(() => {
+const ObservedPreviewPortfolio = observer(() => {
   const { isCanvasEmpty } = BuildStore
 
   return !isCanvasEmpty ? (
-    <Tooltip label="Preview mode" position="bottom" color="violet" withArrow>
-      <PreviewButton variant="filled" color="violet" size={30}>
+    <Tooltip label="Preview mode" position="bottom-start" color="violet" withArrow>
+      <PreviewButton variant="light" color="violet" size={30}>
         <MdOutlinePreview size={16} />
       </PreviewButton>
     </Tooltip>
   ) : (
     <></>
+  )
+})
+
+const ObservedPortfolioName = observer(() => {
+  const session = useSession()
+  const {
+    data: { name, id },
+  } = BuildStore
+
+  const isPublished = AppStore.portfolios.find((p) => p.id === id)?.isPublished
+  return session.userId && isPublished ? (
+    <HoverCard shadow="xl">
+      <HoverCard.Target>
+        <Text>{name}</Text>
+      </HoverCard.Target>
+      <HoverCard.Dropdown p={8}>
+        {id && <PortfolioLink id={id} withEllipsis={false} />}
+      </HoverCard.Dropdown>
+    </HoverCard>
+  ) : (
+    <>
+      <Text>{name}</Text>
+    </>
   )
 })
 
@@ -68,7 +85,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
     <Center className={className}>
       <Container size="xl">
         <Group style={{ width: "100%" }} position="apart">
-          <Group spacing={32} align="center">
+          <Group spacing={8} align="center">
             <Suspense
               fallback={
                 <Group>
@@ -79,11 +96,21 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             >
               <AuthorizedActions />
             </Suspense>
+            <ObservedPreviewPortfolio />
             <PaletteItems />
           </Group>
+          <Box
+            sx={{
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <ObservedPortfolioName />
+          </Box>
           <Group spacing={8}>
-            <ViewportButtons color="violet" size={30} variant="filled" />
-            <ObservePreviewPortfolio />
+            <ViewportButtons color="violet" size={30} variant="light" />
             <Tooltip
               color="violet"
               label="Toggle fullscreen mode"
@@ -94,7 +121,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               <ActionIcon
                 onClick={toggle}
                 color="violet"
-                variant="filled"
+                variant="light"
                 size={30}
                 ref={fullscreenRef}
               >

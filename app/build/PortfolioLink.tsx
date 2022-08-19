@@ -12,11 +12,12 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
 
   const portfolio = AppStore.portfolios.find((p) => p.id === id)
   return portfolio?.isPublished ? (
-    <Group spacing={4}>
+    <Group spacing={4} noWrap>
       <Anchor
         href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
         target="_blank"
         color="blue"
+        size="sm"
         style={
           withEllipsis
             ? { overflow: "hidden", maxWidth: "24ch", textOverflow: "ellipsis" }
