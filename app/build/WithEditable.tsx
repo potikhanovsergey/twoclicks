@@ -77,7 +77,7 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
         if (parent) {
           let parentProps = parent.props as ICanvasBlockProps
           if (parentProps?.children !== e.target.innerText) {
-            BuildStore.changeProp({ id: parentID, newProps: { children: [text] } })
+            BuildStore.changeProp({ id: parentID, newProps: { children: text } })
           }
         }
       }}

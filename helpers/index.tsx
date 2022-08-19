@@ -68,7 +68,11 @@ function traverseProp({
 }) {
   if (prop === "children" && typeof propValue === "string" && withContentEditable)
     return (
-      <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
+      <WithEditable
+        parentID={parentID}
+        withContentEditable={withContentEditable}
+        key={shortid.generate()}
+      >
         {propValue}
       </WithEditable>
     )

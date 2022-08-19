@@ -35,7 +35,7 @@ export type ICanvasBuildingBlockComponent =
 
 export interface ICanvasBlockProps {
   [key: string]: any
-  children?: ICanvasElement[]
+  children?: ICanvasElement[] | ICanvasElement
 }
 
 export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt">
