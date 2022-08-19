@@ -179,7 +179,6 @@ const WithEditToolbar = ({
             border: isElementActive
               ? `1px dotted ${theme.colors.gray[5]}`
               : "1px solid transparent",
-            marginTop: "-1px",
             position: "relative",
           })}
           onMouseEnter={openDelayedEditable}

@@ -1,4 +1,4 @@
-import { Button, Center, ThemeIcon } from "@mantine/core"
+import { Box, Button, Center, ThemeIcon } from "@mantine/core"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { renderJSXFromBlock } from "helpers"
@@ -8,7 +8,7 @@ import { BuildStore } from "store/build"
 import { GrNewWindow } from "react-icons/gr"
 import { FiPlusSquare } from "react-icons/fi"
 
-const BuilderBlocks = observer(({ className }: { className?: string }) => {
+const BuilderBlocks = observer(() => {
   const {
     data: { blocks, palette },
   } = BuildStore
@@ -21,7 +21,26 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
     BuildStore.sectionsRef = sectionsRef
   }, [sectionsRef])
   return (
-    <div className={className} style={{ height: "100%" }} ref={sectionsRef}>
+    <Box
+      sx={{
+        height: "100%",
+        overflow: "hidden",
+        paddingTop: "12px",
+        paddingBottom: "12px",
+        marginTop: "-12px",
+        marginBottom: "-12px",
+        "[data-button=true] .content-editable": {
+          overflow: "hidden",
+          textOverflow: "ellipsis",
+          WebkitLineClamp: 1,
+          WebkitBoxOrient: "vertical",
+          display: "-webkit-box",
+          whiteSpace: "normal",
+          maxWidth: "100%",
+        },
+      }}
+      ref={sectionsRef}
+    >
       {blocks && blocks.length > 0 ? (
         blocks.map((b, i) => {
           const JSX = renderJSXFromBlock({
@@ -36,9 +55,7 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
           if (JSX) {
             return (
               <div className="builder-block" key={b.id}>
-                <SafeWrapper resetKeys={[JSX]} key={b.id}>
-                  {JSX}
-                </SafeWrapper>
+                <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
               </div>
             )
           }
@@ -65,7 +82,7 @@ const BuilderBlocks = observer(({ className }: { className?: string }) => {
           </Button>
         </Center>
       )}
-    </div>
+    </Box>
   )
 })
 

@@ -141,7 +141,7 @@ export function renderJSXFromBlock({
   sectionIndex,
   palette,
 }: {
-  element: ICanvasElement
+  element: ICanvasBlock
   shouldFlat?: boolean
   parentID?: string | null
   withContentEditable?: boolean
@@ -154,13 +154,13 @@ export function renderJSXFromBlock({
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
 
   // TODO: It's questionable if we need these lines
-  if (typeof element === "string") {
-    return (
-      <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
-        {element}
-      </WithEditable>
-    )
-  }
+  // if (typeof element === "string") {
+  //   return (
+  //     <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
+  //       {element}
+  //     </WithEditable>
+  //   )
+  // }
 
   const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
   const TagName = canvasBuildingBlocks[element?.type?.toLowerCase()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
@@ -204,6 +204,10 @@ export function renderJSXFromBlock({
     if (hasElementPalette(lcType) && !props[PaletteTypePropColor[lcType].prop]) {
       props[PaletteTypePropColor[lcType].prop] = palette?.[PaletteTypePropColor[lcType].color]
     }
+  }
+
+  if (el.type.toLowerCase().includes("button") && withContentEditable) {
+    props.component = "span"
   }
 
   if (withEditToolbar && el?.editType === "icon") {

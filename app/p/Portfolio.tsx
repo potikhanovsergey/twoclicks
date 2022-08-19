@@ -1,4 +1,4 @@
-import { Button, Center, Loader, LoadingOverlay, useMantineTheme } from "@mantine/core"
+import { Box, Button, Center, Loader, LoadingOverlay, useMantineTheme } from "@mantine/core"
 import React, { useMemo } from "react"
 import { renderJSXFromBlock } from "helpers"
 import { useSession } from "@blitzjs/auth"
@@ -32,7 +32,21 @@ const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
             if (JSX) {
               return (
                 <SafeWrapper resetKeys={[JSX]} key={b.id}>
-                  {JSX}
+                  <Box
+                    sx={{
+                      "[data-button=true], [data-button=true] span": {
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        WebkitLineClamp: 1,
+                        WebkitBoxOrient: "vertical",
+                        display: "-webkit-box",
+                        whiteSpace: "normal",
+                        maxWidth: "100%",
+                      },
+                    }}
+                  >
+                    {JSX}
+                  </Box>
                 </SafeWrapper>
               )
             }

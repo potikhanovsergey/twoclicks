@@ -58,29 +58,9 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
           e.preventDefault()
 
         const el = e.target
-        const parentButton = el?.closest("button")
+        const parentButton = el?.closest("span[data-button]")
         if (parentButton && e.key === "Enter") {
           e.preventDefault()
-        }
-        // 32 = space button
-        if (parentButton && e.which === 32) {
-          e.preventDefault()
-          // Insert text at the current position of caret
-          const range = document.getSelection()?.getRangeAt(0)
-          if (range) {
-            range.deleteContents()
-
-            const textNode = document.createTextNode(" ")
-            range.insertNode(textNode)
-            range.selectNodeContents(textNode)
-            range.collapse(false)
-
-            const selection = window.getSelection()
-            if (selection) {
-              selection.removeAllRanges()
-              selection.addRange(range)
-            }
-          }
         }
         if (
           e.key === "s" &&
@@ -91,13 +71,13 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
         }
       }}
       onBlur={(e) => {
-        if (e?.target?.innerText) {
-          let parent = BuildStore.data.flattenBlocks[parentID]
-          if (parent) {
-            let parentProps = parent.props as ICanvasBlockProps
-            if (parentProps?.children !== e.target.innerText) {
-              BuildStore.changeProp({ id: parentID, newProps: { children: e.target.innerText } })
-            }
+        let text = ""
+        if (e.target.innerText) text = e.target.innerText
+        let parent = BuildStore.data.flattenBlocks[parentID]
+        if (parent) {
+          let parentProps = parent.props as ICanvasBlockProps
+          if (parentProps?.children !== e.target.innerText) {
+            BuildStore.changeProp({ id: parentID, newProps: { children: [text] } })
           }
         }
       }}

@@ -256,6 +256,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             color: colorScheme === "dark" ? theme.white : theme.black,
             lineHeight: theme.lineHeight,
             minHeight: "100vh",
+            overflowX: "hidden",
           },
         })}
       />
