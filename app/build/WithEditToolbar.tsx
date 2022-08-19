@@ -196,7 +196,7 @@ const WithEditToolbar = ({
                 reader.readAsDataURL(file)
                 reader.onload = () => {
                   console.log(id, reader.result)
-                  // changeProp({ id, newProps: { src: reader.result } })
+                  changeProp({ id, newProps: { src: reader.result } })
                 }
                 reader.onerror = function (error) {
                   console.log("File Reader Error: ", error)
