@@ -1,4 +1,4 @@
-import { Box, Center, Overlay, Text, ThemeIcon } from "@mantine/core"
+import { Box, Center, Overlay, Text, ThemeIcon, Stack, Badge } from "@mantine/core"
 import { Dropzone, MIME_TYPES } from "@mantine/dropzone"
 import { useHover } from "@mantine/hooks"
 import { ReactNode } from "react"
@@ -19,23 +19,13 @@ const ImagePicker = ({
         onDrop={onDrop}
         multiple={false}
         accept={["image/*"]}
-        maxSize={10 * 1024 ** 2}
+        maxSize={1 * 1024 ** 2}
         sx={(theme) => ({
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
           border: 0,
           backgroundColor: "transparent",
-          // "&[data-accept]": {
-          //   color: theme.white,
-          //   backgroundColor: theme.colors.blue[6],
-          // },
-
-          // "&[data-reject]": {
-          //   color: theme.white,
-          //   backgroundColor: theme.colors.red[6],
-          // },
-
           "&:hover": {
             backgroundColor: theme.colors.dark[6],
           },
@@ -57,14 +47,17 @@ const ImagePicker = ({
           }}
         >
           {hovered && (
-            <ThemeIcon
-              variant="gradient"
-              gradient={{ from: "violet", to: "red" }}
-              size={64}
-              radius="md"
-            >
-              <FaImage size={48} color="#fff" />
-            </ThemeIcon>
+            <Stack align="center">
+              <ThemeIcon
+                variant="gradient"
+                gradient={{ from: "violet", to: "red" }}
+                size={64}
+                radius="md"
+              >
+                <FaImage size={48} color="#fff" />
+              </ThemeIcon>
+              <Badge>Max size: 1MB</Badge>
+            </Stack>
           )}
         </Box>
       )}

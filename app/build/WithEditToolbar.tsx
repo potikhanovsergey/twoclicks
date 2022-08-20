@@ -190,19 +190,42 @@ const WithEditToolbar = ({
           )}
           {editType === "image" ? (
             <ImagePicker
-              onDrop={(files) => {
-                const file = files[0]
-                const reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onload = () => {
-                  console.log(id, reader.result)
-                  changeProp({ id, newProps: { src: reader.result } })
+              onDrop={async (files) => {
+                const data = new FormData()
+                data.append("file", files[0])
+                data.append("UPLOADCARE_PUB_KEY", "719fb1a8f2d034c0731c")
+                data.append("UPLOADCARE_STORE", "auto")
+
+                const response = await fetch("https://upload.uploadcare.com/base/", {
+                  method: "POST",
+                  mode: "cors",
+                  cache: "no-cache",
+                  body: data,
+                })
+
+                if (response.ok) {
+                  const responseData = await response.json()
+                  const src = `https://ucarecdn.com/${responseData.file}/`
+                  const old_uuid = props?.uuid
+                  changeProp({
+                    id,
+                    newProps: {
+                      src,
+                      uuid: responseData.file,
+                    },
+                  })
+                  if (old_uuid) {
+                    await fetch(`https://api.uploadcare.com/files/${old_uuid}/storage/`, {
+                      method: "DELETE",
+                      mode: "cors",
+                      cache: "no-cache",
+                      headers: {
+                        Authorization:
+                          "Uploadcare.Simple 719fb1a8f2d034c0731c:8447df3ce909bc5b904b",
+                      },
+                    })
+                  }
                 }
-                reader.onerror = function (error) {
-                  console.log("File Reader Error: ", error)
-                }
-                // const url = URL.createObjectURL(files[0])
-                // changeProp({ id, newProps: { src: url } })
               }}
             >
               {children}
