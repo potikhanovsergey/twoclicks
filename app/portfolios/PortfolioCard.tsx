@@ -81,7 +81,7 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: Po
           </Text>
           <PortfolioLink id={id} />
           <Space h="xs" />
-          <TogglePublishPortfilio id={id} isPublished={isPublished} />
+          <TogglePublishPortfilio id={id} />
         </Stack>
         <Stack spacing="xs">
           <Group spacing="xs" position="right">

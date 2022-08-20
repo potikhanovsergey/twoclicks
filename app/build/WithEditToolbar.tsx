@@ -568,7 +568,7 @@ const WithEditToolbar = ({
           )}
 
           <Tooltip
-            label="Delete"
+            label={editType === "section" ? "Delete section" : "Delete"}
             color="violet"
             withArrow
             position={editType === "section" ? "left" : "top"}
