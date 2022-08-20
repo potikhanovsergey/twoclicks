@@ -13,6 +13,7 @@ import {
   Text,
   HoverCard,
   Box,
+  ThemeIcon,
 } from "@mantine/core"
 import { useFullscreen, useHotkeys, useHover } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
@@ -29,6 +30,7 @@ import PreviewButton from "./PreviewButton"
 import SaveButton from "./SaveButton"
 import TogglePublishPortfilio from "./TogglePublishPortfolio"
 import ViewportButtons from "./ViewportButtons"
+import { AiOutlineLink } from "react-icons/ai"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -62,7 +64,10 @@ const ObservedPortfolioName = observer(() => {
   return session.userId && isPublished ? (
     <HoverCard shadow="xl">
       <HoverCard.Target>
-        <Text>{name}</Text>
+        <Group align="center" spacing={4}>
+          <Text>{name}</Text>
+          <AiOutlineLink />
+        </Group>
       </HoverCard.Target>
       <HoverCard.Dropdown p={8}>
         {id && <PortfolioLink id={id} withEllipsis={false} />}
@@ -99,16 +104,16 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <ObservedPreviewPortfolio />
             <PaletteItems />
           </Group>
-          <Box
+          {/* <Box
             sx={{
               position: "absolute",
               left: "50%",
               top: "50%",
               transform: "translate(-50%, -50%)",
             }}
-          >
-            <ObservedPortfolioName />
-          </Box>
+          > */}
+          <ObservedPortfolioName />
+          {/* </Box> */}
           <Group spacing={8}>
             <ViewportButtons color="violet" size={30} variant="light" />
             <Tooltip
