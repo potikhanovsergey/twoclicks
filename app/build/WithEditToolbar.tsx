@@ -1,17 +1,6 @@
-import {
-  ActionIcon,
-  Box,
-  Button,
-  ButtonProps,
-  Group,
-  Popover,
-  Text,
-  Tooltip,
-  useMantineTheme,
-} from "@mantine/core"
+import { Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
 import { FiPlusSquare } from "react-icons/fi"
-import { RiDeleteBin6Line } from "react-icons/ri"
 import { BuildStore } from "store/build"
 import { CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 import { useDisclosure } from "@mantine/hooks"
@@ -84,8 +73,6 @@ const WithEditToolbar = ({
   element,
 }: IWithEditToolbar) => {
   const {
-    moveLeft,
-    moveRight,
     data: { blocks },
     activeEditToolbars,
   } = BuildStore
