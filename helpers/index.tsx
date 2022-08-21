@@ -131,8 +131,24 @@ export const TypeGradients: {
   "@mantine/core/button": true,
 }
 
-export function hasElementPalette(type: string) {
-  return Boolean(PaletteTypePropColor[type])
+export function getPaletteByType(type: string) {
+  return PaletteTypePropColor[type.toLowerCase()]
+}
+
+export function getVariantsByType(type: string) {
+  return TypeVariants[type.toLowerCase()]
+}
+
+export function getSizesByType(type: string) {
+  return TypeSizes[type.toLowerCase()]
+}
+
+export function getRadiusesByType(type: string) {
+  return TypeRadius[type.toLowerCase()]
+}
+
+export function getGradientsByType(type: string) {
+  return TypeGradients[type.toLowerCase()]
 }
 
 export function renderJSXFromBlock({
@@ -204,9 +220,9 @@ export function renderJSXFromBlock({
   }
 
   if (withPalette) {
-    const lcType = el.type.toLowerCase()
-    if (hasElementPalette(lcType) && !props[PaletteTypePropColor[lcType].prop]) {
-      props[PaletteTypePropColor[lcType].prop] = palette?.[PaletteTypePropColor[lcType].color]
+    const type = el.type
+    if (getPaletteByType(type) && !props[getPaletteByType(type).prop]) {
+      props[getPaletteByType(type).prop] = palette?.[getPaletteByType(type).color]
     }
   }
 

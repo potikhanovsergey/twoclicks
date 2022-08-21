@@ -82,7 +82,6 @@ const ObservedPortfolioName = observer(() => {
 
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
-  const theme = useMantineTheme()
   const { toggle, fullscreen } = useFullscreen()
   const { hovered: fullscreenHovered, ref: fullscreenRef } = useHover<HTMLButtonElement>()
 
@@ -104,16 +103,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <ObservedPreviewPortfolio />
             <PaletteItems />
           </Group>
-          {/* <Box
-            sx={{
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          > */}
           <ObservedPortfolioName />
-          {/* </Box> */}
           <Group spacing={8}>
             <ViewportButtons color="violet" size={30} variant="light" />
             <Tooltip
