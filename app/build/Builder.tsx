@@ -13,7 +13,7 @@ import {
   Loader,
   Center,
 } from "@mantine/core"
-import React, { Suspense, useRef } from "react"
+import React, { Suspense, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -22,7 +22,7 @@ import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
 import { useRouter } from "next/router"
 import BuilderBlocks from "./BuilderBlocks"
-import { useElementSize } from "@mantine/hooks"
+import { useElementSize, useScrollLock } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { DeviceFrameset } from "react-device-frameset"
@@ -133,6 +133,7 @@ const Builder = () => {
 
   const { viewMode, isCanvasEmpty } = BuildStore
   const { ref: containerRef, width: containerWidth } = useElementSize()
+
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
@@ -153,10 +154,11 @@ const Builder = () => {
                 sx={{
                   height: "100%",
                   ".screen": { overflowY: "scroll" },
+                  marginTop: "-50px",
                 }}
               >
                 <ResponsiveContext.Provider value={{ width: 500 }}>
-                  <DeviceFrameset device="HTC One" color="gold">
+                  <DeviceFrameset device="iPhone 8" color="black" zoom={0.75}>
                     {children}
                   </DeviceFrameset>
                 </ResponsiveContext.Provider>
