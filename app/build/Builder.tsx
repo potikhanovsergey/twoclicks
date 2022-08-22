@@ -10,8 +10,9 @@ import {
   ThemeIcon,
   Group,
   MantineProvider,
+  Loader,
 } from "@mantine/core"
-import React, { useRef } from "react"
+import React, { Suspense, useRef } from "react"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -83,6 +84,47 @@ const SaveRedirectButton = observer(() => {
   )
 })
 
+const Canvas = () => {
+  const { ref: containerRef, width: containerWidth } = useElementSize()
+  const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
+
+  const { isCanvasEmpty } = BuildStore
+  const session = useSession()
+  const { classes } = useStyles()
+  return (
+    <Container
+      size="xl"
+      px={64}
+      py={isCanvasEmpty ? 24 : 64}
+      className={classes.canvasContainer}
+      ref={containerRef}
+    >
+      <Stack
+        spacing={0}
+        className={classes.canvas}
+        style={{ height: isCanvasEmpty ? "100%" : "auto" }}
+      >
+        <MantineProvider inherit theme={{ colorScheme: "light" }}>
+          <BuilderBlocks />
+        </MantineProvider>
+        {session.userId ? (
+          <div
+            ref={onboardingRef}
+            className={classes.onboarding}
+            style={{
+              left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
+            }}
+          >
+            <Onboarding />
+          </div>
+        ) : (
+          <></>
+        )}
+      </Stack>
+    </Container>
+  )
+}
+
 const Builder = () => {
   // const { t } = useTranslation('pagesBuild');
 
@@ -93,43 +135,12 @@ const Builder = () => {
   const dark = colorScheme === "dark"
   const session = useSession()
 
-  const { ref: containerRef, width: containerWidth } = useElementSize()
-  const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
-
-  const { isCanvasEmpty } = BuildStore
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
-      <Container
-        size="xl"
-        px={64}
-        py={isCanvasEmpty ? 24 : 64}
-        className={classes.canvasContainer}
-        ref={containerRef}
-      >
-        <Stack
-          spacing={0}
-          className={classes.canvas}
-          style={{ height: isCanvasEmpty ? "100%" : "auto" }}
-        >
-          <MantineProvider inherit theme={{ colorScheme: "light" }}>
-            <BuilderBlocks />
-          </MantineProvider>
-          {session.userId ? (
-            <div
-              ref={onboardingRef}
-              className={classes.onboarding}
-              style={{
-                left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
-              }}
-            >
-              <Onboarding />
-            </div>
-          ) : (
-            <></>
-          )}
-        </Stack>
-      </Container>
+      <Suspense fallback={<Loader />}>
+        <Canvas />
+      </Suspense>
       <Modal
         opened={BuildStore.sectionsCount >= 3 && !session.userId}
         onClose={() => 1}
