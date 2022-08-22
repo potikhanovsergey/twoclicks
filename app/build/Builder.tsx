@@ -11,6 +11,7 @@ import {
   Group,
   MantineProvider,
   Loader,
+  Center,
 } from "@mantine/core"
 import React, { Suspense, useRef } from "react"
 import { BuildStore } from "store/build"
@@ -24,6 +25,10 @@ import BuilderBlocks from "./BuilderBlocks"
 import { useElementSize } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import { DeviceFrameset } from "react-device-frameset"
+import "react-device-frameset/styles/marvel-devices.min.css"
+import { Context as ResponsiveContext } from "react-responsive"
+import ConditionalWrapper from "app/core/components/ConditionalWrapper"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -84,44 +89,35 @@ const SaveRedirectButton = observer(() => {
   )
 })
 
-const Canvas = () => {
-  const { ref: containerRef, width: containerWidth } = useElementSize()
+const Canvas = ({ containerWidth }: { containerWidth: number }) => {
   const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
 
   const { isCanvasEmpty } = BuildStore
   const session = useSession()
   const { classes } = useStyles()
   return (
-    <Container
-      size="xl"
-      px={64}
-      py={isCanvasEmpty ? 24 : 64}
-      className={classes.canvasContainer}
-      ref={containerRef}
+    <Stack
+      spacing={0}
+      className={classes.canvas}
+      style={{ height: isCanvasEmpty ? "100%" : "auto" }}
     >
-      <Stack
-        spacing={0}
-        className={classes.canvas}
-        style={{ height: isCanvasEmpty ? "100%" : "auto" }}
-      >
-        <MantineProvider inherit theme={{ colorScheme: "light" }}>
-          <BuilderBlocks />
-        </MantineProvider>
-        {session.userId ? (
-          <div
-            ref={onboardingRef}
-            className={classes.onboarding}
-            style={{
-              left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
-            }}
-          >
-            <Onboarding />
-          </div>
-        ) : (
-          <></>
-        )}
-      </Stack>
-    </Container>
+      <MantineProvider inherit theme={{ colorScheme: "light" }}>
+        <BuilderBlocks />
+      </MantineProvider>
+      {session.userId ? (
+        <div
+          ref={onboardingRef}
+          className={classes.onboarding}
+          style={{
+            left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
+          }}
+        >
+          <Onboarding />
+        </div>
+      ) : (
+        <></>
+      )}
+    </Stack>
   )
 }
 
@@ -135,12 +131,42 @@ const Builder = () => {
   const dark = colorScheme === "dark"
   const session = useSession()
 
+  const { viewMode, isCanvasEmpty } = BuildStore
+  const { ref: containerRef, width: containerWidth } = useElementSize()
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
-      <Suspense fallback={<Loader />}>
-        <Canvas />
-      </Suspense>
+      <Container
+        size="xl"
+        px={64}
+        py={isCanvasEmpty ? 24 : 64}
+        className={classes.canvasContainer}
+        ref={containerRef}
+      >
+        <Suspense fallback={<Loader />}>
+          <ConditionalWrapper
+            condition={viewMode === "mobile"}
+            wrap={(children) => (
+              <Center
+                style={{ height: "100%" }}
+                py="xl"
+                sx={{
+                  height: "100%",
+                  ".screen": { overflowY: "scroll" },
+                }}
+              >
+                <ResponsiveContext.Provider value={{ width: 500 }}>
+                  <DeviceFrameset device="HTC One" color="gold">
+                    {children}
+                  </DeviceFrameset>
+                </ResponsiveContext.Provider>
+              </Center>
+            )}
+          >
+            <Canvas containerWidth={containerWidth} />
+          </ConditionalWrapper>
+        </Suspense>
+      </Container>
       <Modal
         opened={BuildStore.sectionsCount >= 3 && !session.userId}
         onClose={() => 1}
