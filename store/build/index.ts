@@ -45,6 +45,8 @@ class Build {
     [key: string]: string
   } = {}
 
+  viewMode: string = "desktop"
+
   sectionsRef: RefObject<HTMLDivElement>
 
   constructor() {

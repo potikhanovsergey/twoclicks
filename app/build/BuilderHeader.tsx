@@ -105,7 +105,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
           </Group>
           <ObservedPortfolioName />
           <Group spacing={8}>
-            <ViewportButtons color="violet" size={30} variant="light" />
+            <ViewportButtons color="violet" size={30} />
             <Tooltip
               color="violet"
               label="Toggle fullscreen mode"
