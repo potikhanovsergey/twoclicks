@@ -5,12 +5,13 @@ import { renderJSXFromBlock } from "helpers"
 import { observer } from "mobx-react-lite"
 import React, { useContext, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
-import { GrNewWindow } from "react-icons/gr"
 import { FiPlusSquare } from "react-icons/fi"
 
-const BuilderBlocks = observer(() => {
+const BuilderBlocks = () => {
   const {
     data: { blocks, palette },
+    history,
+    historyStep,
   } = BuildStore
 
   const [, setModalContext = () => ({})] = useContext(ModalContext)
@@ -84,6 +85,6 @@ const BuilderBlocks = observer(() => {
       )}
     </Box>
   )
-})
+}
 
-export default BuilderBlocks
+export default observer(BuilderBlocks)

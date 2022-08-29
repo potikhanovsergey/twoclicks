@@ -49,22 +49,54 @@ class Build {
 
   sectionsRef: RefObject<HTMLDivElement>
 
+  historyStep: number = 0
+  history: ICanvasData[] = []
+
   constructor() {
     makeAutoObservable(this)
   }
   /////////// ACTIONS //////////////
   @action
-  setData = (data: ICanvasData) => {
+  onPortfolioChange = () => {
+    this.hasPortfolioChanged = true
+    const data = JSON.parse(JSON.stringify(this.data))
+
+    this.historyStep++
+    this.history.splice(this.historyStep + 1, this.history.length, data)
+  }
+
+  @action
+  setData = (data: ICanvasData, isInit: boolean = false) => {
     this.data = {
       ...this.data,
       ...data,
+      flattenBlocks: {},
     }
     traverseAddIDs(BuildStore.data.blocks)
+    if (isInit) {
+      this.history = [JSON.parse(JSON.stringify(this.data))]
+    }
   }
 
   @action
   resetData = () => {
     this.data = getInitialData()
+  }
+
+  @action
+  undo = () => {
+    if (this.historyStep > 0) {
+      this.historyStep -= 1
+      this.setData(this.history[this.historyStep])
+    }
+  }
+
+  @action
+  redo = () => {
+    if (this.historyStep < this.history.length - 1) {
+      this.historyStep += 1
+      this.setData(this.history[this.historyStep])
+    }
   }
 
   @action
@@ -81,7 +113,7 @@ class Build {
       traverseAddIDs(BuildStore.data.blocks[this.sectionToBeAddedIndex])
       this.sectionToBeAddedIndex = null
     }
-    this.hasPortfolioChanged = true
+    this.onPortfolioChange()
   }
 
   @action
@@ -96,7 +128,7 @@ class Build {
     const el = this.getElement(id)
     if (el) {
       const elProps = el?.props as ICanvasBlockProps
-      this.hasPortfolioChanged = true
+      this.onPortfolioChange()
       el.props = {
         ...elProps,
         ...newProps,
@@ -110,7 +142,7 @@ class Build {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
-        this.hasPortfolioChanged = true
+        this.onPortfolioChange()
         if (Array.isArray(parentProps.children)) {
           parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
         } else {
@@ -119,7 +151,7 @@ class Build {
         delete this.data.flattenBlocks[id]
       }
     } else {
-      this.hasPortfolioChanged = true
+      this.onPortfolioChange()
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
       delete this.data.flattenBlocks[id]
     }
@@ -174,7 +206,7 @@ class Build {
         parentArray[indexOfId - 1],
         parentArray[indexOfId],
       ]
-      this.hasPortfolioChanged = true
+      this.onPortfolioChange()
       this.sectionsRef.current
         ?.querySelectorAll(".builder-block")
         ?.[indexOfId - 1]?.scrollIntoView({ block: "start" })
@@ -199,7 +231,7 @@ class Build {
         parentArray[indexOfId],
         parentArray[indexOfId + 1],
       ]
-      this.hasPortfolioChanged = true
+      this.onPortfolioChange()
       console.log(this.sectionsRef.current?.querySelectorAll(".builder-block")[indexOfId + 1])
       setTimeout(() => {
         this.sectionsRef.current
@@ -257,7 +289,7 @@ class Build {
   changePalette = ({ paletteKey, value }: { paletteKey: string; value: string }) => {
     if (this.data.palette?.[paletteKey]) {
       this.data.palette[paletteKey] = value
-      this.hasPortfolioChanged = true
+      this.onPortfolioChange()
     }
   }
 

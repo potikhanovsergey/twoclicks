@@ -31,6 +31,7 @@ import SaveButton from "./SaveButton"
 import TogglePublishPortfilio from "./TogglePublishPortfolio"
 import ViewportButtons from "./ViewportButtons"
 import { AiOutlineLink } from "react-icons/ai"
+import HistoryButtons from "./HistoryButtons"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -105,6 +106,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
           </Group>
           <ObservedPortfolioName />
           <Group spacing={8}>
+            <HistoryButtons color="violet" size={30} variant="filled" />
             <ViewportButtons color="violet" size={30} />
             <Tooltip
               color="violet"
