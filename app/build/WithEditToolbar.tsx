@@ -72,25 +72,7 @@ const WithEditToolbar = ({
   sectionIndex,
   element,
 }: IWithEditToolbar) => {
-  const {
-    data: { blocks },
-    activeEditToolbars,
-  } = BuildStore
-
-  const hasMoves = useMemo(() => {
-    if (editType === "section") return blocks.length > 1
-    return false
-  }, [parentID])
-
-  const movesIcons = useMemo(() => {
-    if (hasMoves) {
-      return {
-        left: <CgChevronUpR />,
-        right: <CgChevronDownR />,
-      }
-    }
-    return null
-  }, [hasMoves])
+  const { activeEditToolbars } = BuildStore
 
   const editableRef = useRef<HTMLDivElement>(null)
 

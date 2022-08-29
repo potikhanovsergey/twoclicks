@@ -80,17 +80,14 @@ const BuildPage = () => {
   useEffect(() => {
     if (portfolio?.data) {
       console.log(portfolio)
-      setData(
-        {
-          blocks: portfolio.data,
-          name: portfolio.name,
-          id: portfolio.id,
-          palette: portfolio.palette,
-          flattenBlocks: {},
-          isPublished: portfolio.isPublished,
-        },
-        true
-      )
+      setData({
+        blocks: portfolio.data,
+        name: portfolio.name,
+        id: portfolio.id,
+        palette: portfolio.palette,
+        flattenBlocks: {},
+        isPublished: portfolio.isPublished,
+      })
     }
     // return () => resetData()
   }, [portfolio])

@@ -8,7 +8,7 @@ import { makeAutoObservable, action, computed, autorun, reaction } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
 import { configure } from "mobx"
-import React, { RefObject } from "react"
+import React, { memo, RefObject } from "react"
 
 configure({
   enforceActions: "never",
@@ -30,6 +30,19 @@ const getInitialData: () => ICanvasData = () => {
   return JSON.parse(JSON.stringify(initialData))
 }
 
+interface IActionHistoryItem {
+  undo: {
+    name: string
+    data: unknown
+  }
+  redo: {
+    name: string
+    data: unknown
+  }
+  fromHistory?: boolean
+  withScroll?: boolean
+}
+
 class Build {
   data: ICanvasData = getInitialData()
   shouldRefetchLiked: boolean = false
@@ -49,33 +62,30 @@ class Build {
 
   sectionsRef: RefObject<HTMLDivElement>
 
-  historyStep: number = 0
-  history: ICanvasData[] = []
+  undoStack: IActionHistoryItem[] = []
+  redoStack: IActionHistoryItem[] = []
 
   constructor() {
     makeAutoObservable(this)
   }
   /////////// ACTIONS //////////////
   @action
-  onPortfolioChange = () => {
+  onPortfolioChange = (action?: IActionHistoryItem) => {
     this.hasPortfolioChanged = true
-    const data = JSON.parse(JSON.stringify(this.data))
-
-    this.historyStep++
-    this.history.splice(this.historyStep + 1, this.history.length, data)
+    if (action && !action.fromHistory) {
+      this.redoStack = []
+      this.undoStack.push(JSON.parse(JSON.stringify(action)))
+    }
   }
 
   @action
-  setData = (data: ICanvasData, isInit: boolean = false) => {
+  setData = (data: ICanvasData) => {
     this.data = {
       ...this.data,
       ...data,
       flattenBlocks: {},
     }
     traverseAddIDs(BuildStore.data.blocks)
-    if (isInit) {
-      this.history = [JSON.parse(JSON.stringify(this.data))]
-    }
   }
 
   @action
@@ -85,17 +95,19 @@ class Build {
 
   @action
   undo = () => {
-    if (this.historyStep > 0) {
-      this.historyStep -= 1
-      this.setData(this.history[this.historyStep])
+    const undoItem = this.undoStack.pop()
+    if (undoItem) {
+      this[undoItem.undo.name]?.(undoItem.undo.data, true)
+      this.redoStack.push(undoItem)
     }
   }
 
   @action
   redo = () => {
-    if (this.historyStep < this.history.length - 1) {
-      this.historyStep += 1
-      this.setData(this.history[this.historyStep])
+    const redoItem = this.redoStack.pop()
+    if (redoItem) {
+      this[redoItem?.redo.name]?.(redoItem.redo.data, true)
+      this.undoStack.push(redoItem)
     }
   }
 
@@ -104,16 +116,35 @@ class Build {
     this.blockTypeFilter = filter
   }
   @action
-  push = (block: ICanvasBlock) => {
-    if (this.sectionToBeAddedIndex === null) {
+  push = (
+    {
+      block,
+      sectionToBeAddedIndex,
+    }: { block: ICanvasBlock; sectionToBeAddedIndex?: number | null },
+    fromHistory: boolean = false
+  ) => {
+    if (sectionToBeAddedIndex === null || sectionToBeAddedIndex === undefined) {
       this.data.blocks.push(block)
       traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
     } else {
-      this.data.blocks.splice(this.sectionToBeAddedIndex, 0, block)
-      traverseAddIDs(BuildStore.data.blocks[this.sectionToBeAddedIndex])
+      this.data.blocks.splice(sectionToBeAddedIndex, 0, block)
+      traverseAddIDs(BuildStore.data.blocks[sectionToBeAddedIndex])
       this.sectionToBeAddedIndex = null
     }
-    this.onPortfolioChange()
+
+    const memoBlock = JSON.parse(JSON.stringify(block))
+
+    this.onPortfolioChange({
+      redo: {
+        name: "push",
+        data: { block: memoBlock, sectionToBeAddedIndex },
+      },
+      undo: {
+        name: "deleteElement",
+        data: { id: memoBlock.id },
+      },
+      fromHistory,
+    })
   }
 
   @action
@@ -124,25 +155,68 @@ class Build {
   getElement = (id: string) => this.data.flattenBlocks[id]
 
   @action
-  changeProp = ({ id, newProps }: { id: string; newProps: ICanvasBlockProps }) => {
+  changeProp = (
+    { id, newProps }: { id: string; newProps: ICanvasBlockProps },
+    fromHistory: boolean = false
+  ) => {
     const el = this.getElement(id)
     if (el) {
       const elProps = el?.props as ICanvasBlockProps
-      this.onPortfolioChange()
-      el.props = {
+      const oldProps = {}
+      for (let prop in newProps) {
+        if (!elProps[prop]) {
+          oldProps[prop] = "undefined"
+        }
+      }
+
+      this.onPortfolioChange({
+        redo: {
+          name: "changeProp",
+          data: { id, newProps: JSON.parse(JSON.stringify(newProps)) },
+        },
+        undo: {
+          name: "changeProp",
+          data: { id, newProps: JSON.parse(JSON.stringify({ ...elProps, ...oldProps })) },
+        },
+        fromHistory,
+      })
+
+      const updatedElementProps = {
         ...elProps,
         ...newProps,
       }
+
+      for (let prop in updatedElementProps) {
+        if (updatedElementProps[prop] === "undefined") {
+          updatedElementProps[prop] = undefined
+        }
+      }
+
+      el.props = updatedElementProps
     }
   }
 
   @action
-  deleteElement = ({ id, parentID }: { id: string; parentID?: string | null }) => {
+  deleteElement = (
+    { id, parentID }: { id: string; parentID?: string | null },
+    fromHistory: boolean = false
+  ) => {
     if (parentID) {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
-        this.onPortfolioChange()
+        this.onPortfolioChange({
+          redo: {
+            name: "deleteElement",
+            data: { id, parentID },
+          },
+          undo: {
+            name: "push",
+            data: { block: JSON.parse(JSON.stringify(this.getElement(id))) },
+          },
+          fromHistory,
+        })
+
         if (Array.isArray(parentProps.children)) {
           parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
         } else {
@@ -151,7 +225,22 @@ class Build {
         delete this.data.flattenBlocks[id]
       }
     } else {
-      this.onPortfolioChange()
+      const index = this.data.blocks.findIndex((b) => b.id === id)
+
+      this.onPortfolioChange({
+        redo: {
+          name: "deleteElement",
+          data: { id, parentID },
+        },
+        undo: {
+          name: "push",
+          data: {
+            block: JSON.parse(JSON.stringify(this.getElement(id))),
+            sectionToBeAddedIndex: index,
+          },
+        },
+        fromHistory,
+      })
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
       delete this.data.flattenBlocks[id]
     }
@@ -190,15 +279,19 @@ class Build {
   }
 
   @action
-  moveLeft = ({
-    id,
-    parentID,
-    editType,
-  }: {
-    id: string
-    parentID: string | null
-    editType: string | null
-  }) => {
+  moveLeft = (
+    {
+      id,
+      parentID,
+      editType,
+    }: {
+      id: string
+      parentID: string | null
+      editType: string | null
+    },
+    fromHistory: boolean = false,
+    withScroll: boolean = true
+  ) => {
     const { indexOfId, parentArray } = this.findParentsChildren({ id, parentID, editType })
 
     if (typeof indexOfId === "number" && indexOfId !== -1 && indexOfId > 0) {
@@ -206,24 +299,42 @@ class Build {
         parentArray[indexOfId - 1],
         parentArray[indexOfId],
       ]
-      this.onPortfolioChange()
-      this.sectionsRef.current
-        ?.querySelectorAll(".builder-block")
-        ?.[indexOfId - 1]?.scrollIntoView({ block: "start" })
-      window.scrollBy(0, -100)
+      this.onPortfolioChange({
+        redo: {
+          name: "moveLeft",
+          data: { id, parentID, editType },
+        },
+        undo: {
+          name: "moveRight",
+          data: { id, parentID, editType },
+        },
+        fromHistory,
+        withScroll: false,
+      })
+
+      if (withScroll) {
+        this.sectionsRef.current
+          ?.querySelectorAll(".builder-block")
+          ?.[indexOfId - 1]?.scrollIntoView({ block: "start" })
+        window.scrollBy(0, -100)
+      }
     }
   }
 
   @action
-  moveRight = ({
-    id,
-    parentID,
-    editType,
-  }: {
-    id: string
-    parentID: string | null
-    editType: string | null
-  }) => {
+  moveRight = (
+    {
+      id,
+      parentID,
+      editType,
+    }: {
+      id: string
+      parentID: string | null
+      editType: string | null
+    },
+    fromHistory: boolean = false,
+    withScroll: boolean = true
+  ) => {
     const { indexOfId, parentArray } = this.findParentsChildren({ id, parentID, editType })
 
     if (typeof indexOfId === "number" && indexOfId !== -1 && indexOfId < parentArray.length - 1) {
@@ -231,14 +342,27 @@ class Build {
         parentArray[indexOfId],
         parentArray[indexOfId + 1],
       ]
-      this.onPortfolioChange()
+      this.onPortfolioChange({
+        redo: {
+          name: "moveRight",
+          data: { id, parentID, editType },
+        },
+        undo: {
+          name: "moveLeft",
+          data: { id, parentID, editType },
+        },
+        fromHistory,
+        withScroll: false,
+      })
       console.log(this.sectionsRef.current?.querySelectorAll(".builder-block")[indexOfId + 1])
-      setTimeout(() => {
-        this.sectionsRef.current
-          ?.querySelectorAll(".builder-block")
-          ?.[indexOfId + 1]?.scrollIntoView({ block: "start" })
-        window.scrollBy(0, -100)
-      }, 0)
+      if (withScroll) {
+        setTimeout(() => {
+          this.sectionsRef.current
+            ?.querySelectorAll(".builder-block")
+            ?.[indexOfId + 1]?.scrollIntoView({ block: "start" })
+          window.scrollBy(0, -100)
+        }, 0)
+      }
     }
   }
 
@@ -286,10 +410,24 @@ class Build {
   }
 
   @action
-  changePalette = ({ paletteKey, value }: { paletteKey: string; value: string }) => {
+  changePalette = (
+    { paletteKey, value }: { paletteKey: string; value: string },
+    fromHistory: boolean = false
+  ) => {
     if (this.data.palette?.[paletteKey]) {
+      const oldValue = this.data.palette[paletteKey]
       this.data.palette[paletteKey] = value
-      this.onPortfolioChange()
+      this.onPortfolioChange({
+        redo: {
+          name: "changePalette",
+          data: { paletteKey, value },
+        },
+        undo: {
+          name: "changePalette",
+          data: { paletteKey, value: oldValue },
+        },
+        fromHistory,
+      })
     }
   }
 

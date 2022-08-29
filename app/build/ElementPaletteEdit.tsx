@@ -54,7 +54,7 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
           onResetClick={() => {
             changeProp({
               id,
-              newProps: { [paletteKey.prop]: undefined },
+              newProps: { [paletteKey.prop]: "undefined" },
             })
           }}
         />

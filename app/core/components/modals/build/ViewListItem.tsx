@@ -3,25 +3,11 @@ import {
   Group,
   ActionIcon,
   createStyles,
-  Image,
-  LoadingOverlay,
   useMantineTheme,
-  MantineProvider,
-  ColorSchemeProvider,
   ScrollArea,
   Tooltip,
 } from "@mantine/core"
-import {
-  cloneElement,
-  createRef,
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react"
+import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { RiHeartsFill, RiHeartAddLine } from "react-icons/ri"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { renderJSXFromBlock } from "helpers"
@@ -31,10 +17,9 @@ import { useMutation } from "@blitzjs/rpc"
 import createLikedBlock from "app/liked-blocks/mutations/createLikedBlock"
 import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
 import { useElementSize } from "@mantine/hooks"
-import { ICanvasBlockProps } from "types"
 import SafeWrapper from "../../SafeWrapper"
 import { observer } from "mobx-react-lite"
-
+import shortid from "shortid"
 interface IViewListItem {
   block: BuildingBlock
   onClick?: () => void
@@ -101,6 +86,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const { classes } = useStyles()
   const {
     data: { palette },
+    sectionToBeAddedIndex,
   } = BuildStore
 
   const JSX = useMemo(() => {
@@ -135,7 +121,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       BuildStore.shouldRefetchLiked = true
       setIsLikeLoading(false)
     } else {
-      BuildStore.push(block)
+      BuildStore.push({ block: { ...block, id: shortid.generate() }, sectionToBeAddedIndex })
       setModalContext((prevValue: IModalContextValue) => ({
         ...prevValue,
         canvasComponentsModal: false,

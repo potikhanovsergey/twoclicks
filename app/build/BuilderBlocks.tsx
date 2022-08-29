@@ -6,12 +6,13 @@ import { observer } from "mobx-react-lite"
 import React, { useContext, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
 import { FiPlusSquare } from "react-icons/fi"
+import shortid from "shortid"
 
 const BuilderBlocks = () => {
   const {
     data: { blocks, palette },
-    history,
-    historyStep,
+    undoStack,
+    redoStack,
   } = BuildStore
 
   const [, setModalContext = () => ({})] = useContext(ModalContext)
@@ -42,6 +43,8 @@ const BuilderBlocks = () => {
       }}
       ref={sectionsRef}
     >
+      <div>{JSON.stringify(undoStack)}</div>
+      <div>{JSON.stringify(redoStack)}</div>
       {blocks && blocks.length > 0 ? (
         blocks.map((b, i) => {
           const JSX = renderJSXFromBlock({
@@ -55,7 +58,7 @@ const BuilderBlocks = () => {
           })
           if (JSX) {
             return (
-              <div className="builder-block" key={b.id}>
+              <div className="builder-block" key={shortid.generate()}>
                 <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
               </div>
             )
