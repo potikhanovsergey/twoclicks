@@ -1,9 +1,9 @@
-import { Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
+import { ActionIcon, Box, Button, ButtonProps, Group, Popover, Tooltip } from "@mantine/core"
+import React, { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { FiPlusSquare } from "react-icons/fi"
 import { BuildStore } from "store/build"
 import { CgChevronUpR, CgChevronDownR } from "react-icons/cg"
-import { useDisclosure } from "@mantine/hooks"
+import { useDisclosure, useHover } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
 import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
@@ -18,6 +18,8 @@ import ElementVariantsEdit from "./ElementVariantsEdit"
 import ElementDeleteButton from "./ElementDeleteButton"
 import ElementMoves from "./ElementMoves"
 import ElementName from "./ElementName"
+import { RiDeleteBin6Line } from "react-icons/ri"
+import { FaLock, FaUnlockAlt } from "react-icons/fa"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -104,6 +106,8 @@ const WithEditToolbar = ({
       openDelay: 100,
     })
 
+  const [isElementLocked, { close: unlockElement, open: lockElement }] = useDisclosure(true)
+
   return (
     <Popover
       trapFocus={false}
@@ -133,7 +137,11 @@ const WithEditToolbar = ({
               {children}
             </BuilderImagePicker>
           ) : (
-            children
+            <Box
+              sx={{ "> [data-button=true]": { pointerEvents: isElementLocked ? "none" : "all" } }}
+            >
+              {children}
+            </Box>
           )}
           {editType === "section" && sectionIndex !== undefined && (
             <InnerAddSectionButton sectionToBeAddedIndex={sectionIndex + 1} />
@@ -155,6 +163,22 @@ const WithEditToolbar = ({
           <ElementGradientsEdit id={id} type={type} props={props} />
           <ElementPaletteEdit id={id} element={element} type={type} props={props} />
           <ElementMoves id={id} parentID={parentID} editType={editType} />
+          {type?.toLowerCase().includes("button") && (
+            <Tooltip
+              label={isElementLocked ? "Unlock element" : "Lock element"}
+              color="violet"
+              withArrow
+              position="top"
+            >
+              <ActionIcon
+                color="violet"
+                size="md"
+                onClick={isElementLocked ? unlockElement : lockElement}
+              >
+                {isElementLocked ? <FaUnlockAlt /> : <FaLock />}
+              </ActionIcon>
+            </Tooltip>
+          )}
           <ElementDeleteButton id={id} parentID={parentID} editType={editType} />
         </Group>
       </Popover.Dropdown>
