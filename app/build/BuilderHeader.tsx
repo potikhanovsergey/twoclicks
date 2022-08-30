@@ -104,7 +104,16 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <ObservedPreviewPortfolio />
             <PaletteItems />
           </Group>
-          <ObservedPortfolioName />
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <ObservedPortfolioName />
+          </Box>
           <Group spacing={8}>
             <HistoryButtons color="violet" size={30} variant="filled" />
             <ViewportButtons color="violet" size={30} />
