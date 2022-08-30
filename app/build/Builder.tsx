@@ -145,11 +145,8 @@ const Builder = () => {
     key: "preview-portfolio",
   })
 
-  const [isIFrameLoading, setIsIframeLoading] = useState(false)
-
   const handleIframeLoad = () => {
     setPreviewPortfolio({ blocks: data.blocks, palette: data.palette })
-    setIsIframeLoading(false)
   }
 
   useEffect(() => {
@@ -157,12 +154,6 @@ const Builder = () => {
       setPreviewPortfolio({ blocks: data.blocks, palette: data.palette })
     })
   }, [data.blocks, data.palette])
-
-  useEffect(() => {
-    if (viewMode === "mobile") {
-      setIsIframeLoading(true)
-    }
-  }, [viewMode])
 
   return (
     <div className={classes.builder}>
@@ -174,59 +165,46 @@ const Builder = () => {
         className={classes.canvasContainer}
         ref={containerRef}
       >
-        {viewMode === "mobile" ? (
-          <Center
-            py={0}
+        <Center
+          py={0}
+          sx={{
+            height: "100%",
+            display: viewMode === "mobile" ? "flex" : "none",
+          }}
+        >
+          <Box
             sx={{
-              height: "100%",
+              backgroundImage: `url(${IPhone.src})`,
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "310px 600px",
+              height: "600px",
+              width: "310px",
+              overflow: "hidden",
+              "> iframe": {
+                width: "calc(310px - 37px)",
+                height: "calc(600px - 140px)",
+                border: "none",
+                borderRadius: "5px",
+                position: "relative",
+                top: "70px",
+                left: "18px",
+              },
             }}
           >
-            <Box
-              sx={{
-                backgroundImage: `url(${IPhone.src})`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "310px 600px",
-                height: "600px",
-                width: "310px",
-                overflow: "hidden",
-                "> iframe": {
-                  width: "calc(310px - 37px)",
-                  height: "calc(600px - 140px)",
-                  border: "none",
-                  borderRadius: "5px",
-                  position: "relative",
-                  top: "70px",
-                  left: "18px",
-                },
-              }}
+            <iframe
+              onLoad={handleIframeLoad}
+              ref={iframeRef}
+              src={`${baseURL}/build-preview?hideScrollbar=true`}
             >
-              <iframe
-                onLoad={handleIframeLoad}
-                ref={iframeRef}
-                src={`${baseURL}/build-preview?hideScrollbar=true`}
-              >
-                <Text>Your browser doesn&apos;t support iframe</Text>
-              </iframe>
-              {isIFrameLoading && (
-                <Box
-                  sx={{
-                    position: "absolute",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    zIndex: 321312312,
-                  }}
-                >
-                  <Loader />
-                </Box>
-              )}
-            </Box>
-          </Center>
-        ) : (
-          <Suspense fallback={<Loader />}>
+              <Text>Your browser doesn&apos;t support iframe</Text>
+            </iframe>
+          </Box>
+        </Center>
+        <Suspense fallback={<Loader />}>
+          <div style={{ display: viewMode !== "mobile" ? "block" : "none", height: "100%" }}>
             <Canvas containerWidth={containerWidth} />
-          </Suspense>
-        )}
+          </div>
+        </Suspense>
       </Container>
 
       <Modal
