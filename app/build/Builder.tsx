@@ -14,7 +14,7 @@ import {
   Center,
   Box,
 } from "@mantine/core"
-import React, { Suspense, useEffect, useRef } from "react"
+import React, { Suspense, useEffect, useRef, useState } from "react"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -148,8 +148,11 @@ const Builder = () => {
     key: "preview-portfolio",
   })
 
+  const [isIFrameLoading, setIsIframeLoading] = useState(false)
+
   const handleIframeLoad = () => {
     setPreviewPortfolio({ blocks: data.blocks, palette: data.palette })
+    setIsIframeLoading(false)
   }
 
   useEffect(() => {
@@ -157,6 +160,12 @@ const Builder = () => {
       setPreviewPortfolio({ blocks: data.blocks, palette: data.palette })
     })
   }, [data.blocks, data.palette])
+
+  useEffect(() => {
+    if (viewMode === "mobile") {
+      setIsIframeLoading(true)
+    }
+  }, [viewMode])
 
   return (
     <div className={classes.builder}>
@@ -197,8 +206,23 @@ const Builder = () => {
               <iframe
                 onLoad={handleIframeLoad}
                 ref={iframeRef}
-                src="http://localhost:3000/preview/6303bddc8a6d3a811067bb1b?hideScrollbar=true"
-              ></iframe>
+                src="http://localhost:3000/build-preview?hideScrollbar=true"
+              >
+                <Text>Your browser doesn&apos;t support iframe</Text>
+              </iframe>
+              {isIFrameLoading && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 321312312,
+                  }}
+                >
+                  <Loader />
+                </Box>
+              )}
             </Box>
           </Center>
         ) : (
@@ -207,6 +231,7 @@ const Builder = () => {
           </Suspense>
         )}
       </Container>
+
       <Modal
         opened={BuildStore.sectionsCount >= 3 && !session.userId}
         onClose={() => 1}
