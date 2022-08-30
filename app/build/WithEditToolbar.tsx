@@ -175,7 +175,11 @@ const WithEditToolbar = ({
                 size="md"
                 onClick={isElementLocked ? unlockElement : lockElement}
               >
-                {isElementLocked ? <FaUnlockAlt /> : <FaLock />}
+                {isElementLocked ? (
+                  <FaUnlockAlt style={{ fill: "url(#violet-red-gradient)" }} />
+                ) : (
+                  <FaLock style={{ fill: "url(#violet-red-gradient)" }} />
+                )}
               </ActionIcon>
             </Tooltip>
           )}
