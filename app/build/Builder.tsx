@@ -12,6 +12,7 @@ import {
   MantineProvider,
   Loader,
   Center,
+  Box,
 } from "@mantine/core"
 import React, { Suspense, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
@@ -25,10 +26,12 @@ import BuilderBlocks from "./BuilderBlocks"
 import { useElementSize, useScrollLock } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
-import { DeviceFrameset } from "react-device-frameset"
-import "react-device-frameset/styles/marvel-devices.min.css"
 import { Context as ResponsiveContext } from "react-responsive"
 import ConditionalWrapper from "app/core/components/ConditionalWrapper"
+import IPhone from "../../assets/IPhone7.png"
+
+import DeviceEmulator from "react-device-emulator"
+import "react-device-emulator/lib/styles/style.css"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -134,40 +137,54 @@ const Builder = () => {
   const { viewMode, isCanvasEmpty } = BuildStore
   const { ref: containerRef, width: containerWidth } = useElementSize()
 
+  const iframeRef = useRef(null)
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
       <Container
         size="xl"
         px={64}
-        py={isCanvasEmpty ? 24 : 64}
+        py={viewMode === "mobile" ? 12 : isCanvasEmpty ? 24 : 64}
         className={classes.canvasContainer}
         ref={containerRef}
       >
-        <Suspense fallback={<Loader />}>
-          <ConditionalWrapper
-            condition={viewMode === "mobile"}
-            wrap={(children) => (
-              <Center
-                style={{ height: "100%" }}
-                py="xl"
-                sx={{
-                  height: "100%",
-                  ".screen": { overflowY: "scroll" },
-                  marginTop: "-50px",
-                }}
-              >
-                <ResponsiveContext.Provider value={{ width: 500 }}>
-                  <DeviceFrameset device="iPhone 8" color="black" zoom={0.75}>
-                    {children}
-                  </DeviceFrameset>
-                </ResponsiveContext.Provider>
-              </Center>
-            )}
+        {viewMode === "mobile" ? (
+          <Center
+            py={0}
+            sx={{
+              height: "100%",
+            }}
           >
+            <Box
+              sx={{
+                backgroundImage: `url(${IPhone.src})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "310px 600px",
+                height: "600px",
+                width: "310px",
+                overflow: "hidden",
+                "> iframe": {
+                  width: "calc(310px - 37px)",
+                  height: "calc(600px - 140px)",
+                  border: "none",
+                  borderRadius: "5px",
+                  position: "relative",
+                  top: "70px",
+                  left: "18px",
+                },
+              }}
+            >
+              <iframe
+                ref={iframeRef}
+                src="http://localhost:3000/preview/6303bddc8a6d3a811067bb1b?hideScrollbar=true"
+              ></iframe>
+            </Box>
+          </Center>
+        ) : (
+          <Suspense fallback={<Loader />}>
             <Canvas containerWidth={containerWidth} />
-          </ConditionalWrapper>
-        </Suspense>
+          </Suspense>
+        )}
       </Container>
       <Modal
         opened={BuildStore.sectionsCount >= 3 && !session.userId}

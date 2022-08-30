@@ -1,4 +1,10 @@
-import { ErrorFallbackProps, ErrorComponent, ErrorBoundary, AppProps } from "@blitzjs/next"
+import {
+  ErrorFallbackProps,
+  ErrorComponent,
+  ErrorBoundary,
+  AppProps,
+  useRouterQuery,
+} from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
 import React, { Suspense, useEffect, useState } from "react"
 import {
@@ -185,6 +191,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   // ### NEXT LAYOUT SYSTEM ###
   const getLayout = Component.getLayout || ((page) => page)
 
+  const query = useRouterQuery()
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider
@@ -258,6 +265,17 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             minHeight: "100vh",
             overflowX: "hidden",
           },
+          "body, html":
+            query.hideScrollbar === "true"
+              ? {
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                  "&::-webkit-scrollbar": {
+                    width: 0,
+                    height: 0,
+                  },
+                }
+              : undefined,
         })}
       />
     </ErrorBoundary>

@@ -8,7 +8,7 @@ import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import Portfolio from "app/p/Portfolio"
 import CubeLoader from "app/core/components/CubeLoader"
 
-const PortfolioPage = () => {
+const PreviewPortfolio = () => {
   // const { t } = useTranslation('pagesBuild');
   const portfolioID = useParam("portfolioID", "string")
 
@@ -16,7 +16,7 @@ const PortfolioPage = () => {
 
   const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
     getPortfolioByID,
-    { id: portfolioID, isPublic: true },
+    { id: portfolioID, isPreview: true },
     { refetchOnWindowFocus: false }
   )
   useEffect(() => {
@@ -52,6 +52,6 @@ const PortfolioPage = () => {
   )
 }
 
-PortfolioPage.suppressFirstRenderFlicker = true
+PreviewPortfolio.suppressFirstRenderFlicker = true
 
-export default PortfolioPage
+export default PreviewPortfolio
