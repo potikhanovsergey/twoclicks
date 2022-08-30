@@ -70,6 +70,11 @@ class Build {
   }
   /////////// ACTIONS //////////////
   @action
+  resetHistoryOfChanges = () => {
+    this.undoStack = []
+    this.redoStack = []
+  }
+  @action
   onPortfolioChange = (action?: IActionHistoryItem) => {
     this.hasPortfolioChanged = true
     if (action && !action.fromHistory) {

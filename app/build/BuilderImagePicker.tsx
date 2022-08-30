@@ -35,16 +35,16 @@ const BuilderImagePicker = ({ elementID, children, slug }: IBuilderImagePicker) 
               uuid: responseData.file,
             },
           })
-          if (slug) {
-            await fetch(`https://api.uploadcare.com/files/${slug}/storage/`, {
-              method: "DELETE",
-              mode: "cors",
-              cache: "no-cache",
-              headers: {
-                Authorization: "Uploadcare.Simple 719fb1a8f2d034c0731c:8447df3ce909bc5b904b",
-              },
-            })
-          }
+          // if (slug) {
+          //   await fetch(`https://api.uploadcare.com/files/${slug}/storage/`, {
+          //     method: "DELETE",
+          //     mode: "cors",
+          //     cache: "no-cache",
+          //     headers: {
+          //       Authorization: "Uploadcare.Simple 719fb1a8f2d034c0731c:8447df3ce909bc5b904b",
+          //     },
+          //   })
+          // }
         }
       }}
     >

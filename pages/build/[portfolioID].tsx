@@ -74,12 +74,11 @@ const BuildPage = () => {
     setIsLoading(false)
   }, [portfolioFromDB])
 
-  const { resetData, setData } = BuildStore
+  const { resetHistoryOfChanges, setData } = BuildStore
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     if (portfolio?.data) {
-      console.log(portfolio)
       setData({
         blocks: portfolio.data,
         name: portfolio.name,
@@ -88,6 +87,7 @@ const BuildPage = () => {
         flattenBlocks: {},
         isPublished: portfolio.isPublished,
       })
+      resetHistoryOfChanges()
     }
     // return () => resetData()
   }, [portfolio])
