@@ -58,6 +58,10 @@ class Build {
     [key: string]: string
   } = {}
 
+  unlockedElements: {
+    [key: string]: boolean
+  } = {}
+
   viewMode: string = "desktop"
 
   sectionsRef: RefObject<HTMLDivElement>

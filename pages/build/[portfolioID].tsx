@@ -95,6 +95,7 @@ const BuildPage = () => {
         isPublished: portfolio.isPublished,
       })
       resetHistoryOfChanges()
+      BuildStore.unlockedElements = {}
     }
     // return () => resetData()
   }, [portfolio])

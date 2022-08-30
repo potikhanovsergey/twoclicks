@@ -74,7 +74,7 @@ const WithEditToolbar = ({
   sectionIndex,
   element,
 }: IWithEditToolbar) => {
-  const { activeEditToolbars } = BuildStore
+  const { activeEditToolbars, unlockedElements } = BuildStore
 
   const editableRef = useRef<HTMLDivElement>(null)
 
@@ -106,7 +106,13 @@ const WithEditToolbar = ({
       openDelay: 100,
     })
 
-  const [isElementLocked, { close: unlockElement, open: lockElement }] = useDisclosure(true)
+  const handleLockElement = () => {
+    delete unlockedElements[id]
+  }
+
+  const handleUnlockElement = () => {
+    unlockedElements[id] = true
+  }
 
   const elementProps = element?.props as ICanvasBlockProps | undefined
   return (
@@ -141,7 +147,9 @@ const WithEditToolbar = ({
             </BuilderImagePicker>
           ) : (
             <Box
-              sx={{ "> [data-button=true]": { pointerEvents: isElementLocked ? "none" : "all" } }}
+              sx={{
+                "> [data-button=true]": { pointerEvents: unlockedElements[id] ? "all" : "none" },
+              }}
             >
               {children}
             </Box>
@@ -168,7 +176,7 @@ const WithEditToolbar = ({
           <ElementMoves id={id} parentID={parentID} editType={editType} />
           {type?.toLowerCase().includes("button") && (
             <Tooltip
-              label={isElementLocked ? "Unlock element" : "Lock element"}
+              label={unlockedElements[id] ? "Lock element" : "Unlock element"}
               color="violet"
               withArrow
               position="top"
@@ -176,12 +184,12 @@ const WithEditToolbar = ({
               <ActionIcon
                 color="violet"
                 size="md"
-                onClick={isElementLocked ? unlockElement : lockElement}
+                onClick={unlockedElements[id] ? handleLockElement : handleUnlockElement}
               >
-                {isElementLocked ? (
-                  <FaUnlockAlt style={{ fill: "url(#violet-red-gradient)" }} />
-                ) : (
+                {unlockedElements[id] ? (
                   <FaLock style={{ fill: "url(#violet-red-gradient)" }} />
+                ) : (
+                  <FaUnlockAlt style={{ fill: "url(#violet-red-gradient)" }} />
                 )}
               </ActionIcon>
             </Tooltip>
