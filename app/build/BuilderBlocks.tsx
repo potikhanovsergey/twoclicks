@@ -1,18 +1,17 @@
 import { Box, Button, Center, ThemeIcon } from "@mantine/core"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { renderJSXFromBlock } from "helpers"
+import { deflate, inflateBase64, renderJSXFromBlock } from "helpers"
 import { observer } from "mobx-react-lite"
 import React, { useContext, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
 import { FiPlusSquare } from "react-icons/fi"
 import shortid from "shortid"
+import { useLocalStorage } from "@mantine/hooks"
 
 const BuilderBlocks = () => {
   const {
     data: { blocks, palette },
-    undoStack,
-    redoStack,
   } = BuildStore
 
   const [, setModalContext = () => ({})] = useContext(ModalContext)
@@ -22,6 +21,13 @@ const BuilderBlocks = () => {
   useEffect(() => {
     BuildStore.sectionsRef = sectionsRef
   }, [sectionsRef])
+
+  const [previewPortfolio, setPreviewPortfolio] = useLocalStorage({ key: "preview-portfolio" })
+
+  useEffect(() => {
+    setPreviewPortfolio(JSON.stringify({ blocks, palette }))
+  }, [blocks])
+
   return (
     <Box
       sx={{
@@ -43,8 +49,6 @@ const BuilderBlocks = () => {
       }}
       ref={sectionsRef}
     >
-      <div>{JSON.stringify(undoStack)}</div>
-      <div>{JSON.stringify(redoStack)}</div>
       {blocks && blocks.length > 0 ? (
         blocks.map((b, i) => {
           const JSX = renderJSXFromBlock({

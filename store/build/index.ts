@@ -439,6 +439,14 @@ class Build {
   @computed get sectionsCount() {
     return this.data.blocks.length
   }
+
+  @computed get isUndoActive() {
+    return Boolean(this.undoStack.length)
+  }
+
+  @computed get isRedoActive() {
+    return Boolean(this.redoStack.length)
+  }
 }
 
 const BuildStore = new Build()

@@ -4,19 +4,19 @@ import { BiRedo, BiUndo } from "react-icons/bi"
 import { BuildStore } from "store/build"
 
 const HistoryButtons = (props: ActionIconProps) => {
-  const { undoStack, redoStack, undo, redo } = BuildStore
+  const { isUndoActive, isRedoActive, undo, redo } = BuildStore
   return (
     <Group spacing={4}>
       <Tooltip label="Undo" position="bottom" color="violet" withArrow>
         <div>
-          <ActionIcon {...props} onClick={undo} disabled={!undoStack.length}>
+          <ActionIcon {...props} onClick={undo} disabled={!isUndoActive}>
             <BiUndo size="66%" />
           </ActionIcon>
         </div>
       </Tooltip>
       <Tooltip label="Redo" position="bottom" color="violet" withArrow onClick={redo}>
         <div>
-          <ActionIcon {...props} disabled={!redoStack.length}>
+          <ActionIcon {...props} disabled={!isRedoActive}>
             <BiRedo size="66%" />
           </ActionIcon>
         </div>

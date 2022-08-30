@@ -1,53 +1,53 @@
 import { Text, Loader, Center, LoadingOverlay, MantineProvider } from "@mantine/core"
-import { Suspense, useEffect, useState } from "react"
-import { getPortfolioWithInflatedData } from "helpers"
+import { Suspense, useEffect, useMemo, useState } from "react"
+import { getPortfolioWithInflatedData, inflateBase64, renderJSXFromBlock } from "helpers"
 import { Ctx, useParam } from "@blitzjs/next"
 import { IPortfolio } from "types"
 import { useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import Portfolio from "app/p/Portfolio"
 import CubeLoader from "app/core/components/CubeLoader"
+import BuilderBlocks from "app/build/BuilderBlocks"
+import { useLocalStorage } from "@mantine/hooks"
+import { ICanvasBlock } from "types"
+import SafeWrapper from "app/core/components/SafeWrapper"
+import React from "react"
+import shortid from "shortid"
+import { ICanvasPalette } from "types"
 
 const PreviewPortfolio = () => {
   // const { t } = useTranslation('pagesBuild');
-  const portfolioID = useParam("portfolioID", "string")
 
-  const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
+  const [previewPortfolio, setPreviewPortfolio] = useLocalStorage({ key: "preview-portfolio" })
 
-  const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
-    getPortfolioByID,
-    { id: portfolioID, isPreview: true },
-    { refetchOnWindowFocus: false }
-  )
-  useEffect(() => {
-    const getPortfolio = async () => {
-      let p: IPortfolio | null = null
-      if (portfolioFromDB) {
-        p = getPortfolioWithInflatedData(portfolioFromDB)
-      }
-      setPortfolio(p)
+  const portfolio = useMemo(() => {
+    if (previewPortfolio) {
+      return JSON.parse(previewPortfolio) as { blocks: ICanvasBlock[]; palette: ICanvasPalette }
     }
-    void getPortfolio()
-    setIsLoading(false)
-  }, [portfolioFromDB])
-
-  const [isLoading, setIsLoading] = useState(true)
-
-  if (isLoading) return <LoadingOverlay visible={true} loader={<CubeLoader size={128} />} />
-
+    return null
+  }, [previewPortfolio])
   return (
     <>
-      {portfolio ? (
-        <Suspense fallback={<Loader />}>
-          <MantineProvider inherit theme={{ colorScheme: "light" }}>
-            <Portfolio portfolio={portfolio} />
-          </MantineProvider>
-        </Suspense>
-      ) : (
-        <Center style={{ height: "100%" }}>
-          <Text>Портфолио не найдено</Text>
-        </Center>
-      )}
+      {portfolio &&
+        portfolio.blocks.map((b, i) => {
+          const JSX = renderJSXFromBlock({
+            element: b,
+            shouldFlat: false,
+            withContentEditable: false,
+            withEditToolbar: false,
+            withPalette: true,
+            palette: portfolio.palette,
+            sectionIndex: i,
+          })
+          if (JSX) {
+            return (
+              <div className="builder-block" key={shortid.generate()}>
+                <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
+              </div>
+            )
+          }
+          return <React.Fragment key={i} />
+        })}
     </>
   )
 }
