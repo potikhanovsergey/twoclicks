@@ -110,6 +110,7 @@ const Canvas = ({ containerWidth }: { containerWidth: number }) => {
           className={classes.onboarding}
           style={{
             left: `calc((100vw - ${containerWidth}px) / 2 - ${onboardingWidth}px - 8px)`,
+            marginBottom: isCanvasEmpty ? "-24px" : 0,
           }}
         >
           <Onboarding />
