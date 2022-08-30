@@ -23,7 +23,7 @@ import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
 import { useRouter } from "next/router"
 import BuilderBlocks from "./BuilderBlocks"
-import { useElementSize, useScrollLock } from "@mantine/hooks"
+import { useElementSize, useLocalStorage, useScrollLock } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { Context as ResponsiveContext } from "react-responsive"
@@ -32,6 +32,8 @@ import IPhone from "../../assets/IPhone7.png"
 
 import DeviceEmulator from "react-device-emulator"
 import "react-device-emulator/lib/styles/style.css"
+import { ICanvasBlock, ICanvasData, ICanvasPalette } from "types"
+import { autorun } from "mobx"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -134,10 +136,28 @@ const Builder = () => {
   const dark = colorScheme === "dark"
   const session = useSession()
 
-  const { viewMode, isCanvasEmpty } = BuildStore
+  const { viewMode, isCanvasEmpty, data } = BuildStore
   const { ref: containerRef, width: containerWidth } = useElementSize()
 
   const iframeRef = useRef(null)
+
+  const [, setPreviewPortfolio] = useLocalStorage<{
+    blocks: ICanvasBlock[]
+    palette: ICanvasPalette
+  }>({
+    key: "preview-portfolio",
+  })
+
+  const handleIframeLoad = () => {
+    setPreviewPortfolio({ blocks: data.blocks, palette: data.palette })
+  }
+
+  useEffect(() => {
+    autorun(() => {
+      setPreviewPortfolio({ blocks: data.blocks, palette: data.palette })
+    })
+  }, [data.blocks, data.palette])
+
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
@@ -175,6 +195,7 @@ const Builder = () => {
               }}
             >
               <iframe
+                onLoad={handleIframeLoad}
                 ref={iframeRef}
                 src="http://localhost:3000/preview/6303bddc8a6d3a811067bb1b?hideScrollbar=true"
               ></iframe>

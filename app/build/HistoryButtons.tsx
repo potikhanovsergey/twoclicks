@@ -1,10 +1,14 @@
 import { ActionIcon, ActionIconProps, Group, Tooltip } from "@mantine/core"
+import { useLocalStorage } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
+import { useEffect } from "react"
 import { BiRedo, BiUndo } from "react-icons/bi"
 import { BuildStore } from "store/build"
+import { ICanvasBlock, ICanvasPalette } from "types"
 
 const HistoryButtons = (props: ActionIconProps) => {
   const { isUndoActive, isRedoActive, undo, redo } = BuildStore
+
   return (
     <Group spacing={4}>
       <Tooltip label="Undo" position="bottom" color="violet" withArrow>

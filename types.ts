@@ -49,7 +49,7 @@ export interface ICanvasData {
   }
   id: string | null
   name: string | null
-  palette?: ICanvasPalette
+  palette: ICanvasPalette
   isPublished?: boolean
 }
 

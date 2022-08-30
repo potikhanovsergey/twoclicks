@@ -8,6 +8,7 @@ import { BuildStore } from "store/build"
 import { FiPlusSquare } from "react-icons/fi"
 import shortid from "shortid"
 import { useLocalStorage } from "@mantine/hooks"
+import { ICanvasBlock, ICanvasPalette } from "types"
 
 const BuilderBlocks = () => {
   const {
@@ -21,12 +22,6 @@ const BuilderBlocks = () => {
   useEffect(() => {
     BuildStore.sectionsRef = sectionsRef
   }, [sectionsRef])
-
-  const [previewPortfolio, setPreviewPortfolio] = useLocalStorage({ key: "preview-portfolio" })
-
-  useEffect(() => {
-    setPreviewPortfolio(JSON.stringify({ blocks, palette }))
-  }, [blocks])
 
   return (
     <Box
