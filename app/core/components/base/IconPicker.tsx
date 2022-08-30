@@ -54,6 +54,7 @@ const IconPicker = ({
   return (
     <Menu
       width={256}
+      zIndex={301}
       styles={{
         dropdown: {
           overflow: "hidden",
