@@ -108,6 +108,7 @@ const WithEditToolbar = ({
 
   const [isElementLocked, { close: unlockElement, open: lockElement }] = useDisclosure(true)
 
+  const elementProps = element?.props as ICanvasBlockProps | undefined
   return (
     <Popover
       trapFocus={false}
@@ -120,9 +121,11 @@ const WithEditToolbar = ({
         <Box
           sx={(theme) => ({
             width: editType === "element" ? "fit-content" : "auto",
-            border: isElementActive
-              ? `1px dotted ${theme.colors.gray[5]}`
-              : "1px solid transparent",
+            border:
+              isElementActive ||
+              (typeof elementProps?.children === "string" && !elementProps?.children.length)
+                ? `1px dotted ${theme.colors.gray[5]}`
+                : "1px solid transparent",
             position: "relative",
           })}
           onMouseEnter={openDelayedEditable}
