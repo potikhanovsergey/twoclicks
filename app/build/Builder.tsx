@@ -2,7 +2,6 @@ import {
   Stack,
   Button,
   createStyles,
-  ScrollArea,
   Container,
   Text,
   Modal,
@@ -23,16 +22,12 @@ import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
 import { useRouter } from "next/router"
 import BuilderBlocks from "./BuilderBlocks"
-import { useElementSize, useLocalStorage, useScrollLock } from "@mantine/hooks"
+import { useElementSize, useLocalStorage } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
-import { Context as ResponsiveContext } from "react-responsive"
-import ConditionalWrapper from "app/core/components/ConditionalWrapper"
 import IPhone from "../../assets/IPhone7.png"
 
-import DeviceEmulator from "react-device-emulator"
-import "react-device-emulator/lib/styles/style.css"
-import { ICanvasBlock, ICanvasData, ICanvasPalette } from "types"
+import { ICanvasBlock, ICanvasPalette } from "types"
 import { autorun } from "mobx"
 
 const useStyles = createStyles((theme) => ({
