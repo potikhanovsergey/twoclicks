@@ -39,6 +39,11 @@ declare module "@mantine/core" {
   }
 }
 
+const DEVELOPMENT_URL = "http://localhost:3000"
+const PRODUCTION_URL = "http://localhost:3000"
+
+export const baseURL = process.env.NODE_ENV === "production" ? PRODUCTION_URL : DEVELOPMENT_URL
+
 const emotionCache = createEmotionCache({ key: "mantine" })
 
 const useStyles = createStyles((theme) => ({

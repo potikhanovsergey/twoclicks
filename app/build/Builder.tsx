@@ -29,6 +29,7 @@ import IPhone from "../../assets/IPhone7.png"
 
 import { ICanvasBlock, ICanvasPalette } from "types"
 import { autorun } from "mobx"
+import { baseURL } from "pages/_app"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -202,7 +203,7 @@ const Builder = () => {
               <iframe
                 onLoad={handleIframeLoad}
                 ref={iframeRef}
-                src="http://localhost:3000/build-preview?hideScrollbar=true"
+                src={`${baseURL}/build-preview?hideScrollbar=true`}
               >
                 <Text>Your browser doesn&apos;t support iframe</Text>
               </iframe>
