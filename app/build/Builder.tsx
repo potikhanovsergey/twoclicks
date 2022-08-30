@@ -141,17 +141,18 @@ const Builder = () => {
   const [, setPreviewPortfolio] = useLocalStorage<{
     blocks: ICanvasBlock[]
     palette: ICanvasPalette
+    name: string | null
   }>({
     key: "preview-portfolio",
   })
 
   const handleIframeLoad = () => {
-    setPreviewPortfolio({ blocks: data.blocks, palette: data.palette })
+    setPreviewPortfolio({ blocks: data.blocks, palette: data.palette, name: data.name })
   }
 
   useEffect(() => {
     autorun(() => {
-      setPreviewPortfolio({ blocks: data.blocks, palette: data.palette })
+      setPreviewPortfolio({ blocks: data.blocks, palette: data.palette, name: data.name })
     })
   }, [data.blocks, data.palette])
 

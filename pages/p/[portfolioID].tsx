@@ -7,6 +7,7 @@ import { useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import Portfolio from "app/p/Portfolio"
 import CubeLoader from "app/core/components/CubeLoader"
+import { useDocumentTitle } from "@mantine/hooks"
 
 const PortfolioPage = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -33,6 +34,7 @@ const PortfolioPage = () => {
 
   const [isLoading, setIsLoading] = useState(true)
 
+  useDocumentTitle(portfolio?.name || "skillcase")
   if (isLoading) return <LoadingOverlay visible={true} loader={<CubeLoader size={128} />} />
 
   return (

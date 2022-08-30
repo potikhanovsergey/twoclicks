@@ -24,6 +24,7 @@ import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import CubeLoader from "app/core/components/CubeLoader"
 import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 import { AppStore } from "store"
+import { useDocumentTitle } from "@mantine/hooks"
 
 const BuildPage = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -74,8 +75,14 @@ const BuildPage = () => {
     setIsLoading(false)
   }, [portfolioFromDB])
 
-  const { resetHistoryOfChanges, setData } = BuildStore
+  const {
+    resetHistoryOfChanges,
+    setData,
+    data: { name },
+  } = BuildStore
   const [isLoading, setIsLoading] = useState(true)
+
+  useDocumentTitle(name || "skillcase")
 
   useEffect(() => {
     if (portfolio?.data) {

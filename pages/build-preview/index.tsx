@@ -8,7 +8,7 @@ import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import Portfolio from "app/p/Portfolio"
 import CubeLoader from "app/core/components/CubeLoader"
 import BuilderBlocks from "app/build/BuilderBlocks"
-import { useLocalStorage } from "@mantine/hooks"
+import { useDocumentTitle, useLocalStorage } from "@mantine/hooks"
 import { ICanvasBlock } from "types"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import React from "react"
@@ -21,9 +21,12 @@ const PreviewPortfolio = () => {
   const [portfolio, setPreviewPortfolio] = useLocalStorage<{
     blocks: ICanvasBlock[]
     palette: ICanvasPalette
+    name: string | null
   }>({
     key: "preview-portfolio",
   })
+  useDocumentTitle(portfolio?.name || "skillcase")
+
   return (
     <>
       {portfolio &&
