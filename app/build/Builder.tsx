@@ -45,7 +45,7 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
   },
   canvas: {
-    backgroundColor: theme.white,
+    backgroundColor: "transparent",
     color: theme.black,
     boxShadow: theme.shadows.sm,
   },
