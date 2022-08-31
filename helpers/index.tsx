@@ -281,7 +281,6 @@ export function renderJSXFromBlock({
         key={shortid.generate()}
         {...restProps}
         dangerouslySetInnerHTML={{ __html: children }}
-        // eslint-disable-next-line react/no-children-prop
       />
     )
   }

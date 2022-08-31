@@ -20,8 +20,13 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
         size="sm"
         style={
           withEllipsis
-            ? { overflow: "hidden", maxWidth: "24ch", textOverflow: "ellipsis" }
-            : undefined
+            ? {
+                overflow: "hidden",
+                maxWidth: "24ch",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+              }
+            : { whiteSpace: "nowrap" }
         }
       >
         {`${baseURL}/p/${id}`}

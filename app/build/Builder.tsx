@@ -181,15 +181,15 @@ const Builder = () => {
               width: "357px",
               height: "760px",
               overflow: "hidden",
-              transform: "scale(0.8)",
-              margin: "-45px 0",
+              transform: "scale(0.75)",
+              margin: "-85px 0",
               "> iframe": {
                 width: "calc(357px - 37px)",
                 height: "calc(760px - 140px)",
                 border: "none",
                 borderRadius: "5px",
                 position: "relative",
-                top: "70px",
+                top: "55px",
                 left: "18px",
               },
             }}
