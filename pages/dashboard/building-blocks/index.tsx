@@ -23,8 +23,10 @@ import SafeWrapper from "app/core/components/SafeWrapper"
 import deleteBuildingBlock from "app/dashboard/building-blocks/mutations/deleteBuildingBlock"
 import { BuildingBlock } from "@prisma/client"
 import updateBuildingBlock from "app/dashboard/building-blocks/mutations/updateBuildingBlock"
+import MantineHOCTest from "app/build/sections/MantineHOCTest"
+import MantineTest from "app/build/sections/MantineTest"
 
-const sections = [FirstHero]
+const sections = [FirstHero, MantineHOCTest, MantineTest]
 
 const DashboardIndex = () => {
   const [sectionsDB, { refetch: refetchBuildingBlocks }] = useQuery(getAllBuildingBlocks, null)
@@ -54,6 +56,7 @@ const DashboardIndex = () => {
     if (sectionType === "code") {
       if (selected !== null) {
         const invokedComponent = sections[selected]?.()
+        console.log(invokedComponent)
         if (invokedComponent) {
           setSelectedSectionType("code")
           setSelectedDBElement(null)

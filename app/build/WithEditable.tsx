@@ -18,7 +18,6 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
       spellCheck={false}
       sx={({}) => ({
         ":empty": { paddingRight: "16px" },
-        display: "inline-block",
         minWidth: "30px",
         outline: "none",
         wordBreak: "break-word",
@@ -72,11 +71,12 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
       }}
       onBlur={(e) => {
         let text = ""
-        if (e.target.innerText) text = e.target.innerText
+        console.log(e.target.innerHTML)
+        if (e.target.innerHTML) text = e.target.innerHTML
         let parent = BuildStore.data.flattenBlocks[parentID]
         if (parent) {
           let parentProps = parent.props as ICanvasBlockProps
-          if (parentProps?.children !== e.target.innerText) {
+          if (parentProps?.children !== e.target.innerHTML) {
             BuildStore.changeProp({ id: parentID, newProps: { children: text } })
           }
         }

@@ -9,6 +9,7 @@ import {
   ContainerProps,
   ImageProps,
   MantineTheme,
+  MediaQueryProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
@@ -22,6 +23,7 @@ import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
 import IconPicker from "app/core/components/base/IconPicker"
+import { MediaQueryTypes } from "react-responsive"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -53,7 +55,14 @@ export const canvasBuildingBlocks = {
   "@mantine/core/box": dynamic<ImageProps>(() =>
     import("@mantine/core").then((module) => module.Box)
   ),
+  mediaquery: dynamic<MediaQueryProps>(() =>
+    import("@mantine/core").then((module) => module.MediaQuery)
+  ),
   iconbase: dynamic<IconBaseProps>(() => import("react-icons").then((module) => module.IconBase)),
+  "@skillcase/mantineTest": dynamic(() =>
+    import("app/build/sections/MantineTest").then((module) => module)
+  ),
+  mantinetest: dynamic(() => import("app/build/sections/MantineTest").then((module) => module)),
 }
 
 function traverseProp({
@@ -262,6 +271,21 @@ export function renderJSXFromBlock({
       </WithEditToolbar>
     )
   }
+
+  const { children, ...restProps } = props
+
+  if (typeof children === "string" && !el.type?.toLowerCase().includes("button")) {
+    console.log(children, el)
+    return (
+      <TagName
+        key={shortid.generate()}
+        {...restProps}
+        dangerouslySetInnerHTML={{ __html: children }}
+        // eslint-disable-next-line react/no-children-prop
+      />
+    )
+  }
+
   return <TagName key={shortid.generate()} {...props} />
 }
 
@@ -276,8 +300,11 @@ export const inflateBase64 = (str: string) => {
 const getElementType = (value) => {
   if (typeof value === "function") {
     // react-icon (and maybe some other components) has type value of function, thus it needs to be rendered to retrieve it's name and props
+    if (value?.name === "MediaQuery") {
+      return value.name
+    }
     const c = value()
-    const name = c?.type?.displayName || c?.type?.name
+    const name = c?.type?.displayName || c?.type?.name || value?.name
     if (name === "IconBase") {
       return {
         typeName: name,

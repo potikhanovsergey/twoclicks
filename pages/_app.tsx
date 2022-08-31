@@ -269,6 +269,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             lineHeight: theme.lineHeight,
             minHeight: "100vh",
             overflowX: "hidden",
+            wordBreak: "break-word",
           },
           "body, html":
             query.hideScrollbar === "true"

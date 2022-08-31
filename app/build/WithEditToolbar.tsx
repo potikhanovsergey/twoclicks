@@ -127,6 +127,7 @@ const WithEditToolbar = ({
         <Box
           sx={(theme) => ({
             width: editType === "element" ? "fit-content" : "auto",
+            boxSizing: "content-box",
             border:
               isElementActive ||
               (typeof elementProps?.children === "string" && !elementProps?.children.length)
