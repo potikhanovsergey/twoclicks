@@ -129,8 +129,10 @@ const WithEditToolbar = ({
             width: editType === "element" ? "fit-content" : "auto",
             boxSizing: "content-box",
             border:
-              isElementActive ||
-              (typeof elementProps?.children === "string" && !elementProps?.children.length)
+              editType === "section"
+                ? "none"
+                : isElementActive ||
+                  (typeof elementProps?.children === "string" && !elementProps?.children.length)
                 ? `1px dotted ${theme.colors.gray[5]}`
                 : "1px solid transparent",
             position: "relative",
