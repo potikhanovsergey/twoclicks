@@ -14,12 +14,13 @@ import {
   HoverCard,
   Box,
   ThemeIcon,
+  TextInput,
 } from "@mantine/core"
-import { useFullscreen, useHotkeys, useHover } from "@mantine/hooks"
+import { useClickOutside, useFullscreen, useHotkeys, useHover } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { observer } from "mobx-react-lite"
-import React, { Suspense, useEffect } from "react"
-import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
+import React, { Suspense, useEffect, useState } from "react"
+import { AiOutlineEdit, AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
 import { FaSave } from "react-icons/fa"
 import { MdOutlinePreview } from "react-icons/md"
 import { AppStore } from "store"
@@ -32,6 +33,7 @@ import TogglePublishPortfilio from "./TogglePublishPortfolio"
 import ViewportButtons from "./ViewportButtons"
 import { AiOutlineLink } from "react-icons/ai"
 import HistoryButtons from "./HistoryButtons"
+import { IoCheckmarkOutline } from "react-icons/io5"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -66,8 +68,8 @@ const ObservedPortfolioName = observer(() => {
     <HoverCard shadow="xl">
       <HoverCard.Target>
         <Group align="center" spacing={4}>
-          <Text>{name}</Text>
           <AiOutlineLink />
+          <Text>{name}</Text>
         </Group>
       </HoverCard.Target>
       <HoverCard.Dropdown p={8}>
@@ -85,6 +87,27 @@ const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('pagesBuild');
   const { toggle, fullscreen } = useFullscreen()
   const { hovered: fullscreenHovered, ref: fullscreenRef } = useHover<HTMLButtonElement>()
+  const [inputVisible, setInputVisible] = useState(false)
+  const {
+    data: { name, id },
+  } = BuildStore
+  const [editName, setEditName] = useState(name)
+  const editNameOutsideRef = useClickOutside(() => setInputVisible(false))
+  const [
+    updatePortfolioMutation,
+    { isLoading: isUpdatingPortfolio, isSuccess: hasSuccessfullyUpdatedPortfolio },
+  ] = useMutation(updatePortfolio)
+
+  useEffect(() => {
+    setEditName(name)
+  }, [name])
+
+  useEffect(() => {
+    if (hasSuccessfullyUpdatedPortfolio) {
+      setInputVisible(false)
+      BuildStore.data.name = editName
+    }
+  }, [hasSuccessfullyUpdatedPortfolio])
 
   return (
     <Center className={className}>
@@ -112,7 +135,50 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               transform: "translate(-50%, -50%)",
             }}
           >
-            <ObservedPortfolioName />
+            {!inputVisible ? (
+              <Group spacing={4} align="center">
+                <ObservedPortfolioName />
+                <Tooltip label="Edit site name" position="bottom" color="violet" withArrow>
+                  <ActionIcon
+                    color="violet"
+                    variant="light"
+                    onClick={() => {
+                      setInputVisible(true)
+                    }}
+                  >
+                    <AiOutlineEdit />
+                  </ActionIcon>
+                </Tooltip>
+              </Group>
+            ) : (
+              <Group spacing={4} ref={editNameOutsideRef}>
+                <TextInput
+                  size="xs"
+                  value={editName || ""}
+                  onChange={(evt) => {
+                    setEditName(evt.currentTarget.value)
+                  }}
+                  maxLength={32}
+                />
+                <Tooltip label="Change site name" position="bottom" color="violet" withArrow>
+                  <div>
+                    <ActionIcon
+                      color="violet"
+                      variant="light"
+                      disabled={editName === name || !editName?.length}
+                      loading={isUpdatingPortfolio}
+                      onClick={() => {
+                        if (id && editName?.length) {
+                          void updatePortfolioMutation({ name: editName, id })
+                        }
+                      }}
+                    >
+                      <IoCheckmarkOutline />
+                    </ActionIcon>
+                  </div>
+                </Tooltip>
+              </Group>
+            )}
           </Box>
           <Group spacing={8}>
             <HistoryButtons color="violet" size={30} variant="filled" />
@@ -144,4 +210,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
   )
 }
 
-export default BuilderHeader
+export default observer(BuilderHeader)
+function setOpened(arg0: boolean): void {
+  throw new Error("Function not implemented.")
+}
