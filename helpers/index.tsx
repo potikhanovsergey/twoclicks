@@ -23,7 +23,6 @@ import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
 import IconPicker from "app/core/components/base/IconPicker"
-import { MediaQueryTypes } from "react-responsive"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
