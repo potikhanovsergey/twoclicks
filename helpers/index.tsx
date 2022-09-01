@@ -10,6 +10,10 @@ import {
   ImageProps,
   MantineTheme,
   MediaQueryProps,
+  ThemeIconProps,
+  SimpleGridProps,
+  ColProps,
+  GridProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
@@ -36,7 +40,7 @@ export const canvasBuildingBlocks = {
   "@mantine/core/group": dynamic<GroupProps>(() =>
     import("@mantine/core").then((module) => module.Group)
   ),
-  "@mantine/core/textInput": dynamic<TextInputProps>(() =>
+  "@mantine/core/textinput": dynamic<TextInputProps>(() =>
     import("@mantine/core").then((module) => module.TextInput)
   ),
   "@mantine/core/text": dynamic<TextProps>(() =>
@@ -53,6 +57,18 @@ export const canvasBuildingBlocks = {
   ),
   "@mantine/core/box": dynamic<ImageProps>(() =>
     import("@mantine/core").then((module) => module.Box)
+  ),
+  "@mantine/core/themeicon": dynamic<ThemeIconProps>(() =>
+    import("@mantine/core").then((module) => module.ThemeIcon)
+  ),
+  "@mantine/core/simplegrid": dynamic<SimpleGridProps>(() =>
+    import("@mantine/core").then((module) => module.SimpleGrid)
+  ),
+  "@mantine/core/grid": dynamic<GridProps>(() =>
+    import("@mantine/core").then((module) => module.Grid)
+  ),
+  "@mantine/core/col": dynamic<ColProps>(() =>
+    import("@mantine/core").then((module) => module.Col)
   ),
   mediaquery: dynamic<MediaQueryProps>(() =>
     import("@mantine/core").then((module) => module.MediaQuery)
@@ -109,12 +125,17 @@ export const PaletteTypePropColor: {
     prop: "color",
     color: "primary",
   },
+  "@mantine/core/themeicon": {
+    prop: "color",
+    color: "primary",
+  },
 }
 
 export const TypeVariants: {
   [key: string]: string[]
 } = {
   "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle"],
+  "@mantine/core/themeicon": ["filled", "light", "outline", "gradient"],
 }
 
 const sizes = ["xs", "sm", "md", "lg", "xl"]
@@ -124,6 +145,7 @@ export const TypeSizes: {
 } = {
   "@mantine/core/button": sizes,
   "@mantine/core/text": sizes,
+  "@mantine/core/themeicon": sizes,
 }
 
 export const TypeRadius: {
@@ -131,12 +153,14 @@ export const TypeRadius: {
 } = {
   "@mantine/core/button": sizes,
   "@mantine/core/image": sizes,
+  "@mantine/core/themeicon": sizes,
 }
 
 export const TypeGradients: {
   [key: string]: boolean
 } = {
   "@mantine/core/button": true,
+  "@mantine/core/themeicon": true,
 }
 
 export function getPaletteByType(type: string) {

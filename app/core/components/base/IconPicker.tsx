@@ -66,7 +66,16 @@ const IconPicker = ({
       {...menuProps}
     >
       <Menu.Target>
-        <Box sx={{ cursor: "pointer" }}>{icon}</Box>
+        <Box
+          sx={{
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {icon}
+        </Box>
       </Menu.Target>
       <Menu.Dropdown>
         <TextInput

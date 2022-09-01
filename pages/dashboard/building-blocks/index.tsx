@@ -25,8 +25,9 @@ import { BuildingBlock } from "@prisma/client"
 import updateBuildingBlock from "app/dashboard/building-blocks/mutations/updateBuildingBlock"
 import MantineHOCTest from "app/build/sections/MantineHOCTest"
 import MantineTest from "app/build/sections/MantineTest"
+import MantineFeatures from "app/build/sections/MantineFeatures"
 
-const sections = [FirstHero, MantineHOCTest, MantineTest]
+const sections = [FirstHero, MantineHOCTest, MantineTest, MantineFeatures]
 
 const DashboardIndex = () => {
   const [sectionsDB, { refetch: refetchBuildingBlocks }] = useQuery(getAllBuildingBlocks, null)
