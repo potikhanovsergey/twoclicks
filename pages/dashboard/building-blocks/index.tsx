@@ -26,8 +26,9 @@ import updateBuildingBlock from "app/dashboard/building-blocks/mutations/updateB
 import MantineHOCTest from "app/build/sections/MantineHOCTest"
 import MantineTest from "app/build/sections/MantineTest"
 import MantineFeatures from "app/build/sections/MantineFeatures"
+import MantineHero from "app/build/sections/MantineHero"
 
-const sections = [FirstHero, MantineHOCTest, MantineTest, MantineFeatures]
+const sections = [FirstHero, MantineHOCTest, MantineTest, MantineFeatures, MantineHero]
 
 const DashboardIndex = () => {
   const [sectionsDB, { refetch: refetchBuildingBlocks }] = useQuery(getAllBuildingBlocks, null)
@@ -57,7 +58,6 @@ const DashboardIndex = () => {
     if (sectionType === "code") {
       if (selected !== null) {
         const invokedComponent = sections[selected]?.()
-        console.log(invokedComponent)
         if (invokedComponent) {
           setSelectedSectionType("code")
           setSelectedDBElement(null)

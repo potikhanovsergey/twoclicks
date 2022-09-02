@@ -20,6 +20,7 @@ import ElementMoves from "./ElementMoves"
 import ElementName from "./ElementName"
 import { RiDeleteBin6Line } from "react-icons/ri"
 import { FaLock, FaUnlockAlt } from "react-icons/fa"
+import ElementIconEdit from "./ElementIconEdit"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -177,6 +178,8 @@ const WithEditToolbar = ({
           <ElementGradientsEdit id={id} type={type} props={props} />
           <ElementPaletteEdit id={id} element={element} type={type} props={props} />
           <ElementMoves id={id} parentID={parentID} editType={editType} />
+          <ElementIconEdit id={id} type={type} propName="leftIcon" props={props} />
+          <ElementIconEdit id={id} type={type} propName="rightIcon" props={props} />
           {type?.toLowerCase().includes("button") && (
             <Tooltip
               label={unlockedElements[id] ? "Lock element" : "Unlock element"}

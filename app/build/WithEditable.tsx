@@ -71,7 +71,6 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
       }}
       onBlur={(e) => {
         let text = ""
-        console.log(e.target.innerHTML)
         if (e.target.innerHTML) text = e.target.innerHTML
         let parent = BuildStore.data.flattenBlocks[parentID]
         if (parent) {

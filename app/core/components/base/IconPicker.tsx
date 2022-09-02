@@ -12,11 +12,16 @@ import {
   MenuProps,
   useMantineColorScheme,
   Box,
+  ActionIconProps,
+  ThemeIconProps,
+  ThemeIcon,
+  Button,
 } from "@mantine/core"
 import { useDebouncedState, useDebouncedValue } from "@mantine/hooks"
 import { serialize } from "helpers"
 import { ReactNode, useEffect, useMemo, useState } from "react"
 import * as icons from "react-icons/fa"
+import { IoClose } from "react-icons/io5"
 import { MdClear } from "react-icons/md"
 
 const FirstIcon = Object.values(icons)[0]
@@ -29,10 +34,18 @@ const IconPicker = ({
   icon = <FirstIcon />,
   onChange,
   menuProps,
+  isThemeIcon,
+  themeIconProps,
+  withReset,
+  onReset,
 }: {
   icon: ReactNode
   onChange: (ReactNode) => void
   menuProps?: MenuProps
+  isThemeIcon?: boolean
+  themeIconProps?: Partial<ActionIconProps>
+  withReset?: boolean
+  onReset?: () => void
 }) => {
   const [searchValue, setSearchValue] = useState("")
 
@@ -63,21 +76,32 @@ const IconPicker = ({
           flexDirection: "column",
         },
       }}
+      withinPortal
       {...menuProps}
     >
       <Menu.Target>
-        <Box
-          sx={{
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {icon}
-        </Box>
+        {isThemeIcon ? (
+          <ActionIcon {...themeIconProps}>{icon}</ActionIcon>
+        ) : (
+          <Box
+            sx={{
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              pointerEvents: "all",
+            }}
+          >
+            {icon}
+          </Box>
+        )}
       </Menu.Target>
       <Menu.Dropdown>
+        {withReset && (
+          <Button variant="light" compact my="xs" onClick={onReset} rightIcon={<IoClose />}>
+            Reset icon
+          </Button>
+        )}
         <TextInput
           rightSection={
             searchValue.length ? (

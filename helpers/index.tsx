@@ -14,6 +14,7 @@ import {
   SimpleGridProps,
   ColProps,
   GridProps,
+  OverlayProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React, { ReactNode } from "react"
@@ -69,6 +70,9 @@ export const canvasBuildingBlocks = {
   ),
   "@mantine/core/col": dynamic<ColProps>(() =>
     import("@mantine/core").then((module) => module.Col)
+  ),
+  "@mantine/core/overlay": dynamic<OverlayProps>(() =>
+    import("@mantine/core").then((module) => module.Overlay)
   ),
   mediaquery: dynamic<MediaQueryProps>(() =>
     import("@mantine/core").then((module) => module.MediaQuery)
@@ -161,6 +165,12 @@ export const TypeGradients: {
 } = {
   "@mantine/core/button": true,
   "@mantine/core/themeicon": true,
+}
+
+export const TypeIcons: {
+  [key: string]: boolean
+} = {
+  "@mantine/core/button": true,
 }
 
 export function getPaletteByType(type: string) {
@@ -267,7 +277,6 @@ export function renderJSXFromBlock({
       <IconPicker
         icon={<TagName {...props} />}
         onChange={(icon) => {
-          console.log(icon)
           if (icon?.props) {
             let newProps = icon.props as ICanvasBlockProps
             BuildStore.changeProp({ id: el.id, newProps })
@@ -298,7 +307,6 @@ export function renderJSXFromBlock({
   const { children, ...restProps } = props
 
   if (typeof children === "string" && !el.type?.toLowerCase().includes("button")) {
-    console.log(children, el)
     return (
       <TagName
         key={shortid.generate()}

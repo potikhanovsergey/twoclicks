@@ -201,6 +201,8 @@ class Build {
         }
       }
 
+      console.log("UPDATED ELEMENT PROPS", updatedElementProps)
+
       el.props = updatedElementProps
     }
   }
@@ -363,7 +365,7 @@ class Build {
         fromHistory,
         withScroll: false,
       })
-      console.log(this.sectionsRef.current?.querySelectorAll(".builder-block")[indexOfId + 1])
+      // console.log(this.sectionsRef.current?.querySelectorAll(".builder-block")[indexOfId + 1])
       if (withScroll) {
         setTimeout(() => {
           this.sectionsRef.current
