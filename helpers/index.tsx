@@ -168,9 +168,9 @@ export const TypeGradients: {
 }
 
 export const TypeIcons: {
-  [key: string]: boolean
+  [key: string]: string[]
 } = {
-  "@mantine/core/button": true,
+  "@mantine/core/button": ["leftIcon", "rightIcon"],
 }
 
 export function getPaletteByType(type: string) {
