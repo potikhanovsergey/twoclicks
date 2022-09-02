@@ -1,5 +1,5 @@
-import { ActionIcon, ActionIconProps, Group, Tooltip } from "@mantine/core"
-import { useLocalStorage } from "@mantine/hooks"
+import { ActionIcon, ActionIconProps, Group, Kbd, Tooltip, Text } from "@mantine/core"
+import { useHotkeys, useLocalStorage, useOs } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
 import { useEffect } from "react"
 import { BiRedo, BiUndo } from "react-icons/bi"
@@ -8,17 +8,57 @@ import { ICanvasBlock, ICanvasPalette } from "types"
 
 const HistoryButtons = (props: ActionIconProps) => {
   const { isUndoActive, isRedoActive, undo, redo } = BuildStore
+  const os = useOs()
+  useHotkeys([
+    ["mod+Z", () => undo()],
+    ["mod+shift+Z", () => redo()],
+  ])
 
   return (
     <Group spacing={4}>
-      <Tooltip label="Undo" position="bottom" color="violet" withArrow>
+      <Tooltip
+        label={
+          <Group spacing={6}>
+            <Text>Undo</Text>
+            <Group spacing={2}>
+              <Kbd>{os === "windows" ? <Text size={8}>ctrl</Text> : <Text size={8}>⌘</Text>}</Kbd>+
+              <Kbd>
+                <Text size={8}>z</Text>
+              </Kbd>
+            </Group>
+          </Group>
+        }
+        position="bottom"
+        color="violet"
+        withArrow
+      >
         <div>
           <ActionIcon {...props} onClick={undo} disabled={!isUndoActive}>
             <BiUndo size="66%" />
           </ActionIcon>
         </div>
       </Tooltip>
-      <Tooltip label="Redo" position="bottom" color="violet" withArrow onClick={redo}>
+      <Tooltip
+        label={
+          <Group spacing={6}>
+            <Text>Undo</Text>
+            <Group spacing={2}>
+              <Kbd>{os === "windows" ? <Text size={8}>ctrl</Text> : <Text size={8}>⌘</Text>}</Kbd>+
+              <Kbd>
+                <Text size={8}>shift</Text>
+              </Kbd>
+              +
+              <Kbd>
+                <Text size={8}>z</Text>
+              </Kbd>
+            </Group>
+          </Group>
+        }
+        position="bottom"
+        color="violet"
+        withArrow
+        onClick={redo}
+      >
         <div>
           <ActionIcon {...props} disabled={!isRedoActive}>
             <BiRedo size="66%" />
