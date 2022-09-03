@@ -22,6 +22,7 @@ import { RiDeleteBin6Line } from "react-icons/ri"
 import { FaLock, FaUnlockAlt } from "react-icons/fa"
 import ElementIconEdit from "./ElementIconEdit"
 import { TypeIcons } from "helpers"
+import ElementLinkEdit from "./ElementLinkEdit"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -189,6 +190,7 @@ const WithEditToolbar = ({
                 key={propName}
               />
             ))}
+          {type && props && <ElementLinkEdit id={id} props={props} type={type.toLowerCase()} />}
           {type?.toLowerCase().includes("button") && (
             <Tooltip
               label={unlockedElements[id] ? "Lock element" : "Unlock element"}

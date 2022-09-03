@@ -173,6 +173,13 @@ export const TypeIcons: {
   "@mantine/core/button": ["leftIcon", "rightIcon"],
 }
 
+export const TypeLinks: {
+  [key: string]: boolean
+} = {
+  "@mantine/core/button": true,
+  "@mantine/core/image": true,
+}
+
 export function getPaletteByType(type: string) {
   return PaletteTypePropColor[type.toLowerCase()]
 }

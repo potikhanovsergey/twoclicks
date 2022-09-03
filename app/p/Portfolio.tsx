@@ -39,7 +39,7 @@ const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
                         textOverflow: "ellipsis",
                         WebkitLineClamp: 1,
                         WebkitBoxOrient: "vertical",
-                        display: "-webkit-box",
+                        display: "-webkit-flex",
                         whiteSpace: "normal",
                         maxWidth: "100%",
                       },
