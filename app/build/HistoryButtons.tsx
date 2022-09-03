@@ -41,7 +41,7 @@ const HistoryButtons = (props: ActionIconProps) => {
       <Tooltip
         label={
           <Group spacing={6}>
-            <Text>Undo</Text>
+            <Text>Redo</Text>
             <Group spacing={2}>
               <Kbd>{os === "windows" ? <Text size={8}>ctrl</Text> : <Text size={8}>⌘</Text>}</Kbd>+
               <Kbd>
