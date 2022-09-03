@@ -153,9 +153,9 @@ const WithEditToolbar = ({
             </BuilderImagePicker>
           ) : (
             <Box
-              sx={{
-                "> [data-button=true]": { pointerEvents: unlockedElements[id] ? "all" : "none" },
-              }}
+            // sx={{
+            //   "> [data-button=true]": { pointerEvents: unlockedElements[id] ? "all" : "none" },
+            // }}
             >
               {children}
             </Box>
@@ -191,7 +191,7 @@ const WithEditToolbar = ({
               />
             ))}
           {type && props && <ElementLinkEdit id={id} props={props} type={type.toLowerCase()} />}
-          {type?.toLowerCase().includes("button") && (
+          {/* {type?.toLowerCase().includes("button") && (
             <Tooltip
               label={unlockedElements[id] ? "Lock element" : "Unlock element"}
               color="violet"
@@ -210,7 +210,7 @@ const WithEditToolbar = ({
                 )}
               </ActionIcon>
             </Tooltip>
-          )}
+          )} */}
           <ElementDeleteButton id={id} parentID={parentID} editType={editType} />
         </Group>
       </Popover.Dropdown>
