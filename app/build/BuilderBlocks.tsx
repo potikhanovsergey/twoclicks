@@ -73,7 +73,7 @@ const BuilderBlocks = () => {
             radius="sm"
             variant="gradient"
             size="md"
-            style={{ width: "192px" }}
+            style={{ minWidth: "192px" }}
             color="red"
             gradient={{ from: "violet", to: "red" }}
             rightIcon={<FiPlusSquare />}

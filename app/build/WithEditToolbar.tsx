@@ -48,7 +48,7 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
   const { sectionToBeAddedIndex, ...otherProps } = props
   return (
     <Button
-      style={{ position: "absolute", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1 }}
+      style={{ position: "absolute", left: "50%", transform: "translate(-50%, -50%)", zIndex: 2 }}
       size="sm"
       variant="gradient"
       rightIcon={<FiPlusSquare />}
