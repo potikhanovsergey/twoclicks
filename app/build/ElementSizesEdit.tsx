@@ -1,6 +1,7 @@
 import { Tooltip, ActionIcon, Menu, Button, Stack } from "@mantine/core"
 import { getSizesByType } from "helpers"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { GiResize } from "react-icons/gi"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
@@ -14,6 +15,7 @@ interface IElementSizesEdit {
 const ElementSizesEdit = ({ type, props, id }: IElementSizesEdit) => {
   const sizes = type ? getSizesByType(type) : undefined
   const { changeProp, openedAction } = BuildStore
+  const { t } = useTranslation("pagesBuild")
   return sizes ? (
     <Menu
       position="top"
@@ -27,7 +29,7 @@ const ElementSizesEdit = ({ type, props, id }: IElementSizesEdit) => {
     >
       <Menu.Target>
         <div>
-          <Tooltip label="Sizes" color="violet" withArrow>
+          <Tooltip label={t("sizes")} color="violet" withArrow>
             <ActionIcon color="violet">
               <GiResize style={{ fill: "url(#violet-red-gradient)" }} />
             </ActionIcon>

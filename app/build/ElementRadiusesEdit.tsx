@@ -1,6 +1,7 @@
 import { Tooltip, ActionIcon, Menu, Button, Stack } from "@mantine/core"
 import { getRadiusesByType } from "helpers"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { AiOutlineRadiusBottomleft } from "react-icons/ai"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
@@ -14,6 +15,7 @@ interface IElementRadiusesEdit {
 const ElementRadiusesEdit = ({ type, props, id }: IElementRadiusesEdit) => {
   const radiuses = type ? getRadiusesByType(type) : undefined
   const { changeProp, openedAction } = BuildStore
+  const { t } = useTranslation("pagesBuild")
   return radiuses ? (
     <Menu
       position="top"
@@ -27,7 +29,7 @@ const ElementRadiusesEdit = ({ type, props, id }: IElementRadiusesEdit) => {
     >
       <Menu.Target>
         <div>
-          <Tooltip label="Radius" color="violet" withArrow>
+          <Tooltip label={t("radius")} color="violet" withArrow>
             <ActionIcon color="violet">
               <AiOutlineRadiusBottomleft style={{ fill: "url(#violet-red-gradient)" }} />
             </ActionIcon>

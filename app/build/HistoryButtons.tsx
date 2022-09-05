@@ -1,7 +1,8 @@
 import { ActionIcon, ActionIconProps, Group, Kbd, Tooltip, Text } from "@mantine/core"
 import { useHotkeys, useLocalStorage, useOs } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
-import { useEffect } from "react"
+import useTranslation from "next-translate/useTranslation"
+import { useEffect, useTransition } from "react"
 import { BiRedo, BiUndo } from "react-icons/bi"
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasPalette } from "types"
@@ -13,13 +14,14 @@ const HistoryButtons = (props: ActionIconProps) => {
     ["mod+Z", () => undo()],
     ["mod+shift+Z", () => redo()],
   ])
+  const { t } = useTranslation("pagesBuild")
 
   return (
     <Group spacing={4}>
       <Tooltip
         label={
           <Group spacing={6}>
-            <Text>Undo</Text>
+            <Text>{t("undo")}</Text>
             <Group spacing={2}>
               <Kbd>{os === "windows" ? <Text size={8}>ctrl</Text> : <Text size={8}>⌘</Text>}</Kbd>+
               <Kbd>
@@ -41,7 +43,7 @@ const HistoryButtons = (props: ActionIconProps) => {
       <Tooltip
         label={
           <Group spacing={6}>
-            <Text>Redo</Text>
+            <Text>{t("redo")}</Text>
             <Group spacing={2}>
               <Kbd>{os === "windows" ? <Text size={8}>ctrl</Text> : <Text size={8}>⌘</Text>}</Kbd>+
               <Kbd>

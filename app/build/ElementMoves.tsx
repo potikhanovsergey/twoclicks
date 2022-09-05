@@ -1,5 +1,6 @@
 import { Tooltip, ActionIcon } from "@mantine/core"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { useMemo } from "react"
 import { CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 import { BuildStore } from "store/build"
@@ -32,11 +33,13 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
     return null
   }, [hasMoves])
 
+  const { t } = useTranslation("pagesBuild")
+
   return hasMoves && movesIcons ? (
     <>
       {id !== blocks[0].id && (
         <Tooltip
-          label="Move Up"
+          label={t("move up")}
           color="violet"
           withArrow
           position={editType === "section" ? "left" : "top"}
@@ -48,7 +51,7 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
       )}
       {id !== blocks[blocks.length - 1].id && (
         <Tooltip
-          label="Move Down"
+          label={t("move down")}
           color="violet"
           withArrow
           position={editType === "section" ? "left" : "top"}

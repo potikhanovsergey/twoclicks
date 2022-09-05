@@ -13,7 +13,7 @@ import {
   Center,
   Box,
 } from "@mantine/core"
-import React, { Suspense, useEffect, useRef, useState } from "react"
+import React, { Suspense, useEffect, useRef, useState, useTransition } from "react"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -21,7 +21,6 @@ import Onboarding from "./Onboarding"
 import { useSession } from "@blitzjs/auth"
 import { MdOutlineEmojiNature } from "react-icons/md"
 import { useRouter } from "next/router"
-import BuilderBlocks from "./BuilderBlocks"
 import { useElementSize, useLocalStorage } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
@@ -30,6 +29,8 @@ import IPhone from "../../assets/IPhone7.png"
 import { ICanvasBlock, ICanvasPalette } from "types"
 import { autorun } from "mobx"
 import { baseURL } from "pages/_app"
+import useTranslation from "next-translate/useTranslation"
+import BuilderBlocks from "./BuilderBlocks"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -83,9 +84,11 @@ const SaveRedirectButton = observer(() => {
     void router.push(`/auth/?next=/build/${portfolioID}`)
   }
 
+  const { t } = useTranslation("pagesBuild")
+
   return (
     <Button color="violet" onClick={handleSaveAndRedirect}>
-      Save and go to the auth page
+      {t("save and go to the auth page")}
     </Button>
   )
 })
@@ -156,6 +159,8 @@ const Builder = () => {
     })
   }, [data.blocks, data.palette])
 
+  const { t } = useTranslation("pagesBuild")
+
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
@@ -199,7 +204,7 @@ const Builder = () => {
               ref={iframeRef}
               src={`${baseURL}/build-preview?hideScrollbar=true`}
             >
-              <Text>Your browser doesn&apos;t support iframe</Text>
+              <Text>{t("browser iframe")}</Text>
             </iframe>
           </Box>
         </Center>
@@ -235,7 +240,7 @@ const Builder = () => {
         <Stack align="center">
           <Group align="center" spacing={8} noWrap>
             <Text weight="bold" size="lg">
-              Please, register or authorize to continue
+              {t("please, register or authorize to continue")}
             </Text>
             <ThemeIcon color="violet" variant="light">
               <MdOutlineEmojiNature size={24} />

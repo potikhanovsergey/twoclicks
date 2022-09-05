@@ -2,6 +2,7 @@ import { Tooltip, ActionIcon, Menu, Button, Stack } from "@mantine/core"
 import IconPicker from "app/core/components/base/IconPicker"
 import { renderJSXFromBlock, serialize, TypeIcons } from "helpers"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { useMemo } from "react"
 import { Fa500Px, FaMagic } from "react-icons/fa"
 import { TbToggleLeft, TbToggleRight } from "react-icons/tb"
@@ -23,8 +24,14 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
     return props?.[propName] ? props[propName] : null
   }, [props])
 
+  const { t } = useTranslation("pagesBuild")
+
   return hasIconEdit ? (
-    <Tooltip label={propName === "leftIcon" ? "Left icon" : "Right Icon"} color="violet" withArrow>
+    <Tooltip
+      label={propName === "leftIcon" ? t("left icon") : t("right icon")}
+      color="violet"
+      withArrow
+    >
       <div>
         <IconPicker
           withReset={Boolean(ICON)}

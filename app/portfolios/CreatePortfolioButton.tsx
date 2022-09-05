@@ -9,12 +9,15 @@ import { deflate, getPortfolioWithDeflatedData } from "helpers"
 import createPortfolio from "./mutations/createPortfolio"
 import { Button, ButtonProps } from "@mantine/core"
 import { AiFillBuild } from "react-icons/ai"
+import useTranslation from "next-translate/useTranslation"
 type ICreatePortfolioButton = Omit<ButtonProps, "onClick" | "children">
 
 const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
   const router = useRouter()
   const session = useSession()
   const [createPortfolioMutation, { isLoading }] = useMutation(createPortfolio)
+
+  const { t } = useTranslation("common")
 
   const handleCreatePortfolio = async () => {
     const portfolio = {
@@ -46,7 +49,7 @@ const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
       rightIcon={<AiFillBuild />}
       {...props}
     >
-      Создать портфолио
+      {t("createPortfolio")}
     </Button>
   )
 }

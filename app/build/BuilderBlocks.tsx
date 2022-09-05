@@ -9,6 +9,7 @@ import { FiPlusSquare } from "react-icons/fi"
 import shortid from "shortid"
 import { useLocalStorage } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasPalette } from "types"
+import useTranslation from "next-translate/useTranslation"
 
 const BuilderBlocks = () => {
   const {
@@ -22,6 +23,8 @@ const BuilderBlocks = () => {
   useEffect(() => {
     BuildStore.sectionsRef = sectionsRef
   }, [sectionsRef])
+
+  const { t } = useTranslation("pagesBuild")
 
   return (
     <Box
@@ -81,7 +84,7 @@ const BuilderBlocks = () => {
               }))
             }
           >
-            Add section
+            {t("add new section")}
           </Button>
         </Center>
       )}

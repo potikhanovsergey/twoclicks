@@ -9,6 +9,7 @@ import {
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
+import useTranslation from "next-translate/useTranslation"
 import { useState, useMemo } from "react"
 interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
@@ -45,6 +46,8 @@ const PaletteItem = (props: IPaletteItem) => {
     return getHexFromThemeColor({ theme, color })
   }, [color])
 
+  const { t } = useTranslation("pagesBuild")
+
   return (
     <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
       <Popover.Target>
@@ -65,7 +68,7 @@ const PaletteItem = (props: IPaletteItem) => {
                 ) : undefined
               }
             >
-              Inherit palette color
+              {t("inherit palette color")}
             </Button>
           )}
           <ColorPicker

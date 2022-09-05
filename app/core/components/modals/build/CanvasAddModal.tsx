@@ -10,7 +10,7 @@ import {
   Box,
   Loader,
 } from "@mantine/core"
-import { Suspense, useContext, useState } from "react"
+import { Suspense, useContext, useState, useTransition } from "react"
 import useTranslation from "next-translate/useTranslation"
 import { VscChromeClose } from "react-icons/vsc"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
@@ -30,6 +30,7 @@ const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButto
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
   const { blockTypeFilter, setBlockTypeFilter } = BuildStore
+  const { t } = useTranslation("pagesBuild")
   return (
     <Stack spacing={2}>
       {filterButtons.map((b) => (
@@ -47,7 +48,7 @@ const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButto
           }}
         >
           <Group align="center" position="apart" style={{ position: "relative", width: "100%" }}>
-            <Text>{b.text}</Text>
+            <Text>{t(b.text)}</Text>
             <Box
               sx={() => ({
                 position: "absolute",
@@ -84,6 +85,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
       [modal]: false,
     }))
   }
+  const { t } = useTranslation("pagesBuild")
   return (
     <Modal
       trapFocus={false}
@@ -128,7 +130,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
           spacing={12}
         >
           <Text size="xl" weight="bold" style={{ paddingLeft: "8px" }}>
-            Filter By
+            {t("filter by")}
           </Text>
           <ScrollArea
             style={{

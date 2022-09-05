@@ -3,6 +3,7 @@ import { Switch, Tooltip, Text, Button } from "@mantine/core"
 import { useHover } from "@mantine/hooks"
 import togglePortfolioPublished from "app/portfolios/mutations/togglePortfolioPublished"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { ChangeEventHandler, useEffect, useState } from "react"
 import { FaEyeSlash, FaEye } from "react-icons/fa"
 import { AppStore } from "store"
@@ -29,6 +30,9 @@ const TogglePublishPortfilio = ({ id }: ITogglePublishPortfolio) => {
       portfolio.isPublished = !portfolio.isPublished
     }
   }, [isSuccess])
+
+  const { t } = useTranslation("pagesBuild")
+
   return (
     <Button
       color="violet"
@@ -38,7 +42,7 @@ const TogglePublishPortfilio = ({ id }: ITogglePublishPortfolio) => {
       variant="filled"
       leftIcon={portfolio?.isPublished ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
     >
-      {portfolio?.isPublished ? "Hide portfolio" : "Publish portfolio"}
+      {portfolio?.isPublished ? t("hide portfolio") : t("publish portfolio")}
     </Button>
   )
 }
