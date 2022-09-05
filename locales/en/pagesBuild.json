@@ -1,7 +1,7 @@
 {
   "palette": "Palette",
-  "hide portfolio": "Hide portfolio",
-  "publish portfolio": "Show portfolio",
+  "hide portfolio": "Unpublish portfolio",
+  "publish portfolio": "Publish portfolio",
   "preview mode": "Preview mode",
   "edit site name": "Edit site name",
   "link copied": "Link copied",
