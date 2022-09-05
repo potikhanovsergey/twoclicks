@@ -1,4 +1,5 @@
 import ImagePicker from "app/core/components/base/ImagePicker"
+import axios from "axios"
 import { ReactNode } from "react"
 import { BuildStore } from "store/build"
 
@@ -14,25 +15,33 @@ const BuilderImagePicker = ({ elementID, children, slug }: IBuilderImagePicker) 
     <ImagePicker
       onDrop={async (files) => {
         const data = new FormData()
-        data.append("file", files[0])
-        data.append("UPLOADCARE_PUB_KEY", "719fb1a8f2d034c0731c")
-        data.append("UPLOADCARE_STORE", "auto")
+        data.append("image", files[0])
+        data.append("key", "a7bad624b0773cbad481fef7bbb30664")
+        // data.append("UPLOADCARE_PUB_KEY", "719fb1a8f2d034c0731c")
+        // data.append("UPLOADCARE_STORE", "auto")
+        data.append("action", "upload")
+        data.append("format", "json")
 
-        const response = await fetch("https://upload.uploadcare.com/base/", {
+        // const response = await fetch("https://upload.uploadcare.com/base/", {
+        //   method: "POST",
+        //   mode: "cors",
+        //   cache: "no-cache",
+        //   body: data,
+        // })
+
+        const response = await axios("https://api.imgbb.com/1/upload", {
           method: "POST",
-          mode: "cors",
-          cache: "no-cache",
-          body: data,
+          data,
         })
 
-        if (response.ok) {
-          const responseData = await response.json()
-          const src = `https://ucarecdn.com/${responseData.file}/`
+        if ((response.status = 200)) {
+          // const src = `https://ucarecdn.com/${responseData.file}/`
+          console.log(response)
           changeProp({
             id: elementID,
             newProps: {
-              src,
-              uuid: responseData.file,
+              src: response.data.data.url,
+              // uuid: response.data.url,
             },
           })
           // if (slug) {

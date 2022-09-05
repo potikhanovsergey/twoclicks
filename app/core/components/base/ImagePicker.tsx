@@ -19,7 +19,7 @@ const ImagePicker = ({
         onDrop={onDrop}
         multiple={false}
         accept={["image/*"]}
-        maxSize={1 * 1024 ** 2}
+        maxSize={32 * 1024 ** 2}
         sx={(theme) => ({
           display: "flex",
           justifyContent: "center",
@@ -56,7 +56,7 @@ const ImagePicker = ({
               >
                 <FaImage size={48} color="#fff" />
               </ThemeIcon>
-              <Badge>Max size: 1MB</Badge>
+              <Badge>Max size: 32MB</Badge>
             </Stack>
           )}
         </Box>
