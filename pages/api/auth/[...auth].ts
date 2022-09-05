@@ -17,7 +17,7 @@ export default api(
             clientID: process.env.GOOGLE_CLIENT_ID as string,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
             scope: ["profile", "email"],
-            callbackURL: `${baseURL}/api//auth/google/callback`,
+            callbackURL: `${baseURL}/api/auth/google/callback`,
           },
           async function (accessToken, refreshToken, profile, done) {
             const email = profile.emails && profile.emails[0]?.value
@@ -57,7 +57,7 @@ export default api(
             clientID: process.env.VK_CLIENT_ID as string,
             clientSecret: process.env.VK_CLIENT_SECRET as string,
             scope: ["profile", "email"],
-            callbackURL: `${baseURL}/api//auth/vkontakte/callback`,
+            callbackURL: `${baseURL}/api/auth/vkontakte/callback`,
           },
           async function (accessToken, refreshToken, params, profile, done) {
             const email = profile.emails && profile.emails[0]?.value
@@ -96,7 +96,7 @@ export default api(
           {
             clientID: process.env.YANDEX_CLIENT_ID || "",
             clientSecret: process.env.YANDEX_CLIENT_SECRET!,
-            callbackURL: `${baseURL}/api//auth/yandex/callback`,
+            callbackURL: `${baseURL}/api/auth/yandex/callback`,
           },
           async function (_accessToken, _refreshToken, profile, done) {
             const email = profile.emails && profile.emails[0]?.value

@@ -286,6 +286,10 @@ export function renderJSXFromBlock({
     props.component = "span"
   }
 
+  if (el.type.toLowerCase() === "@mantine/core/image") {
+    props.withPlaceholder = true
+  }
+
   if (withEditToolbar && el?.editType === "icon") {
     return (
       <IconPicker
