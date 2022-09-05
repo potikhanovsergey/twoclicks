@@ -1,4 +1,14 @@
-import { Tooltip, ActionIcon, Menu, Button, Stack, TextInput, Group, Checkbox } from "@mantine/core"
+import {
+  Tooltip,
+  ActionIcon,
+  Menu,
+  Button,
+  Stack,
+  TextInput,
+  Group,
+  Checkbox,
+  CheckboxProps,
+} from "@mantine/core"
 import { getRadiusesByType, TypeLinks } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
@@ -8,12 +18,20 @@ import { FaCheck, FaLink } from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
+import { GoLink, GoLinkExternal } from "react-icons/go"
 
 interface IElementLinkEdit {
   type: string
   id: string
   props: ICanvasBlockProps
 }
+
+const CheckboxIcon: CheckboxProps["icon"] = ({ indeterminate, className }) =>
+  indeterminate ? (
+    <GoLinkExternal className={className} />
+  ) : (
+    <GoLinkExternal className={className} />
+  )
 
 const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
   const hasLinkEdit = TypeLinks[type]
@@ -28,9 +46,9 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
     changeProp({
       id,
       newProps: {
-        href: link,
-        component: "a",
-        target: openInNewTab ? "_blank" : "_self",
+        href: link.length ? link : undefined,
+        component: link.length ? "a" : undefined,
+        target: link.length ? (openInNewTab ? "_blank" : "_self") : undefined,
       },
     })
   }
@@ -68,7 +86,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
           </Tooltip>
         </div>
       </Menu.Target>
-      <Menu.Dropdown p={8}>
+      <Menu.Dropdown p={8} sx={(theme) => ({ boxShadow: theme.shadows.md })}>
         {props.href && (
           <Button
             compact
@@ -84,18 +102,29 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
         )}
         <Group align="center" noWrap spacing={4}>
           <TextInput
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                handleLinkify()
+              }
+            }}
             size="xs"
             placeholder="https://google.com"
             value={link}
             onChange={(e) => setLink(e.currentTarget.value)}
             style={{ minWidth: "196px" }}
           />
-          <ActionIcon onClick={handleLinkify} color="violet" variant="filled">
+          <ActionIcon
+            onClick={handleLinkify}
+            color="violet"
+            variant="filled"
+            disabled={link === props.href}
+          >
             <FaCheck />
           </ActionIcon>
         </Group>
         <Checkbox
-          mt={4}
+          icon={CheckboxIcon}
+          mt={8}
           size="xs"
           label={t("open link in new tab")}
           checked={openInNewTab}

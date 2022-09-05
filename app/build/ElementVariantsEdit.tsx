@@ -42,6 +42,12 @@ const ElementVariantsEdit = ({ type, props, id }: IElementVariantsEdit) => {
             <Button
               variant="subtle"
               size="sm"
+              styles={{
+                inner: {
+                  justifyContent: "flex-start",
+                },
+              }}
+              fullWidth
               compact
               key={variant}
               disabled={
