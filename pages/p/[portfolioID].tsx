@@ -8,9 +8,11 @@ import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import Portfolio from "app/p/Portfolio"
 import CubeLoader from "app/core/components/CubeLoader"
 import { useDocumentTitle } from "@mantine/hooks"
+import useTranslation from "next-translate/useTranslation"
 
 const PortfolioPage = () => {
-  // const { t } = useTranslation('pagesBuild');
+  const { t } = useTranslation("pagesBuild")
+
   const portfolioID = useParam("portfolioID", "string")
 
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
@@ -47,7 +49,7 @@ const PortfolioPage = () => {
         </Suspense>
       ) : (
         <Center style={{ height: "100%" }}>
-          <Text>Портфолио не найдено</Text>
+          <Text>{t("portfolio not found")}</Text>
         </Center>
       )}
     </>

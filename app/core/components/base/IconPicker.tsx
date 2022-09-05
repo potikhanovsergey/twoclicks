@@ -19,6 +19,7 @@ import {
 } from "@mantine/core"
 import { useDebouncedState, useDebouncedValue } from "@mantine/hooks"
 import { serialize } from "helpers"
+import useTranslation from "next-translate/useTranslation"
 import { ReactNode, useEffect, useMemo, useState } from "react"
 import * as icons from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
@@ -63,6 +64,7 @@ const IconPicker = ({
   }, [debouncedSearchValue])
 
   const { colorScheme } = useMantineColorScheme()
+  const { t } = useTranslation("pagesBuild")
 
   return (
     <Menu
@@ -99,7 +101,7 @@ const IconPicker = ({
       <Menu.Dropdown>
         {withReset && (
           <Button variant="light" compact my="xs" onClick={onReset} rightIcon={<IoClose />}>
-            Reset icon
+            {t("reset icon")}
           </Button>
         )}
         <TextInput
@@ -116,7 +118,7 @@ const IconPicker = ({
               </Tooltip>
             ) : undefined
           }
-          placeholder="Search icon..."
+          placeholder={t("search icon")}
           value={searchValue}
           onChange={(e) => setSearchValue(e.currentTarget.value)}
         />
@@ -127,7 +129,7 @@ const IconPicker = ({
             </SimpleGrid>
           ) : (
             <Text align="center" py={8} color={colorScheme === "dark" ? "gray" : "dark"}>
-              No icons found
+              {t("no icons found")}
             </Text>
           )}
         </ScrollArea.Autosize>

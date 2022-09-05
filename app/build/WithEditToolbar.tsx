@@ -23,6 +23,7 @@ import { FaLock, FaUnlockAlt } from "react-icons/fa"
 import ElementIconEdit from "./ElementIconEdit"
 import { TypeIcons } from "helpers"
 import ElementLinkEdit from "./ElementLinkEdit"
+import useTranslation from "next-translate/useTranslation"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -42,6 +43,7 @@ interface InnerAddSectionButtonProps extends Omit<ButtonProps, "style" | "childr
 
 const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
+  const { t } = useTranslation("pagesBuild")
 
   const { sectionToBeAddedIndex, ...otherProps } = props
   return (
@@ -61,7 +63,7 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
       }}
       {...otherProps}
     >
-      Add new section
+      {t("add new section")}
     </Button>
   )
 }

@@ -1,6 +1,7 @@
 import { Tooltip, Box, useMantineTheme, ActionIcon, Center, Group, Menu } from "@mantine/core"
 import { getHexFromThemeColor, getGradientsByType } from "helpers"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { HiArrowNarrowRight } from "react-icons/hi"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
@@ -17,6 +18,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
   const theme = useMantineTheme()
 
   const { changeProp, openedAction } = BuildStore
+  const { t } = useTranslation("pagesBuild")
   return gradients && props?.variant === "gradient" ? (
     <Menu
       position="top"
@@ -30,7 +32,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
     >
       <Menu.Target>
         <div>
-          <Tooltip label="Gradient" color="violet" withArrow>
+          <Tooltip label={t("gradient")} color="violet" withArrow>
             <Center sx={{ height: "100%", cursor: "pointer" }}>
               <ActionIcon>
                 <Box
@@ -54,7 +56,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
       </Menu.Target>
       <Menu.Dropdown p={4}>
         <Group noWrap spacing={4}>
-          <Tooltip label='Change "From" color' color="violet" withArrow>
+          <Tooltip label={t("change 'from' color")} color="violet" withArrow>
             <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
               <PaletteItem
                 defaultOpened={openedAction?.[id] === "gradient-from"}
@@ -82,7 +84,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
             </Box>
           </Tooltip>
           <HiArrowNarrowRight />
-          <Tooltip label='Change "To" color' color="violet" withArrow>
+          <Tooltip label={t("change 'to' color")} color="violet" withArrow>
             <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
               <PaletteItem
                 defaultOpened={openedAction?.[id] === "gradient-to"}

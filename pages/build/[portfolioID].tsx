@@ -27,7 +27,7 @@ import { AppStore } from "store"
 import { useDocumentTitle } from "@mantine/hooks"
 
 const BuildPage = () => {
-  // const { t } = useTranslation('pagesBuild');
+  const { t } = useTranslation("pagesBuild")
   const session = useSession()
   const portfolioID = useParam("portfolioID", "string")
 
@@ -119,7 +119,7 @@ const BuildPage = () => {
         </Suspense>
       ) : (
         <Center style={{ height: "100%" }}>
-          <Text>Портфолио не найдено</Text>
+          <Text>{t("portfolio not found")}</Text>
         </Center>
       )}
     </>

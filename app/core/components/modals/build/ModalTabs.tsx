@@ -8,11 +8,11 @@ import React, { Suspense, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "types"
 import { useSession } from "@blitzjs/auth"
+import useTranslation from "next-translate/useTranslation"
 
 interface IModalTab extends TabProps {
   viewlistType: string
 }
-
 const ComponentsModalTabsArr: IModalTab[] = [
   {
     color: "indigo",
@@ -53,6 +53,8 @@ interface IComponentsModalTabs {
 const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
   const [activeTab, setActiveTab] = useState<string | null>("All")
   const session = useSession()
+  const { t } = useTranslation("pagesBuild")
+
   return (
     <Tabs
       value={activeTab}
@@ -102,7 +104,7 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
                   },
                 })}
               >
-                {tab.value}
+                {t(tab.value)}
               </Text>
             </Tabs.Tab>
           ) : (

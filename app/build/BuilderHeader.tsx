@@ -34,6 +34,7 @@ import ViewportButtons from "./ViewportButtons"
 import { AiOutlineLink } from "react-icons/ai"
 import HistoryButtons from "./HistoryButtons"
 import { IoCheckmarkOutline } from "react-icons/io5"
+import useTranslation from "next-translate/useTranslation"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -45,9 +46,10 @@ const AuthorizedActions = observer(() => {
 
 const ObservedPreviewPortfolio = observer(() => {
   const { isCanvasEmpty } = BuildStore
+  const { t } = useTranslation("pagesBuild")
 
   return !isCanvasEmpty ? (
-    <Tooltip label="Preview mode" position="bottom-start" color="violet" withArrow>
+    <Tooltip label={t("preview mode")} position="bottom-start" color="violet" withArrow>
       <PreviewButton variant="light" color="violet" size={30}>
         <MdOutlinePreview size={16} />
       </PreviewButton>
@@ -109,6 +111,8 @@ const BuilderHeader = ({ className }: { className?: string }) => {
     }
   }, [hasSuccessfullyUpdatedPortfolio])
 
+  const { t } = useTranslation("pagesBuild")
+
   return (
     <Center className={className}>
       <Container size="xl">
@@ -138,7 +142,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             {!inputVisible ? (
               <Group spacing={4} align="center">
                 <ObservedPortfolioName />
-                <Tooltip label="Edit site name" position="bottom" color="violet" withArrow>
+                <Tooltip label={t("edit site name")} position="bottom" color="violet" withArrow>
                   <ActionIcon
                     color="violet"
                     variant="light"
@@ -160,7 +164,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
                   }}
                   maxLength={32}
                 />
-                <Tooltip label="Change site name" position="bottom" color="violet" withArrow>
+                <Tooltip label={t("edit site name")} position="bottom" color="violet" withArrow>
                   <div>
                     <ActionIcon
                       color="violet"
@@ -185,7 +189,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <ViewportButtons color="violet" size={30} />
             <Tooltip
               color="violet"
-              label="Toggle fullscreen mode"
+              label={fullscreen ? t("turn off fullscreen mode") : t("turn on fullscreen mode")}
               withArrow
               position="bottom"
               opened={fullscreenHovered}

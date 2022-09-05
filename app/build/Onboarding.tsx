@@ -33,6 +33,8 @@ const Onboarding = () => {
     setTooltipOpened(tooltipHovered && !popoverOpened)
   }, [tooltipHovered, popoverOpened])
 
+  const { t } = useTranslation("pagesBuild")
+
   return (
     <>
       <Popover
@@ -53,7 +55,12 @@ const Onboarding = () => {
               },
             })}
           >
-            <Tooltip label="Getting Started" opened={tooltipOpened} color="violet" position="top">
+            <Tooltip
+              label={t("getting started")}
+              opened={tooltipOpened}
+              color="violet"
+              position="top"
+            >
               <ThemeIcon
                 sx={() => ({
                   WebkitBoxShadow: "0px 5px 10px 2px rgba(34, 60, 80, 0.2)",
@@ -78,13 +85,13 @@ const Onboarding = () => {
               weight="bold"
               color={theme.colorScheme === "dark" ? theme.white : theme.black}
             >
-              Getting Started!
+              {t("getting started!")}
             </Text>
             <IoIosRocket size={24} style={{ fill: "url(#violet-red-gradient)" }} />
           </Group>
           <Group align="center" position="apart" noWrap mb={4}>
             <Text size="xs" color={theme.colorScheme === "dark" ? theme.white : theme.black}>
-              60% complete
+              60% {t("complete")}
             </Text>
             <Badge
               size="xs"
@@ -99,7 +106,7 @@ const Onboarding = () => {
           <Stack spacing={4}>
             <Group position="apart">
               <Text size="sm" color="gray">
-                Select a Template
+                {t("select a template")}
               </Text>
               <ActionIcon color="indigo" variant="light">
                 <HiOutlineTemplate size={16} />
@@ -107,7 +114,7 @@ const Onboarding = () => {
             </Group>
             <Group position="apart">
               <Text size="sm" color="gray">
-                Edit a component/section
+                {t("edit a component/section")}
               </Text>
               <ActionIcon color="indigo" variant="light">
                 <AiOutlineEdit size={16} />
@@ -115,7 +122,7 @@ const Onboarding = () => {
             </Group>
             <Group position="apart">
               <Text size="sm" color="gray">
-                Change the Palette
+                {t("change the palette")}
               </Text>
               <ActionIcon color="indigo" variant="light">
                 <BsPalette size={16} />
@@ -123,7 +130,7 @@ const Onboarding = () => {
             </Group>
             <Group position="apart">
               <Text size="sm" color="gray">
-                Add a new Section
+                {t("add a new section")}
               </Text>
               <ActionIcon color="indigo" variant="light">
                 <MdOutlineAddBox size={16} />
@@ -131,7 +138,7 @@ const Onboarding = () => {
             </Group>
             <Group position="apart">
               <Text size="sm" color="gray">
-                Preview the Portfolio
+                {t("preview the portfolio")}
               </Text>
               <PreviewButton color="indigo" variant="light">
                 <MdOutlinePreview size={16} />

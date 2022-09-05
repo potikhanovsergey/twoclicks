@@ -1,6 +1,7 @@
 import { Group, Anchor, CopyButton, Tooltip, ActionIcon } from "@mantine/core"
 import { PortfolioPreview } from "app/portfolios/PortfolioCard"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { AppStore } from "store"
 
@@ -11,6 +12,7 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
       : process.env.NEXT_PUBLIC_PRODUCTION_URL
 
   const portfolio = AppStore.portfolios.find((p) => p.id === id)
+  const { t } = useTranslation("pagesBuild")
   return portfolio?.isPublished ? (
     <Group spacing={4} noWrap>
       <Anchor
@@ -34,7 +36,7 @@ const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?
       <CopyButton value={`${baseURL}/p/${id}`} timeout={5000}>
         {({ copied, copy }) => (
           <Tooltip
-            label={copied ? "Link copied" : "Copy link"}
+            label={copied ? t("link copied") : t("copy link")}
             withArrow
             position="bottom"
             color="violet"

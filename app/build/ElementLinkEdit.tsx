@@ -1,6 +1,7 @@
 import { Tooltip, ActionIcon, Menu, Button, Stack, TextInput, Group, Checkbox } from "@mantine/core"
 import { getRadiusesByType, TypeLinks } from "helpers"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
 import { AiOutlineRadiusBottomleft } from "react-icons/ai"
 import { FaCheck, FaLink } from "react-icons/fa"
@@ -45,6 +46,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
     })
   }
 
+  const { t } = useTranslation("pagesBuild")
   return hasLinkEdit ? (
     <Menu
       position="top"
@@ -59,7 +61,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
     >
       <Menu.Target>
         <div>
-          <Tooltip label="Linkify" color="violet" withArrow>
+          <Tooltip label={t("linkify")} color="violet" withArrow>
             <ActionIcon color="violet">
               <FaLink style={{ fill: "url(#violet-red-gradient)" }} />
             </ActionIcon>
@@ -77,7 +79,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
             mb={4}
             rightIcon={<IoClose />}
           >
-            Reset link
+            {t("reset link")}
           </Button>
         )}
         <Group align="center" noWrap spacing={4}>
@@ -95,7 +97,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
         <Checkbox
           mt={4}
           size="xs"
-          label="Open link in new tab"
+          label={t("open link in new tab")}
           checked={openInNewTab}
           onChange={(event) => setOpenInNewTab(event.currentTarget.checked)}
         />
