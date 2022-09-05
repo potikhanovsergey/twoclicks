@@ -10,6 +10,6 @@
     "/profile/premium": ["pagesProfilePremium"],
     "/profile/statistics": ["pagesProfileStatistics"],
     "/profile/support": ["pagesProfileSupport"],
-    "/build": ["pagesProfilePortfolios"]
+    "rgx:^/build": ["pagesBuild"]
   }
 }

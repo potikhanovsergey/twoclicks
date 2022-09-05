@@ -178,6 +178,8 @@ export const TypeLinks: {
 } = {
   "@mantine/core/button": true,
   "@mantine/core/image": true,
+  "@mantine/core/actionicon": true,
+  "@mantine/core/themeicon": true,
 }
 
 export function getPaletteByType(type: string) {
@@ -275,7 +277,12 @@ export function renderJSXFromBlock({
     }
   }
 
-  if (el.type.toLowerCase().includes("button") && withContentEditable) {
+  if (
+    ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
+      el.type.toLowerCase()
+    ) &&
+    withContentEditable
+  ) {
     props.component = "span"
   }
 

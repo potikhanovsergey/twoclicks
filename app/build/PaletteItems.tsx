@@ -1,7 +1,6 @@
-import { Group, Text, useMantineTheme } from "@mantine/core"
-import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
+import { Group, Text } from "@mantine/core"
 import { observer } from "mobx-react-lite"
-import { useState, useMemo } from "react"
+import useTranslation from "next-translate/useTranslation"
 import { BuildStore } from "store/build"
 import PaletteItem from "./PaletteItem"
 
@@ -11,9 +10,10 @@ const PaletteItems = () => {
     changePalette,
   } = BuildStore
 
+  const { t } = useTranslation("pagesBuild")
   return (
     <Group spacing={8} align="center">
-      <Text size="sm">Palette:</Text>
+      <Text size="sm">{t("palette")}:</Text>
       {palette && (
         <Group spacing={4}>
           {Object.keys(palette).map((paletteKey, i) => {
