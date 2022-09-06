@@ -44,7 +44,7 @@ const ElementUploadLink = ({ type, id, props }: IElementUploadLink) => {
     >
       <Menu.Target>
         <div>
-          <Tooltip label={t("changeTheLink")} color="violet" withArrow>
+          <Tooltip label={t("changeTheSource")} color="violet" withArrow>
             <ActionIcon color="violet">
               <TbWorldUpload />
             </ActionIcon>

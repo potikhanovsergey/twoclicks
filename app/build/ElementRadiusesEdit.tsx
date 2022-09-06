@@ -31,7 +31,7 @@ const ElementRadiusesEdit = ({ type, props, id }: IElementRadiusesEdit) => {
         <div>
           <Tooltip label={t("radius")} color="violet" withArrow>
             <ActionIcon color="violet">
-              <AiOutlineRadiusBottomleft style={{ fill: "url(#violet-red-gradient)" }} />
+              <AiOutlineRadiusBottomleft />
             </ActionIcon>
           </Tooltip>
         </div>

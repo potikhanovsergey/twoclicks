@@ -31,7 +31,7 @@ const ElementSizesEdit = ({ type, props, id }: IElementSizesEdit) => {
         <div>
           <Tooltip label={t("sizes")} color="violet" withArrow>
             <ActionIcon color="violet">
-              <GiResize style={{ fill: "url(#violet-red-gradient)" }} />
+              <GiResize />
             </ActionIcon>
           </Tooltip>
         </div>

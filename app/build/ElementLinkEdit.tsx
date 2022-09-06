@@ -81,7 +81,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
         <div>
           <Tooltip label={t("linkify")} color="violet" withArrow>
             <ActionIcon color="violet">
-              <FaLink style={{ fill: "url(#violet-red-gradient)" }} />
+              <FaLink />
             </ActionIcon>
           </Tooltip>
         </div>

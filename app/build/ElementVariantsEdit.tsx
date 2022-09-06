@@ -31,7 +31,7 @@ const ElementVariantsEdit = ({ type, props, id }: IElementVariantsEdit) => {
         <div>
           <Tooltip label={t("variants")} color="violet" withArrow>
             <ActionIcon color="violet">
-              <FaMagic style={{ fill: "url(#violet-red-gradient)" }} />
+              <FaMagic />
             </ActionIcon>
           </Tooltip>
         </div>
