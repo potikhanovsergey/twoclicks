@@ -62,7 +62,7 @@ const ElementUploadLink = ({ type, id, props }: IElementUploadLink) => {
                 }
               }}
               size="xs"
-              placeholder="https://google.com"
+              placeholder={t("enterTheSourceURL")}
               value={src}
               onChange={(e) => setSrc(e.currentTarget.value)}
               style={{ minWidth: "196px" }}
