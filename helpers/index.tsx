@@ -182,6 +182,12 @@ export const TypeLinks: {
   "@mantine/core/themeicon": true,
 }
 
+export const TypeLinkUpload: {
+  [key: string]: boolean
+} = {
+  "@mantine/core/image": true,
+}
+
 export function getPaletteByType(type: string) {
   return PaletteTypePropColor[type.toLowerCase()]
 }

@@ -24,6 +24,7 @@ import ElementIconEdit from "./ElementIconEdit"
 import { TypeIcons } from "helpers"
 import ElementLinkEdit from "./ElementLinkEdit"
 import useTranslation from "next-translate/useTranslation"
+import ElementUploadLink from "./ElementUploadLink"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -182,6 +183,7 @@ const WithEditToolbar = ({
           <ElementGradientsEdit id={id} type={type} props={props} />
           <ElementPaletteEdit id={id} element={element} type={type} props={props} />
           <ElementMoves id={id} parentID={parentID} editType={editType} />
+          {type && props && <ElementUploadLink id={id} props={props} type={type.toLowerCase()} />}
           {type &&
             TypeIcons[type?.toLowerCase()]?.map((propName) => (
               <ElementIconEdit
