@@ -2,9 +2,11 @@ import { Tooltip, ActionIcon, Menu, Button, Stack } from "@mantine/core"
 import { getSizesByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
+import { AiOutlineRadiusBottomleft } from "react-icons/ai"
 import { GiResize } from "react-icons/gi"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
+import ToolbarMenu from "./ToolbarMenu"
 
 interface IElementSizesEdit {
   type?: string
@@ -17,47 +19,48 @@ const ElementSizesEdit = ({ type, props, id }: IElementSizesEdit) => {
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("pagesBuild")
   return sizes ? (
-    <Menu
-      position="top"
-      offset={0}
-      defaultOpened={openedAction?.[id] === "size"}
-      onOpen={() => {
-        BuildStore.openedAction[id] = "size"
+    <ToolbarMenu
+      menuProps={{
+        defaultOpened: openedAction?.[id] === "size",
+        onClose: () => {
+          BuildStore.openedAction = {}
+        },
+        onOpen: () => {
+          BuildStore.openedAction[id] = "size"
+        },
       }}
-      onClose={() => (BuildStore.openedAction = {})}
-      closeOnItemClick={false}
-    >
-      <Menu.Target>
-        <div>
-          <Tooltip label={t("sizes")} color="violet" withArrow>
-            <ActionIcon color="violet">
-              <GiResize />
-            </ActionIcon>
-          </Tooltip>
-        </div>
-      </Menu.Target>
-      <Menu.Dropdown p={0}>
-        <Stack spacing={0} align="stretch">
-          {sizes.map((size) => (
-            <Button
-              variant="subtle"
-              size="sm"
-              compact
-              key={size}
-              disabled={props?.size === undefined ? size === "filled" : size === props?.size}
-              onClick={() => [
-                changeProp({
-                  id,
-                  newProps: { size },
-                }),
-              ]}
-            >
-              {size}
-            </Button>
-          ))}
-        </Stack>
-      </Menu.Dropdown>
-    </Menu>
+      tooltipProps={{
+        label: t("sizes"),
+        children: (
+          <ActionIcon color="violet">
+            <GiResize />
+          </ActionIcon>
+        ),
+      }}
+      dropdownProps={{
+        children: (
+          <Stack spacing={0} align="stretch">
+            {sizes.map((size) => (
+              <Button
+                variant="subtle"
+                size="sm"
+                compact
+                key={size}
+                disabled={props?.size === undefined ? size === "filled" : size === props?.size}
+                onClick={() => [
+                  changeProp({
+                    id,
+                    newProps: { size },
+                  }),
+                ]}
+              >
+                {size}
+              </Button>
+            ))}
+          </Stack>
+        ),
+      }}
+    />
   ) : (
     <></>
   )

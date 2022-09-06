@@ -56,9 +56,18 @@ const IconPicker = ({
     const output = Object.entries(icons)
       .filter(([name]) => name.toLowerCase().includes(debouncedSearchValue.toLowerCase()))
       .map(([name, Icon]) => (
-        <ActionIcon key={name} onClick={() => onChange(formatOutput(<Icon />))}>
-          <Icon />
-        </ActionIcon>
+        <Tooltip
+          label={name}
+          key={name}
+          color="violet"
+          transitionDuration={0}
+          zIndex={5}
+          events={{ hover: true, touch: false, focus: true }}
+        >
+          <ActionIcon onClick={() => onChange(formatOutput(<Icon />))}>
+            <Icon />
+          </ActionIcon>
+        </Tooltip>
       ))
     return output
   }, [debouncedSearchValue])

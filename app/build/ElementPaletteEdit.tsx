@@ -1,4 +1,4 @@
-import { Tooltip, Box, useMantineTheme } from "@mantine/core"
+import { Tooltip, Box, useMantineTheme, ThemeIcon, ActionIcon } from "@mantine/core"
 import { getPaletteByType, getHexFromThemeColor } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
@@ -26,7 +26,7 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
   const { t } = useTranslation("pagesBuild")
   return paletteKey && props?.variant !== "gradient" && props?.[paletteKey.prop] ? (
     <Tooltip label={t("change color")} color="violet" withArrow>
-      <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
+      <div>
         <PaletteItem
           currentPaletteColor={
             palette?.[paletteKey.color]
@@ -61,7 +61,7 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
             })
           }}
         />
-      </Box>
+      </div>
     </Tooltip>
   ) : (
     <></>

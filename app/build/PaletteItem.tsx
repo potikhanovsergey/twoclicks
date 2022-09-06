@@ -6,6 +6,7 @@ import {
   PopoverProps,
   Box,
   Button,
+  ThemeIcon,
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
@@ -51,7 +52,26 @@ const PaletteItem = (props: IPaletteItem) => {
   return (
     <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
       <Popover.Target>
-        <ColorSwatch radius="xs" size={16} color={hexColor} style={{ cursor: "pointer" }} />
+        <div>
+          <Box
+            p={6}
+            sx={(theme) => ({
+              display: "flex",
+              alignItems: "center",
+              borderRadius: theme.radius.sm,
+              cursor: "pointer",
+              alignSelf: "stretch",
+              "&:hover": {
+                backgroundColor: theme.colors.violet[0],
+              },
+              "&:active": {
+                transform: "translateY(1px)",
+              },
+            })}
+          >
+            <ColorSwatch radius="xs" size={16} color={hexColor} />
+          </Box>
+        </div>
       </Popover.Target>
       <Popover.Dropdown p={0}>
         <Box py={4} px={8} onMouseLeave={onPopoverMouseLeave} onMouseEnter={onPopoverMouseEnter}>

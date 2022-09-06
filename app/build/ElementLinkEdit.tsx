@@ -19,6 +19,7 @@ import { IoClose } from "react-icons/io5"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import { GoLink, GoLinkExternal } from "react-icons/go"
+import ToolbarMenu from "./ToolbarMenu"
 
 interface IElementLinkEdit {
   type: string
@@ -66,72 +67,76 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
 
   const { t } = useTranslation("pagesBuild")
   return hasLinkEdit ? (
-    <Menu
-      position="top"
-      offset={0}
-      defaultOpened={openedAction?.[id] === "link"}
-      onOpen={() => {
-        BuildStore.openedAction[id] = "link"
+    <ToolbarMenu
+      menuProps={{
+        defaultOpened: openedAction?.[id] === "link",
+        onClose: () => {
+          BuildStore.openedAction = {}
+        },
+        onOpen: () => {
+          BuildStore.openedAction[id] = "link"
+        },
       }}
-      onClose={() => (BuildStore.openedAction = {})}
-      closeOnItemClick={false}
-      width="auto"
-    >
-      <Menu.Target>
-        <div>
-          <Tooltip label={t("linkify")} color="violet" withArrow>
-            <ActionIcon color="violet">
-              <FaLink />
-            </ActionIcon>
-          </Tooltip>
-        </div>
-      </Menu.Target>
-      <Menu.Dropdown p={8} sx={(theme) => ({ boxShadow: theme.shadows.md })}>
-        {props.href && (
-          <Button
-            compact
-            variant="light"
-            size="xs"
-            onClick={handleReset}
-            color="violet"
-            mb={4}
-            rightIcon={<IoClose />}
-          >
-            {t("reset link")}
-          </Button>
-        )}
-        <Group align="center" noWrap spacing={4}>
-          <TextInput
-            onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                handleLinkify()
-              }
-            }}
-            size="xs"
-            placeholder="https://google.com"
-            value={link}
-            onChange={(e) => setLink(e.currentTarget.value)}
-            style={{ minWidth: "196px" }}
-          />
-          <ActionIcon
-            onClick={handleLinkify}
-            color="violet"
-            variant="filled"
-            disabled={link === props.href}
-          >
-            <FaCheck />
+      tooltipProps={{
+        label: t("linkify"),
+        children: (
+          <ActionIcon color="violet">
+            <FaLink />
           </ActionIcon>
-        </Group>
-        <Checkbox
-          icon={CheckboxIcon}
-          mt={8}
-          size="xs"
-          label={t("open link in new tab")}
-          checked={openInNewTab}
-          onChange={(event) => setOpenInNewTab(event.currentTarget.checked)}
-        />
-      </Menu.Dropdown>
-    </Menu>
+        ),
+      }}
+      dropdownProps={{
+        p: 8,
+        sx: (theme) => ({ boxShadow: theme.shadows.md }),
+        children: (
+          <>
+            {props.href && (
+              <Button
+                compact
+                variant="light"
+                size="xs"
+                onClick={handleReset}
+                color="violet"
+                mb={4}
+                rightIcon={<IoClose />}
+              >
+                {t("reset link")}
+              </Button>
+            )}
+            <Group align="center" noWrap spacing={4}>
+              <TextInput
+                onKeyUp={(e) => {
+                  if (e.key === "Enter") {
+                    handleLinkify()
+                  }
+                }}
+                size="xs"
+                placeholder="https://google.com"
+                value={link}
+                onChange={(e) => setLink(e.currentTarget.value)}
+                style={{ minWidth: "196px" }}
+              />
+              <ActionIcon
+                onClick={handleLinkify}
+                color="violet"
+                variant="filled"
+                disabled={link === props.href}
+              >
+                <FaCheck />
+              </ActionIcon>
+            </Group>
+            <Checkbox
+              icon={CheckboxIcon}
+              mt={8}
+              size="xs"
+              label={t("open link in new tab")}
+              checked={openInNewTab}
+              onChange={(event) => setOpenInNewTab(event.currentTarget.checked)}
+            />
+          </>
+        ),
+      }}
+    />
   ) : (
     <></>
   )
