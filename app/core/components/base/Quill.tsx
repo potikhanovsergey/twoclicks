@@ -35,7 +35,7 @@ const useStyles = createStyles((theme) => ({
       lineHeight: "inherit",
       height: "auto",
       padding: "0",
-      overflow: "hidden",
+      overflow: "visible",
       "&.ql-blank": {
         width: "150px",
       },
@@ -64,6 +64,10 @@ const useStyles = createStyles((theme) => ({
         display: "none",
       },
     },
+    ".ql-container.ql-bubble:not(.ql-disabled) a::before, .ql-container.ql-bubble:not(.ql-disabled) a::after":
+      {
+        whiteSpace: "nowrap",
+      },
   },
 }))
 

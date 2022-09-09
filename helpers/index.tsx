@@ -124,12 +124,17 @@ function traverseProp({
       <Quill
         defaultValue={propValue as string}
         placeholder="Enter text"
-        onBlur={(value, source, editor) => {
+        onBlur={(_, _1, editor) => {
           const html = editor.getHTML()
           let parent = BuildStore.data.flattenBlocks[parentID]
+          const begining = html.substring(0, 3)
+          const end = html.substring(html.length - 4, html.length)
+          const insideTag = html.substring(3, html.length - 4)
           if (parent) {
-            let parentProps = parent.props as ICanvasBlockProps
-            if (parentProps?.children !== html) {
+            if (
+              propValue !== html &&
+              !(begining === "<p>" && end === "</p>" && insideTag === propValue)
+            ) {
               BuildStore.changeProp({ id: parentID, newProps: { children: html } })
             }
           }
