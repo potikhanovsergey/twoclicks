@@ -30,7 +30,6 @@ const BuilderBlocks = () => {
     <Box
       sx={{
         height: "100%",
-        overflow: "hidden",
         paddingTop: "12px",
         paddingBottom: "12px",
         marginTop: "-12px",

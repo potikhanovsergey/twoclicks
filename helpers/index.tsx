@@ -28,6 +28,8 @@ import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
 import IconPicker from "app/core/components/base/IconPicker"
+import { e } from "@blitzjs/auth/dist/index-57d74361"
+import Quill from "app/core/components/base/Quill"
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -93,17 +95,48 @@ function traverseProp({
   withEditToolbar,
   withPalette,
   palette,
+  type,
+}: {
+  propValue: any
+  prop: string
+  shouldFlat: boolean
+  parentID: string
+  withContentEditable: boolean
+  withEditToolbar: boolean
+  withPalette: boolean
+  palette: ICanvasPalette | undefined
+  type: string
 }) {
-  if (prop === "children" && typeof propValue === "string" && withContentEditable)
+  if (prop === "children" && typeof propValue === "string" && withContentEditable) {
+    const typeLC = type.toLowerCase()
+    if (typeLC.includes("button") || typeLC.includes("title")) {
+      return (
+        <WithEditable
+          parentID={parentID}
+          withContentEditable={withContentEditable}
+          key={shortid.generate()}
+        >
+          {propValue}
+        </WithEditable>
+      )
+    }
     return (
-      <WithEditable
-        parentID={parentID}
-        withContentEditable={withContentEditable}
-        key={shortid.generate()}
-      >
-        {propValue}
-      </WithEditable>
+      <Quill
+        defaultValue={propValue as string}
+        placeholder="Enter text"
+        onBlur={(value, source, editor) => {
+          const html = editor.getHTML()
+          let parent = BuildStore.data.flattenBlocks[parentID]
+          if (parent) {
+            let parentProps = parent.props as ICanvasBlockProps
+            if (parentProps?.children !== html) {
+              BuildStore.changeProp({ id: parentID, newProps: { children: html } })
+            }
+          }
+        }}
+      />
     )
+  }
   if (propValue && typeof propValue === "object" && propValue.type) {
     return renderJSXFromBlock({
       element: propValue,
@@ -257,6 +290,7 @@ export function renderJSXFromBlock({
           withEditToolbar,
           withPalette,
           palette,
+          type: el.type,
         })
       }
     } else {
@@ -269,6 +303,7 @@ export function renderJSXFromBlock({
         withEditToolbar,
         withPalette,
         palette,
+        type: el.type,
       })
       if (traversedProp) {
         props[prop] = traversedProp

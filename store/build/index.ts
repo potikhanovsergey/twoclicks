@@ -200,9 +200,6 @@ class Build {
           updatedElementProps[prop] = undefined
         }
       }
-
-      console.log("UPDATED ELEMENT PROPS", updatedElementProps)
-
       el.props = updatedElementProps
     }
   }
