@@ -61,5 +61,6 @@
   "Skills": "Навыки",
   "Footers": "Подвалы",
   "portfolio not found": "портфолио не найдено",
-  "changeTheSource": "Поменять источник"
+  "changeTheSource": "Поменять источник",
+  "enterTheSourceURL": "Введите ссылку на источник"
 }
