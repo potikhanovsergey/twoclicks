@@ -28,6 +28,7 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
     <Tooltip label={t("change color")} color="violet" withArrow>
       <div>
         <PaletteItem
+          withHover
           currentPaletteColor={
             palette?.[paletteKey.color]
               ? getHexFromThemeColor({

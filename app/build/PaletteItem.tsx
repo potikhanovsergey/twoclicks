@@ -21,6 +21,7 @@ interface IPaletteItem extends Omit<PopoverProps, "children"> {
   onResetClick?: () => void
   withReset?: boolean
   currentPaletteColor?: string
+  withHover?: boolean
 }
 
 const PaletteItem = (props: IPaletteItem) => {
@@ -35,6 +36,7 @@ const PaletteItem = (props: IPaletteItem) => {
     onPopoverMouseLeave,
     onPopoverMouseEnter,
     currentPaletteColor,
+    withHover = false,
     ...popoverProps
   } = props
 
@@ -61,9 +63,11 @@ const PaletteItem = (props: IPaletteItem) => {
               borderRadius: theme.radius.sm,
               cursor: "pointer",
               alignSelf: "stretch",
-              "&:hover": {
-                backgroundColor: theme.colors.violet[0],
-              },
+              "&:hover": withHover
+                ? {
+                    backgroundColor: theme.colors.violet[0],
+                  }
+                : undefined,
               "&:active": {
                 transform: "translateY(1px)",
               },
