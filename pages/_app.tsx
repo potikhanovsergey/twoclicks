@@ -137,6 +137,22 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
           },
         },
       },
+      Tooltip: {
+        defaultProps: {
+          color: "violet",
+        },
+        styles: {
+          tooltip: {
+            boxShadow: `0 6px 12px -6px ${theme.fn.rgba(
+              theme.black,
+              0.5
+            )}, 5px -12px 34px -13px ${theme.fn.rgba(
+              theme.black,
+              0.4
+            )}, 0 26px 52px 3px ${theme.fn.rgba(theme.black, 0.4)}`,
+          },
+        },
+      },
       Container: {
         defaultProps: {
           sizes: {

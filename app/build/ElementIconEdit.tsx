@@ -27,11 +27,7 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
   const { t } = useTranslation("pagesBuild")
 
   return hasIconEdit ? (
-    <Tooltip
-      label={propName === "leftIcon" ? t("left icon") : t("right icon")}
-      color="violet"
-      withArrow
-    >
+    <Tooltip label={propName === "leftIcon" ? t("left icon") : t("right icon")} withArrow>
       <div>
         <IconPicker
           withReset={Boolean(ICON)}

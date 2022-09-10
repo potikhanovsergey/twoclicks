@@ -142,7 +142,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             {!inputVisible ? (
               <Group spacing={4} align="center">
                 <ObservedPortfolioName />
-                <Tooltip label={t("edit site name")} position="bottom" color="violet" withArrow>
+                <Tooltip label={t("edit site name")} position="bottom" withArrow>
                   <ActionIcon
                     color="violet"
                     variant="light"
@@ -164,7 +164,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
                   }}
                   maxLength={32}
                 />
-                <Tooltip label={t("edit site name")} position="bottom" color="violet" withArrow>
+                <Tooltip label={t("edit site name")} position="bottom" withArrow>
                   <div>
                     <ActionIcon
                       color="violet"
@@ -188,7 +188,6 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <HistoryButtons color="violet" size={30} variant="filled" />
             <ViewportButtons color="violet" size={30} />
             <Tooltip
-              color="violet"
               label={fullscreen ? t("turn off fullscreen mode") : t("turn on fullscreen mode")}
               withArrow
               position="bottom"

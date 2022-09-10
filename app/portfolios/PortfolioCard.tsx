@@ -92,7 +92,7 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: Po
                 </Button>
               </Link>
             )}
-            <Tooltip label="Delete portfolio" withArrow position="bottom" color="violet">
+            <Tooltip label="Delete portfolio" withArrow position="bottom">
               <ActionIcon color="red" variant="filled" size="lg" onClick={openDeleteModal}>
                 <RiDeleteBinLine />
               </ActionIcon>

@@ -38,12 +38,7 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
   return hasMoves && movesIcons ? (
     <>
       {id !== blocks[0].id && (
-        <Tooltip
-          label={t("move up")}
-          color="violet"
-          withArrow
-          position={editType === "section" ? "left" : "top"}
-        >
+        <Tooltip label={t("move up")} withArrow position={editType === "section" ? "left" : "top"}>
           <ActionIcon size="md" onClick={() => moveLeft({ id, parentID, editType })}>
             {movesIcons.left}
           </ActionIcon>
@@ -52,7 +47,6 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
       {id !== blocks[blocks.length - 1].id && (
         <Tooltip
           label={t("move down")}
-          color="violet"
           withArrow
           position={editType === "section" ? "left" : "top"}
         >

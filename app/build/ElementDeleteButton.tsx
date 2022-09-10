@@ -15,7 +15,6 @@ const ElementDeleteButton = ({ id, parentID, editType }: IElementDeleteButton) =
   return (
     <Tooltip
       label={editType === "section" ? t("delete section") : t("delete")}
-      color="violet"
       withArrow
       position={editType === "section" ? "left" : "top"}
     >

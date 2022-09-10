@@ -10,7 +10,7 @@ const ViewportButtons = (props: ActionIconProps) => {
   return (
     <Group spacing="xs">
       {viewMode === "mobile" ? (
-        <Tooltip label={t("desktop view")} color="violet" position="bottom" withArrow>
+        <Tooltip label={t("desktop view")} position="bottom" withArrow>
           <div>
             <ActionIcon
               {...props}
@@ -22,7 +22,7 @@ const ViewportButtons = (props: ActionIconProps) => {
           </div>
         </Tooltip>
       ) : (
-        <Tooltip label={t("mobile view")} color="violet" position="bottom" withArrow>
+        <Tooltip label={t("mobile view")} position="bottom" withArrow>
           <div>
             <ActionIcon {...props} variant="light" onClick={() => (BuildStore.viewMode = "mobile")}>
               <FaMobileAlt />

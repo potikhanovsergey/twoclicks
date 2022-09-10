@@ -69,7 +69,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
         p: 4,
         children: (
           <Group noWrap spacing={4}>
-            <Tooltip label={t("change 'from' color")} color="violet" withArrow>
+            <Tooltip label={t("change 'from' color")} withArrow>
               <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
                 <PaletteItem
                   defaultOpened={openedAction?.[id] === "gradient-from"}

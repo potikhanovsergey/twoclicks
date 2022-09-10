@@ -212,7 +212,6 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
           <Tooltip
             label={isLiked ? "Remove from favs" : "Add to favs"}
             position="bottom"
-            color="violet"
             withArrow
             withinPortal
             zIndex={1000}

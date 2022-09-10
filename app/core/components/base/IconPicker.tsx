@@ -59,7 +59,6 @@ const IconPicker = ({
         <Tooltip
           label={name}
           key={name}
-          color="violet"
           transitionDuration={0}
           zIndex={5}
           events={{ hover: true, touch: false, focus: true }}
@@ -116,7 +115,7 @@ const IconPicker = ({
         <TextInput
           rightSection={
             searchValue.length ? (
-              <Tooltip color="violet" position="top" label="Clear search" withinPortal withArrow>
+              <Tooltip position="top" label="Clear search" withinPortal withArrow>
                 <ActionIcon
                   onClick={() => {
                     setSearchValue("")

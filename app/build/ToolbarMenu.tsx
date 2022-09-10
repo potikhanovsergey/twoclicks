@@ -27,7 +27,6 @@ const ToolbarMenu = ({ menuProps, tooltipProps, dropdownProps }: IToolbarMenu) =
           <Tooltip
             zIndex={301}
             withinPortal
-            color="violet"
             withArrow
             opened={targetHovered && !menuOpened}
             {...tooltipProps}

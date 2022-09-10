@@ -31,7 +31,6 @@ const HistoryButtons = (props: ActionIconProps) => {
           </Group>
         }
         position="bottom"
-        color="violet"
         withArrow
       >
         <div>
@@ -57,7 +56,6 @@ const HistoryButtons = (props: ActionIconProps) => {
           </Group>
         }
         position="bottom"
-        color="violet"
         withArrow
         onClick={redo}
       >

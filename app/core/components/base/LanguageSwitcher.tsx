@@ -42,7 +42,6 @@ const LanguageSwitcher = () => {
       label={t("changeLocale")}
       withArrow
       id="Change language tooltip"
-      color="violet"
       position="bottom"
     >
       <div ref={clickOutsideMenuRef}>
