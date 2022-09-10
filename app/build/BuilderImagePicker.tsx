@@ -1,6 +1,9 @@
+import { showNotification } from "@mantine/notifications"
 import ImagePicker from "app/core/components/base/ImagePicker"
 import axios from "axios"
 import { ReactNode } from "react"
+import { FileRejection } from "react-dropzone"
+import { BiMessageAltError } from "react-icons/bi"
 import { BuildStore } from "store/build"
 
 interface IBuilderImagePicker {
@@ -9,10 +12,37 @@ interface IBuilderImagePicker {
   slug?: string
 }
 
+const defaultUploadError = "Something went wrong while uploading the image. Please, try again."
+
+const defaultUploadNotificationError = {
+  autoClose: 10000,
+  title: "Upload Error",
+  message: defaultUploadError,
+  color: "red",
+  icon: <BiMessageAltError />,
+}
+
 const BuilderImagePicker = ({ elementID, children, slug }: IBuilderImagePicker) => {
   const { changeProp } = BuildStore
   return (
     <ImagePicker
+      onReject={(errors: FileRejection[]) => {
+        let error = errors[0]
+
+        error.errors.map((e) => {
+          let message
+          if (e.code === "file-too-large") {
+            message = "The uploaded file is larger than 32MB"
+          } else {
+            message = e.message
+          }
+
+          showNotification({
+            ...defaultUploadNotificationError,
+            message,
+          })
+        })
+      }}
       onDrop={async (files) => {
         const data = new FormData()
         data.append("image", files[0])
@@ -34,9 +64,8 @@ const BuilderImagePicker = ({ elementID, children, slug }: IBuilderImagePicker) 
           data,
         })
 
-        if ((response.status = 200)) {
+        if ((response.status = 200 && response.data.data.url)) {
           // const src = `https://ucarecdn.com/${responseData.file}/`
-          console.log(response)
           changeProp({
             id: elementID,
             newProps: {
@@ -54,6 +83,9 @@ const BuilderImagePicker = ({ elementID, children, slug }: IBuilderImagePicker) 
           //     },
           //   })
           // }
+        } else {
+          console.log("Upload error", response)
+          showNotification(defaultUploadNotificationError)
         }
       }}
     >
