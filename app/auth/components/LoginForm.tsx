@@ -11,6 +11,7 @@ import {
   TextInput,
   PasswordInput,
   Group,
+  Anchor,
 } from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
 import { useRouter } from "next/router"
@@ -119,19 +120,25 @@ export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
             />
           </Grid.Col>
           <Grid.Col span={12} p={0}>
+            <Group position="apart" mb={5}>
+              <Text component="label" htmlFor="your-password" size="sm" weight={500}>
+                {t("password")}{" "}
+                <Text color="red" component="span">
+                  *
+                </Text>
+              </Text>
+              <Button variant="subtle" size="sm" compact color="violet">
+                Forgot your password?
+              </Button>
+            </Group>
             <PasswordInput
               required
-              label={t("password")}
+              label=""
               placeholder={t("password")}
               {...authorizationForm.getInputProps("password")}
             />
           </Grid.Col>
         </Grid>
-        <Group position="right" mb="md">
-          <Button variant="subtle" size="sm" compact color="violet">
-            Forgot your password?
-          </Button>
-        </Group>
         <Button size="md" color="violet" fullWidth type="submit" my="sm">
           Login
         </Button>
