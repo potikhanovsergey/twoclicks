@@ -9,8 +9,6 @@ import setLanguage from "next-translate/setLanguage"
 
 const LanguageSwitcher = () => {
   const { t } = useTranslation("common")
-  const router = useRouter()
-  const { pathname, asPath, query } = router
   const [locale, setLocale] = useLocalStorage({
     key: "locale",
     defaultValue: "ru",
@@ -18,7 +16,6 @@ const LanguageSwitcher = () => {
   const changeLocale = async (l: string) => {
     setLocale(l)
     await setLanguage(l)
-    // void router.push({ pathname, query }, asPath, { locale: l })
   }
   const { hovered: tooltipHovered, ref: tooltipRef } = useHover<HTMLButtonElement>()
   const [tooltipOpened, setTooltipOpened] = useState(false)

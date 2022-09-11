@@ -28,6 +28,7 @@ const PaletteItems = () => {
           {Object.keys(palette).map((paletteKey, i) => {
             return palette?.[paletteKey] && PaletteTooltips[paletteKey] ? (
               <Tooltip
+                key={paletteKey}
                 label={PaletteTooltips[paletteKey]}
                 position="bottom"
                 opened={itemHovered && !paletteOpened}
@@ -38,7 +39,6 @@ const PaletteItems = () => {
                   <PaletteItem
                     onChange={setPaletteOpened}
                     color={palette[paletteKey]}
-                    key={paletteKey}
                     onColorChange={(value) => {
                       changePalette({
                         paletteKey,

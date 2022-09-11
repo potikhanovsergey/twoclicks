@@ -3,8 +3,9 @@ import { useRouter } from "next/router"
 import AuthLayout from "app/core/layouts/AuthLayout"
 import { useEffect, useState } from "react"
 import SignupForm from "app/auth/components/SignupForm"
-import { useRedirectAuthenticated } from "@blitzjs/auth"
+import { useSession } from "@blitzjs/auth"
 import { showNotification } from "@mantine/notifications"
+import { useLocalStorage } from "@mantine/hooks"
 
 type step = "registration" | "authorization"
 
@@ -12,12 +13,19 @@ const AuthPage = () => {
   const router = useRouter()
   const [step, setStep] = useState<step>("authorization")
 
-  const redirectMiddleware = () => {
-    const next = router.query.next ? decodeURIComponent(router.query.next as string) : "/"
-    return next
-  }
+  const [routerNext, setRouterNext] = useLocalStorage<string | null>({
+    key: "router-next",
+    defaultValue: null,
+  })
 
-  useRedirectAuthenticated(redirectMiddleware())
+  const session = useSession()
+  useEffect(() => {
+    if (session.userId && routerNext) {
+      const nextURL = routerNext || (router.query.next as string) || "/"
+      setRouterNext(null)
+      void router.replace(nextURL)
+    }
+  }, [session, routerNext])
 
   useEffect(() => {
     if (router.query.authError) {

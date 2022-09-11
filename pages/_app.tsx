@@ -216,6 +216,13 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   const getLayout = Component.getLayout || ((page) => page)
 
   const query = useRouterQuery()
+
+  useEffect(() => {
+    if (query.next) {
+      localStorage?.setItem("router-next", query.next?.toString())
+    }
+  }, [query])
+
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider

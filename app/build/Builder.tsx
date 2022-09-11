@@ -220,9 +220,9 @@ const Builder = () => {
         onClose={() => 1}
         overlayColor={dark ? theme.colors.dark[9] : theme.colors.dark[9]}
         overlayOpacity={0.6}
-        overlayBlur={1}
+        overlayBlur={0.8}
         withCloseButton={false}
-        zIndex={99}
+        zIndex={1000}
         centered
         radius="md"
         styles={{

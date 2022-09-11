@@ -19,7 +19,6 @@ import { hideNotification, showNotification } from "@mantine/notifications"
 import { useEffect } from "react"
 
 type LoginFormProps = {
-  onSuccess?: () => void
   onSignup: () => void
 }
 interface IAuthorizeValues {
@@ -27,7 +26,7 @@ interface IAuthorizeValues {
   password: string
 }
 
-export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
+export const LoginForm = ({ onSignup }: LoginFormProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
@@ -52,7 +51,6 @@ export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
     if (!validation.hasErrors) {
       try {
         await loginMutation(values)
-        onSuccess && onSuccess()
       } catch (error: any) {
         let message
         let title
