@@ -70,6 +70,8 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: Po
         backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
         padding: theme.spacing.xl,
         borderRadius: theme.radius.md,
+        boxShadow: `0px 5px 10px 2px rgba(34, 60, 80, 0.1)`,
+
         listStyle: "none",
         ":not(:last-child)": { marginBottom: theme.spacing.md },
       })}
