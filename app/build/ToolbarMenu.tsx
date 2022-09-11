@@ -14,7 +14,7 @@ const ToolbarMenu = ({ menuProps, tooltipProps, dropdownProps }: IToolbarMenu) =
 
   return (
     <Menu
-      position="top"
+      position="bottom"
       offset={0}
       closeOnItemClick={false}
       opened={menuOpened}

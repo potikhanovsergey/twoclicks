@@ -46,6 +46,8 @@ const Onboarding = () => {
         }}
         radius="md"
         width={256}
+        withinPortal
+        zIndex={5}
       >
         <Popover.Target>
           <UnstyledButton
@@ -55,7 +57,13 @@ const Onboarding = () => {
               },
             })}
           >
-            <Tooltip label={t("getting started")} opened={tooltipOpened} position="top">
+            <Tooltip
+              label={t("getting started")}
+              opened={tooltipOpened}
+              position="top"
+              withinPortal
+              zIndex={5}
+            >
               <ThemeIcon
                 sx={() => ({
                   WebkitBoxShadow: "0px 5px 10px 2px rgba(34, 60, 80, 0.2)",

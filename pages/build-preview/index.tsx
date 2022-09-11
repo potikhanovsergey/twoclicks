@@ -1,4 +1,4 @@
-import { Text, Loader, Center, LoadingOverlay, MantineProvider } from "@mantine/core"
+import { Text, Loader, Center, LoadingOverlay, MantineProvider, Global } from "@mantine/core"
 import { Suspense, useEffect, useMemo, useState } from "react"
 import { getPortfolioWithInflatedData, inflateBase64, renderJSXFromBlock } from "helpers"
 import { Ctx, useParam } from "@blitzjs/next"
@@ -42,9 +42,21 @@ const PreviewPortfolio = () => {
           })
           if (JSX) {
             return (
-              <div className="builder-block" key={shortid.generate()}>
-                <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
-              </div>
+              <>
+                <div className="builder-block" key={shortid.generate()}>
+                  <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
+                </div>
+                <Global
+                  styles={(theme) => ({
+                    "::selection": {
+                      background:
+                        theme?.colors?.[portfolio?.palette?.primary]?.[4] || theme.colors.violet[4],
+                      color: theme.white,
+                      WebkitTextFillColor: theme.white,
+                    },
+                  })}
+                />
+              </>
             )
           }
           return <React.Fragment key={i} />

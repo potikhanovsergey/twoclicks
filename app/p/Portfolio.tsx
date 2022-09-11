@@ -1,4 +1,4 @@
-import { Box, Button, Center, Loader, LoadingOverlay, useMantineTheme } from "@mantine/core"
+import { Box, Button, Center, Global, Loader, LoadingOverlay, useMantineTheme } from "@mantine/core"
 import React, { useMemo } from "react"
 import { renderJSXFromBlock } from "helpers"
 import { useSession } from "@blitzjs/auth"
@@ -47,6 +47,17 @@ const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
                   >
                     {JSX}
                   </Box>
+                  <Global
+                    styles={(theme) => ({
+                      "::selection": {
+                        background:
+                          theme?.colors?.[portfolio?.palette?.primary]?.[4] ||
+                          theme.colors.violet[4],
+                        color: theme.white,
+                        WebkitTextFillColor: theme.white,
+                      },
+                    })}
+                  />
                 </SafeWrapper>
               )
             }
