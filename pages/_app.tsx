@@ -34,6 +34,8 @@ import { ModalsProvider } from "@mantine/modals"
 import { useSession } from "@blitzjs/auth"
 import MenuModal from "app/core/components/modals/base/MenuModal"
 
+import cursor from "public/twoclickscursor.svg"
+
 export type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
   export interface MantineThemeColorsOverride {
@@ -297,6 +299,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             minHeight: "100vh",
             overflowX: "hidden",
             wordBreak: "break-word",
+            cursor: `url(${cursor.src}), auto`,
           },
           "body, html":
             query.hideScrollbar === "true"
