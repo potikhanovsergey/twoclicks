@@ -28,7 +28,7 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
-const ProfileItem = {
+export const ProfileItem = {
   icon: (
     <ThemeIcon variant="gradient" gradient={{ from: "teal", to: "blue" }} size="md">
       <BsPersonFill />
@@ -39,7 +39,7 @@ const ProfileItem = {
   route: "/profile",
 }
 
-const ConstMenuItems = [
+export const ConstMenuItems = [
   {
     icon: (
       <ThemeIcon variant="gradient" gradient={{ from: "yellow", to: "orange", deg: 105 }} size="md">
@@ -89,7 +89,6 @@ function HeaderProfile() {
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
 
-  const session = useSession()
   const user = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
@@ -177,12 +176,12 @@ function HeaderProfile() {
         <Menu.Dropdown>
           <Menu.Label>{t("general")}</Menu.Label>
           {/* MENU STARTS */}
-          {session.userId && <HeaderMenuItem {...ProfileItem} />}
+          {user?.id && <HeaderMenuItem {...ProfileItem} />}
           {ConstMenuItems.map((menuItem, i) => (
             <HeaderMenuItem key={menuItem.title} {...menuItem} />
           ))}
           {/* MENU ENDS */}
-          {session.userId && (
+          {user?.id && (
             <Menu.Item
               title={t("signOutOfTheAccount")}
               icon={

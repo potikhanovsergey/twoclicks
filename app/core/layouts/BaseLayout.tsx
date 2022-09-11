@@ -4,7 +4,6 @@ import React, { FC, useState } from "react"
 import LayoutHeader from "../components/layout/LayoutHeader"
 
 const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title, children }) => {
-  const [opened, setOpened] = useState(false)
   return (
     <>
       <Head>
@@ -29,7 +28,7 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
         }}
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
-        header={<LayoutHeader fixed menuOpened={opened} setMenuOpened={setOpened} />}
+        header={<LayoutHeader fixed />}
       >
         {children}
       </AppShell>

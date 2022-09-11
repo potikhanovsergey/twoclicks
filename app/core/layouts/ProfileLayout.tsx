@@ -10,7 +10,6 @@ interface IProfileLayout {
 }
 
 const ProfileLayout = ({ title, children }: IProfileLayout) => {
-  const [menuOpened, setMenuOpened] = useState(false)
   return (
     <>
       <Head>
@@ -30,15 +29,8 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
         fixed
-        navbar={<ProfileNavbar menuOpened={menuOpened} />}
         header={
-          <LayoutHeader
-            hasLogo={false}
-            style={{ left: "var(--mantine-navbar-width)" }}
-            fixed
-            menuOpened={menuOpened}
-            setMenuOpened={setMenuOpened}
-          />
+          <LayoutHeader hasLogo={false} style={{ left: "var(--mantine-navbar-width)" }} fixed />
         }
       >
         {children}
