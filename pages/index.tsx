@@ -6,6 +6,11 @@ const Home = () => {
     <>
       <Space h={16} />
       <HomeHero />
+      <HomeHero />
+      <HomeHero />
+      <HomeHero />
+      <HomeHero />
+      <HomeHero />
       <Space h={72} />
     </>
   )

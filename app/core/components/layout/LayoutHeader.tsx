@@ -40,8 +40,11 @@ const LayoutHeader = ({ fixed = false, position, style, hasLogo = true }: ILayou
     <Header
       position={position}
       sx={(theme) => ({
-        backgroundColor: dark ? theme.colors.dark[7] : theme.colors.gray[0],
+        backgroundColor: dark
+          ? theme.fn.rgba(theme.colors.dark[7], 0.72)
+          : theme.fn.rgba(theme.colors.gray[0], 0.72),
         zIndex: 302,
+        backdropFilter: "saturate(180%) blur(5px)",
       })}
       height="var(--layout-header-height)"
       fixed={fixed}
