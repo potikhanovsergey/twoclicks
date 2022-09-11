@@ -8,7 +8,10 @@ import { makeAutoObservable, action, computed, autorun, reaction } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
 import { configure } from "mobx"
-import React, { memo, RefObject } from "react"
+import { RefObject } from "react"
+import { BiMessageAltError } from "react-icons/bi"
+import { defaultSavePortfolioError, defaultSavePortfolioSuccess } from "notifications"
+import { showNotification } from "@mantine/notifications"
 
 configure({
   enforceActions: "never",
@@ -394,25 +397,33 @@ class Build {
       unknown
     >
   }) => {
-    e && e.preventDefault()
-    const {
-      data: { name, id, blocks, palette },
-      hasPortfolioChanged,
-    } = this
-    if (name && id && hasPortfolioChanged) {
-      this.setIsSaveButtonLoading(true)
-      const portfolio = {
-        data: deflate(blocks),
-        name,
-        id,
-        palette: palette as Prisma.JsonObject,
+    try {
+      e && e.preventDefault()
+      const {
+        data: { name, id, blocks, palette },
+        hasPortfolioChanged,
+      } = this
+      if (name && id && hasPortfolioChanged) {
+        this.setIsSaveButtonLoading(true)
+        const portfolio = {
+          data: deflate(blocks),
+          name,
+          id,
+          palette: palette as Prisma.JsonObject,
+        }
+        if (session.userId) {
+          await updatePortfolioMutation?.(portfolio)
+        } else {
+          localStorage?.setItem(`portfolio-${id}`, deflate(portfolio))
+        }
+        this.hasPortfolioChanged = false
+        this.setIsSaveButtonLoading(false)
+        showNotification(defaultSavePortfolioSuccess)
       }
-      if (session.userId) {
-        await updatePortfolioMutation?.(portfolio)
-      } else {
-        localStorage?.setItem(`portfolio-${id}`, deflate(portfolio))
-      }
-      this.hasPortfolioChanged = false
+    } catch (e) {
+      showNotification({
+        ...defaultSavePortfolioError,
+      })
       this.setIsSaveButtonLoading(false)
     }
   }

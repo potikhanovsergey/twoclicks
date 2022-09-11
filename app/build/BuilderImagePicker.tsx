@@ -1,25 +1,15 @@
 import { showNotification } from "@mantine/notifications"
 import ImagePicker from "app/core/components/base/ImagePicker"
 import axios from "axios"
+import { defaultUploadNotificationError } from "notifications"
 import { ReactNode } from "react"
 import { FileRejection } from "react-dropzone"
-import { BiMessageAltError } from "react-icons/bi"
 import { BuildStore } from "store/build"
 
 interface IBuilderImagePicker {
   elementID: string
   children: ReactNode
   slug?: string
-}
-
-const defaultUploadError = "Something went wrong while uploading the image. Please, try again."
-
-const defaultUploadNotificationError = {
-  autoClose: 10000,
-  title: "Upload Error",
-  message: defaultUploadError,
-  color: "red",
-  icon: <BiMessageAltError />,
 }
 
 const BuilderImagePicker = ({ elementID, children, slug }: IBuilderImagePicker) => {
