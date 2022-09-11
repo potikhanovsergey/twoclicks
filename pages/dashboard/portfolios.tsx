@@ -89,7 +89,7 @@ const Portfolios = () => {
   )
 }
 
-Portfolios.getLayout = getBaseLayout()
+Portfolios.getLayout = getBaseLayout({})
 Portfolios.suppressFirstRenderFlicker = true
 
 export default Portfolios

@@ -41,7 +41,7 @@ const Build = () => {
   )
 }
 
-Build.getLayout = getBaseLayout()
+Build.getLayout = getBaseLayout({})
 Build.suppressFirstRenderFlicker = true
 
 export default observer(Build)

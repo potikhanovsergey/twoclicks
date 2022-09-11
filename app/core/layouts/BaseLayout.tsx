@@ -3,7 +3,13 @@ import { AppShell, Footer } from "@mantine/core"
 import React, { FC, useState } from "react"
 import LayoutHeader from "../components/layout/LayoutHeader"
 
-const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title, children }) => {
+interface BaseLayoutProps {
+  title?: string
+  children?: React.ReactNode
+  headerWithTransparency?: boolean
+}
+
+const BaseLayout: FC<BaseLayoutProps> = ({ title, children, headerWithTransparency = true }) => {
   return (
     <>
       <Head>
@@ -28,7 +34,7 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
         }}
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
-        header={<LayoutHeader fixed />}
+        header={<LayoutHeader fixed withTransparency={headerWithTransparency} />}
       >
         {children}
       </AppShell>
@@ -36,8 +42,8 @@ const BaseLayout: FC<{ title?: string; children?: React.ReactNode }> = ({ title,
   )
 }
 
-export function getBaseLayout() {
-  return (page: JSX.Element) => <BaseLayout>{page}</BaseLayout>
+export function getBaseLayout(props: BaseLayoutProps) {
+  return (page: JSX.Element) => <BaseLayout {...props}>{page}</BaseLayout>
 }
 
 export default BaseLayout

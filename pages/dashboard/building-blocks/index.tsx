@@ -246,7 +246,7 @@ const DashboardIndex = () => {
   )
 }
 
-DashboardIndex.getLayout = getBaseLayout()
+DashboardIndex.getLayout = getBaseLayout({})
 DashboardIndex.suppressFirstRenderFlicker = true
 
 export default DashboardIndex

@@ -16,7 +16,7 @@ const Home = () => {
   )
 }
 
-Home.getLayout = getBaseLayout()
+Home.getLayout = getBaseLayout({})
 Home.suppressFirstRenderFlicker = true
 
 export default Home

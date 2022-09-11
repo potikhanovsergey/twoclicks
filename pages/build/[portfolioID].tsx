@@ -129,7 +129,7 @@ const BuildPage = () => {
   )
 }
 
-BuildPage.getLayout = getBaseLayout()
+BuildPage.getLayout = getBaseLayout({ headerWithTransparency: false })
 BuildPage.suppressFirstRenderFlicker = true
 
 export default BuildPage

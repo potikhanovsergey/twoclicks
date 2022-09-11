@@ -23,9 +23,16 @@ interface ILayoutHeader {
   style?: CSSProperties
   hasLogo?: boolean
   px?: number
+  withTransparency?: boolean
 }
 
-const LayoutHeader = ({ fixed = false, position, style, hasLogo = true }: ILayoutHeader) => {
+const LayoutHeader = ({
+  fixed = false,
+  position,
+  style,
+  hasLogo = true,
+  withTransparency = true,
+}: ILayoutHeader) => {
   const { colorScheme } = useMantineColorScheme()
   const dark = colorScheme === "dark"
   const [modalContext, setModalContext = () => ({})] = useContext(ModalContext)
@@ -40,9 +47,13 @@ const LayoutHeader = ({ fixed = false, position, style, hasLogo = true }: ILayou
     <Header
       position={position}
       sx={(theme) => ({
-        backgroundColor: dark
-          ? theme.fn.rgba(theme.colors.dark[7], 0.72)
-          : theme.fn.rgba(theme.colors.gray[0], 0.72),
+        backgroundColor: withTransparency
+          ? dark
+            ? theme.fn.rgba(theme.colors.dark[7], 0.72)
+            : theme.fn.rgba(theme.colors.gray[0], 0.72)
+          : dark
+          ? theme.colors.dark[7]
+          : theme.colors.gray[0],
         zIndex: 302,
         backdropFilter: "saturate(180%) blur(5px)",
       })}
