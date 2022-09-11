@@ -27,7 +27,6 @@ const AuthPage = () => {
         title: "Authentication Error",
         message: router.query.authError,
         color: "red",
-        // icon: <IconX />,
         loading: false,
       })
       const { pathname, query } = router

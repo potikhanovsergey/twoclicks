@@ -10,6 +10,7 @@ import { baseURL } from "pages/_app"
 export default api(
   passportAuth(() => ({
     errorRedirectUrl: "/auth/",
+    successRedirectUrl: "/auth/",
     strategies: [
       {
         strategy: new GoogleStrategy(
@@ -87,7 +88,7 @@ export default api(
               role: user.role,
               source: provider,
             }
-            done(undefined, { publicData })
+            done(null, { publicData })
           }
         ),
       },

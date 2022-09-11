@@ -32,7 +32,6 @@ export const LoginForm = ({ onSignup, onSuccess }: LoginFormProps) => {
   const dark = colorScheme === "dark"
   const { t } = useTranslation("common")
   const [loginMutation] = useMutation(login)
-  const router = useRouter()
 
   // AUTHORIZATION STARTS
   const authorizationForm = useForm({
