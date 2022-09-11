@@ -27,10 +27,20 @@ import MantineHOCTest from "app/build/sections/MantineHOCTest"
 import MantineTest from "app/build/sections/MantineTest"
 import MantineFeatures from "app/build/sections/MantineFeatures"
 import MantineHero from "app/build/sections/MantineHero"
+import { useSession } from "@blitzjs/auth"
+import { AuthorizationError } from "blitz"
 
 const sections = [FirstHero, MantineHOCTest, MantineTest, MantineFeatures, MantineHero]
 
 const DashboardIndex = () => {
+  const session = useSession()
+
+  useEffect(() => {
+    if (session.role !== "ADMIN") {
+      throw new AuthorizationError()
+    }
+  }, [session])
+
   const [sectionsDB, { refetch: refetchBuildingBlocks }] = useQuery(getAllBuildingBlocks, null)
   const getJsonString = (component: JSX.Element | Object) => {
     const serialized = JSON.parse(serialize(component))

@@ -44,7 +44,7 @@ export default api(
 
             const publicData = {
               userId: user.id,
-              roles: [user.role],
+              role: user.role,
               source: provider,
             }
             done(undefined, { publicData })
@@ -84,7 +84,7 @@ export default api(
 
             const publicData = {
               userId: user.id,
-              roles: [user.role],
+              role: user.role,
               source: provider,
             }
             done(undefined, { publicData })
@@ -128,7 +128,7 @@ export default api(
 
             const publicData = {
               userId: user.id,
-              roles: [user.role],
+              role: user.role,
               source: provider,
             }
             done(null, { publicData })

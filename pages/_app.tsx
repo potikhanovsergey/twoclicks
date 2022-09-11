@@ -31,6 +31,7 @@ import { getCookie, setCookie } from "cookies-next"
 import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
 import { ModalsProvider } from "@mantine/modals"
+import { useSession } from "@blitzjs/auth"
 
 export type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
@@ -213,6 +214,8 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   const getLayout = Component.getLayout || ((page) => page)
 
   const query = useRouterQuery()
+  const session = useSession({ suspense: false })
+  console.log(session)
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider
