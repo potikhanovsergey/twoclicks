@@ -111,7 +111,7 @@ function traverseProp({
 }) {
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     const typeLC = type.toLowerCase()
-    if (typeLC.includes("button") || typeLC.includes("title")) {
+    if (typeLC.includes("button")) {
       return (
         <WithEditable
           parentID={parentID}

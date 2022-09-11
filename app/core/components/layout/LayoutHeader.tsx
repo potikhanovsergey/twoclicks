@@ -55,7 +55,7 @@ const LayoutHeader = ({
           ? theme.colors.dark[7]
           : theme.colors.gray[0],
         zIndex: 302,
-        backdropFilter: "saturate(180%) blur(5px)",
+        backdropFilter: "saturate(270%) blur(5px)",
       })}
       height="var(--layout-header-height)"
       fixed={fixed}

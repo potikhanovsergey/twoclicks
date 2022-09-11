@@ -34,7 +34,7 @@ import { ModalsProvider } from "@mantine/modals"
 import { useSession } from "@blitzjs/auth"
 import MenuModal from "app/core/components/modals/base/MenuModal"
 
-import cursor from "public/twoclickscursor.svg"
+import cursor from "public/oneclick.svg"
 
 export type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {

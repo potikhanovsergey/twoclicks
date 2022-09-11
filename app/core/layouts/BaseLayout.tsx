@@ -14,7 +14,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({ title, children, headerWithTransparen
     <>
       <Head>
         <title>{title || "skillcase"}</title>
-        <link rel="icon" href="/favicon.svg" />
+        <link rel="icon" href="/oneclick.svg" />
       </Head>
       <AppShell
         styles={{
