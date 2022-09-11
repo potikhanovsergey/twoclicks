@@ -51,14 +51,17 @@ const BuildPage = () => {
     const getPortfolio = async () => {
       let p: IPortfolio | null = null
       if (!portfolioFromDB) {
-        let portfolioFromCookie = localStorage?.getItem(`portfolio-${portfolioID}`) as
+        let portfolioFromLC = localStorage?.getItem(`portfolio-${portfolioID}`) as
           | string
           | undefined
-        if (portfolioFromCookie) {
-          let inflatedPortfolio = getPortfolioWithInflatedData(inflateBase64(portfolioFromCookie))
+        if (portfolioFromLC) {
+          let inflatedPortfolio = getPortfolioWithInflatedData(inflateBase64(portfolioFromLC))
           if (session.userId) {
-            void createOrUpdatePortfolioMutation(inflatedPortfolio)
-            localStorage?.removeItem(`portfolio-${portfolioID}`)
+            const portfolio = await createOrUpdatePortfolioMutation(inflatedPortfolio)
+            if (portfolio) {
+              AppStore.portfolios = [...AppStore.portfolios, portfolio]
+              localStorage?.removeItem(`portfolio-${portfolioID}`)
+            }
           }
           p = inflatedPortfolio
         }
