@@ -21,6 +21,8 @@ import { useMutation } from "@blitzjs/rpc"
 import logout from "app/auth/mutations/logout"
 import Link from "next/link"
 import { useMediaQuery, useScrollLock, useViewportSize } from "@mantine/hooks"
+import ColorSchemeToggle from "../../base/ColorSchemeToggle"
+import LanguageSwitcher from "../../base/LanguageSwitcher"
 
 const MenuModal = () => {
   const theme = useMantineTheme()
@@ -78,14 +80,23 @@ const MenuModal = () => {
       <Stack>
         {user?.id && (
           <Link passHref href={ProfileItem.route}>
-            <Button title={t(ProfileItem.title)} color="dark">
+            <Button
+              title={t(ProfileItem.title)}
+              color={dark ? "dark" : "violet"}
+              variant={dark ? "filled" : "light"}
+            >
               {t(ProfileItem.text)}
             </Button>
           </Link>
         )}
         {ConstMenuItems.map((menuItem) => (
           <Link passHref href={menuItem.route} key={menuItem.text}>
-            <Button title={t(menuItem.title)} color="dark" fullWidth>
+            <Button
+              title={t(menuItem.title)}
+              color={dark ? "dark" : "violet"}
+              fullWidth
+              variant={dark ? "filled" : "light"}
+            >
               {t(menuItem.text)}
             </Button>
           </Link>
@@ -101,6 +112,11 @@ const MenuModal = () => {
           </Button>
         )}
         {/* /* LOG OUT ENDS */}
+
+        <Group spacing={4} align="center" position="center">
+          <LanguageSwitcher />
+          <ColorSchemeToggle />
+        </Group>
       </Stack>
     </Modal>
   )

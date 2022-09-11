@@ -206,7 +206,7 @@ function HeaderProfile() {
               backgroundColor: `${dark ? theme.colors.dark[6] : theme.white} !important`,
             })}
           >
-            <Group spacing={4}>
+            <Group spacing={4} align="center">
               <LanguageSwitcher />
               <ColorSchemeToggle />
             </Group>
