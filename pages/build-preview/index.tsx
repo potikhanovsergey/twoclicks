@@ -6,6 +6,7 @@ import SafeWrapper from "app/core/components/SafeWrapper"
 import React from "react"
 import shortid from "shortid"
 import { ICanvasPalette } from "types"
+import { getBaseLayout } from "app/core/layouts/BaseLayout"
 
 const PreviewPortfolio = () => {
   // const { t } = useTranslation('pagesBuild');

@@ -273,7 +273,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             boxSizing: "border-box",
           },
           html: {
-            cursor: `url(${cursor.src}), auto`,
+            cursor: `url(${cursor.src}), default`,
             "&[data-theme='light']": {
               backgroundColor: theme.colors.gray[0],
               color: theme.black,

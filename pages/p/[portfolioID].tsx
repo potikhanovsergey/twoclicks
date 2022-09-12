@@ -9,6 +9,7 @@ import Portfolio from "app/p/Portfolio"
 import MainLoader from "app/core/components/MainLoader"
 import { useDocumentTitle } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
+import { getBaseLayout } from "app/core/layouts/BaseLayout"
 
 const PortfolioPage = () => {
   const { t } = useTranslation("pagesBuild")
@@ -57,5 +58,6 @@ const PortfolioPage = () => {
 }
 
 PortfolioPage.suppressFirstRenderFlicker = true
+PortfolioPage.getLayout = getBaseLayout({ headerWithProfile: false })
 
 export default PortfolioPage

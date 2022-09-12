@@ -24,6 +24,7 @@ interface ILayoutHeader {
   hasLogo?: boolean
   px?: number
   withTransparency?: boolean
+  withProfile?: boolean
 }
 
 const LayoutHeader = ({
@@ -32,6 +33,7 @@ const LayoutHeader = ({
   style,
   hasLogo = true,
   withTransparency = true,
+  withProfile = true,
 }: ILayoutHeader) => {
   const { colorScheme } = useMantineColorScheme()
   const dark = colorScheme === "dark"
@@ -72,7 +74,7 @@ const LayoutHeader = ({
         }}
       >
         <Group
-          position={hasLogo ? "apart" : "right"}
+          position={hasLogo && !withProfile ? "center" : hasLogo ? "apart" : "right"}
           align="center"
           style={{ width: "100%" }}
           noWrap
@@ -90,13 +92,15 @@ const LayoutHeader = ({
               ml="auto"
             />
           </MediaQuery>
-          <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
-            <div>
-              <Suspense fallback={<Skeleton height={32} width={200} radius="md" animate />}>
-                <HeaderProfile />
-              </Suspense>
-            </div>
-          </MediaQuery>
+          {withProfile && (
+            <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+              <div>
+                <Suspense fallback={<Skeleton height={32} width={200} radius="md" animate />}>
+                  <HeaderProfile />
+                </Suspense>
+              </div>
+            </MediaQuery>
+          )}
         </Group>
       </Container>
     </Header>

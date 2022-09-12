@@ -7,9 +7,15 @@ interface BaseLayoutProps {
   title?: string
   children?: React.ReactNode
   headerWithTransparency?: boolean
+  headerWithProfile?: boolean
 }
 
-const BaseLayout: FC<BaseLayoutProps> = ({ title, children, headerWithTransparency = true }) => {
+const BaseLayout: FC<BaseLayoutProps> = ({
+  title,
+  children,
+  headerWithTransparency = true,
+  headerWithProfile = true,
+}) => {
   return (
     <>
       <Head>
@@ -34,7 +40,13 @@ const BaseLayout: FC<BaseLayoutProps> = ({ title, children, headerWithTransparen
         }}
         navbarOffsetBreakpoint="sm"
         asideOffsetBreakpoint="sm"
-        header={<LayoutHeader fixed withTransparency={headerWithTransparency} />}
+        header={
+          <LayoutHeader
+            fixed
+            withTransparency={headerWithTransparency}
+            withProfile={headerWithProfile}
+          />
+        }
       >
         {children}
       </AppShell>
