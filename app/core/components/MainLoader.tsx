@@ -1,5 +1,4 @@
 import { Player } from "@lottiefiles/react-lottie-player"
-import loader from "lotties/cube-loader-one-pink.json"
 import twodots from "lotties/twodotsloader.json"
 
 interface IMainLoader {
