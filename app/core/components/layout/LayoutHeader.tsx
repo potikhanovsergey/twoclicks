@@ -80,7 +80,7 @@ const LayoutHeader = ({
           noWrap
         >
           {hasLogo ? <Logo width={156} /> : <></>}
-          <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+          <MediaQuery largerThan="md" styles={{ display: "none" }}>
             <Burger
               opened={Boolean(modalContext?.menuModal)}
               onClick={handleMenuModalToggle}
@@ -93,7 +93,7 @@ const LayoutHeader = ({
             />
           </MediaQuery>
           {withProfile && (
-            <MediaQuery smallerThan="sm" styles={{ display: "none" }}>
+            <MediaQuery smallerThan="md" styles={{ display: "none" }}>
               <div>
                 <Suspense fallback={<Skeleton height={32} width={200} radius="md" animate />}>
                   <HeaderProfile />

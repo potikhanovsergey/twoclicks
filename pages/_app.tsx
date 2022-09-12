@@ -35,6 +35,7 @@ import { useSession } from "@blitzjs/auth"
 import MenuModal from "app/core/components/modals/base/MenuModal"
 
 import cursor from "public/oneclick.svg"
+import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 
 export type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
@@ -260,6 +261,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                   }
                 >
                   {getLayout(<Component {...pageProps} />)}
+                  <VioletRedGradient />
                   <MenuModal />
                 </Suspense>
               </ModalContext.Provider>

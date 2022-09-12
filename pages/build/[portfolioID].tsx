@@ -5,6 +5,8 @@ import {
   LoadingOverlay,
   ColorSchemeProvider,
   MantineProvider,
+  MediaQuery,
+  useMantineTheme,
 } from "@mantine/core"
 import { Suspense, useEffect, useState } from "react"
 import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
@@ -24,7 +26,7 @@ import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import MainLoader from "app/core/components/MainLoader"
 import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 import { AppStore } from "store"
-import { useDocumentTitle } from "@mantine/hooks"
+import { useDocumentTitle, useViewportSize } from "@mantine/hooks"
 
 const BuildPage = () => {
   const { t } = useTranslation("pagesBuild")
@@ -109,16 +111,21 @@ const BuildPage = () => {
     }
   }, [session])
 
+  const theme = useMantineTheme()
+  const { width: viewportWidth } = useViewportSize()
   if (isLoading) return <LoadingOverlay visible={true} loader={<MainLoader size={128} />} />
 
   return (
     <>
       {portfolio ? (
         <Suspense fallback={<Loader />}>
-          <Builder />
-          <CanvasComponentsModal />
-          <CanvasSectionsModal />
-          <VioletRedGradient />
+          {viewportWidth > theme.breakpoints.md && (
+            <>
+              <Builder />
+              <CanvasComponentsModal />
+              <CanvasSectionsModal />
+            </>
+          )}
         </Suspense>
       ) : (
         <Center style={{ height: "100%" }}>

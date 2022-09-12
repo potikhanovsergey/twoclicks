@@ -46,7 +46,7 @@ const MenuModal = () => {
 
   const { width } = useViewportSize()
   const menuOpened = useMemo(() => {
-    return width <= theme.breakpoints.sm && !!modalContext?.menuModal
+    return width <= theme.breakpoints.md && !!modalContext?.menuModal
   }, [width, modalContext])
 
   useEffect(() => {
