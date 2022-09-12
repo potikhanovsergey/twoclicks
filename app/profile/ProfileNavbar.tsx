@@ -8,6 +8,7 @@ const ProfileNavbar = () => (
     style={{ top: 0 }}
     py={0}
     px="md"
+    hidden
     hiddenBreakpoint="sm"
     width={{ sm: 200, lg: 300 }}
   >

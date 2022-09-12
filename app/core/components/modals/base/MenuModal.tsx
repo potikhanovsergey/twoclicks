@@ -8,6 +8,7 @@ import {
   Button,
   ThemeIcon,
   Stack,
+  Accordion,
 } from "@mantine/core"
 import { Suspense, useContext, useEffect, useMemo } from "react"
 import useTranslation from "next-translate/useTranslation"
@@ -23,6 +24,7 @@ import Link from "next/link"
 import { useMediaQuery, useScrollLock, useViewportSize } from "@mantine/hooks"
 import ColorSchemeToggle from "../../base/ColorSchemeToggle"
 import LanguageSwitcher from "../../base/LanguageSwitcher"
+import { ProfileLinks } from "app/profile/ProfileLinks"
 
 const MenuModal = () => {
   const theme = useMantineTheme()
@@ -78,7 +80,7 @@ const MenuModal = () => {
     >
       {/* MENU STARTS */}
       <Stack>
-        {user?.id && (
+        {/* {user?.id && (
           <Link passHref href={ProfileItem.route}>
             <Button
               title={t(ProfileItem.title)}
@@ -88,7 +90,34 @@ const MenuModal = () => {
               {t(ProfileItem.text)}
             </Button>
           </Link>
-        )}
+        )} */}
+        <Accordion
+          variant="filled"
+          styles={{
+            control: {
+              textAlign: "center",
+              backgroundColor: dark ? theme.colors.dark[5] : theme.colors.violet[0],
+              paddingTop: 0,
+              paddingBottom: 0,
+              minHeight: "34px",
+            },
+            label: {
+              fontWeight: 700,
+              position: "absolute",
+              left: "50%",
+              transform: "translateX(-50%)",
+              color: dark ? theme.white : theme.colors.violet[5],
+              fontSize: "14px",
+            },
+          }}
+        >
+          <Accordion.Item value="profile">
+            <Accordion.Control>Profile</Accordion.Control>
+            <Accordion.Panel>
+              <ProfileLinks />
+            </Accordion.Panel>
+          </Accordion.Item>
+        </Accordion>
         {ConstMenuItems.map((menuItem) => (
           <Link passHref href={menuItem.route} key={menuItem.text}>
             <Button

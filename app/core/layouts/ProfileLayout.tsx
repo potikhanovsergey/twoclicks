@@ -1,8 +1,9 @@
-import { ReactNode, useState, FC } from "react"
-import { AppShell } from "@mantine/core"
+import { ReactNode, useState, FC, useMemo } from "react"
+import { AppShell, useMantineTheme } from "@mantine/core"
 import LayoutHeader from "app/core/components/layout/LayoutHeader"
 import ProfileNavbar from "app/profile/ProfileNavbar"
 import Head from "next/head"
+import { useViewportSize } from "@mantine/hooks"
 
 interface IProfileLayout {
   children: ReactNode

@@ -178,6 +178,16 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   }, [])
   // ### END THEME AND COLOR SCHEME END ###
 
+  // ### MODALS START ###
+
+  const [modalValue, setModalValue] = useState({
+    canvasComponentsModal: false,
+    canvasSectionsModal: false,
+    menuModal: false,
+  })
+
+  // ### MODALS END ###
+
   // ### LOADING OVERLAY STARTS ###
   const [loadingOverlay, setLoadingOverlay] = useState(false)
   useEffect(() => {
@@ -189,6 +199,11 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
     }
     const handleComplete = () => {
       setLoadingOverlay(false)
+      setModalValue({
+        canvasComponentsModal: false,
+        canvasSectionsModal: false,
+        menuModal: false,
+      })
     }
 
     router.events.on("routeChangeStart", handleStart)
@@ -203,16 +218,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
     }
   })
   // ### LOADING OVERLAY ENDS ###
-
-  // ### MODALS START ###
-
-  const [modalValue, setModalValue] = useState({
-    canvasComponentsModal: false,
-    canvasSectionsModal: false,
-    menuModal: false,
-  })
-
-  // ### MODALS END ###
 
   // ### NEXT LAYOUT SYSTEM ###
   const getLayout = Component.getLayout || ((page) => page)
