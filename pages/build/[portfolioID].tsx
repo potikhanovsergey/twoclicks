@@ -119,12 +119,19 @@ const BuildPage = () => {
     <>
       {portfolio ? (
         <Suspense fallback={<Loader />}>
-          {viewportWidth > theme.breakpoints.md && (
+          {viewportWidth > theme.breakpoints.md ? (
             <>
               <Builder />
               <CanvasComponentsModal />
               <CanvasSectionsModal />
             </>
+          ) : (
+            <Center style={{ height: "100%" }}>
+              <Text style={{ maxWidth: "50%" }} align="center">
+                Unfortunately, we don&apos;t support builder on devices with this size yet. Hovewer,
+                you can easily open it on your laptop or desktop!
+              </Text>
+            </Center>
           )}
         </Suspense>
       ) : (
