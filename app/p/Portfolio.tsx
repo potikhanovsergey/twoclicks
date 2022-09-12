@@ -8,7 +8,7 @@ import SafeWrapper from "app/core/components/SafeWrapper"
 import { IPortfolio } from "types"
 import { IModalContextValue } from "contexts/ModalContext"
 import { FiPlusSquare } from "react-icons/fi"
-import CubeLoader from "app/core/components/CubeLoader"
+import MainLoader from "app/core/components/MainLoader"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 
@@ -66,7 +66,7 @@ const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
       </>
     )
   }
-  return <LoadingOverlay visible={true} loader={<CubeLoader size={128} />} />
+  return <LoadingOverlay visible={true} loader={<MainLoader size={128} />} />
 }
 
 export default observer(Portfolio)

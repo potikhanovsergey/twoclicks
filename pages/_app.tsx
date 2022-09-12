@@ -24,7 +24,7 @@ import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
 import "app/styles/variables.css"
 import router from "next/router"
-import CubeLoader from "app/core/components/CubeLoader"
+import MainLoader from "app/core/components/MainLoader"
 import { GetServerSidePropsContext } from "next"
 import { getCookie, setCookie } from "cookies-next"
 
@@ -243,14 +243,14 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                   })}
                   overlayOpacity={0.85}
                   visible={loadingOverlay}
-                  loader={<CubeLoader size={194} />}
+                  loader={<MainLoader size={194} />}
                 />
                 <Suspense
                   fallback={
                     <LoadingOverlay
                       visible={true}
                       overlayOpacity={0.85}
-                      loader={<CubeLoader size={194} />}
+                      loader={<MainLoader size={194} />}
                     />
                   }
                 >
@@ -268,6 +268,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             boxSizing: "border-box",
           },
           html: {
+            cursor: `url(${cursor.src}), auto`,
             "&[data-theme='light']": {
               backgroundColor: theme.colors.gray[0],
               color: theme.black,
@@ -299,7 +300,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             minHeight: "100vh",
             overflowX: "hidden",
             wordBreak: "break-word",
-            cursor: `url(${cursor.src}), auto`,
           },
           "body, html":
             query.hideScrollbar === "true"

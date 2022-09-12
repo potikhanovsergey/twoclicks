@@ -21,7 +21,7 @@ import { useMutation, useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import CubeLoader from "app/core/components/CubeLoader"
+import MainLoader from "app/core/components/MainLoader"
 import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 import { AppStore } from "store"
 import { useDocumentTitle } from "@mantine/hooks"
@@ -109,7 +109,7 @@ const BuildPage = () => {
     }
   }, [session])
 
-  if (isLoading) return <LoadingOverlay visible={true} loader={<CubeLoader size={128} />} />
+  if (isLoading) return <LoadingOverlay visible={true} loader={<MainLoader size={128} />} />
 
   return (
     <>
