@@ -14,12 +14,12 @@ const ToolbarMenu = ({ menuProps, tooltipProps, dropdownProps }: IToolbarMenu) =
 
   return (
     <Menu
-      position="bottom"
       offset={0}
       closeOnItemClick={false}
       opened={menuOpened}
       onChange={setMenuOpened}
       zIndex={19}
+      position="bottom"
       {...menuProps}
     >
       <Menu.Target>

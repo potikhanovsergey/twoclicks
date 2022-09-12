@@ -194,7 +194,7 @@ const Builder = () => {
                 border: "none",
                 borderRadius: "5px",
                 position: "relative",
-                top: "55px",
+                top: "60px",
                 left: "18px",
               },
             }}

@@ -22,6 +22,15 @@ const PreviewPortfolio = () => {
 
   return (
     <>
+      <Global
+        styles={(theme) => ({
+          "::selection": {
+            background: theme?.colors?.[portfolio?.palette?.primary]?.[4] || theme.colors.violet[4],
+            color: theme.white,
+            WebkitTextFillColor: theme.white,
+          },
+        })}
+      />
       {portfolio &&
         portfolio.blocks.map((b, i) => {
           const JSX = renderJSXFromBlock({
@@ -35,21 +44,9 @@ const PreviewPortfolio = () => {
           })
           if (JSX) {
             return (
-              <>
-                <div className="builder-block" key={shortid.generate()}>
-                  <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
-                </div>
-                <Global
-                  styles={(theme) => ({
-                    "::selection": {
-                      background:
-                        theme?.colors?.[portfolio?.palette?.primary]?.[4] || theme.colors.violet[4],
-                      color: theme.white,
-                      WebkitTextFillColor: theme.white,
-                    },
-                  })}
-                />
-              </>
+              <div className="builder-block" key={shortid.generate()}>
+                <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
+              </div>
             )
           }
           return <React.Fragment key={i} />

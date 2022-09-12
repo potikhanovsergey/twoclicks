@@ -9,9 +9,11 @@ import {
   Button,
   Stack,
 } from "@mantine/core"
+import { useHover } from "@mantine/hooks"
 import { getHexFromThemeColor, getGradientsByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
+import { useRef } from "react"
 import { FaMagic } from "react-icons/fa"
 import { HiArrowNarrowRight } from "react-icons/hi"
 import { BuildStore } from "store/build"
@@ -31,6 +33,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
 
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("pagesBuild")
+
   return gradients && props?.variant === "gradient" ? (
     <ToolbarMenu
       menuProps={{
