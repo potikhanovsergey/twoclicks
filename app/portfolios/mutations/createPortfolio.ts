@@ -1,13 +1,20 @@
 import { Ctx } from "blitz"
-import db, { BuildingBlock } from "db"
+import db, { BuildingBlock, Portfolio, Prisma } from "db"
 import { deflate } from "helpers"
+import { ICanvasPalette } from "types"
 
 export default async function createPortfolio(
-  data: { firstTime?: boolean; data: BuildingBlock[]; name: string; id: string },
+  data: Pick<Portfolio, "name"> & {
+    firstTime?: boolean
+    data: BuildingBlock[] | string
+    palette: ICanvasPalette
+    id?: string
+    isPublished?: boolean
+  },
   ctx: Ctx
 ) {
   ctx.session.$isAuthorized()
-  const { firstTime } = data
+  const { firstTime, palette = { primary: "violet" }, isPublished = false } = data
   const userId = ctx.session.userId as string
   try {
     const portfolio = await db.portfolio.create({
@@ -15,7 +22,9 @@ export default async function createPortfolio(
         id: data.id,
         userId,
         name: data.name,
-        data: deflate(data.data),
+        data: typeof data.data === "string" ? data.data : deflate(data.data),
+        isPublished,
+        palette: palette as Prisma.InputJsonValue,
       },
     })
     if (firstTime) {

@@ -3,7 +3,7 @@ import { BiMessageAltError, BiSave } from "react-icons/bi"
 import { BsCheckLg } from "react-icons/bs"
 import { Group, Text, ThemeIcon } from "@mantine/core"
 
-const defaultErrorNotification: Partial<NotificationProps> = {
+export const defaultErrorNotification: Partial<NotificationProps> = {
   autoClose: 10000,
   color: "red",
   icon: <BiMessageAltError />,
@@ -11,9 +11,10 @@ const defaultErrorNotification: Partial<NotificationProps> = {
   message: "Something went wrong. Please, try again.",
 }
 
-const defaultSuccessNotification: Partial<NotificationProps> = {
-  autoClose: 3000,
+export const defaultSuccessNotification: Partial<NotificationProps> = {
   color: "green",
+  title: "Success!",
+  autoClose: 3000,
   icon: <BsCheckLg />,
 }
 
@@ -39,14 +40,9 @@ export const defaultSavePortfolioError: NotificationProps = {
 
 export const defaultSavePortfolioSuccess: NotificationProps = {
   ...defaultSuccessNotification,
-  autoClose: 3000,
-  title: "Success!",
   message: (
     <Group align="center" spacing={8}>
       <Text>Your portfolio is successfully saved</Text>
-      <ThemeIcon variant="light">
-        <BiSave />
-      </ThemeIcon>
     </Group>
   ),
 }

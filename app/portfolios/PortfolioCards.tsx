@@ -13,13 +13,7 @@ const PortfolioCardsItems = observer(() => {
   return portfolios ? (
     <ul style={{ padding: 0, margin: 0 }}>
       {portfolios.map((portfolio) => (
-        <PortfolioCard
-          name={portfolio.name}
-          id={portfolio.id}
-          updatedAt={portfolio.updatedAt}
-          key={portfolio.id}
-          isPublished={portfolio.isPublished}
-        />
+        <PortfolioCard portfolio={portfolio} key={portfolio.id} />
       ))}
     </ul>
   ) : (

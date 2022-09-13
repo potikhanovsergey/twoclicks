@@ -100,17 +100,6 @@ model Portfolio {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @db.ObjectId
-
-  PortfolioImages PortfolioImage[]
-}
-
-model PortfolioImage {
-  id      String @id @default(auto()) @map("_id") @db.ObjectId
-  imageId String @unique
-  src     String
-
-  portfolio   Portfolio @relation(fields: [portfolioId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  portfolioId String    @db.ObjectId
 }
 
 model LikedBlock {

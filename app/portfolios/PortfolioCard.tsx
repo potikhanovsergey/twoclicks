@@ -14,7 +14,7 @@ import { formatDate } from "helpers"
 import Link from "next/link"
 
 import { Portfolio } from "@prisma/client"
-import { HiPencilAlt } from "react-icons/hi"
+import { HiPencilAlt, HiTemplate } from "react-icons/hi"
 import { RiDeleteBinLine } from "react-icons/ri"
 import { openConfirmModal } from "@mantine/modals"
 import { useMutation } from "@blitzjs/rpc"
@@ -23,13 +23,14 @@ import { useEffect } from "react"
 import { AppStore } from "store"
 import PortfolioLink from "app/build/PortfolioLink"
 import TogglePublishPortfilio from "app/build/TogglePublishPortfolio"
+import { TemplateModal } from "app/core/components/modals/base/TemplateModal"
 
-export interface PortfolioPreview
-  extends Pick<Portfolio, "name" | "id" | "updatedAt" | "isPublished"> {
+export interface PortfolioPreview {
+  portfolio: Portfolio
   withEdit?: boolean
 }
 
-const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: PortfolioPreview) => {
+const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
   // const { t } = useTranslation('pagesBuild');
   const theme = useMantineTheme()
 
@@ -37,7 +38,7 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: Po
 
   useEffect(() => {
     if (isSuccess) {
-      AppStore.removePortfolio(id)
+      AppStore.removePortfolio(portfolio.id)
     }
   }, [isSuccess])
 
@@ -59,7 +60,7 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: Po
       ),
       labels: { confirm: "Yes, delete the portfolio", cancel: "No, don't delete it" },
       confirmProps: { color: "red" },
-      onConfirm: () => deletePortfolioMutation({ id }),
+      onConfirm: () => deletePortfolioMutation({ id: portfolio.id }),
     })
 
   return (
@@ -79,17 +80,26 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: Po
       <Group position="apart" align="flex-start">
         <Stack spacing={0} align="flex-start">
           <Text weight="bold" size="xl">
-            {name}
+            {portfolio.name}
           </Text>
-          <PortfolioLink id={id} />
+          <PortfolioLink id={portfolio.id} />
           <Space h="xs" />
-          <TogglePublishPortfilio id={id} />
+          <TogglePublishPortfilio id={portfolio.id} />
         </Stack>
         <Stack spacing="xs">
           <Group spacing="xs" position="right">
+            <TemplateModal
+              portfolio={portfolio}
+              color="orange"
+              size="sm"
+              rightIcon={<HiTemplate />}
+              component={Button}
+            >
+              Use as a template
+            </TemplateModal>
             {withEdit && (
-              <Link passHref href={`/build/${id}`}>
-                <Button color="violet" component="a" rightIcon={<HiPencilAlt />}>
+              <Link passHref href={`/build/${portfolio.id}`}>
+                <Button color="violet" size="sm" component="a" rightIcon={<HiPencilAlt />}>
                   Edit portfolio
                 </Button>
               </Link>
@@ -101,7 +111,7 @@ const PortfolioCard = ({ name, id, updatedAt, isPublished, withEdit = true }: Po
             </Tooltip>
           </Group>
           <Text color={theme.colors.gray[6]} align="end" size="xs">
-            last edit {formatDate(updatedAt)}
+            last edit {formatDate(portfolio.updatedAt)}
           </Text>
         </Stack>
       </Group>
