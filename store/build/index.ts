@@ -10,6 +10,7 @@ import { configure } from "mobx"
 import { RefObject } from "react"
 import { defaultSavePortfolioError, defaultSavePortfolioSuccess } from "notifications"
 import { showNotification } from "@mantine/notifications"
+import { AppStore } from "store"
 
 configure({
   enforceActions: "never",
@@ -409,14 +410,20 @@ class Build {
           id,
           palette: palette as Prisma.JsonObject,
         }
+        let p
         if (session.userId) {
-          await updatePortfolioMutation?.(portfolio)
+          p = await updatePortfolioMutation?.(portfolio)
         } else {
           localStorage?.setItem(`portfolio-${id}`, deflate(portfolio))
         }
         this.hasPortfolioChanged = false
         this.setIsSaveButtonLoading(false)
         showNotification(defaultSavePortfolioSuccess)
+        const indexOfP = AppStore.portfolios.findIndex((storePortfolio) => storePortfolio.id === id)
+        if (indexOfP !== -1) {
+          AppStore.portfolios = AppStore.portfolios.splice(indexOfP, 1, p || portfolio)
+        }
+        return p || portfolio
       }
     } catch (e) {
       showNotification({

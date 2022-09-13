@@ -31,6 +31,8 @@ import { autorun } from "mobx"
 import { baseURL } from "pages/_app"
 import useTranslation from "next-translate/useTranslation"
 import BuilderBlocks from "./BuilderBlocks"
+import { Portfolio } from "@prisma/client"
+import { AppStore } from "store"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -79,7 +81,7 @@ const SaveRedirectButton = observer(() => {
 
   const [updatePortfolioMutation] = useMutation(updatePortfolio)
 
-  const handleSaveAndRedirect = () => {
+  const handleSaveAndRedirect = async () => {
     void savePortfolio({ session, updatePortfolioMutation })
     void router.push(`/auth/?next=/build/${portfolioID}`)
   }
