@@ -10,8 +10,7 @@ function Clicks(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="429"
-      height="319"
-      viewBox="0 0 342 222"
+      viewBox="0 0 462 300"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
