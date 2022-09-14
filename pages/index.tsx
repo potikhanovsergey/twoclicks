@@ -4,6 +4,7 @@ import HomeHero from "app/home/HomeHero"
 import Benefits from "app/home/Benefits"
 import WhoIsThisFor from "app/home/WhoIsThisFor"
 import Showcase from "app/home/Showcase"
+import MadeWithTwoClicks from "app/core/components/MadeWithTwoClicks"
 const Home = () => {
   return (
     <>
