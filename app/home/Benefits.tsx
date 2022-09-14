@@ -10,7 +10,7 @@ import {
   Space,
   useMantineTheme,
 } from "@mantine/core"
-import { useMemo } from "react"
+import { ReactNode, useMemo } from "react"
 import { FiEdit } from "react-icons/fi"
 import {
   HiOutlineDeviceMobile,
@@ -20,16 +20,59 @@ import {
 } from "react-icons/hi"
 import { TbClick } from "react-icons/tb"
 
+interface BenefitsCardProps {
+  title: string
+  icon: ReactNode
+  text: ReactNode
+}
+
+const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
+  const theme = useMantineTheme()
+  const { colorScheme } = theme
+  const dark = colorScheme === "dark"
+
+  return (
+    <Stack align="center" spacing={0}>
+      <Text weight={700} size={28} mb="sm">
+        {title}
+      </Text>
+      <AspectRatio
+        mb="lg"
+        sx={{
+          width: "60%",
+          boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
+          backgroundColor: dark ? theme.colors.dark[6] : theme.white,
+          borderRadius: "10px",
+          maxWidth: "200px",
+          svg: {
+            width: "25%",
+            height: "auto",
+          },
+          "svg, path": {
+            strokeWidth: 1.3,
+          },
+        }}
+        ratio={16 / 10}
+      >
+        <Center>{icon}</Center>
+      </AspectRatio>
+      <Text weight={600} size={24} align="center">
+        {text}
+      </Text>
+    </Stack>
+  )
+}
+
 const Benefits = () => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
 
-  const BenefitsCards = useMemo(() => {
+  const BenefitsCards: BenefitsCardProps[] = useMemo(() => {
     return [
       {
         title: "Fast",
-        icon: <HiOutlineLightningBolt />,
+        icon: <HiOutlineLightningBolt color={theme.colors.yellow[5]} />,
         text: (
           <>
             Make a page while <br /> drinking your tea
@@ -38,7 +81,7 @@ const Benefits = () => {
       },
       {
         title: "Simple",
-        icon: <TbClick />,
+        icon: <TbClick color={theme.colors.green[5]} />,
         text: (
           <>
             Click on element <br /> you want to edit
@@ -47,7 +90,7 @@ const Benefits = () => {
       },
       {
         title: "Fancy",
-        icon: <HiOutlineSparkles />,
+        icon: <HiOutlineSparkles color={theme.colors.pink[5]} />,
         text: (
           <>
             Predesigned <br /> theme and palette
@@ -56,7 +99,7 @@ const Benefits = () => {
       },
       {
         title: "Responsive",
-        icon: <HiOutlineDeviceMobile />,
+        icon: <HiOutlineDeviceMobile color={theme.colors.blue[5]} />,
         text: (
           <>
             Looks good on
@@ -66,7 +109,7 @@ const Benefits = () => {
       },
       {
         title: "Templates",
-        icon: <HiOutlineTemplate />,
+        icon: <HiOutlineTemplate color={theme.colors.red[5]} />,
         text: (
           <>
             Don`t think on <br /> design, it`s ready
@@ -75,7 +118,7 @@ const Benefits = () => {
       },
       {
         title: "Customizible",
-        icon: <FiEdit />,
+        icon: <FiEdit color={theme.colors.violet[5]} />,
         text: (
           <>
             Edit any element <br /> however you want
@@ -106,34 +149,7 @@ const Benefits = () => {
       >
         <SimpleGrid cols={3} spacing={0} sx={{ rowGap: "116px" }}>
           {BenefitsCards.map((card, i) => (
-            <Stack align="center" spacing={0} key={i}>
-              <Text weight={700} size={28} mb="sm">
-                {card.title}
-              </Text>
-              <AspectRatio
-                mb="lg"
-                sx={{
-                  width: "60%",
-                  boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
-                  backgroundColor: dark ? theme.colors.dark[6] : theme.white,
-                  borderRadius: "10px",
-                  maxWidth: "200px",
-                  svg: {
-                    width: "25%",
-                    height: "auto",
-                  },
-                  "svg, path": {
-                    strokeWidth: 1.3,
-                  },
-                }}
-                ratio={16 / 10}
-              >
-                <Center>{card.icon}</Center>
-              </AspectRatio>
-              <Text weight={600} size={24} align="center">
-                {card.text}
-              </Text>
-            </Stack>
+            <BenefitsCard {...card} key={i} />
           ))}
         </SimpleGrid>
       </Box>
