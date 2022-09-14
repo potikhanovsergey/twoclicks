@@ -2,7 +2,10 @@ import { useMantineTheme } from "@mantine/core"
 import { useWindowScroll } from "@mantine/hooks"
 import { useRouter } from "next/router"
 
-function Logo(props: React.SVGProps<SVGSVGElement>) {
+function Logo({
+  withRedirect = true,
+  ...props
+}: React.SVGProps<SVGSVGElement> & { withRedirect?: boolean }) {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
@@ -24,7 +27,7 @@ function Logo(props: React.SVGProps<SVGSVGElement>) {
       viewBox="0 0 1034 222"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      onClick={handleLogoClick}
+      onClick={withRedirect ? handleLogoClick : undefined}
       style={{ cursor: "pointer" }}
       {...props}
     >

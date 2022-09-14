@@ -1,15 +1,9 @@
-import { Box, Button, Center, Global, Loader, LoadingOverlay, useMantineTheme } from "@mantine/core"
-import React, { useMemo } from "react"
+import { Box, Global, LoadingOverlay } from "@mantine/core"
+import React from "react"
 import { renderJSXFromBlock } from "helpers"
-import { useSession } from "@blitzjs/auth"
-import { ICanvasBlock } from "types"
-import { b, i } from "@blitzjs/auth/dist/index-57d74361"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import { IPortfolio } from "types"
-import { IModalContextValue } from "contexts/ModalContext"
-import { FiPlusSquare } from "react-icons/fi"
 import MainLoader from "app/core/components/MainLoader"
-import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 
 const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
