@@ -38,7 +38,7 @@ const HomeHero = () => {
       }}
     >
       <Image
-        src="landing/purple-circle.svg"
+        src="landing/purple-circle.png"
         sx={{
           position: "absolute",
           pointerEvents: "none",
@@ -52,7 +52,7 @@ const HomeHero = () => {
         height={700}
       />
       <Image
-        src="landing/pink-circle.svg"
+        src="landing/pink-circle.png"
         sx={{
           position: "absolute",
           pointerEvents: "none",
