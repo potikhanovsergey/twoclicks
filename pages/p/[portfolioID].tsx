@@ -11,6 +11,7 @@ import { useDocumentTitle } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import Clicks from "app/core/components/Clicks"
+import BaseLayout from "app/core/layouts/BaseLayout"
 
 const PortfolioPage = () => {
   const { t } = useTranslation("pagesBuild")
@@ -94,9 +95,11 @@ const PortfolioPage = () => {
           {/* </MantineProvider> */}
         </Suspense>
       ) : (
-        <Center style={{ height: "100%" }}>
-          <Text>{t("portfolio not found")}</Text>
-        </Center>
+        <BaseLayout>
+          <Center style={{ height: "100%" }}>
+            <Text>{t("portfolio not found")}</Text>
+          </Center>
+        </BaseLayout>
       )}
     </>
   )

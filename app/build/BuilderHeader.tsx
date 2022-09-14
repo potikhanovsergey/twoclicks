@@ -115,7 +115,7 @@ const ObservedPortfolioName = observer(() => {
           <FiChevronDown />
         </Group>
       </HoverCard.Target>
-      <HoverCard.Dropdown p={8}>
+      <HoverCard.Dropdown p={8} style={{ overflow: "hidden" }}>
         <ScrollArea.Autosize
           maxHeight={160}
           type="never"
@@ -126,13 +126,21 @@ const ObservedPortfolioName = observer(() => {
             <Stack spacing={4}>
               <Text weight="bold">Current page:</Text>
               {id && dividedPortfolios?.current?.isPublished && (
-                <PortfolioLink id={id} withEllipsis />
+                <PortfolioLink id={id} withEllipsis={true} />
               )}
 
               <Group noWrap spacing={4} mb="sm">
                 {!inputVisible ? (
                   <>
-                    <Button variant="light" size="xs" fullWidth disabled>
+                    <Button
+                      variant="light"
+                      size="xs"
+                      fullWidth
+                      disabled
+                      rightIcon={
+                        dividedPortfolios.current.isPublished ? <AiOutlineLink /> : undefined
+                      }
+                    >
                       {dividedPortfolios.current.name}
                     </Button>
                     <Tooltip
@@ -187,7 +195,12 @@ const ObservedPortfolioName = observer(() => {
                   <Text weight="bold">Other pages:</Text>
                   {dividedPortfolios.rest.map((p) => (
                     <Link passHref href={`/build/${p.id}`} key={p.id}>
-                      <Button variant="light" size="xs" component="a">
+                      <Button
+                        variant="light"
+                        size="xs"
+                        component="a"
+                        rightIcon={p.isPublished ? <AiOutlineLink /> : undefined}
+                      >
                         {p.name}
                       </Button>
                     </Link>
