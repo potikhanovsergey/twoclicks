@@ -72,13 +72,7 @@ const Portfolios = () => {
                 {portfolio.user.email}
               </Text>
             </Group>
-            <PortfolioCard
-              name={portfolio.name}
-              id={portfolio.id}
-              updatedAt={portfolio.updatedAt}
-              isPublished={portfolio.isPublished}
-              withEdit={false}
-            />
+            <PortfolioCard portfolio={portfolio} withEdit={false} />
           </div>
         ))}
         <Pagination page={page} onChange={goToPage} total={Math.ceil(count / ITEMS_PER_PAGE)} />

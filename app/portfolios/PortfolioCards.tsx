@@ -24,6 +24,7 @@ const PortfolioCardsItems = observer(() => {
 const PortfolioCards = observer(() => {
   const { setPortfolios } = AppStore
   const session = useSession()
+
   const [fetchedPortfolios, { isLoading, isFetching, isRefetching }] = useQuery(
     getUserPortfolios,
     {
@@ -36,6 +37,7 @@ const PortfolioCards = observer(() => {
     {
       refetchOnReconnect: true,
       refetchOnWindowFocus: false,
+      enabled: !AppStore.havePortfoliosLoaded,
     }
   )
 

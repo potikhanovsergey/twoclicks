@@ -102,7 +102,7 @@ const Page404 = () => {
   )
 }
 
-Page404.getLayout = getBaseLayout()
+Page404.getLayout = getBaseLayout({})
 Page404.suppressFirstRenderFlicker = true
 
 export default Page404

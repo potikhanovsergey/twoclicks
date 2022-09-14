@@ -28,10 +28,14 @@ import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
 import IconPicker from "app/core/components/base/IconPicker"
+import { ReactQuillProps } from "react-quill"
 
-const Quill = dynamic(() => import("app/core/components/base/Quill").then((module) => module), {
-  ssr: false,
-})
+const Quill = dynamic<ReactQuillProps>(
+  () => import("app/core/components/base/Quill").then((module) => module),
+  {
+    ssr: false,
+  }
+)
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -124,7 +128,7 @@ function traverseProp({
     }
     return (
       <Quill
-        value={BuildStore.data.flattenBlocks[parentID].props?.[prop] || ""}
+        defaultValue={BuildStore.data.flattenBlocks[parentID].props?.[prop] || ""}
         placeholder="Enter text"
         onBlur={(_, _1, editor) => {
           const html = editor.getHTML()

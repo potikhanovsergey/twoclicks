@@ -27,6 +27,7 @@ import MainLoader from "app/core/components/MainLoader"
 import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 import { AppStore } from "store"
 import { useDocumentTitle, useViewportSize } from "@mantine/hooks"
+import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 
 const BuildPage = () => {
   const { t } = useTranslation("pagesBuild")
@@ -49,6 +50,7 @@ const BuildPage = () => {
     { id: portfolioID, isPublic: false },
     { refetchOnReconnect: false, refetchOnWindowFocus: false }
   )
+
   useEffect(() => {
     const getPortfolio = async () => {
       let p: IPortfolio | null = null
@@ -113,6 +115,32 @@ const BuildPage = () => {
 
   const theme = useMantineTheme()
   const { width: viewportWidth } = useViewportSize()
+
+  const { setPortfolios } = AppStore
+
+  const [fetchedPortfolios] = useQuery(
+    getUserPortfolios,
+    {
+      orderBy: [
+        {
+          updatedAt: "desc",
+        },
+      ],
+    },
+    {
+      refetchOnReconnect: true,
+      refetchOnWindowFocus: false,
+      enabled: !AppStore.havePortfoliosLoaded,
+    }
+  )
+
+  useEffect(() => {
+    if (fetchedPortfolios && session.userId) {
+      setPortfolios(fetchedPortfolios)
+    }
+    if (!session.userId) setPortfolios([])
+  }, [fetchedPortfolios, session])
+
   if (isLoading) return <LoadingOverlay visible={true} loader={<MainLoader size={128} />} />
 
   return (
