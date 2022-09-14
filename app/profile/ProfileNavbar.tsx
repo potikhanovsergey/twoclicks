@@ -14,6 +14,7 @@ const ProfileNavbar = () => (
   >
     {/* HEADER STARTS */}
     <Navbar.Section pt={4} pl={10}>
+      <Space h={4} />
       <Group
         style={{ height: "var(--build-header-height)", minHeight: "var(--build-header-height)" }}
         align="center"

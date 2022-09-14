@@ -1,4 +1,4 @@
-import { Center, Group, Stack, useMantineTheme, Title, Loader, Button } from "@mantine/core"
+import { Center, Group, Stack, useMantineTheme, Title, Loader, Button, Space } from "@mantine/core"
 import { ReactNode, Suspense } from "react"
 import useTranslation from "next-translate/useTranslation"
 import { Player } from "@lottiefiles/react-lottie-player"
@@ -48,7 +48,7 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
                 }}
                 align="center"
               >
-                <Logo />
+                <Logo width={196} />
                 {formTitle && (
                   <Title order={1} style={{ fontSize: "2em" }} mb="md">
                     {formTitle}

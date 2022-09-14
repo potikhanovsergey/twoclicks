@@ -76,10 +76,10 @@ const LayoutHeader = ({
         <Group
           position={hasLogo && !withProfile ? "center" : hasLogo ? "apart" : "right"}
           align="center"
-          style={{ width: "100%" }}
+          style={{ width: "100%", height: "100%" }}
           noWrap
         >
-          {hasLogo ? <Logo width={156} /> : <></>}
+          {hasLogo ? <Logo width={140} /> : <></>}
           <MediaQuery largerThan="md" styles={{ display: "none" }}>
             <Burger
               opened={Boolean(modalContext?.menuModal)}

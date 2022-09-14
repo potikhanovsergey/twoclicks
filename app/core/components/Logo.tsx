@@ -22,13 +22,13 @@ function Logo({
   }
   return (
     <svg
-      width="165"
-      height="60"
-      viewBox="0 0 1034 222"
+      // width="165"
+      // height="60"
+      viewBox="0 0 1034 280"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       onClick={withRedirect ? handleLogoClick : undefined}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", marginBottom: "-6px" }}
       {...props}
     >
       <g filter="url(#filter0_dddd_416_3645)">
