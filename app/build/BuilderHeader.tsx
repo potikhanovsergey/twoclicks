@@ -15,11 +15,13 @@ import {
   Box,
   ThemeIcon,
   TextInput,
+  Stack,
+  ScrollArea,
 } from "@mantine/core"
 import { useClickOutside, useFullscreen, useHotkeys, useHover } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { observer } from "mobx-react-lite"
-import React, { Suspense, useEffect, useState } from "react"
+import React, { Suspense, useEffect, useMemo, useState } from "react"
 import { AiOutlineEdit, AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
 import { FaSave } from "react-icons/fa"
 import { MdOutlinePreview } from "react-icons/md"
@@ -35,6 +37,8 @@ import { AiOutlineLink } from "react-icons/ai"
 import HistoryButtons from "./HistoryButtons"
 import { IoCheckmarkOutline } from "react-icons/io5"
 import useTranslation from "next-translate/useTranslation"
+import { FiChevronDown } from "react-icons/fi"
+import Link from "next/link"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -65,34 +69,9 @@ const ObservedPortfolioName = observer(() => {
     data: { name, id },
   } = BuildStore
 
-  const isPublished = AppStore.portfolios.find((p) => p.id === id)?.isPublished
-  return session.userId && isPublished ? (
-    <HoverCard shadow="xl">
-      <HoverCard.Target>
-        <Group align="center" spacing={4}>
-          <AiOutlineLink />
-          <Text>{name}</Text>
-        </Group>
-      </HoverCard.Target>
-      <HoverCard.Dropdown p={8}>
-        {id && <PortfolioLink id={id} withEllipsis={false} />}
-      </HoverCard.Dropdown>
-    </HoverCard>
-  ) : (
-    <>
-      <Text>{name}</Text>
-    </>
-  )
-})
+  const { portfolios } = AppStore
 
-const BuilderHeader = ({ className }: { className?: string }) => {
-  // const { t } = useTranslation('pagesBuild');
-  const { toggle, fullscreen } = useFullscreen()
-  const { hovered: fullscreenHovered, ref: fullscreenRef } = useHover<HTMLButtonElement>()
   const [inputVisible, setInputVisible] = useState(false)
-  const {
-    data: { name, id },
-  } = BuildStore
   const [editName, setEditName] = useState(name)
   const editNameOutsideRef = useClickOutside(() => setInputVisible(false))
   const [
@@ -104,13 +83,133 @@ const BuilderHeader = ({ className }: { className?: string }) => {
     setEditName(name)
   }, [name])
 
+  const dividedPortfolios = useMemo(() => {
+    const portfolio = portfolios?.find((p) => p.id === id)
+    if (!portfolio) return null
+    return {
+      current: portfolio,
+      rest: portfolios.filter((p) => p.id !== portfolio.id),
+    }
+  }, [portfolios, id])
+
   useEffect(() => {
     if (hasSuccessfullyUpdatedPortfolio) {
       setInputVisible(false)
-      BuildStore.data.name = editName
+      if (editName) {
+        BuildStore.data.name = editName
+        if (dividedPortfolios?.current) {
+          dividedPortfolios.current.name = editName
+        }
+      }
     }
   }, [hasSuccessfullyUpdatedPortfolio])
 
+  const { t } = useTranslation("pagesBuild")
+
+  return session.userId ? (
+    <HoverCard shadow="lg" width={312}>
+      <HoverCard.Target>
+        <Group align="center" spacing={4}>
+          {dividedPortfolios?.current?.isPublished && <AiOutlineLink />}
+          <Text>{name}</Text>
+          <FiChevronDown />
+        </Group>
+      </HoverCard.Target>
+      <HoverCard.Dropdown p={8}>
+        <ScrollArea.Autosize
+          maxHeight={160}
+          type="never"
+          offsetScrollbars
+          styles={{ viewport: { padding: 0 } }}
+        >
+          {dividedPortfolios && (
+            <Stack spacing={4}>
+              <Text weight="bold">Current page:</Text>
+              {id && dividedPortfolios?.current?.isPublished && (
+                <PortfolioLink id={id} withEllipsis />
+              )}
+
+              <Group noWrap spacing={4} mb="sm">
+                {!inputVisible ? (
+                  <>
+                    <Button variant="light" size="xs" fullWidth disabled>
+                      {dividedPortfolios.current.name}
+                    </Button>
+                    <Tooltip
+                      label={t("edit site name")}
+                      position="bottom"
+                      withArrow
+                      withinPortal
+                      zIndex={301}
+                    >
+                      <ActionIcon
+                        color="violet"
+                        variant="light"
+                        size={30}
+                        onClick={() => {
+                          setInputVisible(true)
+                        }}
+                      >
+                        <AiOutlineEdit />
+                      </ActionIcon>
+                    </Tooltip>
+                  </>
+                ) : (
+                  <Group spacing={4} ref={editNameOutsideRef} noWrap style={{ width: "100%" }}>
+                    <TextInput
+                      size="xs"
+                      value={editName || ""}
+                      onChange={(evt) => {
+                        setEditName(evt.currentTarget.value)
+                      }}
+                      maxLength={32}
+                      sx={{ width: "100%", flexGrow: 1 }}
+                    />
+                    <ActionIcon
+                      color="violet"
+                      variant="light"
+                      size={30}
+                      disabled={editName === name || !editName?.length}
+                      loading={isUpdatingPortfolio}
+                      onClick={() => {
+                        if (id && editName?.length) {
+                          void updatePortfolioMutation({ name: editName, id })
+                        }
+                      }}
+                    >
+                      <IoCheckmarkOutline />
+                    </ActionIcon>
+                  </Group>
+                )}
+              </Group>
+              {dividedPortfolios.rest.length > 0 ? (
+                <>
+                  <Text weight="bold">Other pages:</Text>
+                  {dividedPortfolios.rest.map((p) => (
+                    <Link passHref href={`/build/${p.id}`} key={p.id}>
+                      <Button variant="light" size="xs" component="a">
+                        {p.name}
+                      </Button>
+                    </Link>
+                  ))}
+                </>
+              ) : (
+                <Text size="sm">Other pages will be here when you add them</Text>
+              )}
+            </Stack>
+          )}
+        </ScrollArea.Autosize>
+      </HoverCard.Dropdown>
+    </HoverCard>
+  ) : (
+    <></>
+  )
+})
+
+const BuilderHeader = ({ className }: { className?: string }) => {
+  // const { t } = useTranslation('pagesBuild');
+  const { toggle, fullscreen } = useFullscreen()
+  const { hovered: fullscreenHovered, ref: fullscreenRef } = useHover<HTMLButtonElement>()
   const { t } = useTranslation("pagesBuild")
 
   return (
@@ -139,50 +238,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               transform: "translate(-50%, -50%)",
             }}
           >
-            {!inputVisible ? (
-              <Group spacing={4} align="center">
-                <ObservedPortfolioName />
-                <Tooltip label={t("edit site name")} position="bottom" withArrow>
-                  <ActionIcon
-                    color="violet"
-                    variant="light"
-                    onClick={() => {
-                      setInputVisible(true)
-                    }}
-                  >
-                    <AiOutlineEdit />
-                  </ActionIcon>
-                </Tooltip>
-              </Group>
-            ) : (
-              <Group spacing={4} ref={editNameOutsideRef}>
-                <TextInput
-                  size="xs"
-                  value={editName || ""}
-                  onChange={(evt) => {
-                    setEditName(evt.currentTarget.value)
-                  }}
-                  maxLength={32}
-                />
-                <Tooltip label={t("edit site name")} position="bottom" withArrow>
-                  <div>
-                    <ActionIcon
-                      color="violet"
-                      variant="light"
-                      disabled={editName === name || !editName?.length}
-                      loading={isUpdatingPortfolio}
-                      onClick={() => {
-                        if (id && editName?.length) {
-                          void updatePortfolioMutation({ name: editName, id })
-                        }
-                      }}
-                    >
-                      <IoCheckmarkOutline />
-                    </ActionIcon>
-                  </div>
-                </Tooltip>
-              </Group>
-            )}
+            <ObservedPortfolioName />
           </Box>
           <Group spacing={8}>
             <HistoryButtons color="violet" size={30} variant="filled" />
@@ -214,6 +270,3 @@ const BuilderHeader = ({ className }: { className?: string }) => {
 }
 
 export default observer(BuilderHeader)
-function setOpened(arg0: boolean): void {
-  throw new Error("Function not implemented.")
-}

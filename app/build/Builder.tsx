@@ -161,6 +161,20 @@ const Builder = () => {
     })
   }, [data.blocks, data.palette])
 
+  const router = useRouter()
+
+  useEffect(() => {
+    const handleComplete = () => {
+      BuildStore.hasPortfolioChanged = false
+    }
+    router.events.on("routeChangeComplete", handleComplete)
+    router.events.on("routeChangeError", handleComplete)
+
+    return () => {
+      router.events.off("routeChangeComplete", handleComplete)
+      router.events.off("routeChangeError", handleComplete)
+    }
+  })
   const { t } = useTranslation("pagesBuild")
 
   return (
