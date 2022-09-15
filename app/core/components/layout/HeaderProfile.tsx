@@ -15,7 +15,7 @@ import { BsPersonFill, BsQuestionCircleFill } from "react-icons/bs"
 import useTranslation from "next-translate/useTranslation"
 // import { signOut, useSession } from 'next-auth/react';
 import { useDisclosure } from "@mantine/hooks"
-import { IoNewspaper } from "react-icons/io5"
+import { IoNewspaper, IoPersonCircle } from "react-icons/io5"
 import { useRouter } from "next/router"
 import ColorSchemeToggle from "../base/ColorSchemeToggle"
 import LanguageSwitcher from "../base/LanguageSwitcher"
@@ -110,13 +110,7 @@ function HeaderProfile() {
     <Group position="center">
       {!user && (
         <Link passHref href={`/auth/?next=${router.asPath}`}>
-          <Button
-            component="a"
-            size="xs"
-            title="Войти в аккаунт"
-            variant="gradient"
-            gradient={{ from: "#ed6ea0", to: "#ec8c69", deg: 35 }}
-          >
+          <Button component="a" size="xs" title="Войти в аккаунт" color="dark">
             {t("signin")}
           </Button>
         </Link>
@@ -164,7 +158,10 @@ function HeaderProfile() {
                     <Avatar radius="xl" size="sm" src={user.avatar} />
                   ) : (
                     <Avatar size="sm">
-                      <DefaultAvatar width={22} />
+                      <IoPersonCircle
+                        size="100%"
+                        fill={dark ? theme.colors.gray[5] : theme.colors.dark[5]}
+                      />
                     </Avatar>
                   )}
                   <FaChevronDown size={16} />
