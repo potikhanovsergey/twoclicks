@@ -5,16 +5,26 @@ import useTranslation from "next-translate/useTranslation"
 import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { AppStore } from "store"
 
-const PortfolioLink = ({ id, withEllipsis = false }: { id: string; withEllipsis?: boolean }) => {
+const PortfolioLink = ({
+  id,
+  withEllipsis = false,
+  shouldSearch = true,
+  centered = false,
+}: {
+  id: string
+  withEllipsis?: boolean
+  shouldSearch?: boolean
+  centered?: boolean
+}) => {
   const baseURL =
     process.env.NODE_ENV === "development"
       ? "localhost:3000"
       : process.env.NEXT_PUBLIC_PRODUCTION_URL
 
-  const portfolio = AppStore.portfolios.find((p) => p.id === id)
+  const portfolio = shouldSearch ? AppStore.portfolios.find((p) => p.id === id) : null
   const { t } = useTranslation("pagesBuild")
-  return portfolio?.isPublished ? (
-    <Group spacing={4} noWrap>
+  return portfolio?.isPublished || !shouldSearch ? (
+    <Group spacing={4} noWrap position={centered ? "center" : undefined}>
       <Anchor
         href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
         target="_blank"

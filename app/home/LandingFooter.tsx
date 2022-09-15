@@ -19,7 +19,7 @@ const LandingFooter = () => {
           <ActionIcon
             variant="filled"
             color={dark ? "gray.0" : "dark.9"}
-            sx={{ position: "absolute", right: 20 }}
+            sx={{ position: "absolute", right: "20px" }}
             onClick={() => scrollTo({ y: 0 })}
           >
             <BsArrowUp color={dark ? "black" : "white"} />
