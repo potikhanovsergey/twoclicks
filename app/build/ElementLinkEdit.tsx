@@ -1,25 +1,25 @@
 import {
-  Tooltip,
   ActionIcon,
-  Menu,
   Button,
-  Stack,
   TextInput,
   Group,
   Checkbox,
   CheckboxProps,
+  Text,
+  Stack,
+  ScrollArea,
 } from "@mantine/core"
-import { getRadiusesByType, TypeLinks } from "helpers"
+import { TypeLinks } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
-import { AiOutlineRadiusBottomleft } from "react-icons/ai"
+import { useEffect, useMemo, useState } from "react"
 import { FaCheck, FaLink } from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
-import { GoLink, GoLinkExternal } from "react-icons/go"
+import { GoLinkExternal } from "react-icons/go"
 import ToolbarMenu from "./ToolbarMenu"
+import { AppStore } from "store"
 
 interface IElementLinkEdit {
   type: string
@@ -36,22 +36,27 @@ const CheckboxIcon: CheckboxProps["icon"] = ({ indeterminate, className }) =>
 
 const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
   const hasLinkEdit = TypeLinks[type]
-  const { changeProp, openedAction } = BuildStore
+  const {
+    changeProp,
+    openedAction,
+    data: { id: portfolioID },
+  } = BuildStore
 
   const [link, setLink] = useState(props.href || "")
   const [openInNewTab, setOpenInNewTab] = useState(
     props.target === "_blank" ? true : props.target === "_self" ? false : true
   )
 
-  const handleLinkify = () => {
+  const handleLinkify = (url: string) => {
     changeProp({
       id,
       newProps: {
-        href: link.length ? link : undefined,
-        component: link.length ? "a" : undefined,
-        target: link.length ? (openInNewTab ? "_blank" : "_self") : undefined,
+        href: url.length ? url : undefined,
+        component: url.length ? "a" : undefined,
+        target: url.length ? (openInNewTab ? "_blank" : "_self") : undefined,
       },
     })
+    // BuildStore.openedAction = {}
   }
 
   const handleReset = () => {
@@ -66,6 +71,18 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
   }
 
   const { t } = useTranslation("pagesBuild")
+
+  const { portfolios } = AppStore
+
+  const dividedPortfolios = useMemo(() => {
+    const portfolio = portfolios?.find((p) => p.id === portfolioID)
+    if (!portfolio) return null
+    return {
+      current: portfolio,
+      rest: portfolios.filter((p) => p.id !== portfolio.id),
+    }
+  }, [portfolios, portfolioID])
+
   return hasLinkEdit ? (
     <ToolbarMenu
       menuProps={{
@@ -89,7 +106,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
         p: 8,
         sx: (theme) => ({ boxShadow: theme.shadows.md }),
         children: (
-          <>
+          <ScrollArea.Autosize maxHeight={196} type="never">
             {props.href && (
               <Button
                 compact
@@ -97,17 +114,37 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
                 size="xs"
                 onClick={handleReset}
                 color="violet"
-                mb={4}
+                mb={8}
                 rightIcon={<IoClose />}
               >
                 {t("reset link")}
               </Button>
             )}
+            <Checkbox
+              icon={CheckboxIcon}
+              size="xs"
+              mb={8}
+              label={t("open link in new tab")}
+              checked={openInNewTab}
+              onChange={(event) => {
+                const newValue = event.currentTarget.checked
+                setOpenInNewTab(newValue)
+                changeProp({
+                  id,
+                  newProps: {
+                    target: newValue ? "_blank" : "_self",
+                  },
+                })
+              }}
+            />
+            <Text weight="bold" color="dark" size="sm">
+              Enter valid URL:
+            </Text>
             <Group align="center" noWrap spacing={4}>
               <TextInput
                 onKeyUp={(e) => {
                   if (e.key === "Enter") {
-                    handleLinkify()
+                    handleLinkify(link)
                   }
                 }}
                 size="xs"
@@ -117,7 +154,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
                 style={{ minWidth: "196px" }}
               />
               <ActionIcon
-                onClick={handleLinkify}
+                onClick={() => handleLinkify(link)}
                 color="violet"
                 variant="filled"
                 disabled={link === props.href}
@@ -125,15 +162,29 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
                 <FaCheck />
               </ActionIcon>
             </Group>
-            <Checkbox
-              icon={CheckboxIcon}
-              mt={8}
-              size="xs"
-              label={t("open link in new tab")}
-              checked={openInNewTab}
-              onChange={(event) => setOpenInNewTab(event.currentTarget.checked)}
-            />
-          </>
+            {dividedPortfolios && dividedPortfolios.rest.length > 0 && (
+              <>
+                <Text weight="bold" color="dark" size="sm" mt="xs" mb={4}>
+                  Or link it to existing pages:
+                </Text>
+                <Stack spacing={4}>
+                  {dividedPortfolios.rest.map((portfolio) => (
+                    <Button
+                      size="xs"
+                      key={portfolio.id}
+                      variant="light"
+                      onClick={() => {
+                        const url = `/p/${portfolio.id}`
+                        handleLinkify(url)
+                      }}
+                    >
+                      {portfolio.name}
+                    </Button>
+                  ))}
+                </Stack>
+              </>
+            )}
+          </ScrollArea.Autosize>
         ),
       }}
     />

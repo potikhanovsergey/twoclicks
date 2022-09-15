@@ -1,20 +1,7 @@
-import {
-  Tooltip,
-  Box,
-  useMantineTheme,
-  ActionIcon,
-  Center,
-  Group,
-  Menu,
-  Button,
-  Stack,
-} from "@mantine/core"
-import { useHover } from "@mantine/hooks"
+import { Tooltip, Box, useMantineTheme, ActionIcon, Center, Group } from "@mantine/core"
 import { getHexFromThemeColor, getGradientsByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { useRef } from "react"
-import { FaMagic } from "react-icons/fa"
 import { HiArrowNarrowRight } from "react-icons/hi"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
@@ -99,7 +86,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
                 />
               </Box>
             </Tooltip>
-            <HiArrowNarrowRight />
+            <HiArrowNarrowRight color="black" />
             <Tooltip label={t("change 'to' color")} color="violet" withArrow>
               <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
                 <PaletteItem

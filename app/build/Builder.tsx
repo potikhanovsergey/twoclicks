@@ -12,6 +12,7 @@ import {
   Loader,
   Center,
   Box,
+  Global,
 } from "@mantine/core"
 import React, { Suspense, useEffect, useRef, useState, useTransition } from "react"
 import { BuildStore } from "store/build"
@@ -141,7 +142,7 @@ const Builder = () => {
   const { viewMode, isCanvasEmpty, data } = BuildStore
   const { ref: containerRef, width: containerWidth } = useElementSize()
 
-  const iframeRef = useRef(null)
+  const iframeRef = useRef<HTMLIFrameElement>(null)
 
   const [, setPreviewPortfolio] = useLocalStorage<{
     blocks: ICanvasBlock[]
@@ -153,7 +154,15 @@ const Builder = () => {
 
   const handleIframeLoad = () => {
     setPreviewPortfolio({ blocks: data.blocks, palette: data.palette, name: data.name })
+    document
+      .querySelector("iframe")
+      ?.contentWindow?.document?.querySelector("html")
+      ?.classList.add("no-scrollbar")
   }
+
+  // useEffect(() => {
+  //   iframeRef.current?.contentWindow?.document?.querySelector("html")?.classList.add("no-scrollbar")
+  // }, [iframeRef.current?.contentWindow?.location?.href])
 
   useEffect(() => {
     autorun(() => {
@@ -166,7 +175,12 @@ const Builder = () => {
   useEffect(() => {
     const handleComplete = () => {
       BuildStore.hasPortfolioChanged = false
+      document
+        .querySelector("iframe")
+        ?.contentWindow?.document?.querySelector("html")
+        ?.classList.add("no-scrollbar")
     }
+
     router.events.on("routeChangeComplete", handleComplete)
     router.events.on("routeChangeError", handleComplete)
 

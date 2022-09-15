@@ -29,6 +29,7 @@ import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
 import IconPicker from "app/core/components/base/IconPicker"
 import { ReactQuillProps } from "react-quill"
+import Link from "next/link"
 
 const Quill = dynamic<ReactQuillProps>(
   () => import("app/core/components/base/Quill").then((module) => module),
@@ -148,6 +149,7 @@ function traverseProp({
       />
     )
   }
+
   if (propValue && typeof propValue === "object" && propValue.type) {
     return renderJSXFromBlock({
       element: propValue,
@@ -386,7 +388,16 @@ export function renderJSXFromBlock({
     )
   }
 
-  return <TagName key={shortid.generate()} {...props} />
+  if (props.component === "a" && props.href) {
+    const { href, ...restOfProps } = props
+    return (
+      <Link passHref key={shortid.generate()} href={href}>
+        <TagName {...restOfProps} />
+      </Link>
+    )
+  } else {
+    return <TagName key={shortid.generate()} {...props} />
+  }
 }
 
 export const deflate = (data) => {

@@ -112,14 +112,6 @@ const WithEditToolbar = ({
       openDelay: 100,
     })
 
-  const handleLockElement = () => {
-    delete unlockedElements[id]
-  }
-
-  const handleUnlockElement = () => {
-    unlockedElements[id] = true
-  }
-
   const elementProps = element?.props as ICanvasBlockProps | undefined
   return (
     <Popover
@@ -128,6 +120,8 @@ const WithEditToolbar = ({
       opened={isElementActive || activeEditToolbars[id]}
       position={editType === "section" ? "right-end" : "top-end"}
       offset={editType === "section" ? 0 : undefined}
+      withinPortal
+      zIndex={501}
     >
       <Popover.Target>
         <Box
@@ -195,26 +189,6 @@ const WithEditToolbar = ({
               />
             ))}
           {type && props && <ElementLinkEdit id={id} props={props} type={type.toLowerCase()} />}
-          {/* {type?.toLowerCase().includes("button") && (
-            <Tooltip
-              label={unlockedElements[id] ? "Lock element" : "Unlock element"}
-              color="violet"
-              withArrow
-              position="top"
-            >
-              <ActionIcon
-                color="violet"
-                size="md"
-                onClick={unlockedElements[id] ? handleLockElement : handleUnlockElement}
-              >
-                {unlockedElements[id] ? (
-                  <FaLock style={{ fill: "url(#violet-red-gradient)" }} />
-                ) : (
-                  <FaUnlockAlt style={{ fill: "url(#violet-red-gradient)" }} />
-                )}
-              </ActionIcon>
-            </Tooltip>
-          )} */}
           <ElementDeleteButton id={id} parentID={parentID} editType={editType} />
         </Group>
       </Popover.Dropdown>

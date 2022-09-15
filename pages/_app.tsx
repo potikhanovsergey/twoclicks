@@ -297,7 +297,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             overflowX: "hidden",
             wordBreak: "break-word",
           },
-          "body, html":
+          ".no-scrollbar":
             query.hideScrollbar === "true"
               ? {
                   scrollbarWidth: "none",

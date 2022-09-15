@@ -11,6 +11,8 @@ import { useDocumentTitle } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 import Clicks from "app/core/components/Clicks"
+import BaseLayout from "app/core/layouts/BaseLayout"
+import MadeWithTwoClicks from "app/core/components/MadeWithTwoClicks"
 
 const PortfolioPage = () => {
   const { t } = useTranslation("pagesBuild")
@@ -47,56 +49,15 @@ const PortfolioPage = () => {
         <Suspense fallback={<Loader />}>
           {/* <MantineProvider inherit theme={{ colorScheme: "light" }}> */}
           <Portfolio portfolio={portfolio} />
-          <Link href="/" passHref>
-            <Box
-              component="a"
-              sx={(theme) => ({
-                position: "fixed",
-                bottom: "4px",
-                left: "4px",
-                backgroundColor:
-                  theme.colorScheme === "dark"
-                    ? theme.fn.rgba(theme.colors.dark[7], 0.72)
-                    : theme.fn.rgba(theme.colors.gray[0], 0.72),
-                zIndex: 302,
-                borderRadius: theme.radius.md,
-                backdropFilter: "saturate(270%) blur(5px)",
-                overflow: "hidden",
-                transition: "0.4s ease transform",
-                textDecoration: "none",
-                color: theme.colorScheme === "dark" ? theme.white : theme.black,
-                display: "flex",
-                flexWrap: "nowrap",
-                gap: "8px",
-                transform: "translateX(-160px)",
-                alignItems: "center",
-                "&:hover": {
-                  transform: "none",
-                },
-              })}
-            >
-              {/* <Logo width={128} height="auto" withRedirect={false} /> */}
-              <Text
-                weight="bold"
-                sx={(theme) => ({
-                  // position: "absolute",
-                  whiteSpace: "nowrap",
-                  fontSize: "16px",
-                  // transform: "translateX(-100%)",
-                  transition: "0.4s ease all",
-                })}
-              >
-                Made with twoclicks
-              </Text>
-              <Clicks width="auto" height="30px" />
-            </Box>
-          </Link>
+          <MadeWithTwoClicks />
           {/* </MantineProvider> */}
         </Suspense>
       ) : (
-        <Center style={{ height: "100%" }}>
-          <Text>{t("portfolio not found")}</Text>
-        </Center>
+        <BaseLayout>
+          <Center style={{ height: "100%" }}>
+            <Text>{t("portfolio not found")}</Text>
+          </Center>
+        </BaseLayout>
       )}
     </>
   )

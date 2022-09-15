@@ -82,7 +82,7 @@ const Showcase = () => {
           }}
         >
           <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
-            Create a pretty page and <br /> we will add it here👀
+            Create a pretty page and <br /> we will add it here 👀
           </Text>
         </Box>
       </Box>

@@ -80,6 +80,12 @@ class Build {
     this.undoStack = []
     this.redoStack = []
   }
+
+  @action resetBuilderStore = () => {
+    this.resetHistoryOfChanges()
+    this.isSaveButtonLoading = false
+    this.hasPortfolioChanged = false
+  }
   @action
   onPortfolioChange = (action?: IActionHistoryItem) => {
     this.hasPortfolioChanged = true
