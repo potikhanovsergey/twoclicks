@@ -6,6 +6,7 @@ import WhoIsThisFor from "app/home/WhoIsThisFor"
 import Showcase from "app/home/Showcase"
 import CallToAction from "app/home/CallToAction"
 import LandingFooter from "app/home/LandingFooter"
+import HowToUseIt from "app/home/HowToUseIt"
 const Home = () => {
   return (
     <>
@@ -14,6 +15,8 @@ const Home = () => {
       <Benefits />
       <Space h={160} />
       <WhoIsThisFor />
+      <Space h={200} />
+      <HowToUseIt />
       <Space h={200} />
       <Showcase />
       <Space h={400} />
