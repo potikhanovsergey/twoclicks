@@ -265,6 +265,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
           },
           html: {
             cursor: `url(${cursor.src}), default`,
+            overflowX: "hidden",
             "&[data-theme='light']": {
               backgroundColor: theme.colors.gray[0],
               color: theme.black,
@@ -294,7 +295,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             color: colorScheme === "dark" ? theme.white : theme.black,
             lineHeight: theme.lineHeight,
             minHeight: "100vh",
-            overflowX: "hidden",
             wordBreak: "break-word",
           },
           ".no-scrollbar":

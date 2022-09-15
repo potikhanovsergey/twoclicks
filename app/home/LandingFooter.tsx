@@ -18,7 +18,7 @@ const LandingFooter = () => {
           </Text>
           <ActionIcon
             variant="filled"
-            color={dark ? "gray.0" : "dark.9"}
+            color={dark ? "gray.0" : "dark"}
             sx={{ position: "absolute", right: "20px" }}
             onClick={() => scrollTo({ y: 0 })}
           >

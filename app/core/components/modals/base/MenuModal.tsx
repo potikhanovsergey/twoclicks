@@ -15,7 +15,6 @@ import useTranslation from "next-translate/useTranslation"
 import { ModalContext } from "contexts/ModalContext"
 import HeaderProfile, { ConstMenuItems, ProfileItem } from "../../layout/HeaderProfile"
 import { FaChevronDown, FaSignOutAlt } from "react-icons/fa"
-import DefaultAvatar from "../../layout/DefaultAvatar"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import HeaderMenuItem from "../../layout/HeaderMenuItem"
 import { useMutation } from "@blitzjs/rpc"
@@ -25,6 +24,7 @@ import { useMediaQuery, useScrollLock, useViewportSize } from "@mantine/hooks"
 import ColorSchemeToggle from "../../base/ColorSchemeToggle"
 import LanguageSwitcher from "../../base/LanguageSwitcher"
 import { ProfileLinks } from "app/profile/ProfileLinks"
+import { IoPersonCircle } from "react-icons/io5"
 
 const MenuModal = () => {
   const theme = useMantineTheme()
@@ -59,6 +59,7 @@ const MenuModal = () => {
       opened={menuOpened}
       onClose={handleModalClose}
       zIndex={1000}
+      withinPortal
       title={
         <>
           <Group spacing={8}>
@@ -66,7 +67,10 @@ const MenuModal = () => {
               <Avatar radius="xl" size="sm" src={user.avatar} />
             ) : (
               <Avatar size="sm">
-                <DefaultAvatar width={22} />
+                <IoPersonCircle
+                  size="100%"
+                  fill={dark ? theme.colors.gray[5] : theme.colors.dark[5]}
+                />
               </Avatar>
             )}
             {user && (
