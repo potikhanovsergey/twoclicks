@@ -24,16 +24,7 @@ const HowToUseIt = () => {
 
   return (
     <>
-      <Container
-        size="xl"
-        px={40}
-        sx={{
-          backgroundImage: "url(landing/bg-path.svg)",
-          backgroundRepeat: "no-repeat",
-          overflow: "visible",
-          backgroundPosition: "top -200px right - 20px",
-        }}
-      >
+      <Container size="xl" px={40}>
         <Title
           order={2}
           size={34}
