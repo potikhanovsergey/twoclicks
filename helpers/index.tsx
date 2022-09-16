@@ -392,11 +392,20 @@ export function renderJSXFromBlock({
     const { href, ...restOfProps } = props
     return (
       <Link passHref key={shortid.generate()} href={href}>
-        <TagName {...restOfProps} />
+        <TagName
+          {...restOfProps}
+          tabIndex={window && window?.parent.location !== window.location ? -1 : undefined}
+        />
       </Link>
     )
   } else {
-    return <TagName key={shortid.generate()} {...props} />
+    return (
+      <TagName
+        key={shortid.generate()}
+        {...props}
+        tabIndex={window && window?.parent.location !== window.location ? -1 : undefined}
+      />
+    )
   }
 }
 
