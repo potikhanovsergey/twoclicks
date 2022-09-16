@@ -24,7 +24,19 @@ const HowToUseIt = () => {
 
   return (
     <>
-      <Container size="xl" px={40}>
+      <Container size="xl" px={40} sx={{ position: "relative" }}>
+        <Image
+          src="landing/bg-path.svg"
+          alt="background decoration"
+          width={790}
+          sx={{
+            position: "absolute",
+            top: "206px",
+            zIndex: -1,
+            transform: "translateX(-50%)",
+            left: "50%",
+          }}
+        />
         <Title
           order={2}
           size={34}
@@ -41,13 +53,15 @@ const HowToUseIt = () => {
                 boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
                 borderRadius: "30px",
                 position: "relative",
+                maxWidth: "700px",
+                width: "63%",
               }}
             >
               <Image
                 src="landing/sections-modal.png"
                 alt="sections modal example"
-                width={700}
                 height="auto"
+                width="100%"
                 radius={10}
               />
               <ShadowCard
@@ -70,12 +84,14 @@ const HowToUseIt = () => {
                 boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
                 borderRadius: "30px",
                 position: "relative",
+                maxWidth: "700px",
+                width: "63%",
               }}
             >
               <Image
                 src="landing/sections-modal.png"
                 alt="sections modal example"
-                width={700}
+                width="100%"
                 height="auto"
                 radius={10}
               />
@@ -93,11 +109,13 @@ const HowToUseIt = () => {
               </ShadowCard>
             </Box>
           </Group>
-          <Group position="center" spacing={140}>
+          <Group position="center" spacing={140} noWrap>
             <Box
               sx={{
                 boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
                 borderRadius: "30px",
+                maxWidth: "400px",
+                width: "63%",
               }}
             >
               <Image

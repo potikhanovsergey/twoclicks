@@ -39,7 +39,7 @@ const CallToAction = () => {
           width={700}
           height={700}
         />
-        <Group position="apart">
+        <Group position="apart" noWrap>
           <Text mb={220} ml={200} size={30} sx={{ letterSpacing: "3px" }}>
             You`ve made <strong>one click</strong> <br /> to visit this page
           </Text>
