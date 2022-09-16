@@ -10,7 +10,7 @@ import {
   Space,
   useMantineTheme,
 } from "@mantine/core"
-import { ReactNode, useMemo } from "react"
+import { ReactNode, useMemo, useRef } from "react"
 import { FiEdit } from "react-icons/fi"
 import {
   HiOutlineDeviceMobile,
@@ -19,6 +19,7 @@ import {
   HiOutlineTemplate,
 } from "react-icons/hi"
 import { TbClick } from "react-icons/tb"
+import { AnimatePresence, motion, useScroll, useInView, useTransform } from "framer-motion"
 
 interface BenefitsCardProps {
   title: string
@@ -127,6 +128,13 @@ const Benefits = () => {
       },
     ]
   }, [])
+
+  const ref = useRef(null)
+  const inView = useInView(ref, {
+    once: true,
+    margin: "50px",
+  })
+
   return (
     <Container size="xl" px={40}>
       <Title
@@ -137,22 +145,32 @@ const Benefits = () => {
         Our benefits
       </Title>
       <Space h={40} />
-      <Box
-        sx={{
-          width: "auto",
-          boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
-          borderRadius: "50px",
-          backgroundColor: dark ? theme.colors.dark[7] : theme.white,
-        }}
-        px="xl"
-        py={64}
-      >
-        <SimpleGrid cols={3} spacing={0} sx={{ rowGap: "116px" }}>
-          {BenefitsCards.map((card, i) => (
-            <BenefitsCard {...card} key={i} />
-          ))}
-        </SimpleGrid>
-      </Box>
+      <AnimatePresence>
+        <motion.div
+          ref={ref}
+          animate={
+            inView ? { opacity: 1, scale: 1, animationDelay: "1500ms" } : { opacity: 0, scale: 0.7 }
+          }
+          transition={{ duration: 0.8 }}
+        >
+          <Box
+            sx={{
+              width: "auto",
+              boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
+              borderRadius: "50px",
+              backgroundColor: dark ? theme.colors.dark[7] : theme.white,
+            }}
+            px="xl"
+            py={64}
+          >
+            <SimpleGrid cols={3} spacing={0} sx={{ rowGap: "116px" }}>
+              {BenefitsCards.map((card, i) => (
+                <BenefitsCard {...card} key={i} />
+              ))}
+            </SimpleGrid>
+          </Box>
+        </motion.div>
+      </AnimatePresence>
     </Container>
   )
 }
