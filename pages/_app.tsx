@@ -296,6 +296,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             lineHeight: theme.lineHeight,
             minHeight: "100vh",
             wordBreak: "break-word",
+            overflowX: "hidden",
           },
         })}
       />
