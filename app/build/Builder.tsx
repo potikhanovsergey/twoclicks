@@ -154,7 +154,7 @@ const Builder = () => {
 
   const handleIframeLoad = () => {
     setPreviewPortfolio({ blocks: data.blocks, palette: data.palette, name: data.name })
-    var cssLink = document.createElement("link")
+    const cssLink = document.createElement("link")
     cssLink.href = "iframe.css"
     cssLink.rel = "stylesheet"
     cssLink.type = "text/css"
@@ -225,6 +225,7 @@ const Builder = () => {
             }}
           >
             <iframe
+              tabIndex={-1}
               onLoad={handleIframeLoad}
               ref={iframeRef}
               src={`${baseURL}/build-preview?hideScrollbar=true`}
