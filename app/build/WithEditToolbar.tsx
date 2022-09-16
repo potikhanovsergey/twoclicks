@@ -25,6 +25,7 @@ import { TypeIcons } from "helpers"
 import ElementLinkEdit from "./ElementLinkEdit"
 import useTranslation from "next-translate/useTranslation"
 import ElementUploadLink from "./ElementUploadLink"
+import SectionBGEdit from "./SectionBGEdit"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -80,7 +81,7 @@ const WithEditToolbar = ({
   sectionIndex,
   element,
 }: IWithEditToolbar) => {
-  const { activeEditToolbars, unlockedElements } = BuildStore
+  const { activeEditToolbars, isImageUploading, openedAction } = BuildStore
 
   const editableRef = useRef<HTMLDivElement>(null)
 
@@ -117,7 +118,7 @@ const WithEditToolbar = ({
     <Popover
       trapFocus={false}
       withArrow={editType !== "section"}
-      opened={isElementActive || activeEditToolbars[id]}
+      opened={isElementActive || activeEditToolbars[id] || isImageUploading === id}
       position={editType === "section" ? "right-end" : "top-end"}
       offset={editType === "section" ? 0 : undefined}
       withinPortal
@@ -149,13 +150,7 @@ const WithEditToolbar = ({
               {children}
             </BuilderImagePicker>
           ) : (
-            <Box
-            // sx={{
-            //   "> [data-button=true]": { pointerEvents: unlockedElements[id] ? "all" : "none" },
-            // }}
-            >
-              {children}
-            </Box>
+            <Box>{children}</Box>
           )}
           {editType === "section" && sectionIndex !== undefined && (
             <InnerAddSectionButton sectionToBeAddedIndex={sectionIndex + 1} />
@@ -190,6 +185,7 @@ const WithEditToolbar = ({
             ))}
           {type && props && <ElementLinkEdit id={id} props={props} type={type.toLowerCase()} />}
           <ElementDeleteButton id={id} parentID={parentID} editType={editType} />
+          {editType === "section" && <SectionBGEdit id={id} props={props} />}
         </Group>
       </Popover.Dropdown>
     </Popover>

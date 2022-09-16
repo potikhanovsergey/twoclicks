@@ -52,6 +52,7 @@ class Build {
   hasPortfolioChanged: boolean = false
 
   isSaveButtonLoading: boolean = false
+  isImageUploading: string | null = null
 
   sectionToBeAddedIndex: number | null = null
   activeEditToolbars: { [key: string]: boolean } = {}
@@ -85,6 +86,9 @@ class Build {
     this.resetHistoryOfChanges()
     this.isSaveButtonLoading = false
     this.hasPortfolioChanged = false
+    this.isImageUploading = null
+    this.activeEditToolbars = {}
+    this.sectionToBeAddedIndex = null
   }
   @action
   onPortfolioChange = (action?: IActionHistoryItem) => {

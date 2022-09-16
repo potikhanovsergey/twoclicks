@@ -7,11 +7,15 @@ import {
   Box,
   Button,
   ThemeIcon,
+  FileButton,
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
+import axios from "axios"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
 import useTranslation from "next-translate/useTranslation"
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
+import { BsFillImageFill } from "react-icons/bs"
+import { BuildStore } from "store/build"
 interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
   onColorChange: (value: string) => void
@@ -20,8 +24,14 @@ interface IPaletteItem extends Omit<PopoverProps, "children"> {
   onPopoverMouseEnter?: () => void
   onResetClick?: () => void
   withReset?: boolean
+  resetText?: string
   currentPaletteColor?: string
   withHover?: boolean
+  hasBG?: boolean
+  imageUpload?: {
+    onImagePick: (value: string) => void
+    id: string
+  }
 }
 
 const PaletteItem = (props: IPaletteItem) => {
@@ -37,6 +47,9 @@ const PaletteItem = (props: IPaletteItem) => {
     onPopoverMouseEnter,
     currentPaletteColor,
     withHover = false,
+    resetText,
+    imageUpload,
+    hasBG,
     ...popoverProps
   } = props
 
@@ -50,6 +63,29 @@ const PaletteItem = (props: IPaletteItem) => {
   }, [color])
 
   const { t } = useTranslation("pagesBuild")
+  const [file, setFile] = useState<File | null>(null)
+
+  useEffect(() => {
+    const uploadBG = async () => {
+      if (file) {
+        const data = new FormData()
+        data.append("key", "a7bad624b0773cbad481fef7bbb30664")
+        data.append("action", "upload")
+        data.append("format", "json")
+        data.append("image", file)
+        const response = await axios("https://api.imgbb.com/1/upload", {
+          method: "POST",
+          data,
+        })
+
+        if ((response.status = 200 && response?.data?.data?.url)) {
+          // const src = `https://ucarecdn.com/${responseData.file}/`
+          imageUpload?.onImagePick(response.data.data.url)
+        }
+      }
+    }
+    void uploadBG()
+  }, [file])
 
   return (
     <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
@@ -73,7 +109,11 @@ const PaletteItem = (props: IPaletteItem) => {
               },
             })}
           >
-            <ColorSwatch radius="xs" size={16} color={hexColor} />
+            {hasBG ? (
+              <BsFillImageFill size={16} color={theme.colors.violet[5]} />
+            ) : (
+              <ColorSwatch radius="xs" size={16} color={hexColor} />
+            )}
           </Box>
         </div>
       </Popover.Target>
@@ -92,8 +132,25 @@ const PaletteItem = (props: IPaletteItem) => {
                 ) : undefined
               }
             >
-              {t("inherit palette color")}
+              {resetText || t("inherit palette color")}
             </Button>
+          )}
+          {imageUpload && (
+            <div onClick={() => (BuildStore.isImageUploading = imageUpload.id)}>
+              <FileButton
+                onChange={(file: File) => {
+                  setFile(file)
+                  BuildStore.isImageUploading = null
+                }}
+                accept="image/png,image/jpeg"
+              >
+                {(props) => (
+                  <Button {...props} fullWidth color="violet" compact>
+                    Upload image
+                  </Button>
+                )}
+              </FileButton>
+            </div>
           )}
           <ColorPicker
             size="xl"
