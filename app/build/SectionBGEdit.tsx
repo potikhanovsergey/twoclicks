@@ -64,7 +64,7 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
               newProps: {
                 sx: {
                   ...props?.sx,
-                  background: undefined,
+                  background: "undefined",
                   backgroundColor: theme.colors[value][5],
                 },
               },
@@ -78,9 +78,9 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
               newProps: {
                 sx: {
                   ...props?.sx,
-                  backgroundColor: undefined,
-                  background: undefined,
-                  backgroundSize: undefined,
+                  backgroundColor: "undefined",
+                  background: "undefined",
+                  backgroundSize: "undefined",
                 },
               },
             })
@@ -93,7 +93,7 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
                 newProps: {
                   sx: {
                     ...props?.sx,
-                    backgroundColor: undefined,
+                    backgroundColor: "undefined",
                     background: `url(${url}) no-repeat center`,
                     backgroundSize: "cover",
                   },
