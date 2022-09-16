@@ -28,7 +28,7 @@ const HowToUseIt = () => {
         <Image
           src="landing/bg-path.svg"
           alt="background decoration"
-          width={791}
+          width={790}
           sx={{
             position: "absolute",
             top: "206px",
