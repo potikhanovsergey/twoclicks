@@ -107,7 +107,13 @@ function HeaderProfile() {
     <Group position="center">
       {!user && (
         <Link passHref href={`/auth/?next=${router.asPath}`}>
-          <Button component="a" size="xs" title="Войти в аккаунт" color="dark">
+          <Button
+            component="a"
+            size="xs"
+            title="Войти в аккаунт"
+            color="dark"
+            variant={dark ? "white" : "filled"}
+          >
             {t("signin")}
           </Button>
         </Link>
@@ -157,11 +163,14 @@ function HeaderProfile() {
                     <Avatar size="sm">
                       <IoPersonCircle
                         size="100%"
-                        fill={dark ? theme.colors.gray[5] : theme.colors.dark[5]}
+                        fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]}
                       />
                     </Avatar>
                   )}
-                  <FaChevronDown size={16} />
+                  <FaChevronDown
+                    size={16}
+                    fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]}
+                  />
                 </Group>
               </UnstyledButton>
             </>

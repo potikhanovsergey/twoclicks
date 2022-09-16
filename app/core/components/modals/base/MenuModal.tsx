@@ -69,7 +69,7 @@ const MenuModal = () => {
               <Avatar size="sm">
                 <IoPersonCircle
                   size="100%"
-                  fill={dark ? theme.colors.gray[5] : theme.colors.dark[5]}
+                  fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]}
                 />
               </Avatar>
             )}
