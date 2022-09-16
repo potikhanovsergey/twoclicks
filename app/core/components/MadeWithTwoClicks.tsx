@@ -6,6 +6,7 @@ const MadeWithTwoClicks = () => {
   return (
     <Link href="/" passHref>
       <Box
+        id="madewithtwoclicks"
         p={4}
         component="a"
         sx={(theme) => ({

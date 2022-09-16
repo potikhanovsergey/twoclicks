@@ -6,7 +6,7 @@ import {
   useRouterQuery,
 } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
-import React, { Suspense, useEffect, useState } from "react"
+import React, { Suspense, useEffect, useMemo, useState } from "react"
 import {
   MantineProvider,
   ColorScheme,
@@ -297,17 +297,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             minHeight: "100vh",
             wordBreak: "break-word",
           },
-          ".no-scrollbar":
-            query.hideScrollbar === "true"
-              ? {
-                  scrollbarWidth: "none",
-                  msOverflowStyle: "none",
-                  "&::-webkit-scrollbar": {
-                    width: 0,
-                    height: 0,
-                  },
-                }
-              : undefined,
         })}
       />
     </ErrorBoundary>

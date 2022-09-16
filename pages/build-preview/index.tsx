@@ -3,10 +3,9 @@ import { renderJSXFromBlock } from "helpers"
 import { useDocumentTitle, useLocalStorage } from "@mantine/hooks"
 import { ICanvasBlock } from "types"
 import SafeWrapper from "app/core/components/SafeWrapper"
-import React from "react"
+import React, { useEffect } from "react"
 import shortid from "shortid"
 import { ICanvasPalette } from "types"
-import { getBaseLayout } from "app/core/layouts/BaseLayout"
 
 const PreviewPortfolio = () => {
   // const { t } = useTranslation('pagesBuild');

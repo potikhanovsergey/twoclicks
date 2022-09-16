@@ -154,15 +154,12 @@ const Builder = () => {
 
   const handleIframeLoad = () => {
     setPreviewPortfolio({ blocks: data.blocks, palette: data.palette, name: data.name })
-    document
-      .querySelector("iframe")
-      ?.contentWindow?.document?.querySelector("html")
-      ?.classList.add("no-scrollbar")
+    var cssLink = document.createElement("link")
+    cssLink.href = "iframe.css"
+    cssLink.rel = "stylesheet"
+    cssLink.type = "text/css"
+    iframeRef?.current?.contentWindow?.document.head.appendChild(cssLink)
   }
-
-  // useEffect(() => {
-  //   iframeRef.current?.contentWindow?.document?.querySelector("html")?.classList.add("no-scrollbar")
-  // }, [iframeRef.current?.contentWindow?.location?.href])
 
   useEffect(() => {
     autorun(() => {
@@ -175,10 +172,6 @@ const Builder = () => {
   useEffect(() => {
     const handleComplete = () => {
       BuildStore.hasPortfolioChanged = false
-      document
-        .querySelector("iframe")
-        ?.contentWindow?.document?.querySelector("html")
-        ?.classList.add("no-scrollbar")
     }
 
     router.events.on("routeChangeComplete", handleComplete)
@@ -226,6 +219,8 @@ const Builder = () => {
                 position: "relative",
                 top: "60px",
                 left: "18px",
+                pointerEvents: "none",
+                userSelect: "none",
               },
             }}
           >
