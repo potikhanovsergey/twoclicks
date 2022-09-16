@@ -1,5 +1,5 @@
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import { Space } from "@mantine/core"
+import { Global, Space } from "@mantine/core"
 import HomeHero from "app/home/HomeHero"
 import Benefits from "app/home/Benefits"
 import WhoIsThisFor from "app/home/WhoIsThisFor"
@@ -23,6 +23,13 @@ const Home = () => {
       <CallToAction />
       <Space h={200} />
       <LandingFooter />
+      <Global
+        styles={(theme) => ({
+          body: {
+            overflowX: "hidden",
+          },
+        })}
+      />
     </>
   )
 }

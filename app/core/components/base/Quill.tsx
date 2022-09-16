@@ -20,10 +20,6 @@ const DynamicReactQuill = dynamic(
     ssr: false,
   }
 )
-interface IQuill {
-  value: string
-  onChange: (value: string) => void
-}
 
 const useStyles = createStyles((theme) => ({
   quill: {
@@ -93,29 +89,21 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
-const Quill = (props: ReactQuillProps) => {
+const Quill = (props: ReactQuillProps & { type: string }) => {
   const { classes } = useStyles()
 
   const [updatePortfolioMutation] = useMutation(updatePortfolio)
   const session = useSession()
   const { savePortfolio } = BuildStore
 
-  const ref = useRef<ReactQuill>()
+  const { type, ...rest } = props
 
+  const ref = useRef<ReactQuill>()
   const modules: ReactQuillProps["modules"] = useMemo(() => {
     return {
       toolbar: {
-        container: ["bold", "italic", "link"],
+        container: type.includes("title") ? ["link", "italic"] : ["bold", "link", "italic"],
         handlers: {
-          // handlers object will be merged with default handlers object
-          // link: function (value) {
-          //   if (value) {
-          //     var href = prompt("Enter the URL")
-          //     this.quill.format("link", href)
-          //   } else {
-          //     this.quill.format("link", false)
-          //   }
-          // },
           bold: function (value) {
             if (value) {
               this.quill.format("bold", true)
@@ -137,9 +125,6 @@ const Quill = (props: ReactQuillProps) => {
               let range = this.quill.getSelection()
               if (range == null || range.length == 0) return
               let preview = this.quill.getText(range)
-              // if (/^\S+@\S+\.\S+$/.test(preview) && preview.indexOf("mailto:") !== 0) {
-              //   preview = "mailto:" + preview
-              // }
               let tooltip = this.quill.theme.tooltip
               tooltip.edit("link", preview)
               this.quill.focus()
@@ -151,13 +136,14 @@ const Quill = (props: ReactQuillProps) => {
       },
     }
   }, [])
+
   return (
     <DynamicReactQuill
       forwardedRef={ref}
       className={classes.quill}
       theme="bubble"
-      {...props}
-      formats={["link", "bold", "italic"]}
+      {...rest}
+      formats={modules.toolbar.container}
       modules={modules}
       onKeyDown={(e) => {
         if (

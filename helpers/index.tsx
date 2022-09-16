@@ -114,8 +114,8 @@ function traverseProp({
   palette: ICanvasPalette | undefined
   type: string
 }) {
+  const typeLC = type.toLowerCase()
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
-    const typeLC = type.toLowerCase()
     if (typeLC.includes("button")) {
       return (
         <WithEditable
@@ -129,6 +129,7 @@ function traverseProp({
     }
     return (
       <Quill
+        type={typeLC}
         defaultValue={BuildStore.data.flattenBlocks[parentID].props?.[prop] || ""}
         placeholder="Enter text"
         onBlur={(_, _1, editor) => {
