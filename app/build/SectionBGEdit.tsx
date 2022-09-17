@@ -71,7 +71,7 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
             })
           }}
           resetText="Remove background"
-          hasBG={props?.sx.background}
+          hasBG={props?.sx?.background}
           onResetClick={() => {
             changeProp({
               id,
