@@ -26,6 +26,16 @@ const formatOutput = (icon: JSX.Element) => {
   return JSON.parse(serialize(icon))?.type
 }
 
+export interface IconPickerProps {
+  icon: ReactNode
+  onChange: (ReactNode) => void
+  menuProps?: MenuProps
+  isThemeIcon?: boolean
+  themeIconProps?: Partial<ActionIconProps>
+  withReset?: boolean
+  onReset?: () => void
+}
+
 const IconPicker = ({
   icon = <FirstIcon />,
   onChange,
@@ -34,15 +44,7 @@ const IconPicker = ({
   themeIconProps,
   withReset,
   onReset,
-}: {
-  icon: ReactNode
-  onChange: (ReactNode) => void
-  menuProps?: MenuProps
-  isThemeIcon?: boolean
-  themeIconProps?: Partial<ActionIconProps>
-  withReset?: boolean
-  onReset?: () => void
-}) => {
+}: IconPickerProps) => {
   const [searchValue, setSearchValue] = useState("")
 
   const [debouncedSearchValue] = useDebouncedValue(searchValue, 200)

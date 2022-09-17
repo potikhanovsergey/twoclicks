@@ -8,7 +8,8 @@
     "studio": "blitz prisma studio",
     "lint": "eslint --ignore-path .gitignore --ext .js,.ts,.tsx .",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "analyze": "cross-env ANALYZE=true next build"
   },
   "prisma": {
     "schema": "db/schema.prisma"
@@ -69,6 +70,7 @@
     "@types/preview-email": "2.0.1",
     "@types/react": "18.0.1",
     "@typescript-eslint/eslint-plugin": "5.30.5",
+    "cross-env": "7.0.3",
     "eslint": "7.32.0",
     "eslint-config-next": "12.2.0",
     "eslint-config-prettier": "8.5.0",

@@ -29,7 +29,7 @@ import { ICanvasPalette } from "types"
 import { ReactQuillProps } from "react-quill"
 import Link from "next/link"
 
-const IconPicker = dynamic(() =>
+const IconPicker = dynamic<IconPickerProps>(() =>
   import("app/core/components/base/IconPicker").then((module) => module)
 )
 
