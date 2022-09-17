@@ -227,6 +227,7 @@ const Builder = () => {
             <iframe
               tabIndex={-1}
               onLoad={handleIframeLoad}
+              loading="lazy"
               ref={iframeRef}
               src={`${baseURL}/build-preview?hideScrollbar=true`}
             >
