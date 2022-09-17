@@ -20,7 +20,7 @@ import { ReactNode } from "react"
 
 interface ShowcasesProps extends BoxProps {
   link: string
-  scr: string
+  src: string
   alt: string
 }
 
@@ -54,14 +54,39 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const showcases = [{}]
+const Showcases: ShowcasesProps[] = [
+  { link: "/", src: "/landing/showcase-1.png", alt: "preview first portfolio" },
+  { link: "/", src: "/landing/showcase-2.png", alt: "preview second portfolio" },
+  { link: "/", src: "/landing/showcase-3.png", alt: "preview third portfolio" },
+]
+
+const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => {
+  const theme = useMantineTheme()
+  const { classes } = useStyles()
+
+  return (
+    <Link href={link} passHref>
+      <Box className={classes.showcaseCard} component="a">
+        <Image src={src} alt="alt" radius={30} />
+        <Overlay color={theme.black} className={classes.showcaseOverlay} opacity={0} radius={30} />
+        <Badge
+          variant="filled"
+          color="violet"
+          className={classes.showcaseText}
+          size="xl"
+          sx={{ pointerEvents: "none" }}
+        >
+          Click to view
+        </Badge>
+      </Box>
+    </Link>
+  )
+}
 
 const Showcase = () => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
-
-  const { classes } = useStyles()
 
   return (
     <Container size="xl" px={40}>
@@ -78,36 +103,9 @@ const Showcase = () => {
       </Group>
       <Box sx={{ position: "relative" }}>
         <SimpleGrid cols={3} spacing={60}>
-          <Box
-            sx={{
-              boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
-              borderRadius: "30px",
-            }}
-          >
-            <Image src="/landing/showcase-1.png" alt="preview first portfolio" radius={30} />
-          </Box>
-          <Box
-            sx={{
-              boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
-              borderRadius: "30px",
-            }}
-          >
-            <Image src="/landing/showcase-2.png" alt="preview second portfolio" radius={30} />
-          </Box>
-          <Link href="/" passHref>
-            <Box className={classes.showcaseCard} component="a">
-              <Image src="/landing/showcase-3.png" alt="preview third portfolio" radius={30} />
-              <Overlay
-                color={theme.black}
-                className={classes.showcaseOverlay}
-                opacity={0}
-                radius={30}
-              />
-              <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
-                Click to view
-              </Badge>
-            </Box>
-          </Link>
+          {Showcases.map((showcase, i) => (
+            <ShowcaseCard {...showcase} key={i} />
+          ))}
         </SimpleGrid>
         <Box
           p={10}
@@ -118,6 +116,7 @@ const Showcase = () => {
             position: "absolute",
             top: "-70px",
             left: "15%",
+            zIndex: 201,
           }}
         >
           <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
