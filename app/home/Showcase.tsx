@@ -71,7 +71,7 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
 
   return (
     <Link href={link} passHref>
-      <Box className={classes.showcaseCard} component="a" target="_blank">
+      <Box className={classes.showcaseCard} component="a" target="_blank" {...rest}>
         <Image src={src} alt="alt" radius={30} />
         <Overlay color={theme.black} className={classes.showcaseOverlay} opacity={0} radius={30} />
         <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
