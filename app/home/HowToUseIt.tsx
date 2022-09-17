@@ -11,24 +11,29 @@ import {
   Button,
 } from "@mantine/core"
 import PortfolioLink from "app/build/PortfolioLink"
-import SaveButton from "app/build/SaveButton"
-import TogglePublishPortfolio from "app/build/TogglePublishPortfolio"
 import ShadowCard from "app/core/components/base/ShadowCard"
 import { FaEye, FaSave } from "react-icons/fa"
-import { AppStore } from "store"
+import { useScroll, motion, useTransform } from "framer-motion"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
 const HowToUseIt = () => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
 
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+  })
   return (
     <>
-      <Container size="xl" px={40} sx={{ position: "relative" }}>
-        <Image
-          src="landing/bg-path.svg"
-          alt="background decoration"
-          width={790}
+      <Container size="xl" px={40} sx={{ position: "relative" }} ref={containerRef}>
+        <Box
+          component="svg"
+          width="790"
+          viewBox="0 0 528 945"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
           sx={{
             position: "absolute",
             top: "206px",
@@ -36,7 +41,13 @@ const HowToUseIt = () => {
             transform: "translateX(-50%)",
             left: "50%",
           }}
-        />
+        >
+          <motion.path
+            style={{ pathLength: scrollYProgress }}
+            d="M502.982 26.5024C511.148 20.8357 525.882 8.70237 519.482 5.50237C513.082 2.30237 505.815 18.169 502.982 26.5024ZM502.982 26.5024C504.815 16.5023 506.782 -2.59792 499.982 1.00221C493.182 4.60234 499.148 19.5024 502.982 26.5024ZM502.982 26.5024C515.482 77.3356 217.504 46.0024 123.504 115.5C7.99911 200.897 19.3619 338.93 23.4984 367C33.0034 431.5 58.4997 484.5 222.982 537.002C391.435 590.771 573.853 595.99 516.5 665.5C474.007 717 180.005 710 72.003 737.5C-25.1533 762.238 -31.9998 840.5 114.484 883.502C196.847 907.681 241.985 927.002 252.985 943.502M252.985 943.502C265.318 939.669 287.885 930.302 279.485 923.502C271.085 916.702 258.318 934.002 252.985 943.502ZM252.985 943.502C258.485 934.669 267.585 916.602 259.985 915.002C252.385 913.402 252.152 933.335 252.985 943.502Z"
+            stroke="#845EF7"
+          />
+        </Box>
         <Title
           order={2}
           size={34}
