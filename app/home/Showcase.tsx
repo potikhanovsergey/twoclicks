@@ -30,8 +30,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     borderRadius: "30px",
     position: "relative",
     "&:hover": {
-      [`& .${getRef("overlay")}, .${getRef("text")}`]: {
+      [`& .${getRef("overlay")}`]: {
         opacity: 0.75,
+      },
+      [`& .${getRef("text")}`]: {
+        opacity: 1,
       },
     },
   },
@@ -51,6 +54,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     zIndex: 201,
     opacity: 0,
     transition: "0.4s ease all",
+    pointerEvents: "none",
+    color: theme.white,
   },
 }))
 
@@ -66,16 +71,10 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
 
   return (
     <Link href={link} passHref>
-      <Box className={classes.showcaseCard} component="a">
+      <Box className={classes.showcaseCard} component="a" target="_blank">
         <Image src={src} alt="alt" radius={30} />
         <Overlay color={theme.black} className={classes.showcaseOverlay} opacity={0} radius={30} />
-        <Badge
-          variant="filled"
-          color="violet"
-          className={classes.showcaseText}
-          size="xl"
-          sx={{ pointerEvents: "none" }}
-        >
+        <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
           Click to view
         </Badge>
       </Box>
