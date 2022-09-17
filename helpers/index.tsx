@@ -31,7 +31,7 @@ import IconPicker from "app/core/components/base/IconPicker"
 import { ReactQuillProps } from "react-quill"
 import Link from "next/link"
 
-const Quill = dynamic<ReactQuillProps>(
+const Quill = dynamic<ReactQuillProps & { type: string }>(
   () => import("app/core/components/base/Quill").then((module) => module),
   {
     ssr: false,

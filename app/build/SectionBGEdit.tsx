@@ -21,11 +21,6 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
   const { changeProp, openedAction } = BuildStore
 
   const { t } = useTranslation("pagesBuild")
-
-  useEffect(() => {
-    console.log("PROPS", props)
-  }, [props])
-
   const { hovered: itemHovered, ref: itemRef } = useHover()
 
   return (

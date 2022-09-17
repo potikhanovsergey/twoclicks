@@ -102,7 +102,9 @@ const Quill = (props: ReactQuillProps & { type: string }) => {
   const modules: ReactQuillProps["modules"] = useMemo(() => {
     return {
       toolbar: {
-        container: type.includes("title") ? ["link", "italic"] : ["bold", "link", "italic"],
+        container: type.includes("title")
+          ? ["font", "link", "italic"]
+          : ["font", "bold", "link", "italic"],
         handlers: {
           bold: function (value) {
             if (value) {
