@@ -23,7 +23,7 @@ import logout from "app/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Link from "next/link"
-import { useEffect, useState } from "react"
+import { memo, useEffect, useState } from "react"
 
 export const ProfileItem = {
   icon: (
@@ -220,4 +220,4 @@ function HeaderProfile() {
   )
 }
 
-export default HeaderProfile
+export default memo(HeaderProfile)

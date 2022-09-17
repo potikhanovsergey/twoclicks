@@ -4,7 +4,6 @@ import {
   GroupProps,
   TextInputProps,
   TextProps,
-  Box,
   TitleProps,
   ContainerProps,
   ImageProps,
@@ -17,9 +16,9 @@ import {
   OverlayProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
-import React, { ReactNode } from "react"
+import React from "react"
 import shortid from "shortid"
-import { ICanvasElement, ICanvasBlockProps, ICanvasBlock, IPortfolio } from "types"
+import { ICanvasBlockProps, ICanvasBlock, IPortfolio } from "types"
 import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
@@ -27,9 +26,12 @@ import { IconBaseProps } from "react-icons"
 import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
-import IconPicker from "app/core/components/base/IconPicker"
 import { ReactQuillProps } from "react-quill"
 import Link from "next/link"
+
+const IconPicker = dynamic(() =>
+  import("app/core/components/base/IconPicker").then((module) => module)
+)
 
 const Quill = dynamic<ReactQuillProps & { type: string }>(
   () => import("app/core/components/base/Quill").then((module) => module),
@@ -115,6 +117,7 @@ function traverseProp({
   type: string
 }) {
   const typeLC = type.toLowerCase()
+
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (typeLC.includes("button")) {
       return (
@@ -129,6 +132,7 @@ function traverseProp({
     }
     return (
       <Quill
+        key={shortid.generate()}
         type={typeLC}
         defaultValue={BuildStore.data.flattenBlocks[parentID].props?.[prop] || ""}
         placeholder="Enter text"
@@ -152,15 +156,18 @@ function traverseProp({
   }
 
   if (propValue && typeof propValue === "object" && propValue.type) {
-    return renderJSXFromBlock({
-      element: propValue,
-      shouldFlat,
-      parentID,
-      withContentEditable,
-      withEditToolbar,
-      withPalette,
-      palette,
-    })
+    return (
+      <RenderJSXFromBlock
+        key={shortid.generate()}
+        element={propValue}
+        shouldFlat={shouldFlat}
+        parentID={parentID}
+        withContentEditable={withContentEditable}
+        withEditToolbar={withEditToolbar}
+        withPalette={withPalette}
+        palette={palette}
+      />
+    )
   } else {
     return propValue
   }
@@ -255,7 +262,7 @@ export function getGradientsByType(type: string) {
   return TypeGradients[type.toLowerCase()]
 }
 
-export function renderJSXFromBlock({
+export function RenderJSXFromBlock({
   element,
   shouldFlat = false,
   parentID = null,
@@ -348,6 +355,7 @@ export function renderJSXFromBlock({
   if (withEditToolbar && el?.editType === "icon") {
     return (
       <IconPicker
+        key={shortid.generate()}
         icon={<TagName {...props} />}
         onChange={(icon) => {
           if (icon?.props) {

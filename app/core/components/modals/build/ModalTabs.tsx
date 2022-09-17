@@ -4,7 +4,7 @@ import { RiHeartFill } from "react-icons/ri"
 import { GiAnticlockwiseRotation } from "react-icons/gi"
 import { TbCrown } from "react-icons/tb"
 import { Tabs, Text, TabProps, LoadingOverlay, ThemeIcon } from "@mantine/core"
-import React, { Suspense, useState } from "react"
+import React, { Suspense, useMemo, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "types"
 import { useSession } from "@blitzjs/auth"
@@ -13,38 +13,6 @@ import useTranslation from "next-translate/useTranslation"
 interface IModalTab extends TabProps {
   viewlistType: string
 }
-const ComponentsModalTabsArr: IModalTab[] = [
-  {
-    color: "indigo",
-    value: "All",
-    viewlistType: "all",
-    icon: <BiGridSmall size={24} />,
-  },
-  {
-    color: "violet",
-    value: "Popular",
-    viewlistType: "popular",
-    icon: <BsStars size={16} />,
-  },
-  {
-    color: "red",
-    value: "Liked",
-    viewlistType: "liked",
-    icon: <RiHeartFill size={16} />,
-  },
-  {
-    color: "green",
-    value: "Used Before",
-    viewlistType: "used-before",
-    icon: <GiAnticlockwiseRotation size={16} />,
-  },
-  {
-    color: "yellow",
-    value: "Premium",
-    viewlistType: "premium",
-    icon: <TbCrown size={20} />,
-  },
-]
 
 interface IComponentsModalTabs {
   modalType: ICanvasModalType
@@ -54,6 +22,41 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
   const [activeTab, setActiveTab] = useState<string | null>("All")
   const session = useSession()
   const { t } = useTranslation("pagesBuild")
+
+  const ComponentsModalTabsArr: IModalTab[] = useMemo(() => {
+    return [
+      {
+        color: "indigo",
+        value: "All",
+        viewlistType: "all",
+        icon: <BiGridSmall size={24} />,
+      },
+      {
+        color: "violet",
+        value: "Popular",
+        viewlistType: "popular",
+        icon: <BsStars size={16} />,
+      },
+      {
+        color: "red",
+        value: "Liked",
+        viewlistType: "liked",
+        icon: <RiHeartFill size={16} />,
+      },
+      {
+        color: "green",
+        value: "Used Before",
+        viewlistType: "used-before",
+        icon: <GiAnticlockwiseRotation size={16} />,
+      },
+      {
+        color: "yellow",
+        value: "Premium",
+        viewlistType: "premium",
+        icon: <TbCrown size={20} />,
+      },
+    ]
+  }, [])
 
   return (
     <Tabs

@@ -1,5 +1,5 @@
 import { Global } from "@mantine/core"
-import { renderJSXFromBlock } from "helpers"
+import { RenderJSXFromBlock } from "helpers"
 import { useDocumentTitle, useLocalStorage } from "@mantine/hooks"
 import { ICanvasBlock } from "types"
 import SafeWrapper from "app/core/components/SafeWrapper"
@@ -32,7 +32,7 @@ const PreviewPortfolio = () => {
       />
       {portfolio &&
         portfolio.blocks.map((b, i) => {
-          const JSX = renderJSXFromBlock({
+          const JSX = RenderJSXFromBlock({
             element: b,
             shouldFlat: false,
             withContentEditable: false,

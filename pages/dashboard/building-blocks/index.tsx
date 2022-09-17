@@ -11,7 +11,7 @@ import {
 } from "@mantine/core"
 import React, { useEffect, useMemo, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
-import { renderJSXFromBlock, serialize } from "helpers"
+import { RenderJSXFromBlock, serialize } from "helpers"
 import { jsonLanguage } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
 import { useMutation } from "@blitzjs/rpc"
@@ -92,7 +92,7 @@ const DashboardIndex = () => {
   const JSX = useMemo(() => {
     if (json.length) {
       try {
-        return renderJSXFromBlock({
+        return RenderJSXFromBlock({
           element: JSON.parse(json),
           shouldFlat: false,
           withContentEditable: false,

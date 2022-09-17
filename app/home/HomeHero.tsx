@@ -15,27 +15,6 @@ import Clicks from "app/core/components/Clicks"
 import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
-const variants = {
-  enter: () => {
-    return {
-      y: -30,
-      opacity: 0,
-    }
-  },
-  center: {
-    zIndex: 1,
-    y: 0,
-    opacity: 1,
-  },
-  exit: () => {
-    return {
-      zIndex: 0,
-      opacity: 0,
-      y: 30,
-    }
-  },
-}
-
 const TextLoop = () => {
   const [index, setIndex] = useState(0)
   const theme = useMantineTheme()
@@ -59,6 +38,29 @@ const TextLoop = () => {
         text: "Landing",
       },
     ]
+  }, [])
+
+  const variants = useMemo(() => {
+    return {
+      enter: () => {
+        return {
+          y: -30,
+          opacity: 0,
+        }
+      },
+      center: {
+        zIndex: 1,
+        y: 0,
+        opacity: 1,
+      },
+      exit: () => {
+        return {
+          zIndex: 0,
+          opacity: 0,
+          y: 30,
+        }
+      },
+    }
   }, [])
 
   useEffect(() => {

@@ -10,7 +10,7 @@ import {
   Box,
   Loader,
 } from "@mantine/core"
-import { Suspense, useContext, useState, useTransition } from "react"
+import { memo, Suspense, useContext, useState, useTransition } from "react"
 import useTranslation from "next-translate/useTranslation"
 import { VscChromeClose } from "react-icons/vsc"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
@@ -164,4 +164,4 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
   )
 }
 
-export default CanvasAddModal
+export default memo(CanvasAddModal)

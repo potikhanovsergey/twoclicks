@@ -2,12 +2,13 @@ import { ActionIcon, Tooltip, useMantineColorScheme } from "@mantine/core"
 import { BsFillMoonStarsFill } from "react-icons/bs"
 import useTranslation from "next-translate/useTranslation"
 import { ImSun } from "react-icons/im"
+import { memo } from "react"
 
 function ColorSchemeToggle() {
   const { colorScheme, toggleColorScheme } = useMantineColorScheme()
   const { t } = useTranslation("common")
   return (
-    <Tooltip label={t("switchTheme")} withArrow id="Switch theme tooltip" position="bottom">
+    <Tooltip label={t("switchTheme")} withArrow position="bottom">
       <ActionIcon
         aria-describedby="Switch theme tooltip"
         onClick={() => toggleColorScheme()}
@@ -25,4 +26,4 @@ function ColorSchemeToggle() {
   )
 }
 
-export default ColorSchemeToggle
+export default memo(ColorSchemeToggle)

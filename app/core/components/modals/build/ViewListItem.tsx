@@ -10,7 +10,7 @@ import {
 import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { RiHeartsFill, RiHeartAddLine } from "react-icons/ri"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { renderJSXFromBlock } from "helpers"
+import { RenderJSXFromBlock } from "helpers"
 import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
@@ -90,7 +90,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   } = BuildStore
 
   const JSX = useMemo(() => {
-    return renderJSXFromBlock({
+    return RenderJSXFromBlock({
       element: { ...block, editType: null },
       withContentEditable: false,
       withPalette: true,

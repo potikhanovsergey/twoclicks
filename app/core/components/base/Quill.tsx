@@ -3,23 +3,10 @@ import { useMutation } from "@blitzjs/rpc"
 import { createStyles } from "@mantine/core"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import dynamic from "next/dynamic"
-import { Ref, useMemo, useRef } from "react"
+import { memo, Ref, useMemo, useRef } from "react"
 import ReactQuill, { ReactQuillProps } from "react-quill"
 import "react-quill/dist/quill.bubble.css"
 import { BuildStore } from "store/build"
-
-const DynamicReactQuill = dynamic(
-  async () => {
-    const { default: RQ } = await import("react-quill")
-
-    return ({ forwardedRef, ...props }: ReactQuillProps & { forwardedRef: any }) => (
-      <RQ ref={forwardedRef} {...props} />
-    )
-  },
-  {
-    ssr: false,
-  }
-)
 
 const useStyles = createStyles((theme) => ({
   quill: {
@@ -185,8 +172,7 @@ const Quill = (props: ReactQuillProps & { type: string }) => {
   }, [])
 
   return (
-    <DynamicReactQuill
-      forwardedRef={ref}
+    <ReactQuill
       className={classes.quill}
       theme="bubble"
       {...rest}
@@ -207,4 +193,4 @@ const Quill = (props: ReactQuillProps & { type: string }) => {
   )
 }
 
-export default Quill
+export default memo(Quill)

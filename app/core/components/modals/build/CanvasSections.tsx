@@ -1,31 +1,32 @@
-import useTranslation from "next-translate/useTranslation"
 import CanvasAddModal from "./CanvasAddModal"
 import { IFilterButton } from "types"
-
-const filterButtons: IFilterButton[] = [
-  {
-    text: "Headers",
-    value: "header",
-  },
-  {
-    text: "Hero",
-    value: "hero",
-  },
-  {
-    text: "Galleries",
-    value: "gallery",
-  },
-  {
-    text: "Skills",
-    value: "skills",
-  },
-  {
-    text: "Footers",
-    value: "footer",
-  },
-]
+import { useMemo } from "react"
 
 const CanvasSectionsModal = () => {
+  const filterButtons: IFilterButton[] = useMemo(() => {
+    return [
+      {
+        text: "Headers",
+        value: "header",
+      },
+      {
+        text: "Hero",
+        value: "hero",
+      },
+      {
+        text: "Galleries",
+        value: "gallery",
+      },
+      {
+        text: "Skills",
+        value: "skills",
+      },
+      {
+        text: "Footers",
+        value: "footer",
+      },
+    ]
+  }, [])
   return (
     <CanvasAddModal modal="canvasSectionsModal" type="sections" filterButtons={filterButtons} />
   )

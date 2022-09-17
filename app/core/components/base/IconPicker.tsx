@@ -1,26 +1,21 @@
 import {
   ActionIcon,
-  Group,
-  Input,
   Menu,
   ScrollArea,
   SimpleGrid,
   TextInput,
   Tooltip,
   Text,
-  LoadingOverlay,
   MenuProps,
   useMantineColorScheme,
   Box,
   ActionIconProps,
-  ThemeIconProps,
-  ThemeIcon,
   Button,
 } from "@mantine/core"
-import { useDebouncedState, useDebouncedValue } from "@mantine/hooks"
+import { useDebouncedValue } from "@mantine/hooks"
 import { serialize } from "helpers"
 import useTranslation from "next-translate/useTranslation"
-import { ReactNode, useEffect, useMemo, useState } from "react"
+import { ReactNode, useMemo, useState } from "react"
 import * as icons from "react-icons/fa"
 import { IoClose } from "react-icons/io5"
 import { MdClear } from "react-icons/md"

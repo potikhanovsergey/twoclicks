@@ -2,25 +2,21 @@ import {
   Avatar,
   Group,
   Modal,
-  Skeleton,
   useMantineTheme,
   Text,
   Button,
-  ThemeIcon,
   Stack,
   Accordion,
 } from "@mantine/core"
-import { Suspense, useContext, useEffect, useMemo } from "react"
+import { useContext, useEffect, useMemo } from "react"
 import useTranslation from "next-translate/useTranslation"
 import { ModalContext } from "contexts/ModalContext"
-import HeaderProfile, { ConstMenuItems, ProfileItem } from "../../layout/HeaderProfile"
-import { FaChevronDown, FaSignOutAlt } from "react-icons/fa"
+import { ConstMenuItems } from "../../layout/HeaderProfile"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
-import HeaderMenuItem from "../../layout/HeaderMenuItem"
 import { useMutation } from "@blitzjs/rpc"
 import logout from "app/auth/mutations/logout"
 import Link from "next/link"
-import { useMediaQuery, useScrollLock, useViewportSize } from "@mantine/hooks"
+import { useScrollLock, useViewportSize } from "@mantine/hooks"
 import ColorSchemeToggle from "../../base/ColorSchemeToggle"
 import LanguageSwitcher from "../../base/LanguageSwitcher"
 import { ProfileLinks } from "app/profile/ProfileLinks"
@@ -84,17 +80,6 @@ const MenuModal = () => {
     >
       {/* MENU STARTS */}
       <Stack>
-        {/* {user?.id && (
-          <Link passHref href={ProfileItem.route}>
-            <Button
-              title={t(ProfileItem.title)}
-              color={dark ? "dark" : "violet"}
-              variant={dark ? "filled" : "light"}
-            >
-              {t(ProfileItem.text)}
-            </Button>
-          </Link>
-        )} */}
         <Accordion
           variant="filled"
           styles={{

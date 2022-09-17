@@ -1,6 +1,6 @@
 import { Box, Global, LoadingOverlay } from "@mantine/core"
 import React from "react"
-import { renderJSXFromBlock } from "helpers"
+import { RenderJSXFromBlock } from "helpers"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import { IPortfolio } from "types"
 import MainLoader from "app/core/components/MainLoader"
@@ -14,7 +14,7 @@ const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
         {portfolio.data &&
           portfolio.data.length > 0 &&
           portfolio.data.map((b, i) => {
-            const JSX = renderJSXFromBlock({
+            const JSX = RenderJSXFromBlock({
               element: b,
               shouldFlat: false,
               withContentEditable: false,
