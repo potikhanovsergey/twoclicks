@@ -7,13 +7,61 @@ import {
   useMantineTheme,
   Image,
   Text,
+  Overlay,
+  createStyles,
+  Center,
+  Button,
+  Badge,
+  BoxProps,
 } from "@mantine/core"
 import Clicks from "app/core/components/Clicks"
+import Link from "next/link"
+import { ReactNode } from "react"
+
+interface ShowcasesProps extends BoxProps {
+  link: string
+  scr: string
+  alt: string
+}
+
+const useStyles = createStyles((theme, _params, getRef) => ({
+  showcaseCard: {
+    boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
+    borderRadius: "30px",
+    position: "relative",
+    "&:hover": {
+      [`& .${getRef("overlay")}, .${getRef("text")}`]: {
+        opacity: 0.75,
+      },
+    },
+  },
+
+  showcaseOverlay: {
+    ref: getRef("overlay"),
+    transition: "0.4s ease all",
+    opacity: 0,
+  },
+
+  showcaseText: {
+    ref: getRef("text"),
+    position: "absolute",
+    left: "50%",
+    top: "50%",
+    transform: "translate(-50%, -50%)",
+    zIndex: 201,
+    opacity: 0,
+    transition: "0.4s ease all",
+  },
+}))
+
+const showcases = [{}]
 
 const Showcase = () => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
+
+  const { classes } = useStyles()
 
   return (
     <Container size="xl" px={40}>
@@ -46,14 +94,20 @@ const Showcase = () => {
           >
             <Image src="/landing/showcase-2.png" alt="preview second portfolio" radius={30} />
           </Box>
-          <Box
-            sx={{
-              boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
-              borderRadius: "30px",
-            }}
-          >
-            <Image src="/landing/showcase-3.png" alt="preview third portfolio" radius={30} />
-          </Box>
+          <Link href="/" passHref>
+            <Box className={classes.showcaseCard} component="a">
+              <Image src="/landing/showcase-3.png" alt="preview third portfolio" radius={30} />
+              <Overlay
+                color={theme.black}
+                className={classes.showcaseOverlay}
+                opacity={0}
+                radius={30}
+              />
+              <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
+                Click to view
+              </Badge>
+            </Box>
+          </Link>
         </SimpleGrid>
         <Box
           p={10}

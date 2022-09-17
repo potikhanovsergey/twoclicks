@@ -21,7 +21,7 @@ interface CardProps extends StackProps {
   text: string
 }
 
-const Card = ({ icon, text, sx, ...rest }: CardProps) => {
+const Card = ({ icon, text, sx, children, ...rest }: CardProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
@@ -32,6 +32,7 @@ const Card = ({ icon, text, sx, ...rest }: CardProps) => {
       spacing={4}
       sx={{
         position: "absolute",
+        whiteSpace: "nowrap",
         ...sx,
       }}
       {...rest}
@@ -54,6 +55,7 @@ const Card = ({ icon, text, sx, ...rest }: CardProps) => {
       <Text sx={{ letterSpacing: "3px" }} weight={700}>
         {text}
       </Text>
+      {children}
     </Stack>
   )
 }
@@ -63,8 +65,8 @@ const Cards: CardProps[] = [
     icon: <BiCodeAlt />,
     text: "developer",
     sx: {
-      top: "128px",
-      left: "178px",
+      top: "-96px",
+      left: "-308px",
       transform: "rotate(15deg)",
     },
   },
@@ -72,8 +74,8 @@ const Cards: CardProps[] = [
     icon: <RiQuillPenLine />,
     text: "writer",
     sx: {
-      top: "-20px",
-      left: "500px",
+      top: "-228px",
+      left: "-40px",
       transform: "rotate(15deg)",
     },
   },
@@ -81,8 +83,8 @@ const Cards: CardProps[] = [
     icon: <FaLaptopHouse />,
     text: "freelancer",
     sx: {
-      top: "40px",
-      right: "256px",
+      top: "-160px",
+      right: "-260px",
       transform: "rotate(-15deg)",
     },
   },
@@ -90,8 +92,8 @@ const Cards: CardProps[] = [
     icon: <HiOutlineLightBulb />,
     text: "startup",
     sx: {
-      top: "300px",
-      right: "230px",
+      bottom: "-100px",
+      right: "-308px",
       transform: "rotate(-15deg)",
     },
   },
@@ -99,8 +101,8 @@ const Cards: CardProps[] = [
     icon: <FiCamera />,
     text: "photographer",
     sx: {
-      top: "440px",
-      right: "500px",
+      bottom: "-228px",
+      left: "40px",
       transform: "rotate(-15deg)",
     },
   },
@@ -108,18 +110,9 @@ const Cards: CardProps[] = [
     icon: <MdOutlineDesignServices />,
     text: "designer",
     sx: {
-      top: "360px",
-      left: "250px",
+      bottom: "-140px",
+      left: "-240px",
       transform: "rotate(15deg)",
-    },
-  },
-  {
-    icon: <FaRegHeart />,
-    text: "you",
-    sx: {
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
     },
   },
 ]
@@ -138,11 +131,19 @@ const WhoIsThisFor = () => {
       >
         Who is this for
       </Title>
-      <Box mt={64} sx={{ position: "relative", minHeight: "500px" }}>
-        {Cards.map((card, i) => (
-          <Card {...card} key={i} />
-        ))}
-      </Box>
+      <Center mt={64} sx={{ minHeight: "500px" }}>
+        <Card
+          icon={<FaRegHeart />}
+          text={"you"}
+          sx={{
+            position: "relative",
+          }}
+        >
+          {Cards.map((card, i) => (
+            <Card {...card} key={i} />
+          ))}
+        </Card>
+      </Center>
     </Container>
   )
 }
