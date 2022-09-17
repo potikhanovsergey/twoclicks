@@ -298,6 +298,18 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             wordBreak: "break-word",
             // overflowX: "hidden",
           },
+          ".ql-font-Times": {
+            fontFamily: "Times New Roman, sans",
+          },
+          ".ql-font-Nunito": {
+            fontFamily: "'Nunito', sans-serif",
+          },
+          ".ql-font-Helvetica": {
+            fontFamily: "Helvetica, sans-serif",
+          },
+          ".ql-font-Arial": {
+            fontFamily: "Arial, sans-serif",
+          },
         })}
       />
     </ErrorBoundary>

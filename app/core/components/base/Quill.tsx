@@ -26,6 +26,30 @@ const useStyles = createStyles((theme) => ({
     "*": {
       outline: "none",
     },
+    ".ql-picker.ql-font .ql-picker-item[data-value='Nunito']::before, .ql-picker-label[data-value='Nunito']::before":
+      {
+        fontFamily: "'Nunito', sans-serif",
+      },
+    ".ql-picker.ql-font .ql-picker-item[data-value='Helvetica']::before, .ql-picker-label[data-value='Helvetica']::before":
+      {
+        fontFamily: "Helvetica, sans-serif",
+      },
+    ".ql-picker.ql-font .ql-picker-item[data-value='Arial']::before, .ql-picker-label[data-value='Arial']::before":
+      {
+        fontFamily: "Arial, sans-serif",
+      },
+    ".ql-picker.ql-font .ql-picker-item[data-value='Times']::before, .ql-picker-label[data-value='Times']::before":
+      {
+        fontFamily: "Times New Roman, serif",
+      },
+    ".ql-picker.ql-font": {
+      ".ql-picker-label, .ql-picker-item": {
+        "&:before": {
+          content: "attr(data-value) !important",
+          fontWeight: 700,
+        },
+      },
+    },
     ".ql-formats": {
       display: "flex",
     },
@@ -68,6 +92,21 @@ const useStyles = createStyles((theme) => ({
         color: theme.colors.gray[7],
       },
     },
+    ".ql-picker-options": {
+      maxHeight: "96px",
+      overflow: "auto",
+    },
+    ".ql-picker-label": {
+      color: theme.colors.gray[7] + "!important",
+      display: "flex",
+      height: "100%",
+      alignItems: "center",
+      borderRadius: theme.radius.md,
+      backgroundColor: "transparent",
+      "&:hover": {
+        backgroundColor: theme.colors.gray[1],
+      },
+    },
     ".ql-editing": {
       width: "auto !important",
       ".ql-tooltip-editor input": {
@@ -89,6 +128,12 @@ const useStyles = createStyles((theme) => ({
   },
 }))
 
+// Add fonts to whitelist
+var Font = ReactQuill.Quill.import("formats/font")
+// We do not add Aref Ruqaa since it is the default
+Font.whitelist = ["Nunito", "Arial", "Helvetica", "Times"]
+ReactQuill.Quill.register(Font, true)
+
 const Quill = (props: ReactQuillProps & { type: string }) => {
   const { classes } = useStyles()
 
@@ -103,8 +148,8 @@ const Quill = (props: ReactQuillProps & { type: string }) => {
     return {
       toolbar: {
         container: type.includes("title")
-          ? ["font", "link", "italic"]
-          : ["font", "bold", "link", "italic"],
+          ? ["link", "italic", { font: Font.whitelist }]
+          : ["bold", "link", "italic", { font: Font.whitelist }],
         handlers: {
           bold: function (value) {
             if (value) {
@@ -126,9 +171,9 @@ const Quill = (props: ReactQuillProps & { type: string }) => {
             if (value) {
               let range = this.quill.getSelection()
               if (range == null || range.length == 0) return
-              let preview = this.quill.getText(range)
+              // let preview = this.quill.getText(range)
               let tooltip = this.quill.theme.tooltip
-              tooltip.edit("link", preview)
+              tooltip.edit("link", "")
               this.quill.focus()
             } else {
               this.quill.format("link", false)
@@ -145,7 +190,9 @@ const Quill = (props: ReactQuillProps & { type: string }) => {
       className={classes.quill}
       theme="bubble"
       {...rest}
-      formats={modules.toolbar.container}
+      formats={
+        type.includes("title") ? ["italic", "font", "link"] : ["italic", "font", "link", "bold"]
+      }
       modules={modules}
       onKeyDown={(e) => {
         if (
