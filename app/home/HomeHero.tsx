@@ -16,7 +16,7 @@ import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
 const variants = {
-  enter: (direction) => {
+  enter: () => {
     return {
       y: -30,
       opacity: 0,
@@ -27,7 +27,7 @@ const variants = {
     y: 0,
     opacity: 1,
   },
-  exit: (direction) => {
+  exit: () => {
     return {
       zIndex: 0,
       opacity: 0,
