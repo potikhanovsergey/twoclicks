@@ -43,6 +43,7 @@
     "blitz": "2.0.0-beta.4",
     "bson-objectid": "2.0.3",
     "cookies-next": "2.1.1",
+    "framer-motion": "7.3.5",
     "mobx": "6.6.1",
     "mobx-react-lite": "3.4.0",
     "next": "12.2.0",
