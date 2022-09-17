@@ -34,14 +34,6 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
       <div ref={itemRef}>
         <PaletteItem
           withHover
-          // currentPaletteColor={
-          //   palette?.[stz.color]
-          //     ? getHexFromThemeColor({
-          //         theme,
-          //         color: palette?.[paletteKey.color],
-          //       })
-          //     : undefined
-          // }
           defaultOpened={openedAction?.[id] === "bg"}
           onOpen={() => {
             BuildStore.openedAction[id] = "bg"

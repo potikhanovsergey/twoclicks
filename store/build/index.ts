@@ -96,6 +96,7 @@ class Build {
     if (action && !action.fromHistory) {
       this.redoStack = []
       this.undoStack.push(JSON.parse(JSON.stringify(action)))
+      console.log(this.redoStack, this.undoStack, action)
     }
   }
 
@@ -184,12 +185,17 @@ class Build {
     if (el) {
       const elProps = el?.props as ICanvasBlockProps
       const oldProps = {}
+
+      const undoProps = {}
+
       for (let prop in newProps) {
         if (!elProps[prop]) {
           oldProps[prop] = "undefined"
         }
+        undoProps[prop] = elProps[prop] === undefined ? "undefined" : elProps[prop]
       }
 
+      console.log("UNDO PROPS", undoProps)
       this.onPortfolioChange({
         redo: {
           name: "changeProp",
@@ -197,7 +203,7 @@ class Build {
         },
         undo: {
           name: "changeProp",
-          data: { id, newProps: JSON.parse(JSON.stringify({ ...elProps, ...oldProps })) },
+          data: { id, newProps: JSON.parse(JSON.stringify(undoProps)) },
         },
         fromHistory,
       })
