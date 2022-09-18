@@ -16,6 +16,7 @@ import Clicks from "app/core/components/Clicks"
 import Link from "next/link"
 
 import Image from "next/image"
+import NextImage from "app/core/components/base/NextImage"
 
 interface ShowcasesProps extends BoxProps {
   link: string
@@ -72,7 +73,13 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
     <AspectRatio ratio={1}>
       <Link href={link} passHref>
         <Box className={classes.showcaseCard} component="a" target="_blank" {...rest}>
-          <Image src={src} alt={alt} width={400} height={400} style={{ borderRadius: "30px" }} />
+          <NextImage
+            src={src}
+            alt={alt}
+            width={400}
+            height={400}
+            style={{ borderRadius: "30px" }}
+          />
           <Overlay
             color={theme.black}
             className={classes.showcaseOverlay}

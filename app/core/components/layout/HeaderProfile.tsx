@@ -4,7 +4,6 @@ import {
   Menu,
   Divider,
   UnstyledButton,
-  ThemeIcon,
   Text,
   Button,
   useMantineTheme,
@@ -22,8 +21,6 @@ import Link from "next/link"
 import { memo, useEffect, useState } from "react"
 
 import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
-import { FaSignOutAlt } from "@react-icons/all-files/fa/FaSignOutAlt"
-import { BsPersonFill } from "@react-icons/all-files/bs/BsPersonFill"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 
 export const ProfileItem = {
@@ -130,7 +127,16 @@ function HeaderProfile() {
             )}
             <Group spacing={8}>
               {user?.avatar ? (
-                <Avatar radius="xl" size="sm" src={user.avatar} alt={`${user.name} avatar`} />
+                <Avatar
+                  imageProps={{
+                    width: "26px",
+                    height: "26px",
+                  }}
+                  radius="xl"
+                  size="sm"
+                  src={user.avatar}
+                  alt={`${user.name} avatar`}
+                />
               ) : (
                 <Avatar size="sm">
                   <IoPersonCircle
