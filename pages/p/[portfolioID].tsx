@@ -6,7 +6,6 @@ import { IPortfolio } from "types"
 import { useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import Portfolio from "app/p/Portfolio"
-import MainLoader from "app/core/components/MainLoader"
 import { useDocumentTitle } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
@@ -41,7 +40,8 @@ const PortfolioPage = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useDocumentTitle(portfolio?.name || "skillcase")
-  if (isLoading) return <LoadingOverlay visible={true} loader={<MainLoader size={128} />} />
+  if (isLoading)
+    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={64} />} />
 
   return (
     <>

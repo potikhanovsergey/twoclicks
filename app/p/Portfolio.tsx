@@ -1,9 +1,8 @@
-import { Box, Global, LoadingOverlay } from "@mantine/core"
+import { Box, Global, Loader, LoadingOverlay } from "@mantine/core"
 import React from "react"
 import { RenderJSXFromBlock } from "helpers"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import { IPortfolio } from "types"
-import MainLoader from "app/core/components/MainLoader"
 import { observer } from "mobx-react-lite"
 
 const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
@@ -60,7 +59,7 @@ const Portfolio = ({ portfolio }: { portfolio: IPortfolio | null }) => {
       </>
     )
   }
-  return <LoadingOverlay visible={true} loader={<MainLoader size={128} />} />
+  return <LoadingOverlay visible={true} loader={<Loader color="violet" size={64} />} />
 }
 
 export default observer(Portfolio)

@@ -23,7 +23,6 @@ import { useMutation, useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import MainLoader from "app/core/components/MainLoader"
 import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 import { AppStore } from "store"
 import { useDocumentTitle, useViewportSize } from "@mantine/hooks"
@@ -141,7 +140,8 @@ const BuildPage = () => {
     if (!session.userId) setPortfolios([])
   }, [fetchedPortfolios, session])
 
-  if (isLoading) return <LoadingOverlay visible={true} loader={<MainLoader size={128} />} />
+  if (isLoading)
+    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={64} />} />
 
   return (
     <>

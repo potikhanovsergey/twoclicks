@@ -1,6 +1,5 @@
 import { showNotification } from "@mantine/notifications"
 import ImagePicker from "app/core/components/base/ImagePicker"
-import axios from "axios"
 import { defaultUploadNotificationError } from "notifications"
 import { ReactNode } from "react"
 import { FileRejection } from "react-dropzone"
@@ -48,6 +47,7 @@ const BuilderImagePicker = ({ elementID, children, slug }: IBuilderImagePicker) 
         //   cache: "no-cache",
         //   body: data,
         // })
+        const axios = (await import("axios")).default
 
         const response = await axios("https://api.imgbb.com/1/upload", {
           method: "POST",

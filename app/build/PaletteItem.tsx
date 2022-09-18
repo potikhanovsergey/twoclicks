@@ -10,7 +10,6 @@ import {
   FileButton,
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
-import axios from "axios"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
 import useTranslation from "next-translate/useTranslation"
 import { useState, useMemo, useEffect } from "react"
@@ -73,6 +72,7 @@ const PaletteItem = (props: IPaletteItem) => {
         data.append("action", "upload")
         data.append("format", "json")
         data.append("image", file)
+        const axios = (await import("axios")).default
         const response = await axios("https://api.imgbb.com/1/upload", {
           method: "POST",
           data,

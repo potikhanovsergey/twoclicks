@@ -9,20 +9,65 @@ import { FiPlusSquare } from "react-icons/fi"
 import shortid from "shortid"
 import useTranslation from "next-translate/useTranslation"
 
-const BuilderBlocks = () => {
+const Blocks = observer(() => {
   const {
     data: { blocks, palette },
   } = BuildStore
+  const { t } = useTranslation("pagesBuild")
 
   const [, setModalContext = () => ({})] = useContext(ModalContext)
+  return (
+    <>
+      <div style={{ display: blocks.length > 0 ? "block" : "none" }}>
+        {blocks.map((b, i) => {
+          const JSX = RenderJSXFromBlock({
+            element: b,
+            shouldFlat: true,
+            withContentEditable: true,
+            withEditToolbar: true,
+            withPalette: true,
+            palette,
+            sectionIndex: i,
+          })
+          if (JSX) {
+            return (
+              <div className="builder-block" key={shortid.generate()}>
+                <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
+              </div>
+            )
+          }
+          return <React.Fragment key={i} />
+        })}
+      </div>
+      <Center style={{ height: "100%", display: blocks.length > 0 ? "none" : "flex" }}>
+        <Button
+          radius="sm"
+          variant="gradient"
+          size="md"
+          style={{ minWidth: "192px" }}
+          color="red"
+          gradient={{ from: "violet", to: "red" }}
+          rightIcon={<FiPlusSquare />}
+          onClick={() =>
+            setModalContext((prevValue: IModalContextValue) => ({
+              ...prevValue,
+              canvasSectionsModal: true,
+            }))
+          }
+        >
+          {t("add new section")}
+        </Button>
+      </Center>
+    </>
+  )
+})
 
+const BuilderBlocks = () => {
   const sectionsRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     BuildStore.sectionsRef = sectionsRef
   }, [sectionsRef])
-
-  const { t } = useTranslation("pagesBuild")
 
   return (
     <Box
@@ -44,49 +89,9 @@ const BuilderBlocks = () => {
       }}
       ref={sectionsRef}
     >
-      {blocks && blocks.length > 0 ? (
-        blocks.map((b, i) => {
-          const JSX = RenderJSXFromBlock({
-            element: b,
-            shouldFlat: true,
-            withContentEditable: true,
-            withEditToolbar: true,
-            withPalette: true,
-            palette,
-            sectionIndex: i,
-          })
-          if (JSX) {
-            return (
-              <div className="builder-block" key={shortid.generate()}>
-                <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
-              </div>
-            )
-          }
-          return <React.Fragment key={i} />
-        })
-      ) : (
-        <Center style={{ height: "100%" }}>
-          <Button
-            radius="sm"
-            variant="gradient"
-            size="md"
-            style={{ minWidth: "192px" }}
-            color="red"
-            gradient={{ from: "violet", to: "red" }}
-            rightIcon={<FiPlusSquare />}
-            onClick={() =>
-              setModalContext((prevValue: IModalContextValue) => ({
-                ...prevValue,
-                canvasSectionsModal: true,
-              }))
-            }
-          >
-            {t("add new section")}
-          </Button>
-        </Center>
-      )}
+      <Blocks />
     </Box>
   )
 }
 
-export default observer(BuilderBlocks)
+export default BuilderBlocks

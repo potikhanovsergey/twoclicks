@@ -1,7 +1,6 @@
 import { ActionIcon, Divider, Menu, Tooltip, useMantineColorScheme } from "@mantine/core"
 import { useClickOutside, useDisclosure, useHover, useLocalStorage } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
-import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { IoLanguageSharp } from "react-icons/io5"
 import { languages } from "../../../../public/languages"
