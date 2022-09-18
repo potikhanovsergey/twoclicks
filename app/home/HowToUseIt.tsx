@@ -2,7 +2,6 @@ import {
   Container,
   Group,
   Title,
-  Image,
   Box,
   Text,
   useMantineTheme,
@@ -17,6 +16,7 @@ import { useRef } from "react"
 
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import { IoMdSave } from "@react-icons/all-files/io/IoMdSave"
+import NextImage from "app/core/components/base/NextImage"
 
 const HowToUseIt = () => {
   const theme = useMantineTheme()
@@ -70,13 +70,13 @@ const HowToUseIt = () => {
                 width: "63%",
               }}
             >
-              <Image
-                src="landing/sections-modal.png"
-                alt="sections modal example"
-                height="auto"
-                width="100%"
-                radius={10}
-              />
+              <Box sx={{ position: "relative", borderRadius: "10px" }}>
+                <NextImage
+                  src="/landing/sections-modal.png"
+                  alt="sections modal example"
+                  width={700}
+                />
+              </Box>
               <ShadowCard
                 sx={{
                   position: "absolute",
@@ -101,13 +101,13 @@ const HowToUseIt = () => {
                 width: "63%",
               }}
             >
-              <Image
-                src="landing/sections-modal.png"
-                alt="sections modal example"
-                width="100%"
-                height="auto"
-                radius={10}
-              />
+              <Box sx={{ position: "relative", borderRadius: "10px" }}>
+                <NextImage
+                  src="/landing/sections-modal.png"
+                  alt="sections modal example"
+                  width={700}
+                />
+              </Box>
               <ShadowCard
                 sx={{
                   position: "absolute",
@@ -131,13 +131,19 @@ const HowToUseIt = () => {
                 width: "63%",
               }}
             >
-              <Image
-                src="landing/tools-menu.png"
-                alt="sections modal example"
-                width={400}
-                height="auto"
-                radius={10}
-              />
+              <Box
+                sx={{
+                  position: "relative",
+                  borderRadius: "10px",
+                }}
+              >
+                <NextImage
+                  src="/landing/tools-menu.png"
+                  alt="sections modal example"
+                  width={400}
+                  layout="fill"
+                />
+              </Box>
             </Box>
             <ShadowCard>
               <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
@@ -177,8 +183,7 @@ const HowToUseIt = () => {
                 </Button>
                 <Button
                   component="span"
-                  variant={dark ? "white" : "filled"}
-                  color="dark"
+                  color="violet"
                   size="lg"
                   tabIndex={-1}
                   leftIcon={<FaEye />}

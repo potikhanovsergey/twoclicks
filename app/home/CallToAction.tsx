@@ -2,6 +2,7 @@ import { Container, Text, Group, Button, Center, createStyles } from "@mantine/c
 import Image from "next/image"
 
 import { BsArrowRight } from "@react-icons/all-files/bs/BsArrowRight"
+import NextImage from "app/core/components/base/NextImage"
 
 const useStyles = createStyles((theme) => ({
   image: {
@@ -23,22 +24,20 @@ const CallToAction = () => {
           position: "relative",
         }}
       >
-        <div className={classes.image} style={{ top: "-450px", left: "-240px" }}>
-          <Image
-            src="/landing/pink-circle.png"
-            alt="Pink circle decoration"
-            width={700}
-            height={700}
-          />
-        </div>
-        <div className={classes.image} style={{ top: "-110px", right: "-240px" }}>
-          <Image
-            src="/landing/purple-circle.png"
-            alt="Purple circle light"
-            width={700}
-            height={700}
-          />
-        </div>
+        <NextImage
+          wrapperProps={{ className: classes.image, sx: { top: "-450px", left: "-240px" } }}
+          src="/landing/pink-circle.png"
+          alt="Pink circle decoration"
+          width="700px"
+          height="700px"
+        />
+        <NextImage
+          wrapperProps={{ className: classes.image, sx: { top: "-110px", right: "-240px" } }}
+          src="/landing/purple-circle.png"
+          alt="Purple circle light"
+          width="700px"
+          height="700px"
+        />
         <Group position="apart" noWrap>
           <Text mb={220} ml={200} size={30} sx={{ letterSpacing: "3px" }}>
             You`ve made <strong>one click</strong> <br /> to visit this page

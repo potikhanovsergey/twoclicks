@@ -16,6 +16,7 @@ import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
 
 import Image from "next/image"
+import NextImage from "app/core/components/base/NextImage"
 
 const useStyles = createStyles((theme) => ({
   image: {
@@ -41,7 +42,7 @@ const TextLoop = () => {
         text: "Portfolio",
       },
       {
-        color: theme.colors.green[5],
+        color: theme.colors.pink[5],
         text: "Presentation",
       },
       {
@@ -139,7 +140,7 @@ const HomeHero = () => {
             left: "-240px",
           }}
         >
-          <Image
+          <NextImage
             src="/landing/purple-circle.png"
             width={700}
             height={700}
@@ -158,7 +159,7 @@ const HomeHero = () => {
             top: "-90px",
           }}
         >
-          <Image
+          <NextImage
             src="/landing/pink-circle.png"
             width={700}
             height={700}

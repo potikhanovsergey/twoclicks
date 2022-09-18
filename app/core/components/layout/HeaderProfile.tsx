@@ -130,7 +130,7 @@ function HeaderProfile() {
             )}
             <Group spacing={8}>
               {user?.avatar ? (
-                <Avatar radius="xl" size="sm" src={user.avatar} />
+                <Avatar radius="xl" size="sm" src={user.avatar} alt={`${user.name} avatar`} />
               ) : (
                 <Avatar size="sm">
                   <IoPersonCircle
