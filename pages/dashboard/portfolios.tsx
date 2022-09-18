@@ -1,13 +1,14 @@
-import { usePaginatedQuery, useQuery } from "@blitzjs/rpc"
-import { Button, Container, Group, Pagination, Stack, Text, TextInput } from "@mantine/core"
-import { useDebouncedState, useDebouncedValue } from "@mantine/hooks"
+import { usePaginatedQuery } from "@blitzjs/rpc"
+import { Container, Group, Pagination, Stack, Text, TextInput } from "@mantine/core"
+import { useDebouncedState } from "@mantine/hooks"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import PortfolioCard from "app/portfolios/PortfolioCard"
 import getAllPortfolios from "app/portfolios/queries/getAllPortfolios"
 import { useDidMount } from "hooks/useDidMount"
 import { useRouter } from "next/router"
-import { useEffect, useState } from "react"
-import { HiSearch } from "react-icons/hi"
+import { useEffect } from "react"
+
+import { HiSearch } from "@react-icons/all-files/hi/HiSearch"
 
 const ITEMS_PER_PAGE = 50
 

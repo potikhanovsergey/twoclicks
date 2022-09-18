@@ -19,7 +19,7 @@ import { ICanvasPalette } from "types"
 import { AppStore } from "store"
 import { showNotification } from "@mantine/notifications"
 import { defaultSuccessNotification } from "notifications"
-import { BiSave } from "react-icons/bi"
+import { BiSave } from "@react-icons/all-files/bi/BiSave"
 
 interface TemplateModalProps extends ButtonProps {
   portfolio: Portfolio

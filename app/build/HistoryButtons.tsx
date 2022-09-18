@@ -1,11 +1,11 @@
 import { ActionIcon, ActionIconProps, Group, Kbd, Tooltip, Text } from "@mantine/core"
-import { useHotkeys, useLocalStorage, useOs } from "@mantine/hooks"
+import { useHotkeys, useOs } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { useEffect, useTransition } from "react"
-import { BiRedo, BiUndo } from "react-icons/bi"
 import { BuildStore } from "store/build"
-import { ICanvasBlock, ICanvasPalette } from "types"
+
+import { BiRedo } from "@react-icons/all-files/bi/BiRedo"
+import { BiUndo } from "@react-icons/all-files/bi/BiUndo"
 
 const HistoryButtons = (props: ActionIconProps) => {
   const { isUndoActive, isRedoActive, undo, redo } = BuildStore

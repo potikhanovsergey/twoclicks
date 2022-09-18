@@ -1,9 +1,8 @@
-import { Box, Center, Overlay, Text, ThemeIcon, Stack, Badge, OverlayProps } from "@mantine/core"
-import { Dropzone, MIME_TYPES, DropzoneProps } from "@mantine/dropzone"
+import { Box, Overlay, ThemeIcon, Stack, Badge, OverlayProps } from "@mantine/core"
+import { Dropzone, DropzoneProps } from "@mantine/dropzone"
 import { useHover } from "@mantine/hooks"
-import { type } from "os"
 import { ReactNode } from "react"
-import { FaImage } from "react-icons/fa"
+import { FaImage } from "@react-icons/all-files/fa/FaImage"
 
 type ImagePickerProps = Omit<DropzoneProps, "children"> &
   Omit<OverlayProps, "children"> & {

@@ -4,10 +4,12 @@ import useTranslation from "next-translate/useTranslation"
 import Head from "next/head"
 import { FC } from "react"
 import Logo from "app/core/components/Logo"
-import { FcGoogle } from "react-icons/fc"
-import { FaYandex, FaVk } from "react-icons/fa"
 import AuthSocials from "app/auth/components/Socials"
 import Link from "next/link"
+
+import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle"
+import { FaYandex } from "@react-icons/all-files/fa/FaYandex"
+import { FaVk } from "@react-icons/all-files/fa/FaVk"
 
 interface IAuthLayout {
   title?: string

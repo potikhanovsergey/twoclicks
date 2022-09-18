@@ -13,11 +13,12 @@ import {
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import React, { Suspense, useEffect } from "react"
-import { MdAlternateEmail } from "react-icons/md"
 import FileDropzone, { filesType } from "app/core/components/base/FileDropzone"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import useTranslation from "next-translate/useTranslation"
+
+import { MdEmail } from "@react-icons/all-files/md/MdEmail"
 
 interface IFormValues {
   email: string
@@ -58,7 +59,7 @@ const SupportForm = () => {
         <Input.Wrapper label="E-mail" size="lg" required>
           <TextInput
             {...supportForm.getInputProps("email")}
-            icon={<MdAlternateEmail />}
+            icon={<MdEmail />}
             placeholder={t("yourEmail")}
             size="lg"
             value={supportForm.values.email}

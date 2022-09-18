@@ -10,13 +10,14 @@ import {
   Title,
   useMantineColorScheme,
 } from "@mantine/core"
-import { AiFillBuild } from "react-icons/ai"
-import { BsPersonFill } from "react-icons/bs"
-import { FaBook } from "react-icons/fa"
 import { NextLink } from "@mantine/next"
 import { Suspense } from "react"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
+
+import { AiFillBuild } from "@react-icons/all-files/ai/AiFillBuild"
+import { BsPersonFill } from "@react-icons/all-files/bs/BsPersonFill"
+import { FaBook } from "@react-icons/all-files/fa/FaBook"
 
 const Links = () => {
   const user = useCurrentUser()

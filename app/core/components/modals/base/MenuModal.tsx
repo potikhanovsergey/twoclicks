@@ -20,7 +20,7 @@ import { useScrollLock, useViewportSize } from "@mantine/hooks"
 import ColorSchemeToggle from "../../base/ColorSchemeToggle"
 import LanguageSwitcher from "../../base/LanguageSwitcher"
 import { ProfileLinks } from "app/profile/ProfileLinks"
-import { IoPersonCircle } from "react-icons/io5"
+import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 
 const MenuModal = () => {
   const theme = useMantineTheme()

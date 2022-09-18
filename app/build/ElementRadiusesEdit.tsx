@@ -1,14 +1,12 @@
-import { Tooltip, ActionIcon, Menu, Button, Stack } from "@mantine/core"
-import { useHover } from "@mantine/hooks"
+import { ActionIcon, Button, Stack } from "@mantine/core"
 import { getRadiusesByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
-import { AiOutlineRadiusBottomleft } from "react-icons/ai"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
+import { AiOutlineRadiusBottomleft } from "@react-icons/all-files/ai/AiOutlineRadiusBottomleft"
 interface IElementRadiusesEdit {
   type?: string
   props?: ICanvasBlockProps

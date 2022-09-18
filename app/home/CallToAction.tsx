@@ -1,5 +1,6 @@
 import { Container, Text, Group, Button, Center, Image } from "@mantine/core"
-import { BsArrowRight } from "react-icons/bs"
+
+import { BsArrowRight } from "@react-icons/all-files/bs/BsArrowRight"
 
 const CallToAction = () => {
   return (

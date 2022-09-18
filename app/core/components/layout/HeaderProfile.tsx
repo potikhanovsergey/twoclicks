@@ -9,12 +9,8 @@ import {
   Button,
   useMantineTheme,
 } from "@mantine/core"
-import { FaChevronDown, FaSignOutAlt, FaBook } from "react-icons/fa"
-import { AiFillBuild } from "react-icons/ai"
-import { BsPersonFill, BsQuestionCircleFill } from "react-icons/bs"
 import useTranslation from "next-translate/useTranslation"
 import { useDisclosure } from "@mantine/hooks"
-import { IoNewspaper, IoPersonCircle } from "react-icons/io5"
 import { useRouter } from "next/router"
 import ColorSchemeToggle from "../base/ColorSchemeToggle"
 import LanguageSwitcher from "../base/LanguageSwitcher"
@@ -24,6 +20,15 @@ import { useMutation } from "@blitzjs/rpc"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Link from "next/link"
 import { memo, useEffect, useState } from "react"
+
+import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
+import { FaSignOutAlt } from "@react-icons/all-files/fa/FaSignOutAlt"
+import { FaBook } from "@react-icons/all-files/fa/FaBook"
+import { AiFillBuild } from "@react-icons/all-files/ai/AiFillBuild"
+import { BsPersonFill } from "@react-icons/all-files/bs/BsPersonFill"
+import { BsQuestionCircleFill } from "@react-icons/all-files/bs/BsQuestionCircleFill"
+import { IoNewspaper } from "@react-icons/all-files/io5/IoNewspaper"
+import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 
 export const ProfileItem = {
   icon: (

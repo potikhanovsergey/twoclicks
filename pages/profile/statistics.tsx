@@ -1,9 +1,12 @@
 import { Box, Center, SegmentedControl, Text, Title } from "@mantine/core"
 import React, { useState } from "react"
-import { MdOutlineCalendarViewMonth, MdViewWeek, MdViewDay } from "react-icons/md"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 import useTranslation from "next-translate/useTranslation"
+
+import { CgViewMonth } from "@react-icons/all-files/cg/CgViewMonth"
+import { MdViewWeek } from "@react-icons/all-files/md/MdViewWeek"
+import { MdViewDay } from "@react-icons/all-files/md/MdViewDay"
 
 const ProfileStatistics = () => {
   const { t } = useTranslation("pagesProfileStatistics")
@@ -40,7 +43,7 @@ const ProfileStatistics = () => {
               value: "export",
               label: (
                 <Center>
-                  <MdOutlineCalendarViewMonth size={20} />
+                  <CgViewMonth size={20} />
                   <Box ml={10}>{t("month")}</Box>
                 </Center>
               ),

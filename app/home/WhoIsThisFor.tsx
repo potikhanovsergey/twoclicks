@@ -10,12 +10,14 @@ import {
 } from "@mantine/core"
 import { AnimatePresence, motion, useInView } from "framer-motion"
 import { forwardRef, ReactNode, useRef, useState } from "react"
-import { BiCodeAlt } from "react-icons/bi"
-import { FaLaptopHouse, FaRegHeart } from "react-icons/fa"
-import { FiCamera } from "react-icons/fi"
-import { HiOutlineLightBulb } from "react-icons/hi"
-import { MdOutlineDesignServices } from "react-icons/md"
-import { RiQuillPenLine } from "react-icons/ri"
+
+import { BiCodeAlt } from "@react-icons/all-files/bi/BiCodeAlt"
+import { FaLaptop } from "@react-icons/all-files/fa/FaLaptop"
+import { FaRegHeart } from "@react-icons/all-files/fa/FaRegHeart"
+import { FiCamera } from "@react-icons/all-files/fi/FiCamera"
+import { HiOutlineLightBulb } from "@react-icons/all-files/hi/HiOutlineLightBulb"
+import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
+import { RiQuillPenLine } from "@react-icons/all-files/ri/RiQuillPenLine"
 
 interface CardProps extends StackProps {
   icon: ReactNode
@@ -134,7 +136,7 @@ const Cards: CardProps[] = [
     },
   },
   {
-    icon: <FaLaptopHouse />,
+    icon: <FaLaptop />,
     text: "freelancer",
     initial: {
       y: 0,
@@ -185,7 +187,7 @@ const Cards: CardProps[] = [
     },
   },
   {
-    icon: <MdOutlineDesignServices />,
+    icon: <FaPalette />,
     text: "designer",
     initial: {
       y: 0,

@@ -8,9 +8,10 @@ import { useRouter } from "next/router"
 import { deflate, getPortfolioWithDeflatedData } from "helpers"
 import createPortfolio from "./mutations/createPortfolio"
 import { Button, ButtonProps } from "@mantine/core"
-import { AiFillBuild } from "react-icons/ai"
 import useTranslation from "next-translate/useTranslation"
 type ICreatePortfolioButton = Omit<ButtonProps, "onClick" | "children">
+
+import { AiFillBuild } from "@react-icons/all-files/ai/AiFillBuild"
 
 const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
   const router = useRouter()

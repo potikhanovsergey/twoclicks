@@ -16,11 +16,11 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { serialize } from "helpers"
 import useTranslation from "next-translate/useTranslation"
 import { ReactNode, useMemo, useState } from "react"
-import * as icons from "react-icons/fa"
-import { IoClose } from "react-icons/io5"
-import { MdClear } from "react-icons/md"
 
-const FirstIcon = Object.values(icons)[0]
+import { IoClose } from "@react-icons/all-files/io5/IoClose"
+import { MdClear } from "@react-icons/all-files/md/MdClear"
+
+const FirstIcon = Object.values([<IoClose key={0} />])[0]
 
 const formatOutput = (icon: JSX.Element) => {
   return JSON.parse(serialize(icon))?.type

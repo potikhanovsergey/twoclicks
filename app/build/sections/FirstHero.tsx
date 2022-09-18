@@ -1,5 +1,5 @@
 import { Group, Stack, Title, Button, Text, Image, Container } from "@mantine/core"
-import { CgAdidas } from "react-icons/cg"
+import { CgAdidas } from "@react-icons/all-files/cg/CgAdidas"
 
 const FirstHero = () => {
   return (

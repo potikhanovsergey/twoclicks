@@ -1,13 +1,13 @@
 import { useMutation } from "@blitzjs/rpc"
-import { Switch, Tooltip, Text, Button } from "@mantine/core"
-import { useHover } from "@mantine/hooks"
+import { Button } from "@mantine/core"
 import togglePortfolioPublished from "app/portfolios/mutations/togglePortfolioPublished"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { ChangeEventHandler, useEffect, useState } from "react"
-import { FaEyeSlash, FaEye } from "react-icons/fa"
+import { useEffect } from "react"
 import { AppStore } from "store"
-import { BuildStore } from "store/build"
+
+import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
+import { FaEye } from "@react-icons/all-files/fa/FaEye"
 
 interface ITogglePublishPortfolio {
   id: string

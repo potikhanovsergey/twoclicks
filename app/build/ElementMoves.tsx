@@ -2,8 +2,10 @@ import { Tooltip, ActionIcon } from "@mantine/core"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useMemo } from "react"
-import { CgChevronUpR, CgChevronDownR } from "react-icons/cg"
 import { BuildStore } from "store/build"
+
+import { FaChevronUp } from "@react-icons/all-files/fa/FaChevronUp"
+import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 
 interface IElementMoves {
   editType: string | null
@@ -26,8 +28,8 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
   const movesIcons = useMemo(() => {
     if (hasMoves) {
       return {
-        left: <CgChevronUpR />,
-        right: <CgChevronDownR />,
+        left: <FaChevronUp />,
+        right: <FaChevronDown />,
       }
     }
     return null

@@ -1,12 +1,12 @@
-import { Tooltip, ActionIcon, Menu, Button, Stack } from "@mantine/core"
+import { ActionIcon, Button, Stack } from "@mantine/core"
 import { getSizesByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { AiOutlineRadiusBottomleft } from "react-icons/ai"
-import { GiResize } from "react-icons/gi"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
+
+import { GiResize } from "@react-icons/all-files/gi/GiResize"
 
 interface IElementSizesEdit {
   type?: string

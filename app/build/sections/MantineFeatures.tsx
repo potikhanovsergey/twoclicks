@@ -1,8 +1,8 @@
-import { createStyles, Title, SimpleGrid, Text, Button, ThemeIcon, Grid, Col } from "@mantine/core"
-import { RiOpenSourceFill } from "react-icons/ri"
-import { FaFileCode } from "react-icons/fa"
-import { TbCircleDashed } from "react-icons/tb"
-import { IoFlame } from "react-icons/io5"
+import { Title, SimpleGrid, Text, Button, ThemeIcon, Grid, Col } from "@mantine/core"
+
+import { RiOpenSourceFill } from "@react-icons/all-files/ri/RiOpenSourceFill"
+import { FaFileCode } from "@react-icons/all-files/fa/FaFileCode"
+import { IoFlame } from "@react-icons/all-files/io5/IoFlame"
 
 const features = [
   {
@@ -16,7 +16,7 @@ const features = [
     description: "Build type safe applications, all components and hooks export types",
   },
   {
-    icon: <TbCircleDashed size={26} />,
+    icon: <FaFileCode size={26} />,
     title: "No annoying focus ring",
     description:
       "With new :focus-visible selector focus ring will appear only when user navigates with keyboard",

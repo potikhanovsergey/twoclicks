@@ -1,12 +1,13 @@
 import React, { useState } from "react"
 import { ThemeIcon, UnstyledButton, Group, Text, Stack, useMantineTheme } from "@mantine/core"
-import { FaBriefcase } from "react-icons/fa"
-import { BiStats } from "react-icons/bi"
-import { RiVipCrown2Fill } from "react-icons/ri"
-import { BsQuestionCircleFill } from "react-icons/bs"
 import { useRouter } from "next/router"
 import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
+
+import { FaBriefcase } from "@react-icons/all-files/fa/FaBriefcase"
+import { BiStats } from "@react-icons/all-files/bi/BiStats"
+import { RiVipCrown2Fill } from "@react-icons/all-files/ri/RiVipCrown2Fill"
+import { BsQuestionCircleFill } from "@react-icons/all-files/bs/BsQuestionCircleFill"
 
 interface IProfileLink {
   icon: React.ReactNode

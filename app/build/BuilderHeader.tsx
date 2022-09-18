@@ -6,39 +6,39 @@ import {
   Center,
   Container,
   Group,
-  Loader,
   Skeleton,
   Tooltip,
-  useMantineTheme,
   Text,
   HoverCard,
   Box,
-  ThemeIcon,
   TextInput,
   Stack,
   ScrollArea,
 } from "@mantine/core"
-import { useClickOutside, useFullscreen, useHotkeys, useHover } from "@mantine/hooks"
+import { useClickOutside, useFullscreen, useHover } from "@mantine/hooks"
 import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
 import { observer } from "mobx-react-lite"
 import React, { Suspense, useEffect, useMemo, useState } from "react"
-import { AiOutlineEdit, AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai"
-import { FaSave } from "react-icons/fa"
-import { MdOutlinePreview } from "react-icons/md"
+import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit"
+import { AiOutlineFullscreen } from "@react-icons/all-files/ai/AiOutlineFullscreen"
+import { AiOutlineFullscreenExit } from "@react-icons/all-files/ai/AiOutlineFullscreenExit"
+
 import { AppStore } from "store"
 import { BuildStore } from "store/build"
 import PaletteItems from "./PaletteItems"
 import PortfolioLink from "./PortfolioLink"
-import PreviewButton from "./PreviewButton"
-import SaveButton from "./SaveButton"
 import TogglePublishPortfilio from "./TogglePublishPortfolio"
 import ViewportButtons from "./ViewportButtons"
-import { AiOutlineLink } from "react-icons/ai"
+import { AiOutlineLink } from "@react-icons/all-files/ai/AiOutlineLink"
+
 import HistoryButtons from "./HistoryButtons"
-import { IoCheckmarkOutline } from "react-icons/io5"
 import useTranslation from "next-translate/useTranslation"
-import { FiChevronDown } from "react-icons/fi"
 import Link from "next/link"
+
+import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark"
+
+import { FiChevronDown } from "@react-icons/all-files/fi/FiChevronDown"
+import SaveButton from "./SaveButton"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -48,20 +48,20 @@ const AuthorizedActions = observer(() => {
   return session.userId ? <>{id && <TogglePublishPortfilio id={id} />}</> : <></>
 })
 
-const ObservedPreviewPortfolio = observer(() => {
-  const { isCanvasEmpty } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+// const ObservedPreviewPortfolio = observer(() => {
+//   const { isCanvasEmpty } = BuildStore
+//   const { t } = useTranslation("pagesBuild")
 
-  return !isCanvasEmpty ? (
-    <Tooltip label={t("preview mode")} position="bottom-start" color="violet" withArrow>
-      <PreviewButton variant="light" color="violet" size={30}>
-        <MdOutlinePreview size={16} />
-      </PreviewButton>
-    </Tooltip>
-  ) : (
-    <></>
-  )
-})
+//   return !isCanvasEmpty ? (
+//     <Tooltip label={t("preview mode")} position="bottom-start" color="violet" withArrow>
+//       <PreviewButton variant="light" color="violet" size={30}>
+//         <MdOutlinePreview size={16} />
+//       </PreviewButton>
+//     </Tooltip>
+//   ) : (
+//     <></>
+//   )
+// })
 
 const ObservedPortfolioName = observer(() => {
   const session = useSession()
@@ -185,7 +185,7 @@ const ObservedPortfolioName = observer(() => {
                         }
                       }}
                     >
-                      <IoCheckmarkOutline />
+                      <IoMdCheckmark />
                     </ActionIcon>
                   </Group>
                 )}
@@ -240,7 +240,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             >
               <AuthorizedActions />
             </Suspense>
-            <ObservedPreviewPortfolio />
+            {/* <ObservedPreviewPortfolio /> */}
             <PaletteItems />
           </Group>
           <Box

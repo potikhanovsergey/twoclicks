@@ -14,13 +14,14 @@ import {
 } from "@mantine/core"
 import { useEffect, useState } from "react"
 import useTranslation from "next-translate/useTranslation"
-import { IoIosRocket } from "react-icons/io"
 import { useHover } from "@mantine/hooks"
-import { AiOutlineEdit } from "react-icons/ai"
-import { BsPalette } from "react-icons/bs"
-import { MdOutlineAddBox, MdOutlinePreview } from "react-icons/md"
-import { HiOutlineTemplate } from "react-icons/hi"
 import PreviewButton from "./PreviewButton"
+
+import { IoIosRocket } from "@react-icons/all-files/io/IoIosRocket"
+import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit"
+import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
+import { MdAddBox } from "@react-icons/all-files/md/MdAddBox"
+import { HiOutlineTemplate } from "@react-icons/all-files/hi/HiOutlineTemplate"
 
 const Onboarding = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -128,7 +129,7 @@ const Onboarding = () => {
                 {t("change the palette")}
               </Text>
               <ActionIcon color="indigo" variant="light">
-                <BsPalette size={16} />
+                <FaPalette size={16} />
               </ActionIcon>
             </Group>
             <Group position="apart">
@@ -136,7 +137,7 @@ const Onboarding = () => {
                 {t("add a new section")}
               </Text>
               <ActionIcon color="indigo" variant="light">
-                <MdOutlineAddBox size={16} />
+                <MdAddBox size={16} />
               </ActionIcon>
             </Group>
             <Group position="apart">
@@ -144,7 +145,7 @@ const Onboarding = () => {
                 {t("preview the portfolio")}
               </Text>
               <PreviewButton color="indigo" variant="light">
-                <MdOutlinePreview size={16} />
+                <FaPalette size={16} />
               </PreviewButton>
             </Group>
           </Stack>

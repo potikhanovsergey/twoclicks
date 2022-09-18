@@ -1,12 +1,12 @@
-import { Tooltip, ActionIcon, Menu, Button, Stack } from "@mantine/core"
+import { ActionIcon, Button, Stack } from "@mantine/core"
 import { getVariantsByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { FaMagic } from "react-icons/fa"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
+import { FaMagic } from "@react-icons/all-files/fa/FaMagic"
 interface IElementVariantsEdit {
   type?: string
   props?: ICanvasBlockProps

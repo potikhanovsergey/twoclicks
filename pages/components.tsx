@@ -1,9 +1,9 @@
-import { Group, Container, Title, Stack, Text, Button, Image, Center } from "@mantine/core"
-import useTranslation from "next-translate/useTranslation"
+import { Center } from "@mantine/core"
 import BaseLayout from "app/core/layouts/BaseLayout"
 import IconPicker from "app/core/components/base/IconPicker"
-import { FaHeart } from "react-icons/fa"
 import FirstHero from "app/build/sections/FirstHero"
+
+import { FaHeart } from "@react-icons/all-files/fa/FaHeart"
 
 const ComponentsPage = () => {
   // const { t } = useTranslation('pagesBuild');

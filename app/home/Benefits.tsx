@@ -12,15 +12,14 @@ import {
   createStyles,
 } from "@mantine/core"
 import { ReactNode, useMemo, useRef } from "react"
-import { FiEdit } from "react-icons/fi"
-import {
-  HiOutlineDeviceMobile,
-  HiOutlineLightningBolt,
-  HiOutlineSparkles,
-  HiOutlineTemplate,
-} from "react-icons/hi"
-import { TbClick } from "react-icons/tb"
-import { AnimatePresence, motion, useScroll, useInView, useTransform } from "framer-motion"
+import { AnimatePresence, motion, useInView } from "framer-motion"
+
+import { FiEdit } from "@react-icons/all-files/fi/FiEdit"
+import { HiOutlineLightningBolt } from "@react-icons/all-files/hi/HiOutlineLightningBolt"
+import { HiOutlineSparkles } from "@react-icons/all-files/hi/HiOutlineSparkles"
+import { HiOutlineTemplate } from "@react-icons/all-files/hi/HiOutlineTemplate"
+import { BsPhone } from "@react-icons/all-files/bs/BsPhone"
+import { HiCursorClick } from "@react-icons/all-files/hi/HiCursorClick"
 
 interface BenefitsCardProps {
   title: string
@@ -138,7 +137,7 @@ const Benefits = () => {
       },
       {
         title: "Simple",
-        icon: <TbClick color={theme.colors.green[5]} />,
+        icon: <HiCursorClick color={theme.colors.green[5]} />,
         text: (
           <>
             Click on element <br /> you want to edit
@@ -156,7 +155,7 @@ const Benefits = () => {
       },
       {
         title: "Responsive",
-        icon: <HiOutlineDeviceMobile color={theme.colors.blue[5]} />,
+        icon: <BsPhone color={theme.colors.blue[5]} />,
         text: (
           <>
             Looks good on

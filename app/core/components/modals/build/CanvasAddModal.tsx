@@ -12,12 +12,13 @@ import {
 } from "@mantine/core"
 import { memo, Suspense, useContext, useState, useTransition } from "react"
 import useTranslation from "next-translate/useTranslation"
-import { VscChromeClose } from "react-icons/vsc"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import ComponentsModalTabs from "./ModalTabs"
 import { ICanvasModalType, IFilterButton } from "types"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
+
+import { VscChromeClose } from "@react-icons/all-files/vsc/VscChromeClose"
 
 interface ICanvasAddModal {
   filterButtons: IFilterButton[]

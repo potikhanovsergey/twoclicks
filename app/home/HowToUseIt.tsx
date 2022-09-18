@@ -12,9 +12,11 @@ import {
 } from "@mantine/core"
 import PortfolioLink from "app/build/PortfolioLink"
 import ShadowCard from "app/core/components/base/ShadowCard"
-import { FaEye, FaSave } from "react-icons/fa"
-import { useScroll, motion, useTransform } from "framer-motion"
-import { useEffect, useLayoutEffect, useRef, useState } from "react"
+import { useScroll, motion } from "framer-motion"
+import { useRef } from "react"
+
+import { FaEye } from "@react-icons/all-files/fa/FaEye"
+import { IoMdSave } from "@react-icons/all-files/io/IoMdSave"
 
 const HowToUseIt = () => {
   const theme = useMantineTheme()
@@ -160,7 +162,7 @@ const HowToUseIt = () => {
                   variant="gradient"
                   size="lg"
                   gradient={{ from: "violet", to: "red", deg: 60 }}
-                  leftIcon={<FaSave />}
+                  leftIcon={<IoMdSave />}
                   tabIndex={-1}
                   sx={{
                     pointerEvents: "none",

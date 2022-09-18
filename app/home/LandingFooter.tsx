@@ -1,6 +1,6 @@
 import { ActionIcon, Center, Container, Text, useMantineTheme, Group } from "@mantine/core"
 import { useWindowScroll } from "@mantine/hooks"
-import { BsArrowUp } from "react-icons/bs"
+import { BsArrowUp } from "@react-icons/all-files/bs/BsArrowUp"
 
 const LandingFooter = () => {
   const theme = useMantineTheme()

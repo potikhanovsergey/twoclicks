@@ -5,7 +5,7 @@ import { RenderJSXFromBlock } from "helpers"
 import { observer } from "mobx-react-lite"
 import React, { useContext, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
-import { FiPlusSquare } from "react-icons/fi"
+import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import shortid from "shortid"
 import useTranslation from "next-translate/useTranslation"
 

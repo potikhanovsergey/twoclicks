@@ -4,7 +4,9 @@ import { TypeIcons } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useMemo } from "react"
-import { TbToggleLeft, TbToggleRight } from "react-icons/tb"
+import { CgToggleSquareOff } from "@react-icons/all-files/cg/CgToggleSquareOff"
+import { CgToggleSquare } from "@react-icons/all-files/cg/CgToggleSquare"
+
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 
@@ -43,7 +45,7 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
             variant: "subtle",
             color: "violet",
           }}
-          icon={ICON ? ICON : propName === "rightIcon" ? <TbToggleRight /> : <TbToggleLeft />}
+          icon={ICON ? ICON : propName === "rightIcon" ? <CgToggleSquare /> : <CgToggleSquareOff />}
           onChange={(icon) => {
             if (icon?.props) {
               changeProp({

@@ -8,7 +8,6 @@ import {
   Tooltip,
 } from "@mantine/core"
 import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
-import { RiHeartsFill, RiHeartAddLine } from "react-icons/ri"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { RenderJSXFromBlock } from "helpers"
 import { BuildingBlock } from "@prisma/client"
@@ -20,6 +19,9 @@ import { useElementSize } from "@mantine/hooks"
 import SafeWrapper from "../../SafeWrapper"
 import { observer } from "mobx-react-lite"
 import shortid from "shortid"
+
+import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill"
+import { RiHeartAddLine } from "@react-icons/all-files/ri/RiHeartAddLine"
 interface IViewListItem {
   block: BuildingBlock
   onClick?: () => void

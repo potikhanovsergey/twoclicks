@@ -6,15 +6,16 @@ import {
   PopoverProps,
   Box,
   Button,
-  ThemeIcon,
   FileButton,
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
 import useTranslation from "next-translate/useTranslation"
 import { useState, useMemo, useEffect } from "react"
-import { BsFillImageFill } from "react-icons/bs"
 import { BuildStore } from "store/build"
+
+import { BsFillImageFill } from "@react-icons/all-files/bs/BsFillImageFill"
+
 interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
   onColorChange: (value: string) => void

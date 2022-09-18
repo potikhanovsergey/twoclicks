@@ -1,13 +1,14 @@
-import { Tooltip, ActionIcon, Menu, TextInput, Group } from "@mantine/core"
+import { ActionIcon, TextInput, Group } from "@mantine/core"
 import { TypeLinkUpload } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
-import { FaCheck, FaLink } from "react-icons/fa"
-import { TbWorldUpload } from "react-icons/tb"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
+
+import { FaCheck } from "@react-icons/all-files/fa/facheck"
+import { FaCloudUploadAlt } from "@react-icons/all-files/fa/FaCloudUploadAlt"
 
 interface IElementUploadLink {
   type: string
@@ -46,7 +47,7 @@ const ElementUploadLink = ({ type, id, props }: IElementUploadLink) => {
         label: t("changeTheSource"),
         children: (
           <ActionIcon color="violet">
-            <TbWorldUpload />
+            <FaCloudUploadAlt />
           </ActionIcon>
         ),
       }}

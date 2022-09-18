@@ -1,7 +1,8 @@
 import { NotificationProps } from "@mantine/notifications"
-import { BiMessageAltError, BiSave } from "react-icons/bi"
-import { BsCheckLg } from "react-icons/bs"
-import { Group, Text, ThemeIcon } from "@mantine/core"
+import { Group, Text } from "@mantine/core"
+
+import { BiMessageAltError } from "@react-icons/all-files/bi/BiMessageAltError"
+import { BsCheck } from "@react-icons/all-files/bs/bscheck"
 
 export const defaultErrorNotification: Partial<NotificationProps> = {
   autoClose: 10000,
@@ -15,7 +16,7 @@ export const defaultSuccessNotification: Partial<NotificationProps> = {
   color: "green",
   title: "Success!",
   autoClose: 3000,
-  icon: <BsCheckLg />,
+  icon: <BsCheck />,
 }
 
 export const defaultUploadNotificationError: NotificationProps = {

@@ -2,9 +2,10 @@ import { ActionIcon, Divider, Menu, Tooltip, useMantineColorScheme } from "@mant
 import { useClickOutside, useDisclosure, useHover, useLocalStorage } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useState } from "react"
-import { IoLanguageSharp } from "react-icons/io5"
 import { languages } from "../../../../public/languages"
 import setLanguage from "next-translate/setLanguage"
+
+import { IoLanguageSharp } from "@react-icons/all-files/io5/IoLanguageSharp"
 
 const LanguageSwitcher = () => {
   const { t } = useTranslation("common")

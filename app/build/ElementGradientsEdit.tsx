@@ -2,7 +2,7 @@ import { Tooltip, Box, useMantineTheme, ActionIcon, Center, Group } from "@manti
 import { getHexFromThemeColor, getGradientsByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { HiArrowNarrowRight } from "react-icons/hi"
+import { HiArrowNarrowRight } from "@react-icons/all-files/hi/HiArrowNarrowRight"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import PaletteItem from "./PaletteItem"

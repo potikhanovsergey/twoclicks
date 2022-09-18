@@ -19,7 +19,6 @@ import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
 import Onboarding from "./Onboarding"
 import { useSession } from "@blitzjs/auth"
-import { MdOutlineEmojiNature } from "react-icons/md"
 import { useRouter } from "next/router"
 import { useElementSize, useLocalStorage } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
@@ -167,9 +166,6 @@ const SaveAndRedirectModal = () => {
           <Text weight="bold" size="lg">
             {t("please, register or authorize to continue")}
           </Text>
-          <ThemeIcon color="violet" variant="light">
-            <MdOutlineEmojiNature size={24} />
-          </ThemeIcon>
         </Group>
         <SaveRedirectButton />
       </Stack>

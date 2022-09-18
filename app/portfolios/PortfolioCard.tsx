@@ -14,8 +14,6 @@ import { formatDate } from "helpers"
 import Link from "next/link"
 
 import { Portfolio } from "@prisma/client"
-import { HiPencilAlt, HiTemplate } from "react-icons/hi"
-import { RiDeleteBinLine } from "react-icons/ri"
 import { openConfirmModal } from "@mantine/modals"
 import { useMutation } from "@blitzjs/rpc"
 import deletePortfolio from "./mutations/deletePortfolio"
@@ -24,6 +22,10 @@ import { AppStore } from "store"
 import PortfolioLink from "app/build/PortfolioLink"
 import TogglePublishPortfilio from "app/build/TogglePublishPortfolio"
 import { TemplateModal } from "app/core/components/modals/base/TemplateModal"
+
+import { HiPencilAlt } from "@react-icons/all-files/hi/HiPencilAlt"
+import { HiTemplate } from "@react-icons/all-files/hi/HiTemplate"
+import { RiDeleteBinLine } from "@react-icons/all-files/ri/RiDeleteBinLine"
 
 export interface PortfolioPreview {
   portfolio: Portfolio

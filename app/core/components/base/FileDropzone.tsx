@@ -1,9 +1,10 @@
 import { Box, useMantineTheme, Text, Group, Image, Center, ActionIcon, Stack } from "@mantine/core"
 import React, { useEffect, useMemo } from "react"
 import { useDropzone } from "react-dropzone"
-import { FaImage } from "react-icons/fa"
-import { FiUpload } from "react-icons/fi"
-import { VscChromeClose } from "react-icons/vsc"
+
+import { FaImage } from "@react-icons/all-files/fa/FaImage"
+import { FiUpload } from "@react-icons/all-files/fi/FiUpload"
+import { VscChromeClose } from "@react-icons/all-files/vsc/VscChromeClose"
 
 const baseStyle: React.CSSProperties = {
   flex: 1,

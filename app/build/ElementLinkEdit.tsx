@@ -13,13 +13,16 @@ import { TypeLinks } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect, useMemo, useState } from "react"
-import { FaCheck, FaLink } from "react-icons/fa"
-import { IoClose } from "react-icons/io5"
+
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
-import { GoLinkExternal } from "react-icons/go"
 import ToolbarMenu from "./ToolbarMenu"
 import { AppStore } from "store"
+
+import { FaCheck } from "@react-icons/all-files/fa/facheck"
+import { FaLink } from "@react-icons/all-files/fa/FaLink"
+import { IoClose } from "@react-icons/all-files/io5/IoClose"
+import { GoLinkExternal } from "@react-icons/all-files/go/GoLinkExternal"
 
 interface IElementLinkEdit {
   type: string

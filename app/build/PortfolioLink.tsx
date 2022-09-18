@@ -2,8 +2,10 @@ import { Group, Anchor, CopyButton, Tooltip, ActionIcon } from "@mantine/core"
 import { PortfolioPreview } from "app/portfolios/PortfolioCard"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { BiCheckDouble, BiCopy } from "react-icons/bi"
 import { AppStore } from "store"
+
+import { BiCheckDouble } from "@react-icons/all-files/bi/BiCheckDouble"
+import { BiCopy } from "@react-icons/all-files/bi/BiCopy"
 
 const PortfolioLink = ({
   id,

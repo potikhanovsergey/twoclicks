@@ -1,14 +1,15 @@
-import { BiGridSmall } from "react-icons/bi"
-import { BsStars } from "react-icons/bs"
-import { RiHeartFill } from "react-icons/ri"
-import { GiAnticlockwiseRotation } from "react-icons/gi"
-import { TbCrown } from "react-icons/tb"
 import { Tabs, Text, TabProps, LoadingOverlay, ThemeIcon } from "@mantine/core"
 import React, { Suspense, useMemo, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "types"
 import { useSession } from "@blitzjs/auth"
 import useTranslation from "next-translate/useTranslation"
+
+import { BiGridSmall } from "@react-icons/all-files/bi/BiGridSmall"
+import { WiStars } from "@react-icons/all-files/wi/WiStars"
+import { RiHeartFill } from "@react-icons/all-files/ri/RiHeartFill"
+import { GiAnticlockwiseRotation } from "@react-icons/all-files/gi/GiAnticlockwiseRotation"
+import { CgCrown } from "@react-icons/all-files/cg/CgCrown"
 
 interface IModalTab extends TabProps {
   viewlistType: string
@@ -35,7 +36,7 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
         color: "violet",
         value: "Popular",
         viewlistType: "popular",
-        icon: <BsStars size={16} />,
+        icon: <WiStars size={16} />,
       },
       {
         color: "red",
@@ -53,7 +54,7 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
         color: "yellow",
         value: "Premium",
         viewlistType: "premium",
-        icon: <TbCrown size={20} />,
+        icon: <CgCrown size={20} />,
       },
     ]
   }, [])
