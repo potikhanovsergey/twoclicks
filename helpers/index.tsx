@@ -45,49 +45,49 @@ type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
 export const canvasBuildingBlocks = {
   "@mantine/core/button": dynamic<CanvasButtonProps>(() =>
-    import("@mantine/core").then((module) => module.Button)
+    import("@mantine/core/cjs/Button/Button").then((module) => module.Button)
   ),
   "@mantine/core/stack": dynamic<StackProps>(() =>
-    import("@mantine/core").then((module) => module.Stack)
+    import("@mantine/core/cjs/Stack/Stack").then((module) => module.Stack)
   ),
   "@mantine/core/group": dynamic<GroupProps>(() =>
-    import("@mantine/core").then((module) => module.Group)
+    import("@mantine/core/cjs/Group/Group").then((module) => module.Group)
   ),
   "@mantine/core/textinput": dynamic<TextInputProps>(() =>
-    import("@mantine/core").then((module) => module.TextInput)
+    import("@mantine/core/cjs/TextInput/TextInput").then((module) => module.TextInput)
   ),
   "@mantine/core/text": dynamic<TextProps>(() =>
-    import("@mantine/core").then((module) => module.Text)
+    import("@mantine/core/cjs/Text/Text").then((module) => module.Text)
   ),
   "@mantine/core/title": dynamic<TitleProps>(() =>
-    import("@mantine/core").then((module) => module.Title)
+    import("@mantine/core/cjs/Title/Title").then((module) => module.Title)
   ),
   "@mantine/core/container": dynamic<ContainerProps>(() =>
-    import("@mantine/core").then((module) => module.Container)
+    import("@mantine/core/cjs/Container/Container").then((module) => module.Container)
   ),
   "@mantine/core/image": dynamic<ImageProps>(() =>
-    import("@mantine/core").then((module) => module.Image)
+    import("@mantine/core/cjs/Image/Image").then((module) => module.Image)
   ),
   "@mantine/core/box": dynamic<ImageProps>(() =>
-    import("@mantine/core").then((module) => module.Box)
+    import("@mantine/core/cjs/Box/Box").then((module) => module.Box)
   ),
   "@mantine/core/themeicon": dynamic<ThemeIconProps>(() =>
-    import("@mantine/core").then((module) => module.ThemeIcon)
+    import("@mantine/core/cjs/ThemeIcon/ThemeIcon").then((module) => module.ThemeIcon)
   ),
   "@mantine/core/simplegrid": dynamic<SimpleGridProps>(() =>
-    import("@mantine/core").then((module) => module.SimpleGrid)
+    import("@mantine/core/cjs/SimpleGrid/SimpleGrid").then((module) => module.SimpleGrid)
   ),
   "@mantine/core/grid": dynamic<GridProps>(() =>
-    import("@mantine/core").then((module) => module.Grid)
+    import("@mantine/core/cjs/Grid/Grid").then((module) => module.Grid)
   ),
   "@mantine/core/col": dynamic<ColProps>(() =>
-    import("@mantine/core").then((module) => module.Col)
+    import("@mantine/core/cjs/Grid/Col/Col").then((module) => module.Col)
   ),
   "@mantine/core/overlay": dynamic<OverlayProps>(() =>
-    import("@mantine/core").then((module) => module.Overlay)
+    import("@mantine/core/cjs/Overlay/Overlay").then((module) => module.Overlay)
   ),
   mediaquery: dynamic<MediaQueryProps>(() =>
-    import("@mantine/core").then((module) => module.MediaQuery)
+    import("@mantine/core/cjs/MediaQuery/MediaQuery").then((module) => module.MediaQuery)
   ),
   iconbase: dynamic<IconBaseProps>(() => import("react-icons").then((module) => module.IconBase)),
   "@skillcase/mantineTest": dynamic(() =>
