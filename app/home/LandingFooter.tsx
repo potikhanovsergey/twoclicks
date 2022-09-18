@@ -17,6 +17,7 @@ const LandingFooter = () => {
             All Right Reserved
           </Text>
           <ActionIcon
+            aria-label="Scroll to the top"
             variant="filled"
             color={dark ? "gray.0" : "dark"}
             sx={{ position: "absolute", right: "20px" }}

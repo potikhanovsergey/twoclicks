@@ -41,7 +41,7 @@ const PortfolioPage = () => {
 
   useDocumentTitle(portfolio?.name || "skillcase")
   if (isLoading)
-    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={64} />} />
+    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
 
   return (
     <>

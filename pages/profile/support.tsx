@@ -10,6 +10,7 @@ import {
   TextInput,
   Loader,
   Input,
+  useMantineColorScheme,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import React, { Suspense, useEffect } from "react"
@@ -48,6 +49,8 @@ const SupportForm = () => {
       supportForm.setFieldValue("email", user.email)
     }
   }, [user])
+
+  const { colorScheme } = useMantineColorScheme()
 
   return (
     <form
@@ -91,7 +94,12 @@ const SupportForm = () => {
           warning={t("dropzoneWarning")}
         />
       </Stack>
-      <Button type="submit" variant="gradient" gradient={{ from: "indigo", to: "cyan" }} size="lg">
+      <Button
+        type="submit"
+        color="dark"
+        variant={colorScheme === "dark" ? "white" : "filled"}
+        size="lg"
+      >
         {t("submitTheMessage")}
       </Button>
     </form>

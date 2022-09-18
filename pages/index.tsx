@@ -26,7 +26,7 @@ const Home = () => {
       <Global
         styles={(theme) => ({
           body: {
-            overflowX: "hidden",
+            overflow: "hidden",
           },
         })}
       />

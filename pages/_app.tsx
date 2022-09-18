@@ -238,14 +238,14 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                   })}
                   overlayOpacity={0.85}
                   visible={loadingOverlay}
-                  loader={<Loader color="violet" size={64} />}
+                  loader={<Loader color="violet" size={32} />}
                 />
                 <Suspense
                   fallback={
                     <LoadingOverlay
                       visible={true}
                       overlayOpacity={0.85}
-                      loader={<Loader color="violet" size={64} />}
+                      loader={<Loader color="violet" size={32} />}
                     />
                   }
                 >

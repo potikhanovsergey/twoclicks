@@ -23,19 +23,10 @@ import { memo, useEffect, useState } from "react"
 
 import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 import { FaSignOutAlt } from "@react-icons/all-files/fa/FaSignOutAlt"
-import { FaBook } from "@react-icons/all-files/fa/FaBook"
-import { AiFillBuild } from "@react-icons/all-files/ai/AiFillBuild"
 import { BsPersonFill } from "@react-icons/all-files/bs/BsPersonFill"
-import { BsQuestionCircleFill } from "@react-icons/all-files/bs/BsQuestionCircleFill"
-import { IoNewspaper } from "@react-icons/all-files/io5/IoNewspaper"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 
 export const ProfileItem = {
-  icon: (
-    <ThemeIcon variant="gradient" gradient={{ from: "teal", to: "blue" }} size="md">
-      <BsPersonFill />
-    </ThemeIcon>
-  ),
   title: "goToTheProfile",
   text: "profile",
   route: "/profile",
@@ -43,41 +34,21 @@ export const ProfileItem = {
 
 export const ConstMenuItems = [
   {
-    icon: (
-      <ThemeIcon variant="gradient" gradient={{ from: "yellow", to: "orange", deg: 105 }} size="md">
-        <AiFillBuild />
-      </ThemeIcon>
-    ),
     title: "openThePortfolioBuilder",
     text: "portfolioBuilder",
     route: "/build",
   },
   {
-    icon: (
-      <ThemeIcon variant="gradient" gradient={{ from: "teal", to: "lime", deg: 105 }} size="md">
-        <BsQuestionCircleFill />
-      </ThemeIcon>
-    ),
     title: "openTheHelpCenter",
     text: "helpcenter",
     route: "/support",
   },
   {
-    icon: (
-      <ThemeIcon variant="gradient" gradient={{ from: "grape", to: "violet", deg: 105 }} size="md">
-        <FaBook />
-      </ThemeIcon>
-    ),
     title: "aboutUsPage",
     text: "aboutUs",
     route: "/",
   },
   {
-    icon: (
-      <ThemeIcon color="yellow" size="md">
-        <IoNewspaper />
-      </ThemeIcon>
-    ),
     title: "whatsNewPage",
     text: "whatsNew",
     route: "/news",
@@ -133,55 +104,46 @@ function HeaderProfile() {
         radius="md"
       >
         <Menu.Target>
-          <Group
-            style={{ cursor: "pointer" }}
-            spacing={8}
+          <UnstyledButton
             onMouseEnter={menuHoveredHandlers.open}
             onMouseLeave={menuHoveredHandlers.close}
-            position="center"
-            noWrap
+            aria-label="Open settings and navigation menu"
+            px={16}
+            sx={(theme) => ({
+              display: "flex",
+              flexWrap: "nowrap",
+              gap: "8px",
+              padding: 4,
+              borderRadius: theme.radius.md,
+              color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+              backgroundColor: menuHovered
+                ? theme.colorScheme === "dark"
+                  ? theme.colors.dark[6]
+                  : theme.colors.gray[2]
+                : "",
+            })}
           >
-            <>
-              {user && (
-                <Text weight="bold" style={{ whiteSpace: "nowrap" }}>
-                  {user.name}
-                </Text>
-              )}
-              <UnstyledButton
-                sx={(theme) => ({
-                  display: "block",
-                  width: "100%",
-                  padding: 4,
-                  borderRadius: theme.radius.md,
-                  color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
-                  backgroundColor: menuHovered
-                    ? theme.colorScheme === "dark"
-                      ? theme.colors.dark[6]
-                      : theme.colors.gray[2]
-                    : "",
-                })}
-              >
-                <Group spacing={8}>
-                  {user?.avatar ? (
-                    <Avatar radius="xl" size="sm" src={user.avatar} />
-                  ) : (
-                    <Avatar size="sm">
-                      <IoPersonCircle
-                        size="100%"
-                        fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]}
-                      />
-                    </Avatar>
-                  )}
-                  <FaChevronDown
-                    size={16}
+            {user && (
+              <Text weight="bold" style={{ whiteSpace: "nowrap" }}>
+                {user.name}
+              </Text>
+            )}
+            <Group spacing={8}>
+              {user?.avatar ? (
+                <Avatar radius="xl" size="sm" src={user.avatar} />
+              ) : (
+                <Avatar size="sm">
+                  <IoPersonCircle
+                    size="100%"
                     fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]}
                   />
-                </Group>
-              </UnstyledButton>
-            </>
-          </Group>
+                </Avatar>
+              )}
+              <FaChevronDown size={16} fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]} />
+            </Group>
+          </UnstyledButton>
         </Menu.Target>
-        <Menu.Dropdown>
+        <Menu.Dropdown p={0}>
           <Menu.Label>{t("general")}</Menu.Label>
           {/* MENU STARTS */}
           {user?.id && <HeaderMenuItem {...ProfileItem} />}
@@ -191,12 +153,9 @@ function HeaderProfile() {
           {/* MENU ENDS */}
           {user?.id && (
             <Menu.Item
+              color="red"
+              sx={{ borderRadius: 0 }}
               title={t("signOutOfTheAccount")}
-              icon={
-                <ThemeIcon color="red" size="md">
-                  <FaSignOutAlt />
-                </ThemeIcon>
-              }
               onClick={async () => await logoutMutation()}
             >
               <Text weight="bold">{t("signout")}</Text>

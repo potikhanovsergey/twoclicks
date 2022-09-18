@@ -141,7 +141,7 @@ const BuildPage = () => {
   }, [fetchedPortfolios, session])
 
   if (isLoading)
-    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={64} />} />
+    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
 
   return (
     <>

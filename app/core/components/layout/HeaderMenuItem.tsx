@@ -5,7 +5,7 @@ import { useRouter } from "next/router"
 import { ReactNode } from "react"
 
 interface IHeaderMenuItem {
-  icon: ReactNode
+  icon?: ReactNode
   title: string
   text: string
   route: string
@@ -24,13 +24,14 @@ const HeaderMenuItem = ({ icon, title, text, route }: IHeaderMenuItem) => {
         style={
           router.route === route || (router.route.includes("profile") && route.includes("profile"))
             ? {
-                backgroundColor: dark ? theme.colors.dark[4] : theme.colors.gray[0],
-                color: dark ? theme.colors.gray[4] : theme.black,
+                backgroundColor: dark ? theme.colors.gray[0] : theme.colors.dark[4],
+                color: dark ? theme.black : theme.colors.gray[0],
                 pointerEvents: "none",
               }
             : {}
         }
         sx={(theme) => ({
+          borderRadius: 0,
           "&:hover": {
             backgroundColor:
               theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[0],

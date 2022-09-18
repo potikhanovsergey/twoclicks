@@ -187,24 +187,30 @@ const HomeHero = () => {
             </Text>
             <Clicks width="68px" style={{ marginTop: "12px", height: "auto" }} />
           </Group>
-          <Button
-            variant="outline"
-            color={dark ? "gray.0" : "dark.9"}
-            size="lg"
-            fullWidth
-            radius="md"
+          <Box
+            component="span"
             sx={{
-              maxWidth: "200px",
               transition: "0.4s ease all",
               "&:hover": {
                 transform: "scale(1.1)",
               },
             }}
           >
-            <Text size="xl" sx={{ fontWeight: 600 }}>
-              Get started
-            </Text>
-          </Button>
+            <Button
+              variant="outline"
+              color={dark ? "gray.0" : "dark.9"}
+              size="lg"
+              fullWidth
+              radius="md"
+              sx={{
+                maxWidth: "200px",
+              }}
+            >
+              <Text size="xl" sx={{ fontWeight: 600 }}>
+                Get started
+              </Text>
+            </Button>
+          </Box>
         </Stack>
       </Container>
     </Center>

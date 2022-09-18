@@ -49,6 +49,7 @@ const PortfolioLink = ({
         {({ copied, copy }) => (
           <Tooltip label={copied ? t("link copied") : t("copy link")} withArrow position="bottom">
             <ActionIcon
+              aria-label="Copy the page URL"
               color={copied ? "teal" : "violet"}
               variant="subtle"
               onClick={copy}

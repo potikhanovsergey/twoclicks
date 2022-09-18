@@ -14,8 +14,8 @@ function ColorSchemeToggle() {
         aria-describedby="Switch theme tooltip"
         onClick={() => toggleColorScheme()}
         size="lg"
-        color={colorScheme === "dark" ? "dark.4" : "gray"}
-        variant={colorScheme === "dark" ? "filled" : "light"}
+        color="dark.4"
+        variant="filled"
       >
         {colorScheme === "dark" ? (
           <ImSun width={20} height={20} />

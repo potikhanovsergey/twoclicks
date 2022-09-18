@@ -61,13 +61,13 @@ const LanguageSwitcher = () => {
               ref={tooltipRef}
               onClick={() => 1}
               size="lg"
-              color={colorScheme === "dark" ? "dark.4" : "gray"}
-              variant={colorScheme === "dark" ? "filled" : "light"}
+              color="dark.4"
+              variant="filled"
             >
               <IoLanguageSharp />
             </ActionIcon>
           </Menu.Target>
-          <Menu.Dropdown>
+          <Menu.Dropdown p={0}>
             <Menu.Label>{t("language")}</Menu.Label>
             {Object.keys(languages)
               .filter((l: string) => l !== locale)

@@ -159,6 +159,7 @@ const HowToUseIt = () => {
                 }}
               >
                 <Button
+                  component="span"
                   variant="gradient"
                   size="lg"
                   gradient={{ from: "violet", to: "red", deg: 60 }}
@@ -175,8 +176,9 @@ const HowToUseIt = () => {
                   Save changes
                 </Button>
                 <Button
-                  variant="filled"
-                  color="violet"
+                  component="span"
+                  variant={dark ? "white" : "filled"}
+                  color="dark"
                   size="lg"
                   tabIndex={-1}
                   leftIcon={<FaEye />}

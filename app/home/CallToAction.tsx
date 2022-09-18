@@ -29,16 +29,14 @@ const CallToAction = () => {
             alt="Pink circle decoration"
             width={700}
             height={700}
-            sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
         </div>
         <div className={classes.image} style={{ top: "-110px", right: "-240px" }}>
           <Image
-            src="/landing/pink-circle.png"
-            alt="Pink circle light"
+            src="/landing/purple-circle.png"
+            alt="Purple circle light"
             width={700}
             height={700}
-            sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
         </div>
         <Group position="apart" noWrap>
@@ -51,6 +49,7 @@ const CallToAction = () => {
         </Group>
         <Center>
           <Button
+            aria-label="Open the page builder"
             rightIcon={<BsArrowRight size="20px" />}
             variant="gradient"
             gradient={{ from: "violet", to: "red", deg: 60 }}
