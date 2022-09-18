@@ -98,11 +98,8 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
                 marginLeft: "auto",
                 marginRight: "auto",
                 svg: {
-                  width: "25%",
+                  width: "20%",
                   height: "auto",
-                },
-                "svg, path": {
-                  strokeWidth: 1.3,
                 },
               }}
               ratio={16 / 10}

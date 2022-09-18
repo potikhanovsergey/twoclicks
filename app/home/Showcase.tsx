@@ -5,18 +5,17 @@ import {
   Title,
   Box,
   useMantineTheme,
-  Image,
   Text,
   Overlay,
   createStyles,
-  Center,
-  Button,
   Badge,
   BoxProps,
+  AspectRatio,
 } from "@mantine/core"
 import Clicks from "app/core/components/Clicks"
 import Link from "next/link"
-import { ReactNode } from "react"
+
+import Image from "next/image"
 
 interface ShowcasesProps extends BoxProps {
   link: string
@@ -60,9 +59,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
 }))
 
 const Showcases: ShowcasesProps[] = [
-  { link: "/", src: "/landing/showcase-1.png", alt: "preview first portfolio" },
-  { link: "/", src: "/landing/showcase-2.png", alt: "preview second portfolio" },
-  { link: "/", src: "/landing/showcase-3.png", alt: "preview third portfolio" },
+  { link: "/", src: "/landing/showcase-1.png", alt: "First showcase page" },
+  { link: "/", src: "/landing/showcase-2.png", alt: "Second showcase page" },
+  { link: "/", src: "/landing/showcase-3.png", alt: "Third showcase page" },
 ]
 
 const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => {
@@ -70,15 +69,22 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
   const { classes } = useStyles()
 
   return (
-    <Link href={link} passHref>
-      <Box className={classes.showcaseCard} component="a" target="_blank" {...rest}>
-        <Image src={src} alt="alt" radius={30} />
-        <Overlay color={theme.black} className={classes.showcaseOverlay} opacity={0} radius={30} />
-        <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
-          Click to view
-        </Badge>
-      </Box>
-    </Link>
+    <AspectRatio ratio={1}>
+      <Link href={link} passHref>
+        <Box className={classes.showcaseCard} component="a" target="_blank" {...rest}>
+          <Image src={src} alt={alt} width={400} height={400} style={{ borderRadius: "30px" }} />
+          <Overlay
+            color={theme.black}
+            className={classes.showcaseOverlay}
+            opacity={0}
+            radius={30}
+          />
+          <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
+            Click to view
+          </Badge>
+        </Box>
+      </Link>
+    </AspectRatio>
   )
 }
 

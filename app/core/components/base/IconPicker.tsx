@@ -18,9 +18,11 @@ import useTranslation from "next-translate/useTranslation"
 import { ReactNode, useMemo, useState } from "react"
 
 import { IoClose } from "@react-icons/all-files/io5/IoClose"
+
 import { MdClear } from "@react-icons/all-files/md/MdClear"
 
-const FirstIcon = Object.values([<IoClose key={0} />])[0]
+const icons = { ioclose: IoClose }
+const FirstIcon = Object.values(icons)[0]
 
 const formatOutput = (icon: JSX.Element) => {
   return JSON.parse(serialize(icon))?.type

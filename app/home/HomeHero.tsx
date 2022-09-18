@@ -7,13 +7,24 @@ import {
   useMantineTheme,
   Center,
   Group,
-  Image,
   Box,
+  createStyles,
 } from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
 import Clicks from "app/core/components/Clicks"
 import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, motion } from "framer-motion"
+
+import Image from "next/image"
+
+const useStyles = createStyles((theme) => ({
+  image: {
+    position: "absolute",
+    pointerEvents: "none",
+    zIndex: -1,
+    userSelect: "none",
+  },
+}))
 
 const TextLoop = () => {
   const [index, setIndex] = useState(0)
@@ -107,6 +118,7 @@ const HomeHero = () => {
   const dark = colorScheme === "dark"
   const { t } = useTranslation("pagesHome")
 
+  const { classes } = useStyles()
   return (
     <Center sx={{ minHeight: "calc(100vh - var(--layout-header-height))" }}>
       <Container
@@ -121,40 +133,38 @@ const HomeHero = () => {
           initial={{ opacity: 0, scale: 0.2 }}
           animate={{ opacity: 1, scale: 1, animationDelay: "500ms" }}
           transition={{ duration: 0.7 }}
+          className={classes.image}
+          style={{
+            top: "30px",
+            left: "-240px",
+          }}
         >
           <Image
-            src="landing/purple-circle.png"
-            sx={{
-              position: "absolute",
-              pointerEvents: "none",
-              top: "30px",
-              left: "-240px",
-              zIndex: -1,
-              userSelect: "none",
-            }}
-            alt="Purple circle decoration"
+            src="/landing/purple-circle.png"
             width={700}
             height={700}
+            layout="fixed"
+            alt="Purple circle decoration"
+            sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
         </motion.span>
         <motion.span
           initial={{ opacity: 0, scale: 0.2 }}
           animate={{ opacity: 1, scale: 1, animationDelay: "500ms" }}
           transition={{ duration: 0.7 }}
+          className={classes.image}
+          style={{
+            right: "-240px",
+            top: "-90px",
+          }}
         >
           <Image
-            src="landing/pink-circle.png"
-            sx={{
-              position: "absolute",
-              pointerEvents: "none",
-              top: "-90px",
-              right: "-240px",
-              zIndex: -1,
-              userSelect: "none",
-            }}
-            alt="Pink circle decoration"
+            src="/landing/pink-circle.png"
             width={700}
             height={700}
+            layout="fixed"
+            alt="Pink circle decoration"
+            sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
         </motion.span>
         <Stack align="center">
