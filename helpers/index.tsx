@@ -28,6 +28,7 @@ import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
 import { ReactQuillProps } from "react-quill"
 import Link from "next/link"
+import { IconPickerProps } from "app/core/components/base/IconPicker"
 
 const IconPicker = dynamic<IconPickerProps>(() =>
   import("app/core/components/base/IconPicker").then((module) => module)

@@ -12,9 +12,8 @@ import {
   Loader,
   Center,
   Box,
-  Global,
 } from "@mantine/core"
-import React, { Suspense, useEffect, useRef, useState, useTransition } from "react"
+import React, { RefObject, Suspense, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
@@ -32,8 +31,6 @@ import { autorun } from "mobx"
 import { baseURL } from "pages/_app"
 import useTranslation from "next-translate/useTranslation"
 import BuilderBlocks from "./BuilderBlocks"
-import { Portfolio } from "@prisma/client"
-import { AppStore } from "store"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -96,8 +93,15 @@ const SaveRedirectButton = observer(() => {
   )
 })
 
-const Canvas = ({ containerWidth }: { containerWidth: number }) => {
+const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
   const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
+
+  const [containerWidth, setContainerWidth] = useState(0)
+  useLayoutEffect(() => {
+    if (parentRef.current) {
+      setContainerWidth(parentRef.current.offsetWidth)
+    }
+  }, [])
 
   const { isCanvasEmpty } = BuildStore
   const session = useSession()
@@ -129,18 +133,58 @@ const Canvas = ({ containerWidth }: { containerWidth: number }) => {
   )
 }
 
+const SaveAndRedirectModal = () => {
+  const session = useSession()
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
+  const { t } = useTranslation("pagesBuild")
+
+  return (
+    <Modal
+      opened={BuildStore.sectionsCount >= 3 && !session.userId}
+      onClose={() => 1}
+      overlayColor={dark ? theme.colors.dark[9] : theme.colors.dark[9]}
+      overlayOpacity={0.6}
+      overlayBlur={0.8}
+      withCloseButton={false}
+      zIndex={1000}
+      centered
+      radius="md"
+      styles={{
+        root: {
+          top: "var(--layout-header-height)",
+        },
+        overlay: {
+          top: "var(--layout-header-height)",
+          "> div": {
+            top: 0,
+          },
+        },
+      }}
+    >
+      <Stack align="center">
+        <Group align="center" spacing={8} noWrap>
+          <Text weight="bold" size="lg">
+            {t("please, register or authorize to continue")}
+          </Text>
+          <ThemeIcon color="violet" variant="light">
+            <MdOutlineEmojiNature size={24} />
+          </ThemeIcon>
+        </Group>
+        <SaveRedirectButton />
+      </Stack>
+    </Modal>
+  )
+}
+
 const Builder = () => {
   // const { t } = useTranslation('pagesBuild');
 
   const { classes } = useStyles()
   const theme = useMantineTheme()
 
-  const { colorScheme } = theme
-  const dark = colorScheme === "dark"
-  const session = useSession()
-
   const { viewMode, isCanvasEmpty, data } = BuildStore
-  const { ref: containerRef, width: containerWidth } = useElementSize()
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
@@ -247,45 +291,12 @@ const Builder = () => {
               },
             }}
           >
-            <Canvas containerWidth={containerWidth} />
+            <Canvas parentRef={containerRef} />
           </Box>
         </Suspense>
       </Container>
 
-      <Modal
-        opened={BuildStore.sectionsCount >= 3 && !session.userId}
-        onClose={() => 1}
-        overlayColor={dark ? theme.colors.dark[9] : theme.colors.dark[9]}
-        overlayOpacity={0.6}
-        overlayBlur={0.8}
-        withCloseButton={false}
-        zIndex={1000}
-        centered
-        radius="md"
-        styles={{
-          root: {
-            top: "var(--layout-header-height)",
-          },
-          overlay: {
-            top: "var(--layout-header-height)",
-            "> div": {
-              top: 0,
-            },
-          },
-        }}
-      >
-        <Stack align="center">
-          <Group align="center" spacing={8} noWrap>
-            <Text weight="bold" size="lg">
-              {t("please, register or authorize to continue")}
-            </Text>
-            <ThemeIcon color="violet" variant="light">
-              <MdOutlineEmojiNature size={24} />
-            </ThemeIcon>
-          </Group>
-          <SaveRedirectButton />
-        </Stack>
-      </Modal>
+      <SaveAndRedirectModal />
     </div>
   )
 }
