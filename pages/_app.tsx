@@ -24,7 +24,7 @@ import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
 import "app/styles/variables.css"
 import router from "next/router"
-import MainLoader from "app/core/components/MainLoader"
+// import MainLoader from "app/core/components/MainLoader"
 import { GetServerSidePropsContext } from "next"
 import { getCookie, setCookie } from "cookies-next"
 
@@ -238,14 +238,14 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                   })}
                   overlayOpacity={0.85}
                   visible={loadingOverlay}
-                  loader={<MainLoader size={194} />}
+                  loader={<Loader color="violet" size={194} />}
                 />
                 <Suspense
                   fallback={
                     <LoadingOverlay
                       visible={true}
                       overlayOpacity={0.85}
-                      loader={<MainLoader size={194} />}
+                      loader={<Loader color="violet" size={194} />}
                     />
                   }
                 >

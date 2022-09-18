@@ -15,8 +15,6 @@ import { BsPersonFill } from "react-icons/bs"
 import { FaBook } from "react-icons/fa"
 import { NextLink } from "@mantine/next"
 import { Suspense } from "react"
-import { Player } from "@lottiefiles/react-lottie-player"
-import error_404 from "lotties/404-cat.json"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 
@@ -88,9 +86,7 @@ const Page404 = () => {
       <Center style={{ height: "100%" }}>
         <Stack>
           <Title align="center">Oops, page not found!</Title>
-          <Center>
-            <Player autoplay loop src={error_404} style={{ height: "300px", width: "300px" }} />
-          </Center>
+          <Center>Тут был лотти</Center>
           <Group position="center">
             <Suspense fallback={<Skeleton height={45} animate />}>
               <Links />

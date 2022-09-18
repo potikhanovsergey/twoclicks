@@ -1,10 +1,8 @@
 import { Container, Group, Space, Title, Text } from "@mantine/core"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import { Player } from "@lottiefiles/react-lottie-player"
 import PortfolioCards from "app/portfolios/PortfolioCards"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import useTranslation from "next-translate/useTranslation"
-import lottieSquirrel from "lotties/squirrel.json"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
 import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
@@ -31,7 +29,7 @@ const Build = () => {
       {havePortfoliosLoaded && !portfolios?.length ? (
         <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
           <Text size="xl">{t("noPortfolios")}</Text>
-          <Player autoplay loop src={lottieSquirrel} style={{ height: "300px", width: "300px" }} />
+          Тут был лотти
           <CreatePortfolioButton size="lg" />
         </ProfileNoItems>
       ) : (

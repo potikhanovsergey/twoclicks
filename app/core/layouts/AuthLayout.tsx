@@ -1,11 +1,9 @@
 import { Center, Group, Stack, useMantineTheme, Title, Loader, Button, Space } from "@mantine/core"
 import { ReactNode, Suspense } from "react"
 import useTranslation from "next-translate/useTranslation"
-import { Player } from "@lottiefiles/react-lottie-player"
 import Head from "next/head"
 import { FC } from "react"
 import Logo from "app/core/components/Logo"
-import workingMan from "lotties/workingMan.json"
 import { FcGoogle } from "react-icons/fc"
 import { FaYandex, FaVk } from "react-icons/fa"
 import AuthSocials from "app/auth/components/Socials"
@@ -88,13 +86,7 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
                 pointerEvents: "none",
               }}
             >
-              <Player
-                autoplay
-                loop
-                src={workingMan}
-                speed={0.5}
-                style={{ height: "auto", width: "100%" }}
-              />
+              Тут был лотти
             </Center>
           </Group>
           <Stack style={{ position: "fixed", top: "24px", right: "24px" }} spacing={8}>

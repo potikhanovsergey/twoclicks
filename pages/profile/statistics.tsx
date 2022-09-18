@@ -1,9 +1,7 @@
-import { Player } from "@lottiefiles/react-lottie-player"
 import { Box, Center, SegmentedControl, Text, Title } from "@mantine/core"
 import React, { useState } from "react"
 import { MdOutlineCalendarViewMonth, MdViewWeek, MdViewDay } from "react-icons/md"
 import ProfileNoItems from "app/profile/ProfileNoItems"
-import statBars from "lotties/stat-bars.json"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 import useTranslation from "next-translate/useTranslation"
 
@@ -52,7 +50,7 @@ const ProfileStatistics = () => {
       ) : (
         <ProfileNoItems>
           <Text size="xl">Statistics will be here after you deploy first portfolio</Text>
-          <Player autoplay loop src={statBars} style={{ height: "400px", width: "400px" }} />
+          Тут был лотти
         </ProfileNoItems>
       )}
     </>
