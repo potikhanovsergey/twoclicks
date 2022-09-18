@@ -8,6 +8,7 @@ export const useCurrentUserLikedBlocks = () => {
     {
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
+      refetchOnMount: false,
     }
   )
   return {

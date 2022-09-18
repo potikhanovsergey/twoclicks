@@ -48,21 +48,6 @@ const AuthorizedActions = observer(() => {
   return session.userId ? <>{id && <TogglePublishPortfilio id={id} />}</> : <></>
 })
 
-// const ObservedPreviewPortfolio = observer(() => {
-//   const { isCanvasEmpty } = BuildStore
-//   const { t } = useTranslation("pagesBuild")
-
-//   return !isCanvasEmpty ? (
-//     <Tooltip label={t("preview mode")} position="bottom-start" color="violet" withArrow>
-//       <PreviewButton variant="light" color="violet" size={30}>
-//         <MdOutlinePreview size={16} />
-//       </PreviewButton>
-//     </Tooltip>
-//   ) : (
-//     <></>
-//   )
-// })
-
 const ObservedPortfolioName = observer(() => {
   const session = useSession()
   const {

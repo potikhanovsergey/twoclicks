@@ -157,18 +157,15 @@ function traverseProp({
   }
 
   if (propValue && typeof propValue === "object" && propValue.type) {
-    return (
-      <RenderJSXFromBlock
-        key={shortid.generate()}
-        element={propValue}
-        shouldFlat={shouldFlat}
-        parentID={parentID}
-        withContentEditable={withContentEditable}
-        withEditToolbar={withEditToolbar}
-        withPalette={withPalette}
-        palette={palette}
-      />
-    )
+    return RenderJSXFromBlock({
+      element: propValue,
+      shouldFlat,
+      parentID,
+      withContentEditable,
+      withEditToolbar,
+      withPalette,
+      palette,
+    })
   } else {
     return propValue
   }

@@ -50,7 +50,9 @@ const useStyles = createStyles((theme) => ({
     boxShadow: theme.shadows.sm,
   },
   header: {
-    position: "sticky",
+    position: "fixed",
+    left: 0,
+    right: 0,
     top: "var(--layout-header-height)",
     zIndex: 301,
     minHeight: "40px",
