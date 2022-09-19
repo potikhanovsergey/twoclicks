@@ -24,6 +24,8 @@ const useStyles = createStyles((theme) => ({
     pointerEvents: "none",
     zIndex: -1,
     userSelect: "none",
+    width: "700px",
+    height: "700px",
   },
 }))
 
@@ -140,12 +142,13 @@ const HomeHero = () => {
             left: "-240px",
           }}
         >
-          <NextImage
+          <Image
             src="/landing/purple-circle.png"
             width={700}
+            quality={1}
             height={700}
-            layout="fixed"
-            alt="Purple circle decoration"
+            layout="responsive"
+            alt=""
             sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
         </motion.span>
@@ -159,12 +162,13 @@ const HomeHero = () => {
             top: "-90px",
           }}
         >
-          <NextImage
+          <Image
             src="/landing/pink-circle.png"
             width={700}
             height={700}
-            layout="fixed"
-            alt="Pink circle decoration"
+            quality={1}
+            layout="responsive"
+            alt=""
             sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
         </motion.span>

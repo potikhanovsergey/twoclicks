@@ -10,6 +10,8 @@ const useStyles = createStyles((theme) => ({
     pointerEvents: "none",
     zIndex: -1,
     userSelect: "none",
+    width: "700px",
+    height: "700px",
   },
 }))
 
@@ -24,20 +26,28 @@ const CallToAction = () => {
           position: "relative",
         }}
       >
-        <NextImage
-          wrapperProps={{ className: classes.image, sx: { top: "-450px", left: "-240px" } }}
-          src="/landing/pink-circle.png"
-          alt="Pink circle decoration"
-          width="700px"
-          height="700px"
-        />
-        <NextImage
-          wrapperProps={{ className: classes.image, sx: { top: "-110px", right: "-240px" } }}
-          src="/landing/purple-circle.png"
-          alt="Purple circle light"
-          width="700px"
-          height="700px"
-        />
+        <div className={classes.image} style={{ top: "-450px", left: "-240px" }}>
+          <Image
+            src="/landing/pink-circle.png"
+            width={700}
+            height={700}
+            quality={1}
+            layout="responsive"
+            alt=""
+            sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
+          />
+        </div>
+        <div className={classes.image} style={{ top: "-110px", right: "-240px" }}>
+          <Image
+            width={700}
+            height={700}
+            quality={1}
+            layout="responsive"
+            src="/landing/purple-circle.png"
+            alt=""
+            sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
+          />
+        </div>
         <Group position="apart" noWrap>
           <Text mb={220} ml={200} size={30} sx={{ letterSpacing: "3px" }}>
             You`ve made <strong>one click</strong> <br /> to visit this page

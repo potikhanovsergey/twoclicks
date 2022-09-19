@@ -6,7 +6,6 @@ import {
   Text,
   Modal,
   useMantineTheme,
-  ThemeIcon,
   Group,
   MantineProvider,
   Loader,
