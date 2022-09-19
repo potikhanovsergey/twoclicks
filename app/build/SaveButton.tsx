@@ -8,7 +8,7 @@ import useTranslation from "next-translate/useTranslation"
 import { useEffect } from "react"
 import { BuildStore } from "store/build"
 
-import { FaSave } from "@react-icons/all-files/fa/fasave"
+import { FaSave } from "@react-icons/all-files/fa/FaSave"
 
 const SaveButton = observer(() => {
   const session = useSession()
