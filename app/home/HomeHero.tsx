@@ -183,8 +183,7 @@ const HomeHero = (props: BoxProps) => {
             size={50}
           >
             Create your awesome <br />
-            {/* <TextLoop /> */}
-            page
+            <TextLoop />
           </Title>
           <Group align="center" spacing={4} noWrap mb="md">
             <Text size={40} sx={{ fontWeight: 600 }}>
