@@ -8,7 +8,6 @@ import {
   useMantineTheme,
   Progress,
   Badge,
-  List,
   UnstyledButton,
   Stack,
 } from "@mantine/core"
@@ -22,6 +21,7 @@ import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit"
 import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
 import { MdAddBox } from "@react-icons/all-files/md/MdAddBox"
 import { HiOutlineTemplate } from "@react-icons/all-files/hi/HiOutlineTemplate"
+import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 
 const Onboarding = () => {
   // const { t } = useTranslation('pagesBuild');
@@ -83,6 +83,7 @@ const Onboarding = () => {
           </UnstyledButton>
         </Popover.Target>
         <Popover.Dropdown p="sm">
+          <VioletRedGradient />
           <Group align="center" spacing={6} mb="xs">
             <Text
               size="xl"

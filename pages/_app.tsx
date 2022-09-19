@@ -6,7 +6,7 @@ import {
   useRouterQuery,
 } from "@blitzjs/next"
 import { AuthenticationError, AuthorizationError } from "blitz"
-import React, { Suspense, useEffect, useMemo, useState } from "react"
+import React, { Suspense, useEffect, useState } from "react"
 import {
   MantineProvider,
   ColorScheme,
@@ -31,11 +31,9 @@ import { getCookie, setCookie } from "cookies-next"
 import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
 import { ModalsProvider } from "@mantine/modals"
-import { useSession } from "@blitzjs/auth"
 import MenuModal from "app/core/components/modals/base/MenuModal"
 
 import cursor from "public/oneclick.svg"
-import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 
 export type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
@@ -250,7 +248,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                   }
                 >
                   {getLayout(<Component {...pageProps} />)}
-                  <VioletRedGradient />
                   <MenuModal />
                 </Suspense>
               </ModalContext.Provider>
