@@ -6,6 +6,7 @@ import { AppStore } from "store"
 
 import { BiCheckDouble } from "@react-icons/all-files/bi/BiCheckDouble"
 import { BiCopy } from "@react-icons/all-files/bi/BiCopy"
+import { baseURL } from "pages/_app"
 
 const PortfolioLink = ({
   id,
@@ -18,11 +19,6 @@ const PortfolioLink = ({
   shouldSearch?: boolean
   centered?: boolean
 }) => {
-  const baseURL =
-    process.env.NODE_ENV === "development"
-      ? "localhost:3000"
-      : process.env.NEXT_PUBLIC_PRODUCTION_URL
-
   const portfolio = shouldSearch ? AppStore.portfolios.find((p) => p.id === id) : null
   const { t } = useTranslation("pagesBuild")
   return portfolio?.isPublished || !shouldSearch ? (

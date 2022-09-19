@@ -39,10 +39,10 @@ declare module "@mantine/core" {
 }
 
 const DEVELOPMENT_URL = "http://localhost:3000"
-const PRODUCTION_URL = "http://localhost:3000"
+const PRODUCTION_URL = "https://twoclicks.vercel.app"
 
-export const baseURL = process.env.NODE_ENV === "production" ? PRODUCTION_URL : DEVELOPMENT_URL
-
+export const baseURL =
+  process.env.NODE_ENV === "development" ? "localhost:3000" : process.env.NEXT_PUBLIC_PRODUCTION_URL
 const useStyles = createStyles((theme) => ({
   container: {
     width: "100%",
