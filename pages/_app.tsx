@@ -12,19 +12,14 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   MantineThemeOverride,
-  LoadingOverlay,
   Global,
-  createEmotionCache,
   createStyles,
-  Loader,
   useMantineTheme,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
 import "app/styles/variables.css"
-import router from "next/router"
-// import MainLoader from "app/core/components/MainLoader"
 import { GetServerSidePropsContext } from "next"
 import { getCookie, setCookie } from "cookies-next"
 
@@ -47,8 +42,6 @@ const DEVELOPMENT_URL = "http://localhost:3000"
 const PRODUCTION_URL = "http://localhost:3000"
 
 export const baseURL = process.env.NODE_ENV === "production" ? PRODUCTION_URL : DEVELOPMENT_URL
-
-export const emotionCache = createEmotionCache({ key: "mantine" })
 
 const useStyles = createStyles((theme) => ({
   container: {
@@ -177,37 +170,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   // ### MODALS END ###
 
-  // ### LOADING OVERLAY STARTS ###
-  const [loadingOverlay, setLoadingOverlay] = useState(false)
-  useEffect(() => {
-    let startTimer: ReturnType<typeof setTimeout>
-    const handleStart = () => {
-      startTimer = setTimeout(() => {
-        setLoadingOverlay(true)
-      }, 500)
-    }
-    const handleComplete = () => {
-      setLoadingOverlay(false)
-      setModalValue({
-        canvasComponentsModal: false,
-        canvasSectionsModal: false,
-        menuModal: false,
-      })
-    }
-
-    router.events.on("routeChangeStart", handleStart)
-    router.events.on("routeChangeComplete", handleComplete)
-    router.events.on("routeChangeError", handleComplete)
-
-    return () => {
-      router.events.off("routeChangeStart", handleStart)
-      router.events.off("routeChangeComplete", handleComplete)
-      router.events.off("routeChangeError", handleComplete)
-      clearTimeout(startTimer)
-    }
-  })
-  // ### LOADING OVERLAY ENDS ###
-
   // ### NEXT LAYOUT SYSTEM ###
   const getLayout = Component.getLayout || ((page) => page)
 
@@ -222,33 +184,12 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <LazyMotion features={domAnimation} strict>
-        <MantineProvider
-          withCSSVariables
-          withNormalizeCSS
-          theme={CustomTheme}
-          emotionCache={emotionCache}
-        >
+        <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
           <ModalsProvider modalProps={{ zIndex: 1000 }}>
             <NotificationsProvider>
               <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
                 <ModalContext.Provider value={[modalValue, setModalValue]}>
-                  <LoadingOverlay
-                    sx={() => ({
-                      position: "fixed",
-                    })}
-                    overlayOpacity={0.85}
-                    visible={loadingOverlay}
-                    loader={<Loader color="violet" size={32} />}
-                  />
-                  <Suspense
-                    fallback={
-                      <LoadingOverlay
-                        visible={true}
-                        overlayOpacity={0.85}
-                        loader={<Loader color="violet" size={32} />}
-                      />
-                    }
-                  >
+                  <Suspense>
                     {getLayout(<Component {...pageProps} />)}
                     <MenuModal />
                   </Suspense>
@@ -265,24 +206,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             html: {
               cursor: `url(${cursor.src}), default`,
               overflowX: "hidden",
-              "&[data-theme='light']": {
-                backgroundColor: theme.colors.gray[0],
-                color: theme.black,
-              },
-              "&[data-theme='dark']": {
-                backgroundColor: theme.colors.dark[7],
-                color: theme.white,
-              },
-            },
-            "::-moz-selection": {
-              background: theme.colors.violet[4],
-              color: theme.white,
-              WebkitTextFillColor: theme.white,
-            },
-            "::-webkit-selection": {
-              background: theme.colors.violet[4],
-              color: theme.white,
-              WebkitTextFillColor: theme.white,
             },
             "::selection": {
               background: theme.colors.violet[4],
@@ -290,12 +213,11 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
               WebkitTextFillColor: theme.white,
             },
             body: {
-              backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
+              backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
               color: colorScheme === "dark" ? theme.white : theme.black,
               lineHeight: theme.lineHeight,
               minHeight: "100vh",
               wordBreak: "break-word",
-              // overflowX: "hidden",
             },
             ".ql-font-Times": {
               fontFamily: "Times New Roman, sans",

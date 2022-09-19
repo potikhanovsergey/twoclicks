@@ -11,11 +11,11 @@ import {
   Badge,
   BoxProps,
   AspectRatio,
+  ContainerProps,
 } from "@mantine/core"
 import Clicks from "app/core/components/Clicks"
 import Link from "next/link"
 
-import Image from "next/image"
 import NextImage from "app/core/components/base/NextImage"
 
 interface ShowcasesProps extends BoxProps {
@@ -95,13 +95,13 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
   )
 }
 
-const Showcase = () => {
+const Showcase = (props: ContainerProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
 
   return (
-    <Container size="xl" px={40}>
+    <Container size="xl" px={40} {...props}>
       <Group position="center" spacing={0} noWrap mb={128}>
         <Title
           order={2}

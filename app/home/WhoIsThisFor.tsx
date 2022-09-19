@@ -1,4 +1,13 @@
-import { Center, Container, Stack, StackProps, Title, useMantineTheme, Text } from "@mantine/core"
+import {
+  Center,
+  Container,
+  Stack,
+  StackProps,
+  Title,
+  useMantineTheme,
+  Text,
+  ContainerProps,
+} from "@mantine/core"
 import { m, useInView } from "framer-motion"
 import { ReactNode, useRef, useState } from "react"
 
@@ -43,7 +52,6 @@ const Card = ({
       initial={initial}
       animate={animate}
       transition={{ duration: 0.75, delay: 0.3, ease: "easeOut" }}
-      // transition={{ duration: 2, ease: "easeOut", delay: 2000 }}
       onAnimationStart={() => {
         !isTextVisible && setTextVisible(false)
       }}
@@ -196,18 +204,14 @@ const Cards: CardProps[] = [
   },
 ]
 
-const WhoIsThisFor = () => {
-  const theme = useMantineTheme()
-  const { colorScheme } = theme
-  const dark = colorScheme === "dark"
-
+const WhoIsThisFor = (props: ContainerProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, {
-    once: false,
+    once: true,
   })
 
   return (
-    <Container size="xl" px={40}>
+    <Container size="xl" px={40} {...props}>
       <Title
         order={2}
         size={34}

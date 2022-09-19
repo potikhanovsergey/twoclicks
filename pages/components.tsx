@@ -6,7 +6,6 @@ import FirstHero from "app/build/sections/FirstHero"
 import { FaHeart } from "@react-icons/all-files/fa/FaHeart"
 
 const ComponentsPage = () => {
-  // const { t } = useTranslation('pagesBuild');
   return (
     <BaseLayout>
       <Center style={{ height: "100%" }}>

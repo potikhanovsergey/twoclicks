@@ -52,7 +52,7 @@ const LayoutHeader = ({
         backgroundColor: withTransparency
           ? dark
             ? theme.fn.rgba(theme.colors.dark[7], 0.72)
-            : theme.fn.rgba(theme.colors.gray[0], 0.72)
+            : theme.fn.rgba(theme.white, 0.72)
           : dark
           ? theme.colors.dark[7]
           : theme.colors.gray[0],

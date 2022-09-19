@@ -10,6 +10,7 @@ import {
   Space,
   useMantineTheme,
   createStyles,
+  ContainerProps,
 } from "@mantine/core"
 import { ReactNode, useMemo, useRef } from "react"
 import { AnimatePresence, m, useInView } from "framer-motion"
@@ -27,43 +28,10 @@ interface BenefitsCardProps {
   text: ReactNode
 }
 
-const useStyles = createStyles((theme) => ({
-  glow: {
-    background: `linear-gradient(45deg, ${theme.colors.violet[5]} 0%, ${theme.colors.red[5]} 100%)`,
-    position: "absolute",
-    top: "5%",
-    left: "5%",
-    right: "5%",
-    bottom: "5%",
-    WebkitFilter: "blur(40px)",
-    filter: "blur(40px)",
-    borderRadius: "16px",
-  },
-}))
-
-const cardVariants = {
-  hover: {
-    scale: 1.05,
-  },
-  initial: {
-    scale: 1,
-  },
-}
-
-const glowVariants = {
-  hover: {
-    opacity: 0.5,
-  },
-  initial: {
-    opacity: 0,
-  },
-}
-
 const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
-  const { classes } = useStyles()
 
   return (
     <m.div initial="initial" whileHover="hover">
@@ -72,41 +40,25 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
           {title}
         </Text>
         <Box sx={{ position: "relative", width: "60%" }}>
-          <m.div
-            variants={glowVariants}
-            className={classes.glow}
-            transition={{
-              ease: "easeOut",
-              duration: 0.75,
+          <AspectRatio
+            mb="lg"
+            sx={{
+              width: "100%",
+              boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
+              backgroundColor: dark ? theme.colors.dark[6] : theme.white,
+              borderRadius: "10px",
+              maxWidth: "200px",
+              marginLeft: "auto",
+              marginRight: "auto",
+              svg: {
+                width: "20%",
+                height: "auto",
+              },
             }}
-          />
-          <m.div
-            variants={cardVariants}
-            transition={{
-              ease: "easeOut",
-              duration: 0.75,
-            }}
+            ratio={16 / 10}
           >
-            <AspectRatio
-              mb="lg"
-              sx={{
-                width: "100%",
-                boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
-                backgroundColor: dark ? theme.colors.dark[6] : theme.white,
-                borderRadius: "10px",
-                maxWidth: "200px",
-                marginLeft: "auto",
-                marginRight: "auto",
-                svg: {
-                  width: "20%",
-                  height: "auto",
-                },
-              }}
-              ratio={16 / 10}
-            >
-              <Center>{icon}</Center>
-            </AspectRatio>
-          </m.div>
+            <Center>{icon}</Center>
+          </AspectRatio>
         </Box>
         <Text weight={600} size={24} align="center">
           {text}
@@ -116,7 +68,7 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
   )
 }
 
-const Benefits = () => {
+const Benefits = (props: ContainerProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
@@ -188,7 +140,7 @@ const Benefits = () => {
   })
 
   return (
-    <Container size="xl" px={40}>
+    <Container size="xl" px={40} {...props}>
       <Title
         order={2}
         size={34}

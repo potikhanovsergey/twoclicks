@@ -9,15 +9,15 @@ import {
   Group,
   Box,
   createStyles,
+  BoxProps,
 } from "@mantine/core"
-import useTranslation from "next-translate/useTranslation"
 import Clicks from "app/core/components/Clicks"
 import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, m } from "framer-motion"
 
 import Image from "next/image"
 
-const useStyles = createStyles((theme) => ({
+const useStyles = createStyles({
   image: {
     position: "absolute",
     pointerEvents: "none",
@@ -26,7 +26,7 @@ const useStyles = createStyles((theme) => ({
     width: "700px",
     height: "700px",
   },
-}))
+})
 
 const TextLoop = () => {
   const [index, setIndex] = useState(0)
@@ -84,7 +84,7 @@ const TextLoop = () => {
       }
       setIndex(next)
     }, 3 * 1000)
-  }, [index, setIndex])
+  }, [index])
 
   return (
     <Center style={{ height: "70px" }}>
@@ -114,15 +114,14 @@ const TextLoop = () => {
   )
 }
 
-const HomeHero = () => {
+const HomeHero = (props: BoxProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
-  const { t } = useTranslation("pagesHome")
 
   const { classes } = useStyles()
   return (
-    <Center sx={{ minHeight: "calc(100vh - var(--layout-header-height))" }}>
+    <Center sx={{ minHeight: "calc(100vh - var(--layout-header-height))" }} {...props}>
       <Container
         size="xl"
         pt={80}
@@ -180,10 +179,12 @@ const HomeHero = () => {
               fontWeight: 600,
               position: "relative",
             }}
+            align="center"
             size={50}
           >
             Create your awesome <br />
-            <TextLoop />
+            {/* <TextLoop /> */}
+            page
           </Title>
           <Group align="center" spacing={4} noWrap mb="md">
             <Text size={40} sx={{ fontWeight: 600 }}>
