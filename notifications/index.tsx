@@ -2,7 +2,7 @@ import { NotificationProps } from "@mantine/notifications"
 import { Group, Text } from "@mantine/core"
 
 import { BiMessageAltError } from "@react-icons/all-files/bi/BiMessageAltError"
-import { BsCheck } from "@react-icons/all-files/bs/bscheck"
+import { BsCheck } from "@react-icons/all-files/bs/BsCheck"
 
 export const defaultErrorNotification: Partial<NotificationProps> = {
   autoClose: 10000,
