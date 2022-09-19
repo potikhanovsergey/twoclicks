@@ -1,15 +1,6 @@
-import {
-  Center,
-  Container,
-  Stack,
-  StackProps,
-  Title,
-  useMantineTheme,
-  Text,
-  Box,
-} from "@mantine/core"
-import { AnimatePresence, motion, useInView } from "framer-motion"
-import { forwardRef, ReactNode, useRef, useState } from "react"
+import { Center, Container, Stack, StackProps, Title, useMantineTheme, Text } from "@mantine/core"
+import { m, useInView } from "framer-motion"
+import { ReactNode, useRef, useState } from "react"
 
 import { BiCodeAlt } from "@react-icons/all-files/bi/BiCodeAlt"
 import { FaLaptop } from "@react-icons/all-files/fa/FaLaptop"
@@ -47,7 +38,7 @@ const Card = ({
 
   const [textVisible, setTextVisible] = useState(isTextVisible)
   return (
-    <motion.div
+    <m.div
       style={{ position: "absolute" }}
       initial={initial}
       animate={animate}
@@ -96,7 +87,7 @@ const Card = ({
         </Text>
         {children}
       </Stack>
-    </motion.div>
+    </m.div>
   )
 }
 

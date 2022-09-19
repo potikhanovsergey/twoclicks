@@ -73,6 +73,8 @@ const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
         padding: theme.spacing.xl,
         borderRadius: theme.radius.md,
         boxShadow: `0px 5px 10px 2px rgba(34, 60, 80, 0.1)`,
+        listStyle: "none",
+        ":not(:last-child)": { marginBottom: theme.spacing.md },
       })}
     >
       <Group position="apart" align="flex-start">

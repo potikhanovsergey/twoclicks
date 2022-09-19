@@ -13,10 +13,9 @@ import {
 import useTranslation from "next-translate/useTranslation"
 import Clicks from "app/core/components/Clicks"
 import { useEffect, useMemo, useState } from "react"
-import { AnimatePresence, motion } from "framer-motion"
+import { AnimatePresence, m } from "framer-motion"
 
 import Image from "next/image"
-import NextImage from "app/core/components/base/NextImage"
 
 const useStyles = createStyles((theme) => ({
   image: {
@@ -90,7 +89,7 @@ const TextLoop = () => {
   return (
     <Center style={{ height: "70px" }}>
       <AnimatePresence>
-        <motion.span
+        <m.span
           style={{
             position: "absolute",
             textTransform: "uppercase",
@@ -109,7 +108,7 @@ const TextLoop = () => {
           }}
         >
           {titles[index].text}
-        </motion.span>
+        </m.span>
       </AnimatePresence>
     </Center>
   )
@@ -132,7 +131,7 @@ const HomeHero = () => {
           position: "relative",
         }}
       >
-        <motion.span
+        <m.span
           initial={{ opacity: 0, scale: 0.2 }}
           animate={{ opacity: 1, scale: 1, animationDelay: "500ms" }}
           transition={{ duration: 0.7 }}
@@ -151,8 +150,8 @@ const HomeHero = () => {
             alt=""
             sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
-        </motion.span>
-        <motion.span
+        </m.span>
+        <m.span
           initial={{ opacity: 0, scale: 0.2 }}
           animate={{ opacity: 1, scale: 1, animationDelay: "500ms" }}
           transition={{ duration: 0.7 }}
@@ -171,7 +170,7 @@ const HomeHero = () => {
             alt=""
             sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
-        </motion.span>
+        </m.span>
         <Stack align="center">
           <Title
             order={1}

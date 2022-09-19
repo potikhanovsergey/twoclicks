@@ -12,7 +12,7 @@ import {
   createStyles,
 } from "@mantine/core"
 import { ReactNode, useMemo, useRef } from "react"
-import { AnimatePresence, motion, useInView } from "framer-motion"
+import { AnimatePresence, m, useInView } from "framer-motion"
 
 import { FiEdit } from "@react-icons/all-files/fi/FiEdit"
 import { HiOutlineLightningBolt } from "@react-icons/all-files/hi/HiOutlineLightningBolt"
@@ -66,13 +66,13 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
   const { classes } = useStyles()
 
   return (
-    <motion.div initial="initial" whileHover="hover">
+    <m.div initial="initial" whileHover="hover">
       <Stack align="center" spacing={0}>
         <Text weight={700} size={28} mb="sm">
           {title}
         </Text>
         <Box sx={{ position: "relative", width: "60%" }}>
-          <motion.div
+          <m.div
             variants={glowVariants}
             className={classes.glow}
             transition={{
@@ -80,7 +80,7 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
               duration: 0.75,
             }}
           />
-          <motion.div
+          <m.div
             variants={cardVariants}
             transition={{
               ease: "easeOut",
@@ -106,13 +106,13 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
             >
               <Center>{icon}</Center>
             </AspectRatio>
-          </motion.div>
+          </m.div>
         </Box>
         <Text weight={600} size={24} align="center">
           {text}
         </Text>
       </Stack>
-    </motion.div>
+    </m.div>
   )
 }
 
@@ -198,7 +198,7 @@ const Benefits = () => {
       </Title>
       <Space h={40} />
       <AnimatePresence>
-        <motion.div
+        <m.div
           ref={ref}
           animate={
             inView ? { opacity: 1, scale: 1, animationDelay: "1500ms" } : { opacity: 0, scale: 0.7 }
@@ -221,7 +221,7 @@ const Benefits = () => {
               ))}
             </SimpleGrid>
           </Box>
-        </motion.div>
+        </m.div>
       </AnimatePresence>
     </Container>
   )

@@ -10,7 +10,6 @@ import {
   useMantineTheme,
 } from "@mantine/core"
 import React, { useEffect, useMemo, useState } from "react"
-import CodeMirror from "@uiw/react-codemirror"
 import { RenderJSXFromBlock, serialize } from "helpers"
 import { jsonLanguage } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
@@ -29,6 +28,9 @@ import MantineFeatures from "app/build/sections/MantineFeatures"
 import MantineHero from "app/build/sections/MantineHero"
 import { useSession } from "@blitzjs/auth"
 import { AuthorizationError } from "blitz"
+import dynamic from "next/dynamic"
+
+const CodeMirror = dynamic(() => import("@uiw/react-codemirror"))
 
 const sections = [FirstHero, MantineHOCTest, MantineTest, MantineFeatures, MantineHero]
 

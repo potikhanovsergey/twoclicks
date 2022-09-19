@@ -34,6 +34,7 @@ import { ModalsProvider } from "@mantine/modals"
 import MenuModal from "app/core/components/modals/base/MenuModal"
 
 import cursor from "public/oneclick.svg"
+import { LazyMotion, domAnimation } from "framer-motion"
 
 export type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
@@ -220,95 +221,97 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider
-        withCSSVariables
-        withNormalizeCSS
-        theme={CustomTheme}
-        emotionCache={emotionCache}
-      >
-        <ModalsProvider modalProps={{ zIndex: 1000 }}>
-          <NotificationsProvider>
-            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-              <ModalContext.Provider value={[modalValue, setModalValue]}>
-                <LoadingOverlay
-                  sx={() => ({
-                    position: "fixed",
-                  })}
-                  overlayOpacity={0.85}
-                  visible={loadingOverlay}
-                  loader={<Loader color="violet" size={32} />}
-                />
-                <Suspense
-                  fallback={
-                    <LoadingOverlay
-                      visible={true}
-                      overlayOpacity={0.85}
-                      loader={<Loader color="violet" size={32} />}
-                    />
-                  }
-                >
-                  {getLayout(<Component {...pageProps} />)}
-                  <MenuModal />
-                </Suspense>
-              </ModalContext.Provider>
-            </ColorSchemeProvider>
-          </NotificationsProvider>
-        </ModalsProvider>
-      </MantineProvider>
-      <Global
-        styles={(theme) => ({
-          "*, *::before, *::after": {
-            boxSizing: "border-box",
-          },
-          html: {
-            cursor: `url(${cursor.src}), default`,
-            overflowX: "hidden",
-            "&[data-theme='light']": {
-              backgroundColor: theme.colors.gray[0],
-              color: theme.black,
+      <LazyMotion features={domAnimation} strict>
+        <MantineProvider
+          withCSSVariables
+          withNormalizeCSS
+          theme={CustomTheme}
+          emotionCache={emotionCache}
+        >
+          <ModalsProvider modalProps={{ zIndex: 1000 }}>
+            <NotificationsProvider>
+              <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+                <ModalContext.Provider value={[modalValue, setModalValue]}>
+                  <LoadingOverlay
+                    sx={() => ({
+                      position: "fixed",
+                    })}
+                    overlayOpacity={0.85}
+                    visible={loadingOverlay}
+                    loader={<Loader color="violet" size={32} />}
+                  />
+                  <Suspense
+                    fallback={
+                      <LoadingOverlay
+                        visible={true}
+                        overlayOpacity={0.85}
+                        loader={<Loader color="violet" size={32} />}
+                      />
+                    }
+                  >
+                    {getLayout(<Component {...pageProps} />)}
+                    <MenuModal />
+                  </Suspense>
+                </ModalContext.Provider>
+              </ColorSchemeProvider>
+            </NotificationsProvider>
+          </ModalsProvider>
+        </MantineProvider>
+        <Global
+          styles={(theme) => ({
+            "*, *::before, *::after": {
+              boxSizing: "border-box",
             },
-            "&[data-theme='dark']": {
-              backgroundColor: theme.colors.dark[7],
+            html: {
+              cursor: `url(${cursor.src}), default`,
+              overflowX: "hidden",
+              "&[data-theme='light']": {
+                backgroundColor: theme.colors.gray[0],
+                color: theme.black,
+              },
+              "&[data-theme='dark']": {
+                backgroundColor: theme.colors.dark[7],
+                color: theme.white,
+              },
+            },
+            "::-moz-selection": {
+              background: theme.colors.violet[4],
               color: theme.white,
+              WebkitTextFillColor: theme.white,
             },
-          },
-          "::-moz-selection": {
-            background: theme.colors.violet[4],
-            color: theme.white,
-            WebkitTextFillColor: theme.white,
-          },
-          "::-webkit-selection": {
-            background: theme.colors.violet[4],
-            color: theme.white,
-            WebkitTextFillColor: theme.white,
-          },
-          "::selection": {
-            background: theme.colors.violet[4],
-            color: theme.white,
-            WebkitTextFillColor: theme.white,
-          },
-          body: {
-            backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
-            color: colorScheme === "dark" ? theme.white : theme.black,
-            lineHeight: theme.lineHeight,
-            minHeight: "100vh",
-            wordBreak: "break-word",
-            // overflowX: "hidden",
-          },
-          ".ql-font-Times": {
-            fontFamily: "Times New Roman, sans",
-          },
-          ".ql-font-Nunito": {
-            fontFamily: "'Nunito', sans-serif",
-          },
-          ".ql-font-Helvetica": {
-            fontFamily: "Helvetica, sans-serif",
-          },
-          ".ql-font-Arial": {
-            fontFamily: "Arial, sans-serif",
-          },
-        })}
-      />
+            "::-webkit-selection": {
+              background: theme.colors.violet[4],
+              color: theme.white,
+              WebkitTextFillColor: theme.white,
+            },
+            "::selection": {
+              background: theme.colors.violet[4],
+              color: theme.white,
+              WebkitTextFillColor: theme.white,
+            },
+            body: {
+              backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
+              color: colorScheme === "dark" ? theme.white : theme.black,
+              lineHeight: theme.lineHeight,
+              minHeight: "100vh",
+              wordBreak: "break-word",
+              // overflowX: "hidden",
+            },
+            ".ql-font-Times": {
+              fontFamily: "Times New Roman, sans",
+            },
+            ".ql-font-Nunito": {
+              fontFamily: "'Nunito', sans-serif",
+            },
+            ".ql-font-Helvetica": {
+              fontFamily: "Helvetica, sans-serif",
+            },
+            ".ql-font-Arial": {
+              fontFamily: "Arial, sans-serif",
+            },
+          })}
+        />
+      </LazyMotion>
     </ErrorBoundary>
   )
 }
