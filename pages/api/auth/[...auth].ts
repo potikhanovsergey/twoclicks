@@ -97,7 +97,7 @@ export default api(
           {
             clientID: process.env.YANDEX_CLIENT_ID || "",
             clientSecret: process.env.YANDEX_CLIENT_SECRET!,
-            callbackURL: `${baseURL}/api/auth/yandex/callback`,
+            callbackURL: `${baseURL}api/auth/yandex/callback`,
           },
           async function (_accessToken, _refreshToken, profile, done) {
             const email = profile.emails && profile.emails[0]?.value
