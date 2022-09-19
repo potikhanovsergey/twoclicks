@@ -20,6 +20,7 @@ import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
 import { withBlitz } from "app/blitz-client"
 import "app/styles/variables.css"
+import "app/styles/fonts.css"
 import { GetServerSidePropsContext } from "next"
 import { getCookie, setCookie } from "cookies-next"
 
