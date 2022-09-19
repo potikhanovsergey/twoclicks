@@ -7,7 +7,7 @@ import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
-import { FaCheck } from "@react-icons/all-files/fa/facheck"
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import { FaCloudUploadAlt } from "@react-icons/all-files/fa/FaCloudUploadAlt"
 
 interface IElementUploadLink {

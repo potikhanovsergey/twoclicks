@@ -19,7 +19,7 @@ import { ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 import { AppStore } from "store"
 
-import { FaCheck } from "@react-icons/all-files/fa/facheck"
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import { FaLink } from "@react-icons/all-files/fa/FaLink"
 import { IoClose } from "@react-icons/all-files/io5/IoClose"
 import { GoLinkExternal } from "@react-icons/all-files/go/GoLinkExternal"
