@@ -1,6 +1,9 @@
-function Clicks(props: React.SVGProps<SVGSVGElement>) {
+import { Box, BoxProps } from "@mantine/core"
+
+function Clicks(props: BoxProps) {
   return (
-    <svg
+    <Box
+      component="svg"
       width="429"
       viewBox="0 0 462 300"
       fill="none"
@@ -80,7 +83,7 @@ function Clicks(props: React.SVGProps<SVGSVGElement>) {
           <feBlend in="SourceGraphic" in2="effect3_dropShadow_483_3350" result="shape" />
         </filter>
       </defs>
-    </svg>
+    </Box>
   )
 }
 
