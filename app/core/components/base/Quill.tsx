@@ -12,6 +12,17 @@ const useStyles = createStyles((theme) => ({
     "*": {
       outline: "none",
     },
+    textDecoration: "inherit",
+    backgroundImage: "inherit",
+    WebkitBackgroundClip: "inherit",
+    ".ql.editor, .ql-container, .ql-editor p": {
+      textDecoration: "inherit",
+      backgroundImage: "inherit",
+      WebkitBackgroundClip: "inherit",
+    },
+    ".ql-picker": {
+      WebkitTextFillColor: "currentcolor",
+    },
     ".ql-picker.ql-font .ql-picker-item[data-value='Nunito']::before, .ql-picker-label[data-value='Nunito']::before":
       {
         fontFamily: "'Nunito', sans-serif",
@@ -36,8 +47,9 @@ const useStyles = createStyles((theme) => ({
         },
       },
     },
-    ".ql-formats": {
+    ".ql-bubble .ql-formats": {
       display: "flex",
+      flexWrap: "nowrap",
     },
     ".ql-container": {
       fontSize: "inherit",
@@ -68,7 +80,7 @@ const useStyles = createStyles((theme) => ({
           "0 6px 12px -6px rgb(131 147 173 / 46%), 5px -12px 34px -13px rgb(97 105 134 / 60%), 0 26px 52px 3px rgb(147 165 186 / 24%)",
         zIndex: 5,
         ".ql-tooltip-arrow": {
-          borderBottomColor: theme.white,
+          borderBottomColor: `${theme.white} !important`,
         },
       },
     },

@@ -45,7 +45,7 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
             variant: "subtle",
             color: "violet",
           }}
-          icon={ICON ? ICON : propName === "rightIcon" ? <CgToggleSquare /> : <CgToggleSquareOff />}
+          icon={ICON ? ICON : propName === "rightIcon" ? <CgToggleSquareOff /> : <CgToggleSquare />}
           onChange={(icon) => {
             if (icon?.props) {
               changeProp({

@@ -14,7 +14,7 @@ const LandingFooter = () => {
         <Center sx={{ position: "relative" }} mb={40}>
           <Text color="gray" size="md" align="center">
             Copyright © 2022 twoclicks <br />
-            All Right Reserved
+            All Rights Reserved
           </Text>
           <ActionIcon
             aria-label="Scroll to the top"
