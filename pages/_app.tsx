@@ -26,10 +26,12 @@ import { getCookie, setCookie } from "cookies-next"
 import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { NotificationsProvider } from "@mantine/notifications"
 import { ModalsProvider } from "@mantine/modals"
-import MenuModal from "app/core/components/modals/base/MenuModal"
 
 import cursor from "public/oneclick.svg"
 import { LazyMotion, domAnimation } from "framer-motion"
+import dynamic from "next/dynamic"
+
+const MenuModal = dynamic(() => import("app/core/components/modals/base/MenuModal"))
 
 export type ExtendedCustomColors = "primary" | "accent" | DefaultMantineColor
 declare module "@mantine/core" {
@@ -39,7 +41,10 @@ declare module "@mantine/core" {
 }
 
 export const baseURL =
-  process.env.NODE_ENV === "development" ? "localhost:3000" : process.env.NEXT_PUBLIC_PRODUCTION_URL
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : process.env.NEXT_PUBLIC_PRODUCTION_URL
+
 const useStyles = createStyles((theme) => ({
   container: {
     width: "100%",
@@ -188,7 +193,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
                 <ModalContext.Provider value={[modalValue, setModalValue]}>
                   <Suspense>
                     {getLayout(<Component {...pageProps} />)}
-                    <MenuModal />
+                    {modalValue.menuModal && <MenuModal />}
                   </Suspense>
                 </ModalContext.Provider>
               </ColorSchemeProvider>

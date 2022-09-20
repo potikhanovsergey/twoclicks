@@ -2,6 +2,7 @@ import { Container, Text, Group, Button, Center, createStyles, ContainerProps } 
 import Image from "next/image"
 
 import { BsArrowRight } from "@react-icons/all-files/bs/BsArrowRight"
+import Link from "next/link"
 
 const useStyles = createStyles({
   image: {
@@ -56,16 +57,18 @@ const CallToAction = (props: ContainerProps) => {
         </Text>
       </Group>
       <Center>
-        <Button
-          aria-label="Open the page builder"
-          rightIcon={<BsArrowRight size="20px" />}
-          variant="gradient"
-          gradient={{ from: "violet", to: "red", deg: 60 }}
-          sx={{ width: "260px", height: "64px" }}
-          radius="md"
-        >
-          <Text size={24}>Get started</Text>
-        </Button>
+        <Link href="/build" passHref>
+          <Button
+            component="a"
+            rightIcon={<BsArrowRight size="20px" />}
+            variant="gradient"
+            gradient={{ from: "violet", to: "red", deg: 60 }}
+            sx={{ width: "260px", height: "64px" }}
+            radius="md"
+          >
+            <Text size={24}>Get started</Text>
+          </Button>
+        </Link>
       </Center>
     </Container>
   )

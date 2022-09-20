@@ -16,6 +16,7 @@ import { useEffect, useMemo, useState } from "react"
 import { AnimatePresence, m } from "framer-motion"
 
 import Image from "next/image"
+import Link from "next/link"
 
 const useStyles = createStyles({
   image: {
@@ -200,20 +201,23 @@ const HomeHero = (props: BoxProps) => {
               },
             }}
           >
-            <Button
-              variant="outline"
-              color={dark ? "gray.0" : "dark.9"}
-              size="lg"
-              fullWidth
-              radius="md"
-              sx={{
-                maxWidth: "200px",
-              }}
-            >
-              <Text size="xl" sx={{ fontWeight: 600 }}>
-                Get started
-              </Text>
-            </Button>
+            <Link href="/build" passHref>
+              <Button
+                component="a"
+                variant="outline"
+                color={dark ? "gray.0" : "dark.9"}
+                size="lg"
+                fullWidth
+                radius="md"
+                sx={{
+                  maxWidth: "200px",
+                }}
+              >
+                <Text size="xl" sx={{ fontWeight: 600 }}>
+                  Get started
+                </Text>
+              </Button>
+            </Link>
           </Box>
         </Stack>
       </Container>
