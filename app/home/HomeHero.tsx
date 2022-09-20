@@ -179,6 +179,7 @@ const HomeHero = (props: BoxProps) => {
               letterSpacing: "12px",
               fontWeight: 600,
               position: "relative",
+              userSelect: "none",
             }}
             align="center"
             size={50}
