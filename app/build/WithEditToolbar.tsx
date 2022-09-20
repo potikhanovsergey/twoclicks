@@ -24,6 +24,7 @@ import ElementUploadLink from "./ElementUploadLink"
 import SectionBGEdit from "./SectionBGEdit"
 
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
+import { FaYoutube } from "@react-icons/all-files/fa/FaYoutube"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -31,7 +32,7 @@ interface IWithEditToolbar {
   parentID: string | null
   editType: string | null
   type?: string
-  name?: string
+  name?: string | null
   props?: ICanvasBlockProps
   sectionIndex?: number
   element?: ICanvasBlock
@@ -170,7 +171,14 @@ const WithEditToolbar = ({
           <ElementGradientsEdit id={id} type={type} props={props} />
           <ElementPaletteEdit id={id} element={element} type={type} props={props} />
           <ElementMoves id={id} parentID={parentID} editType={editType} />
-          {type && props && <ElementUploadLink id={id} props={props} type={type.toLowerCase()} />}
+          {type && props && (
+            <ElementUploadLink
+              id={id}
+              props={props}
+              type={type.toLowerCase()}
+              targetIcon={type === "youtubeframe" ? <FaYoutube /> : undefined}
+            />
+          )}
           {type &&
             TypeIcons[type?.toLowerCase()]?.map((propName) => (
               <ElementIconEdit

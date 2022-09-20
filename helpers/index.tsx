@@ -90,10 +90,7 @@ export const canvasBuildingBlocks = {
     import("@mantine/core/cjs/MediaQuery/MediaQuery").then((module) => module.MediaQuery)
   ),
   iconbase: dynamic<IconBaseProps>(() => import("react-icons").then((module) => module.IconBase)),
-  "@skillcase/mantineTest": dynamic(() =>
-    import("app/build/sections/MantineTest").then((module) => module)
-  ),
-  mantinetest: dynamic(() => import("app/build/sections/MantineTest").then((module) => module)),
+  youtubeframe: dynamic(() => import("app/core/components/YoutubeFrame")),
 }
 
 function traverseProp({
@@ -238,6 +235,7 @@ export const TypeLinkUpload: {
   [key: string]: boolean
 } = {
   "@mantine/core/image": true,
+  youtubeframe: true,
 }
 
 export function getPaletteByType(type: string) {
@@ -281,15 +279,6 @@ export function RenderJSXFromBlock({
 }) {
   // recursive function that returns JSX of JSON data provided.
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
-
-  // TODO: It's questionable if we need these lines
-  // if (typeof element === "string") {
-  //   return (
-  //     <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
-  //       {element}
-  //     </WithEditable>
-  //   )
-  // }
 
   const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
   const TagName = canvasBuildingBlocks[element?.type?.toLowerCase()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
@@ -345,10 +334,6 @@ export function RenderJSXFromBlock({
   ) {
     props.component = "span"
   }
-
-  // if (el.type.toLowerCase() === "@mantine/core/image") {
-  //   props.withPlaceholder = true
-  // }
 
   if (withEditToolbar && el?.editType === "icon") {
     return (
@@ -573,4 +558,10 @@ export function storageAvailable() {
     }
   }
   return false
+}
+
+export function parseYoutubeURL(url: string) {
+  const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/
+  const match = url.match(regExp)
+  return match && match[7].length == 11 ? match[7] : false
 }

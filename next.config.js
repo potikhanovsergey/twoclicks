@@ -5,4 +5,12 @@ const withBundleAnalyzer = require("@next/bundle-analyzer")({
 
 const nextTranslate = require("next-translate")
 
-module.exports = withBundleAnalyzer(nextTranslate(withBlitz()))
+module.exports = withBundleAnalyzer(
+  nextTranslate(
+    withBlitz({
+      images: {
+        domains: ["img.youtube.com"],
+      },
+    })
+  )
+)

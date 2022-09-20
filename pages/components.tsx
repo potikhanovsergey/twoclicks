@@ -1,7 +1,7 @@
 import { Center } from "@mantine/core"
 import BaseLayout from "app/core/layouts/BaseLayout"
 import IconPicker from "app/core/components/base/IconPicker"
-import FirstHero from "app/build/sections/FirstHero"
+import FirstHeroVideo from "app/build/sections/FirstHeroVideo"
 
 import { FaHeart } from "@react-icons/all-files/fa/FaHeart"
 
@@ -11,7 +11,7 @@ const ComponentsPage = () => {
       <Center style={{ height: "100%" }}>
         <IconPicker icon={<FaHeart />} onChange={() => 1} />
       </Center>
-      <FirstHero />
+      <FirstHeroVideo />
     </BaseLayout>
   )
 }

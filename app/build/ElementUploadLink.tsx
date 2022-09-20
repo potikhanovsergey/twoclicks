@@ -2,7 +2,7 @@ import { ActionIcon, TextInput, Group } from "@mantine/core"
 import { TypeLinkUpload } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { useState } from "react"
+import { ReactNode, useState } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
@@ -14,9 +14,15 @@ interface IElementUploadLink {
   type: string
   id: string
   props: ICanvasBlockProps
+  targetIcon?: ReactNode
 }
 
-const ElementUploadLink = ({ type, id, props }: IElementUploadLink) => {
+const ElementUploadLink = ({
+  type,
+  id,
+  props,
+  targetIcon = <FaCloudUploadAlt />,
+}: IElementUploadLink) => {
   const hasLinkUpload = TypeLinkUpload[type]
   const { changeProp, openedAction } = BuildStore
 
@@ -45,11 +51,7 @@ const ElementUploadLink = ({ type, id, props }: IElementUploadLink) => {
       }}
       tooltipProps={{
         label: t("changeTheSource"),
-        children: (
-          <ActionIcon color="violet">
-            <FaCloudUploadAlt />
-          </ActionIcon>
-        ),
+        children: <ActionIcon color="violet">{targetIcon}</ActionIcon>,
       }}
       dropdownProps={{
         p: 8,
