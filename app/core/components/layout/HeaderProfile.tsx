@@ -112,7 +112,7 @@ function HeaderProfile() {
               gap: "8px",
               padding: 4,
               borderRadius: theme.radius.md,
-              color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+              color: dark ? theme.colors.dark[0] : theme.black,
               backgroundColor: menuHovered
                 ? theme.colorScheme === "dark"
                   ? theme.colors.dark[6]
@@ -121,7 +121,7 @@ function HeaderProfile() {
             })}
           >
             {user && (
-              <Text weight="bold" style={{ whiteSpace: "nowrap" }}>
+              <Text weight="bold" style={{ whiteSpace: "nowrap" }} color={dark ? "gray.0" : "dark"}>
                 {user.name}
               </Text>
             )}
