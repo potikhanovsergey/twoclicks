@@ -64,61 +64,57 @@ const ViewList = ({ type, modalType }: IViewList) => {
   //   { refetchOnReconnect: false, refetchOnWindowFocus: false, enabled: type === "used-before" }
   // )
 
-  const [{ buildingBlocks, count: totalBlocks }, { isFetching, refetch, isLoading }] =
-    usePaginatedQuery(
-      type === "used-before"
-        ? getUsedBlocks
-        : type === "liked"
-        ? getLikedBlocks
-        : getBuildingBlocks,
-      type === "used-before" || type === "liked"
-        ? {
-            orderBy:
-              type === "used-before"
-                ? {
-                    updatedAt: "desc",
-                  }
-                : {
-                    createdAt: "desc",
-                  },
-            select: {
-              buildingBlock: true,
-            },
-            where: {
-              userId: session.userId || "",
-            },
-            skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
-            take: ITEMS_PER_PAGE,
-          }
-        : {
-            orderBy:
-              type === "popular"
-                ? {
-                    UsedBlocks: {
-                      _count: "desc",
-                    },
-                  }
-                : {
-                    updatedAt: "desc",
-                  },
-            where: {
-              filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
-              editType: modalType === "sections" ? "section" : "element",
-            },
-            skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
-            take: ITEMS_PER_PAGE,
+  const [buildingBlocksData, { isFetching, refetch, isLoading }] = usePaginatedQuery(
+    type === "used-before" ? getUsedBlocks : type === "liked" ? getLikedBlocks : getBuildingBlocks,
+    type === "used-before" || type === "liked"
+      ? {
+          orderBy:
+            type === "used-before"
+              ? {
+                  updatedAt: "desc",
+                }
+              : {
+                  createdAt: "desc",
+                },
+          select: {
+            buildingBlock: true,
           },
-      {
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-      }
-    )
+          where: {
+            userId: session.userId || "",
+          },
+          skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
+          take: ITEMS_PER_PAGE,
+        }
+      : {
+          orderBy:
+            type === "popular"
+              ? {
+                  UsedBlocks: {
+                    _count: "desc",
+                  },
+                }
+              : {
+                  updatedAt: "desc",
+                },
+          where: {
+            filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
+            editType: modalType === "sections" ? "section" : "element",
+          },
+          skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
+          take: ITEMS_PER_PAGE,
+        },
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    }
+  )
 
   const { likedBlocks, refetch: refetchLikedBlocks } = useCurrentUserLikedBlocks()
 
   const totalPaginationPages = useMemo(() => {
-    return Math.ceil(totalBlocks / ITEMS_PER_PAGE)
-  }, [totalBlocks])
+    if (buildingBlocksData) return Math.ceil(buildingBlocksData?.count / ITEMS_PER_PAGE)
+    return 0
+  }, [buildingBlocksData])
 
   const [debouncedTotalPages] = useDebouncedValue(totalPaginationPages, 500)
 
@@ -146,7 +142,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
     <div className={classes.wrapper}>
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
-          {buildingBlocks.map((b, i) => {
+          {buildingBlocksData?.buildingBlocks.map((b, i) => {
             const block = type === "used-before" || type === "liked" ? b.buildingBlock : b
             return (
               <ViewListItem

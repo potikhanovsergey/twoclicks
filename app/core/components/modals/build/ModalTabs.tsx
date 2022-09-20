@@ -50,12 +50,12 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
         viewlistType: "used-before",
         icon: <GiAnticlockwiseRotation size={16} />,
       },
-      {
-        color: "yellow",
-        value: "Premium",
-        viewlistType: "premium",
-        icon: <CgCrown size={20} />,
-      },
+      // {
+      //   color: "yellow",
+      //   value: "Premium",
+      //   viewlistType: "premium",
+      //   icon: <CgCrown size={20} />,
+      // },
     ]
   }, [])
 
@@ -76,48 +76,48 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
       }}
     >
       <Tabs.List>
-        {ComponentsModalTabsArr.map((tab, i) =>
-          tab.viewlistType !== "liked" || session.userId ? (
-            <Tabs.Tab
+        {ComponentsModalTabsArr.map((tab, i) => (
+          <Tabs.Tab
+            disabled={
+              (tab.viewlistType === "liked" || tab.viewlistType === "used-before") &&
+              !session.userId
+            }
+            sx={() => ({
+              "&:focus": {
+                outline: "none",
+              },
+            })}
+            key={tab.value}
+            color={tab.color}
+            icon={
+              <ThemeIcon variant="light" color={tab.color} size="sm">
+                {tab.icon}
+              </ThemeIcon>
+            }
+            value={tab.value}
+          >
+            <Text
+              size="sm"
+              color={tab.value === activeTab ? tab.color : undefined}
               sx={() => ({
-                "&:focus": {
-                  outline: "none",
+                fontWeight: tab.value === activeTab ? 700 : 400,
+                "&::before": {
+                  content: `"${tab.value}"`,
+                  fontWeight: 700,
+                  height: "0",
+                  overflow: "hidden",
+                  visibility: "hidden",
+                  display: "block",
                 },
               })}
-              key={tab.value}
-              color={tab.color}
-              icon={
-                <ThemeIcon variant="light" color={tab.color} size="sm">
-                  {tab.icon}
-                </ThemeIcon>
-              }
-              value={tab.value}
             >
-              <Text
-                size="sm"
-                color={tab.value === activeTab ? tab.color : undefined}
-                sx={() => ({
-                  fontWeight: tab.value === activeTab ? 700 : 400,
-                  "&::before": {
-                    content: `"${tab.value}"`,
-                    fontWeight: 700,
-                    height: "0",
-                    overflow: "hidden",
-                    visibility: "hidden",
-                    display: "block",
-                  },
-                })}
-              >
-                {t(tab.value)}
-              </Text>
-            </Tabs.Tab>
-          ) : (
-            <React.Fragment key={i}></React.Fragment>
-          )
-        )}
+              {t(tab.value)}
+            </Text>
+          </Tabs.Tab>
+        ))}
       </Tabs.List>
       {ComponentsModalTabsArr.map((tab, i) =>
-        tab.viewlistType !== "liked" || session.userId ? (
+        !(tab.viewlistType === "liked" || tab.viewlistType === "used-before") || session.userId ? (
           <Tabs.Panel value={tab.value} key={tab.value}>
             <Suspense fallback={<LoadingOverlay visible={true} />}>
               <ViewList type={tab.viewlistType} modalType={modalType} />
