@@ -29,6 +29,7 @@ import { autorun } from "mobx"
 import { baseURL } from "pages/_app"
 import useTranslation from "next-translate/useTranslation"
 import BuilderBlocks from "./BuilderBlocks"
+import { storageAvailable } from "helpers"
 
 const useStyles = createStyles((theme) => ({
   builder: {
@@ -223,7 +224,14 @@ const Builder = () => {
       router.events.off("routeChangeError", handleComplete)
     }
   })
+
   const { t } = useTranslation("pagesBuild")
+
+  const [isStorageAvailable, setIsStorageAvailable] = useState(false)
+
+  useEffect(() => {
+    setIsStorageAvailable(storageAvailable())
+  }, [])
 
   return (
     <div className={classes.builder}>
@@ -242,39 +250,47 @@ const Builder = () => {
             display: viewMode === "mobile" ? "flex" : "none",
           }}
         >
-          <Box
-            sx={{
-              backgroundImage: `url(${IPhone.src})`,
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "357px 760px",
-              width: "357px",
-              height: "760px",
-              overflow: "hidden",
-              transform: "scale(0.75)",
-              margin: "-85px 0",
-              "> iframe": {
-                width: "calc(357px - 37px)",
-                height: "calc(760px - 140px)",
-                border: "none",
-                borderRadius: "5px",
-                position: "relative",
-                top: "60px",
-                left: "18px",
-                pointerEvents: "none",
-                userSelect: "none",
-              },
-            }}
-          >
-            <iframe
-              tabIndex={-1}
-              onLoad={handleIframeLoad}
-              loading="lazy"
-              ref={iframeRef}
-              src={`${baseURL}/build-preview?hideScrollbar=true`}
+          {window !== undefined && isStorageAvailable ? (
+            <Box
+              sx={{
+                backgroundImage: `url(${IPhone.src})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "357px 760px",
+                width: "357px",
+                height: "760px",
+                overflow: "hidden",
+                transform: "scale(0.75)",
+                margin: "-85px 0",
+                "> iframe": {
+                  width: "calc(357px - 37px)",
+                  height: "calc(760px - 140px)",
+                  border: "none",
+                  borderRadius: "5px",
+                  position: "relative",
+                  top: "60px",
+                  left: "18px",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                },
+              }}
             >
-              <Text>{t("browser iframe")}</Text>
-            </iframe>
-          </Box>
+              <iframe
+                tabIndex={-1}
+                onLoad={handleIframeLoad}
+                loading="lazy"
+                ref={iframeRef}
+                src={`${baseURL}/build-preview?hideScrollbar=true`}
+              >
+                <Text>{t("browser iframe")}</Text>
+              </iframe>
+            </Box>
+          ) : (
+            <Text align="center" style={{ maxWidth: "45%" }}>
+              Your web browser does not support storing settings locally. The most common cause of
+              this is using <strong>Private Browsing/Incognito Mode</strong>. Some settings may not
+              save or some features may not work properly for you.
+            </Text>
+          )}
         </Center>
         <Suspense fallback={<Loader />}>
           <Box

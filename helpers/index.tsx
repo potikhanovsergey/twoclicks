@@ -559,3 +559,18 @@ export function getBase64(file: File, callback) {
     console.log("File Reader Error: ", error)
   }
 }
+
+export function storageAvailable() {
+  if (typeof localStorage === "object") {
+    try {
+      localStorage.setItem("localStorageAvailabilityTest", "1")
+      localStorage.removeItem("localStorageAvailabilityTest")
+      return true
+    } catch (e) {
+      Storage.prototype._setItem = Storage.prototype.setItem
+      Storage.prototype.setItem = function () {}
+      return false
+    }
+  }
+  return false
+}
