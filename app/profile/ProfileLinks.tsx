@@ -65,7 +65,7 @@ export function ProfileLinks() {
   const [data] = useState(() => [
     { icon: <FaBriefcase />, color: "orange", label: t("portfolios"), link: "/profile" },
     { icon: <BiStats />, color: "violet", label: t("statistics"), link: "/profile/statistics" },
-    { icon: <RiVipCrown2Fill />, color: "yellow", label: t("premium"), link: "/profile/premium" },
+    // { icon: <RiVipCrown2Fill />, color: "yellow", label: t("premium"), link: "/profile/premium" },
     {
       icon: <BsQuestionCircleFill />,
       color: "teal",
