@@ -25,6 +25,7 @@ import SectionBGEdit from "./SectionBGEdit"
 
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import { FaYoutube } from "@react-icons/all-files/fa/FaYoutube"
+import ElementTypeEdit from "./ElementTypeEdit"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -171,6 +172,16 @@ const WithEditToolbar = ({
           <ElementGradientsEdit id={id} type={type} props={props} />
           <ElementPaletteEdit id={id} element={element} type={type?.toLowerCase()} props={props} />
           <ElementMoves id={id} parentID={parentID} editType={editType} />
+          {["image", "youtubeframe"].some((item) => type?.toLowerCase().includes(item)) && (
+            <ElementTypeEdit
+              id={id}
+              type={type}
+              types={[
+                { label: "Image", value: "@mantine/core/image", editType: "image" },
+                { label: "Youtube Video", value: "youtubeframe", editType: "video" },
+              ]}
+            />
+          )}
           {type && props && (
             <ElementUploadLink
               id={id}

@@ -177,6 +177,32 @@ class Build {
   getElement = (id: string) => this.data.flattenBlocks[id]
 
   @action
+  changeType = (
+    { id, type, editType }: { id: string; type: string; editType: string },
+    fromHistory: boolean = false
+  ) => {
+    const el = this.getElement(id)
+    if (el) {
+      const oldType = el.type
+      const oldEditType = el.editType
+      el.type = type
+      el.editType = editType
+
+      this.onPortfolioChange({
+        redo: {
+          name: "changeType",
+          data: { id, type, editType },
+        },
+        undo: {
+          name: "changeType",
+          data: { id, type: oldType, editType: oldEditType },
+        },
+        fromHistory,
+      })
+    }
+  }
+
+  @action
   changeProp = (
     { id, newProps }: { id: string; newProps: ICanvasBlockProps },
     fromHistory: boolean = false

@@ -16,12 +16,25 @@ import { useDebouncedValue } from "@mantine/hooks"
 import { serialize } from "helpers"
 import useTranslation from "next-translate/useTranslation"
 import { ReactNode, useMemo, useState } from "react"
-
-import { IoClose } from "@react-icons/all-files/io5/IoClose"
-
 import { MdClear } from "@react-icons/all-files/md/MdClear"
 
-const icons = { ioclose: IoClose }
+const IoClose = dynamic(() =>
+  import("@react-icons/all-files/io5/IoClose").then((module) => module.IoClose)
+)
+
+const FaStar = dynamic(() =>
+  import("@react-icons/all-files/fa/FaStar").then((module) => module.FaStar)
+)
+const FaPlay = dynamic(() =>
+  import("@react-icons/all-files/fa/FaPlay").then((module) => module.FaPlay)
+)
+const FaVenus = dynamic(() =>
+  import("@react-icons/all-files/fa/faVenus").then((module) => module.FaVenus)
+)
+
+import dynamic from "next/dynamic"
+
+const icons = { IoClose, FaPlay, FaStar, FaVenus }
 const FirstIcon = Object.values(icons)[0]
 
 const formatOutput = (icon: JSX.Element) => {
@@ -55,17 +68,17 @@ const IconPicker = ({
     const output = Object.entries(icons)
       .filter(([name]) => name.toLowerCase().includes(debouncedSearchValue.toLowerCase()))
       .map(([name, Icon]) => (
-        <Tooltip
-          label={name}
+        <ActionIcon
+          onClick={() => {
+            console.log("CLICK", Icon, <Icon />)
+            const output = formatOutput(<Icon />)
+            console.log("OUTPUT", output)
+            onChange(output)
+          }}
           key={name}
-          transitionDuration={0}
-          zIndex={5}
-          events={{ hover: true, touch: false, focus: true }}
         >
-          <ActionIcon onClick={() => onChange(formatOutput(<Icon />))}>
-            <Icon />
-          </ActionIcon>
-        </Tooltip>
+          <Icon />
+        </ActionIcon>
       ))
     return output
   }, [debouncedSearchValue])
@@ -76,7 +89,7 @@ const IconPicker = ({
   return (
     <Menu
       width={256}
-      zIndex={301}
+      zIndex={501}
       styles={{
         dropdown: {
           overflow: "hidden",

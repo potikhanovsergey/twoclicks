@@ -141,6 +141,15 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
           color: "violet",
         },
       },
+      Image: {
+        styles: {
+          imageWrapper: {
+            ":has(.mantine-Image-placeholder)": {
+              minHeight: "150px",
+            },
+          },
+        },
+      },
       Container: {
         defaultProps: {
           sizes: {

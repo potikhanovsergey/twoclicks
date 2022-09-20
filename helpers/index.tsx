@@ -170,6 +170,12 @@ function traverseProp({
 
 export const textElements = ["text", "title"]
 
+export interface TypeEditLabelValue {
+  label: string
+  value: string
+  editType: string
+}
+
 export const PaletteTypePropColor: {
   [key: string]: {
     prop: string
@@ -297,6 +303,7 @@ export function RenderJSXFromBlock({
   const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
   const TagName = canvasBuildingBlocks[element?.type?.toLowerCase()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
+  const typeLC = el.type.toLowerCase()
 
   // not only children, byt any other element's prop can be React.Node or JSX.Element.
   // We need to traverse it to make sure all props are rendered as they should
@@ -342,11 +349,15 @@ export function RenderJSXFromBlock({
 
   if (
     ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
-      el.type.toLowerCase()
+      typeLC
     ) &&
     withContentEditable
   ) {
     props.component = "span"
+  }
+
+  if (typeLC.includes("image")) {
+    props.withPlaceholder = true
   }
 
   if (withEditToolbar && el?.editType === "icon") {

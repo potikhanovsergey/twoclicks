@@ -1,69 +1,66 @@
-import { ActionIcon, Button, Stack } from "@mantine/core"
-import { getSizesByType } from "helpers"
+import { Button, Stack } from "@mantine/core"
+import { TypeEditLabelValue } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
-import { GiResize } from "@react-icons/all-files/gi/GiResize"
-
-interface IElementSizesEdit {
+interface IElementTypeEdit {
   type?: string
   props?: ICanvasBlockProps
   id: string
+  types: TypeEditLabelValue[]
 }
 
-const ElementSizesEdit = ({ type, props, id }: IElementSizesEdit) => {
-  const sizes = type ? getSizesByType(type) : undefined
-  const { changeProp, openedAction } = BuildStore
+const ElementTypeEdit = ({ id, types, type }: IElementTypeEdit) => {
+  const { changeType, openedAction } = BuildStore
   const { t } = useTranslation("pagesBuild")
-  return sizes ? (
+  return (
     <ToolbarMenu
       menuProps={{
-        defaultOpened: openedAction?.[id] === "size",
+        defaultOpened: openedAction?.[id] === "type",
         onClose: () => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[id] = "size"
+          BuildStore.openedAction[id] = "type"
         },
       }}
       tooltipProps={{
         label: t("sizes"),
         children: (
-          <ActionIcon color="violet">
-            <GiResize />
-          </ActionIcon>
+          <Button compact size="xs" variant="light">
+            Type
+          </Button>
         ),
       }}
       dropdownProps={{
         children: (
           <Stack spacing={0} align="stretch">
-            {sizes.map((size) => (
+            {types.map((t) => (
               <Button
                 variant="subtle"
                 size="sm"
                 compact
-                key={size}
-                disabled={props?.size === undefined ? size === "filled" : size === props?.size}
+                key={t.value}
+                disabled={t.value === type}
                 onClick={() => {
-                  changeProp({
+                  changeType({
                     id,
-                    newProps: { size },
+                    type: t.value,
+                    editType: t.editType,
                   })
                 }}
               >
-                {size}
+                {t.label}
               </Button>
             ))}
           </Stack>
         ),
       }}
     />
-  ) : (
-    <></>
   )
 }
 
-export default observer(ElementSizesEdit)
+export default observer(ElementTypeEdit)
