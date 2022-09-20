@@ -207,7 +207,7 @@ const Cards: CardProps[] = [
 const WhoIsThisFor = (props: ContainerProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const inView = useInView(ref, {
-    once: true,
+    once: false,
   })
 
   return (
