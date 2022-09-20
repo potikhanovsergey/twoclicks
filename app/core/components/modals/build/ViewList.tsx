@@ -71,6 +71,16 @@ const ViewList = ({ type, modalType }: IViewList) => {
                   },
                 }
               : undefined,
+          UsedBlocks:
+            type === "used-before" && session.userId
+              ? {
+                  some: {
+                    userId: {
+                      equals: session.userId,
+                    },
+                  },
+                }
+              : undefined,
         },
         skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
         take: ITEMS_PER_PAGE,
@@ -78,16 +88,15 @@ const ViewList = ({ type, modalType }: IViewList) => {
       {
         refetchOnWindowFocus: false,
         refetchOnReconnect: false,
-        refetchOnMount: false,
       }
     )
 
   const { likedBlocks, refetch: refetchLikedBlocks } = useCurrentUserLikedBlocks()
+
   const totalPaginationPages = useMemo(() => {
     return Math.ceil(totalBlocks / ITEMS_PER_PAGE)
   }, [totalBlocks])
 
-  const [loadingOverlayVisible] = useDebouncedValue(isFetching, 1000)
   const [debouncedTotalPages] = useDebouncedValue(totalPaginationPages, 500)
 
   const { classes } = useStyles()
@@ -112,7 +121,6 @@ const ViewList = ({ type, modalType }: IViewList) => {
 
   return (
     <div className={classes.wrapper}>
-      <LoadingOverlay visible={loadingOverlayVisible} />
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
           {buildingBlocks.map((block, i) => (

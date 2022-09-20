@@ -1,5 +1,5 @@
 import { useQuery } from "@blitzjs/rpc"
-import getUserLikedBlocksIds from "app/liked-blocks/queries/getUserLikedBlocksIds"
+import getUserLikedBlocksIds from "app/building-blocks/queries/getUserLikedBlocksIds"
 
 export const useCurrentUserLikedBlocks = () => {
   const [likedBlocks, { isSuccess: isLikedBlocksSuccess, refetch }] = useQuery(
