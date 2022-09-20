@@ -34,7 +34,7 @@ const HeaderMenuItem = ({ icon, title, text, route }: IHeaderMenuItem) => {
           borderRadius: 0,
           "&:hover": {
             backgroundColor:
-              theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[0],
+              theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1],
           },
         })}
         title={t(title)}

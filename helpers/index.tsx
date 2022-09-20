@@ -171,6 +171,8 @@ function traverseProp({
   }
 }
 
+export const textElements = ["text", "title"]
+
 export const PaletteTypePropColor: {
   [key: string]: {
     prop: string
@@ -185,6 +187,14 @@ export const PaletteTypePropColor: {
     prop: "color",
     color: "primary",
   },
+  "@mantine/core/text": {
+    prop: "color",
+    color: "text",
+  },
+  "@mantine/core/title": {
+    prop: "color",
+    color: "text",
+  },
 }
 
 export const TypeVariants: {
@@ -192,6 +202,8 @@ export const TypeVariants: {
 } = {
   "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle"],
   "@mantine/core/themeicon": ["filled", "light", "outline", "gradient"],
+  "@mantine/core/text": ["gradient", "text"],
+  "@mantine/core/title": ["gradient", "text"],
 }
 
 const sizes = ["xs", "sm", "md", "lg", "xl"]
@@ -217,6 +229,8 @@ export const TypeGradients: {
 } = {
   "@mantine/core/button": true,
   "@mantine/core/themeicon": true,
+  "@mantine/core/text": true,
+  "@mantine/core/title": true,
 }
 
 export const TypeIcons: {

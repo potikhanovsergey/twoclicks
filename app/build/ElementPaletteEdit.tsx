@@ -1,7 +1,8 @@
 import { Tooltip, Box, useMantineTheme, ThemeIcon, ActionIcon } from "@mantine/core"
-import { getPaletteByType, getHexFromThemeColor } from "helpers"
+import { getPaletteByType, getHexFromThemeColor, textElements } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
+import { useMemo } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
 import PaletteItem from "./PaletteItem"
@@ -23,18 +24,25 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
     openedAction,
   } = BuildStore
 
+  const isTextElement = useMemo(() => {
+    if (!type) return false
+    return textElements.some((el) => type.includes(el))
+  }, [type])
+
   const { t } = useTranslation("pagesBuild")
-  return paletteKey && props?.variant !== "gradient" && props?.[paletteKey.prop] ? (
+  return paletteKey && props?.variant !== "gradient" ? (
     <Tooltip label={t("change color")} color="violet" withArrow>
       <div>
         <PaletteItem
           withHover
           currentPaletteColor={
-            palette?.[paletteKey.color]
-              ? getHexFromThemeColor({
-                  theme,
-                  color: palette?.[paletteKey.color],
-                })
+            !isTextElement
+              ? palette?.[paletteKey.color]
+                ? getHexFromThemeColor({
+                    theme,
+                    color: palette?.[paletteKey.color],
+                  })
+                : undefined
               : undefined
           }
           defaultOpened={openedAction?.[id] === "palette"}
@@ -48,6 +56,7 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
             theme,
             color: props?.[paletteKey.prop],
           })}
+          resetText={isTextElement ? "Inherit from theme" : undefined}
           withReset={element?.props?.[paletteKey.prop] !== undefined}
           onColorChange={(value) => {
             changeProp({
