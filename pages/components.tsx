@@ -4,6 +4,7 @@ import IconPicker from "app/core/components/base/IconPicker"
 import FirstHeroVideo from "app/build/sections/FirstHeroVideo"
 
 import { FaHeart } from "@react-icons/all-files/fa/FaHeart"
+import ButtonGroup from "app/core/components/base/ButtonGroup"
 
 const ComponentsPage = () => {
   return (
@@ -12,6 +13,37 @@ const ComponentsPage = () => {
         <IconPicker icon={<FaHeart />} onChange={() => 1} />
       </Center>
       <FirstHeroVideo />
+
+      <Center style={{ height: "300px" }}>
+        <ButtonGroup />
+      </Center>
+      <Center style={{ height: "300px" }}>
+        <ButtonGroup
+          direction="column"
+          buttons={[
+            {
+              type: "link",
+              href: "/",
+              children: "Builder",
+            },
+            {
+              type: "link",
+              href: "/",
+              children: "Profile",
+            },
+            {
+              type: "link",
+              href: "/",
+              children: "Profile",
+            },
+            {
+              type: "link",
+              href: "/",
+              children: "Profile",
+            },
+          ]}
+        />
+      </Center>
     </BaseLayout>
   )
 }
