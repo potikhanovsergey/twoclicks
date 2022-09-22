@@ -122,12 +122,14 @@ const MenuModal = () => {
             },
           }}
         >
-          <Accordion.Item value="profile">
-            <Accordion.Control>Profile</Accordion.Control>
-            <Accordion.Panel>
-              <ProfileLinks />
-            </Accordion.Panel>
-          </Accordion.Item>
+          {user && (
+            <Accordion.Item value="profile">
+              <Accordion.Control>Profile</Accordion.Control>
+              <Accordion.Panel>
+                <ProfileLinks />
+              </Accordion.Panel>
+            </Accordion.Item>
+          )}
         </Accordion>
         {ConstMenuItems.map((menuItem) => (
           <Link passHref href={menuItem.route} key={menuItem.text}>
