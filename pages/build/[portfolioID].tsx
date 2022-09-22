@@ -36,15 +36,7 @@ const BuildPage = () => {
   const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
   const [createOrUpdatePortfolioMutation] = useMutation(createOrUpdatePortfolio)
 
-  const [
-    portfolioFromDB,
-    {
-      refetch: refetchPortfolioFromDB,
-      isLoading: isPortfolioLoading,
-      isFetching: isPortfolioFetching,
-      isRefetching: isPortfolioRefetching,
-    },
-  ] = useQuery(
+  const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
     getPortfolioByID,
     { id: portfolioID, isPublic: false },
     { refetchOnReconnect: false, refetchOnWindowFocus: false }
@@ -115,7 +107,7 @@ const BuildPage = () => {
   const theme = useMantineTheme()
   const { width: viewportWidth } = useViewportSize()
 
-  const { setPortfolios } = AppStore
+  const { setPortfolios, havePortfoliosLoaded } = AppStore
 
   const [fetchedPortfolios] = useQuery(
     getUserPortfolios,
@@ -127,18 +119,16 @@ const BuildPage = () => {
       ],
     },
     {
-      refetchOnReconnect: true,
-      refetchOnWindowFocus: false,
       enabled: !AppStore.havePortfoliosLoaded,
     }
   )
 
   useEffect(() => {
-    if (fetchedPortfolios && session.userId) {
+    if (fetchedPortfolios && session.userId && !havePortfoliosLoaded) {
       setPortfolios(fetchedPortfolios)
     }
     if (!session.userId) setPortfolios([])
-  }, [fetchedPortfolios, session])
+  }, [fetchedPortfolios, session, havePortfoliosLoaded])
 
   if (isLoading)
     return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />

@@ -16,20 +16,16 @@ interface ITogglePublishPortfolio {
 const TogglePublishPortfilio = ({ id }: ITogglePublishPortfolio) => {
   const portfolio = AppStore.portfolios?.find((p) => p.id === id)
 
-  const handleToggle = (e) => {
+  const handleToggle = async (e) => {
     if (portfolio) {
       const newIsPublished = !portfolio.isPublished
-      void togglePortfolioPublishedMutation({ id, isPublished: newIsPublished })
+      const response = await togglePortfolioPublishedMutation({ id, isPublished: newIsPublished })
+      if (response) {
+        portfolio.isPublished = newIsPublished
+      }
     }
   }
-  const [togglePortfolioPublishedMutation, { isLoading, isSuccess }] =
-    useMutation(togglePortfolioPublished)
-
-  useEffect(() => {
-    if (isSuccess && portfolio) {
-      portfolio.isPublished = !portfolio.isPublished
-    }
-  }, [isSuccess])
+  const [togglePortfolioPublishedMutation, { isLoading }] = useMutation(togglePortfolioPublished)
 
   const { t } = useTranslation("pagesBuild")
 
