@@ -58,11 +58,7 @@ const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButto
                 right: 0,
                 width: "3px",
                 backgroundColor:
-                  blockTypeFilter === b.value
-                    ? dark
-                      ? theme.colors.primary[5]
-                      : theme.colors.violet[5]
-                    : "transparent",
+                  blockTypeFilter === b.value ? theme.colors.violet[5] : "transparent",
                 marginLeft: "auto",
               })}
             />
