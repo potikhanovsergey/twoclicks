@@ -44,7 +44,7 @@ const MadeWithTwoClicks = () => {
         >
           Made with twoclicks
         </Text>
-        <Clicks width="auto" height="30px" />
+        <Clicks style={{ width: "auto", height: "30px", marginTop: "10px" }} />
       </Box>
     </Link>
   )
