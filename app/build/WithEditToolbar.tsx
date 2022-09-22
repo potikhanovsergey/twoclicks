@@ -31,7 +31,7 @@ interface IWithEditToolbar {
   parentID: string | null
   editType: string | null
   type?: string
-  name?: string
+  name?: string | null
   props?: ICanvasBlockProps
   sectionIndex?: number
   element?: ICanvasBlock
