@@ -83,8 +83,12 @@ const WithEditToolbar = ({
 
   const editableRef = useRef<HTMLDivElement>(null)
 
-  const [popoverOpened, { close: closePopover, open: openPopover }] = useDisclosure(false)
-  const [editableOpened, { close: closeEditable, open: openEditable }] = useDisclosure(false)
+  const [popoverOpened, { close: closePopover, open: openPopover }] = useDisclosure(
+    Boolean(openedAction[id])
+  )
+  const [editableOpened, { close: closeEditable, open: openEditable }] = useDisclosure(
+    Boolean(openedAction[id])
+  )
   const didMount = useDidMount()
 
   const [isElementActive, setIsElementActive] = useState(
@@ -168,7 +172,7 @@ const WithEditToolbar = ({
           <ElementSizesEdit id={id} type={type} props={props} />
           <ElementRadiusesEdit id={id} type={type} props={props} />
           <ElementGradientsEdit id={id} type={type} props={props} />
-          <ElementPaletteEdit id={id} element={element} type={type} props={props} />
+          <ElementPaletteEdit id={id} element={element} type={type?.toLowerCase()} props={props} />
           <ElementMoves id={id} parentID={parentID} editType={editType} />
           {type && props && <ElementUploadLink id={id} props={props} type={type.toLowerCase()} />}
           {type &&

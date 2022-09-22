@@ -45,18 +45,15 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
                 : undefined
               : undefined
           }
-          defaultOpened={openedAction?.[id] === "palette"}
-          onOpen={() => {
-            BuildStore.openedAction[id] = "palette"
-          }}
-          onClose={() => (BuildStore.openedAction = {})}
+          onTargetClick={() => (BuildStore.openedAction[id] = "palette")}
+          opened={openedAction?.[id] === "palette"}
           popoverPosition="top"
-          offset={6}
+          offset={0}
           color={getHexFromThemeColor({
             theme,
             color: props?.[paletteKey.prop],
           })}
-          resetText={isTextElement ? "Inherit from theme" : undefined}
+          resetText={isTextElement ? "Opposite to theme" : undefined}
           withReset={element?.props?.[paletteKey.prop] !== undefined}
           onColorChange={(value) => {
             changeProp({

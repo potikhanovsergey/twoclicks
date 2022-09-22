@@ -25,7 +25,7 @@ const PortfolioCardsItems = observer(() => {
 })
 
 const PortfolioCards = observer(() => {
-  const { setPortfolios } = AppStore
+  const { setPortfolios, havePortfoliosLoaded } = AppStore
   const session = useSession()
 
   const [fetchedPortfolios, { isLoading, isFetching, isRefetching }] = useQuery(
@@ -38,18 +38,16 @@ const PortfolioCards = observer(() => {
       ],
     },
     {
-      refetchOnReconnect: true,
-      refetchOnWindowFocus: false,
       enabled: !AppStore.havePortfoliosLoaded,
     }
   )
 
   useEffect(() => {
-    if (fetchedPortfolios && session.userId) {
+    if (fetchedPortfolios && session.userId && !havePortfoliosLoaded) {
       setPortfolios(fetchedPortfolios)
     }
     if (!session.userId) setPortfolios([])
-  }, [fetchedPortfolios, session])
+  }, [fetchedPortfolios, session, havePortfoliosLoaded])
 
   return isLoading || isFetching || isRefetching ? (
     <Skeleton width="100%" height="120px" animate />

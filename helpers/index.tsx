@@ -301,9 +301,9 @@ export function RenderJSXFromBlock({
   if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
 
   const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
-  const TagName = canvasBuildingBlocks[element?.type?.toLowerCase()] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
-  const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
   const typeLC = el.type?.toLowerCase()
+  const TagName = canvasBuildingBlocks[typeLC] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
+  const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
   // not only children, byt any other element's prop can be React.Node or JSX.Element.
   // We need to traverse it to make sure all props are rendered as they should
@@ -319,7 +319,7 @@ export function RenderJSXFromBlock({
           withEditToolbar,
           withPalette,
           palette,
-          type: el.type,
+          type: typeLC,
         })
       }
     } else {
@@ -332,7 +332,7 @@ export function RenderJSXFromBlock({
         withEditToolbar,
         withPalette,
         palette,
-        type: el.type,
+        type: typeLC,
       })
       if (traversedProp) {
         props[prop] = traversedProp
@@ -341,9 +341,8 @@ export function RenderJSXFromBlock({
   }
 
   if (withPalette) {
-    const type = el.type
-    if (getPaletteByType(type) && !props[getPaletteByType(type).prop]) {
-      props[getPaletteByType(type).prop] = palette?.[getPaletteByType(type).color]
+    if (getPaletteByType(typeLC) && !props[getPaletteByType(typeLC).prop]) {
+      props[getPaletteByType(typeLC).prop] = palette?.[getPaletteByType(typeLC).color]
     }
   }
 
@@ -383,7 +382,7 @@ export function RenderJSXFromBlock({
         key={shortid.generate()}
         editType={el.editType}
         name={el.name}
-        type={el.type}
+        type={typeLC}
         props={props}
         sectionIndex={sectionIndex}
         element={element}
@@ -395,7 +394,7 @@ export function RenderJSXFromBlock({
 
   const { children, ...restProps } = props
 
-  if (typeof children === "string" && !el.type?.toLowerCase().includes("button")) {
+  if (typeof children === "string" && !typeLC.includes("button")) {
     return (
       <TagName
         key={shortid.generate()}
