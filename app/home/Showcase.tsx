@@ -104,13 +104,25 @@ const Showcase = (props: ContainerProps) => {
       <Box sx={{ margin: "0 auto 128px" }}>
         <LandingTitle align="center">
           Showcase: made with twoclicks
-          <span>
-            <Clicks style={{ width: "68px", transform: "translateY(16px)" }} />
+          <span style={{ position: "absolute" }}>
+            <Clicks style={{ width: "68px" }} />
           </span>
         </LandingTitle>
       </Box>
       <Box sx={{ position: "relative" }}>
-        <SimpleGrid cols={3} spacing={60}>
+        <SimpleGrid
+          cols={3}
+          breakpoints={[
+            { maxWidth: 992, cols: 2 },
+            { maxWidth: 768, cols: 1 },
+          ]}
+          sx={{
+            gap: "60px",
+            "@media (max-width: 576px)": {
+              gap: "28px",
+            },
+          }}
+        >
           {Showcases.map((showcase, i) => (
             <ShowcaseCard {...showcase} key={i} />
           ))}
@@ -125,10 +137,20 @@ const Showcase = (props: ContainerProps) => {
             top: "-70px",
             left: "15%",
             zIndex: 201,
+            maxWidth: "360px",
           }}
         >
-          <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
-            And you can use them <br /> as templates for pages!
+          <Text
+            weight={700}
+            sx={{
+              fontSize: "24px",
+              letterSpacing: "3px",
+              "@media (max-width: 576px)": {
+                fontSize: "16px",
+              },
+            }}
+          >
+            You can use them as templates!
           </Text>
         </Box>
         <Box
@@ -140,10 +162,25 @@ const Showcase = (props: ContainerProps) => {
             position: "absolute",
             bottom: "-150px",
             right: "16%",
+            maxWidth: "480px",
+            "@media (max-width: 576px)": {
+              bottom: "-110px",
+              right: 0,
+              maxWidth: "400px",
+            },
           }}
         >
-          <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
-            Create a pretty page and <br /> we will add it here 👀
+          <Text
+            weight={700}
+            sx={{
+              fontSize: "24px",
+              letterSpacing: "3px",
+              "@media (max-width: 576px)": {
+                fontSize: "16px",
+              },
+            }}
+          >
+            Create a pretty page and we&apos;ll add it here 👀
           </Text>
         </Box>
       </Box>

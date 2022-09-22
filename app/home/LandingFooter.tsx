@@ -20,7 +20,7 @@ const LandingFooter = () => {
             aria-label="Scroll to the top"
             variant="filled"
             color={dark ? "gray.0" : "dark"}
-            sx={{ position: "absolute", right: "20px" }}
+            sx={{ position: "absolute", right: "20px", "@media (max-width: 576px)": { right: 0 } }}
             onClick={() => scrollTo({ y: 0 })}
           >
             <BsArrowUp color={dark ? "black" : "white"} />

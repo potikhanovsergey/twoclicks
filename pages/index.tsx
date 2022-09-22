@@ -15,7 +15,14 @@ const Home = () => {
       <Benefits mb={160} />
       <WhoIsThisFor mb={200} />
       <HowToUseIt mb={200} />
-      <Showcase mb={400} />
+      <Showcase
+        sx={{
+          marginBottom: "400px",
+          "@media (max-width: 768px)": {
+            marginBottom: "240px",
+          },
+        }}
+      />
       <CallToAction mb={200} />
       <LandingFooter />
       <Global

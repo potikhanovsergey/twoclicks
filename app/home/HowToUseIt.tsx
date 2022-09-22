@@ -49,7 +49,7 @@ const HowToUseIt = (props: ContainerProps) => {
           stroke="#845EF7"
         />
       </Box>
-      <LandingTitle>How to use it</LandingTitle>
+      <LandingTitle align="center">How to use it</LandingTitle>
       <Stack
         sx={{
           gap: "128px",
@@ -341,7 +341,12 @@ const HowToUseIt = (props: ContainerProps) => {
               width: "400px",
             }}
           >
-            <PortfolioLink id={"6321d3c786636b3da6ce61e0"} shouldSearch={false} centered />
+            <PortfolioLink
+              id={"6321d3c786636b3da6ce61e0"}
+              shouldSearch={false}
+              centered
+              withEllipsis
+            />
             <Text
               weight={700}
               sx={{
