@@ -18,17 +18,6 @@ import { AnimatePresence, m } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
 
-const useStyles = createStyles({
-  image: {
-    position: "absolute",
-    pointerEvents: "none",
-    zIndex: -1,
-    userSelect: "none",
-    width: "700px",
-    height: "700px",
-  },
-})
-
 const TextLoop = () => {
   const [index, setIndex] = useState(0)
   const theme = useMantineTheme()
@@ -88,13 +77,19 @@ const TextLoop = () => {
   }, [index])
 
   return (
-    <Center style={{ height: "70px" }}>
+    <Center
+      sx={{
+        height: "70px",
+        "@media (max-width: 768px)": {
+          height: "48px",
+        },
+      }}
+    >
       <AnimatePresence>
         <m.span
           style={{
             position: "absolute",
             textTransform: "uppercase",
-            letterSpacing: "12px",
             fontWeight: 700,
             color: titles[index].color,
           }}
@@ -120,45 +115,71 @@ const HomeHero = (props: BoxProps) => {
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
 
-  const { classes } = useStyles()
   return (
     <Center sx={{ minHeight: "calc(100vh - var(--layout-header-height))" }} {...props}>
       <Container
         size="xl"
-        pt={80}
         pb={200}
         sx={{
           position: "relative",
+          paddingTop: "80px",
+          "@media (max-width: 768px)": {
+            paddingTop: "40px",
+          },
         }}
       >
-        <m.span
+        <Box
+          component={m.span}
           initial={{ opacity: 0, scale: 0.2 }}
           animate={{ opacity: 1, scale: 1, animationDelay: "500ms" }}
           transition={{ duration: 0.7 }}
-          className={classes.image}
-          style={{
+          sx={{
+            width: "700px",
+            height: "700px",
+            position: "absolute",
+            pointerEvents: "none",
+            zIndex: -1,
+            userSelect: "none",
             top: "30px",
             left: "-240px",
+            "@media (max-width: 768px)": {
+              width: "350px",
+              height: "350px",
+              top: "110px",
+              left: "-140px",
+            },
           }}
         >
           <Image
             src="/landing/purple-circle.png"
-            width={700}
             quality={1}
-            height={700}
-            layout="responsive"
+            layout="fill"
+            objectFit="cover"
             alt=""
-            sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
+            // sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
+            // sizes="(max-width: 768px) 300px, (min-width: 768px) 700px"
           />
-        </m.span>
-        <m.span
+        </Box>
+        <Box
+          component={m.span}
           initial={{ opacity: 0, scale: 0.2 }}
           animate={{ opacity: 1, scale: 1, animationDelay: "500ms" }}
           transition={{ duration: 0.7 }}
-          className={classes.image}
-          style={{
+          sx={{
+            width: "700px",
+            height: "700px",
+            position: "absolute",
+            pointerEvents: "none",
+            zIndex: -1,
+            userSelect: "none",
             right: "-240px",
             top: "-90px",
+            "@media (max-width: 768px)": {
+              width: "350px",
+              height: "350px",
+              right: "-180px",
+              top: "-120px",
+            },
           }}
         >
           <Image
@@ -170,7 +191,7 @@ const HomeHero = (props: BoxProps) => {
             alt=""
             sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
           />
-        </m.span>
+        </Box>
         <Stack align="center">
           <Title
             order={1}
@@ -180,18 +201,51 @@ const HomeHero = (props: BoxProps) => {
               fontWeight: 600,
               position: "relative",
               userSelect: "none",
+              fontSize: "50px",
+              "@media (max-width: 992px)": {
+                fontSize: "32px",
+                letterSpacing: "9px",
+              },
+              "@media (max-width: 768px)": {
+                fontSize: "24px",
+                letterSpacing: "6px",
+              },
             }}
             align="center"
-            size={50}
           >
             Create your awesome <br />
             <TextLoop />
           </Title>
           <Group align="center" spacing={4} noWrap mb="md">
-            <Text size={40} sx={{ fontWeight: 600 }}>
+            <Text
+              sx={{
+                fontWeight: 600,
+                fontSize: "40px",
+                "@media (max-width: 992px)": {
+                  fontSize: "26px",
+                },
+                "@media (max-width: 768px)": {
+                  fontSize: "20px",
+                },
+              }}
+            >
               All it takes is just twoclicks
             </Text>
-            <Clicks width="68px" style={{ marginTop: "12px", height: "auto" }} />
+            <Clicks
+              sx={{
+                marginTop: "12px",
+                height: "auto",
+                width: "68px",
+                "@media (max-width: 992px)": {
+                  width: "48px",
+                  marginTop: "10px",
+                },
+                "@media (max-width: 768px)": {
+                  width: "32px",
+                  marginTop: "8px",
+                },
+              }}
+            />
           </Group>
           <Box
             component="span"

@@ -38,8 +38,6 @@ const BaseLayout: FC<BaseLayoutProps> = ({
             paddingRight: 0,
           },
         }}
-        navbarOffsetBreakpoint="sm"
-        asideOffsetBreakpoint="sm"
         header={
           <LayoutHeader
             fixed

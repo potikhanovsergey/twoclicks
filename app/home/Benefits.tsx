@@ -21,6 +21,7 @@ import { HiOutlineSparkles } from "@react-icons/all-files/hi/HiOutlineSparkles"
 import { HiOutlineTemplate } from "@react-icons/all-files/hi/HiOutlineTemplate"
 import { BsPhone } from "@react-icons/all-files/bs/BsPhone"
 import { HiCursorClick } from "@react-icons/all-files/hi/HiCursorClick"
+import LandingTitle from "app/core/components/base/LandingTitle"
 
 interface BenefitsCardProps {
   title: string
@@ -36,10 +37,30 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
   return (
     <m.div initial="initial" whileHover="hover">
       <Stack align="center" spacing={0}>
-        <Text weight={700} size={28} mb="sm">
+        <Text
+          weight={700}
+          mb="sm"
+          sx={{
+            fontSize: "28px",
+            "@media (max-width: 992px)": {
+              fontSize: "24px",
+            },
+            "@media (max-width: 768px)": {
+              fontSize: "22px",
+            },
+          }}
+        >
           {title}
         </Text>
-        <Box sx={{ position: "relative", width: "60%" }}>
+        <Box
+          sx={{
+            position: "relative",
+            width: "60%",
+            "@media (max-width: 768px)": {
+              width: "100%",
+            },
+          }}
+        >
           <AspectRatio
             mb="lg"
             sx={{
@@ -60,7 +81,19 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
             <Center>{icon}</Center>
           </AspectRatio>
         </Box>
-        <Text weight={600} size={24} align="center">
+        <Text
+          weight={600}
+          align="center"
+          sx={{
+            fontSize: "24px",
+            "@media (max-width: 992px)": {
+              fontSize: "20px",
+            },
+            "@media (max-width: 768px)": {
+              fontSize: "16px",
+            },
+          }}
+        >
           {text}
         </Text>
       </Stack>
@@ -141,13 +174,7 @@ const Benefits = (props: ContainerProps) => {
 
   return (
     <Container size="xl" px={40} {...props}>
-      <Title
-        order={2}
-        size={34}
-        sx={{ textTransform: "uppercase", letterSpacing: "8px", fontWeight: 600 }}
-      >
-        Our benefits
-      </Title>
+      <LandingTitle>Our benefits</LandingTitle>
       <Space h={40} />
       <AnimatePresence>
         <m.div
@@ -163,11 +190,32 @@ const Benefits = (props: ContainerProps) => {
               boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
               borderRadius: "50px",
               backgroundColor: dark ? theme.colors.dark[7] : theme.white,
+              "@media (max-width: 768px)": {
+                boxShadow: "none",
+                backgroundColor: "transparent",
+                padding: 0,
+              },
             }}
             px="xl"
             py={64}
           >
-            <SimpleGrid cols={3} spacing={0} sx={{ rowGap: "116px" }}>
+            <SimpleGrid
+              cols={3}
+              spacing={0}
+              breakpoints={[
+                { maxWidth: 992, cols: 2 },
+                { maxWidth: 768, cols: 1 },
+              ]}
+              sx={{
+                rowGap: "116px",
+                "@media (max-width: 992px)": {
+                  rowGap: "96px",
+                },
+                "@media (max-width: 768px)": {
+                  rowGap: "64px",
+                },
+              }}
+            >
               {BenefitsCards.map((card, i) => (
                 <BenefitsCard {...card} key={i} />
               ))}

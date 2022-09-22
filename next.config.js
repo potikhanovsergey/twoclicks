@@ -10,6 +10,7 @@ module.exports = withBundleAnalyzer(
     withBlitz({
       images: {
         domains: ["img.youtube.com"],
+        deviceSizes: [320, 576, 640, 768, 828, 992, 1080, 1200, 1400],
       },
     })
   )

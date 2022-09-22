@@ -17,6 +17,7 @@ import Clicks from "app/core/components/Clicks"
 import Link from "next/link"
 
 import NextImage from "app/core/components/base/NextImage"
+import LandingTitle from "app/core/components/base/LandingTitle"
 
 interface ShowcasesProps extends BoxProps {
   link: string
@@ -100,17 +101,14 @@ const Showcase = (props: ContainerProps) => {
 
   return (
     <Container size="xl" px={40} {...props}>
-      <Group position="center" spacing={0} noWrap mb={128}>
-        <Title
-          order={2}
-          size={34}
-          sx={{ textTransform: "uppercase", letterSpacing: "8px", fontWeight: 600 }}
-          align="center"
-        >
-          Showcase: these pages <br /> were made with twoclicks
-        </Title>
-        <Clicks width="68px" style={{ marginTop: "52px", height: "auto" }} />
-      </Group>
+      <Box sx={{ margin: "0 auto 128px" }}>
+        <LandingTitle align="center">
+          Showcase: made with twoclicks
+          <span>
+            <Clicks style={{ width: "68px", transform: "translateY(16px)" }} />
+          </span>
+        </LandingTitle>
+      </Box>
       <Box sx={{ position: "relative" }}>
         <SimpleGrid cols={3} spacing={60}>
           {Showcases.map((showcase, i) => (

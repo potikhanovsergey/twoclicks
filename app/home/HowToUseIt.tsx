@@ -17,6 +17,7 @@ import { useRef } from "react"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import { IoMdSave } from "@react-icons/all-files/io/IoMdSave"
 import NextImage from "app/core/components/base/NextImage"
+import LandingTitle from "app/core/components/base/LandingTitle"
 
 const HowToUseIt = (props: ContainerProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -37,6 +38,9 @@ const HowToUseIt = (props: ContainerProps) => {
           zIndex: -1,
           transform: "translateX(-50%)",
           left: "50%",
+          "@media (max-width: 1200px)": {
+            display: "none",
+          },
         }}
       >
         <m.path
@@ -45,47 +49,81 @@ const HowToUseIt = (props: ContainerProps) => {
           stroke="#845EF7"
         />
       </Box>
-      <Title
-        order={2}
-        size={34}
-        sx={{ textTransform: "uppercase", letterSpacing: "8px", fontWeight: 600 }}
-        align="center"
-        mb={120}
+      <LandingTitle>How to use it</LandingTitle>
+      <Stack
+        sx={{
+          gap: "128px",
+          "@media (max-width: 768px)": {
+            alignItems: "center",
+            gap: "64px",
+          },
+        }}
       >
-        How to use it
-      </Title>
-      <Stack spacing={128}>
-        <Group>
+        <Box
+          sx={{
+            boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
+            borderRadius: "30px",
+            position: "relative",
+            maxWidth: "700px",
+            width: "63%",
+            "@media (max-width: 768px)": {
+              width: "100%",
+            },
+          }}
+        >
           <Box
             sx={{
-              boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
-              borderRadius: "30px",
               position: "relative",
-              maxWidth: "700px",
-              width: "63%",
+              borderRadius: "10px",
+              "@media (max-width: 768px)": {
+                paddingTop: "110px",
+              },
             }}
           >
-            <Box sx={{ position: "relative", borderRadius: "10px" }}>
-              <NextImage
-                src="/landing/sections-modal.png"
-                alt="sections modal example"
-                width={700}
-              />
-            </Box>
             <ShadowCard
               sx={{
                 position: "absolute",
                 top: "80px",
-                right: "-440px",
+                right: "-60%",
+                zIndex: 1,
+                "@media (max-width: 768px)": {
+                  right: 0,
+                  top: 0,
+                },
               }}
             >
-              <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
+              <Text
+                weight={700}
+                sx={{
+                  letterSpacing: "3px",
+                  fontSize: "24px",
+                  "@media (max-width: 992px)": {
+                    fontSize: "20px",
+                  },
+                  "@media (max-width: 768px)": {
+                    fontSize: "16px",
+                  },
+                }}
+              >
                 Choose template or start <br />
                 from scratch
               </Text>
             </ShadowCard>
+            <NextImage
+              src="/landing/sections-modal.png"
+              alt="sections modal example"
+              sx={{
+                width: "700px",
+                "@media (max-width: 992px)": {
+                  width: "500px",
+                },
+                "@media (max-width: 768px)": {
+                  width: "300px",
+                },
+              }}
+            />
           </Box>
-        </Group>
+        </Box>
         <Group position="right">
           <Box
             sx={{
@@ -94,42 +132,92 @@ const HowToUseIt = (props: ContainerProps) => {
               position: "relative",
               maxWidth: "700px",
               width: "63%",
-            }}
-          >
-            <Box sx={{ position: "relative", borderRadius: "10px" }}>
-              <NextImage
-                src="/landing/sections-modal.png"
-                alt="sections modal example"
-                width={700}
-              />
-            </Box>
-            <ShadowCard
-              sx={{
-                position: "absolute",
-                top: "180px",
-                left: "-360px",
-                zIndex: 1,
-              }}
-            >
-              <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
-                Enrich your page by adding <br /> new sections
-              </Text>
-            </ShadowCard>
-          </Box>
-        </Group>
-        <Group position="center" spacing={140} noWrap>
-          <Box
-            sx={{
-              boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
-              borderRadius: "30px",
-              maxWidth: "400px",
-              width: "63%",
+              "@media (max-width: 768px)": {
+                width: "100%",
+              },
             }}
           >
             <Box
               sx={{
                 position: "relative",
                 borderRadius: "10px",
+                "@media (max-width: 768px)": {
+                  paddingTop: "110px",
+                },
+              }}
+            >
+              <ShadowCard
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "-50%",
+                  zIndex: 1,
+                  "@media (max-width: 768px)": {
+                    left: 0,
+                    top: 0,
+                  },
+                }}
+              >
+                <Text
+                  weight={700}
+                  sx={{
+                    letterSpacing: "3px",
+                    fontSize: "24px",
+                    "@media (max-width: 992px)": {
+                      fontSize: "20px",
+                    },
+                    "@media (max-width: 768px)": {
+                      fontSize: "16px",
+                    },
+                  }}
+                >
+                  Enrich your page by adding <br /> new sections
+                </Text>
+              </ShadowCard>
+              <NextImage
+                src="/landing/sections-modal.png"
+                alt="sections modal example"
+                sx={{
+                  width: "700px",
+                  "@media (max-width: 992px)": {
+                    width: "500px",
+                  },
+                  "@media (max-width: 768px)": {
+                    width: "300px",
+                  },
+                }}
+              />
+            </Box>
+          </Box>
+        </Group>
+        <Group
+          position="center"
+          noWrap
+          sx={{
+            gap: "12%",
+            "@media (max-width: 768px)": {
+              flexDirection: "column-reverse",
+            },
+          }}
+        >
+          <Box
+            sx={{
+              boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
+              borderRadius: "30px",
+              maxWidth: "400px",
+              width: "63%",
+              "@media (max-width: 768px)": {
+                width: "80%",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                position: "relative",
+                borderRadius: "10px",
+                "@media (max-width: 768px)": {
+                  paddingTop: "36px",
+                },
               }}
             >
               <NextImage
@@ -141,60 +229,111 @@ const HowToUseIt = (props: ContainerProps) => {
             </Box>
           </Box>
           <ShadowCard>
-            <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
+            <Text
+              weight={700}
+              sx={{
+                letterSpacing: "3px",
+                fontSize: "24px",
+                "@media (max-width: 992px)": {
+                  fontSize: "20px",
+                },
+                "@media (max-width: 768px)": {
+                  fontSize: "16px",
+                },
+              }}
+            >
               Edit elements and sections <br /> as you wish
             </Text>
           </ShadowCard>
         </Group>
-        <Group position="center" spacing={140}>
-          <ShadowCard sx={{ position: "relative", transform: "translateX(-70%)" }}>
-            <Text weight={700} size={24} sx={{ letterSpacing: "3px" }}>
-              Save and publish your page
-            </Text>
-            <Box
+
+        <ShadowCard
+          sx={{
+            position: "relative",
+            transform: "translateX(-70%)",
+            margin: "0 auto",
+            "@media (max-width: 992px)": {
+              transform: "translateX(-50%)",
+            },
+            "@media (max-width: 768px)": {
+              transform: "none",
+              margin: "0 auto 100px",
+            },
+          }}
+        >
+          <Text
+            weight={700}
+            sx={{
+              letterSpacing: "3px",
+              fontSize: "24px",
+              "@media (max-width: 992px)": {
+                fontSize: "20px",
+              },
+              "@media (max-width: 768px)": {
+                fontSize: "16px",
+              },
+            }}
+          >
+            Save and publish your page
+          </Text>
+          <Box
+            sx={{
+              position: "absolute",
+              right: "-180px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              "@media (max-width: 992px)": {
+                right: "-48px",
+              },
+              "@media (max-width: 768px)": {
+                top: "125px",
+                right: "auto",
+                transform: "none",
+              },
+            }}
+          >
+            <Button
+              component="span"
+              variant="gradient"
+              size="lg"
+              gradient={{ from: "violet", to: "red", deg: 60 }}
+              leftIcon={<IoMdSave />}
+              tabIndex={-1}
               sx={{
+                pointerEvents: "none",
                 position: "absolute",
-                right: "-150px",
-                top: "50%",
-                transform: "translateY(-50%)",
+                top: "-38px",
+                left: 0,
+                userSelect: "none",
+                fontSize: "24px",
+                "@media (max-width: 992px)": {
+                  fontSize: "20px",
+                },
+                "@media (max-width: 768px)": {
+                  fontSize: "16px",
+                },
               }}
             >
-              <Button
-                component="span"
-                variant="gradient"
-                size="lg"
-                gradient={{ from: "violet", to: "red", deg: 60 }}
-                leftIcon={<IoMdSave />}
-                tabIndex={-1}
-                sx={{
-                  pointerEvents: "none",
-                  position: "absolute",
-                  top: "-38px",
-                  left: 0,
-                  userSelect: "none",
-                }}
-              >
-                Save changes
-              </Button>
-              <Button
-                component="span"
-                color="violet"
-                size="lg"
-                tabIndex={-1}
-                leftIcon={<FaEye />}
-                sx={{
-                  pointerEvents: "none",
-                  position: "absolute",
-                  top: 0,
-                  left: "96px",
-                  userSelect: "none",
-                }}
-              >
-                Publish portfolio
-              </Button>
-            </Box>
-          </ShadowCard>
-        </Group>
+              Save changes
+            </Button>
+            <Button
+              component="span"
+              color="violet"
+              size="lg"
+              tabIndex={-1}
+              leftIcon={<FaEye />}
+              sx={{
+                pointerEvents: "none",
+                position: "absolute",
+                top: 0,
+                left: "96px",
+                userSelect: "none",
+              }}
+            >
+              Publish portfolio
+            </Button>
+          </Box>
+        </ShadowCard>
         <Center my={48}>
           <ShadowCard
             py={24}
@@ -203,7 +342,20 @@ const HowToUseIt = (props: ContainerProps) => {
             }}
           >
             <PortfolioLink id={"6321d3c786636b3da6ce61e0"} shouldSearch={false} centered />
-            <Text weight={700} size={24} sx={{ letterSpacing: "3px" }} align="center">
+            <Text
+              weight={700}
+              sx={{
+                letterSpacing: "3px",
+                fontSize: "24px",
+                "@media (max-width: 992px)": {
+                  fontSize: "20px",
+                },
+                "@media (max-width: 768px)": {
+                  fontSize: "16px",
+                },
+              }}
+              align="center"
+            >
               Share with other people <br />
               and you`re done!
             </Text>
