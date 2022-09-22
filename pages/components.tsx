@@ -22,22 +22,22 @@ const ComponentsPage = () => {
           direction="column"
           buttons={[
             {
-              type: "link",
+              elType: "link",
               href: "/",
               children: "Builder",
             },
             {
-              type: "link",
+              elType: "link",
               href: "/",
               children: "Profile",
             },
             {
-              type: "link",
+              elType: "link",
               href: "/",
               children: "Profile",
             },
             {
-              type: "link",
+              elType: "link",
               href: "/",
               children: "Profile",
             },

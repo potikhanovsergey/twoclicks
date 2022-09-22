@@ -82,7 +82,7 @@ function HeaderProfile() {
 
   const menuItems: GroupButtonProps[] = useMemo(() => {
     const formatedMenuItems: GroupButtonProps[] = ConstMenuItems.map((i) => ({
-      type: "menuItem",
+      elType: "menuItem",
       sx: MenuItemSx,
       children: t(i.children),
       href: i.href,
@@ -90,13 +90,13 @@ function HeaderProfile() {
 
     if (user) {
       formatedMenuItems.unshift({
-        type: "menuItem",
+        elType: "menuItem",
         sx: MenuItemSx,
         children: t(ProfileItem.children),
         href: ProfileItem.href,
       })
       formatedMenuItems.push({
-        type: "menuItem",
+        elType: "menuItem",
         sx: (theme) => ({ color: theme.colors.red[5], fontWeight: 700, fontSize: "14px" }),
         children: t("signout"),
         onClick: () => logoutMutation(),

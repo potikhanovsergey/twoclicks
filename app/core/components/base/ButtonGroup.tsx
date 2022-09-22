@@ -1,13 +1,22 @@
-import { Box, BoxProps, createStyles, UnstyledButton, UnstyledButtonProps } from "@mantine/core"
+import {
+  Box,
+  BoxProps,
+  Button,
+  ButtonProps,
+  createStyles,
+  packSx,
+  useMantineTheme,
+} from "@mantine/core"
 import { useDebouncedValue, useHover } from "@mantine/hooks"
 import { useRef, useState } from "react"
 import Link from "next/link"
 import ConditionalWrapper from "../ConditionalWrapper"
 
-export type GroupButtonProps = UnstyledButtonProps & {
+export type GroupButtonProps = ButtonProps & {
   href?: string
-  type: "link" | "button" | "menuItem"
+  elType?: "link" | "button" | "menuItem"
   onClick?: () => void
+  active?: boolean
 }
 
 interface ButtonGroupProps {
@@ -27,6 +36,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     position: "relative",
     userSelect: "none",
     padding: "6px 12px",
+    border: "none",
+    backgroundColor: "transparent",
+    ":hover": {
+      backgroundColor: "transparent",
+    },
   },
   highlight: {
     ref: getRef("highlight"),
@@ -58,6 +72,9 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
 
   const [debouncedContainerHovered] = useDebouncedValue(containerHovered, 150)
 
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
+
   return (
     <Box className={classes.wrapper} ref={containerRef} sx={{ flexDirection: direction }}>
       <Box
@@ -76,14 +93,14 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
       {buttons &&
         buttons.length > 0 &&
         buttons.map((button, i) => {
-          const { href, type, children, ...props } = button
+          const { href, elType, children, sx, active, ...props } = button
 
           return (
             <ConditionalWrapper
               key={i}
-              condition={type !== "button"}
+              condition={elType !== "button"}
               wrap={(children) => {
-                if (type === "menuItem" && href) {
+                if (elType === "menuItem" && href) {
                   return (
                     <Link href={href} passHref>
                       {children}
@@ -94,9 +111,14 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
                 return children
               }}
             >
-              <UnstyledButton
-                component={type !== "button" ? ("a" as "button") : undefined}
-                role={type === "menuItem" ? "menuitem" : undefined}
+              <Button
+                variant="default"
+                component={
+                  elType === "link" || (elType === "menuItem" && href)
+                    ? ("a" as "button")
+                    : undefined
+                }
+                role={elType === "menuItem" ? "menuitem" : undefined}
                 key={i}
                 ref={(node) => {
                   refs.current[i] = node
@@ -120,7 +142,7 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
                 {...props}
               >
                 {children}
-              </UnstyledButton>
+              </Button>
             </ConditionalWrapper>
           )
         })}

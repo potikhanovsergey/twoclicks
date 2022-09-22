@@ -1,13 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 // import { observer } from 'mobx-react-lite';
-import {
-  SimpleGrid,
-  ScrollArea,
-  LoadingOverlay,
-  Pagination,
-  createStyles,
-  Loader,
-} from "@mantine/core"
+import { SimpleGrid, ScrollArea, Pagination, createStyles, Loader } from "@mantine/core"
 import ViewListItem from "./ViewListItem"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
@@ -48,21 +41,6 @@ const ViewList = ({ type, modalType }: IViewList) => {
   const session = useSession()
   const { shouldRefetchLiked, blockTypeFilter } = BuildStore
   const [activePage, setActivePage] = useState(1) // Mantine pagination starts with the index of "1"
-
-  // const [usedBlocksData, { isLoading: isLoadingUsedBlocks }] = usePaginatedQuery(
-  //   getUsedBlocks,
-  //   {
-  //     orderBy: {
-  //       updatedAt: "desc",
-  //     },
-  //     where: {
-  //       userId: session.userId || "",
-  //     },
-  //     skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
-  //     take: ITEMS_PER_PAGE,
-  //   },
-  //   { refetchOnReconnect: false, refetchOnWindowFocus: false, enabled: type === "used-before" }
-  // )
 
   const [buildingBlocksData, { isFetching, refetch, isLoading }] = usePaginatedQuery(
     type === "used-before" ? getUsedBlocks : type === "liked" ? getLikedBlocks : getBuildingBlocks,
@@ -139,7 +117,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
   }, [debouncedTotalPages])
 
   return (
-    <div className={classes.wrapper}>
+    <>
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
           {buildingBlocksData?.buildingBlocks.map((b, i) => {
@@ -179,7 +157,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
           onChange={handlePaginationChange}
         />
       )}
-    </div>
+    </>
   )
 }
 

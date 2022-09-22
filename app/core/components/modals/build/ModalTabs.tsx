@@ -1,4 +1,4 @@
-import { Tabs, Text, TabProps, LoadingOverlay, ThemeIcon } from "@mantine/core"
+import { TabProps, LoadingOverlay, useMantineTheme, Title, createStyles, Box } from "@mantine/core"
 import React, { Suspense, useMemo, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "types"
@@ -9,7 +9,20 @@ import { BiGridSmall } from "@react-icons/all-files/bi/BiGridSmall"
 import { WiStars } from "@react-icons/all-files/wi/WiStars"
 import { RiHeartFill } from "@react-icons/all-files/ri/RiHeartFill"
 import { GiAnticlockwiseRotation } from "@react-icons/all-files/gi/GiAnticlockwiseRotation"
-import { CgCrown } from "@react-icons/all-files/cg/CgCrown"
+import ButtonGroup from "../../base/ButtonGroup"
+
+const useStyles = createStyles(() => ({
+  wrapper: {
+    display: "flex",
+    flexDirection: "column",
+    height: "calc(100% - 48px)",
+    padding: "10px 0 15px 0",
+    gap: "10px",
+    position: "relative",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+}))
 
 interface IModalTab extends TabProps {
   viewlistType: string
@@ -20,9 +33,13 @@ interface IComponentsModalTabs {
 }
 
 const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
-  const [activeTab, setActiveTab] = useState<string | null>("All")
+  const [activeTab, setActiveTab] = useState<{ value: string; viewlistType: string }>({
+    value: "All",
+    viewlistType: "all",
+  })
   const session = useSession()
   const { t } = useTranslation("pagesBuild")
+  const theme = useMantineTheme()
 
   const ComponentsModalTabsArr: IModalTab[] = useMemo(() => {
     return [
@@ -30,25 +47,25 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
         color: "indigo",
         value: "All",
         viewlistType: "all",
-        icon: <BiGridSmall size={24} />,
+        icon: <BiGridSmall size={24} color={theme.colors.indigo[5]} />,
       },
       {
         color: "violet",
         value: "Popular",
         viewlistType: "popular",
-        icon: <WiStars size={16} />,
+        icon: <WiStars size={16} color={theme.colors.violet[5]} />,
       },
       {
         color: "red",
         value: "Liked",
         viewlistType: "liked",
-        icon: <RiHeartFill size={16} />,
+        icon: <RiHeartFill size={16} color={theme.colors.red[5]} />,
       },
       {
         color: "green",
         value: "Used Before",
         viewlistType: "used-before",
-        icon: <GiAnticlockwiseRotation size={16} />,
+        icon: <GiAnticlockwiseRotation color={theme.colors.green[5]} size={16} />,
       },
       // {
       //   color: "yellow",
@@ -59,75 +76,30 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
     ]
   }, [])
 
+  const { classes } = useStyles()
+
   return (
-    <Tabs
-      value={activeTab}
-      onTabChange={setActiveTab}
-      styles={{
-        panel: {
-          paddingTop: "0",
-          height: "calc(100% - 40px)",
-        },
-        root: {
-          height: "100%",
-          display: "flex",
-          flexDirection: "column",
-        },
-      }}
-    >
-      <Tabs.List>
-        {ComponentsModalTabsArr.map((tab, i) => (
-          <Tabs.Tab
-            disabled={
-              (tab.viewlistType === "liked" || tab.viewlistType === "used-before") &&
-              !session.userId
-            }
-            sx={() => ({
-              "&:focus": {
-                outline: "none",
-              },
-            })}
-            key={tab.value}
-            color={tab.color}
-            icon={
-              <ThemeIcon variant="light" color={tab.color} size="sm">
-                {tab.icon}
-              </ThemeIcon>
-            }
-            value={tab.value}
+    <>
+      <ButtonGroup
+        buttons={ComponentsModalTabsArr.map((b) => ({
+          children: t(b.value),
+          onClick: () => setActiveTab({ value: b.value, viewlistType: b.viewlistType }),
+          leftIcon: b.icon,
+          // active: b.value === activeTab.value,
+        }))}
+      />
+      <Suspense fallback={<LoadingOverlay visible={true} />}>
+        {ComponentsModalTabsArr.map((b) => (
+          <Box
+            key={b.value}
+            className={classes.wrapper}
+            sx={{ display: b.viewlistType === activeTab.viewlistType ? "flex" : "none" }}
           >
-            <Text
-              size="sm"
-              color={tab.value === activeTab ? tab.color : undefined}
-              sx={() => ({
-                fontWeight: tab.value === activeTab ? 700 : 400,
-                "&::before": {
-                  content: `"${tab.value}"`,
-                  fontWeight: 700,
-                  height: "0",
-                  overflow: "hidden",
-                  visibility: "hidden",
-                  display: "block",
-                },
-              })}
-            >
-              {t(tab.value)}
-            </Text>
-          </Tabs.Tab>
+            <ViewList key={b.value} type={b.viewlistType} modalType={modalType} />
+          </Box>
         ))}
-      </Tabs.List>
-      {ComponentsModalTabsArr.map((tab, i) =>
-        !(tab.viewlistType === "liked" || tab.viewlistType === "used-before") || session.userId ? (
-          <Tabs.Panel value={tab.value} key={tab.value}>
-            <Suspense fallback={<LoadingOverlay visible={true} />}>
-              <ViewList type={tab.viewlistType} modalType={modalType} />
-            </Suspense>
-          </Tabs.Panel>
-        ) : (
-          <React.Fragment key={i}></React.Fragment>
-        )
-      )}
-    </Tabs>
+      </Suspense>
+    </>
   )
 }
 
