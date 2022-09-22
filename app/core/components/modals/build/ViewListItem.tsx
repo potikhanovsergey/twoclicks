@@ -13,8 +13,8 @@ import { RenderJSXFromBlock } from "helpers"
 import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
-import createLikedBlock from "app/liked-blocks/mutations/createLikedBlock"
-import deleteLikedBlock from "app/liked-blocks/mutations/deleteLikedBlock"
+import createLikedBlock from "app/building-blocks/mutations/createLikedBlock"
+import deleteLikedBlock from "app/building-blocks/mutations/deleteLikedBlock"
 import { useElementSize } from "@mantine/hooks"
 import SafeWrapper from "../../SafeWrapper"
 import { observer } from "mobx-react-lite"
@@ -22,6 +22,7 @@ import shortid from "shortid"
 
 import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill"
 import { RiHeartAddLine } from "@react-icons/all-files/ri/RiHeartAddLine"
+import upsertUsedBlock from "app/building-blocks/mutations/upsertUsedBlock"
 interface IViewListItem {
   block: BuildingBlock
   onClick?: () => void
@@ -35,23 +36,16 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     background: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1],
     cursor: "pointer",
     display: "flex",
-    // justifyContent: "center",
     height: "100%",
     aspectRatio: "5/3",
     position: "relative",
-    // overflowX: "hidden",
-    // overflowY: "scroll",
     overflow: "hidden",
     transition: "0.4s ease all",
     "&:hover": {
       [`& .${getRef("icon")}`]: {
         opacity: 1,
       },
-      [`& .${getRef("child")}`]: {
-        // transform: `scale(0.97)`,
-        // transform: "translate(12px, -12px)",
-      },
-      // transform: "scale(0.98)",
+      [`& .${getRef("child")}`]: {},
       background: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[3],
     },
   },
@@ -110,6 +104,10 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
 
   const [isLikeLoading, setIsLikeLoading] = useState(false)
 
+  const [likeBuildingBlock] = useMutation(createLikedBlock)
+  const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
+  const [upsertUsedBlockMutation] = useMutation(upsertUsedBlock)
+
   const handleBoxClick = async (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === iconRef.current) {
       setIsLikeLoading(true)
@@ -123,6 +121,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       BuildStore.shouldRefetchLiked = true
       setIsLikeLoading(false)
     } else {
+      void upsertUsedBlockMutation({ buildingBlockId: block.id })
       BuildStore.push({ block: { ...block, id: shortid.generate() }, sectionToBeAddedIndex })
       setModalContext((prevValue: IModalContextValue) => ({
         ...prevValue,
@@ -131,8 +130,6 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       }))
     }
   }
-  const [likeBuildingBlock] = useMutation(createLikedBlock)
-  const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
 
   const { ref: boxRef, width: boxWidth, height: boxHeight } = useElementSize<HTMLDivElement>()
   const {

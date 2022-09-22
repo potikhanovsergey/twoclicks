@@ -7,6 +7,7 @@ import {
   Text,
   Button,
   useMantineTheme,
+  Sx,
 } from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
 import { useDisclosure } from "@mantine/hooks"
@@ -18,37 +19,39 @@ import logout from "app/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Link from "next/link"
-import { memo, useEffect, useState } from "react"
+import { memo, useEffect, useMemo, useState } from "react"
 
 import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
+import ButtonGroup, { GroupButtonProps } from "../base/ButtonGroup"
 
 export const ProfileItem = {
-  title: "goToTheProfile",
-  text: "profile",
-  route: "/profile",
+  href: "/profile",
+  children: "profile",
 }
+
+export const MenuItemSx: Sx = (theme) => ({
+  fontWeight: 700,
+  fontSize: "14px",
+  padding: "10px",
+})
 
 export const ConstMenuItems = [
   {
-    title: "openThePortfolioBuilder",
-    text: "portfolioBuilder",
-    route: "/build",
+    href: "/build",
+    children: "portfolioBuilder",
   },
   {
-    title: "openTheHelpCenter",
-    text: "helpcenter",
-    route: "/support",
+    href: "/support",
+    children: "helpcenter",
   },
   {
-    title: "aboutUsPage",
-    text: "aboutUs",
-    route: "/",
+    href: "/",
+    children: "aboutUs",
   },
   {
-    title: "whatsNewPage",
-    text: "whatsNew",
-    route: "/news",
+    href: "/whats-new",
+    children: "whatsNew",
   },
 ]
 
@@ -76,6 +79,32 @@ function HeaderProfile() {
       router.events.off("routeChangeComplete", handleComplete)
     }
   })
+
+  const menuItems: GroupButtonProps[] = useMemo(() => {
+    const formatedMenuItems: GroupButtonProps[] = ConstMenuItems.map((i) => ({
+      elType: "menuItem",
+      sx: MenuItemSx,
+      children: t(i.children),
+      href: i.href,
+    }))
+
+    if (user) {
+      formatedMenuItems.unshift({
+        elType: "menuItem",
+        sx: MenuItemSx,
+        children: t(ProfileItem.children),
+        href: ProfileItem.href,
+      })
+      formatedMenuItems.push({
+        elType: "menuItem",
+        sx: (theme) => ({ color: theme.colors.red[5], fontWeight: 700, fontSize: "14px" }),
+        children: t("signout"),
+        onClick: () => logoutMutation(),
+      })
+    }
+    return formatedMenuItems
+  }, [user])
+
   return (
     <Group position="center">
       {!user && (
@@ -112,7 +141,7 @@ function HeaderProfile() {
               gap: "8px",
               padding: 4,
               borderRadius: theme.radius.md,
-              color: theme.colorScheme === "dark" ? theme.colors.dark[0] : theme.black,
+              color: dark ? theme.colors.dark[0] : theme.black,
               backgroundColor: menuHovered
                 ? theme.colorScheme === "dark"
                   ? theme.colors.dark[6]
@@ -121,7 +150,7 @@ function HeaderProfile() {
             })}
           >
             {user && (
-              <Text weight="bold" style={{ whiteSpace: "nowrap" }}>
+              <Text weight="bold" style={{ whiteSpace: "nowrap" }} color={dark ? "gray.0" : "dark"}>
                 {user.name}
               </Text>
             )}
@@ -151,23 +180,7 @@ function HeaderProfile() {
         </Menu.Target>
         <Menu.Dropdown p={0}>
           <Menu.Label>{t("general")}</Menu.Label>
-          {/* MENU STARTS */}
-          {user?.id && <HeaderMenuItem {...ProfileItem} />}
-          {ConstMenuItems.map((menuItem, i) => (
-            <HeaderMenuItem key={menuItem.title} {...menuItem} />
-          ))}
-          {/* MENU ENDS */}
-          {user?.id && (
-            <Menu.Item
-              color="red"
-              sx={{ borderRadius: 0 }}
-              title={t("signOutOfTheAccount")}
-              onClick={async () => await logoutMutation()}
-            >
-              <Text weight="bold">{t("signout")}</Text>
-            </Menu.Item>
-          )}
-          {/* /* LOG OUT ENDS */}
+          <ButtonGroup direction="column" buttons={menuItems} />
           <Divider />
 
           <Menu.Label>{t("settings")}</Menu.Label>

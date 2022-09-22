@@ -30,20 +30,25 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
     borderRadius: "30px",
     position: "relative",
+    "&:after": {
+      content: "''",
+      position: "absolute",
+      left: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      opacity: 0,
+      backgroundColor: "rgba(0,0,0,.4)",
+      transition: "0.4s ease all",
+    },
     "&:hover": {
-      [`& .${getRef("overlay")}`]: {
-        opacity: 0.75,
+      "&:after": {
+        opacity: 1,
       },
       [`& .${getRef("text")}`]: {
         opacity: 1,
       },
     },
-  },
-
-  showcaseOverlay: {
-    ref: getRef("overlay"),
-    transition: "0.4s ease all",
-    opacity: 0,
   },
 
   showcaseText: {
@@ -67,11 +72,10 @@ const Showcases: ShowcasesProps[] = [
 ]
 
 const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => {
-  const theme = useMantineTheme()
   const { classes } = useStyles()
 
   return (
-    <AspectRatio ratio={1}>
+    <AspectRatio ratio={16 / 9}>
       <Link href={link} passHref>
         <Box className={classes.showcaseCard} component="a" target="_blank" {...rest}>
           <NextImage
@@ -80,12 +84,6 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
             width={400}
             height={400}
             style={{ borderRadius: "30px" }}
-          />
-          <Overlay
-            color={theme.black}
-            className={classes.showcaseOverlay}
-            opacity={0}
-            radius={30}
           />
           <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
             Click to view

@@ -1,16 +1,11 @@
 import { useEffect, useMemo, useState } from "react"
 // import { observer } from 'mobx-react-lite';
-import {
-  SimpleGrid,
-  ScrollArea,
-  LoadingOverlay,
-  Pagination,
-  createStyles,
-  Loader,
-} from "@mantine/core"
+import { SimpleGrid, ScrollArea, Pagination, createStyles, Loader } from "@mantine/core"
 import ViewListItem from "./ViewListItem"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
+import getUsedBlocks from "app/dashboard/building-blocks/queries/getUsedBlocks"
+import getLikedBlocks from "app/dashboard/building-blocks/queries/getLikedBlocks"
 import React from "react"
 import { useDebouncedValue } from "@mantine/hooks"
 import { useSession } from "@blitzjs/auth"
@@ -46,48 +41,59 @@ const ViewList = ({ type, modalType }: IViewList) => {
   const session = useSession()
   const { shouldRefetchLiked, blockTypeFilter } = BuildStore
   const [activePage, setActivePage] = useState(1) // Mantine pagination starts with the index of "1"
-  const [{ buildingBlocks, count: totalBlocks }, { isFetching, refetch, isLoading }] =
-    usePaginatedQuery(
-      getBuildingBlocks,
-      {
-        orderBy:
-          type === "liked"
-            ? {
-                LikedBlocks: {
-                  _count: "desc",
-                },
-              }
-            : { updatedAt: "desc" },
-        where: {
-          filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
-          editType: modalType === "sections" ? "section" : "element",
-          LikedBlocks:
-            type === "liked" && session.userId
+
+  const [buildingBlocksData, { isFetching, refetch, isLoading }] = usePaginatedQuery(
+    type === "used-before" ? getUsedBlocks : type === "liked" ? getLikedBlocks : getBuildingBlocks,
+    type === "used-before" || type === "liked"
+      ? {
+          orderBy:
+            type === "used-before"
               ? {
-                  some: {
-                    userId: {
-                      equals: session.userId,
-                    },
+                  updatedAt: "desc",
+                }
+              : {
+                  createdAt: "desc",
+                },
+          select: {
+            buildingBlock: true,
+          },
+          where: {
+            userId: session.userId || "",
+          },
+          skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
+          take: ITEMS_PER_PAGE,
+        }
+      : {
+          orderBy:
+            type === "popular"
+              ? {
+                  UsedBlocks: {
+                    _count: "desc",
                   },
                 }
-              : undefined,
+              : {
+                  updatedAt: "desc",
+                },
+          where: {
+            filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
+            editType: modalType === "sections" ? "section" : "element",
+          },
+          skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
+          take: ITEMS_PER_PAGE,
         },
-        skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
-        take: ITEMS_PER_PAGE,
-      },
-      {
-        refetchOnWindowFocus: false,
-        refetchOnReconnect: false,
-        refetchOnMount: false,
-      }
-    )
+    {
+      refetchOnWindowFocus: false,
+      refetchOnReconnect: false,
+    }
+  )
 
   const { likedBlocks, refetch: refetchLikedBlocks } = useCurrentUserLikedBlocks()
-  const totalPaginationPages = useMemo(() => {
-    return Math.ceil(totalBlocks / ITEMS_PER_PAGE)
-  }, [totalBlocks])
 
-  const [loadingOverlayVisible] = useDebouncedValue(isFetching, 1000)
+  const totalPaginationPages = useMemo(() => {
+    if (buildingBlocksData) return Math.ceil(buildingBlocksData?.count / ITEMS_PER_PAGE)
+    return 0
+  }, [buildingBlocksData])
+
   const [debouncedTotalPages] = useDebouncedValue(totalPaginationPages, 500)
 
   const { classes } = useStyles()
@@ -97,7 +103,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
   }
 
   useEffect(() => {
-    if (shouldRefetchLiked && type === "liked") {
+    if (shouldRefetchLiked) {
       void refetch()
       void refetchLikedBlocks()
       BuildStore.shouldRefetchLiked = false
@@ -111,18 +117,20 @@ const ViewList = ({ type, modalType }: IViewList) => {
   }, [debouncedTotalPages])
 
   return (
-    <div className={classes.wrapper}>
-      <LoadingOverlay visible={loadingOverlayVisible} />
+    <>
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
-          {buildingBlocks.map((block, i) => (
-            <ViewListItem
-              block={block}
-              liked={likedBlocks?.includes(block.id)}
-              key={`${block.id} ${i}`}
-              hasActions={Boolean(session.userId)}
-            />
-          ))}
+          {buildingBlocksData?.buildingBlocks.map((b, i) => {
+            const block = type === "used-before" || type === "liked" ? b.buildingBlock : b
+            return (
+              <ViewListItem
+                block={block}
+                liked={likedBlocks?.includes(block.id)}
+                key={`${block.id} ${i}`}
+                hasActions={Boolean(session.userId)}
+              />
+            )
+          })}
         </SimpleGrid>
       </ScrollArea>
       {isLoading ? (
@@ -149,7 +157,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
           onChange={handlePaginationChange}
         />
       )}
-    </div>
+    </>
   )
 }
 

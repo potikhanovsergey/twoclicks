@@ -11,7 +11,6 @@ import {
 import { useContext, useEffect, useMemo } from "react"
 import useTranslation from "next-translate/useTranslation"
 import { ModalContext } from "contexts/ModalContext"
-import { ConstMenuItems } from "../../layout/HeaderProfile"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import { useMutation } from "@blitzjs/rpc"
 import logout from "app/auth/mutations/logout"
@@ -21,6 +20,29 @@ import ColorSchemeToggle from "../../base/ColorSchemeToggle"
 import LanguageSwitcher from "../../base/LanguageSwitcher"
 import { ProfileLinks } from "app/profile/ProfileLinks"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
+
+const ConstMenuItems = [
+  {
+    title: "openThePortfolioBuilder",
+    text: "portfolioBuilder",
+    route: "/build",
+  },
+  {
+    title: "openTheHelpCenter",
+    text: "helpcenter",
+    route: "/support",
+  },
+  {
+    title: "aboutUsPage",
+    text: "aboutUs",
+    route: "/",
+  },
+  {
+    title: "whatsNewPage",
+    text: "whatsNew",
+    route: "/news",
+  },
+]
 
 const MenuModal = () => {
   const theme = useMantineTheme()

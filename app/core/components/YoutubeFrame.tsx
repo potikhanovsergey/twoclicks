@@ -96,8 +96,8 @@ function YouTubeFrame({
           />
         ) : (
           <Center>
-            <Text style={{ maxWidth: "50%", zIndex: 2, position: "relative" }}>
-              We can&apos;t with video with this url on youtube: {src}
+            <Text style={{ maxWidth: "66%", zIndex: 2, position: "relative" }}>
+              We can&apos;t find video with this url on youtube: {src}
             </Text>
           </Center>
         )}
