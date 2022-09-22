@@ -365,8 +365,10 @@ export function RenderJSXFromBlock({
         key={shortid.generate()}
         icon={<TagName {...props} />}
         onChange={(icon) => {
+          console.log(icon)
           if (icon?.props) {
             let newProps = icon.props as ICanvasBlockProps
+            console.log(newProps)
             BuildStore.changeProp({ id: el.id, newProps })
           }
         }}

@@ -27,7 +27,7 @@ const icons = { FaPlay, FaStar, FaVenus }
 const FirstIcon = Object.values(icons)[0]
 
 const formatOutput = (icon: JSX.Element) => {
-  return JSON.parse(serialize(icon))?.type
+  return JSON.parse(serialize(icon))
 }
 
 export interface IconPickerProps {
@@ -57,7 +57,13 @@ const IconPicker = ({
     const output = Object.entries(icons)
       .filter(([name]) => name.toLowerCase().includes(debouncedSearchValue.toLowerCase()))
       .map(([name, Icon]) => (
-        <ActionIcon onClick={() => onChange(formatOutput(<Icon />))} key={name}>
+        <ActionIcon
+          onClick={() => {
+            const output = Icon({})
+            onChange(output)
+          }}
+          key={name}
+        >
           <Icon />
         </ActionIcon>
       ))
