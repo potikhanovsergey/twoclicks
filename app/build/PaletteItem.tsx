@@ -32,6 +32,7 @@ interface IPaletteItem extends Omit<PopoverProps, "children"> {
     onImagePick: (value: string) => void
     id: string
   }
+  onTargetClick?: () => void
 }
 
 const PaletteItem = (props: IPaletteItem) => {
@@ -50,6 +51,7 @@ const PaletteItem = (props: IPaletteItem) => {
     resetText,
     imageUpload,
     hasBG,
+    onTargetClick,
     ...popoverProps
   } = props
 
@@ -91,7 +93,7 @@ const PaletteItem = (props: IPaletteItem) => {
   return (
     <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
       <Popover.Target>
-        <div>
+        <div onClick={onTargetClick}>
           <Box
             p={6}
             sx={(theme) => ({

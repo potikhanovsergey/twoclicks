@@ -34,14 +34,17 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
       <div ref={itemRef}>
         <PaletteItem
           withHover
-          defaultOpened={openedAction?.[id] === "bg"}
-          onOpen={() => {
+          opened={openedAction[id] === "bg"}
+          // onOpen={() => {
+          //   BuildStore.openedAction[id] = "bg"
+          // }}
+          onTargetClick={() => {
             BuildStore.openedAction[id] = "bg"
           }}
           onClose={() => {
             BuildStore.openedAction = {}
           }}
-          popoverPosition="top"
+          popoverPosition="top-end"
           offset={6}
           color={props?.sx?.backgroundColor}
           withReset={Boolean(props?.sx?.background || props?.sx?.backgroundColor)}
@@ -59,6 +62,7 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
           }}
           resetText="Remove background"
           hasBG={props?.sx?.background}
+          middlewares={{ shift: false, flip: false }}
           onResetClick={() => {
             changeProp({
               id,
