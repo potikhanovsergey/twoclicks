@@ -1,17 +1,19 @@
-import { LoginForm } from "app/auth/components/LoginForm"
 import { useRouter } from "next/router"
-import AuthLayout from "app/core/layouts/AuthLayout"
-import { useEffect, useState } from "react"
-import SignupForm from "app/auth/components/SignupForm"
+import { Suspense, useEffect } from "react"
 import { useSession } from "@blitzjs/auth"
 import { showNotification } from "@mantine/notifications"
 import { useLocalStorage } from "@mantine/hooks"
+import { getBaseLayout } from "app/core/layouts/BaseLayout"
+import { Loader, Stack, Title } from "@mantine/core"
+import { FaVk } from "@react-icons/all-files/fa/FaVk"
+import { FaYandex } from "@react-icons/all-files/fa/FaYandex"
+import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle"
+import AuthSocials from "app/auth/components/Socials"
 
 type step = "registration" | "authorization"
 
 const AuthPage = () => {
   const router = useRouter()
-  const [step, setStep] = useState<step>("authorization")
 
   const [routerNext, setRouterNext] = useLocalStorage<string | null>({
     key: "router-next",
@@ -43,19 +45,52 @@ const AuthPage = () => {
   }, [router.query])
 
   return (
-    <AuthLayout
-      title={step === "authorization" ? "Log In" : "Sign Up"}
-      formTitle={step === "authorization" ? "Welcome Back!" : undefined}
+    <Stack
+      style={{ height: "100%", maxWidth: "50%", margin: "0 auto" }}
+      align="center"
+      justify="center"
     >
-      {step === "authorization" ? (
+      <Title
+        order={1}
+        sx={{
+          fontSize: "2em",
+          textAlign: "center",
+          "@media (max-width: 768px)": {
+            fontSize: "1.4em",
+          },
+        }}
+        mb="md"
+      >
+        Pick a provider to authorize
+      </Title>
+      <Suspense fallback={<Loader />}>
+        <AuthSocials
+          socials={[
+            {
+              provider: "google",
+              icon: <FcGoogle size={48} />,
+            },
+            {
+              provider: "yandex",
+              icon: <FaYandex size={26} color="#FF0000" />,
+            },
+            {
+              provider: "vkontakte",
+              icon: <FaVk size={48} color="#0177ff" />,
+            },
+          ]}
+        />
+      </Suspense>
+      {/* {step === "authorization" ? (
         <LoginForm onSignup={() => setStep("registration")} />
       ) : (
         <SignupForm onLogin={() => setStep("authorization")} />
-      )}
-    </AuthLayout>
+      )} */}
+    </Stack>
   )
 }
 
+AuthPage.getLayout = getBaseLayout({ headerWithAuthButton: false })
 AuthPage.suppressFirstRenderFlicker = true
 
 export default AuthPage

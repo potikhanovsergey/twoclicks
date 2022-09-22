@@ -25,6 +25,7 @@ interface ILayoutHeader {
   px?: number
   withTransparency?: boolean
   withProfile?: boolean
+  withAuthButton?: boolean
 }
 
 const LayoutHeader = ({
@@ -34,6 +35,7 @@ const LayoutHeader = ({
   hasLogo = true,
   withTransparency = true,
   withProfile = true,
+  withAuthButton = true,
 }: ILayoutHeader) => {
   const { colorScheme } = useMantineColorScheme()
   const dark = colorScheme === "dark"
@@ -96,7 +98,7 @@ const LayoutHeader = ({
             <MediaQuery smallerThan="md" styles={{ display: "none" }}>
               <div>
                 <Suspense fallback={<Skeleton height={32} width={200} radius="md" animate />}>
-                  <HeaderProfile />
+                  <HeaderProfile withAuthButton={withAuthButton} />
                 </Suspense>
               </div>
             </MediaQuery>

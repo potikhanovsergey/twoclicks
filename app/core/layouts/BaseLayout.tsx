@@ -8,6 +8,7 @@ interface BaseLayoutProps {
   children?: React.ReactNode
   headerWithTransparency?: boolean
   headerWithProfile?: boolean
+  headerWithAuthButton?: boolean
 }
 
 const BaseLayout: FC<BaseLayoutProps> = ({
@@ -15,6 +16,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({
   children,
   headerWithTransparency = true,
   headerWithProfile = true,
+  headerWithAuthButton = true,
 }) => {
   return (
     <>
@@ -43,6 +45,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({
             fixed
             withTransparency={headerWithTransparency}
             withProfile={headerWithProfile}
+            withAuthButton={headerWithAuthButton}
           />
         }
       >

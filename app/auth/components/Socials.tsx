@@ -1,6 +1,5 @@
 import { ActionIcon, Group } from "@mantine/core"
 import Link from "next/link"
-import { useRouter } from "next/router"
 import { ReactNode } from "react"
 
 interface IAuthSocials {
@@ -13,11 +12,12 @@ interface IAuthSocials {
 const AuthSocials = ({ socials }: IAuthSocials) => {
   return (
     <>
-      <Group position="center" spacing={8}>
+      <Group position="center" spacing={16}>
         {socials.map((s) => (
           <Link href={`/api/auth/${s.provider}`} passHref key={s.provider}>
             <ActionIcon
               component="a"
+              aria-label={`Authorize with ${s.provider}`}
               sx={(theme) => ({
                 ":hover": {
                   backgroundColor:

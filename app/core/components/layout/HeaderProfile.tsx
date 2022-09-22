@@ -57,7 +57,7 @@ export const ConstMenuItems = [
   },
 ]
 
-function HeaderProfile() {
+function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) {
   const { t } = useTranslation("common")
   // const { data: session, status } = useSession();
   const theme = useMantineTheme()
@@ -114,7 +114,7 @@ function HeaderProfile() {
 
   return (
     <Group position="center">
-      {!user && (
+      {!user && withAuthButton && (
         <Link passHref href={`/auth/?next=${router.asPath}`}>
           <Button
             component="a"
