@@ -93,7 +93,7 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
       {buttons &&
         buttons.length > 0 &&
         buttons.map((button, i) => {
-          const { href, elType, children, sx, active, ...props } = button
+          const { href, elType, children, active, ...props } = button
 
           return (
             <ConditionalWrapper

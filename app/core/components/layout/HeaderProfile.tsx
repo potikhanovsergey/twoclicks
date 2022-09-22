@@ -14,7 +14,6 @@ import { useDisclosure } from "@mantine/hooks"
 import { useRouter } from "next/router"
 import ColorSchemeToggle from "../base/ColorSchemeToggle"
 import LanguageSwitcher from "../base/LanguageSwitcher"
-import HeaderMenuItem from "./HeaderMenuItem"
 import logout from "app/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -34,6 +33,9 @@ export const MenuItemSx: Sx = (theme) => ({
   fontWeight: 700,
   fontSize: "14px",
   padding: "10px",
+  "> div": {
+    justifyContent: "flex-start",
+  },
 })
 
 export const ConstMenuItems = [
@@ -97,7 +99,12 @@ function HeaderProfile() {
       })
       formatedMenuItems.push({
         elType: "menuItem",
-        sx: (theme) => ({ color: theme.colors.red[5], fontWeight: 700, fontSize: "14px" }),
+        sx: (theme) => ({
+          color: theme.colors.red[5],
+          fontWeight: 700,
+          fontSize: "14px",
+          "> div": { justifyContent: "flex-start" },
+        }),
         children: t("signout"),
         onClick: () => logoutMutation(),
       })
