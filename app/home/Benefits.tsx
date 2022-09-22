@@ -21,6 +21,7 @@ import { HiOutlineSparkles } from "@react-icons/all-files/hi/HiOutlineSparkles"
 import { HiOutlineTemplate } from "@react-icons/all-files/hi/HiOutlineTemplate"
 import { BsPhone } from "@react-icons/all-files/bs/BsPhone"
 import { HiCursorClick } from "@react-icons/all-files/hi/HiCursorClick"
+import LandingTitle from "app/core/components/base/LandingTitle"
 
 interface BenefitsCardProps {
   title: string
@@ -173,28 +174,7 @@ const Benefits = (props: ContainerProps) => {
 
   return (
     <Container size="xl" px={40} {...props}>
-      <Title
-        order={2}
-        sx={{
-          textTransform: "uppercase",
-          letterSpacing: "8px",
-          fontWeight: 600,
-          fontSize: "34px",
-          "@media (max-width: 992px)": {
-            fontSize: "32px",
-            letterSpacing: "9px",
-          },
-          "@media (max-width: 768px)": {
-            fontSize: "24px",
-            letterSpacing: "6px",
-          },
-          "@media (max-width: 576px)": {
-            textAlign: "center",
-          },
-        }}
-      >
-        Our benefits
-      </Title>
+      <LandingTitle>Our benefits</LandingTitle>
       <Space h={40} />
       <AnimatePresence>
         <m.div
