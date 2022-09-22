@@ -1,4 +1,13 @@
-import { Container, Text, Group, Button, Center, createStyles, ContainerProps } from "@mantine/core"
+import {
+  Container,
+  Text,
+  Group,
+  Button,
+  Center,
+  createStyles,
+  ContainerProps,
+  Stack,
+} from "@mantine/core"
 import Image from "next/image"
 
 import { BsArrowRight } from "@react-icons/all-files/bs/BsArrowRight"
@@ -48,25 +57,92 @@ const CallToAction = (props: ContainerProps) => {
           sizes="(max-width: 768px) 300px,(max-width: 1200px) 500px,700px"
         />
       </div>
-      <Group position="apart" noWrap>
-        <Text mb={220} ml={200} size={30} sx={{ letterSpacing: "3px" }}>
+      <Stack
+        sx={{
+          gap: "24px",
+          "@media (max-width: 768px)": {
+            gap: "36px",
+          },
+          "@media (max-width: 576px)": {
+            gap: "48px",
+          },
+        }}
+      >
+        <Text
+          sx={{
+            marginLeft: "12%",
+            fontSize: "30px",
+            letterSpacing: "3px",
+            "@media (max-width: 768px)": {
+              fontSize: "24px",
+            },
+            "@media (max-width: 576px)": {
+              fontSize: "18px",
+              marginLeft: 0,
+            },
+          }}
+        >
           You`ve made <strong>one click</strong> <br /> to visit this page
         </Text>
-        <Text size={30} mr={200} sx={{ letterSpacing: "3px" }} align="right">
+        <Text
+          sx={{
+            marginRight: "12%",
+            fontSize: "30px",
+            letterSpacing: "3px",
+            "@media (max-width: 768px)": {
+              fontSize: "24px",
+            },
+            "@media (max-width: 576px)": {
+              fontSize: "18px",
+              marginRight: 0,
+            },
+          }}
+          align="right"
+        >
           It`s time to make <br /> <strong>another one</strong>
         </Text>
-      </Group>
-      <Center>
+      </Stack>
+      <Center
+        sx={{
+          marginTop: "200px",
+          "@media (max-width: 768px)": {
+            marginTop: "80px",
+          },
+        }}
+      >
         <Link href="/build" passHref>
           <Button
             component="a"
             rightIcon={<BsArrowRight size="20px" />}
             variant="gradient"
             gradient={{ from: "violet", to: "red", deg: 60 }}
-            sx={{ width: "260px", height: "64px" }}
+            sx={{
+              width: "260px",
+              height: "64px",
+              "@media (max-width: 768px)": {
+                width: "200px",
+                height: "50xp",
+              },
+              "@media (max-width: 576px)": {
+                width: "140",
+                height: "36px",
+              },
+            }}
             radius="md"
           >
-            <Text size={24}>Get started</Text>
+            <Text
+              sx={{
+                fontSize: "24px",
+                "@media (max-width: 768px)": {
+                  fontSize: "22px",
+                },
+                "@media (max-width: 576px)": {
+                  fontSize: "16px",
+                },
+              }}
+            >
+              Get started
+            </Text>
           </Button>
         </Link>
       </Center>

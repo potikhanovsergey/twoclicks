@@ -100,32 +100,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
     headings: {
       fontFamily: "'Nunito', sans-serif",
     },
-    colors: {
-      // primary: [
-      //   "#f1fcff",
-      //   "#e4f8ff",
-      //   "#d6f5fe",
-      //   "#bbeefe",
-      //   "#9fe7fe",
-      //   "#84e0fd",
-      //   "#76ddfd",
-      //   "#6ac7e4",
-      //   "#478598",
-      //   "#2f5865",
-      // ],
-      // accent: [
-      //   "#fff3fa",
-      //   "#ffe7f5",
-      //   "#ffdaf0",
-      //   "#ffc2e7",
-      //   "#feaadd",
-      //   "#fe91d3",
-      //   "#fe85ce",
-      //   "#cb6aa5",
-      //   "#98507c",
-      //   "#663552",
-      // ],
-    },
     primaryColor: "violet",
     primaryShade: 5,
     components: {
@@ -151,6 +125,14 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
         },
       },
       Container: {
+        styles: {
+          root: {
+            "@media (max-width: 768px)": {
+              paddingLeft: "16px",
+              paddingRight: "16px",
+            },
+          },
+        },
         defaultProps: {
           sizes: {
             xs: 540,
