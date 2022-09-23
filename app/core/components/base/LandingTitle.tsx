@@ -10,7 +10,7 @@ const LandingTitle = (props: TitleProps) => {
         letterSpacing: "8px",
         fontWeight: 600,
         fontSize: "34px",
-        marginBottom: "80px",
+        marginBottom: "120px",
         userSelect: "none",
         "@media (max-width: 992px)": {
           fontSize: "32px",
@@ -24,6 +24,7 @@ const LandingTitle = (props: TitleProps) => {
         "@media (max-width: 576px)": {
           textAlign: "center",
           marginBottom: "48px",
+          fontSize: "20px",
         },
       }}
     />

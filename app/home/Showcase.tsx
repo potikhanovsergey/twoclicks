@@ -12,6 +12,7 @@ import {
   BoxProps,
   AspectRatio,
   ContainerProps,
+  MediaQuery,
 } from "@mantine/core"
 import Clicks from "app/core/components/Clicks"
 import Link from "next/link"
@@ -102,12 +103,7 @@ const Showcase = (props: ContainerProps) => {
   return (
     <Container size="xl" px={40} {...props}>
       <Box sx={{ margin: "0 auto 128px" }}>
-        <LandingTitle align="center">
-          Showcase: made with twoclicks
-          <span style={{ position: "absolute" }}>
-            <Clicks style={{ width: "68px" }} />
-          </span>
-        </LandingTitle>
+        <LandingTitle align="center">Showcase: pages made with twoclicks</LandingTitle>
       </Box>
       <Box sx={{ position: "relative" }}>
         <SimpleGrid

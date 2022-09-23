@@ -5,7 +5,7 @@ function Clicks(props: BoxProps) {
     <Box
       component="svg"
       width="429"
-      viewBox="0 0 462 300"
+      viewBox="0 0 490 330"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
