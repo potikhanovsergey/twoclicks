@@ -6,11 +6,9 @@ import {
   Stack,
   useMantineTheme,
   Text,
-  Button,
-  Box,
   Loader,
 } from "@mantine/core"
-import { memo, Suspense, useContext, useState, useTransition } from "react"
+import { memo, Suspense, useContext } from "react"
 import useTranslation from "next-translate/useTranslation"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import ComponentsModalTabs from "./ModalTabs"
@@ -19,6 +17,7 @@ import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 
 import { VscChromeClose } from "@react-icons/all-files/vsc/VscChromeClose"
+import ButtonGroup from "../../base/ButtonGroup"
 
 interface ICanvasAddModal {
   filterButtons: IFilterButton[]
@@ -27,45 +26,25 @@ interface ICanvasAddModal {
 }
 
 const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButton[] }) => {
-  const theme = useMantineTheme()
-  const { colorScheme } = theme
-  const dark = colorScheme === "dark"
   const { blockTypeFilter, setBlockTypeFilter } = BuildStore
   const { t } = useTranslation("pagesBuild")
+
   return (
-    <Stack spacing={2}>
-      {filterButtons.map((b) => (
-        <Button
-          styles={{
-            inner: { justifyContent: "flex-start" },
-            root: { padding: "0 0 0 8px" },
-            label: { width: "100%" },
-          }}
-          variant="subtle"
-          color={dark ? "gray" : "dark"}
-          key={b.value}
-          onClick={() => {
-            setBlockTypeFilter(blockTypeFilter === b.value ? "all" : b.value)
-          }}
-        >
-          <Group align="center" position="apart" style={{ position: "relative", width: "100%" }}>
-            <Text>{t(b.text)}</Text>
-            <Box
-              sx={() => ({
-                position: "absolute",
-                top: 0,
-                bottom: 0,
-                right: 0,
-                width: "3px",
-                backgroundColor:
-                  blockTypeFilter === b.value ? theme.colors.violet[5] : "transparent",
-                marginLeft: "auto",
-              })}
-            />
-          </Group>
-        </Button>
-      ))}
-    </Stack>
+    // <Stack spacing={2}>
+    <ButtonGroup
+      buttons={filterButtons.map((b) => ({
+        children: t(b.text),
+        styles: {
+          inner: {
+            justifyContent: "flex-start",
+          },
+        },
+        onClick: () => {
+          setBlockTypeFilter(blockTypeFilter === b.value ? "all" : b.value)
+        },
+      }))}
+      direction="column"
+    />
   )
 })
 
@@ -85,7 +64,6 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
   const { t } = useTranslation("pagesBuild")
   return (
     <Modal
-      trapFocus={false}
       overflow="outside"
       centered
       size="85%"

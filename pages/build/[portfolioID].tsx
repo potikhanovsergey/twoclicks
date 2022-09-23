@@ -140,7 +140,6 @@ const BuildPage = () => {
           {viewportWidth > theme.breakpoints.md ? (
             <>
               <Builder />
-              <CanvasComponentsModal />
               <CanvasSectionsModal />
             </>
           ) : (
