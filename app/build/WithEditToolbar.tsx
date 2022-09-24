@@ -131,6 +131,7 @@ const WithEditToolbar = ({
         <Box
           sx={(theme) => ({
             width: editType === "element" ? "fit-content" : "auto",
+            margin: elementProps?.align === "center" ? "0 auto" : undefined,
             boxSizing: "content-box",
             border:
               editType === "section"
@@ -153,7 +154,7 @@ const WithEditToolbar = ({
               {children}
             </BuilderImagePicker>
           ) : (
-            <Box>{children}</Box>
+            <>{children}</>
           )}
           {editType === "section" && sectionIndex !== undefined && (
             <InnerAddSectionButton sectionToBeAddedIndex={sectionIndex + 1} />

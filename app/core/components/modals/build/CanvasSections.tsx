@@ -18,8 +18,8 @@ const CanvasSectionsModal = () => {
         value: "gallery",
       },
       {
-        text: "Skills",
-        value: "skills",
+        text: "Features",
+        value: "features",
       },
       {
         text: "Footers",

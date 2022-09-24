@@ -60,6 +60,9 @@ const useStyles = createStyles((theme) => ({
         whiteSpace: "normal",
       },
     },
+    ".ql-container, .ql-editor": {
+      textAlign: "inherit",
+    },
     ".ql-editor": {
       lineHeight: "inherit",
       height: "auto",
