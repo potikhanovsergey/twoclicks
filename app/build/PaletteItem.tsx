@@ -9,7 +9,7 @@ import {
   FileButton,
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
-import { getHexFromThemeColor, getThemeColorValueArray } from "helpers"
+import { getHexFromThemeColor, getThemeColorValueArray, isTextElement } from "helpers"
 import useTranslation from "next-translate/useTranslation"
 import { useState, useMemo, useEffect } from "react"
 import { BuildStore } from "store/build"
@@ -32,6 +32,8 @@ interface IPaletteItem extends Omit<PopoverProps, "children"> {
     onImagePick: (value: string) => void
     id: string
   }
+  type?: string | null
+  editType?: string | null
   onTargetClick?: () => void
 }
 
@@ -52,10 +54,19 @@ const PaletteItem = (props: IPaletteItem) => {
     imageUpload,
     hasBG,
     onTargetClick,
+    type,
+    editType,
     ...popoverProps
   } = props
 
-  const [colorValueArray] = useState(getThemeColorValueArray({ theme }))
+  const colorValueArray = useMemo(() => {
+    const themeColors = getThemeColorValueArray({ theme })
+
+    return (type && isTextElement(type)) || editType === "section"
+      ? [...themeColors, { value: "#fff", color: "white" }, { value: "#000", color: "black" }]
+      : themeColors
+  }, [])
+
   const swatches = useMemo(() => {
     return colorValueArray.map((item) => item.value)
   }, [colorValueArray])

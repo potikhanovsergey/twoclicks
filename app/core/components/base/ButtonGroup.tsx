@@ -61,9 +61,7 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
   const { hovered: containerHovered, ref: containerRef } = useHover()
 
   const [debouncedContainerHovered] = useDebouncedValue(containerHovered, 150)
-
   const theme = useMantineTheme()
-  const dark = theme.colorScheme === "dark"
 
   return (
     <Box className={classes.wrapper} ref={containerRef} sx={{ flexDirection: direction }}>

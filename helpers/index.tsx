@@ -589,3 +589,8 @@ export function parseYoutubeURL(url: string) {
   const match = url.match(regExp)
   return match && match[7].length == 11 ? match[7] : false
 }
+
+export function isTextElement(type: string | null) {
+  if (!type) return false
+  return textElements.some((el) => type.includes(el))
+}

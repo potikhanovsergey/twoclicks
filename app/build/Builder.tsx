@@ -37,7 +37,7 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
     display: "flex",
     flexFlow: "column",
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[2],
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2],
   },
   canvasContainer: {
     width: "100%",
@@ -45,9 +45,8 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
   },
   canvas: {
-    backgroundColor: theme.white,
-    color: theme.black,
     boxShadow: theme.shadows.sm,
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
   },
   header: {
     position: "fixed",
@@ -113,9 +112,9 @@ const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
       className={classes.canvas}
       style={{ height: isCanvasEmpty ? "100%" : "auto" }}
     >
-      <MantineProvider inherit theme={{ colorScheme: "light" }}>
-        <BuilderBlocks />
-      </MantineProvider>
+      {/* <MantineProvider inherit theme={{ colorScheme: "light" }}> */}
+      <BuilderBlocks />
+      {/* </MantineProvider> */}
       {session.userId ? (
         <div
           ref={onboardingRef}
