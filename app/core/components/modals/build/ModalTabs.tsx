@@ -85,7 +85,7 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
           children: t(b.value),
           onClick: () => setActiveTab({ value: b.value, viewlistType: b.viewlistType }),
           leftIcon: b.icon,
-          // active: b.value === activeTab.value,
+          active: b.value === activeTab.value,
         }))}
       />
       <Suspense fallback={<LoadingOverlay visible={true} />}>
