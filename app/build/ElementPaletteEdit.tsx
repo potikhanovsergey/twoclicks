@@ -53,6 +53,7 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
             theme,
             color: props?.[paletteKey.prop],
           })}
+          type={type}
           resetText={isTextElement ? "Opposite to theme" : undefined}
           withReset={element?.props?.[paletteKey.prop] !== undefined}
           onColorChange={(value) => {

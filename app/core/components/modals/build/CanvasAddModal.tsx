@@ -30,10 +30,10 @@ const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButto
   const { t } = useTranslation("pagesBuild")
 
   return (
-    // <Stack spacing={2}>
     <ButtonGroup
       buttons={filterButtons.map((b) => ({
         children: t(b.text),
+        active: blockTypeFilter === b.value,
         styles: {
           inner: {
             justifyContent: "flex-start",
@@ -99,7 +99,8 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
             padding: "8px 0",
             width: "100%",
             maxWidth: "160px",
-            backgroundColor: dark ? theme.colors.dark[5] : theme.colors.gray[1],
+            borderRight: "1px solid",
+            borderRightColor: dark ? theme.colors.dark[5] : theme.colors.gray[1],
             color: dark ? theme.colors.gray[4] : theme.black,
           }}
           spacing={12}

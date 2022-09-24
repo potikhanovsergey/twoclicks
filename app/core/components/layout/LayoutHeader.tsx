@@ -60,6 +60,7 @@ const LayoutHeader = ({
           : theme.colors.gray[0],
         zIndex: 302,
         backdropFilter: "saturate(270%) blur(5px)",
+        paddingRight: "var(--removed-scroll-width, 0px)",
       })}
       height="var(--layout-header-height)"
       fixed={fixed}

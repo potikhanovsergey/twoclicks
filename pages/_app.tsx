@@ -198,7 +198,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             },
             html: {
               cursor: `url(${cursor.src}), default`,
-              overflowX: "hidden",
             },
             "::selection": {
               background: theme.colors.violet[4],
@@ -211,6 +210,8 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
               lineHeight: theme.lineHeight,
               minHeight: "100vh",
               wordBreak: "break-word",
+              overflowY: "auto",
+              overflowX: "hidden",
             },
             ".ql-font-Times": {
               fontFamily: "Times New Roman, sans",

@@ -1,5 +1,5 @@
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import { Global } from "@mantine/core"
+import { Box, Global } from "@mantine/core"
 import HomeHero from "app/home/HomeHero"
 import Benefits from "app/home/Benefits"
 import WhoIsThisFor from "app/home/WhoIsThisFor"
@@ -10,7 +10,7 @@ import HowToUseIt from "app/home/HowToUseIt"
 
 const Home = () => {
   return (
-    <>
+    <Box sx={{ overflowX: "hidden" }}>
       <HomeHero mt={16} />
       <Benefits mb={160} />
       <WhoIsThisFor mb={200} />
@@ -25,14 +25,7 @@ const Home = () => {
       />
       <CallToAction mb={200} />
       <LandingFooter />
-      <Global
-        styles={{
-          body: {
-            overflow: "hidden",
-          },
-        }}
-      />
-    </>
+    </Box>
   )
 }
 

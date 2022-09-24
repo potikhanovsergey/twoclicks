@@ -1,4 +1,12 @@
-import { Box, BoxProps, Button, ButtonProps, createStyles } from "@mantine/core"
+import {
+  Box,
+  BoxProps,
+  Button,
+  ButtonProps,
+  createStyles,
+  packSx,
+  useMantineTheme,
+} from "@mantine/core"
 import { useDebouncedValue, useHover } from "@mantine/hooks"
 import { useRef, useState } from "react"
 import Link from "next/link"
@@ -53,6 +61,7 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
   const { hovered: containerHovered, ref: containerRef } = useHover()
 
   const [debouncedContainerHovered] = useDebouncedValue(containerHovered, 150)
+  const theme = useMantineTheme()
 
   return (
     <Box className={classes.wrapper} ref={containerRef} sx={{ flexDirection: direction }}>
@@ -72,7 +81,7 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
       {buttons &&
         buttons.length > 0 &&
         buttons.map((button, i) => {
-          const { href, elType, children, active, ...props } = button
+          const { href, elType, children, active, sx, ...props } = button
 
           return (
             <ConditionalWrapper
@@ -102,28 +111,27 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
                 ref={(node) => {
                   refs.current[i] = node
                 }}
-                styles={(theme) => ({
-                  root: {
-                    "&:hover": active
+                sx={[
+                  {
+                    position: "relative",
+                    userSelect: "none",
+                    padding: "6px 12px",
+                    border: "none",
+                    backgroundColor: active
                       ? theme.colorScheme === "dark"
                         ? theme.colors.dark[4]
                         : theme.colors.gray[1]
-                      : {
-                          backgroundColor: "transparent",
-                        },
+                      : "transparent",
+                    ":hover": {
+                      backgroundColor: active
+                        ? theme.colorScheme === "dark"
+                          ? theme.colors.dark[4]
+                          : theme.colors.gray[1]
+                        : "transparent",
+                    },
                   },
-                })}
-                sx={(theme) => ({
-                  position: "relative",
-                  userSelect: "none",
-                  padding: "6px 12px",
-                  border: "none",
-                  backgroundColor: active
-                    ? theme.colorScheme === "dark"
-                      ? theme.colors.dark[4]
-                      : theme.colors.gray[1]
-                    : "transparent",
-                })}
+                  ...packSx(sx),
+                ]}
                 onMouseEnter={(e) => {
                   const element = refs.current[i]
                   if (element?.parentElement) {
