@@ -198,7 +198,7 @@ const WithEditToolbar = ({
             ))}
           {type && props && <ElementLinkEdit id={id} props={props} type={type.toLowerCase()} />}
           <ElementDeleteButton id={id} parentID={parentID} editType={editType} />
-          {editType === "section" && <SectionBGEdit id={id} props={props} />}
+          {editType === "section" && <SectionBGEdit id={id} props={props} editType={editType} />}
         </Group>
       </Popover.Dropdown>
     </Popover>

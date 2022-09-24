@@ -12,10 +12,10 @@ import PaletteItem from "./PaletteItem"
 interface ISectionBGEdit {
   props?: ICanvasBlockProps
   id: string
-  element?: ICanvasBlock
+  editType?: string | null
 }
 
-const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
+const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
   const theme = useMantineTheme()
 
   const { changeProp, openedAction } = BuildStore
@@ -47,21 +47,23 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
           popoverPosition="top-end"
           offset={6}
           color={props?.sx?.backgroundColor}
-          withReset={Boolean(props?.sx?.background || props?.sx?.backgroundColor)}
-          onColorChange={(value: ExtendedCustomColors) => {
+          withReset={Boolean(props?.sx?.backgroundImage || props?.sx?.backgroundColor)}
+          onColorChange={(value: ExtendedCustomColors | string) => {
             changeProp({
               id,
               newProps: {
                 sx: {
                   ...props?.sx,
-                  background: "undefined",
-                  backgroundColor: theme.colors[value][5],
+                  backgroundColor: Array.isArray(theme.colors[value])
+                    ? theme.colors[value][5]
+                    : value,
                 },
               },
             })
           }}
-          resetText="Remove background"
-          hasBG={props?.sx?.background}
+          resetText="Take from theme"
+          hasBG={props?.sx?.backgroundImage}
+          editType={editType}
           middlewares={{ shift: false, flip: false }}
           onResetClick={() => {
             changeProp({
@@ -69,9 +71,8 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
               newProps: {
                 sx: {
                   ...props?.sx,
-                  backgroundColor: "undefined",
-                  background: "undefined",
-                  backgroundSize: "undefined",
+                  backgroundColor: undefined,
+                  backgroundImage: undefined,
                 },
               },
             })
@@ -84,8 +85,9 @@ const SectionBGEdit = ({ props, id, element }: ISectionBGEdit) => {
                 newProps: {
                   sx: {
                     ...props?.sx,
-                    backgroundColor: "undefined",
-                    background: `url(${url}) no-repeat center`,
+                    backgroundImage: `url(${url})`,
+                    backgroundRepeat: "no-repeat",
+                    backgroundPosition: "center",
                     backgroundSize: "cover",
                   },
                 },
