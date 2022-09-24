@@ -1,5 +1,5 @@
 import { Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
-import React, { useContext, useEffect, useRef, useState } from "react"
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
@@ -25,6 +25,13 @@ import SectionBGEdit from "./SectionBGEdit"
 
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import ElementTypeEdit from "./ElementTypeEdit"
+
+import { createSafeContext } from "@mantine/utils"
+
+interface HoverCardContext {
+  openDropdown(): void
+  closeDropdown(): void
+}
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -84,44 +91,36 @@ const WithEditToolbar = ({
 
   const editableRef = useRef<HTMLDivElement>(null)
 
-  const [popoverOpened, { close: closePopover, open: openPopover }] = useDisclosure(
-    Boolean(openedAction[id])
-  )
-  const [editableOpened, { close: closeEditable, open: openEditable }] = useDisclosure(
-    Boolean(openedAction[id])
-  )
   const didMount = useDidMount()
 
-  const [isElementActive, setIsElementActive] = useState(
-    activeEditToolbars[id] || popoverOpened || editableOpened
-  )
+  const [opened, { open, close }] = useDisclosure(Boolean(openedAction[id]))
+  const { openDropdown, closeDropdown } = useDelayedHover({
+    open,
+    close,
+    openDelay: 100,
+    closeDelay: 400,
+  })
+
+  const elementProps = element?.props as ICanvasBlockProps | undefined
+
+  const popoverOpened = useMemo(() => {
+    return opened || Boolean(openedAction[id])
+  }, [opened, openedAction])
 
   useEffect(() => {
     if (!didMount) {
-      const activeValue = editableOpened || popoverOpened
-      setIsElementActive(activeValue)
-      activeEditToolbars[id] = activeValue
+      activeEditToolbars[id] = opened
 
-      if (!activeValue) {
+      if (!opened && !isImageUploading) {
         BuildStore.openedAction = {}
       }
     }
-  }, [editableOpened, popoverOpened])
-
-  const { openDropdown: openDelayedEditable, closeDropdown: closeDelayedEditable } =
-    useDelayedHover({
-      open: openEditable,
-      close: closeEditable,
-      closeDelay: 400,
-      openDelay: 100,
-    })
-
-  const elementProps = element?.props as ICanvasBlockProps | undefined
+  }, [opened, isImageUploading])
   return (
     <Popover
       trapFocus={false}
       withArrow={editType !== "section"}
-      opened={isElementActive || activeEditToolbars[id] || isImageUploading === id}
+      opened={popoverOpened || isImageUploading === id}
       position={editType === "section" ? "right-end" : "top-end"}
       offset={editType === "section" ? 0 : undefined}
       withinPortal
@@ -136,14 +135,14 @@ const WithEditToolbar = ({
             border:
               editType === "section"
                 ? "none"
-                : isElementActive ||
+                : opened ||
                   (typeof elementProps?.children === "string" && !elementProps?.children.length)
                 ? `1px dotted ${theme.colors.gray[5]}`
                 : "1px solid transparent",
             position: "relative",
           })}
-          onMouseEnter={openDelayedEditable}
-          onMouseLeave={closeDelayedEditable}
+          onMouseEnter={openDropdown}
+          onMouseLeave={closeDropdown}
           ref={editableRef}
         >
           {editType === "section" && sectionIndex === 0 && (
@@ -165,8 +164,8 @@ const WithEditToolbar = ({
         <Group
           noWrap
           spacing={0}
-          onMouseEnter={openPopover}
-          onMouseLeave={closePopover}
+          onMouseEnter={openDropdown}
+          onMouseLeave={closeDropdown}
           style={{ flexDirection: editType === "section" ? "column" : "row" }}
         >
           {editType !== "section" && name && <ElementName name={name} />}
