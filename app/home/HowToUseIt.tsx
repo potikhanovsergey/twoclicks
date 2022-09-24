@@ -25,7 +25,7 @@ const HowToUseIt = (props: ContainerProps) => {
     target: containerRef,
   })
   return (
-    <Container size="xl" px={40} sx={{ position: "relative" }} ref={containerRef} {...props}>
+    <Container size="xl" px={40} ref={containerRef} {...props}>
       <Box
         component="svg"
         width="790"

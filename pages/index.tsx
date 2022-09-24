@@ -31,6 +31,7 @@ const Home = () => {
       <HowToUseIt
         sx={{
           marginBottom: "200px",
+          position: "relative",
           "@media (max-width: 768px)": {
             marginBottom: "40px",
           },
