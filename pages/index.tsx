@@ -1,5 +1,5 @@
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import { Box, Global } from "@mantine/core"
+import { Box } from "@mantine/core"
 import HomeHero from "app/home/HomeHero"
 import Benefits from "app/home/Benefits"
 import WhoIsThisFor from "app/home/WhoIsThisFor"
@@ -29,7 +29,7 @@ const Home = () => {
   )
 }
 
-Home.getLayout = getBaseLayout({})
+Home.getLayout = getBaseLayout({ withNotificationsProvider: false })
 Home.suppressFirstRenderFlicker = true
 
 export default Home

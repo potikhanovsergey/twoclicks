@@ -1,9 +1,9 @@
-import { ReactNode, useState, FC, useMemo } from "react"
-import { AppShell, useMantineTheme } from "@mantine/core"
+import { ReactNode } from "react"
+import { AppShell } from "@mantine/core"
 import LayoutHeader from "app/core/components/layout/LayoutHeader"
 import ProfileNavbar from "app/profile/ProfileNavbar"
 import Head from "next/head"
-import { useViewportSize } from "@mantine/hooks"
+import { NotificationsProvider } from "@mantine/notifications"
 
 interface IProfileLayout {
   children: ReactNode
@@ -12,7 +12,7 @@ interface IProfileLayout {
 
 const ProfileLayout = ({ title, children }: IProfileLayout) => {
   return (
-    <>
+    <NotificationsProvider>
       <Head>
         <title>{title || "skillcase"}</title>
         <link rel="icon" href="/oneclick.svg" />
@@ -37,7 +37,7 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
       >
         {children}
       </AppShell>
-    </>
+    </NotificationsProvider>
   )
 }
 

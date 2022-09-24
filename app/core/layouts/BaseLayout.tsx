@@ -1,7 +1,14 @@
 import Head from "next/head"
-import { AppShell, Footer } from "@mantine/core"
-import React, { FC, useState } from "react"
+import { AppShell } from "@mantine/core"
+import React, { FC, ReactNode } from "react"
 import LayoutHeader from "../components/layout/LayoutHeader"
+import ConditionalWrapper from "../components/ConditionalWrapper"
+import dynamic from "next/dynamic"
+import { NotificationProviderProps } from "@mantine/notifications"
+
+const NotificationsProvider = dynamic<NotificationProviderProps>(() =>
+  import("@mantine/notifications").then((module) => module.NotificationsProvider)
+)
 
 interface BaseLayoutProps {
   title?: string
@@ -9,6 +16,7 @@ interface BaseLayoutProps {
   headerWithTransparency?: boolean
   headerWithProfile?: boolean
   headerWithAuthButton?: boolean
+  withNotificationsProvider?: boolean
 }
 
 const BaseLayout: FC<BaseLayoutProps> = ({
@@ -17,9 +25,15 @@ const BaseLayout: FC<BaseLayoutProps> = ({
   headerWithTransparency = true,
   headerWithProfile = true,
   headerWithAuthButton = true,
+  withNotificationsProvider = true,
 }) => {
   return (
-    <>
+    <ConditionalWrapper
+      condition={withNotificationsProvider}
+      wrap={(children) => {
+        return <NotificationsProvider>{children}</NotificationsProvider>
+      }}
+    >
       <Head>
         <title>{title || "skillcase"}</title>
         <link rel="icon" href="/oneclick.svg" />
@@ -51,7 +65,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({
       >
         {children}
       </AppShell>
-    </>
+    </ConditionalWrapper>
   )
 }
 

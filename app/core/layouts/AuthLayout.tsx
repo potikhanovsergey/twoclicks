@@ -10,6 +10,7 @@ import Link from "next/link"
 import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle"
 import { FaYandex } from "@react-icons/all-files/fa/FaYandex"
 import { FaVk } from "@react-icons/all-files/fa/FaVk"
+import { NotificationsProvider } from "@mantine/notifications"
 
 interface IAuthLayout {
   title?: string
@@ -23,7 +24,7 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
   const dark = colorScheme === "dark"
   const { t } = useTranslation("common")
   return (
-    <>
+    <NotificationsProvider>
       <Head>
         <title>{title || "skillcase"}</title>
         <link rel="icon" href="/oneclick.svg" />
@@ -105,7 +106,7 @@ const AuthLayout: FC<IAuthLayout> = ({ title, children, formTitle }) => {
           </Stack>
         </div>
       </main>
-    </>
+    </NotificationsProvider>
   )
 }
 

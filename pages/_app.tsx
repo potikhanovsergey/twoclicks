@@ -24,7 +24,6 @@ import { GetServerSidePropsContext } from "next"
 import { getCookie, setCookie } from "cookies-next"
 
 import { Tuple, DefaultMantineColor } from "@mantine/core"
-import { NotificationsProvider } from "@mantine/notifications"
 import { ModalsProvider } from "@mantine/modals"
 
 import cursor from "public/oneclick.svg"
@@ -179,16 +178,14 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
       <LazyMotion features={domAnimation} strict>
         <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
           <ModalsProvider modalProps={{ zIndex: 1000 }}>
-            <NotificationsProvider>
-              <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-                <ModalContext.Provider value={[modalValue, setModalValue]}>
-                  <Suspense>
-                    {getLayout(<Component {...pageProps} />)}
-                    {modalValue.menuModal && <MenuModal />}
-                  </Suspense>
-                </ModalContext.Provider>
-              </ColorSchemeProvider>
-            </NotificationsProvider>
+            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+              <ModalContext.Provider value={[modalValue, setModalValue]}>
+                <Suspense>
+                  {getLayout(<Component {...pageProps} />)}
+                  {modalValue.menuModal && <MenuModal />}
+                </Suspense>
+              </ModalContext.Provider>
+            </ColorSchemeProvider>
           </ModalsProvider>
         </MantineProvider>
         <Global
