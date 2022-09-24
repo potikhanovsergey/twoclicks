@@ -44,8 +44,8 @@ function YouTubeFrame({
       ref={divRef}
       ratio={16 / 9}
       sx={{
-        position: "relative",
         cursor: "pointer",
+        width: "100%",
       }}
       {...containerProps}
     >
