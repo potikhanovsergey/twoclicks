@@ -17,6 +17,7 @@ import {
   CardProps,
   BadgeProps,
   AspectRatioProps,
+  ActionIconProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React from "react"
@@ -97,6 +98,9 @@ export const canvasBuildingBlocks = {
   ),
   "@mantine/core/aspectratio": dynamic<AspectRatioProps>(() =>
     import("@mantine/core/cjs/AspectRatio/AspectRatio").then((module) => module.AspectRatio)
+  ),
+  "@mantine/core/actionicon": dynamic<ActionIconProps>(() =>
+    import("@mantine/core/cjs/ActionIcon/ActionIcon").then((module) => module.ActionIcon)
   ),
   mediaquery: dynamic<MediaQueryProps>(() =>
     import("@mantine/core/cjs/MediaQuery/MediaQuery").then((module) => module.MediaQuery)
