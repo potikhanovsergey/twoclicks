@@ -30,6 +30,8 @@ import { useSession } from "@blitzjs/auth"
 import { AuthorizationError } from "blitz"
 import dynamic from "next/dynamic"
 import MantineHeroWithContentOnLeft from "app/build/sections/MantineHeroWithContentOnLeft"
+import MantineFeaturesWithCards from "app/build/sections/features/MantineFeaturesWithCards"
+import MantineArticlesCardsGrid from "app/build/sections/galleries/MantineArticlesCardsGrid"
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"))
 
@@ -40,6 +42,8 @@ const sections = [
   MantineFeatures,
   MantineHero,
   MantineHeroWithContentOnLeft,
+  MantineFeaturesWithCards,
+  MantineArticlesCardsGrid,
 ]
 
 const DashboardIndex = () => {

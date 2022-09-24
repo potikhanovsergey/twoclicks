@@ -14,6 +14,9 @@ import {
   ColProps,
   GridProps,
   OverlayProps,
+  CardProps,
+  BadgeProps,
+  AspectRatioProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React from "react"
@@ -85,6 +88,15 @@ export const canvasBuildingBlocks = {
   ),
   "@mantine/core/overlay": dynamic<OverlayProps>(() =>
     import("@mantine/core/cjs/Overlay/Overlay").then((module) => module.Overlay)
+  ),
+  "@mantine/core/badge": dynamic<BadgeProps>(() =>
+    import("@mantine/core/cjs/Badge/Badge").then((module) => module.Badge)
+  ),
+  "@mantine/core/card": dynamic<CardProps>(() =>
+    import("@mantine/core/cjs/Card/Card").then((module) => module.Card)
+  ),
+  "@mantine/core/aspectratio": dynamic<AspectRatioProps>(() =>
+    import("@mantine/core/cjs/AspectRatio/AspectRatio").then((module) => module.AspectRatio)
   ),
   mediaquery: dynamic<MediaQueryProps>(() =>
     import("@mantine/core/cjs/MediaQuery/MediaQuery").then((module) => module.MediaQuery)
@@ -198,6 +210,10 @@ export const PaletteTypePropColor: {
     prop: "color",
     color: "text",
   },
+  "@mantine/core/badge": {
+    prop: "color",
+    color: "primary",
+  },
 }
 
 export const TypeVariants: {
@@ -207,6 +223,7 @@ export const TypeVariants: {
   "@mantine/core/themeicon": ["filled", "light", "outline", "gradient"],
   "@mantine/core/text": ["gradient", "filled"],
   "@mantine/core/title": ["gradient", "filled"],
+  "@mantine/core/badge": ["gradient", "filled", "light", "outline", "dot"],
 }
 
 const sizes = ["xs", "sm", "md", "lg", "xl"]
@@ -217,6 +234,7 @@ export const TypeSizes: {
   "@mantine/core/button": sizes,
   "@mantine/core/text": sizes,
   "@mantine/core/themeicon": sizes,
+  "@mantine/core/badge": sizes,
 }
 
 export const TypeRadius: {
@@ -225,6 +243,7 @@ export const TypeRadius: {
   "@mantine/core/button": sizes,
   "@mantine/core/image": sizes,
   "@mantine/core/themeicon": sizes,
+  "@mantine/core/badge": sizes,
 }
 
 export const TypeGradients: {
@@ -234,12 +253,14 @@ export const TypeGradients: {
   "@mantine/core/themeicon": true,
   "@mantine/core/text": true,
   "@mantine/core/title": true,
+  "@mantine/core/badge": true,
 }
 
 export const TypeIcons: {
   [key: string]: string[]
 } = {
   "@mantine/core/button": ["leftIcon", "rightIcon"],
+  "@mantine/core/badge": ["leftSection", "rightSection"],
 }
 
 export const TypeLinks: {
@@ -305,6 +326,10 @@ export function RenderJSXFromBlock({
   const TagName = canvasBuildingBlocks[typeLC] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
+  if (typeLC.includes("badge")) {
+    console.log(TagName, props, <TagName {...props} />)
+  }
+
   // not only children, byt any other element's prop can be React.Node or JSX.Element.
   // We need to traverse it to make sure all props are rendered as they should
   for (const prop in props) {
@@ -355,9 +380,9 @@ export function RenderJSXFromBlock({
     props.component = "span"
   }
 
-  if (typeLC.includes("image")) {
-    props.withPlaceholder = true
-  }
+  // if (typeLC.includes("image")) {
+  //   props.withPlaceholder = true
+  // }
 
   if (withEditToolbar && el?.editType === "icon") {
     return (
@@ -394,7 +419,7 @@ export function RenderJSXFromBlock({
 
   const { children, ...restProps } = props
 
-  if (typeof children === "string" && !typeLC.includes("button")) {
+  if (typeof children === "string" && !typeLC.includes("button") && !typeLC.includes("badge")) {
     return (
       <TagName
         key={shortid.generate()}

@@ -115,6 +115,13 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
           color: "violet",
         },
       },
+      Badge: {
+        styles: {
+          root: {
+            cursor: `url(${cursor.src}), default`,
+          },
+        },
+      },
       Image: {
         styles: {
           imageWrapper: {
