@@ -26,10 +26,6 @@ import { FaVenus } from "@react-icons/all-files/fa/FaVenus"
 const icons = { FaPlay, FaStar, FaVenus }
 const FirstIcon = Object.values(icons)[0]
 
-const formatOutput = (icon: JSX.Element) => {
-  return JSON.parse(serialize(icon))
-}
-
 export interface IconPickerProps {
   icon: ReactNode
   onChange: (ReactNode) => void

@@ -1,6 +1,6 @@
 import { Tooltip } from "@mantine/core"
 import IconPicker from "app/core/components/base/IconPicker"
-import { TypeIcons } from "helpers"
+import { serialize, TypeIcons } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useMemo } from "react"
@@ -17,6 +17,9 @@ interface IElementIconEdit {
   propName: string
 }
 
+const formatOutput = (icon: JSX.Element) => {
+  return JSON.parse(serialize(icon))
+}
 const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
   const hasIconEdit = type && TypeIcons[type.toLowerCase()]
   const { changeProp } = BuildStore
@@ -47,13 +50,14 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
           }}
           icon={ICON ? ICON : propName === "rightIcon" ? <CgToggleSquareOff /> : <CgToggleSquare />}
           onChange={(icon) => {
-            if (icon?.props) {
+            const iconProps = formatOutput(icon)?.props
+            if (iconProps) {
               changeProp({
                 id,
                 newProps: {
                   [propName]: {
-                    props: icon.props,
-                    type: icon.type || icon.typeName,
+                    props: iconProps,
+                    type: "IconBase",
                   },
                 },
               })
