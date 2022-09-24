@@ -211,7 +211,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
   const { t } = useTranslation("pagesBuild")
 
   return (
-    <Center className={className}>
+    <Center className={className} sx={{ paddingRight: "var(--removed-scroll-width, 0px)" }}>
       <Container size="xl">
         <Group style={{ width: "100%" }} position="apart">
           <Group spacing={8} align="center">
@@ -233,7 +233,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               position: "absolute",
               top: "50%",
               left: "50%",
-              transform: "translate(-50%, -50%)",
+              transform: "translate(calc(-50% - (var(--removed-scroll-width, 0px) / 2)), -50%)",
             }}
           >
             <ObservedPortfolioName />

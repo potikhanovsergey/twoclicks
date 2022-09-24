@@ -198,7 +198,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
             },
             html: {
               cursor: `url(${cursor.src}), default`,
-              overflowX: "hidden",
+              // overflowX: "hidden",
             },
             "::selection": {
               background: theme.colors.violet[4],
