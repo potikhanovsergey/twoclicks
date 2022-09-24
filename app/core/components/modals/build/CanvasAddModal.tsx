@@ -34,6 +34,7 @@ const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButto
     <ButtonGroup
       buttons={filterButtons.map((b) => ({
         children: t(b.text),
+        active: blockTypeFilter === b.value,
         styles: {
           inner: {
             justifyContent: "flex-start",

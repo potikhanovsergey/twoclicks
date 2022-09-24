@@ -32,16 +32,6 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     display: "flex",
     position: "relative",
   },
-  button: {
-    position: "relative",
-    userSelect: "none",
-    padding: "6px 12px",
-    border: "none",
-    backgroundColor: "transparent",
-    ":hover": {
-      backgroundColor: "transparent",
-    },
-  },
   highlight: {
     ref: getRef("highlight"),
     opacity: 0,
@@ -93,7 +83,7 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
       {buttons &&
         buttons.length > 0 &&
         buttons.map((button, i) => {
-          const { href, elType, children, active, ...props } = button
+          const { href, elType, children, active, sx, ...props } = button
 
           return (
             <ConditionalWrapper
@@ -123,7 +113,27 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
                 ref={(node) => {
                   refs.current[i] = node
                 }}
-                className={classes.button}
+                sx={[
+                  {
+                    position: "relative",
+                    userSelect: "none",
+                    padding: "6px 12px",
+                    border: "none",
+                    backgroundColor: active
+                      ? theme.colorScheme === "dark"
+                        ? theme.colors.dark[4]
+                        : theme.colors.gray[1]
+                      : "transparent",
+                    ":hover": {
+                      backgroundColor: active
+                        ? theme.colorScheme === "dark"
+                          ? theme.colors.dark[4]
+                          : theme.colors.gray[1]
+                        : "transparent",
+                    },
+                  },
+                  ...packSx(sx),
+                ]}
                 onMouseEnter={(e) => {
                   const element = refs.current[i]
                   if (element?.parentElement) {
