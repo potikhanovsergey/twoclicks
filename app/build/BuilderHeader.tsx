@@ -92,7 +92,7 @@ const ObservedPortfolioName = observer(() => {
   const { t } = useTranslation("pagesBuild")
 
   return session.userId ? (
-    <HoverCard shadow="lg" width={312}>
+    <HoverCard shadow="lg" width={312} openDelay={300}>
       <HoverCard.Target>
         <Group align="center" spacing={4}>
           {dividedPortfolios?.current?.isPublished && <AiOutlineLink />}

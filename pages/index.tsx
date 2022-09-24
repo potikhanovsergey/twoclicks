@@ -12,9 +12,30 @@ const Home = () => {
   return (
     <Box sx={{ overflowX: "hidden" }}>
       <HomeHero mt={16} />
-      <Benefits mb={160} />
-      <WhoIsThisFor mb={200} />
-      <HowToUseIt mb={200} />
+      <Benefits
+        sx={{
+          marginBottom: "160px",
+          "@media (max-width: 768px)": {
+            marginBottom: "80px",
+          },
+        }}
+      />
+      <WhoIsThisFor
+        sx={{
+          marginBottom: "200px",
+          "@media (max-width: 768px)": {
+            marginBottom: "120px",
+          },
+        }}
+      />
+      <HowToUseIt
+        sx={{
+          marginBottom: "200px",
+          "@media (max-width: 768px)": {
+            marginBottom: "40px",
+          },
+        }}
+      />
       <Showcase
         sx={{
           marginBottom: "400px",

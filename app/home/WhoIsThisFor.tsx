@@ -54,9 +54,9 @@ const Card = ({
     if (viewportWidth > theme.breakpoints.sm) {
       return 1
     } else if (viewportWidth > theme.breakpoints.xs) {
-      return 0.6
+      return 0.65
     } else {
-      return 0.4
+      return 0.35
     }
   }, [viewportWidth])
 

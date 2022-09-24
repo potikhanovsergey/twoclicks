@@ -61,7 +61,6 @@ const HowToUseIt = (props: ContainerProps) => {
       >
         <Box
           sx={{
-            boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
             borderRadius: "30px",
             position: "relative",
             maxWidth: "700px",
@@ -97,6 +96,7 @@ const HowToUseIt = (props: ContainerProps) => {
                 sx={{
                   letterSpacing: "3px",
                   fontSize: "24px",
+                  maxWidth: "320px",
                   "@media (max-width: 992px)": {
                     fontSize: "20px",
                   },
@@ -105,30 +105,32 @@ const HowToUseIt = (props: ContainerProps) => {
                   },
                 }}
               >
-                Choose template or start <br />
-                from scratch
+                Choose template or start from scratch
               </Text>
             </ShadowCard>
-            <NextImage
-              src="/landing/sections-modal.png"
-              alt="sections modal example"
-              sx={{
-                width: "700px",
-                "@media (max-width: 992px)": {
-                  width: "500px",
-                },
-                "@media (max-width: 768px)": {
-                  width: "300px",
-                },
-              }}
-            />
+            <Box sx={{ boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)" }}>
+              <NextImage
+                src="/landing/sections-modal.png"
+                alt="sections modal example"
+                sx={{
+                  boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
+                  width: "700px",
+                  "@media (max-width: 992px)": {
+                    width: "500px",
+                  },
+                  "@media (max-width: 768px)": {
+                    width: "300px",
+                  },
+                }}
+              />
+            </Box>
           </Box>
         </Box>
         <Group position="right">
           <Box
             sx={{
-              boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
               borderRadius: "30px",
+
               position: "relative",
               maxWidth: "700px",
               width: "63%",
@@ -163,6 +165,7 @@ const HowToUseIt = (props: ContainerProps) => {
                   sx={{
                     letterSpacing: "3px",
                     fontSize: "24px",
+                    maxWidth: "400px",
                     "@media (max-width: 992px)": {
                       fontSize: "20px",
                     },
@@ -171,22 +174,25 @@ const HowToUseIt = (props: ContainerProps) => {
                     },
                   }}
                 >
-                  Enrich your page by adding <br /> new sections
+                  Enrich your page by adding new sections
                 </Text>
               </ShadowCard>
-              <NextImage
-                src="/landing/sections-modal.png"
-                alt="sections modal example"
-                sx={{
-                  width: "700px",
-                  "@media (max-width: 992px)": {
-                    width: "500px",
-                  },
-                  "@media (max-width: 768px)": {
-                    width: "300px",
-                  },
-                }}
-              />
+              <Box sx={{ boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)" }}>
+                <NextImage
+                  src="/landing/sections-modal.png"
+                  alt="sections modal example"
+                  sx={{
+                    width: "700px",
+                    boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
+                    "@media (max-width: 992px)": {
+                      width: "500px",
+                    },
+                    "@media (max-width: 768px)": {
+                      width: "300px",
+                    },
+                  }}
+                />
+              </Box>
             </Box>
           </Box>
         </Group>
@@ -202,12 +208,12 @@ const HowToUseIt = (props: ContainerProps) => {
         >
           <Box
             sx={{
-              boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
               borderRadius: "30px",
               maxWidth: "400px",
               width: "63%",
               "@media (max-width: 768px)": {
                 width: "80%",
+                paddingTop: "36px",
               },
             }}
           >
@@ -215,9 +221,7 @@ const HowToUseIt = (props: ContainerProps) => {
               sx={{
                 position: "relative",
                 borderRadius: "10px",
-                "@media (max-width: 768px)": {
-                  paddingTop: "36px",
-                },
+                boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
               }}
             >
               <NextImage
@@ -234,6 +238,7 @@ const HowToUseIt = (props: ContainerProps) => {
               sx={{
                 letterSpacing: "3px",
                 fontSize: "24px",
+                maxWidth: "320px",
                 "@media (max-width: 992px)": {
                   fontSize: "20px",
                 },
@@ -242,7 +247,7 @@ const HowToUseIt = (props: ContainerProps) => {
                 },
               }}
             >
-              Edit elements and sections <br /> as you wish
+              Edit elements and sections as you wish
             </Text>
           </ShadowCard>
         </Group>
@@ -286,8 +291,9 @@ const HowToUseIt = (props: ContainerProps) => {
                 right: "-48px",
               },
               "@media (max-width: 768px)": {
-                top: "125px",
+                top: "155px",
                 right: "auto",
+                left: "10px",
                 transform: "none",
               },
             }}
@@ -310,7 +316,8 @@ const HowToUseIt = (props: ContainerProps) => {
                   fontSize: "20px",
                 },
                 "@media (max-width: 768px)": {
-                  fontSize: "16px",
+                  fontSize: "14px",
+                  height: "40px",
                 },
               }}
             >
@@ -328,6 +335,10 @@ const HowToUseIt = (props: ContainerProps) => {
                 top: 0,
                 left: "96px",
                 userSelect: "none",
+                "@media (max-width: 768px)": {
+                  fontSize: "14px",
+                  height: "40px",
+                },
               }}
             >
               Publish portfolio
@@ -338,7 +349,7 @@ const HowToUseIt = (props: ContainerProps) => {
           <ShadowCard
             py={24}
             sx={{
-              width: "400px",
+              maxWidth: "400px",
             }}
           >
             <PortfolioLink
@@ -352,6 +363,7 @@ const HowToUseIt = (props: ContainerProps) => {
               sx={{
                 letterSpacing: "3px",
                 fontSize: "24px",
+                maxWidth: "320px",
                 "@media (max-width: 992px)": {
                   fontSize: "20px",
                 },
@@ -361,8 +373,7 @@ const HowToUseIt = (props: ContainerProps) => {
               }}
               align="center"
             >
-              Share with other people <br />
-              and you`re done!
+              Share with others and you`re done!
             </Text>
           </ShadowCard>
         </Center>
