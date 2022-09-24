@@ -114,10 +114,21 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
           color: "violet",
         },
       },
+      Card: {
+        styles: {
+          root: {
+            overflow: "visible",
+          },
+        },
+      },
       Badge: {
         styles: {
           root: {
             cursor: `url(${cursor.src}), default`,
+            overflow: "visible",
+          },
+          inner: {
+            overflow: "visible",
           },
         },
       },
