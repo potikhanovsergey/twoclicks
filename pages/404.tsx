@@ -87,7 +87,6 @@ const Page404 = () => {
       <Center style={{ height: "100%" }}>
         <Stack>
           <Title align="center">Oops, page not found!</Title>
-          <Center>Тут был лотти</Center>
           <Group position="center">
             <Suspense fallback={<Skeleton height={45} animate />}>
               <Links />

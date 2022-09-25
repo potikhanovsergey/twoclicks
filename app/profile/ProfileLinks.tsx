@@ -64,7 +64,7 @@ export function ProfileLinks() {
   const { t } = useTranslation("common")
   const [data] = useState(() => [
     { icon: <FaBriefcase />, color: "orange", label: t("pages"), link: "/profile" },
-    { icon: <BiStats />, color: "violet", label: t("statistics"), link: "/profile/statistics" },
+    // { icon: <BiStats />, color: "violet", label: t("statistics"), link: "/profile/statistics" },
     // { icon: <RiVipCrown2Fill />, color: "yellow", label: t("premium"), link: "/profile/premium" },
     {
       icon: <BsQuestionCircleFill />,

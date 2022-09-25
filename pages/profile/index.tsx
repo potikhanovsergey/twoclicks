@@ -24,8 +24,9 @@ const ProfilePages: BlitzPage = observer(() => {
       </div>
       {havePagesLoaded && (
         <ProfileNoItems style={{ display: pages?.length ? "none" : "flex" }}>
-          <Text size="xl">{t("noPages")}</Text>
-          Тут был лотти
+          <Text size="xl" mb="xs">
+            {t("noPages")}
+          </Text>
           <CreatePageButton size="lg" />
         </ProfileNoItems>
       )}
