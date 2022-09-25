@@ -43,18 +43,18 @@ export const ConstMenuItems = [
     href: "/build",
     children: "pageBuilder",
   },
-  {
-    href: "/support",
-    children: "helpcenter",
-  },
+  // {
+  //   href: "/support",
+  //   children: "helpcenter",
+  // },
   {
     href: "/",
     children: "aboutUs",
   },
-  {
-    href: "/whats-new",
-    children: "whatsNew",
-  },
+  // {
+  //   href: "/whats-new",
+  //   children: "whatsNew",
+  // },
 ]
 
 function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) {
