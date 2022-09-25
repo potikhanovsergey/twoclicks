@@ -140,7 +140,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
                 })
               }}
             />
-            <Text weight="bold" color="dark" size="sm">
+            <Text weight="bold" mb={4} size="sm">
               Enter valid URL:
             </Text>
             <Group align="center" noWrap spacing={4}>

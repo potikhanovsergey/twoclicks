@@ -109,6 +109,8 @@ export const canvasBuildingBlocks = {
   youtubeframe: dynamic(() => import("app/core/components/YoutubeFrame")),
 }
 
+const WithEditableTypes = ["button", "badge"]
+
 function traverseProp({
   propValue,
   prop,
@@ -133,7 +135,8 @@ function traverseProp({
   const typeLC = type.toLowerCase()
 
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
-    if (typeLC.includes("button")) {
+    if (WithEditableTypes.some((t) => typeLC.includes(t))) {
+      // elements that are listed inside WithEditableTypes const
       return (
         <WithEditable
           parentID={parentID}

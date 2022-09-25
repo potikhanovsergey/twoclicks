@@ -115,7 +115,10 @@ const PaletteItem = (props: IPaletteItem) => {
               alignSelf: "stretch",
               "&:hover": withHover
                 ? {
-                    backgroundColor: theme.colors.violet[0],
+                    backgroundColor:
+                      theme.colorScheme === "dark"
+                        ? theme.fn.rgba(theme.colors.violet[9], 0.2)
+                        : theme.colors.violet[0],
                   }
                 : undefined,
               "&:active": {

@@ -66,22 +66,21 @@ const ObservedPageName = observer(() => {
     setEditName(name)
   }, [name])
 
-  const dividedPages = useMemo(() => {
-    const page = pages?.find((p) => p.id === id)
-    if (!page) return null
-    return {
-      current: page,
-      rest: pages.filter((p) => p.id !== page.id),
-    }
-  }, [pages, id])
+  const current = useMemo(() => {
+    return AppStore.pages?.find((p) => p.id === id)
+  }, [id])
+
+  const rest = useMemo(() => {
+    return current ? AppStore.pages.filter((p) => p.id !== current.id) : undefined
+  }, [current])
 
   useEffect(() => {
     if (hasSuccessfullyUpdatedPage) {
       setInputVisible(false)
       if (editName) {
         BuildStore.data.name = editName
-        if (dividedPages?.current) {
-          dividedPages.current.name = editName
+        if (current) {
+          current.name = editName
         }
       }
     }
@@ -93,7 +92,7 @@ const ObservedPageName = observer(() => {
     <HoverCard shadow="lg" width={312} openDelay={300}>
       <HoverCard.Target>
         <Group align="center" spacing={4}>
-          {dividedPages?.current?.isPublished && <AiOutlineLink />}
+          {current?.isPublished && <AiOutlineLink />}
           <Text>{name}</Text>
           <FiChevronDown />
         </Group>
@@ -105,10 +104,10 @@ const ObservedPageName = observer(() => {
           offsetScrollbars
           styles={{ viewport: { padding: 0 } }}
         >
-          {dividedPages && (
+          {current && (
             <Stack spacing={4}>
               <Text weight="bold">Current page:</Text>
-              {id && dividedPages?.current?.isPublished && <PageLink id={id} withEllipsis={true} />}
+              {id && current?.isPublished && <PageLink id={id} withEllipsis={true} />}
 
               <Group noWrap spacing={4} mb="sm">
                 {!inputVisible ? (
@@ -118,9 +117,9 @@ const ObservedPageName = observer(() => {
                       size="xs"
                       fullWidth
                       disabled
-                      rightIcon={dividedPages.current.isPublished ? <AiOutlineLink /> : undefined}
+                      rightIcon={current.isPublished ? <AiOutlineLink /> : undefined}
                     >
-                      {dividedPages.current.name}
+                      {current.name}
                     </Button>
                     <Tooltip
                       label={t("edit site name")}
@@ -169,10 +168,10 @@ const ObservedPageName = observer(() => {
                   </Group>
                 )}
               </Group>
-              {dividedPages.rest.length > 0 ? (
+              {rest && rest.length > 0 ? (
                 <>
                   <Text weight="bold">Other pages:</Text>
-                  {dividedPages.rest.map((p) => (
+                  {rest.map((p) => (
                     <Link passHref href={`/build/${p.id}`} key={p.id}>
                       <Button
                         variant="light"

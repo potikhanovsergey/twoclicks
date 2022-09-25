@@ -31,9 +31,7 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
         asideOffsetBreakpoint="sm"
         fixed
         navbar={<ProfileNavbar />}
-        header={
-          <LayoutHeader hasLogo={false} style={{ left: "var(--mantine-navbar-width)" }} fixed />
-        }
+        header={<LayoutHeader fixed />}
       >
         {children}
       </AppShell>
