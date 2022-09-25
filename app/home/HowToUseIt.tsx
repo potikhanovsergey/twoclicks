@@ -8,6 +8,7 @@ import {
   Center,
   Button,
   ContainerProps,
+  useMantineTheme,
 } from "@mantine/core"
 import PageLink from "app/build/PageLink"
 import ShadowCard from "app/core/components/base/ShadowCard"
@@ -18,12 +19,15 @@ import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import { IoMdSave } from "@react-icons/all-files/io/IoMdSave"
 import NextImage from "app/core/components/base/NextImage"
 import LandingTitle from "app/core/components/base/LandingTitle"
+import Image from "next/image"
 
 const HowToUseIt = (props: ContainerProps) => {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
   })
+
+  const theme = useMantineTheme()
   return (
     <Container size="xl" px={40} ref={containerRef} {...props}>
       <Box
@@ -108,20 +112,30 @@ const HowToUseIt = (props: ContainerProps) => {
                 Choose template or start from scratch
               </Text>
             </ShadowCard>
-            <Box sx={{ boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)" }}>
-              <NextImage
+            <Box
+              sx={{
+                position: "relative",
+                width: "715px",
+                height: "331px",
+                "> *": {
+                  boxShadow: `${theme.fn.rgba(theme.colors.violet[5], 0.2)} 0px 8px 24px`,
+                  borderRadius: "4px",
+                },
+                "@media (max-width: 992px)": {
+                  width: "500px",
+                  height: "auto",
+                },
+                "@media (max-width: 768px)": {
+                  width: "300px",
+                },
+              }}
+            >
+              <Image
                 src="/landing/sections-modal.png"
                 alt="sections modal example"
-                sx={{
-                  boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
-                  width: "700px",
-                  "@media (max-width: 992px)": {
-                    width: "500px",
-                  },
-                  "@media (max-width: 768px)": {
-                    width: "300px",
-                  },
-                }}
+                layout="responsive"
+                width={2488}
+                height={1128}
               />
             </Box>
           </Box>
@@ -177,20 +191,32 @@ const HowToUseIt = (props: ContainerProps) => {
                   Enrich your page by adding new sections
                 </Text>
               </ShadowCard>
-              <Box sx={{ boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)" }}>
-                <NextImage
+              <Box
+                sx={{
+                  width: "715px",
+                  height: "331px",
+                  position: "relative",
+
+                  "> *": {
+                    boxShadow: `${theme.fn.rgba(theme.colors.violet[5], 0.2)} 0px 8px 24px`,
+                    borderRadius: "4px",
+                  },
+                  "@media (max-width: 992px)": {
+                    width: "500px",
+                  },
+                  "@media (max-width: 768px)": {
+                    width: "300px",
+                    height: "auto",
+                  },
+                }}
+              >
+                <Image
                   src="/landing/sections-modal.png"
                   alt="sections modal example"
-                  sx={{
-                    width: "700px",
-                    boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
-                    "@media (max-width: 992px)": {
-                      width: "500px",
-                    },
-                    "@media (max-width: 768px)": {
-                      width: "300px",
-                    },
-                  }}
+                  layout="responsive"
+                  objectFit="cover"
+                  width={2488}
+                  height={1128}
                 />
               </Box>
             </Box>
@@ -221,7 +247,7 @@ const HowToUseIt = (props: ContainerProps) => {
               sx={{
                 position: "relative",
                 borderRadius: "10px",
-                boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
+                boxShadow: `${theme.fn.rgba(theme.colors.violet[5], 0.2)} 0px 8px 24px`,
               }}
             >
               <NextImage

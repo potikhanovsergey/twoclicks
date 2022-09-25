@@ -20,12 +20,10 @@ export type GroupButtonProps = ButtonProps & {
 }
 
 interface ButtonGroupProps {
-  direction?: "row" | "column"
   buttons?: GroupButtonProps[]
   highlightProps?: BoxProps
+  wrapperProps?: BoxProps
 }
-
-const WRAPPER_PADDING = 0
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   wrapper: {
@@ -39,13 +37,13 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     top: 0,
     left: 0,
     borderRadius: "4px",
-    transition: "ease-in-out all",
+    transition: "ease width, transform, opacity",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1],
     pointerEvents: "none",
   },
 }))
 
-const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroupProps) => {
+const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps) => {
   const { classes } = useStyles()
 
   const [highlightPosition, setHighlightPosition] = useState({
@@ -64,7 +62,7 @@ const ButtonGroup = ({ direction = "row", buttons, highlightProps }: ButtonGroup
   const theme = useMantineTheme()
 
   return (
-    <Box className={classes.wrapper} ref={containerRef} sx={{ flexDirection: direction }}>
+    <Box className={classes.wrapper} ref={containerRef} {...wrapperProps}>
       <Box
         aria-hidden
         component="span"

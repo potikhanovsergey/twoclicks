@@ -43,7 +43,11 @@ const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButto
           setBlockTypeFilter(blockTypeFilter === b.value ? "all" : b.value)
         },
       }))}
-      direction="column"
+      wrapperProps={{
+        sx: {
+          flexDirection: "column",
+        },
+      }}
     />
   )
 })

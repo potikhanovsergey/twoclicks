@@ -38,6 +38,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexFlow: "column",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2],
+    paddingTop: "40px",
   },
   canvasContainer: {
     width: "100%",

@@ -13,37 +13,6 @@ const ComponentsPage = () => {
         <IconPicker icon={<FaHeart />} onChange={() => 1} />
       </Center>
       <FirstHeroVideo />
-
-      <Center style={{ height: "300px" }}>
-        <ButtonGroup />
-      </Center>
-      <Center style={{ height: "300px" }}>
-        <ButtonGroup
-          direction="column"
-          buttons={[
-            {
-              elType: "link",
-              href: "/",
-              children: "Builder",
-            },
-            {
-              elType: "link",
-              href: "/",
-              children: "Profile",
-            },
-            {
-              elType: "link",
-              href: "/",
-              children: "Profile",
-            },
-            {
-              elType: "link",
-              href: "/",
-              children: "Profile",
-            },
-          ]}
-        />
-      </Center>
     </BaseLayout>
   )
 }

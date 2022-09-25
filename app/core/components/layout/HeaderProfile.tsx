@@ -187,7 +187,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
         </Menu.Target>
         <Menu.Dropdown p={0}>
           <Menu.Label>{t("general")}</Menu.Label>
-          <ButtonGroup direction="column" buttons={menuItems} />
+          <ButtonGroup buttons={menuItems} wrapperProps={{ sx: { flexDirection: "column" } }} />
           <Divider />
 
           <Menu.Label>{t("settings")}</Menu.Label>

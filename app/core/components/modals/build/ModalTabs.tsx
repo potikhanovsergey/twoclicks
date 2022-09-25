@@ -81,6 +81,11 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
   return (
     <>
       <ButtonGroup
+        wrapperProps={{
+          sx: {
+            width: "fit-content",
+          },
+        }}
         buttons={ComponentsModalTabsArr.map((b) => ({
           children: t(b.value),
           onClick: () => setActiveTab({ value: b.value, viewlistType: b.viewlistType }),

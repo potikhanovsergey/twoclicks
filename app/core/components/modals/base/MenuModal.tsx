@@ -20,6 +20,7 @@ import ColorSchemeToggle from "../../base/ColorSchemeToggle"
 import LanguageSwitcher from "../../base/LanguageSwitcher"
 import { ProfileLinks } from "app/profile/ProfileLinks"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
+import { useRouter } from "next/router"
 
 const ConstMenuItems = [
   {
@@ -70,6 +71,15 @@ const MenuModal = () => {
   useEffect(() => {
     setScrollLocked(menuOpened)
   }, [menuOpened])
+
+  const router = useRouter()
+
+  useEffect(() => {
+    router.events.on("routeChangeComplete", handleModalClose)
+    return () => {
+      router.events.off("routeChangeComplete", () => {})
+    }
+  }, [router.events])
 
   return (
     <Modal
