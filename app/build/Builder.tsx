@@ -21,7 +21,7 @@ import { useSession } from "@blitzjs/auth"
 import { useRouter } from "next/router"
 import { useElementSize, useLocalStorage } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import updatePage from "app/portfolios/mutations/updatePage"
 import IPhone from "../../assets/IPhone7.png"
 
 import { ICanvasBlock, ICanvasPalette } from "types"
@@ -73,14 +73,14 @@ const SaveRedirectButton = observer(() => {
   const router = useRouter()
 
   const {
-    savePortfolio,
+    savePage,
     data: { id: portfolioID },
   } = BuildStore
 
-  const [updatePortfolioMutation] = useMutation(updatePortfolio)
+  const [updatePageMutation] = useMutation(updatePage)
 
   const handleSaveAndRedirect = async () => {
-    void savePortfolio({ session, updatePortfolioMutation })
+    void savePage({ session, updatePageMutation })
     void router.push(`/auth/?next=/build/${portfolioID}`)
   }
 
@@ -212,7 +212,7 @@ const Builder = () => {
 
   useEffect(() => {
     const handleComplete = () => {
-      BuildStore.hasPortfolioChanged = false
+      BuildStore.hasPageChanged = false
     }
 
     router.events.on("routeChangeComplete", handleComplete)

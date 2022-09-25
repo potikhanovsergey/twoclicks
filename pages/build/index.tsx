@@ -5,7 +5,7 @@ import ProfileNoItems from "app/profile/ProfileNoItems"
 import useTranslation from "next-translate/useTranslation"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
-import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
+import CreatePageButton from "app/portfolios/CreatePortfolioButton"
 
 const Build = () => {
   const { t } = useTranslation("pages")
@@ -16,7 +16,7 @@ const Build = () => {
         <>
           <Group position="apart" align="center">
             <Title order={1}>{t("title")}</Title>
-            <CreatePortfolioButton size="sm" />
+            <CreatePageButton size="sm" />
           </Group>
           <Space h="xl" />
         </>
@@ -30,7 +30,7 @@ const Build = () => {
         <ProfileNoItems style={{ display: pages?.length ? "none" : "flex" }}>
           <Text size="xl">{t("noPortfolios")}</Text>
           Тут был лотти
-          <CreatePortfolioButton size="lg" />
+          <CreatePageButton size="lg" />
         </ProfileNoItems>
       ) : (
         <></>

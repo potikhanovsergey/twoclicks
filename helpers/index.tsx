@@ -533,17 +533,17 @@ export function traverseAddIDs(obj) {
   }
 }
 
-export function getPortfolioWithInflatedData(portfolio) {
+export function getPageWithInflatedData(page) {
   return {
-    ...portfolio,
-    data: inflateBase64(portfolio.data),
+    ...page,
+    data: inflateBase64(page.data),
   } as IPage
 }
 
-export function getPortfolioWithDeflatedData(portfolio) {
+export function getPageWithDeflatedData(page) {
   return {
-    ...portfolio,
-    data: deflate(portfolio.data),
+    ...page,
+    data: deflate(page.data),
   } as IPage & { data: string }
 }
 

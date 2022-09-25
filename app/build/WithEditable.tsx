@@ -1,14 +1,14 @@
 import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
 import { Box } from "@mantine/core"
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import updatePage from "app/portfolios/mutations/updatePage"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 
 const WithEditable = ({ children, parentID, withContentEditable }) => {
-  const [updatePortfolioMutation] = useMutation(updatePortfolio)
+  const [updatePageMutation] = useMutation(updatePage)
   const session = useSession()
-  const { savePortfolio } = BuildStore
+  const { savePage } = BuildStore
   return (
     <Box
       contentEditable={Boolean(withContentEditable)}
@@ -66,7 +66,7 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
           (navigator?.userAgentData?.platform.match("mac") ? e.metaKey : e.ctrlKey)
         ) {
           e.preventDefault()
-          void savePortfolio({ session, updatePortfolioMutation })
+          void savePage({ session, updatePageMutation })
         }
       }}
       onBlur={(e) => {

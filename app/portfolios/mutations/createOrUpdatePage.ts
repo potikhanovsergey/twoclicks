@@ -3,14 +3,14 @@ import db, { Page } from "db"
 import { deflate } from "helpers"
 import { IPage } from "types"
 
-export type ICreateOrUpdatePortfolio = Pick<IPage, "data" | "name" | "id">
+export type ICreateOrUpdatePage = Pick<IPage, "data" | "name" | "id">
 
-export default async function createOrUpdatePortfolio(input: ICreateOrUpdatePortfolio, ctx) {
+export default async function createOrUpdatePage(input: ICreateOrUpdatePage, ctx) {
   ctx.session.$isAuthorized()
   const { name, data, id } = input
   try {
     if (ctx.session.userId) {
-      const portfolio = await db.page.upsert({
+      const page = await db.page.upsert({
         where: {
           id,
         },
@@ -22,7 +22,7 @@ export default async function createOrUpdatePortfolio(input: ICreateOrUpdatePort
           data: deflate(data),
         },
       })
-      return portfolio
+      return page
     }
     return null
   } catch (e) {

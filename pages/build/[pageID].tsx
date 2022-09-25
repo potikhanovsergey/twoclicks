@@ -3,14 +3,14 @@ import { Suspense, useEffect, useState } from "react"
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
 import useTranslation from "next-translate/useTranslation"
 import Builder from "app/build/Builder"
-import { getPortfolioWithInflatedData, inflateBase64 } from "helpers"
+import { getPageWithInflatedData, inflateBase64 } from "helpers"
 import { BuildStore } from "store/build"
 import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useSession } from "@blitzjs/auth"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
-import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
+import createOrUpdatePage from "app/portfolios/mutations/createOrUpdatePage"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import { AppStore } from "store"
 import { useDocumentTitle, useViewportSize } from "@mantine/hooks"
@@ -22,7 +22,7 @@ const BuildPage = () => {
   const pageID = useParam("pageID", "string")
 
   const [page, setPage] = useState<IPage | null>(null)
-  const [createOrUpdatePortfolioMutation] = useMutation(createOrUpdatePortfolio)
+  const [createOrUpdatePageMutation] = useMutation(createOrUpdatePage)
 
   const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
     getPortfolioByID,
@@ -34,20 +34,20 @@ const BuildPage = () => {
     const getPortfolio = async () => {
       let p: IPage | null = null
       if (!portfolioFromDB) {
-        let portfolioFromLC = localStorage?.getItem(`portfolio-${pageID}`) as string | undefined
+        let portfolioFromLC = localStorage?.getItem(`page-${pageID}`) as string | undefined
         if (portfolioFromLC) {
-          let inflatedPortfolio = getPortfolioWithInflatedData(inflateBase64(portfolioFromLC))
+          let inflatedPortfolio = getPageWithInflatedData(inflateBase64(portfolioFromLC))
           if (session.userId) {
-            const portfolio = await createOrUpdatePortfolioMutation(inflatedPortfolio)
+            const portfolio = await createOrUpdatePageMutation(inflatedPortfolio)
             if (portfolio) {
               AppStore.pages = [...AppStore.pages, portfolio]
-              localStorage?.removeItem(`portfolio-${pageID}`)
+              localStorage?.removeItem(`page-${pageID}`)
             }
           }
           p = inflatedPortfolio
         }
       } else {
-        p = getPortfolioWithInflatedData(portfolioFromDB)
+        p = getPageWithInflatedData(portfolioFromDB)
         if (!AppStore.pages.find((p) => p.id === portfolioFromDB.id)) {
           AppStore.pages.push(portfolioFromDB)
         }

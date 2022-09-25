@@ -29,7 +29,7 @@ export const defaultUploadNotificationError: NotificationProps = {
   ),
 }
 
-export const defaultSavePortfolioError: NotificationProps = {
+export const defaultSavePageError: NotificationProps = {
   ...defaultErrorNotification,
   title: "Save portfolio error",
   message: (
@@ -39,7 +39,7 @@ export const defaultSavePortfolioError: NotificationProps = {
   ),
 }
 
-export const defaultSavePortfolioSuccess: NotificationProps = {
+export const defaultSavePageSuccess: NotificationProps = {
   ...defaultSuccessNotification,
   message: (
     <Group align="center" spacing={8}>

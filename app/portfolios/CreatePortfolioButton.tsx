@@ -1,50 +1,49 @@
 import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
 import { BuildingBlock } from "@prisma/client"
-import { setCookie } from "cookies-next"
 import ObjectID from "bson-objectid"
-import { PortfolioStarterMock } from "db/mocks"
+import { PageStarterMock } from "db/mocks"
 import { useRouter } from "next/router"
-import { deflate, getPortfolioWithDeflatedData } from "helpers"
-import createPortfolio from "./mutations/createPortfolio"
+import { deflate, getPageWithDeflatedData } from "helpers"
 import { Button, ButtonProps } from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
-type ICreatePortfolioButton = Omit<ButtonProps, "onClick" | "children">
+type ICreatePageButton = Omit<ButtonProps, "onClick" | "children">
 
 import { AiFillBuild } from "@react-icons/all-files/ai/AiFillBuild"
+import createPage from "./mutations/createPage"
 
-const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
+const CreatePageButton = (props: ICreatePageButton) => {
   const router = useRouter()
   const session = useSession()
-  const [createPortfolioMutation, { isLoading }] = useMutation(createPortfolio)
+  const [createPageMutation, { isLoading }] = useMutation(createPage)
 
   const { t } = useTranslation("common")
 
-  const handleCreatePortfolio = async () => {
-    const portfolio = {
+  const handleCreatePage = async () => {
+    const page = {
       id: ObjectID().toHexString(),
-      name: "Brand new portfolio",
-      data: PortfolioStarterMock.data as BuildingBlock[],
-      palette: PortfolioStarterMock.palette,
+      name: "Brand new page",
+      data: PageStarterMock.data as BuildingBlock[],
+      palette: PageStarterMock.palette,
     }
 
     // Authorized
     if (session.userId) {
-      const p = await createPortfolioMutation(portfolio)
+      const p = await createPageMutation(page)
       if (p) {
-        void router.push(`/build/${portfolio.id}`)
+        void router.push(`/build/${page.id}`)
         return
       }
     }
 
     // Not authorized
-    const portfolioWithDeflatedData = getPortfolioWithDeflatedData(portfolio)
-    localStorage?.setItem(`portfolio-${portfolio.id}`, deflate(portfolioWithDeflatedData))
-    void router.push(`/build/${portfolio.id}`)
+    const pageWithDeflatedData = getPageWithDeflatedData(page)
+    localStorage?.setItem(`page-${page.id}`, deflate(pageWithDeflatedData))
+    void router.push(`/build/${page.id}`)
   }
   return (
     <Button
-      onClick={handleCreatePortfolio}
+      onClick={handleCreatePage}
       variant="gradient"
       gradient={{ from: "violet", to: "red", deg: 110 }}
       rightIcon={<AiFillBuild />}
@@ -55,4 +54,4 @@ const CreatePortfolioButton = (props: ICreatePortfolioButton) => {
   )
 }
 
-export default CreatePortfolioButton
+export default CreatePageButton

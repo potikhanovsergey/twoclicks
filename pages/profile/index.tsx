@@ -7,7 +7,7 @@ import { BlitzPage } from "@blitzjs/auth"
 import PortfolioCards from "app/portfolios/PortfolioCards"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
-import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
+import CreatePageButton from "app/portfolios/CreatePortfolioButton"
 
 const ProfilePortfolios: BlitzPage = observer(() => {
   const { t } = useTranslation("pages")
@@ -16,7 +16,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
     <Container size="xl" style={{ height: "100%" }}>
       <Group position="apart" align="center">
         <Title order={1}>{t("title")}</Title>
-        {pages?.length ? <CreatePortfolioButton size="sm" /> : <></>}
+        {pages?.length ? <CreatePageButton size="sm" /> : <></>}
       </Group>
       <div style={{ display: pages?.length ? "block" : "none" }}>
         <Space h="xl" />
@@ -26,7 +26,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
         <ProfileNoItems style={{ display: pages?.length ? "none" : "flex" }}>
           <Text size="xl">{t("noPortfolios")}</Text>
           Тут был лотти
-          <CreatePortfolioButton size="lg" />
+          <CreatePageButton size="lg" />
         </ProfileNoItems>
       )}
     </Container>

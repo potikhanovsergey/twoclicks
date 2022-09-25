@@ -1,7 +1,7 @@
 import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
 import { createStyles } from "@mantine/core"
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import updatePage from "app/portfolios/mutations/updatePage"
 import { memo, useMemo, useRef } from "react"
 import ReactQuill, { ReactQuillProps } from "react-quill"
 import "react-quill/dist/quill.bubble.css"
@@ -138,9 +138,9 @@ ReactQuill.Quill.register(Font, true)
 const Quill = (props: ReactQuillProps & { type: string }) => {
   const { classes } = useStyles()
 
-  const [updatePortfolioMutation] = useMutation(updatePortfolio)
+  const [updatePageMutation] = useMutation(updatePage)
   const session = useSession()
-  const { savePortfolio } = BuildStore
+  const { savePage } = BuildStore
 
   const { type, ...rest } = props
 
@@ -200,7 +200,7 @@ const Quill = (props: ReactQuillProps & { type: string }) => {
           (navigator?.userAgentData?.platform.match("mac") ? e.metaKey : e.ctrlKey)
         ) {
           e.preventDefault()
-          void savePortfolio({ session, updatePortfolioMutation })
+          void savePage({ session, updatePageMutation })
         }
       }}
     />

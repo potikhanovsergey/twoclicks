@@ -16,7 +16,7 @@ import {
   ScrollArea,
 } from "@mantine/core"
 import { useClickOutside, useFullscreen, useHover } from "@mantine/hooks"
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import updatePage from "app/portfolios/mutations/updatePage"
 import { observer } from "mobx-react-lite"
 import React, { Suspense, useEffect, useMemo, useState } from "react"
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit"
@@ -60,9 +60,9 @@ const ObservedPortfolioName = observer(() => {
   const [editName, setEditName] = useState(name)
   const editNameOutsideRef = useClickOutside(() => setInputVisible(false))
   const [
-    updatePortfolioMutation,
+    updatePageMutation,
     { isLoading: isUpdatingPortfolio, isSuccess: hasSuccessfullyUpdatedPortfolio },
-  ] = useMutation(updatePortfolio)
+  ] = useMutation(updatePage)
 
   useEffect(() => {
     setEditName(name)
@@ -166,7 +166,7 @@ const ObservedPortfolioName = observer(() => {
                       loading={isUpdatingPortfolio}
                       onClick={() => {
                         if (id && editName?.length) {
-                          void updatePortfolioMutation({ name: editName, id })
+                          void updatePageMutation({ name: editName, id })
                         }
                       }}
                     >

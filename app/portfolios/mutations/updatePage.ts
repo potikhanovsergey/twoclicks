@@ -1,15 +1,15 @@
 import { Ctx } from "blitz"
 import db, { Page, Prisma } from "db"
 
-export type IUpdatePortfolio = Partial<Pick<Page, "data" | "name" | "id" | "palette">>
+export type IUpdatePage = Partial<Pick<Page, "data" | "name" | "id" | "palette">>
 
-export default async function updatePortfolio(input: IUpdatePortfolio, ctx: Ctx) {
+export default async function updatePage(input: IUpdatePage, ctx: Ctx) {
   ctx.session.$isAuthorized()
   const { name, data, id } = input
   const palette = input.palette as Prisma.JsonObject
   try {
     if (id) {
-      const portfolio = await db.page.update({
+      const page = await db.page.update({
         where: {
           id,
         },
@@ -19,9 +19,9 @@ export default async function updatePortfolio(input: IUpdatePortfolio, ctx: Ctx)
           palette,
         },
       })
-      return portfolio
+      return page
     }
   } catch (e) {
-    console.log("Update portfolio error", e)
+    console.log("Update page error", e)
   }
 }

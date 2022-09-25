@@ -1,14 +1,14 @@
 import { ClientSession } from "@blitzjs/auth"
 import { MutateFunction } from "@blitzjs/rpc"
 import { Page, Prisma } from "@prisma/client"
-import { IUpdatePortfolio } from "app/portfolios/mutations/updatePortfolio"
+import { IUpdatePage } from "app/portfolios/mutations/updatePage"
 import { deflate, traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
 import { configure } from "mobx"
 import { RefObject } from "react"
-import { defaultSavePortfolioError, defaultSavePortfolioSuccess } from "notifications"
+import { defaultSavePageError, defaultSavePageSuccess } from "notifications"
 import { showNotification } from "@mantine/notifications"
 import { AppStore } from "store"
 
@@ -49,7 +49,7 @@ class Build {
   data: ICanvasData = getInitialData()
   shouldRefetchLiked: boolean = false
   blockTypeFilter: string = "all"
-  hasPortfolioChanged: boolean = false
+  hasPageChanged: boolean = false
 
   isSaveButtonLoading: boolean = false
   isImageUploading: string | null = null
@@ -85,14 +85,14 @@ class Build {
   @action resetBuilderStore = () => {
     this.resetHistoryOfChanges()
     this.isSaveButtonLoading = false
-    this.hasPortfolioChanged = false
+    this.hasPageChanged = false
     this.isImageUploading = null
     this.activeEditToolbars = {}
     this.sectionToBeAddedIndex = null
   }
   @action
-  onPortfolioChange = (action?: IActionHistoryItem) => {
-    this.hasPortfolioChanged = true
+  onPageChange = (action?: IActionHistoryItem) => {
+    this.hasPageChanged = true
     if (action && !action.fromHistory) {
       this.redoStack = []
       this.undoStack.push(JSON.parse(JSON.stringify(action)))
@@ -156,7 +156,7 @@ class Build {
 
     const memoBlock = JSON.parse(JSON.stringify(block))
 
-    this.onPortfolioChange({
+    this.onPageChange({
       redo: {
         name: "push",
         data: { block: memoBlock, sectionToBeAddedIndex },
@@ -188,7 +188,7 @@ class Build {
       el.type = type
       el.editType = editType
 
-      this.onPortfolioChange({
+      this.onPageChange({
         redo: {
           name: "changeType",
           data: { id, type, editType },
@@ -222,7 +222,7 @@ class Build {
       }
 
       console.log("UNDO PROPS", undoProps)
-      this.onPortfolioChange({
+      this.onPageChange({
         redo: {
           name: "changeProp",
           data: { id, newProps: JSON.parse(JSON.stringify(newProps)) },
@@ -257,7 +257,7 @@ class Build {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
       if (parentProps?.children) {
-        this.onPortfolioChange({
+        this.onPageChange({
           redo: {
             name: "deleteElement",
             data: { id, parentID },
@@ -279,7 +279,7 @@ class Build {
     } else {
       const index = this.data.blocks.findIndex((b) => b.id === id)
 
-      this.onPortfolioChange({
+      this.onPageChange({
         redo: {
           name: "deleteElement",
           data: { id, parentID },
@@ -351,7 +351,7 @@ class Build {
         parentArray[indexOfId - 1],
         parentArray[indexOfId],
       ]
-      this.onPortfolioChange({
+      this.onPageChange({
         redo: {
           name: "moveLeft",
           data: { id, parentID, editType },
@@ -394,7 +394,7 @@ class Build {
         parentArray[indexOfId],
         parentArray[indexOfId + 1],
       ]
-      this.onPortfolioChange({
+      this.onPageChange({
         redo: {
           name: "moveRight",
           data: { id, parentID, editType },
@@ -424,24 +424,24 @@ class Build {
   }
 
   @action
-  savePortfolio = async ({
+  savePage = async ({
     e,
     session,
-    updatePortfolioMutation,
+    updatePageMutation,
   }: {
     e?: KeyboardEvent
     session: ClientSession
-    updatePortfolioMutation: MutateFunction<Page | undefined, unknown, IUpdatePortfolio, unknown>
+    updatePageMutation: MutateFunction<Page | undefined, unknown, IUpdatePage, unknown>
   }) => {
     try {
       e && e.preventDefault()
       const {
         data: { name, id, blocks, palette },
-        hasPortfolioChanged,
+        hasPageChanged,
       } = this
-      if (name && id && hasPortfolioChanged) {
+      if (name && id && hasPageChanged) {
         this.setIsSaveButtonLoading(true)
-        const portfolio = {
+        const page = {
           data: deflate(blocks),
           name,
           id,
@@ -449,22 +449,22 @@ class Build {
         }
         let p
         if (session.userId) {
-          p = await updatePortfolioMutation?.(portfolio)
+          p = await updatePageMutation?.(page)
         } else {
-          localStorage?.setItem(`portfolio-${id}`, deflate(portfolio))
+          localStorage?.setItem(`page-${id}`, deflate(page))
         }
-        this.hasPortfolioChanged = false
+        this.hasPageChanged = false
         this.setIsSaveButtonLoading(false)
-        showNotification(defaultSavePortfolioSuccess)
+        showNotification(defaultSavePageSuccess)
         const indexOfP = AppStore.pages.findIndex((storePortfolio) => storePortfolio.id === id)
         if (indexOfP !== -1) {
-          AppStore.pages.splice(indexOfP, 1, p || portfolio)
+          AppStore.pages.splice(indexOfP, 1, p || page)
         }
-        return p || portfolio
+        return p || page
       }
     } catch (e) {
       showNotification({
-        ...defaultSavePortfolioError,
+        ...defaultSavePageError,
       })
       this.setIsSaveButtonLoading(false)
     }
@@ -478,7 +478,7 @@ class Build {
     if (this.data.palette?.[paletteKey]) {
       const oldValue = this.data.palette[paletteKey]
       this.data.palette[paletteKey] = value
-      this.onPortfolioChange({
+      this.onPageChange({
         redo: {
           name: "changePalette",
           data: { paletteKey, value },

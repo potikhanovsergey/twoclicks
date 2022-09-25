@@ -1,6 +1,6 @@
 import { Text, Loader, Center, LoadingOverlay } from "@mantine/core"
 import { Suspense, useEffect, useState } from "react"
-import { getPortfolioWithInflatedData } from "helpers"
+import { getPageWithInflatedData } from "helpers"
 import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useQuery } from "@blitzjs/rpc"
@@ -27,7 +27,7 @@ const PagePage = () => {
     const getPortfolio = async () => {
       let p: IPage | null = null
       if (portfolioFromDB) {
-        p = getPortfolioWithInflatedData(portfolioFromDB)
+        p = getPageWithInflatedData(portfolioFromDB)
       }
       setPortfolio(p)
     }

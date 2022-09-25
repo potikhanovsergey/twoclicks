@@ -5,21 +5,18 @@ import {
   createPolymorphicComponent,
   TextInput,
   Text,
-  BoxProps,
   ButtonProps,
   Group,
-  ThemeIcon,
 } from "@mantine/core"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useForm } from "@mantine/form"
-import createPortfolio from "app/portfolios/mutations/createPortfolio"
+import createPage from "app/portfolios/mutations/createPage"
 import { useMutation } from "@blitzjs/rpc"
 import { Page } from "@prisma/client"
 import { ICanvasPalette } from "types"
 import { AppStore } from "store"
 import { showNotification } from "@mantine/notifications"
 import { defaultSuccessNotification } from "notifications"
-import { BiSave } from "@react-icons/all-files/bi/BiSave"
 
 interface TemplateModalProps extends ButtonProps {
   portfolio: Page
@@ -32,12 +29,12 @@ const TemplateModalForm = ({ portfolio }: { portfolio: Page }) => {
     },
   })
 
-  const [createPortfolioMutation] = useMutation(createPortfolio)
+  const [createPageMutation] = useMutation(createPage)
 
   return (
     <form
       onSubmit={templateForm.onSubmit(async (values) => {
-        const createdPortfolio = await createPortfolioMutation({
+        const createdPortfolio = await createPageMutation({
           name: values.newPageName,
           data: portfolio.data,
           palette: portfolio.palette as ICanvasPalette,

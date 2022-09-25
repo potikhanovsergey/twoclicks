@@ -2,7 +2,7 @@ import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
 import { Button } from "@mantine/core"
 import { useHotkeys } from "@mantine/hooks"
-import updatePortfolio from "app/portfolios/mutations/updatePortfolio"
+import updatePage from "app/portfolios/mutations/updatePage"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useEffect } from "react"
@@ -12,11 +12,10 @@ import { FaSave } from "@react-icons/all-files/fa/FaSave"
 
 const SaveButton = observer(() => {
   const session = useSession()
-  const [updatePortfolioMutation, { isLoading, isSuccess }] = useMutation(updatePortfolio)
+  const [updatePageMutation, { isLoading, isSuccess }] = useMutation(updatePage)
 
-  const { hasPortfolioChanged, savePortfolio, isSaveButtonLoading, setIsSaveButtonLoading } =
-    BuildStore
-  useHotkeys([["mod+S", (e) => savePortfolio({ e, session, updatePortfolioMutation })]])
+  const { hasPageChanged, savePage, isSaveButtonLoading, setIsSaveButtonLoading } = BuildStore
+  useHotkeys([["mod+S", (e) => savePage({ e, session, updatePageMutation })]])
 
   useEffect(() => {
     setIsSaveButtonLoading(isLoading)
@@ -26,9 +25,9 @@ const SaveButton = observer(() => {
   return (
     <Button
       loading={isSaveButtonLoading}
-      onClick={() => savePortfolio({ session, updatePortfolioMutation })}
-      disabled={!hasPortfolioChanged}
-      variant={hasPortfolioChanged ? "gradient" : "default"}
+      onClick={() => savePage({ session, updatePageMutation })}
+      disabled={!hasPageChanged}
+      variant={hasPageChanged ? "gradient" : "default"}
       gradient={{ from: "violet", to: "red", deg: 35 }}
       size="xs"
       leftIcon={<FaSave size={15} />}

@@ -3,7 +3,7 @@ import db, { BuildingBlock, Page, Prisma } from "db"
 import { deflate } from "helpers"
 import { ICanvasPalette } from "types"
 
-export default async function createPortfolio(
+export default async function createPage(
   data: Pick<Page, "name"> & {
     firstTime?: boolean
     data: BuildingBlock[] | string
@@ -17,7 +17,7 @@ export default async function createPortfolio(
   const { firstTime, palette = { primary: "violet" }, isPublished = false } = data
   const userId = ctx.session.userId as string
   try {
-    const portfolio = await db.page.create({
+    const page = await db.page.create({
       data: {
         id: data.id,
         userId,
@@ -37,7 +37,7 @@ export default async function createPortfolio(
         },
       })
     }
-    return portfolio
+    return page
   } catch (e) {
     console.log("Create portfolio error", e)
     return null
