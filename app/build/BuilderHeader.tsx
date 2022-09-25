@@ -16,7 +16,7 @@ import {
   ScrollArea,
 } from "@mantine/core"
 import { useClickOutside, useFullscreen, useHover } from "@mantine/hooks"
-import updatePage from "app/portfolios/mutations/updatePage"
+import updatePage from "app/build-pages/mutations/updatePage"
 import { observer } from "mobx-react-lite"
 import React, { Suspense, useEffect, useMemo, useState } from "react"
 import { AiOutlineEdit } from "@react-icons/all-files/ai/AiOutlineEdit"

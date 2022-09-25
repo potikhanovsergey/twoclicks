@@ -6,7 +6,7 @@ import { AppStore } from "store"
 
 import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
-import togglePagePublished from "app/portfolios/mutations/togglePagePublished"
+import togglePagePublished from "app/build-pages/mutations/togglePagePublished"
 
 interface ITogglePublishPage {
   id: string

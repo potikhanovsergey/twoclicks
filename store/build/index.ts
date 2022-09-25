@@ -1,7 +1,7 @@
 import { ClientSession } from "@blitzjs/auth"
 import { MutateFunction } from "@blitzjs/rpc"
 import { Page, Prisma } from "@prisma/client"
-import { IUpdatePage } from "app/pages/mutations/updatePage"
+import { IUpdatePage } from "app/build-pages/mutations/updatePage"
 import { deflate, traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"

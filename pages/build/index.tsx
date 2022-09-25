@@ -4,8 +4,8 @@ import ProfileNoItems from "app/profile/ProfileNoItems"
 import useTranslation from "next-translate/useTranslation"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
-import CreatePageButton from "app/portfolios/CreatePageButton"
-import PageCards from "app/portfolios/PageCards"
+import CreatePageButton from "app/build-pages/CreatePageButton"
+import PageCards from "app/build-pages/PageCards"
 
 const Build = () => {
   const { t } = useTranslation("pages")

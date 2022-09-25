@@ -4,10 +4,10 @@ import React from "react"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 import { BlitzPage } from "@blitzjs/auth"
-import PageCards from "app/portfolios/PageCards"
+import PageCards from "app/build-pages/PageCards"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
-import CreatePageButton from "app/portfolios/CreatePageButton"
+import CreatePageButton from "app/build-pages/CreatePageButton"
 
 const ProfilePages: BlitzPage = observer(() => {
   const { t } = useTranslation("pages")

@@ -1,7 +1,7 @@
 import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
 import { Box } from "@mantine/core"
-import updatePage from "app/portfolios/mutations/updatePage"
+import updatePage from "app/build-pages/mutations/updatePage"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 

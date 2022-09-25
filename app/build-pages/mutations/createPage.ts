@@ -33,7 +33,7 @@ export default async function createPage(
           id: userId,
         },
         data: {
-          hasCreatedPortfolio: true,
+          hasCreatedPage: true,
         },
       })
     }

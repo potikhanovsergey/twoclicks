@@ -9,12 +9,12 @@ import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useSession } from "@blitzjs/auth"
 import { useMutation, useQuery } from "@blitzjs/rpc"
-import getPageByID from "app/portfolios/queries/getPageByID"
-import createOrUpdatePage from "app/portfolios/mutations/createOrUpdatePage"
+import getPageByID from "app/build-pages/queries/getPageByID"
+import createOrUpdatePage from "app/build-pages/mutations/createOrUpdatePage"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import { AppStore } from "store"
 import { useDocumentTitle, useViewportSize } from "@mantine/hooks"
-import getUserPages from "app/portfolios/queries/getUserPages"
+import getUserPages from "app/build-pages/queries/getUserPages"
 
 const BuildPage = () => {
   const { t } = useTranslation("build")

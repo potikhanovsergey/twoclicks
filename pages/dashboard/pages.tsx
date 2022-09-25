@@ -2,13 +2,13 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { Container, Group, Pagination, Stack, Text, TextInput } from "@mantine/core"
 import { useDebouncedState } from "@mantine/hooks"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import getAllPages from "app/portfolios/queries/getAllPages"
+import getAllPages from "app/build-pages/queries/getAllPages"
 import { useDidMount } from "hooks/useDidMount"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 import { HiSearch } from "@react-icons/all-files/hi/HiSearch"
-import PageCard from "app/portfolios/PageCard"
+import PageCard from "app/build-pages/PageCard"
 
 const ITEMS_PER_PAGE = 50
 

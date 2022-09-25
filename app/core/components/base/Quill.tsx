@@ -1,7 +1,7 @@
 import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
 import { createStyles } from "@mantine/core"
-import updatePage from "app/portfolios/mutations/updatePage"
+import updatePage from "app/build-pages/mutations/updatePage"
 import { memo, useMemo, useRef } from "react"
 import ReactQuill, { ReactQuillProps } from "react-quill"
 import "react-quill/dist/quill.bubble.css"

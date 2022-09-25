@@ -21,7 +21,7 @@ import { useSession } from "@blitzjs/auth"
 import { useRouter } from "next/router"
 import { useElementSize, useLocalStorage } from "@mantine/hooks"
 import { useMutation } from "@blitzjs/rpc"
-import updatePage from "app/portfolios/mutations/updatePage"
+import updatePage from "app/build-pages/mutations/updatePage"
 import IPhone from "../../assets/IPhone7.png"
 
 import { ICanvasBlock, ICanvasPalette } from "types"

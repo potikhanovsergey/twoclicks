@@ -10,7 +10,7 @@ import {
 } from "@mantine/core"
 import { closeAllModals, openModal } from "@mantine/modals"
 import { useForm } from "@mantine/form"
-import createPage from "app/portfolios/mutations/createPage"
+import createPage from "app/build-pages/mutations/createPage"
 import { useMutation } from "@blitzjs/rpc"
 import { Page } from "@prisma/client"
 import { ICanvasPalette } from "types"
