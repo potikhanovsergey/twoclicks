@@ -115,7 +115,7 @@ const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
       {/* <MantineProvider inherit theme={{ colorScheme: "light" }}> */}
       <BuilderBlocks />
       {/* </MantineProvider> */}
-      {session.userId ? (
+      {/* {session.userId ? (
         <div
           ref={onboardingRef}
           className={classes.onboarding}
@@ -128,7 +128,7 @@ const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
         </div>
       ) : (
         <></>
-      )}
+      )} */}
     </Stack>
   )
 }
