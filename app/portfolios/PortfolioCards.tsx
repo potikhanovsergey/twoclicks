@@ -9,12 +9,12 @@ import getUserPortfolios from "./queries/getUserPortfolios"
 import { AnimatePresence, m } from "framer-motion"
 
 const PortfolioCardsItems = observer(() => {
-  const { portfolios } = AppStore
+  const { pages } = AppStore
 
-  return portfolios ? (
+  return pages ? (
     <AnimatePresence>
       <ul style={{ padding: 0, margin: 0 }}>
-        {portfolios.map((portfolio) => (
+        {pages.map((portfolio) => (
           <PortfolioCard portfolio={portfolio} key={portfolio.id} />
         ))}
       </ul>
@@ -25,7 +25,7 @@ const PortfolioCardsItems = observer(() => {
 })
 
 const PortfolioCards = observer(() => {
-  const { setPortfolios, havePortfoliosLoaded } = AppStore
+  const { setPages, havePagesLoaded } = AppStore
   const session = useSession()
 
   const [fetchedPortfolios, { isLoading, isFetching, isRefetching }] = useQuery(
@@ -38,16 +38,16 @@ const PortfolioCards = observer(() => {
       ],
     },
     {
-      enabled: !AppStore.havePortfoliosLoaded,
+      enabled: !AppStore.havePagesLoaded,
     }
   )
 
   useEffect(() => {
-    if (fetchedPortfolios && session.userId && !havePortfoliosLoaded) {
-      setPortfolios(fetchedPortfolios)
+    if (fetchedPortfolios && session.userId && !havePagesLoaded) {
+      setPages(fetchedPortfolios)
     }
-    if (!session.userId) setPortfolios([])
-  }, [fetchedPortfolios, session, havePortfoliosLoaded])
+    if (!session.userId) setPages([])
+  }, [fetchedPortfolios, session, havePagesLoaded])
 
   return isLoading || isFetching || isRefetching ? (
     <Skeleton width="100%" height="120px" animate />

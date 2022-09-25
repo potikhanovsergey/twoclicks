@@ -1,5 +1,4 @@
 import { Group, Anchor, CopyButton, Tooltip, ActionIcon } from "@mantine/core"
-import { PortfolioPreview } from "app/portfolios/PortfolioCard"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { AppStore } from "store"
@@ -19,7 +18,7 @@ const PortfolioLink = ({
   shouldSearch?: boolean
   centered?: boolean
 }) => {
-  const portfolio = shouldSearch ? AppStore.portfolios.find((p) => p.id === id) : null
+  const portfolio = shouldSearch ? AppStore.pages.find((p) => p.id === id) : null
   const { t } = useTranslation("build")
   return portfolio?.isPublished || !shouldSearch ? (
     <Group spacing={4} noWrap position={centered ? "center" : undefined}>

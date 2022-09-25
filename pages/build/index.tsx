@@ -9,10 +9,10 @@ import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 
 const Build = () => {
   const { t } = useTranslation("pages")
-  const { portfolios, havePortfoliosLoaded } = AppStore
+  const { pages, havePagesLoaded } = AppStore
   return (
     <Container size="xl" style={{ height: "100%" }} py={16}>
-      {havePortfoliosLoaded && portfolios?.length ? (
+      {havePagesLoaded && pages?.length ? (
         <>
           <Group position="apart" align="center">
             <Title order={1}>{t("title")}</Title>
@@ -23,11 +23,11 @@ const Build = () => {
       ) : (
         <></>
       )}
-      <div style={{ display: portfolios?.length ? "block" : "none" }}>
+      <div style={{ display: pages?.length ? "block" : "none" }}>
         <PortfolioCards />
       </div>
-      {havePortfoliosLoaded && !portfolios?.length ? (
-        <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
+      {havePagesLoaded && !pages?.length ? (
+        <ProfileNoItems style={{ display: pages?.length ? "none" : "flex" }}>
           <Text size="xl">{t("noPortfolios")}</Text>
           Тут был лотти
           <CreatePortfolioButton size="lg" />

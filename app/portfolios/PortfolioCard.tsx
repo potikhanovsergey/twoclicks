@@ -40,7 +40,7 @@ const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
 
   useEffect(() => {
     if (isSuccess) {
-      AppStore.removePortfolio(portfolio.id)
+      AppStore.removePage(portfolio.id)
     }
   }, [isSuccess])
 

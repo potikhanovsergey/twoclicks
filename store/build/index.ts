@@ -456,9 +456,9 @@ class Build {
         this.hasPortfolioChanged = false
         this.setIsSaveButtonLoading(false)
         showNotification(defaultSavePortfolioSuccess)
-        const indexOfP = AppStore.portfolios.findIndex((storePortfolio) => storePortfolio.id === id)
+        const indexOfP = AppStore.pages.findIndex((storePortfolio) => storePortfolio.id === id)
         if (indexOfP !== -1) {
-          AppStore.portfolios.splice(indexOfP, 1, p || portfolio)
+          AppStore.pages.splice(indexOfP, 1, p || portfolio)
         }
         return p || portfolio
       }

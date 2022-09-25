@@ -78,14 +78,14 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   // ### THEME AND COLOR SCHEME ###
   const [colorScheme, setColorScheme] = useLocalStorage<ColorScheme>({
-    key: "skillcase-color-scheme",
+    key: "twoclicks-color-scheme",
     defaultValue: props.cookiesColorScheme,
   })
   const toggleColorScheme = (value?: ColorScheme) => {
     const nextColorScheme = value || (colorScheme === "dark" ? "light" : "dark")
     setColorScheme(nextColorScheme)
     // when color scheme is updated save it to cookie and local storage
-    setCookie("skillcase-color-scheme", nextColorScheme, { maxAge: 60 * 60 * 24 * 30 })
+    setCookie("twoclicks-color-scheme", nextColorScheme, { maxAge: 60 * 60 * 24 * 30 })
   }
 
   useHotkeys([["mod+J", () => toggleColorScheme()]])
@@ -251,7 +251,7 @@ const appWithBlitz = withBlitz(App)
 
 appWithBlitz["getInitialProps"] = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
   // get color scheme from cookie
-  cookiesColorScheme: getCookie("skillcase-color-scheme", ctx) || "dark",
+  cookiesColorScheme: getCookie("twoclicks-color-scheme", ctx) || "dark",
 })
 
 export default appWithBlitz

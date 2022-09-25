@@ -5,8 +5,8 @@ import { makeAutoObservable, action } from "mobx"
 
 class Store {
   colorScheme: ColorScheme = "light"
-  portfolios: Page[] = []
-  havePortfoliosLoaded: boolean = false
+  pages: Page[] = []
+  havePagesLoaded: boolean = false
 
   constructor() {
     makeAutoObservable(this)
@@ -17,19 +17,19 @@ class Store {
     const nextColorScheme = value || (this.colorScheme === "dark" ? "light" : "dark")
     this.colorScheme = nextColorScheme
     // when color scheme is updated save it to cookie
-    setCookie("skillcase-color-scheme", nextColorScheme, { maxAge: 60 * 60 * 24 * 30 })
+    setCookie("twoclicks-color-scheme", nextColorScheme, { maxAge: 60 * 60 * 24 * 30 })
   }
 
   @action
-  setPortfolios = (portfolios: Page[]) => {
-    this.portfolios = portfolios
-    this.havePortfoliosLoaded = true
+  setPages = (pages: Page[]) => {
+    this.pages = pages
+    this.havePagesLoaded = true
   }
 
   @action
-  removePortfolio = (id: string) => {
-    if (this.portfolios) {
-      this.portfolios = this.portfolios.filter((p) => p.id !== id)
+  removePage = (id: string) => {
+    if (this.pages) {
+      this.pages = this.pages.filter((p) => p.id !== id)
     }
   }
 }

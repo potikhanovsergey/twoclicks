@@ -75,16 +75,16 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
 
   const { t } = useTranslation("build")
 
-  const { portfolios } = AppStore
+  const { pages } = AppStore
 
   const dividedPortfolios = useMemo(() => {
-    const portfolio = portfolios?.find((p) => p.id === portfolioID)
+    const portfolio = pages?.find((p) => p.id === portfolioID)
     if (!portfolio) return null
     return {
       current: portfolio,
-      rest: portfolios.filter((p) => p.id !== portfolio.id),
+      rest: pages.filter((p) => p.id !== portfolio.id),
     }
-  }, [portfolios, portfolioID])
+  }, [pages, portfolioID])
 
   return hasLinkEdit ? (
     <ToolbarMenu

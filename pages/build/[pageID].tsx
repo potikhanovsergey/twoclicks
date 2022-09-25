@@ -1,29 +1,17 @@
-import {
-  Text,
-  Loader,
-  Center,
-  LoadingOverlay,
-  ColorSchemeProvider,
-  MantineProvider,
-  MediaQuery,
-  useMantineTheme,
-} from "@mantine/core"
+import { Text, Loader, Center, LoadingOverlay, useMantineTheme } from "@mantine/core"
 import { Suspense, useEffect, useState } from "react"
-import CanvasComponentsModal from "app/core/components/modals/build/CanvasComponents"
 import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections"
 import useTranslation from "next-translate/useTranslation"
 import Builder from "app/build/Builder"
 import { getPortfolioWithInflatedData, inflateBase64 } from "helpers"
 import { BuildStore } from "store/build"
-import { Ctx, useParam } from "@blitzjs/next"
+import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useSession } from "@blitzjs/auth"
-import { deleteCookie, getCookie } from "cookies-next"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
 import createOrUpdatePortfolio from "app/portfolios/mutations/createOrUpdatePortfolio"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 import { AppStore } from "store"
 import { useDocumentTitle, useViewportSize } from "@mantine/hooks"
 import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
@@ -31,14 +19,14 @@ import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 const BuildPage = () => {
   const { t } = useTranslation("build")
   const session = useSession()
-  const portfolioID = useParam("portfolioID", "string")
+  const pageID = useParam("pageID", "string")
 
-  const [portfolio, setPortfolio] = useState<IPage | null>(null)
+  const [page, setPage] = useState<IPage | null>(null)
   const [createOrUpdatePortfolioMutation] = useMutation(createOrUpdatePortfolio)
 
   const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
     getPortfolioByID,
-    { id: portfolioID, isPublic: false },
+    { id: pageID, isPublic: false },
     { refetchOnReconnect: false, refetchOnWindowFocus: false }
   )
 
@@ -46,27 +34,25 @@ const BuildPage = () => {
     const getPortfolio = async () => {
       let p: IPage | null = null
       if (!portfolioFromDB) {
-        let portfolioFromLC = localStorage?.getItem(`portfolio-${portfolioID}`) as
-          | string
-          | undefined
+        let portfolioFromLC = localStorage?.getItem(`portfolio-${pageID}`) as string | undefined
         if (portfolioFromLC) {
           let inflatedPortfolio = getPortfolioWithInflatedData(inflateBase64(portfolioFromLC))
           if (session.userId) {
             const portfolio = await createOrUpdatePortfolioMutation(inflatedPortfolio)
             if (portfolio) {
-              AppStore.portfolios = [...AppStore.portfolios, portfolio]
-              localStorage?.removeItem(`portfolio-${portfolioID}`)
+              AppStore.pages = [...AppStore.pages, portfolio]
+              localStorage?.removeItem(`portfolio-${pageID}`)
             }
           }
           p = inflatedPortfolio
         }
       } else {
         p = getPortfolioWithInflatedData(portfolioFromDB)
-        if (!AppStore.portfolios.find((p) => p.id === portfolioFromDB.id)) {
-          AppStore.portfolios.push(portfolioFromDB)
+        if (!AppStore.pages.find((p) => p.id === portfolioFromDB.id)) {
+          AppStore.pages.push(portfolioFromDB)
         }
       }
-      setPortfolio(p)
+      setPage(p)
     }
 
     void getPortfolio()
@@ -83,20 +69,20 @@ const BuildPage = () => {
   useDocumentTitle(name || "skillcase")
 
   useEffect(() => {
-    if (portfolio?.data) {
+    if (page?.data) {
       setData({
-        blocks: portfolio.data,
-        name: portfolio.name,
-        id: portfolio.id,
-        palette: portfolio.palette,
+        blocks: page.data,
+        name: page.name,
+        id: page.id,
+        palette: page.palette,
         flattenBlocks: {},
-        isPublished: portfolio.isPublished,
+        isPublished: page.isPublished,
       })
       resetHistoryOfChanges()
       BuildStore.unlockedElements = {}
     }
     // return () => resetData()
-  }, [portfolio])
+  }, [page])
 
   useEffect(() => {
     if (session && !portfolioFromDB) {
@@ -107,7 +93,7 @@ const BuildPage = () => {
   const theme = useMantineTheme()
   const { width: viewportWidth } = useViewportSize()
 
-  const { setPortfolios, havePortfoliosLoaded } = AppStore
+  const { setPages, havePagesLoaded } = AppStore
 
   const [fetchedPortfolios] = useQuery(
     getUserPortfolios,
@@ -119,23 +105,23 @@ const BuildPage = () => {
       ],
     },
     {
-      enabled: !AppStore.havePortfoliosLoaded,
+      enabled: !AppStore.havePagesLoaded,
     }
   )
 
   useEffect(() => {
-    if (fetchedPortfolios && session.userId && !havePortfoliosLoaded) {
-      setPortfolios(fetchedPortfolios)
+    if (fetchedPortfolios && session.userId && !havePagesLoaded) {
+      setPages(fetchedPortfolios)
     }
-    if (!session.userId) setPortfolios([])
-  }, [fetchedPortfolios, session, havePortfoliosLoaded])
+    if (!session.userId) setPages([])
+  }, [fetchedPortfolios, session, havePagesLoaded])
 
   if (isLoading)
     return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
 
   return (
     <>
-      {portfolio ? (
+      {page ? (
         <Suspense fallback={<Loader />}>
           {viewportWidth > theme.breakpoints.md ? (
             <>

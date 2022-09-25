@@ -185,16 +185,16 @@ const Builder = () => {
 
   const iframeRef = useRef<HTMLIFrameElement>(null)
 
-  const [, setPreviewPortfolio] = useLocalStorage<{
+  const [, setPreviewPage] = useLocalStorage<{
     blocks: ICanvasBlock[]
     palette: ICanvasPalette
     name: string | null
   }>({
-    key: "preview-portfolio",
+    key: "preview-page",
   })
 
   const handleIframeLoad = () => {
-    setPreviewPortfolio({ blocks: data.blocks, palette: data.palette, name: data.name })
+    setPreviewPage({ blocks: data.blocks, palette: data.palette, name: data.name })
     const cssLink = document.createElement("link")
     cssLink.href = "iframe.css"
     cssLink.rel = "stylesheet"
@@ -204,7 +204,7 @@ const Builder = () => {
 
   useEffect(() => {
     autorun(() => {
-      setPreviewPortfolio({ blocks: data.blocks, palette: data.palette, name: data.name })
+      setPreviewPage({ blocks: data.blocks, palette: data.palette, name: data.name })
     })
   }, [data.blocks, data.palette])
 

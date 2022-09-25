@@ -54,7 +54,7 @@ const ObservedPortfolioName = observer(() => {
     data: { name, id },
   } = BuildStore
 
-  const { portfolios } = AppStore
+  const { pages } = AppStore
 
   const [inputVisible, setInputVisible] = useState(false)
   const [editName, setEditName] = useState(name)
@@ -69,13 +69,13 @@ const ObservedPortfolioName = observer(() => {
   }, [name])
 
   const dividedPortfolios = useMemo(() => {
-    const portfolio = portfolios?.find((p) => p.id === id)
+    const portfolio = pages?.find((p) => p.id === id)
     if (!portfolio) return null
     return {
       current: portfolio,
-      rest: portfolios.filter((p) => p.id !== portfolio.id),
+      rest: pages.filter((p) => p.id !== portfolio.id),
     }
-  }, [portfolios, id])
+  }, [pages, id])
 
   useEffect(() => {
     if (hasSuccessfullyUpdatedPortfolio) {

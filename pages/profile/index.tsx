@@ -11,19 +11,19 @@ import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 
 const ProfilePortfolios: BlitzPage = observer(() => {
   const { t } = useTranslation("pages")
-  const { portfolios, havePortfoliosLoaded } = AppStore
+  const { pages, havePagesLoaded } = AppStore
   return (
     <Container size="xl" style={{ height: "100%" }}>
       <Group position="apart" align="center">
         <Title order={1}>{t("title")}</Title>
-        {portfolios?.length ? <CreatePortfolioButton size="sm" /> : <></>}
+        {pages?.length ? <CreatePortfolioButton size="sm" /> : <></>}
       </Group>
-      <div style={{ display: portfolios?.length ? "block" : "none" }}>
+      <div style={{ display: pages?.length ? "block" : "none" }}>
         <Space h="xl" />
         <PortfolioCards />
       </div>
-      {havePortfoliosLoaded && (
-        <ProfileNoItems style={{ display: portfolios?.length ? "none" : "flex" }}>
+      {havePagesLoaded && (
+        <ProfileNoItems style={{ display: pages?.length ? "none" : "flex" }}>
           <Text size="xl">{t("noPortfolios")}</Text>
           Тут был лотти
           <CreatePortfolioButton size="lg" />

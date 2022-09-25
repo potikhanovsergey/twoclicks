@@ -14,7 +14,7 @@ interface ITogglePublishPortfolio {
 }
 
 const TogglePublishPortfilio = ({ id }: ITogglePublishPortfolio) => {
-  const portfolio = AppStore.portfolios?.find((p) => p.id === id)
+  const portfolio = AppStore.pages?.find((p) => p.id === id)
 
   const handleToggle = async (e) => {
     if (portfolio) {

@@ -5,22 +5,22 @@ import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useQuery } from "@blitzjs/rpc"
 import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
-import Portfolio from "app/p/Portfolio"
+import Page from "app/p/Page"
 import { useDocumentTitle } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
 import BaseLayout from "app/core/layouts/BaseLayout"
 import MadeWithTwoClicks from "app/core/components/MadeWithTwoClicks"
 
-const PortfolioPage = () => {
+const PagePage = () => {
   const { t } = useTranslation("build")
 
-  const portfolioID = useParam("portfolioID", "string")
+  const pageID = useParam("pageID", "string")
 
-  const [portfolio, setPortfolio] = useState<IPage | null>(null)
+  const [page, setPortfolio] = useState<IPage | null>(null)
 
   const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
     getPortfolioByID,
-    { id: portfolioID, isPublic: true },
+    { id: pageID, isPublic: true },
     { refetchOnWindowFocus: false }
   )
   useEffect(() => {
@@ -37,16 +37,16 @@ const PortfolioPage = () => {
 
   const [isLoading, setIsLoading] = useState(true)
 
-  useDocumentTitle(portfolio?.name || "skillcase")
+  useDocumentTitle(page?.name || "skillcase")
   if (isLoading)
     return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
 
   return (
     <>
-      {portfolio ? (
+      {page ? (
         <Suspense fallback={<Loader />}>
           {/* <MantineProvider inherit theme={{ colorScheme: "light" }}> */}
-          <Portfolio portfolio={portfolio} />
+          <Page page={page} />
           <MadeWithTwoClicks />
           {/* </MantineProvider> */}
         </Suspense>
@@ -61,6 +61,6 @@ const PortfolioPage = () => {
   )
 }
 
-PortfolioPage.suppressFirstRenderFlicker = true
+PagePage.suppressFirstRenderFlicker = true
 
-export default PortfolioPage
+export default PagePage

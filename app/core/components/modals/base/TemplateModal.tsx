@@ -44,7 +44,7 @@ const TemplateModalForm = ({ portfolio }: { portfolio: Page }) => {
         })
 
         if (createdPortfolio) {
-          AppStore.portfolios = [createdPortfolio, ...AppStore.portfolios]
+          AppStore.pages = [createdPortfolio, ...AppStore.pages]
           showNotification({
             ...defaultSuccessNotification,
             message: (

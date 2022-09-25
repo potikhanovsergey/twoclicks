@@ -10,35 +10,35 @@ import { ICanvasPalette } from "types"
 const PreviewPortfolio = () => {
   // const { t } = useTranslation('build');
 
-  const [portfolio, setPreviewPortfolio] = useLocalStorage<{
+  const [page] = useLocalStorage<{
     blocks: ICanvasBlock[]
     palette: ICanvasPalette
     name: string | null
   }>({
-    key: "preview-portfolio",
+    key: "preview-page",
   })
-  useDocumentTitle(portfolio?.name || "skillcase")
+  useDocumentTitle(page?.name || "twoclicks")
 
   return (
     <>
       <Global
         styles={(theme) => ({
           "::selection": {
-            background: theme?.colors?.[portfolio?.palette?.primary]?.[4] || theme.colors.violet[4],
+            background: theme?.colors?.[page?.palette?.primary]?.[4] || theme.colors.violet[4],
             color: theme.white,
             WebkitTextFillColor: theme.white,
           },
         })}
       />
-      {portfolio &&
-        portfolio.blocks.map((b, i) => {
+      {page &&
+        page.blocks.map((b, i) => {
           const JSX = RenderJSXFromBlock({
             element: b,
             shouldFlat: false,
             withContentEditable: false,
             withEditToolbar: false,
             withPalette: true,
-            palette: portfolio.palette,
+            palette: page.palette,
             sectionIndex: i,
           })
           if (JSX) {
