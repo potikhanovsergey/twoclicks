@@ -17,7 +17,7 @@ interface IElementSizesEdit {
 const ElementSizesEdit = ({ type, props, id }: IElementSizesEdit) => {
   const sizes = type ? getSizesByType(type) : undefined
   const { changeProp, openedAction } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return sizes ? (
     <ToolbarMenu
       menuProps={{

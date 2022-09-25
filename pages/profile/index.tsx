@@ -10,7 +10,7 @@ import { observer } from "mobx-react-lite"
 import CreatePortfolioButton from "app/portfolios/CreatePortfolioButton"
 
 const ProfilePortfolios: BlitzPage = observer(() => {
-  const { t } = useTranslation("pagesProfilePortfolios")
+  const { t } = useTranslation("pages")
   const { portfolios, havePortfoliosLoaded } = AppStore
   return (
     <Container size="xl" style={{ height: "100%" }}>

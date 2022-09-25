@@ -84,7 +84,7 @@ const SaveRedirectButton = observer(() => {
     void router.push(`/auth/?next=/build/${portfolioID}`)
   }
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return (
     <Button color="violet" onClick={handleSaveAndRedirect}>
@@ -137,7 +137,7 @@ const SaveAndRedirectModal = () => {
   const session = useSession()
   const theme = useMantineTheme()
   const dark = theme.colorScheme === "dark"
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return (
     <Modal
@@ -175,7 +175,7 @@ const SaveAndRedirectModal = () => {
 }
 
 const Builder = () => {
-  // const { t } = useTranslation('pagesBuild');
+  // const { t } = useTranslation('build');
 
   const { classes } = useStyles()
   const theme = useMantineTheme()
@@ -224,7 +224,7 @@ const Builder = () => {
     }
   })
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   const [isStorageAvailable, setIsStorageAvailable] = useState(false)
 

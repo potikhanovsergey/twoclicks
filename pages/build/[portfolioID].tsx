@@ -16,7 +16,7 @@ import Builder from "app/build/Builder"
 import { getPortfolioWithInflatedData, inflateBase64 } from "helpers"
 import { BuildStore } from "store/build"
 import { Ctx, useParam } from "@blitzjs/next"
-import { IPortfolio } from "types"
+import { IPage } from "types"
 import { useSession } from "@blitzjs/auth"
 import { deleteCookie, getCookie } from "cookies-next"
 import { useMutation, useQuery } from "@blitzjs/rpc"
@@ -29,11 +29,11 @@ import { useDocumentTitle, useViewportSize } from "@mantine/hooks"
 import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
 
 const BuildPage = () => {
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   const session = useSession()
   const portfolioID = useParam("portfolioID", "string")
 
-  const [portfolio, setPortfolio] = useState<IPortfolio | null>(null)
+  const [portfolio, setPortfolio] = useState<IPage | null>(null)
   const [createOrUpdatePortfolioMutation] = useMutation(createOrUpdatePortfolio)
 
   const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
@@ -44,7 +44,7 @@ const BuildPage = () => {
 
   useEffect(() => {
     const getPortfolio = async () => {
-      let p: IPortfolio | null = null
+      let p: IPage | null = null
       if (!portfolioFromDB) {
         let portfolioFromLC = localStorage?.getItem(`portfolio-${portfolioID}`) as
           | string

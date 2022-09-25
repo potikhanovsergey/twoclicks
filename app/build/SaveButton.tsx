@@ -22,7 +22,7 @@ const SaveButton = observer(() => {
     setIsSaveButtonLoading(isLoading)
   }, [isLoading])
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return (
     <Button
       loading={isSaveButtonLoading}

@@ -27,7 +27,7 @@ interface ICanvasAddModal {
 
 const FilterButtons = observer(({ filterButtons }: { filterButtons: IFilterButton[] }) => {
   const { blockTypeFilter, setBlockTypeFilter } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return (
     <ButtonGroup
@@ -61,7 +61,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
       [modal]: false,
     }))
   }
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return (
     <Modal
       overflow="outside"

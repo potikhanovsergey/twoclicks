@@ -16,7 +16,7 @@ interface IElementVariantsEdit {
 const ElementVariantsEdit = ({ type, props, id }: IElementVariantsEdit) => {
   const variants = type ? getVariantsByType(type) : undefined
   const { changeProp, openedAction } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return variants ? (
     <ToolbarMenu
       menuProps={{

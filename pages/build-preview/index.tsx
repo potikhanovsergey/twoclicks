@@ -8,7 +8,7 @@ import shortid from "shortid"
 import { ICanvasPalette } from "types"
 
 const PreviewPortfolio = () => {
-  // const { t } = useTranslation('pagesBuild');
+  // const { t } = useTranslation('build');
 
   const [portfolio, setPreviewPortfolio] = useLocalStorage<{
     blocks: ICanvasBlock[]

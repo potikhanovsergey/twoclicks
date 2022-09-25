@@ -11,7 +11,7 @@ interface IElementDeleteButton {
 
 const ElementDeleteButton = ({ id, parentID, editType }: IElementDeleteButton) => {
   const { deleteElement } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return (
     <Tooltip
       label={editType === "section" ? t("delete section") : t("delete")}

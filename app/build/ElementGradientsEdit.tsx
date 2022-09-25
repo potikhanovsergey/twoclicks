@@ -19,7 +19,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
   const theme = useMantineTheme()
 
   const { changeProp, openedAction } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return gradients && props?.variant === "gradient" ? (
     <ToolbarMenu

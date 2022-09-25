@@ -8,7 +8,7 @@ import { FaMobileAlt } from "@react-icons/all-files/fa/FaMobileAlt"
 
 const ViewportButtons = (props: ActionIconProps) => {
   const { viewMode } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return (
     <Group spacing="xs">
       {viewMode === "mobile" ? (

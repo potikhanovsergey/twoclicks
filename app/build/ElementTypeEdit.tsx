@@ -15,7 +15,7 @@ interface IElementTypeEdit {
 
 const ElementTypeEdit = ({ id, types, type }: IElementTypeEdit) => {
   const { changeType, openedAction } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return (
     <ToolbarMenu
       menuProps={{

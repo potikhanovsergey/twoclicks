@@ -24,7 +24,7 @@ import { HiOutlineTemplate } from "@react-icons/all-files/hi/HiOutlineTemplate"
 import VioletRedGradient from "app/core/components/base/VioletRedGradient"
 
 const Onboarding = () => {
-  // const { t } = useTranslation('pagesBuild');
+  // const { t } = useTranslation('build');
   const [popoverOpened, setPopoverOpened] = useState(false)
   const { hovered: tooltipHovered, ref: tooltipRef } = useHover<HTMLDivElement>()
   const [tooltipOpened, setTooltipOpened] = useState(false)
@@ -34,7 +34,7 @@ const Onboarding = () => {
     setTooltipOpened(tooltipHovered && !popoverOpened)
   }, [tooltipHovered, popoverOpened])
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return (
     <>

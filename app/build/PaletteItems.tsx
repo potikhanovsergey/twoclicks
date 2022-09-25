@@ -16,7 +16,7 @@ const PaletteItems = () => {
     changePalette,
   } = BuildStore
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   const { hovered: itemHovered, ref: itemRef } = useHover()
   const [paletteOpened, setPaletteOpened] = useState(false)

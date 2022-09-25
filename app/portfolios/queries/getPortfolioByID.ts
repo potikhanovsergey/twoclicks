@@ -13,7 +13,7 @@ export default async function getPortfolioByID(
   if (!id) return null
 
   if (isPreview && ctx.session.userId) {
-    const portfolio = await db.portfolio.findFirst({
+    const portfolio = await db.page.findFirst({
       where: {
         id,
         userId: ctx.session.userId,
@@ -23,7 +23,7 @@ export default async function getPortfolioByID(
   }
 
   if (isPublic) {
-    const portfolio = await db.portfolio.findFirst({
+    const portfolio = await db.page.findFirst({
       where: {
         id,
         isPublished: true,
@@ -31,7 +31,7 @@ export default async function getPortfolioByID(
     })
     return portfolio
   } else if (ctx.session.userId) {
-    const portfolio = await db.portfolio.findFirst({
+    const portfolio = await db.page.findFirst({
       where: { id, userId: isPublic ? undefined : ctx.session.userId },
     })
     return portfolio

@@ -27,7 +27,7 @@ const TogglePublishPortfilio = ({ id }: ITogglePublishPortfolio) => {
   }
   const [togglePortfolioPublishedMutation, { isLoading }] = useMutation(togglePortfolioPublished)
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return (
     <Button

@@ -16,7 +16,7 @@ interface IElementRadiusesEdit {
 const ElementRadiusesEdit = ({ type, props, id }: IElementRadiusesEdit) => {
   const radiuses = type ? getRadiusesByType(type) : undefined
   const { changeProp, openedAction } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return radiuses ? (
     <ToolbarMenu

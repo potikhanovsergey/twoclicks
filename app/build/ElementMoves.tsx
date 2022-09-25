@@ -35,7 +35,7 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
     return null
   }, [hasMoves])
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return hasMoves && movesIcons ? (
     <>

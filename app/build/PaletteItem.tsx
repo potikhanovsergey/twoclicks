@@ -75,7 +75,7 @@ const PaletteItem = (props: IPaletteItem) => {
     return getHexFromThemeColor({ theme, color })
   }, [color])
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   const [file, setFile] = useState<File | null>(null)
 
   useEffect(() => {

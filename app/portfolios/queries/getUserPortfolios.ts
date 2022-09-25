@@ -1,22 +1,20 @@
 import { ClientSession } from "@blitzjs/auth"
-import { Ctx } from "blitz"
 import db, { Prisma } from "db"
 
-interface getUserPortfoliosInput
-  extends Pick<Prisma.PortfolioFindManyArgs, "where" | "orderBy" | "select"> {}
+interface getUserPagesInput extends Pick<Prisma.PageFindManyArgs, "where" | "orderBy" | "select"> {}
 
-export default async function getUserPortfolios(
-  input: getUserPortfoliosInput | null,
+export default async function getUserPages(
+  input: getUserPagesInput | null,
   { session }: { session: ClientSession }
 ) {
   if (!session.userId) return null
 
   try {
-    const portfolios = await db.portfolio.findMany({
+    const pages = await db.page.findMany({
       where: { userId: session.userId },
       orderBy: input?.orderBy,
     })
-    return portfolios
+    return pages
   } catch (e) {
     console.log("Get user portfolios error", e)
     return null

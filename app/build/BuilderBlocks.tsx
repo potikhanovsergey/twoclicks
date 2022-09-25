@@ -13,7 +13,7 @@ const Blocks = observer(() => {
   const {
     data: { blocks, palette },
   } = BuildStore
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   return (

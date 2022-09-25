@@ -1,11 +1,11 @@
 import { ColorScheme } from "@mantine/core"
-import { Portfolio } from "@prisma/client"
+import { Page } from "@prisma/client"
 import { setCookie } from "cookies-next"
 import { makeAutoObservable, action } from "mobx"
 
 class Store {
   colorScheme: ColorScheme = "light"
-  portfolios: Portfolio[] = []
+  portfolios: Page[] = []
   havePortfoliosLoaded: boolean = false
 
   constructor() {
@@ -21,7 +21,7 @@ class Store {
   }
 
   @action
-  setPortfolios = (portfolios: Portfolio[]) => {
+  setPortfolios = (portfolios: Page[]) => {
     this.portfolios = portfolios
     this.havePortfoliosLoaded = true
   }

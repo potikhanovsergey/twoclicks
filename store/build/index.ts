@@ -1,6 +1,6 @@
 import { ClientSession } from "@blitzjs/auth"
 import { MutateFunction } from "@blitzjs/rpc"
-import { Portfolio, Prisma } from "@prisma/client"
+import { Page, Prisma } from "@prisma/client"
 import { IUpdatePortfolio } from "app/portfolios/mutations/updatePortfolio"
 import { deflate, traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed } from "mobx"
@@ -431,12 +431,7 @@ class Build {
   }: {
     e?: KeyboardEvent
     session: ClientSession
-    updatePortfolioMutation: MutateFunction<
-      Portfolio | undefined,
-      unknown,
-      IUpdatePortfolio,
-      unknown
-    >
+    updatePortfolioMutation: MutateFunction<Page | undefined, unknown, IUpdatePortfolio, unknown>
   }) => {
     try {
       e && e.preventDefault()

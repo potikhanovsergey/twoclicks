@@ -89,7 +89,7 @@ const ObservedPortfolioName = observer(() => {
     }
   }, [hasSuccessfullyUpdatedPortfolio])
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return session.userId ? (
     <HoverCard shadow="lg" width={312} openDelay={300}>
@@ -205,10 +205,10 @@ const ObservedPortfolioName = observer(() => {
 })
 
 const BuilderHeader = ({ className }: { className?: string }) => {
-  // const { t } = useTranslation('pagesBuild');
+  // const { t } = useTranslation('build');
   const { toggle, fullscreen } = useFullscreen()
   const { hovered: fullscreenHovered, ref: fullscreenRef } = useHover<HTMLButtonElement>()
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return (
     <Center className={className} sx={{ paddingRight: "var(--removed-scroll-width, 0px)" }}>

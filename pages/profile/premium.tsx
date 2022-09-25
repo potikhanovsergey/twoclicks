@@ -4,7 +4,7 @@ import React from "react"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 
 const ProfilePremium = () => {
-  const { t } = useTranslation("pagesProfilePremium")
+  const { t } = useTranslation("premium")
   return (
     <>
       <Title order={1}>{t("title")}</Title>

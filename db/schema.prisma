@@ -34,7 +34,7 @@ model User {
   sessions    Session[]
   likedBlocks LikedBlock[]
   usedBlocks  UsedBlock[]
-  portfolios  Portfolio[]
+  pages       Page[]
 }
 
 model Session {
@@ -90,7 +90,7 @@ model BuildingBlock {
   UsedBlocks  UsedBlock[]
 }
 
-model Portfolio {
+model Page {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

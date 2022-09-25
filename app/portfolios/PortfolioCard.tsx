@@ -13,7 +13,7 @@ import {
 import { formatDate } from "helpers"
 import Link from "next/link"
 
-import { Portfolio } from "@prisma/client"
+import { Page } from "@prisma/client"
 import { openConfirmModal } from "@mantine/modals"
 import { useMutation } from "@blitzjs/rpc"
 import deletePortfolio from "./mutations/deletePortfolio"
@@ -28,12 +28,12 @@ import { HiTemplate } from "@react-icons/all-files/hi/HiTemplate"
 import { RiDeleteBinLine } from "@react-icons/all-files/ri/RiDeleteBinLine"
 
 export interface PortfolioPreview {
-  portfolio: Portfolio
+  portfolio: Page
   withEdit?: boolean
 }
 
 const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
-  // const { t } = useTranslation('pagesBuild');
+  // const { t } = useTranslation('build');
   const theme = useMantineTheme()
 
   const [deletePortfolioMutation, { isSuccess }] = useMutation(deletePortfolio)

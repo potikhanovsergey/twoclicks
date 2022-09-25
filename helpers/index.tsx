@@ -22,7 +22,7 @@ import {
 import dynamic from "next/dynamic"
 import React from "react"
 import shortid from "shortid"
-import { ICanvasBlockProps, ICanvasBlock, IPortfolio } from "types"
+import { ICanvasBlockProps, ICanvasBlock, IPage } from "types"
 import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import zlib from "zlib"
@@ -537,14 +537,14 @@ export function getPortfolioWithInflatedData(portfolio) {
   return {
     ...portfolio,
     data: inflateBase64(portfolio.data),
-  } as IPortfolio
+  } as IPage
 }
 
 export function getPortfolioWithDeflatedData(portfolio) {
   return {
     ...portfolio,
     data: deflate(portfolio.data),
-  } as IPortfolio & { data: string }
+  } as IPage & { data: string }
 }
 
 export const getHexFromThemeColor: ({

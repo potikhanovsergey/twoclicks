@@ -20,7 +20,7 @@ const PortfolioLink = ({
   centered?: boolean
 }) => {
   const portfolio = shouldSearch ? AppStore.portfolios.find((p) => p.id === id) : null
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return portfolio?.isPublished || !shouldSearch ? (
     <Group spacing={4} noWrap position={centered ? "center" : undefined}>
       <Anchor

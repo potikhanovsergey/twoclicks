@@ -37,7 +37,7 @@ const ElementUploadLink = ({
     })
   }
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return hasLinkUpload ? (
     <ToolbarMenu
       menuProps={{

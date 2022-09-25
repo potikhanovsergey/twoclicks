@@ -3,13 +3,13 @@
   "defaultLocale": "ru",
   "pages": {
     "*": ["common"],
-    "/": ["pagesHome"],
-    "/404": ["pages404"],
-    "/components": ["pagesComponents"],
-    "/profile": ["pagesProfilePortfolios"],
-    "/profile/premium": ["pagesProfilePremium"],
-    "/profile/statistics": ["pagesProfileStatistics"],
-    "/profile/support": ["pagesProfileSupport"],
-    "rgx:^/build": ["pagesBuild", "pagesProfilePortfolios"]
+    "/": ["home"],
+    "/404": ["404"],
+    "/components": ["components"],
+    "/profile": ["pages"],
+    "/profile/premium": ["premium"],
+    "/profile/statistics": ["statistics"],
+    "/profile/support": ["support"],
+    "rgx:^/build": ["build", "pages"]
   }
 }

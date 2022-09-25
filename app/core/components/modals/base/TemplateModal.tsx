@@ -14,7 +14,7 @@ import { closeAllModals, openModal } from "@mantine/modals"
 import { useForm } from "@mantine/form"
 import createPortfolio from "app/portfolios/mutations/createPortfolio"
 import { useMutation } from "@blitzjs/rpc"
-import { Portfolio } from "@prisma/client"
+import { Page } from "@prisma/client"
 import { ICanvasPalette } from "types"
 import { AppStore } from "store"
 import { showNotification } from "@mantine/notifications"
@@ -22,10 +22,10 @@ import { defaultSuccessNotification } from "notifications"
 import { BiSave } from "@react-icons/all-files/bi/BiSave"
 
 interface TemplateModalProps extends ButtonProps {
-  portfolio: Portfolio
+  portfolio: Page
 }
 
-const TemplateModalForm = ({ portfolio }: { portfolio: Portfolio }) => {
+const TemplateModalForm = ({ portfolio }: { portfolio: Page }) => {
   const templateForm = useForm<{ newPageName: string }>({
     initialValues: {
       newPageName: portfolio.name,

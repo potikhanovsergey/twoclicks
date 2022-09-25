@@ -1,5 +1,5 @@
 import { Ctx } from "blitz"
-import db, { Portfolio, Prisma } from "db"
+import db, { Page, Prisma } from "db"
 
 export default async function togglePortfolioPublished(
   input: { id: string; isPublished: boolean },
@@ -9,7 +9,7 @@ export default async function togglePortfolioPublished(
   const { id, isPublished } = input
 
   try {
-    const portfolio = await db.portfolio.update({
+    const portfolio = await db.page.update({
       where: {
         id,
       },

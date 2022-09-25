@@ -5,21 +5,21 @@ import SafeWrapper from "app/core/components/SafeWrapper"
 import { IPage } from "types"
 import { observer } from "mobx-react-lite"
 
-const Portfolio = ({ portfolio }: { portfolio: IPage | null }) => {
+const Page = ({ page }: { page: IPage | null }) => {
   // const { t } = useTranslation('build');
-  if (portfolio) {
+  if (page) {
     return (
       <>
-        {portfolio.data &&
-          portfolio.data.length > 0 &&
-          portfolio.data.map((b, i) => {
+        {page.data &&
+          page.data.length > 0 &&
+          page.data.map((b, i) => {
             const JSX = RenderJSXFromBlock({
               element: b,
               shouldFlat: false,
               withContentEditable: false,
               withEditToolbar: false,
               withPalette: true,
-              palette: portfolio.palette,
+              palette: page.palette,
               sectionIndex: i,
             })
             if (JSX) {
@@ -44,8 +44,7 @@ const Portfolio = ({ portfolio }: { portfolio: IPage | null }) => {
                     styles={(theme) => ({
                       "::selection": {
                         background:
-                          theme?.colors?.[portfolio?.palette?.primary]?.[4] ||
-                          theme.colors.violet[4],
+                          theme?.colors?.[page?.palette?.primary]?.[4] || theme.colors.violet[4],
                         color: theme.white,
                         WebkitTextFillColor: theme.white,
                       },
@@ -62,4 +61,4 @@ const Portfolio = ({ portfolio }: { portfolio: IPage | null }) => {
   return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
 }
 
-export default observer(Portfolio)
+export default observer(Page)

@@ -1,13 +1,13 @@
 import { Ctx } from "blitz"
-import db, { Portfolio } from "db"
+import db, { Page } from "db"
 
-export type IDeletePortfolio = Pick<Portfolio, "id">
+export type IDeletePortfolio = Pick<Page, "id">
 
 export default async function deletePortfolio(input: IDeletePortfolio, ctx: Ctx) {
   ctx.session.$isAuthorized()
   const { id } = input
   try {
-    const portfolio = await db.portfolio.delete({
+    const portfolio = await db.page.delete({
       where: {
         id,
       },

@@ -29,7 +29,7 @@ interface IFormValues {
 }
 
 const SupportForm = () => {
-  const { t } = useTranslation("pagesProfileSupport")
+  const { t } = useTranslation("support")
   const supportForm = useForm<IFormValues>({
     initialValues: {
       email: "",
@@ -107,7 +107,7 @@ const SupportForm = () => {
 }
 
 const ProfileSupport = () => {
-  const { t } = useTranslation("pagesProfileSupport")
+  const { t } = useTranslation("support")
   return (
     <>
       <Grid>

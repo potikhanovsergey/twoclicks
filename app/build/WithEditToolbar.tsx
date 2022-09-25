@@ -51,7 +51,7 @@ interface InnerAddSectionButtonProps extends Omit<ButtonProps, "style" | "childr
 
 const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   const { sectionToBeAddedIndex, ...otherProps } = props
   return (

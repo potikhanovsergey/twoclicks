@@ -14,7 +14,7 @@ const HistoryButtons = (props: ActionIconProps) => {
     ["mod+Z", () => undo()],
     ["mod+shift+Z", () => redo()],
   ])
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return (
     <Group spacing={4}>

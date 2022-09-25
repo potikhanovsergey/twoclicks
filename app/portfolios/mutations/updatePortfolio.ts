@@ -1,7 +1,7 @@
 import { Ctx } from "blitz"
-import db, { Portfolio, Prisma } from "db"
+import db, { Page, Prisma } from "db"
 
-export type IUpdatePortfolio = Partial<Pick<Portfolio, "data" | "name" | "id" | "palette">>
+export type IUpdatePortfolio = Partial<Pick<Page, "data" | "name" | "id" | "palette">>
 
 export default async function updatePortfolio(input: IUpdatePortfolio, ctx: Ctx) {
   ctx.session.$isAuthorized()
@@ -9,7 +9,7 @@ export default async function updatePortfolio(input: IUpdatePortfolio, ctx: Ctx)
   const palette = input.palette as Prisma.JsonObject
   try {
     if (id) {
-      const portfolio = await db.portfolio.update({
+      const portfolio = await db.page.update({
         where: {
           id,
         },

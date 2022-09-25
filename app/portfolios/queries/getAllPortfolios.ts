@@ -2,7 +2,7 @@ import db, { Prisma } from "db"
 import { paginate } from "blitz"
 
 interface getUserPortfoliosInput
-  extends Pick<Prisma.PortfolioFindManyArgs, "orderBy" | "skip" | "take" | "where"> {}
+  extends Pick<Prisma.PageFindManyArgs, "orderBy" | "skip" | "take" | "where"> {}
 
 // export default async function getAllPortfolios(input: getUserPortfoliosInput | null) {
 //   try {
@@ -30,9 +30,9 @@ export default async function getAllPortfolios({
   } = await paginate({
     skip,
     take,
-    count: () => db.portfolio.count({ where }),
+    count: () => db.page.count({ where }),
     query: (paginateArgs) =>
-      db.portfolio.findMany({
+      db.page.findMany({
         ...paginateArgs,
         orderBy,
         where,

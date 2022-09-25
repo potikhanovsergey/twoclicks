@@ -73,7 +73,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
     })
   }
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   const { portfolios } = AppStore
 

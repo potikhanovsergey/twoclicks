@@ -67,7 +67,7 @@ const IconPicker = ({
   }, [debouncedSearchValue])
 
   const { colorScheme } = useMantineColorScheme()
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
 
   return (
     <Menu

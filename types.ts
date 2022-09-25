@@ -1,5 +1,5 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
-import { BuildingBlock, Portfolio, Role, User } from "db"
+import { BuildingBlock, Page, Role, User } from "db"
 import { ExtendedCustomColors } from "pages/_app"
 
 /// ### CANVAS STARTS ###
@@ -13,7 +13,7 @@ export interface IFilterButton {
 export type ICanvasPalette = {
   [key: string]: ExtendedCustomColors
 }
-export interface IPortfolio {
+export interface IPage {
   id: string
   name: string
   data: BuildingBlock[]

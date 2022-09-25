@@ -29,7 +29,7 @@ const ElementPaletteEdit = ({ type, props, id, element }: IElementPaletteEdit) =
     return textElements.some((el) => type.includes(el))
   }, [type])
 
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   return paletteKey && props?.variant !== "gradient" ? (
     <Tooltip label={t("change color")} color="violet" withArrow>
       <div>

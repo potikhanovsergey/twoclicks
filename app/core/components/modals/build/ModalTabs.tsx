@@ -38,7 +38,7 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
     viewlistType: "all",
   })
   const session = useSession()
-  const { t } = useTranslation("pagesBuild")
+  const { t } = useTranslation("build")
   const theme = useMantineTheme()
 
   const ComponentsModalTabsArr: IModalTab[] = useMemo(() => {

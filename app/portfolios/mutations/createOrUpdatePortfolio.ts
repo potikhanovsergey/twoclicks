@@ -1,16 +1,16 @@
 import { Ctx } from "blitz"
-import db, { Portfolio } from "db"
+import db, { Page } from "db"
 import { deflate } from "helpers"
-import { IPortfolio } from "types"
+import { IPage } from "types"
 
-export type ICreateOrUpdatePortfolio = Pick<IPortfolio, "data" | "name" | "id">
+export type ICreateOrUpdatePortfolio = Pick<IPage, "data" | "name" | "id">
 
 export default async function createOrUpdatePortfolio(input: ICreateOrUpdatePortfolio, ctx) {
   ctx.session.$isAuthorized()
   const { name, data, id } = input
   try {
     if (ctx.session.userId) {
-      const portfolio = await db.portfolio.upsert({
+      const portfolio = await db.page.upsert({
         where: {
           id,
         },

@@ -9,7 +9,7 @@ import { MdViewWeek } from "@react-icons/all-files/md/MdViewWeek"
 import { MdViewDay } from "@react-icons/all-files/md/MdViewDay"
 
 const ProfileStatistics = () => {
-  const { t } = useTranslation("pagesProfileStatistics")
+  const { t } = useTranslation("statistics")
   const [hasStats, setHasStats] = useState(false)
   return (
     <>
