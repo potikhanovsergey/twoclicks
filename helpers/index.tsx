@@ -209,6 +209,10 @@ export const PaletteTypePropColor: {
     prop: "color",
     color: "primary",
   },
+  "@mantine/core/actionicon": {
+    prop: "color",
+    color: "primary",
+  },
   "@mantine/core/text": {
     prop: "color",
     color: "text",
@@ -227,7 +231,8 @@ export const TypeVariants: {
   [key: string]: string[]
 } = {
   "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle"],
-  "@mantine/core/themeicon": ["filled", "light", "outline", "gradient"],
+  "@mantine/core/themeicon": ["filled", "light", "outline", "gradient", "default"],
+  "@mantine/core/actionicon": ["transparent", "subtle", "filled", "light", "outline", "default"],
   "@mantine/core/text": ["gradient", "filled"],
   "@mantine/core/title": ["gradient", "filled"],
   "@mantine/core/badge": ["gradient", "filled", "light", "outline", "dot"],
@@ -241,6 +246,7 @@ export const TypeSizes: {
   "@mantine/core/button": sizes,
   "@mantine/core/text": sizes,
   "@mantine/core/themeicon": sizes,
+  "@mantine/core/actionicon": sizes,
   "@mantine/core/badge": sizes,
 }
 
@@ -250,6 +256,7 @@ export const TypeRadius: {
   "@mantine/core/button": sizes,
   "@mantine/core/image": sizes,
   "@mantine/core/themeicon": sizes,
+  "@mantine/core/actionicon": sizes,
   "@mantine/core/badge": sizes,
 }
 
@@ -258,6 +265,7 @@ export const TypeGradients: {
 } = {
   "@mantine/core/button": true,
   "@mantine/core/themeicon": true,
+  "@mantine/core/actionicon": true,
   "@mantine/core/text": true,
   "@mantine/core/title": true,
   "@mantine/core/badge": true,
