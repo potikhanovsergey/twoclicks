@@ -66,12 +66,12 @@ export function ProfileLinks() {
     { icon: <FaBriefcase />, color: "orange", label: t("pages"), link: "/profile" },
     // { icon: <BiStats />, color: "violet", label: t("statistics"), link: "/profile/statistics" },
     // { icon: <RiVipCrown2Fill />, color: "yellow", label: t("premium"), link: "/profile/premium" },
-    {
-      icon: <BsQuestionCircleFill />,
-      color: "teal",
-      label: t("support"),
-      link: "/profile/support",
-    },
+    // {
+    //   icon: <BsQuestionCircleFill />,
+    //   color: "teal",
+    //   label: t("support"),
+    //   link: "/profile/support",
+    // },
   ])
   const links = data.map((link) => <ProfileLink {...link} key={link.label} />)
   return <Stack spacing={2}>{links}</Stack>
