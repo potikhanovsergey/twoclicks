@@ -4,12 +4,12 @@ import React from "react"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 import { BlitzPage } from "@blitzjs/auth"
-import PortfolioCards from "app/portfolios/PortfolioCards"
+import PageCards from "app/portfolios/PageCards"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
-import CreatePageButton from "app/portfolios/CreatePortfolioButton"
+import CreatePageButton from "app/portfolios/CreatePageButton"
 
-const ProfilePortfolios: BlitzPage = observer(() => {
+const ProfilePages: BlitzPage = observer(() => {
   const { t } = useTranslation("pages")
   const { pages, havePagesLoaded } = AppStore
   return (
@@ -20,11 +20,11 @@ const ProfilePortfolios: BlitzPage = observer(() => {
       </Group>
       <div style={{ display: pages?.length ? "block" : "none" }}>
         <Space h="xl" />
-        <PortfolioCards />
+        <PageCards />
       </div>
       {havePagesLoaded && (
         <ProfileNoItems style={{ display: pages?.length ? "none" : "flex" }}>
-          <Text size="xl">{t("noPortfolios")}</Text>
+          <Text size="xl">{t("noPages")}</Text>
           Тут был лотти
           <CreatePageButton size="lg" />
         </ProfileNoItems>
@@ -33,7 +33,7 @@ const ProfilePortfolios: BlitzPage = observer(() => {
   )
 })
 
-ProfilePortfolios.getLayout = getProfileLayout()
-ProfilePortfolios.suppressFirstRenderFlicker = true
+ProfilePages.getLayout = getProfileLayout()
+ProfilePages.suppressFirstRenderFlicker = true
 
-export default ProfilePortfolios
+export default ProfilePages

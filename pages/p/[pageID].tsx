@@ -4,7 +4,7 @@ import { getPageWithInflatedData } from "helpers"
 import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useQuery } from "@blitzjs/rpc"
-import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
+import getPageByID from "app/portfolios/queries/getPageByID"
 import Page from "app/p/Page"
 import { useDocumentTitle } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
@@ -16,24 +16,24 @@ const PagePage = () => {
 
   const pageID = useParam("pageID", "string")
 
-  const [page, setPortfolio] = useState<IPage | null>(null)
+  const [page, setPage] = useState<IPage | null>(null)
 
-  const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
-    getPortfolioByID,
+  const [pageFromDB] = useQuery(
+    getPageByID,
     { id: pageID, isPublic: true },
     { refetchOnWindowFocus: false }
   )
   useEffect(() => {
-    const getPortfolio = async () => {
+    const getPage = async () => {
       let p: IPage | null = null
-      if (portfolioFromDB) {
-        p = getPageWithInflatedData(portfolioFromDB)
+      if (pageFromDB) {
+        p = getPageWithInflatedData(pageFromDB)
       }
-      setPortfolio(p)
+      setPage(p)
     }
-    void getPortfolio()
+    void getPage()
     setIsLoading(false)
-  }, [portfolioFromDB])
+  }, [pageFromDB])
 
   const [isLoading, setIsLoading] = useState(true)
 
@@ -53,7 +53,7 @@ const PagePage = () => {
       ) : (
         <BaseLayout>
           <Center style={{ height: "100%" }}>
-            <Text>{t("portfolio not found")}</Text>
+            <Text>{t("page not found")}</Text>
           </Center>
         </BaseLayout>
       )}

@@ -26,8 +26,8 @@ import { AiOutlineFullscreenExit } from "@react-icons/all-files/ai/AiOutlineFull
 import { AppStore } from "store"
 import { BuildStore } from "store/build"
 import PaletteItems from "./PaletteItems"
-import PortfolioLink from "./PortfolioLink"
-import TogglePublishPortfilio from "./TogglePublishPortfolio"
+import PageLink from "./PageLink"
+import TogglePublishPage from "./TogglePublishPage"
 import ViewportButtons from "./ViewportButtons"
 import { AiOutlineLink } from "@react-icons/all-files/ai/AiOutlineLink"
 
@@ -45,10 +45,10 @@ const AuthorizedActions = observer(() => {
   const {
     data: { id },
   } = BuildStore
-  return session.userId ? <>{id && <TogglePublishPortfilio id={id} />}</> : <></>
+  return session.userId ? <>{id && <TogglePublishPage id={id} />}</> : <></>
 })
 
-const ObservedPortfolioName = observer(() => {
+const ObservedPageName = observer(() => {
   const session = useSession()
   const {
     data: { name, id },
@@ -59,35 +59,33 @@ const ObservedPortfolioName = observer(() => {
   const [inputVisible, setInputVisible] = useState(false)
   const [editName, setEditName] = useState(name)
   const editNameOutsideRef = useClickOutside(() => setInputVisible(false))
-  const [
-    updatePageMutation,
-    { isLoading: isUpdatingPortfolio, isSuccess: hasSuccessfullyUpdatedPortfolio },
-  ] = useMutation(updatePage)
+  const [updatePageMutation, { isLoading: isUpdatingPage, isSuccess: hasSuccessfullyUpdatedPage }] =
+    useMutation(updatePage)
 
   useEffect(() => {
     setEditName(name)
   }, [name])
 
-  const dividedPortfolios = useMemo(() => {
-    const portfolio = pages?.find((p) => p.id === id)
-    if (!portfolio) return null
+  const dividedPages = useMemo(() => {
+    const page = pages?.find((p) => p.id === id)
+    if (!page) return null
     return {
-      current: portfolio,
-      rest: pages.filter((p) => p.id !== portfolio.id),
+      current: page,
+      rest: pages.filter((p) => p.id !== page.id),
     }
   }, [pages, id])
 
   useEffect(() => {
-    if (hasSuccessfullyUpdatedPortfolio) {
+    if (hasSuccessfullyUpdatedPage) {
       setInputVisible(false)
       if (editName) {
         BuildStore.data.name = editName
-        if (dividedPortfolios?.current) {
-          dividedPortfolios.current.name = editName
+        if (dividedPages?.current) {
+          dividedPages.current.name = editName
         }
       }
     }
-  }, [hasSuccessfullyUpdatedPortfolio])
+  }, [hasSuccessfullyUpdatedPage])
 
   const { t } = useTranslation("build")
 
@@ -95,7 +93,7 @@ const ObservedPortfolioName = observer(() => {
     <HoverCard shadow="lg" width={312} openDelay={300}>
       <HoverCard.Target>
         <Group align="center" spacing={4}>
-          {dividedPortfolios?.current?.isPublished && <AiOutlineLink />}
+          {dividedPages?.current?.isPublished && <AiOutlineLink />}
           <Text>{name}</Text>
           <FiChevronDown />
         </Group>
@@ -107,12 +105,10 @@ const ObservedPortfolioName = observer(() => {
           offsetScrollbars
           styles={{ viewport: { padding: 0 } }}
         >
-          {dividedPortfolios && (
+          {dividedPages && (
             <Stack spacing={4}>
               <Text weight="bold">Current page:</Text>
-              {id && dividedPortfolios?.current?.isPublished && (
-                <PortfolioLink id={id} withEllipsis={true} />
-              )}
+              {id && dividedPages?.current?.isPublished && <PageLink id={id} withEllipsis={true} />}
 
               <Group noWrap spacing={4} mb="sm">
                 {!inputVisible ? (
@@ -122,11 +118,9 @@ const ObservedPortfolioName = observer(() => {
                       size="xs"
                       fullWidth
                       disabled
-                      rightIcon={
-                        dividedPortfolios.current.isPublished ? <AiOutlineLink /> : undefined
-                      }
+                      rightIcon={dividedPages.current.isPublished ? <AiOutlineLink /> : undefined}
                     >
-                      {dividedPortfolios.current.name}
+                      {dividedPages.current.name}
                     </Button>
                     <Tooltip
                       label={t("edit site name")}
@@ -163,7 +157,7 @@ const ObservedPortfolioName = observer(() => {
                       variant="light"
                       size={30}
                       disabled={editName === name || !editName?.length}
-                      loading={isUpdatingPortfolio}
+                      loading={isUpdatingPage}
                       onClick={() => {
                         if (id && editName?.length) {
                           void updatePageMutation({ name: editName, id })
@@ -175,10 +169,10 @@ const ObservedPortfolioName = observer(() => {
                   </Group>
                 )}
               </Group>
-              {dividedPortfolios.rest.length > 0 ? (
+              {dividedPages.rest.length > 0 ? (
                 <>
                   <Text weight="bold">Other pages:</Text>
-                  {dividedPortfolios.rest.map((p) => (
+                  {dividedPages.rest.map((p) => (
                     <Link passHref href={`/build/${p.id}`} key={p.id}>
                       <Button
                         variant="light"
@@ -225,7 +219,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             >
               <AuthorizedActions />
             </Suspense>
-            {/* <ObservedPreviewPortfolio /> */}
+            {/* <ObservedPreviewPage /> */}
             <PaletteItems />
           </Group>
           <Box
@@ -236,7 +230,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               transform: "translate(calc(-50% - (var(--removed-scroll-width, 0px) / 2)), -50%)",
             }}
           >
-            <ObservedPortfolioName />
+            <ObservedPageName />
           </Box>
           <Group spacing={8}>
             <HistoryButtons color="violet" size={30} variant="filled" />

@@ -1,7 +1,7 @@
 import { ClientSession } from "@blitzjs/auth"
 import { MutateFunction } from "@blitzjs/rpc"
 import { Page, Prisma } from "@prisma/client"
-import { IUpdatePage } from "app/portfolios/mutations/updatePage"
+import { IUpdatePage } from "app/pages/mutations/updatePage"
 import { deflate, traverseAddIDs } from "helpers"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
@@ -456,7 +456,7 @@ class Build {
         this.hasPageChanged = false
         this.setIsSaveButtonLoading(false)
         showNotification(defaultSavePageSuccess)
-        const indexOfP = AppStore.pages.findIndex((storePortfolio) => storePortfolio.id === id)
+        const indexOfP = AppStore.pages.findIndex((storePage) => storePage.id === id)
         if (indexOfP !== -1) {
           AppStore.pages.splice(indexOfP, 1, p || page)
         }

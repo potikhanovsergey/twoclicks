@@ -1,29 +1,17 @@
 import db, { Prisma } from "db"
 import { paginate } from "blitz"
 
-interface getUserPortfoliosInput
+interface getUserPagesInput
   extends Pick<Prisma.PageFindManyArgs, "orderBy" | "skip" | "take" | "where"> {}
 
-// export default async function getAllPortfolios(input: getUserPortfoliosInput | null) {
-//   try {
-//     const portfolios = await db.portfolio.findMany({
-//       orderBy: input?.orderBy,
-//       include: { user: { select: { name: true, email: true } } },
-//     })
-//     return portfolios
-//   } catch (e) {
-//     console.log("Get portfolios error", e)
-//     return null
-//   }
-// }
-export default async function getAllPortfolios({
+export default async function getAllPages({
   orderBy,
   skip = 0,
   take = 100,
   where,
-}: getUserPortfoliosInput) {
+}: getUserPagesInput) {
   const {
-    items: portfolios,
+    items: pages,
     hasMore,
     nextPage,
     count,
@@ -41,7 +29,7 @@ export default async function getAllPortfolios({
   })
 
   return {
-    portfolios,
+    pages,
     nextPage,
     hasMore,
     count,

@@ -9,12 +9,12 @@ import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useSession } from "@blitzjs/auth"
 import { useMutation, useQuery } from "@blitzjs/rpc"
-import getPortfolioByID from "app/portfolios/queries/getPortfolioByID"
+import getPageByID from "app/portfolios/queries/getPageByID"
 import createOrUpdatePage from "app/portfolios/mutations/createOrUpdatePage"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import { AppStore } from "store"
 import { useDocumentTitle, useViewportSize } from "@mantine/hooks"
-import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
+import getUserPages from "app/portfolios/queries/getUserPages"
 
 const BuildPage = () => {
   const { t } = useTranslation("build")
@@ -24,40 +24,40 @@ const BuildPage = () => {
   const [page, setPage] = useState<IPage | null>(null)
   const [createOrUpdatePageMutation] = useMutation(createOrUpdatePage)
 
-  const [portfolioFromDB, { refetch: refetchPortfolioFromDB }] = useQuery(
-    getPortfolioByID,
+  const [pageFromDB, { refetch: refetchPageFromDB }] = useQuery(
+    getPageByID,
     { id: pageID, isPublic: false },
     { refetchOnReconnect: false, refetchOnWindowFocus: false }
   )
 
   useEffect(() => {
-    const getPortfolio = async () => {
+    const getPage = async () => {
       let p: IPage | null = null
-      if (!portfolioFromDB) {
-        let portfolioFromLC = localStorage?.getItem(`page-${pageID}`) as string | undefined
-        if (portfolioFromLC) {
-          let inflatedPortfolio = getPageWithInflatedData(inflateBase64(portfolioFromLC))
+      if (!pageFromDB) {
+        let pageFromLC = localStorage?.getItem(`page-${pageID}`) as string | undefined
+        if (pageFromLC) {
+          let inflatedPage = getPageWithInflatedData(inflateBase64(pageFromLC))
           if (session.userId) {
-            const portfolio = await createOrUpdatePageMutation(inflatedPortfolio)
-            if (portfolio) {
-              AppStore.pages = [...AppStore.pages, portfolio]
+            const page = await createOrUpdatePageMutation(inflatedPage)
+            if (page) {
+              AppStore.pages = [...AppStore.pages, page]
               localStorage?.removeItem(`page-${pageID}`)
             }
           }
-          p = inflatedPortfolio
+          p = inflatedPage
         }
       } else {
-        p = getPageWithInflatedData(portfolioFromDB)
-        if (!AppStore.pages.find((p) => p.id === portfolioFromDB.id)) {
-          AppStore.pages.push(portfolioFromDB)
+        p = getPageWithInflatedData(pageFromDB)
+        if (!AppStore.pages.find((p) => p.id === pageFromDB.id)) {
+          AppStore.pages.push(pageFromDB)
         }
       }
       setPage(p)
     }
 
-    void getPortfolio()
+    void getPage()
     setIsLoading(false)
-  }, [portfolioFromDB])
+  }, [pageFromDB])
 
   const {
     resetHistoryOfChanges,
@@ -85,8 +85,8 @@ const BuildPage = () => {
   }, [page])
 
   useEffect(() => {
-    if (session && !portfolioFromDB) {
-      void refetchPortfolioFromDB()
+    if (session && !pageFromDB) {
+      void refetchPageFromDB()
     }
   }, [session])
 
@@ -95,8 +95,8 @@ const BuildPage = () => {
 
   const { setPages, havePagesLoaded } = AppStore
 
-  const [fetchedPortfolios] = useQuery(
-    getUserPortfolios,
+  const [fetchedPages] = useQuery(
+    getUserPages,
     {
       orderBy: [
         {
@@ -110,11 +110,11 @@ const BuildPage = () => {
   )
 
   useEffect(() => {
-    if (fetchedPortfolios && session.userId && !havePagesLoaded) {
-      setPages(fetchedPortfolios)
+    if (fetchedPages && session.userId && !havePagesLoaded) {
+      setPages(fetchedPages)
     }
     if (!session.userId) setPages([])
-  }, [fetchedPortfolios, session, havePagesLoaded])
+  }, [fetchedPages, session, havePagesLoaded])
 
   if (isLoading)
     return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
@@ -139,7 +139,7 @@ const BuildPage = () => {
         </Suspense>
       ) : (
         <Center style={{ height: "100%" }}>
-          <Text>{t("portfolio not found")}</Text>
+          <Text>{t("page not found")}</Text>
         </Center>
       )}
     </>

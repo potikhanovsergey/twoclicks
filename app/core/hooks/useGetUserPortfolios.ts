@@ -1,11 +1,11 @@
 import { useQuery } from "@blitzjs/rpc"
-import getUserPortfolios from "app/portfolios/queries/getUserPortfolios"
+import getUserPages from "app/portfolios/queries/getUserPages"
 
-export const useGetUserPortfolios = () => {
-  const [portfolios] = useQuery(getUserPortfolios, null, {
+export const useGetUserPages = () => {
+  const [pages] = useQuery(getUserPages, null, {
     refetchOnMount: false,
     refetchOnReconnect: false,
     refetchOnWindowFocus: false,
   })
-  return portfolios
+  return pages
 }

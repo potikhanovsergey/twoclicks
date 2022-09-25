@@ -1,7 +1,7 @@
 import { Ctx } from "blitz"
-import db, { Page, Prisma } from "db"
+import db from "db"
 
-export default async function togglePortfolioPublished(
+export default async function togglePagePublished(
   input: { id: string; isPublished: boolean },
   ctx: Ctx
 ) {
@@ -9,7 +9,7 @@ export default async function togglePortfolioPublished(
   const { id, isPublished } = input
 
   try {
-    const portfolio = await db.page.update({
+    const page = await db.page.update({
       where: {
         id,
       },
@@ -17,8 +17,8 @@ export default async function togglePortfolioPublished(
         isPublished,
       },
     })
-    return portfolio
+    return page
   } catch (e) {
-    console.log("Update portfolio error", e)
+    console.log("Update page error", e)
   }
 }

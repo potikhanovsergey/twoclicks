@@ -19,19 +19,19 @@
   "notAMemberYet": "Not a member yet?",
   "general": "General",
   "profile": "Profile",
-  "portfolioBuilder": "Portfolio Builder",
+  "pageBuilder": "Page Builder",
   "helpcenter": "Help Center",
   "signout": "Sign Out",
   "settings": "Settings",
   "goToTheProfile": "Go to the profile",
-  "openThePortfolioBuilder": "Open the portfolio builder",
+  "openThePageBuilder": "Open the page builder",
   "openTheHelpCenter": "Open the help center",
   "signOutOfTheAccount": "Sign out of the account",
   "aboutUs": "About Us",
   "whatsNew": "What's new?",
-  "portfolios": "Portfolios",
+  "pages": "Pages",
   "statistics": "Statistics",
   "premium": "Premium",
   "support": "Support",
-  "createPortfolio": "Create portfolio"
+  "createPage": "Create page"
 }

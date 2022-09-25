@@ -143,7 +143,7 @@ const Onboarding = () => {
             </Group>
             <Group position="apart">
               <Text size="sm" color="gray">
-                {t("preview the portfolio")}
+                {t("preview the page")}
               </Text>
               <PreviewButton color="indigo" variant="light">
                 <FaPalette size={16} />

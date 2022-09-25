@@ -74,14 +74,14 @@ const SaveRedirectButton = observer(() => {
 
   const {
     savePage,
-    data: { id: portfolioID },
+    data: { id: pageID },
   } = BuildStore
 
   const [updatePageMutation] = useMutation(updatePage)
 
   const handleSaveAndRedirect = async () => {
     void savePage({ session, updatePageMutation })
-    void router.push(`/auth/?next=/build/${portfolioID}`)
+    void router.push(`/auth/?next=/build/${pageID}`)
   }
 
   const { t } = useTranslation("build")

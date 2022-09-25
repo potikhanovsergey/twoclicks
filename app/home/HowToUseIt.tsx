@@ -9,7 +9,7 @@ import {
   Button,
   ContainerProps,
 } from "@mantine/core"
-import PortfolioLink from "app/build/PortfolioLink"
+import PageLink from "app/build/PageLink"
 import ShadowCard from "app/core/components/base/ShadowCard"
 import { useScroll, m } from "framer-motion"
 import { useRef } from "react"
@@ -341,7 +341,7 @@ const HowToUseIt = (props: ContainerProps) => {
                 },
               }}
             >
-              Publish portfolio
+              Publish page
             </Button>
           </Box>
         </ShadowCard>
@@ -352,12 +352,7 @@ const HowToUseIt = (props: ContainerProps) => {
               maxWidth: "400px",
             }}
           >
-            <PortfolioLink
-              id={"6321d3c786636b3da6ce61e0"}
-              shouldSearch={false}
-              centered
-              withEllipsis
-            />
+            <PageLink id={"6321d3c786636b3da6ce61e0"} shouldSearch={false} centered withEllipsis />
             <Text
               weight={700}
               sx={{

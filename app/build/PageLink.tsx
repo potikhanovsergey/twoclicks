@@ -7,7 +7,7 @@ import { BiCheckDouble } from "@react-icons/all-files/bi/BiCheckDouble"
 import { BiCopy } from "@react-icons/all-files/bi/BiCopy"
 import { baseURL } from "pages/_app"
 
-const PortfolioLink = ({
+const PageLink = ({
   id,
   withEllipsis = false,
   shouldSearch = true,
@@ -18,9 +18,9 @@ const PortfolioLink = ({
   shouldSearch?: boolean
   centered?: boolean
 }) => {
-  const portfolio = shouldSearch ? AppStore.pages.find((p) => p.id === id) : null
+  const page = shouldSearch ? AppStore.pages.find((p) => p.id === id) : null
   const { t } = useTranslation("build")
-  return portfolio?.isPublished || !shouldSearch ? (
+  return page?.isPublished || !shouldSearch ? (
     <Group spacing={4} noWrap position={centered ? "center" : undefined}>
       <Anchor
         href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
@@ -61,4 +61,4 @@ const PortfolioLink = ({
   )
 }
 
-export default observer(PortfolioLink)
+export default observer(PageLink)

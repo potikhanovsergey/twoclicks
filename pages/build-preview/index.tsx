@@ -7,7 +7,7 @@ import React, { useEffect } from "react"
 import shortid from "shortid"
 import { ICanvasPalette } from "types"
 
-const PreviewPortfolio = () => {
+const PreviewPage = () => {
   // const { t } = useTranslation('build');
 
   const [page] = useLocalStorage<{
@@ -54,6 +54,6 @@ const PreviewPortfolio = () => {
   )
 }
 
-PreviewPortfolio.suppressFirstRenderFlicker = true
+PreviewPage.suppressFirstRenderFlicker = true
 
-export default PreviewPortfolio
+export default PreviewPage

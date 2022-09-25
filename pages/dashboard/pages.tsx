@@ -2,35 +2,28 @@ import { usePaginatedQuery } from "@blitzjs/rpc"
 import { Container, Group, Pagination, Stack, Text, TextInput } from "@mantine/core"
 import { useDebouncedState } from "@mantine/hooks"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import PortfolioCard from "app/portfolios/PortfolioCard"
-import getAllPortfolios from "app/portfolios/queries/getAllPortfolios"
+import getAllPages from "app/portfolios/queries/getAllPages"
 import { useDidMount } from "hooks/useDidMount"
 import { useRouter } from "next/router"
 import { useEffect } from "react"
 
 import { HiSearch } from "@react-icons/all-files/hi/HiSearch"
+import PageCard from "app/portfolios/PageCard"
 
 const ITEMS_PER_PAGE = 50
 
-const Portfolios = () => {
-  // const [portfolios] = useQuery(getAllPortfolios, {
-  //   orderBy: [
-  //     {
-  //       updatedAt: "desc",
-  //     },
-  //   ],
-  // })
+const Pages = () => {
   const [searchValue, setSearchValue] = useDebouncedState("", 200)
 
   const router = useRouter()
-  const page = Number(router.query.page) || 1
-  const [{ portfolios, hasMore, count }] = usePaginatedQuery(getAllPortfolios, {
+  const pageNumber = Number(router.query.page) || 1
+  const [{ pages, hasMore, count }] = usePaginatedQuery(getAllPages, {
     orderBy: [
       {
         updatedAt: "desc",
       },
     ],
-    skip: ITEMS_PER_PAGE * (page - 1),
+    skip: ITEMS_PER_PAGE * (pageNumber - 1),
     take: ITEMS_PER_PAGE,
     where: {
       user: {
@@ -51,7 +44,7 @@ const Portfolios = () => {
     }
   }, [searchValue])
 
-  return portfolios ? (
+  return pages ? (
     <Container size="xl" my="md">
       <Group position="apart" mb="sm">
         <TextInput
@@ -60,23 +53,31 @@ const Portfolios = () => {
           icon={<HiSearch />}
           placeholder="Enter email"
         ></TextInput>
-        <Pagination page={page} onChange={goToPage} total={Math.ceil(count / ITEMS_PER_PAGE)} />
+        <Pagination
+          page={pageNumber}
+          onChange={goToPage}
+          total={Math.ceil(count / ITEMS_PER_PAGE)}
+        />
       </Group>
       <Stack spacing="xl">
-        {portfolios.map((portfolio) => (
-          <div key={portfolio.id}>
+        {pages.map((page) => (
+          <div key={page.id}>
             <Group ml="md" spacing="sm">
               <Text weight="bold" size="lg">
-                {portfolio.user.name}
+                {page.user.name}
               </Text>
               <Text weight="bold" size="lg" color="violet">
-                {portfolio.user.email}
+                {page.user.email}
               </Text>
             </Group>
-            <PortfolioCard portfolio={portfolio} withEdit={false} />
+            <PageCard page={page} withEdit={false} />
           </div>
         ))}
-        <Pagination page={page} onChange={goToPage} total={Math.ceil(count / ITEMS_PER_PAGE)} />
+        <Pagination
+          page={pageNumber}
+          onChange={goToPage}
+          total={Math.ceil(count / ITEMS_PER_PAGE)}
+        />
       </Stack>
     </Container>
   ) : (
@@ -84,7 +85,7 @@ const Portfolios = () => {
   )
 }
 
-Portfolios.getLayout = getBaseLayout({})
-Portfolios.suppressFirstRenderFlicker = true
+Pages.getLayout = getBaseLayout({})
+Pages.suppressFirstRenderFlicker = true
 
-export default Portfolios
+export default Pages

@@ -52,7 +52,7 @@ const ProfileStatistics = () => {
         />
       ) : (
         <ProfileNoItems>
-          <Text size="xl">Statistics will be here after you deploy first portfolio</Text>
+          <Text size="xl">Statistics will be here after you deploy first page</Text>
           Тут был лотти
         </ProfileNoItems>
       )}

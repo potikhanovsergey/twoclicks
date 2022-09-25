@@ -16,42 +16,42 @@ import Link from "next/link"
 import { Page } from "@prisma/client"
 import { openConfirmModal } from "@mantine/modals"
 import { useMutation } from "@blitzjs/rpc"
-import deletePortfolio from "./mutations/deletePortfolio"
+import deletePage from "./mutations/deletePage"
 import { useEffect } from "react"
 import { AppStore } from "store"
-import PortfolioLink from "app/build/PortfolioLink"
-import TogglePublishPortfilio from "app/build/TogglePublishPortfolio"
+import PageLink from "app/build/PageLink"
+import TogglePublishPage from "app/build/TogglePublishPage"
 import { TemplateModal } from "app/core/components/modals/base/TemplateModal"
 
 import { HiPencilAlt } from "@react-icons/all-files/hi/HiPencilAlt"
 import { HiTemplate } from "@react-icons/all-files/hi/HiTemplate"
 import { RiDeleteBinLine } from "@react-icons/all-files/ri/RiDeleteBinLine"
 
-export interface PortfolioPreview {
-  portfolio: Page
+export interface PageCardProps {
+  page: Page
   withEdit?: boolean
 }
 
-const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
+const PageCard = ({ page, withEdit = true }: PageCardProps) => {
   // const { t } = useTranslation('build');
   const theme = useMantineTheme()
 
-  const [deletePortfolioMutation, { isSuccess }] = useMutation(deletePortfolio)
+  const [deletePageMutation, { isSuccess }] = useMutation(deletePage)
 
   useEffect(() => {
     if (isSuccess) {
-      AppStore.removePage(portfolio.id)
+      AppStore.removePage(page.id)
     }
   }, [isSuccess])
 
   const openDeleteModal = () =>
     openConfirmModal({
-      title: <Text weight="bold">Delete your portfolio</Text>,
+      title: <Text weight="bold">Delete your page</Text>,
       centered: true,
       children: (
         <>
           <Text size="sm">
-            Are you sure you want to delete your portfolio? <br />
+            Are you sure you want to delete your page? <br />
             This action is &nbsp;
             <Mark color="red">
               <strong>irreversible</strong>
@@ -60,9 +60,9 @@ const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
           </Text>
         </>
       ),
-      labels: { confirm: "Yes, delete the portfolio", cancel: "No, don't delete it" },
+      labels: { confirm: "Yes, delete the page", cancel: "No, don't delete it" },
       confirmProps: { color: "red" },
-      onConfirm: () => deletePortfolioMutation({ id: portfolio.id }),
+      onConfirm: () => deletePageMutation({ id: page.id }),
     })
 
   return (
@@ -80,16 +80,16 @@ const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
       <Group position="apart" align="flex-start">
         <Stack spacing={0} align="flex-start">
           <Text weight="bold" size="xl">
-            {portfolio.name}
+            {page.name}
           </Text>
-          <PortfolioLink id={portfolio.id} />
+          <PageLink id={page.id} />
           <Space h="xs" />
-          <TogglePublishPortfilio id={portfolio.id} />
+          <TogglePublishPage id={page.id} />
         </Stack>
         <Stack spacing="xs">
           <Group spacing="xs" position="right">
             <TemplateModal
-              portfolio={portfolio}
+              page={page}
               color="orange"
               size="sm"
               rightIcon={<HiTemplate />}
@@ -98,20 +98,20 @@ const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
               Use as a template
             </TemplateModal>
             {withEdit && (
-              <Link passHref href={`/build/${portfolio.id}`}>
+              <Link passHref href={`/build/${page.id}`}>
                 <Button color="violet" size="sm" component="a" rightIcon={<HiPencilAlt />}>
-                  Edit portfolio
+                  Edit page
                 </Button>
               </Link>
             )}
-            <Tooltip label="Delete portfolio" withArrow position="bottom">
+            <Tooltip label="Delete page" withArrow position="bottom">
               <ActionIcon color="red" variant="filled" size="lg" onClick={openDeleteModal}>
                 <RiDeleteBinLine />
               </ActionIcon>
             </Tooltip>
           </Group>
           <Text color={theme.colors.gray[6]} align="end" size="xs">
-            last edit {formatDate(portfolio.updatedAt)}
+            last edit {formatDate(page.updatedAt)}
           </Text>
         </Stack>
       </Group>
@@ -119,4 +119,4 @@ const PortfolioCard = ({ portfolio, withEdit = true }: PortfolioPreview) => {
   )
 }
 
-export default PortfolioCard
+export default PageCard

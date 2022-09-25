@@ -1,21 +1,21 @@
 import { useSession } from "@blitzjs/auth"
 import { useQuery } from "@blitzjs/rpc"
-import { createStyles, Loader, Skeleton } from "@mantine/core"
+import { Skeleton } from "@mantine/core"
 import { observer } from "mobx-react-lite"
 import { useEffect } from "react"
 import { AppStore } from "store"
-import PortfolioCard from "./PortfolioCard"
-import getUserPortfolios from "./queries/getUserPortfolios"
-import { AnimatePresence, m } from "framer-motion"
+import PageCard from "./PageCard"
+import getUserPages from "./queries/getUserPages"
+import { AnimatePresence } from "framer-motion"
 
-const PortfolioCardsItems = observer(() => {
+const PageCardsItems = observer(() => {
   const { pages } = AppStore
 
   return pages ? (
     <AnimatePresence>
       <ul style={{ padding: 0, margin: 0 }}>
-        {pages.map((portfolio) => (
-          <PortfolioCard portfolio={portfolio} key={portfolio.id} />
+        {pages.map((page) => (
+          <PageCard page={page} key={page.id} />
         ))}
       </ul>
     </AnimatePresence>
@@ -24,12 +24,12 @@ const PortfolioCardsItems = observer(() => {
   )
 })
 
-const PortfolioCards = observer(() => {
+const PageCards = observer(() => {
   const { setPages, havePagesLoaded } = AppStore
   const session = useSession()
 
-  const [fetchedPortfolios, { isLoading, isFetching, isRefetching }] = useQuery(
-    getUserPortfolios,
+  const [fetchedPages, { isLoading, isFetching, isRefetching }] = useQuery(
+    getUserPages,
     {
       orderBy: [
         {
@@ -43,17 +43,17 @@ const PortfolioCards = observer(() => {
   )
 
   useEffect(() => {
-    if (fetchedPortfolios && session.userId && !havePagesLoaded) {
-      setPages(fetchedPortfolios)
+    if (fetchedPages && session.userId && !havePagesLoaded) {
+      setPages(fetchedPages)
     }
     if (!session.userId) setPages([])
-  }, [fetchedPortfolios, session, havePagesLoaded])
+  }, [fetchedPages, session, havePagesLoaded])
 
   return isLoading || isFetching || isRefetching ? (
     <Skeleton width="100%" height="120px" animate />
   ) : (
-    <PortfolioCardsItems />
+    <PageCardsItems />
   )
 })
 
-export default PortfolioCards
+export default PageCards

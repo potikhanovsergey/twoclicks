@@ -16,7 +16,7 @@ export default async function getUserPages(
     })
     return pages
   } catch (e) {
-    console.log("Get user portfolios error", e)
+    console.log("Get user pages error", e)
     return null
   }
 }

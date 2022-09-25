@@ -19,13 +19,13 @@ import { showNotification } from "@mantine/notifications"
 import { defaultSuccessNotification } from "notifications"
 
 interface TemplateModalProps extends ButtonProps {
-  portfolio: Page
+  page: Page
 }
 
-const TemplateModalForm = ({ portfolio }: { portfolio: Page }) => {
+const TemplateModalForm = ({ page }: { page: Page }) => {
   const templateForm = useForm<{ newPageName: string }>({
     initialValues: {
-      newPageName: portfolio.name,
+      newPageName: page.name,
     },
   })
 
@@ -34,14 +34,14 @@ const TemplateModalForm = ({ portfolio }: { portfolio: Page }) => {
   return (
     <form
       onSubmit={templateForm.onSubmit(async (values) => {
-        const createdPortfolio = await createPageMutation({
+        const createdPage = await createPageMutation({
           name: values.newPageName,
-          data: portfolio.data,
-          palette: portfolio.palette as ICanvasPalette,
+          data: page.data,
+          palette: page.palette as ICanvasPalette,
         })
 
-        if (createdPortfolio) {
-          AppStore.pages = [createdPortfolio, ...AppStore.pages]
+        if (createdPage) {
+          AppStore.pages = [createdPage, ...AppStore.pages]
           showNotification({
             ...defaultSuccessNotification,
             message: (
@@ -75,7 +75,7 @@ const TemplateModalForm = ({ portfolio }: { portfolio: Page }) => {
 
 // Create intermediate component with default ref type and props
 const _TemplateModal = forwardRef<HTMLButtonElement, TemplateModalProps>(
-  ({ children, portfolio, ...others }, ref) => {
+  ({ children, page, ...others }, ref) => {
     return (
       <Box<"button">
         // define default component, you will be able to override it with `component` prop from ...others
@@ -89,12 +89,12 @@ const _TemplateModal = forwardRef<HTMLButtonElement, TemplateModalProps>(
               <Text>
                 Selecting{" "}
                 <Text component="span" color="violet">
-                  {portfolio.name}
+                  {page.name}
                 </Text>{" "}
                 as a template
               </Text>
             ),
-            children: <TemplateModalForm portfolio={portfolio} />,
+            children: <TemplateModalForm page={page} />,
           })
         }}
       >

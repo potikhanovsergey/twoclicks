@@ -42,7 +42,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
   const {
     changeProp,
     openedAction,
-    data: { id: portfolioID },
+    data: { id: pageID },
   } = BuildStore
 
   const [link, setLink] = useState(props.href || "")
@@ -77,14 +77,14 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
 
   const { pages } = AppStore
 
-  const dividedPortfolios = useMemo(() => {
-    const portfolio = pages?.find((p) => p.id === portfolioID)
-    if (!portfolio) return null
+  const dividedPages = useMemo(() => {
+    const page = pages?.find((p) => p.id === pageID)
+    if (!page) return null
     return {
-      current: portfolio,
-      rest: pages.filter((p) => p.id !== portfolio.id),
+      current: page,
+      rest: pages.filter((p) => p.id !== page.id),
     }
-  }, [pages, portfolioID])
+  }, [pages, pageID])
 
   return hasLinkEdit ? (
     <ToolbarMenu
@@ -165,23 +165,23 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
                 <FaCheck />
               </ActionIcon>
             </Group>
-            {dividedPortfolios && dividedPortfolios.rest.length > 0 && (
+            {dividedPages && dividedPages.rest.length > 0 && (
               <>
                 <Text weight="bold" color="dark" size="sm" mt="xs" mb={4}>
                   Or link it to existing pages:
                 </Text>
                 <Stack spacing={4}>
-                  {dividedPortfolios.rest.map((portfolio) => (
+                  {dividedPages.rest.map((page) => (
                     <Button
                       size="xs"
-                      key={portfolio.id}
+                      key={page.id}
                       variant="light"
                       onClick={() => {
-                        const url = `/p/${portfolio.id}`
+                        const url = `/p/${page.id}`
                         handleLinkify(url)
                       }}
                     >
-                      {portfolio.name}
+                      {page.name}
                     </Button>
                   ))}
                 </Stack>

@@ -19,19 +19,19 @@
   "notAMemberYet": "Еще не с нами?",
   "general": "Основное",
   "profile": "Профиль",
-  "portfolioBuilder": "Создать портфолио",
+  "pageBuilder": "Создать портфолио",
   "helpcenter": "Центр помощи",
   "signout": "Выйти",
   "settings": "Настройки",
   "goToTheProfile": "Перейти в профиль",
-  "openThePortfolioBuilder": "Открыть конструктор портфолио",
+  "openThePageBuilder": "Открыть конструктор портфолио",
   "openTheHelpCenter": "Открыть центр помощи",
   "signOutOfTheAccount": "Выйти из аккаунта",
   "aboutUs": "О нас",
   "whatsNew": "Что нового?",
-  "portfolios": "Портфолио",
+  "pages": "Портфолио",
   "statistics": "Статистика",
   "premium": "Премиум",
   "support": "Поддержка",
-  "createPortfolio": "Создать портфолио"
+  "createPage": "Создать портфолио"
 }

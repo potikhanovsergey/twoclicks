@@ -1,5 +1,5 @@
 export const PageStarterMock = {
-  name: "My brand new portfolio",
+  name: "My brand new page",
   data: [],
   palette: {
     primary: "violet",

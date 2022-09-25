@@ -49,7 +49,7 @@ const CreatePageButton = (props: ICreatePageButton) => {
       rightIcon={<AiFillBuild />}
       {...props}
     >
-      {t("createPortfolio")}
+      {t("createPage")}
     </Button>
   )
 }

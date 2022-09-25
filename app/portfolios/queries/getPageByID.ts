@@ -1,7 +1,7 @@
 import { Ctx } from "blitz"
 import db from "db"
 
-export default async function getPortfolioByID(
+export default async function getPageByID(
   {
     id,
     isPublic = true,
@@ -13,27 +13,27 @@ export default async function getPortfolioByID(
   if (!id) return null
 
   if (isPreview && ctx.session.userId) {
-    const portfolio = await db.page.findFirst({
+    const page = await db.page.findFirst({
       where: {
         id,
         userId: ctx.session.userId,
       },
     })
-    return portfolio
+    return page
   }
 
   if (isPublic) {
-    const portfolio = await db.page.findFirst({
+    const page = await db.page.findFirst({
       where: {
         id,
         isPublished: true,
       },
     })
-    return portfolio
+    return page
   } else if (ctx.session.userId) {
-    const portfolio = await db.page.findFirst({
+    const page = await db.page.findFirst({
       where: { id, userId: isPublic ? undefined : ctx.session.userId },
     })
-    return portfolio
+    return page
   }
 }

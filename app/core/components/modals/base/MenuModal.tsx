@@ -23,8 +23,8 @@ import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 
 const ConstMenuItems = [
   {
-    title: "openThePortfolioBuilder",
-    text: "portfolioBuilder",
+    title: "openThePageBuilder",
+    text: "pageBuilder",
     route: "/build",
   },
   {

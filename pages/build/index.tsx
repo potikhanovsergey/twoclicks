@@ -1,11 +1,11 @@
 import { Container, Group, Space, Title, Text } from "@mantine/core"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import PortfolioCards from "app/portfolios/PortfolioCards"
 import ProfileNoItems from "app/profile/ProfileNoItems"
 import useTranslation from "next-translate/useTranslation"
 import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
-import CreatePageButton from "app/portfolios/CreatePortfolioButton"
+import CreatePageButton from "app/portfolios/CreatePageButton"
+import PageCards from "app/portfolios/PageCards"
 
 const Build = () => {
   const { t } = useTranslation("pages")
@@ -24,11 +24,11 @@ const Build = () => {
         <></>
       )}
       <div style={{ display: pages?.length ? "block" : "none" }}>
-        <PortfolioCards />
+        <PageCards />
       </div>
       {havePagesLoaded && !pages?.length ? (
         <ProfileNoItems style={{ display: pages?.length ? "none" : "flex" }}>
-          <Text size="xl">{t("noPortfolios")}</Text>
+          <Text size="xl">{t("noPages")}</Text>
           Тут был лотти
           <CreatePageButton size="lg" />
         </ProfileNoItems>

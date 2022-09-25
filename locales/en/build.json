@@ -1,7 +1,7 @@
 {
   "palette": "Palette",
-  "hide portfolio": "Unpublish portfolio",
-  "publish portfolio": "Publish portfolio",
+  "hide page": "Unpublish page",
+  "publish page": "Publish page",
   "preview mode": "Preview mode",
   "edit site name": "Edit site name",
   "link copied": "Link copied",
@@ -20,7 +20,7 @@
   "edit a component/section": "Edit a component/section",
   "change the palette": "Change the palette",
   "add a new section": "Add a new section",
-  "preview the portfolio": "Preview the portfolio",
+  "preview the page": "Preview the page",
   "variants": "Variants",
   "gradient": "Gradient",
   "filled": "Filled",
@@ -60,7 +60,7 @@
   "Galleries": "Galleries",
   "Skills": "Skills",
   "Footers": "Footers",
-  "portfolio not found": "Portfolio not found",
+  "page not found": "Page not found",
   "changeTheSource": "Change the source",
   "enterTheSourceURL": "Enter the source URL"
 }

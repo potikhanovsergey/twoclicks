@@ -41,7 +41,7 @@ export const MenuItemSx: Sx = (theme) => ({
 export const ConstMenuItems = [
   {
     href: "/build",
-    children: "portfolioBuilder",
+    children: "pageBuilder",
   },
   {
     href: "/support",

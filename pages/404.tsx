@@ -71,7 +71,7 @@ const Links = () => {
           </ThemeIcon>
         }
       >
-        Portfolio Builder
+        Page Builder
       </Button>
     </>
   )

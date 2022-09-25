@@ -1,7 +1,7 @@
 {
   "palette": "Палитра",
-  "hide portfolio": "Скрыть портфолио",
-  "publish portfolio": "Опубликовать портфолио",
+  "hide page": "Скрыть страницу",
+  "publish page": "Опубликовать страницу",
   "preview mode": "Превью",
   "edit site name": "Редактировать название сайта",
   "link copied": "Ссылка скопирована",
@@ -20,7 +20,7 @@
   "edit a component/section": "Измените элемент/секцию",
   "change the palette": "Измените палитру",
   "add a new section": "Добавьте новую секцию",
-  "preview the portfolio": "Откройте превью",
+  "preview the page": "Откройте превью",
   "variants": "Варианты",
   "gradient": "Градиент",
   "filled": "Заливка",
@@ -60,7 +60,7 @@
   "Galleries": "Галереи",
   "Skills": "Навыки",
   "Footers": "Подвалы",
-  "portfolio not found": "портфолио не найдено",
+  "page not found": "Страница не найдена",
   "changeTheSource": "Поменять источник",
   "enterTheSourceURL": "Введите ссылку на источник"
 }
