@@ -31,7 +31,12 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
   const { t } = useTranslation("build")
 
   return hasIconEdit ? (
-    <Tooltip label={propName === "leftIcon" ? t("left icon") : t("right icon")} withArrow>
+    <Tooltip
+      label={
+        propName === "leftIcon" || propName === "leftSection" ? t("left icon") : t("right icon")
+      }
+      withArrow
+    >
       <div>
         <IconPicker
           withReset={Boolean(ICON)}
@@ -48,7 +53,15 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
             variant: "subtle",
             color: "violet",
           }}
-          icon={ICON ? ICON : propName === "rightIcon" ? <CgToggleSquareOff /> : <CgToggleSquare />}
+          icon={
+            ICON ? (
+              ICON
+            ) : propName === "rightIcon" || propName === "rightSection" ? (
+              <CgToggleSquareOff />
+            ) : (
+              <CgToggleSquare />
+            )
+          }
           onChange={(icon) => {
             const iconProps = formatOutput(icon)?.props
             if (iconProps) {
