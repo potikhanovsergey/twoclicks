@@ -24,7 +24,7 @@ import { useMutation } from "@blitzjs/rpc"
 import updatePage from "app/build-pages/mutations/updatePage"
 import IPhone from "../../assets/IPhone7.png"
 
-import { ICanvasBlock, ICanvasPalette } from "types"
+import { ICanvasBlock, ICanvasData, ICanvasPalette, IPage } from "types"
 import { autorun } from "mobx"
 import { baseURL } from "pages/_app"
 import useTranslation from "next-translate/useTranslation"
@@ -48,6 +48,7 @@ const useStyles = createStyles((theme) => ({
   canvas: {
     boxShadow: theme.shadows.sm,
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+    color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
   header: {
     position: "fixed",
@@ -104,7 +105,10 @@ const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
   //   }
   // }, [])
 
-  const { isCanvasEmpty } = BuildStore
+  const {
+    isCanvasEmpty,
+    data: { theme },
+  } = BuildStore
   const session = useSession()
   const { classes } = useStyles()
   console.log(BuildStore.data.flattenBlocks)
@@ -114,9 +118,7 @@ const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
       className={classes.canvas}
       style={{ height: isCanvasEmpty ? "100%" : "auto" }}
     >
-      {/* <MantineProvider inherit theme={{ colorScheme: "light" }}> */}
       <BuilderBlocks />
-      {/* </MantineProvider> */}
       {/* {session.userId ? (
         <div
           ref={onboardingRef}
@@ -191,12 +193,18 @@ const Builder = () => {
     blocks: ICanvasBlock[]
     palette: ICanvasPalette
     name: string | null
+    theme: IPage["theme"]
   }>({
     key: "preview-page",
   })
 
   const handleIframeLoad = () => {
-    setPreviewPage({ blocks: data.blocks, palette: data.palette, name: data.name })
+    setPreviewPage({
+      blocks: data.blocks,
+      palette: data.palette,
+      name: data.name,
+      theme: data.theme,
+    })
     const cssLink = document.createElement("link")
     cssLink.href = "iframe.css"
     cssLink.rel = "stylesheet"
@@ -206,7 +214,12 @@ const Builder = () => {
 
   useEffect(() => {
     autorun(() => {
-      setPreviewPage({ blocks: data.blocks, palette: data.palette, name: data.name })
+      setPreviewPage({
+        blocks: data.blocks,
+        palette: data.palette,
+        name: data.name,
+        theme: data.theme,
+      })
     })
   }, [data.blocks, data.palette])
 
@@ -237,79 +250,83 @@ const Builder = () => {
   return (
     <div className={classes.builder}>
       <BuilderHeader className={classes.header} />
-      <Container
-        size="xl"
-        px={64}
-        py={viewMode === "mobile" ? 12 : isCanvasEmpty ? 24 : 64}
-        className={classes.canvasContainer}
-        ref={containerRef}
+      <MantineProvider
+        inherit
+        theme={{ colorScheme: data.theme === "inherit" ? theme.colorScheme : data.theme }}
       >
-        <Center
-          py={0}
-          sx={{
-            height: "100%",
-            display: viewMode === "mobile" ? "flex" : "none",
-          }}
+        <Container
+          size="xl"
+          px={64}
+          py={viewMode === "mobile" ? 12 : isCanvasEmpty ? 24 : 64}
+          className={classes.canvasContainer}
+          ref={containerRef}
         >
-          {window !== undefined && isStorageAvailable ? (
+          <Center
+            py={0}
+            sx={{
+              height: "100%",
+              display: viewMode === "mobile" ? "flex" : "none",
+            }}
+          >
+            {window !== undefined && isStorageAvailable ? (
+              <Box
+                sx={{
+                  backgroundImage: `url(${IPhone.src})`,
+                  backgroundRepeat: "no-repeat",
+                  backgroundSize: "357px 760px",
+                  width: "357px",
+                  height: "760px",
+                  overflow: "hidden",
+                  transform: "scale(0.75)",
+                  margin: "-85px 0",
+                  "> iframe": {
+                    width: "calc(357px - 37px)",
+                    height: "calc(760px - 140px)",
+                    border: "none",
+                    borderRadius: "5px",
+                    position: "relative",
+                    top: "60px",
+                    left: "18px",
+                    pointerEvents: "none",
+                    userSelect: "none",
+                  },
+                }}
+              >
+                <iframe
+                  tabIndex={-1}
+                  onLoad={handleIframeLoad}
+                  loading="lazy"
+                  ref={iframeRef}
+                  src={`${baseURL}/build-preview?hideScrollbar=true`}
+                >
+                  <Text>{t("browser iframe")}</Text>
+                </iframe>
+              </Box>
+            ) : (
+              <Text align="center" style={{ maxWidth: "45%" }}>
+                Your web browser does not support storing settings locally. The most common cause of
+                this is using <strong>Private Browsing/Incognito Mode</strong>. Some settings may
+                not save or some features may not work properly for you.
+              </Text>
+            )}
+          </Center>
+          <Suspense fallback={<Loader />}>
             <Box
               sx={{
-                backgroundImage: `url(${IPhone.src})`,
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "357px 760px",
-                width: "357px",
-                height: "760px",
-                overflow: "hidden",
-                transform: "scale(0.75)",
-                margin: "-85px 0",
-                "> iframe": {
-                  width: "calc(357px - 37px)",
-                  height: "calc(760px - 140px)",
-                  border: "none",
-                  borderRadius: "5px",
-                  position: "relative",
-                  top: "60px",
-                  left: "18px",
-                  pointerEvents: "none",
-                  userSelect: "none",
+                display: viewMode !== "mobile" ? "block" : "none",
+                height: "100%",
+                ".builder-block ::selection": {
+                  background: theme.colors?.[data?.palette?.primary]?.[4] || theme.colors.violet[4],
+                  color: theme.white,
+                  WebkitTextFillColor: theme.white,
                 },
               }}
             >
-              <iframe
-                tabIndex={-1}
-                onLoad={handleIframeLoad}
-                loading="lazy"
-                ref={iframeRef}
-                src={`${baseURL}/build-preview?hideScrollbar=true`}
-              >
-                <Text>{t("browser iframe")}</Text>
-              </iframe>
+              <Canvas parentRef={containerRef} />
             </Box>
-          ) : (
-            <Text align="center" style={{ maxWidth: "45%" }}>
-              Your web browser does not support storing settings locally. The most common cause of
-              this is using <strong>Private Browsing/Incognito Mode</strong>. Some settings may not
-              save or some features may not work properly for you.
-            </Text>
-          )}
-        </Center>
-        <Suspense fallback={<Loader />}>
-          <Box
-            sx={{
-              display: viewMode !== "mobile" ? "block" : "none",
-              height: "100%",
-              ".builder-block ::selection": {
-                background: theme.colors?.[data?.palette?.primary]?.[4] || theme.colors.violet[4],
-                color: theme.white,
-                WebkitTextFillColor: theme.white,
-              },
-            }}
-          >
-            <Canvas parentRef={containerRef} />
-          </Box>
-        </Suspense>
-      </Container>
-
+          </Suspense>
+        </Container>
+      </MantineProvider>
       <SaveAndRedirectModal />
     </div>
   )

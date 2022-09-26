@@ -14,6 +14,8 @@ import {
   TextInput,
   Stack,
   ScrollArea,
+  Popover,
+  LoadingOverlay,
 } from "@mantine/core"
 import { useClickOutside, useFullscreen, useHover } from "@mantine/hooks"
 import updatePage from "app/build-pages/mutations/updatePage"
@@ -39,6 +41,8 @@ import { IoMdCheckmark } from "@react-icons/all-files/io/IoMdCheckmark"
 
 import { FiChevronDown } from "@react-icons/all-files/fi/FiChevronDown"
 import SaveButton from "./SaveButton"
+import { ImSun } from "@react-icons/all-files/im/ImSun"
+import { IPage } from "types"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -48,13 +52,75 @@ const AuthorizedActions = observer(() => {
   return session.userId ? <>{id && <TogglePublishPage id={id} />}</> : <></>
 })
 
+const themeChangerVariants = [
+  {
+    label: "Website theme",
+    value: "inherit",
+  },
+  {
+    label: "Light",
+    value: "light",
+  },
+  {
+    label: "Dark",
+    value: "dark",
+  },
+]
+
+const ThemeChanger = observer(() => {
+  const {
+    data: { theme: pageTheme, id },
+  } = BuildStore
+
+  const [updatePageMutation, { isLoading }] = useMutation(updatePage)
+
+  const handleChangeTheme = async (newTheme) => {
+    if (id) {
+      const page = await updatePageMutation({
+        id,
+        theme: newTheme,
+      })
+      if (page) {
+        BuildStore.data.theme = page.theme as IPage["theme"]
+      }
+    }
+  }
+  return (
+    <Popover width={200} position="bottom" withArrow shadow="md">
+      <Popover.Target>
+        <ActionIcon color="violet">
+          <ImSun width={20} height={20} />
+        </ActionIcon>
+      </Popover.Target>
+      <Popover.Dropdown p={8}>
+        <LoadingOverlay visible={isLoading} loaderProps={{ size: 16 }} />
+        <Text weight="bold" mb={4}>
+          Page theme
+        </Text>
+        <Stack spacing={4}>
+          {themeChangerVariants.map((item) => (
+            <Button
+              compact
+              fullWidth
+              variant="light"
+              key={item.value}
+              disabled={item.value === pageTheme}
+              onClick={() => handleChangeTheme(item.value)}
+            >
+              {item.label}
+            </Button>
+          ))}
+        </Stack>
+      </Popover.Dropdown>
+    </Popover>
+  )
+})
+
 const ObservedPageName = observer(() => {
   const session = useSession()
   const {
     data: { name, id },
   } = BuildStore
-
-  const { pages } = AppStore
 
   const [inputVisible, setInputVisible] = useState(false)
   const [editName, setEditName] = useState(name)
@@ -232,6 +298,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <ObservedPageName />
           </Box>
           <Group spacing={8}>
+            <ThemeChanger />
             <HistoryButtons color="violet" size={30} variant="filled" />
             <ViewportButtons color="violet" size={30} />
             <Tooltip

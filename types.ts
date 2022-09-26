@@ -18,6 +18,7 @@ export interface IPage {
   name: string
   data: BuildingBlock[]
   palette: ICanvasPalette
+  theme: "inherit" | "light" | "dark"
   createdAt?: Date
   updatedAt?: Date
   isPublished: boolean
@@ -50,6 +51,7 @@ export interface ICanvasData {
   id: string | null
   name: string | null
   palette: ICanvasPalette
+  theme: "inherit" | "light" | "dark"
   isPublished?: boolean
 }
 

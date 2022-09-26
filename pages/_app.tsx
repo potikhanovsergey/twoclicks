@@ -103,11 +103,11 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
     primaryShade: 5,
     components: {
       Paper: {
-        styles: {
+        styles: (theme) => ({
           root: {
-            color: colorScheme === "dark" ? theme.white : theme.black,
+            color: theme.colorScheme === "dark" ? theme.white : theme.black,
           },
-        },
+        }),
       },
       Tooltip: {
         defaultProps: {

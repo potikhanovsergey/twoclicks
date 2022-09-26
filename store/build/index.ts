@@ -26,6 +26,7 @@ const initialData = {
   blocks: [],
   flattenBlocks: {},
   palette: defaultPalette,
+  theme: "inherit",
 }
 
 const getInitialData: () => ICanvasData = () => {

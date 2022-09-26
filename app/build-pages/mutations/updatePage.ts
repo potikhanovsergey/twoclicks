@@ -1,11 +1,11 @@
 import { Ctx } from "blitz"
 import db, { Page, Prisma } from "db"
 
-export type IUpdatePage = Partial<Pick<Page, "data" | "name" | "id" | "palette">>
+export type IUpdatePage = Partial<Pick<Page, "data" | "name" | "id" | "palette" | "theme">>
 
 export default async function updatePage(input: IUpdatePage, ctx: Ctx) {
   ctx.session.$isAuthorized()
-  const { name, data, id } = input
+  const { name, data, id, theme } = input
   const palette = input.palette as Prisma.JsonObject
   try {
     if (id) {
@@ -17,6 +17,7 @@ export default async function updatePage(input: IUpdatePage, ctx: Ctx) {
           name,
           data,
           palette,
+          theme,
         },
       })
       return page

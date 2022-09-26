@@ -1,4 +1,12 @@
-import { Text, Loader, Center, LoadingOverlay } from "@mantine/core"
+import {
+  Text,
+  Loader,
+  Center,
+  LoadingOverlay,
+  useMantineTheme,
+  MantineProvider,
+  Global,
+} from "@mantine/core"
 import { Suspense, useEffect, useState } from "react"
 import { getPageWithInflatedData } from "helpers"
 import { useParam } from "@blitzjs/next"
@@ -36,6 +44,7 @@ const PagePage = () => {
   }, [pageFromDB])
 
   const [isLoading, setIsLoading] = useState(true)
+  const theme = useMantineTheme()
 
   useDocumentTitle(page?.name || "skillcase")
   if (isLoading)
@@ -45,10 +54,22 @@ const PagePage = () => {
     <>
       {page ? (
         <Suspense fallback={<Loader />}>
-          {/* <MantineProvider inherit theme={{ colorScheme: "light" }}> */}
-          <Page page={page} />
-          <MadeWithTwoClicks />
-          {/* </MantineProvider> */}
+          <MantineProvider
+            inherit
+            theme={{ colorScheme: page.theme === "inherit" ? theme.colorScheme : page.theme }}
+          >
+            <Page page={page} />
+            <MadeWithTwoClicks />
+            <Global
+              styles={(theme) => ({
+                body: {
+                  backgroundColor:
+                    theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+                  color: theme.colorScheme === "dark" ? theme.white : theme.black,
+                },
+              })}
+            />
+          </MantineProvider>
         </Suspense>
       ) : (
         <BaseLayout>
