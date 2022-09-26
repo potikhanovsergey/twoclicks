@@ -1,4 +1,4 @@
-import { Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
+import { ActionIcon, Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
 import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
@@ -26,8 +26,8 @@ import SectionBGEdit from "./SectionBGEdit"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import ElementTypeEdit from "./ElementTypeEdit"
 
-import { createSafeContext } from "@mantine/utils"
-
+import { BiCopy } from "@react-icons/all-files/bi/BiCopy"
+import shortid from "shortid"
 interface HoverCardContext {
   openDropdown(): void
   closeDropdown(): void
@@ -116,6 +116,36 @@ const WithEditToolbar = ({
       }
     }
   }, [opened, isImageUploading])
+
+  const handleElementCopy = () => {
+    let insertIndex
+    if (parentID) {
+      const parent = BuildStore.data.flattenBlocks[parentID]
+      const parentProps = parent?.props as ICanvasBlockProps
+      const parentChildren = parentProps?.children as ICanvasBlock[] | ICanvasBlock
+
+      if (parentChildren) {
+        if (Array.isArray(parentChildren)) {
+          const elIndex = parentChildren.findIndex && parentChildren.findIndex((el) => el.id === id)
+          if (typeof elIndex === "number" && elIndex !== -1) {
+            insertIndex = elIndex
+          }
+        } else {
+          parentProps.children = [element]
+        }
+      }
+    } else if (editType === "section") {
+      insertIndex = BuildStore.data.blocks.findIndex((el) => el.id === id)
+    }
+    BuildStore.push({
+      block: {
+        ...(JSON.parse(JSON.stringify(element)) as ICanvasBlock),
+        id: shortid.generate(),
+      },
+      parentID,
+      insertIndex,
+    })
+  }
   return (
     <Popover
       trapFocus={false}
@@ -197,6 +227,9 @@ const WithEditToolbar = ({
               />
             ))}
           {type && props && <ElementLinkEdit id={id} props={props} type={type.toLowerCase()} />}
+          <ActionIcon variant="subtle" color="violet" onClick={handleElementCopy}>
+            <BiCopy />
+          </ActionIcon>
           <ElementDeleteButton id={id} parentID={parentID} editType={editType} />
           {editType === "section" && <SectionBGEdit id={id} props={props} editType={editType} />}
         </Group>

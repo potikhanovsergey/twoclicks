@@ -151,7 +151,7 @@ function traverseProp({
       <Quill
         key={shortid.generate()}
         type={typeLC}
-        defaultValue={BuildStore.data.flattenBlocks[parentID].props?.[prop] || ""}
+        defaultValue={propValue || ""}
         placeholder="Enter text"
         onBlur={(_, _1, editor) => {
           const html = editor.getHTML()

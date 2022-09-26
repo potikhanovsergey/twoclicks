@@ -143,7 +143,7 @@ class Build {
       block,
       insertIndex,
       parentID,
-    }: { block: ICanvasBlock; insertIndex?: number | null; parentID?: string },
+    }: { block: ICanvasBlock; insertIndex?: number | null; parentID?: string | null },
     fromHistory: boolean = false
   ) => {
     if (parentID) {
