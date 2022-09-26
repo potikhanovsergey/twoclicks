@@ -9,10 +9,19 @@ import { useEffect } from "react"
 
 import { HiSearch } from "@react-icons/all-files/hi/HiSearch"
 import PageCard from "app/build-pages/PageCard"
+import { AuthorizationError } from "blitz"
+import { useSession } from "@blitzjs/auth"
 
 const ITEMS_PER_PAGE = 50
 
 const Pages = () => {
+  const session = useSession()
+
+  useEffect(() => {
+    if (session.role !== "ADMIN") {
+      throw new AuthorizationError()
+    }
+  }, [session])
   const [searchValue, setSearchValue] = useDebouncedState("", 200)
 
   const router = useRouter()

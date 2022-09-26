@@ -73,15 +73,21 @@ const ThemeChanger = observer(() => {
   } = BuildStore
 
   const [updatePageMutation, { isLoading }] = useMutation(updatePage)
+  const session = useSession()
 
   const handleChangeTheme = async (newTheme) => {
     if (id) {
-      const page = await updatePageMutation({
-        id,
-        theme: newTheme,
-      })
+      let page
+      if (session.userId) {
+        page = await updatePageMutation({
+          id,
+          theme: newTheme,
+        })
+      }
       if (page) {
         BuildStore.data.theme = page.theme as IPage["theme"]
+      } else if (!session.userId) {
+        BuildStore.data.theme = newTheme
       }
     }
   }
