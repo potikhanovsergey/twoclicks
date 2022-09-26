@@ -190,7 +190,7 @@ const DashboardIndex = () => {
             <Group mb="xl">
               {sectionsDB.map((S, i) => (
                 <Button key={S.id} color="violet" onClick={() => handlePickBuildingBlock(S, "db")}>
-                  {i}
+                  {S.name || i}
                 </Button>
               ))}
             </Group>
