@@ -82,7 +82,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const { classes } = useStyles()
   const {
     data: { palette },
-    sectionToBeAddedIndex,
+    insertIndex,
   } = BuildStore
 
   const JSX = useMemo(() => {
@@ -122,7 +122,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       setIsLikeLoading(false)
     } else {
       void upsertUsedBlockMutation({ buildingBlockId: block.id })
-      BuildStore.push({ block: { ...block, id: shortid.generate() }, sectionToBeAddedIndex })
+      BuildStore.push({ block: { ...block, id: shortid.generate() }, insertIndex })
       setModalContext((prevValue: IModalContextValue) => ({
         ...prevValue,
         canvasComponentsModal: false,

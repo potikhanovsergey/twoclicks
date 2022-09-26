@@ -527,20 +527,28 @@ function traverseJSXChangeType(obj) {
   }
 }
 
-export function traverseAddIDs(obj) {
-  if (typeof obj === "object" && obj?.type) {
-    if (!obj.id) obj.id = shortid.generate()
-    BuildStore.pushFlatten(obj)
-  }
+export function traverseDeleteIDs(obj) {
   if (obj && typeof obj === "object") {
     for (let k in obj) {
       if (k === "id") continue
-      if (typeof obj[k] === "object" && obj[k]?.type) {
-        if (!obj.id) obj.id = shortid.generate()
-        BuildStore.pushFlatten(obj[k])
-      }
+      traverseDeleteIDs(obj[k])
+    }
+  }
+  if (typeof obj === "object" && obj?.id && BuildStore.data.flattenBlocks[obj.id]) {
+    delete BuildStore.data.flattenBlocks[obj.id]
+  }
+}
+
+export function traverseAddIDs(obj) {
+  if (obj && typeof obj === "object") {
+    for (let k in obj) {
+      if (k === "id") continue
       traverseAddIDs(obj[k])
     }
+  }
+  if (typeof obj === "object" && (obj?.editType || obj?.props?.children)) {
+    if (!obj.id) obj.id = shortid.generate()
+    BuildStore.pushFlatten(obj)
   }
 }
 

@@ -2,7 +2,7 @@ import { ClientSession } from "@blitzjs/auth"
 import { MutateFunction } from "@blitzjs/rpc"
 import { Page, Prisma } from "@prisma/client"
 import { IUpdatePage } from "app/build-pages/mutations/updatePage"
-import { deflate, traverseAddIDs } from "helpers"
+import { deflate, traverseAddIDs, traverseDeleteIDs } from "helpers"
 import { makeAutoObservable, action, computed } from "mobx"
 import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
 
@@ -54,7 +54,7 @@ class Build {
   isSaveButtonLoading: boolean = false
   isImageUploading: string | null = null
 
-  sectionToBeAddedIndex: number | null = null
+  insertIndex: number | null = null
   activeEditToolbars: { [key: string]: boolean } = {}
 
   openedAction: {
@@ -88,7 +88,7 @@ class Build {
     this.hasPageChanged = false
     this.isImageUploading = null
     this.activeEditToolbars = {}
-    this.sectionToBeAddedIndex = null
+    this.insertIndex = null
   }
   @action
   onPageChange = (action?: IActionHistoryItem) => {
@@ -96,7 +96,6 @@ class Build {
     if (action && !action.fromHistory) {
       this.redoStack = []
       this.undoStack.push(JSON.parse(JSON.stringify(action)))
-      console.log(this.redoStack, this.undoStack, action)
     }
   }
 
@@ -107,7 +106,7 @@ class Build {
       ...data,
       flattenBlocks: {},
     }
-    traverseAddIDs(BuildStore.data.blocks)
+    traverseAddIDs(this.data.blocks)
   }
 
   @action
@@ -141,17 +140,32 @@ class Build {
   push = (
     {
       block,
-      sectionToBeAddedIndex,
-    }: { block: ICanvasBlock; sectionToBeAddedIndex?: number | null },
+      insertIndex,
+      parentID,
+    }: { block: ICanvasBlock; insertIndex?: number | null; parentID?: string },
     fromHistory: boolean = false
   ) => {
-    if (sectionToBeAddedIndex === null || sectionToBeAddedIndex === undefined) {
-      this.data.blocks.push(block)
-      traverseAddIDs(BuildStore.data.blocks[BuildStore.data.blocks.length - 1])
+    if (parentID) {
+      const parent = this.getElement(parentID)
+      if (parent) {
+        const parentProps = parent?.props as ICanvasBlockProps
+        const parentChildren = parentProps.children as ICanvasBlock[]
+        if (insertIndex === null || insertIndex === undefined) {
+          parentChildren.push(block)
+        } else {
+          parentChildren.splice(insertIndex, 0, block)
+          this.insertIndex = null
+        }
+        traverseAddIDs(parent)
+      }
     } else {
-      this.data.blocks.splice(sectionToBeAddedIndex, 0, block)
-      traverseAddIDs(BuildStore.data.blocks[sectionToBeAddedIndex])
-      this.sectionToBeAddedIndex = null
+      if (insertIndex === null || insertIndex === undefined) {
+        this.data.blocks.push(block)
+      } else {
+        this.data.blocks.splice(insertIndex, 0, block)
+        this.insertIndex = null
+      }
+      traverseAddIDs(this.data.blocks)
     }
 
     const memoBlock = JSON.parse(JSON.stringify(block))
@@ -159,11 +173,11 @@ class Build {
     this.onPageChange({
       redo: {
         name: "push",
-        data: { block: memoBlock, sectionToBeAddedIndex },
+        data: { block: memoBlock, insertIndex },
       },
       undo: {
         name: "deleteElement",
-        data: { id: memoBlock.id },
+        data: { id: memoBlock.id, parentID },
       },
       fromHistory,
     })
@@ -221,7 +235,6 @@ class Build {
         undoProps[prop] = elProps[prop] === undefined ? "undefined" : elProps[prop]
       }
 
-      console.log("UNDO PROPS", undoProps)
       this.onPageChange({
         redo: {
           name: "changeProp",
@@ -253,10 +266,20 @@ class Build {
     { id, parentID }: { id: string; parentID?: string | null },
     fromHistory: boolean = false
   ) => {
+    const elementToBeDeleted = this.getElement(id)
     if (parentID) {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
-      if (parentProps?.children) {
+      const parentChildren = parentProps?.children as ICanvasBlock[] | ICanvasBlock
+      if (parentChildren) {
+        let insertIndex: number | null = null
+        if (Array.isArray(parentChildren)) {
+          insertIndex = parentChildren.findIndex((el) => el.id === id)
+          parentProps.children = parentChildren.filter((c: ICanvasBlock) => id !== c.id)
+        } else {
+          parentProps.children = []
+        }
+
         this.onPageChange({
           redo: {
             name: "deleteElement",
@@ -264,17 +287,11 @@ class Build {
           },
           undo: {
             name: "push",
-            data: { block: JSON.parse(JSON.stringify(this.getElement(id))) },
+            data: { block: JSON.parse(JSON.stringify(elementToBeDeleted)), insertIndex, parentID },
           },
           fromHistory,
         })
-
-        if (Array.isArray(parentProps.children)) {
-          parentProps.children = parentProps.children.filter((c: ICanvasBlock) => id !== c.id)
-        } else {
-          parentProps.children = []
-        }
-        delete this.data.flattenBlocks[id]
+        traverseDeleteIDs(elementToBeDeleted)
       }
     } else {
       const index = this.data.blocks.findIndex((b) => b.id === id)
@@ -288,13 +305,13 @@ class Build {
           name: "push",
           data: {
             block: JSON.parse(JSON.stringify(this.getElement(id))),
-            sectionToBeAddedIndex: index,
+            insertIndex: index,
           },
         },
         fromHistory,
       })
       this.data.blocks = this.data.blocks.filter((b) => typeof b !== "string" && id !== b?.id)
-      delete this.data.flattenBlocks[id]
+      traverseDeleteIDs(elementToBeDeleted)
     }
   }
 
@@ -406,7 +423,6 @@ class Build {
         fromHistory,
         withScroll: false,
       })
-      // console.log(this.sectionsRef.current?.querySelectorAll(".builder-block")[indexOfId + 1])
       if (withScroll) {
         setTimeout(() => {
           this.sectionsRef.current

@@ -22,9 +22,7 @@ const ElementDeleteButton = ({ id, parentID, editType }: IElementDeleteButton) =
         color="red"
         size="md"
         onClick={() => {
-          if (editType === "section") {
-            deleteElement({ id, parentID })
-          }
+          deleteElement({ id, parentID })
         }}
       >
         <RiDeleteBin6Line />

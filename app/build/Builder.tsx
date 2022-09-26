@@ -95,18 +95,19 @@ const SaveRedirectButton = observer(() => {
 })
 
 const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
-  const { ref: onboardingRef, width: onboardingWidth } = useElementSize()
+  // const { ref: onboardingRef, width: onboardingWidth } = useElementSize() // ONBOARDING
 
-  const [containerWidth, setContainerWidth] = useState(0)
-  useLayoutEffect(() => {
-    if (parentRef.current) {
-      setContainerWidth(parentRef.current.offsetWidth)
-    }
-  }, [])
+  // const [containerWidth, setContainerWidth] = useState(0)
+  // useLayoutEffect(() => {
+  //   if (parentRef.current) {
+  //     setContainerWidth(parentRef.current.offsetWidth)
+  //   }
+  // }, [])
 
   const { isCanvasEmpty } = BuildStore
   const session = useSession()
   const { classes } = useStyles()
+  console.log(BuildStore.data.flattenBlocks)
   return (
     <Stack
       spacing={0}

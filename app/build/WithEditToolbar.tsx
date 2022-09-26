@@ -46,14 +46,14 @@ interface IWithEditToolbar {
 }
 
 interface InnerAddSectionButtonProps extends Omit<ButtonProps, "style" | "children"> {
-  sectionToBeAddedIndex: number
+  insertIndex: number
 }
 
 const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { t } = useTranslation("build")
 
-  const { sectionToBeAddedIndex, ...otherProps } = props
+  const { insertIndex, ...otherProps } = props
   return (
     <Button
       style={{ position: "absolute", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1 }}
@@ -63,7 +63,7 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
       compact
       gradient={{ from: "violet", to: "red" }}
       onClick={() => {
-        BuildStore.sectionToBeAddedIndex = sectionToBeAddedIndex
+        BuildStore.insertIndex = insertIndex
         setModalContext((prevValue: IModalContextValue) => ({
           ...prevValue,
           canvasSectionsModal: true,
@@ -146,7 +146,7 @@ const WithEditToolbar = ({
           ref={editableRef}
         >
           {editType === "section" && sectionIndex === 0 && (
-            <InnerAddSectionButton sectionToBeAddedIndex={0} />
+            <InnerAddSectionButton insertIndex={0} />
           )}
           {editType === "image" ? (
             <BuilderImagePicker elementID={id} slug={props?.uuid}>
@@ -156,7 +156,7 @@ const WithEditToolbar = ({
             <>{children}</>
           )}
           {editType === "section" && sectionIndex !== undefined && (
-            <InnerAddSectionButton sectionToBeAddedIndex={sectionIndex + 1} />
+            <InnerAddSectionButton insertIndex={sectionIndex + 1} />
           )}
         </Box>
       </Popover.Target>
