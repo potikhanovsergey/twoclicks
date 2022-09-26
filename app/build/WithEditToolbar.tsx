@@ -1,5 +1,5 @@
-import { ActionIcon, Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
-import React, { useContext, useEffect, useMemo, useRef, useState } from "react"
+import { Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
+import React, { useContext, useEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
@@ -26,8 +26,7 @@ import SectionBGEdit from "./SectionBGEdit"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import ElementTypeEdit from "./ElementTypeEdit"
 
-import { BiCopy } from "@react-icons/all-files/bi/BiCopy"
-import shortid from "shortid"
+import ElementCopyButton from "./ElementCopyButton"
 interface HoverCardContext {
   openDropdown(): void
   closeDropdown(): void
@@ -45,7 +44,7 @@ interface IWithEditToolbar {
   element?: ICanvasBlock
 }
 
-interface InnerAddSectionButtonProps extends Omit<ButtonProps, "style" | "children"> {
+interface InnerAddSectionButtonProps extends Omit<ButtonProps, "children"> {
   insertIndex: number
 }
 
@@ -56,7 +55,6 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
   const { insertIndex, ...otherProps } = props
   return (
     <Button
-      style={{ position: "absolute", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1 }}
       size="sm"
       variant="gradient"
       rightIcon={<FiPlusSquare />}
@@ -75,6 +73,13 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
     </Button>
   )
 }
+
+const FIT_CONTENT_ELEMENTS = [
+  "@mantine/core/actionicon",
+  "@mantine/core/themeicon",
+  "@mantine/core/text",
+  "@mantine/core/title",
+]
 
 const WithEditToolbar = ({
   children,
@@ -117,39 +122,9 @@ const WithEditToolbar = ({
     }
   }, [opened, isImageUploading])
 
-  const handleElementCopy = () => {
-    let insertIndex
-    if (parentID) {
-      const parent = BuildStore.data.flattenBlocks[parentID]
-      const parentProps = parent?.props as ICanvasBlockProps
-      const parentChildren = parentProps?.children as ICanvasBlock[] | ICanvasBlock
-
-      if (parentChildren) {
-        if (Array.isArray(parentChildren)) {
-          const elIndex = parentChildren.findIndex && parentChildren.findIndex((el) => el.id === id)
-          if (typeof elIndex === "number" && elIndex !== -1) {
-            insertIndex = elIndex
-          }
-        } else {
-          parentProps.children = [element]
-        }
-      }
-    } else if (editType === "section") {
-      insertIndex = BuildStore.data.blocks.findIndex((el) => el.id === id)
-    }
-    BuildStore.push({
-      block: {
-        ...(JSON.parse(JSON.stringify(element)) as ICanvasBlock),
-        id: shortid.generate(),
-      },
-      parentID,
-      insertIndex,
-    })
-  }
   return (
     <Popover
       trapFocus={false}
-      withArrow={editType !== "section"}
       opened={popoverOpened || isImageUploading === id}
       position={editType === "section" ? "right-end" : "top-end"}
       offset={editType === "section" ? 0 : undefined}
@@ -159,7 +134,7 @@ const WithEditToolbar = ({
       <Popover.Target>
         <Box
           sx={(theme) => ({
-            width: editType === "element" ? "fit-content" : "auto",
+            width: type && FIT_CONTENT_ELEMENTS.includes(type) ? "fit-content" : "auto",
             margin: elementProps?.align === "center" ? "0 auto" : undefined,
             boxSizing: "content-box",
             border:
@@ -170,13 +145,23 @@ const WithEditToolbar = ({
                 ? `1px dotted ${theme.colors.gray[5]}`
                 : "1px solid transparent",
             position: "relative",
+            display: "grid",
           })}
           onMouseEnter={openDropdown}
           onMouseLeave={closeDropdown}
           ref={editableRef}
         >
           {editType === "section" && sectionIndex === 0 && (
-            <InnerAddSectionButton insertIndex={0} />
+            <InnerAddSectionButton
+              insertIndex={0}
+              style={{
+                position: "absolute",
+                left: "50%",
+                zIndex: 1,
+                top: 0,
+                transform: "translate(-50%, -50%)",
+              }}
+            />
           )}
           {editType === "image" ? (
             <BuilderImagePicker elementID={id} slug={props?.uuid}>
@@ -186,7 +171,16 @@ const WithEditToolbar = ({
             <>{children}</>
           )}
           {editType === "section" && sectionIndex !== undefined && (
-            <InnerAddSectionButton insertIndex={sectionIndex + 1} />
+            <InnerAddSectionButton
+              insertIndex={sectionIndex + 1}
+              style={{
+                position: "absolute",
+                left: "50%",
+                zIndex: 1,
+                bottom: 0,
+                transform: "translate(-50%, 50%)",
+              }}
+            />
           )}
         </Box>
       </Popover.Target>
@@ -227,9 +221,9 @@ const WithEditToolbar = ({
               />
             ))}
           {type && props && <ElementLinkEdit id={id} props={props} type={type.toLowerCase()} />}
-          <ActionIcon variant="subtle" color="violet" onClick={handleElementCopy}>
-            <BiCopy />
-          </ActionIcon>
+          {element && !element?.disableCopy && (
+            <ElementCopyButton parentID={parentID} element={element} />
+          )}
           <ElementDeleteButton id={id} parentID={parentID} editType={editType} />
           {editType === "section" && <SectionBGEdit id={id} props={props} editType={editType} />}
         </Group>

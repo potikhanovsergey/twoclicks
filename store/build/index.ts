@@ -174,7 +174,7 @@ class Build {
     this.onPageChange({
       redo: {
         name: "push",
-        data: { block: memoBlock, insertIndex },
+        data: { block: memoBlock, insertIndex, parentID },
       },
       undo: {
         name: "deleteElement",

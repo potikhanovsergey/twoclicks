@@ -59,7 +59,6 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
         target: url.length ? (openInNewTab ? "_blank" : "_self") : undefined,
       },
     })
-    // BuildStore.openedAction = {}
   }
 
   const handleReset = () => {

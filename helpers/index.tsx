@@ -539,15 +539,15 @@ export function traverseDeleteIDs(obj) {
   }
 }
 
-export function traverseAddIDs(obj) {
+export function traverseAddIDs(obj, withNewIDs?: boolean) {
   if (obj && typeof obj === "object") {
     for (let k in obj) {
       if (k === "id") continue
-      traverseAddIDs(obj[k])
+      traverseAddIDs(obj[k], withNewIDs)
     }
   }
   if (typeof obj === "object" && (obj?.editType || obj?.props?.children)) {
-    if (!obj.id) obj.id = shortid.generate()
+    if (!obj.id || withNewIDs) obj.id = shortid.generate()
     BuildStore.pushFlatten(obj)
   }
 }

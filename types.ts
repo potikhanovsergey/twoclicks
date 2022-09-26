@@ -39,7 +39,9 @@ export interface ICanvasBlockProps {
   children?: ICanvasElement[] | ICanvasElement
 }
 
-export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt">
+export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt"> & {
+  disableCopy?: boolean
+}
 
 export type ICanvasElement = ICanvasBlock | undefined | string | null // Element can be either block, string (text), or nothing
 
