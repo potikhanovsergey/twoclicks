@@ -43,10 +43,10 @@ export const ConstMenuItems = [
     href: "/build",
     children: "pageBuilder",
   },
-  // {
-  //   href: "/support",
-  //   children: "helpcenter",
-  // },
+  {
+    href: "/support",
+    children: "helpcenter",
+  },
   {
     href: "/",
     children: "aboutUs",

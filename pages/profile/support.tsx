@@ -20,12 +20,15 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import useTranslation from "next-translate/useTranslation"
 
 import { MdEmail } from "@react-icons/all-files/md/MdEmail"
+import { useMutation } from "@blitzjs/rpc"
+import createSupportMessage from "app/build-pages/mutations/createSupportMessage"
+import { showNotification } from "@mantine/notifications"
 
-interface IFormValues {
+export interface IFormValues {
   email: string
   subject: string
   message: string
-  images: filesType
+  // images: filesType
 }
 
 const SupportForm = () => {
@@ -35,7 +38,7 @@ const SupportForm = () => {
       email: "",
       subject: "",
       message: "",
-      images: [],
+      // images: [],
     },
     validate: {
       email: (value) => (/^\S+@\S+$/.test(value) ? null : "Invalid email"),
@@ -52,15 +55,33 @@ const SupportForm = () => {
 
   const { colorScheme } = useMantineColorScheme()
 
+  const [createSupportMessageMutation, { isLoading: isMessageCreating }] =
+    useMutation(createSupportMessage)
+
   return (
     <form
-      onSubmit={supportForm.onSubmit((values) => {
-        supportForm.validate()
+      onSubmit={supportForm.onSubmit(async (values) => {
+        // supportForm.validate()
+        const message = await createSupportMessageMutation(values)
+        if (message) {
+          supportForm.setValues((prev) => ({
+            ...prev,
+            subject: "",
+            message: "",
+          }))
+          showNotification({
+            title: "Success!",
+            color: "green",
+            message: "Your message is sent, we will response to email you provided.",
+            autoClose: 5000,
+          })
+        }
       })}
     >
       <Stack spacing="lg" mb={36}>
-        <Input.Wrapper label="E-mail" size="lg" required>
+        <Input.Wrapper label="E-mail" size="lg" withAsterisk>
           <TextInput
+            required
             {...supportForm.getInputProps("email")}
             icon={<MdEmail />}
             placeholder={t("yourEmail")}
@@ -87,14 +108,15 @@ const SupportForm = () => {
           minRows={4}
           required
         />
-        <FileDropzone
+        {/* <FileDropzone
           files={supportForm.values.images}
           onChange={(files: filesType) => supportForm.setFieldValue("images", files)}
           text={t("dropzoneText")}
           warning={t("dropzoneWarning")}
-        />
+        /> */}
       </Stack>
       <Button
+        loading={isMessageCreating}
         type="submit"
         color="dark"
         variant={colorScheme === "dark" ? "white" : "filled"}
