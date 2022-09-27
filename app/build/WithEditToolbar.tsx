@@ -27,10 +27,6 @@ import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import ElementTypeEdit from "./ElementTypeEdit"
 
 import ElementCopyButton from "./ElementCopyButton"
-interface HoverCardContext {
-  openDropdown(): void
-  closeDropdown(): void
-}
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -79,6 +75,7 @@ const FIT_CONTENT_ELEMENTS = [
   "@mantine/core/themeicon",
   "@mantine/core/text",
   "@mantine/core/title",
+  "@mantine/core/button",
 ]
 
 const WithEditToolbar = ({
@@ -140,7 +137,6 @@ const WithEditToolbar = ({
           sx={(theme) => ({
             width: type && FIT_CONTENT_ELEMENTS.includes(type) ? "fit-content" : "auto",
             margin: elementProps?.align === "center" ? "0 auto" : undefined,
-            boxSizing: "content-box",
             border: sectionLike
               ? "none"
               : opened ||
@@ -148,7 +144,7 @@ const WithEditToolbar = ({
               ? `1px dotted ${theme.colors.gray[5]}`
               : "1px solid transparent",
             position: "relative",
-            display: "grid",
+            display: type && FIT_CONTENT_ELEMENTS.includes(type) ? "block" : "grid",
           })}
           onMouseEnter={openDropdown}
           onMouseLeave={closeDropdown}

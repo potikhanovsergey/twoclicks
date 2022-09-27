@@ -336,8 +336,8 @@ class Build {
       if (parentID) {
         const parent = this.getElement(parentID)
         const parentProps = parent?.props as ICanvasBlockProps
-        if (parentProps?.children) {
-          parentArray = parentProps.children
+        if (Array.isArray(parentProps?.children)) {
+          parentArray = parentProps.children as ICanvasBlock[]
           indexOfId = parentArray.findIndex((a) => typeof a === "object" && a?.id === id)
         }
       }
