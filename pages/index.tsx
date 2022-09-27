@@ -7,47 +7,50 @@ import Showcase from "app/home/Showcase"
 import CallToAction from "app/home/CallToAction"
 import LandingFooter from "app/home/LandingFooter"
 import HowToUseIt from "app/home/HowToUseIt"
+import { LazyMotion, domAnimation } from "framer-motion"
 
 const Home = () => {
   return (
-    <Box sx={{ overflowX: "hidden" }}>
-      <HomeHero mt={16} />
-      <Benefits
-        sx={{
-          marginBottom: "160px",
-          "@media (max-width: 768px)": {
-            marginBottom: "80px",
-          },
-        }}
-      />
-      <WhoIsThisFor
-        sx={{
-          marginBottom: "200px",
-          "@media (max-width: 768px)": {
-            marginBottom: "120px",
-          },
-        }}
-      />
-      <HowToUseIt
-        sx={{
-          marginBottom: "200px",
-          position: "relative",
-          "@media (max-width: 768px)": {
-            marginBottom: "40px",
-          },
-        }}
-      />
-      <Showcase
-        sx={{
-          marginBottom: "400px",
-          "@media (max-width: 768px)": {
-            marginBottom: "240px",
-          },
-        }}
-      />
-      <CallToAction mb={200} />
-      <LandingFooter />
-    </Box>
+    <LazyMotion features={domAnimation} strict>
+      <Box sx={{ overflowX: "hidden" }}>
+        <HomeHero mt={16} />
+        <Benefits
+          sx={{
+            marginBottom: "160px",
+            "@media (max-width: 768px)": {
+              marginBottom: "80px",
+            },
+          }}
+        />
+        <WhoIsThisFor
+          sx={{
+            marginBottom: "200px",
+            "@media (max-width: 768px)": {
+              marginBottom: "120px",
+            },
+          }}
+        />
+        <HowToUseIt
+          sx={{
+            marginBottom: "200px",
+            position: "relative",
+            "@media (max-width: 768px)": {
+              marginBottom: "40px",
+            },
+          }}
+        />
+        <Showcase
+          sx={{
+            marginBottom: "400px",
+            "@media (max-width: 768px)": {
+              marginBottom: "240px",
+            },
+          }}
+        />
+        <CallToAction mb={200} />
+        <LandingFooter />
+      </Box>
+    </LazyMotion>
   )
 }
 

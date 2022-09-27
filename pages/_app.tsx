@@ -27,7 +27,6 @@ import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 
 import cursor from "public/oneclick.svg"
-import { LazyMotion, domAnimation } from "framer-motion"
 import dynamic from "next/dynamic"
 
 const MenuModal = dynamic(() => import("app/core/components/modals/base/MenuModal"))
@@ -193,56 +192,54 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <LazyMotion features={domAnimation} strict>
-        <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
-          <ModalsProvider modalProps={{ zIndex: 1000 }}>
-            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-              <ModalContext.Provider value={[modalValue, setModalValue]}>
-                <Suspense>
-                  {getLayout(<Component {...pageProps} />)}
-                  {modalValue.menuModal && <MenuModal />}
-                </Suspense>
-              </ModalContext.Provider>
-            </ColorSchemeProvider>
-          </ModalsProvider>
-        </MantineProvider>
-        <Global
-          styles={(theme) => ({
-            "*, *::before, *::after": {
-              boxSizing: "border-box",
-            },
-            html: {
-              cursor: `url(${cursor.src}), default`,
-            },
-            "::selection": {
-              background: theme.colors.violet[4],
-              color: theme.white,
-              WebkitTextFillColor: theme.white,
-            },
-            body: {
-              backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-              color: colorScheme === "dark" ? theme.white : theme.black,
-              lineHeight: theme.lineHeight,
-              minHeight: "100vh",
-              wordBreak: "break-word",
-              overflowY: "auto",
-              overflowX: "hidden",
-            },
-            ".ql-font-Times": {
-              fontFamily: "Times New Roman, sans",
-            },
-            ".ql-font-Nunito": {
-              fontFamily: "'Nunito', sans-serif",
-            },
-            ".ql-font-Helvetica": {
-              fontFamily: "Helvetica, sans-serif",
-            },
-            ".ql-font-Arial": {
-              fontFamily: "Arial, sans-serif",
-            },
-          })}
-        />
-      </LazyMotion>
+      <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
+        <ModalsProvider modalProps={{ zIndex: 1000 }}>
+          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+            <ModalContext.Provider value={[modalValue, setModalValue]}>
+              <Suspense>
+                {getLayout(<Component {...pageProps} />)}
+                {modalValue.menuModal && <MenuModal />}
+              </Suspense>
+            </ModalContext.Provider>
+          </ColorSchemeProvider>
+        </ModalsProvider>
+      </MantineProvider>
+      <Global
+        styles={(theme) => ({
+          "*, *::before, *::after": {
+            boxSizing: "border-box",
+          },
+          html: {
+            cursor: `url(${cursor.src}), default`,
+          },
+          "::selection": {
+            background: theme.colors.violet[4],
+            color: theme.white,
+            WebkitTextFillColor: theme.white,
+          },
+          body: {
+            backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+            color: colorScheme === "dark" ? theme.white : theme.black,
+            lineHeight: theme.lineHeight,
+            minHeight: "100vh",
+            wordBreak: "break-word",
+            overflowY: "auto",
+            overflowX: "hidden",
+          },
+          ".ql-font-Times": {
+            fontFamily: "Times New Roman, sans",
+          },
+          ".ql-font-Nunito": {
+            fontFamily: "'Nunito', sans-serif",
+          },
+          ".ql-font-Helvetica": {
+            fontFamily: "Helvetica, sans-serif",
+          },
+          ".ql-font-Arial": {
+            fontFamily: "Arial, sans-serif",
+          },
+        })}
+      />
     </ErrorBoundary>
   )
 }
