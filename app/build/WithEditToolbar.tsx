@@ -167,9 +167,7 @@ const WithEditToolbar = ({
             />
           )}
           {editType === "image" ? (
-            <BuilderImagePicker elementID={id} slug={props?.uuid}>
-              {children}
-            </BuilderImagePicker>
+            <BuilderImagePicker elementID={id}>{children}</BuilderImagePicker>
           ) : (
             <>{children}</>
           )}

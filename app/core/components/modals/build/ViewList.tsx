@@ -42,7 +42,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
   const { shouldRefetchLiked, blockTypeFilter } = BuildStore
   const [activePage, setActivePage] = useState(1) // Mantine pagination starts with the index of "1"
 
-  const [buildingBlocksData, { isFetching, refetch, isLoading }] = usePaginatedQuery(
+  const [buildingBlocksData, { isFetching, refetch, isLoading, isRefetching }] = usePaginatedQuery(
     type === "used-before" ? getUsedBlocks : type === "liked" ? getLikedBlocks : getBuildingBlocks,
     type === "used-before" || type === "liked"
       ? {
@@ -124,12 +124,12 @@ const ViewList = ({ type, modalType }: IViewList) => {
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
           {buildingBlocksData?.buildingBlocks.map((b, i) => {
-            const block = type === "used-before" || type === "liked" ? b.buildingBlock : b
+            const block = b.buildingBlock ? b.buildingBlock : b
             return (
               <ViewListItem
                 block={block}
                 liked={likedBlocks?.includes(block.id)}
-                key={`${block.id} ${i}`}
+                key={`${block.id}`}
                 hasActions={Boolean(session.userId)}
               />
             )

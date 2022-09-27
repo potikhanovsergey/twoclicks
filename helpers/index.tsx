@@ -30,7 +30,7 @@ import { IconBaseProps } from "react-icons"
 import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
-import { ReactQuillProps } from "react-quill"
+// import { ReactQuillProps } from "react-quill"
 import Link from "next/link"
 import { IconPickerProps } from "app/core/components/base/IconPicker"
 
@@ -38,12 +38,12 @@ const IconPicker = dynamic<IconPickerProps>(() =>
   import("app/core/components/base/IconPicker").then((module) => module)
 )
 
-const Quill = dynamic<ReactQuillProps & { type: string }>(
-  () => import("app/core/components/base/Quill").then((module) => module),
-  {
-    ssr: false,
-  }
-)
+// const Quill = dynamic<ReactQuillProps & { type: string }>(
+//   () => import("app/core/components/base/Quill").then((module) => module),
+//   {
+//     ssr: false,
+//   }
+// )
 
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
@@ -135,41 +135,41 @@ function traverseProp({
   const typeLC = type.toLowerCase()
 
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
-    if (WithEditableTypes.some((t) => typeLC.includes(t))) {
-      // elements that are listed inside WithEditableTypes const
-      return (
-        <WithEditable
-          parentID={parentID}
-          withContentEditable={withContentEditable}
-          key={shortid.generate()}
-        >
-          {propValue}
-        </WithEditable>
-      )
-    }
+    // if (WithEditableTypes.some((t) => typeLC.includes(t))) {
+    // elements that are listed inside WithEditableTypes const
     return (
-      <Quill
+      <WithEditable
+        parentID={parentID}
+        withContentEditable={withContentEditable}
         key={shortid.generate()}
-        type={typeLC}
-        defaultValue={propValue || ""}
-        placeholder="Enter text"
-        onBlur={(_, _1, editor) => {
-          const html = editor.getHTML()
-          let parent = BuildStore.data.flattenBlocks[parentID]
-          const begining = html.substring(0, 3)
-          const end = html.substring(html.length - 4, html.length)
-          const insideTag = html.substring(3, html.length - 4)
-          if (parent) {
-            if (
-              propValue !== html &&
-              !(begining === "<p>" && end === "</p>" && insideTag === propValue)
-            ) {
-              BuildStore.changeProp({ id: parentID, newProps: { children: html } })
-            }
-          }
-        }}
-      />
+      >
+        {propValue}
+      </WithEditable>
     )
+    // }
+    // return (
+    //   <Quill
+    //     key={shortid.generate()}
+    //     type={typeLC}
+    //     defaultValue={propValue || ""}
+    //     placeholder="Enter text"
+    //     onBlur={(_, _1, editor) => {
+    //       const html = editor.getHTML()
+    //       let parent = BuildStore.data.flattenBlocks[parentID]
+    //       const begining = html.substring(0, 3)
+    //       const end = html.substring(html.length - 4, html.length)
+    //       const insideTag = html.substring(3, html.length - 4)
+    //       if (parent) {
+    //         if (
+    //           propValue !== html &&
+    //           !(begining === "<p>" && end === "</p>" && insideTag === propValue)
+    //         ) {
+    //           BuildStore.changeProp({ id: parentID, newProps: { children: html } })
+    //         }
+    //       }
+    //     }}
+    //   />
+    // )
   }
 
   if (propValue && typeof propValue === "object" && propValue.type) {

@@ -94,7 +94,7 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
         }))}
       />
       <Suspense fallback={<LoadingOverlay visible={true} />}>
-        {ComponentsModalTabsArr.map((b) => (
+        {/* {ComponentsModalTabsArr.map((b) => (
           <Box
             key={b.value}
             className={classes.wrapper}
@@ -102,7 +102,10 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
           >
             <ViewList key={b.value} type={b.viewlistType} modalType={modalType} />
           </Box>
-        ))}
+        ))} */}
+        <Box className={classes.wrapper}>
+          <ViewList modalType={modalType} type={activeTab.viewlistType} />
+        </Box>
       </Suspense>
     </>
   )
