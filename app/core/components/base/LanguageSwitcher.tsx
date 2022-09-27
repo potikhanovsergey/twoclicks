@@ -6,23 +6,21 @@ import { languages } from "../../../../public/languages"
 import setLanguage from "next-translate/setLanguage"
 
 import { IoLanguageSharp } from "@react-icons/all-files/io5/IoLanguageSharp"
+import { setCookie } from "cookies-next"
+import { useRouter } from "next/router"
 
 const LanguageSwitcher = () => {
   const { t } = useTranslation("common")
-  const [locale, setLocale] = useLocalStorage({
-    key: "locale",
-    defaultValue: "ru",
-  })
+
+  const { locale } = useRouter()
   const changeLocale = async (l: string) => {
-    setLocale(l)
+    setCookie("NEXT_LOCALE", l)
     await setLanguage(l)
   }
   const { hovered: tooltipHovered, ref: tooltipRef } = useHover<HTMLButtonElement>()
   const [tooltipOpened, setTooltipOpened] = useState(false)
   const [menuOpened, menuOpenedHandlers] = useDisclosure(false)
   const clickOutsideMenuRef = useClickOutside(() => menuOpenedHandlers.close())
-
-  const { colorScheme } = useMantineColorScheme()
 
   useEffect(() => {
     if (!menuOpened) {

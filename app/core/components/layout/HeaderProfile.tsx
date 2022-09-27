@@ -83,6 +83,8 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
     }
   })
 
+  const { locale } = useRouter()
+
   const menuItems: GroupButtonProps[] = useMemo(() => {
     const formatedMenuItems: GroupButtonProps[] = ConstMenuItems.map((i) => ({
       elType: "menuItem",
@@ -111,7 +113,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
       })
     }
     return formatedMenuItems
-  }, [user])
+  }, [user, locale])
 
   return (
     <Group position="center">
