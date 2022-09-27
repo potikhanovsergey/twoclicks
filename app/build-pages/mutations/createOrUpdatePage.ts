@@ -1,6 +1,5 @@
-import { Ctx } from "blitz"
 import db, { Page } from "db"
-import { deflate } from "helpers"
+import { deflate } from "helpers/utils"
 import { IPage } from "types"
 
 export type ICreateOrUpdatePage = Pick<IPage, "data" | "name" | "id">

@@ -305,14 +305,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
       <Container size="xl">
         <Group style={{ width: "100%" }} position="apart">
           <Group spacing={8} align="center">
-            <Suspense
-              fallback={
-                <Group>
-                  <Skeleton height={32} width={90} />
-                  <Skeleton height={32} width={90} />
-                </Group>
-              }
-            >
+            <Suspense fallback={<Skeleton height={32} width={90} />}>
               <AuthorizedActions />
             </Suspense>
             <PaletteItems />

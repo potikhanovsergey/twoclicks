@@ -126,9 +126,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
             height: "100%",
           }}
         >
-          <Suspense fallback={<Loader />}>
-            <ComponentsModalTabs modalType={type} />
-          </Suspense>
+          <ComponentsModalTabs modalType={type} />
         </Stack>
       </Group>
       <ActionIcon

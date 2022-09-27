@@ -1,115 +1,20 @@
-import {
-  ButtonProps,
-  StackProps,
-  GroupProps,
-  TextInputProps,
-  TextProps,
-  TitleProps,
-  ContainerProps,
-  ImageProps,
-  MantineTheme,
-  MediaQueryProps,
-  ThemeIconProps,
-  SimpleGridProps,
-  ColProps,
-  GridProps,
-  OverlayProps,
-  CardProps,
-  BadgeProps,
-  AspectRatioProps,
-  ActionIconProps,
-} from "@mantine/core"
+import { MantineTheme } from "@mantine/core"
 import dynamic from "next/dynamic"
 import React from "react"
 import shortid from "shortid"
 import { ICanvasBlockProps, ICanvasBlock, IPage } from "types"
 import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
-import zlib from "zlib"
-import { IconBaseProps } from "react-icons"
 import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
-// import { ReactQuillProps } from "react-quill"
 import Link from "next/link"
 import { IconPickerProps } from "app/core/components/base/IconPicker"
+import { canvasBuildingBlocks } from "./blocks"
 
 const IconPicker = dynamic<IconPickerProps>(() =>
   import("app/core/components/base/IconPicker").then((module) => module)
 )
-
-// const Quill = dynamic<ReactQuillProps & { type: string }>(
-//   () => import("app/core/components/base/Quill").then((module) => module),
-//   {
-//     ssr: false,
-//   }
-// )
-
-type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
-
-export const canvasBuildingBlocks = {
-  "@mantine/core/button": dynamic<CanvasButtonProps>(() =>
-    import("@mantine/core/cjs/Button/Button").then((module) => module.Button)
-  ),
-  "@mantine/core/stack": dynamic<StackProps>(() =>
-    import("@mantine/core/cjs/Stack/Stack").then((module) => module.Stack)
-  ),
-  "@mantine/core/group": dynamic<GroupProps>(() =>
-    import("@mantine/core/cjs/Group/Group").then((module) => module.Group)
-  ),
-  "@mantine/core/textinput": dynamic<TextInputProps>(() =>
-    import("@mantine/core/cjs/TextInput/TextInput").then((module) => module.TextInput)
-  ),
-  "@mantine/core/text": dynamic<TextProps>(() =>
-    import("@mantine/core/cjs/Text/Text").then((module) => module.Text)
-  ),
-  "@mantine/core/title": dynamic<TitleProps>(() =>
-    import("@mantine/core/cjs/Title/Title").then((module) => module.Title)
-  ),
-  "@mantine/core/container": dynamic<ContainerProps>(() =>
-    import("@mantine/core/cjs/Container/Container").then((module) => module.Container)
-  ),
-  "@mantine/core/image": dynamic<ImageProps>(() =>
-    import("@mantine/core/cjs/Image/Image").then((module) => module.Image)
-  ),
-  "@mantine/core/box": dynamic<ImageProps>(() =>
-    import("@mantine/core/cjs/Box/Box").then((module) => module.Box)
-  ),
-  "@mantine/core/themeicon": dynamic<ThemeIconProps>(() =>
-    import("@mantine/core/cjs/ThemeIcon/ThemeIcon").then((module) => module.ThemeIcon)
-  ),
-  "@mantine/core/simplegrid": dynamic<SimpleGridProps>(() =>
-    import("@mantine/core/cjs/SimpleGrid/SimpleGrid").then((module) => module.SimpleGrid)
-  ),
-  "@mantine/core/grid": dynamic<GridProps>(() =>
-    import("@mantine/core/cjs/Grid/Grid").then((module) => module.Grid)
-  ),
-  "@mantine/core/col": dynamic<ColProps>(() =>
-    import("@mantine/core/cjs/Grid/Col/Col").then((module) => module.Col)
-  ),
-  "@mantine/core/overlay": dynamic<OverlayProps>(() =>
-    import("@mantine/core/cjs/Overlay/Overlay").then((module) => module.Overlay)
-  ),
-  "@mantine/core/badge": dynamic<BadgeProps>(() =>
-    import("@mantine/core/cjs/Badge/Badge").then((module) => module.Badge)
-  ),
-  "@mantine/core/card": dynamic<CardProps>(() =>
-    import("@mantine/core/cjs/Card/Card").then((module) => module.Card)
-  ),
-  "@mantine/core/aspectratio": dynamic<AspectRatioProps>(() =>
-    import("@mantine/core/cjs/AspectRatio/AspectRatio").then((module) => module.AspectRatio)
-  ),
-  "@mantine/core/actionicon": dynamic<ActionIconProps>(() =>
-    import("@mantine/core/cjs/ActionIcon/ActionIcon").then((module) => module.ActionIcon)
-  ),
-  mediaquery: dynamic<MediaQueryProps>(() =>
-    import("@mantine/core/cjs/MediaQuery/MediaQuery").then((module) => module.MediaQuery)
-  ),
-  iconbase: dynamic<IconBaseProps>(() => import("react-icons").then((module) => module.IconBase)),
-  youtubeframe: dynamic(() => import("app/core/components/YoutubeFrame")),
-}
-
-const WithEditableTypes = ["button", "badge"]
 
 function traverseProp({
   propValue,
@@ -132,11 +37,7 @@ function traverseProp({
   palette: ICanvasPalette | undefined
   type: string
 }) {
-  const typeLC = type.toLowerCase()
-
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
-    // if (WithEditableTypes.some((t) => typeLC.includes(t))) {
-    // elements that are listed inside WithEditableTypes const
     return (
       <WithEditable
         parentID={parentID}
@@ -146,30 +47,6 @@ function traverseProp({
         {propValue}
       </WithEditable>
     )
-    // }
-    // return (
-    //   <Quill
-    //     key={shortid.generate()}
-    //     type={typeLC}
-    //     defaultValue={propValue || ""}
-    //     placeholder="Enter text"
-    //     onBlur={(_, _1, editor) => {
-    //       const html = editor.getHTML()
-    //       let parent = BuildStore.data.flattenBlocks[parentID]
-    //       const begining = html.substring(0, 3)
-    //       const end = html.substring(html.length - 4, html.length)
-    //       const insideTag = html.substring(3, html.length - 4)
-    //       if (parent) {
-    //         if (
-    //           propValue !== html &&
-    //           !(begining === "<p>" && end === "</p>" && insideTag === propValue)
-    //         ) {
-    //           BuildStore.changeProp({ id: parentID, newProps: { children: html } })
-    //         }
-    //       }
-    //     }}
-    //   />
-    // )
   }
 
   if (propValue && typeof propValue === "object" && propValue.type) {
@@ -341,10 +218,6 @@ export function RenderJSXFromBlock({
   const TagName = canvasBuildingBlocks[typeLC] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
   const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
-  if (typeLC.includes("badge")) {
-    console.log(TagName, props, <TagName {...props} />)
-  }
-
   // not only children, byt any other element's prop can be React.Node or JSX.Element.
   // We need to traverse it to make sure all props are rendered as they should
   for (const prop in props) {
@@ -394,10 +267,6 @@ export function RenderJSXFromBlock({
   ) {
     props.component = "span"
   }
-
-  // if (typeLC.includes("image")) {
-  //   props.withPlaceholder = true
-  // }
 
   if (withEditToolbar && el?.editType === "icon") {
     return (
@@ -456,14 +325,6 @@ export function RenderJSXFromBlock({
   }
 }
 
-export const deflate = (data) => {
-  const dataBuffer = Buffer.from(JSON.stringify(data))
-  return zlib.deflateSync(dataBuffer).toString("base64")
-}
-
-export const inflateBase64 = (str: string) => {
-  return JSON.parse(zlib.inflateSync(Buffer.from(str, "base64")).toString())
-}
 const getElementType = (value) => {
   if (typeof value === "function") {
     // react-icon (and maybe some other components) has type value of function, thus it needs to be rendered to retrieve it's name and props
@@ -505,16 +366,6 @@ export function serialize(element: any) {
   return JSON.stringify(obj)
 }
 
-export const formatDate = (inputDate) => {
-  let date, month, year
-  date = inputDate.getDate()
-  month = inputDate.getMonth() + 1
-  year = inputDate.getFullYear()
-  date = date.toString().padStart(2, "0")
-  month = month.toString().padStart(2, "0")
-  return `${date}/${month}/${year}`
-}
-
 function traverseJSXChangeType(obj) {
   for (let k in obj) {
     if (typeof obj[k] === "object") {
@@ -550,20 +401,6 @@ export function traverseAddIDs(obj, withNewIDs?: boolean) {
     if (!obj.id || withNewIDs) obj.id = shortid.generate()
     BuildStore.pushFlatten(obj)
   }
-}
-
-export function getPageWithInflatedData(page) {
-  return {
-    ...page,
-    data: inflateBase64(page.data),
-  } as IPage
-}
-
-export function getPageWithDeflatedData(page) {
-  return {
-    ...page,
-    data: deflate(page.data),
-  } as IPage & { data: string }
 }
 
 export const getHexFromThemeColor: ({

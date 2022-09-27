@@ -1,6 +1,4 @@
-import { Ctx } from "blitz"
-import db, { Page } from "db"
-import { deflate } from "helpers"
+import db from "db"
 import { IFormValues } from "pages/profile/support"
 
 export default async function createSupportMessage(input: IFormValues, ctx) {

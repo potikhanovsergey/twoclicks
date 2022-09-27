@@ -43,14 +43,76 @@ export const baseURL =
     ? "http://localhost:3000"
     : process.env.NEXT_PUBLIC_PRODUCTION_URL
 
-const useStyles = createStyles((theme) => ({
-  container: {
-    width: "100%",
+const CustomTheme: MantineThemeOverride = {
+  fontFamily: "'Nunito', sans-serif;",
+  headings: {
+    fontFamily: "'Nunito', sans-serif",
   },
-  paper: {
-    color: theme.colorScheme === "dark" ? theme.white : theme.black,
+  primaryColor: "violet",
+  primaryShade: 5,
+  components: {
+    Paper: {
+      styles: (theme) => ({
+        root: {
+          color: theme.colorScheme === "dark" ? theme.white : theme.black,
+        },
+      }),
+    },
+    Tooltip: {
+      defaultProps: {
+        color: "violet",
+      },
+    },
+    Card: {
+      styles: {
+        root: {
+          overflow: "visible",
+        },
+      },
+    },
+    Badge: {
+      styles: {
+        root: {
+          cursor: `url(${cursor.src}), default`,
+          overflow: "visible",
+        },
+        inner: {
+          overflow: "visible",
+        },
+      },
+    },
+    Image: {
+      styles: {
+        imageWrapper: {
+          ":has(.mantine-Image-placeholder)": {
+            minHeight: "150px",
+          },
+        },
+      },
+    },
+    Container: {
+      styles: {
+        root: {
+          width: "100%",
+          "@media (max-width: 768px)": {
+            paddingLeft: "16px",
+            paddingRight: "16px",
+          },
+        },
+      },
+      defaultProps: {
+        sizes: {
+          xs: 540,
+          sm: 720,
+          md: 960,
+          lg: 1280,
+          xl: 1400,
+        },
+      },
+    },
   },
-}))
+  cursorType: "pointer",
+}
 
 function RootErrorFallback({ error }: ErrorFallbackProps) {
   if (error instanceof AuthenticationError) {
@@ -88,85 +150,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
   }
 
   useHotkeys([["mod+J", () => toggleColorScheme()]])
-  const { classes } = useStyles()
 
-  const theme = useMantineTheme()
-
-  const CustomTheme: MantineThemeOverride = {
-    colorScheme,
-    fontFamily: "'Nunito', sans-serif;",
-    headings: {
-      fontFamily: "'Nunito', sans-serif",
-    },
-    primaryColor: "violet",
-    primaryShade: 5,
-    components: {
-      Paper: {
-        styles: (theme) => ({
-          root: {
-            color: theme.colorScheme === "dark" ? theme.white : theme.black,
-          },
-        }),
-      },
-      Tooltip: {
-        defaultProps: {
-          color: "violet",
-        },
-      },
-      Card: {
-        styles: {
-          root: {
-            overflow: "visible",
-          },
-        },
-      },
-      Badge: {
-        styles: {
-          root: {
-            cursor: `url(${cursor.src}), default`,
-            overflow: "visible",
-          },
-          inner: {
-            overflow: "visible",
-          },
-        },
-      },
-      Image: {
-        styles: {
-          imageWrapper: {
-            ":has(.mantine-Image-placeholder)": {
-              minHeight: "150px",
-            },
-          },
-        },
-      },
-      Container: {
-        styles: {
-          root: {
-            "@media (max-width: 768px)": {
-              paddingLeft: "16px",
-              paddingRight: "16px",
-            },
-          },
-        },
-        defaultProps: {
-          sizes: {
-            xs: 540,
-            sm: 720,
-            md: 960,
-            lg: 1280,
-            xl: 1400,
-          },
-          className: classes.container,
-        },
-      },
-    },
-    cursorType: "pointer",
-  }
-
-  useEffect(() => {
-    document.documentElement.removeAttribute("data-theme")
-  }, [])
   // ### END THEME AND COLOR SCHEME END ###
 
   // ### MODALS START ###
@@ -192,7 +176,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
 
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider withCSSVariables withNormalizeCSS theme={CustomTheme}>
+      <MantineProvider withCSSVariables withNormalizeCSS theme={{ ...CustomTheme, colorScheme }}>
         <ModalsProvider modalProps={{ zIndex: 1000 }}>
           <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
             <ModalContext.Provider value={[modalValue, setModalValue]}>

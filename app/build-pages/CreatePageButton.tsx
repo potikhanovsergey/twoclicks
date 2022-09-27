@@ -4,7 +4,7 @@ import { BuildingBlock } from "@prisma/client"
 import ObjectID from "bson-objectid"
 import { PageStarterMock } from "db/mocks"
 import { useRouter } from "next/router"
-import { deflate, getPageWithDeflatedData } from "helpers"
+import { deflate, getPageWithDeflatedData } from "helpers/utils"
 import { Button, ButtonProps } from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
 type ICreatePageButton = Omit<ButtonProps, "onClick" | "children">

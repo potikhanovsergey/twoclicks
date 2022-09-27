@@ -8,7 +8,7 @@ import {
   Global,
 } from "@mantine/core"
 import { Suspense, useEffect, useState } from "react"
-import { getPageWithInflatedData } from "helpers"
+import { getPageWithInflatedData } from "helpers/utils"
 import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useQuery } from "@blitzjs/rpc"
@@ -53,7 +53,7 @@ const PagePage = () => {
   return (
     <>
       {page ? (
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<LoadingOverlay visible />}>
           <MantineProvider
             inherit
             theme={{ colorScheme: page.theme === "inherit" ? theme.colorScheme : page.theme }}

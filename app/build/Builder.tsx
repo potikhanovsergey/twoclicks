@@ -310,21 +310,19 @@ const Builder = () => {
               </Text>
             )}
           </Center>
-          <Suspense fallback={<Loader />}>
-            <Box
-              sx={{
-                display: viewMode !== "mobile" ? "block" : "none",
-                height: "100%",
-                ".builder-block ::selection": {
-                  background: theme.colors?.[data?.palette?.primary]?.[4] || theme.colors.violet[4],
-                  color: theme.white,
-                  WebkitTextFillColor: theme.white,
-                },
-              }}
-            >
-              <Canvas parentRef={containerRef} />
-            </Box>
-          </Suspense>
+          <Box
+            sx={{
+              display: viewMode !== "mobile" ? "block" : "none",
+              height: "100%",
+              ".builder-block ::selection": {
+                background: theme.colors?.[data?.palette?.primary]?.[4] || theme.colors.violet[4],
+                color: theme.white,
+                WebkitTextFillColor: theme.white,
+              },
+            }}
+          >
+            <Canvas parentRef={containerRef} />
+          </Box>
         </Container>
       </MantineProvider>
       <SaveAndRedirectModal />

@@ -1,6 +1,6 @@
 import { Box, Text } from "@mantine/core"
 import { SupportMessage } from "@prisma/client"
-import { formatDate } from "helpers"
+import { formatDate } from "helpers/utils"
 
 const SupportMessageCard = (supportMessage: SupportMessage) => {
   return (

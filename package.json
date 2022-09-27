@@ -61,6 +61,7 @@
     "react-quill": "2.0.0",
     "react-responsive": "9.0.0-beta.10",
     "react-zlib-js": "1.0.5",
+    "sharp": "0.31.0",
     "shortid": "2.2.16"
   },
   "devDependencies": {

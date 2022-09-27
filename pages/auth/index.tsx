@@ -61,24 +61,22 @@ const AuthPage = () => {
       >
         Pick a provider to authorize
       </Title>
-      <Suspense fallback={<Loader />}>
-        <AuthSocials
-          socials={[
-            {
-              provider: "google",
-              icon: <FcGoogle size={48} />,
-            },
-            {
-              provider: "yandex",
-              icon: <FaYandex size={26} color="#FF0000" />,
-            },
-            {
-              provider: "vkontakte",
-              icon: <FaVk size={48} color="#0177ff" />,
-            },
-          ]}
-        />
-      </Suspense>
+      <AuthSocials
+        socials={[
+          {
+            provider: "google",
+            icon: <FcGoogle size={48} />,
+          },
+          {
+            provider: "yandex",
+            icon: <FaYandex size={26} color="#FF0000" />,
+          },
+          {
+            provider: "vkontakte",
+            icon: <FaVk size={48} color="#0177ff" />,
+          },
+        ]}
+      />
     </Stack>
   )
 }

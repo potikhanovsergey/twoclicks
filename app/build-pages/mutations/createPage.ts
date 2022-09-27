@@ -1,6 +1,6 @@
 import { Ctx } from "blitz"
 import db, { BuildingBlock, Page, Prisma } from "db"
-import { deflate } from "helpers"
+import { deflate } from "helpers/utils"
 import { ICanvasPalette } from "types"
 
 export default async function createPage(

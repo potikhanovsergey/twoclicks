@@ -10,7 +10,7 @@ import {
   Mark,
   Space,
 } from "@mantine/core"
-import { formatDate } from "helpers"
+import { formatDate } from "helpers/utils"
 import Link from "next/link"
 
 import { Page } from "@prisma/client"
