@@ -50,13 +50,8 @@ const ImagePicker = ({ children, onDrop, ...rest }: ImagePickerProps) => {
           >
             {hovered && (
               <Stack align="center">
-                <ThemeIcon
-                  variant="gradient"
-                  gradient={{ from: "violet", to: "red" }}
-                  size={64}
-                  radius="md"
-                >
-                  <FaImage size={48} color="#fff" />
+                <ThemeIcon variant="gradient" gradient={{ from: "violet", to: "red" }} radius="sm">
+                  <FaImage size="65%" color="#fff" />
                 </ThemeIcon>
                 <Badge>Max size: 32MB</Badge>
               </Stack>

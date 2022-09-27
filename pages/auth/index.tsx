@@ -10,8 +10,6 @@ import { FaYandex } from "@react-icons/all-files/fa/FaYandex"
 import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle"
 import AuthSocials from "app/auth/components/Socials"
 
-type step = "registration" | "authorization"
-
 const AuthPage = () => {
   const router = useRouter()
 
@@ -39,7 +37,7 @@ const AuthPage = () => {
         color: "red",
         loading: false,
       })
-      const { pathname, query } = router
+      const { pathname } = router
       void router.replace({ pathname }, undefined, { shallow: true })
     }
   }, [router.query])
@@ -81,11 +79,6 @@ const AuthPage = () => {
           ]}
         />
       </Suspense>
-      {/* {step === "authorization" ? (
-        <LoginForm onSignup={() => setStep("registration")} />
-      ) : (
-        <SignupForm onLogin={() => setStep("authorization")} />
-      )} */}
     </Stack>
   )
 }

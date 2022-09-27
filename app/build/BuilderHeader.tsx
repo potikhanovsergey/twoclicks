@@ -315,7 +315,6 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             >
               <AuthorizedActions />
             </Suspense>
-            {/* <ObservedPreviewPage /> */}
             <PaletteItems />
           </Group>
           <Box

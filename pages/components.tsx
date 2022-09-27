@@ -4,7 +4,6 @@ import IconPicker from "app/core/components/base/IconPicker"
 import FirstHeroVideo from "app/build/sections/FirstHeroVideo"
 
 import { FaHeart } from "@react-icons/all-files/fa/FaHeart"
-import ButtonGroup from "app/core/components/base/ButtonGroup"
 
 const ComponentsPage = () => {
   return (
