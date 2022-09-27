@@ -33,6 +33,7 @@ import MantineHeroWithContentOnLeft from "app/build/sections/MantineHeroWithCont
 import MantineFeaturesWithCards from "app/build/sections/features/MantineFeaturesWithCards"
 import MantineArticlesCardsGrid from "app/build/sections/galleries/MantineArticlesCardsGrid"
 import MantineFooterWithSocialIcons from "app/build/sections/footers/MantineFooterWithSocialIcons"
+import MantineFeaturesWithMonotoneIcons from "app/build/sections/features/MantineFeaturesWithMonotoneIcons"
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"))
 
@@ -46,6 +47,7 @@ const sections = [
   MantineFeaturesWithCards,
   MantineArticlesCardsGrid,
   MantineFooterWithSocialIcons,
+  MantineFeaturesWithMonotoneIcons,
 ]
 
 const DashboardIndex = () => {
