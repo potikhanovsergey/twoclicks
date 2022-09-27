@@ -122,12 +122,16 @@ const WithEditToolbar = ({
     }
   }, [opened, isImageUploading])
 
+  const sectionLike = useMemo(() => {
+    return editType === "section" || type?.includes("card")
+  }, [editType, type])
+
   return (
     <Popover
       trapFocus={false}
       opened={popoverOpened || isImageUploading === id}
-      position={editType === "section" ? "right-end" : "top-end"}
-      offset={editType === "section" ? 0 : undefined}
+      position={sectionLike ? "right-end" : "top-end"}
+      offset={sectionLike ? 0 : undefined}
       withinPortal
       zIndex={501}
     >
@@ -137,13 +141,12 @@ const WithEditToolbar = ({
             width: type && FIT_CONTENT_ELEMENTS.includes(type) ? "fit-content" : "auto",
             margin: elementProps?.align === "center" ? "0 auto" : undefined,
             boxSizing: "content-box",
-            border:
-              editType === "section"
-                ? "none"
-                : opened ||
-                  (typeof elementProps?.children === "string" && !elementProps?.children.length)
-                ? `1px dotted ${theme.colors.gray[5]}`
-                : "1px solid transparent",
+            border: sectionLike
+              ? "none"
+              : opened ||
+                (typeof elementProps?.children === "string" && !elementProps?.children.length)
+              ? `1px dotted ${theme.colors.gray[5]}`
+              : "1px solid transparent",
             position: "relative",
             display: "grid",
           })}
@@ -190,14 +193,16 @@ const WithEditToolbar = ({
           spacing={0}
           onMouseEnter={openDropdown}
           onMouseLeave={closeDropdown}
-          style={{ flexDirection: editType === "section" ? "column" : "row" }}
+          style={{
+            flexDirection: sectionLike ? "column" : "row",
+          }}
         >
           {editType !== "section" && name && <ElementName name={name} />}
           <ElementVariantsEdit id={id} type={type} props={props} />
           <ElementSizesEdit id={id} type={type} props={props} />
           <ElementRadiusesEdit id={id} type={type} props={props} />
           <ElementGradientsEdit id={id} type={type} props={props} />
-          {["image", "youtubeframe"].some((item) => type?.toLowerCase().includes(item)) && (
+          {type && ["image", "youtubeframe"].some((item) => type.includes(item)) && (
             <ElementTypeEdit
               id={id}
               type={type}
@@ -207,11 +212,11 @@ const WithEditToolbar = ({
               ]}
             />
           )}{" "}
-          <ElementPaletteEdit id={id} element={element} type={type?.toLowerCase()} props={props} />
+          <ElementPaletteEdit id={id} element={element} type={type} props={props} />
           <ElementMoves id={id} parentID={parentID} editType={editType} />
-          {type && props && <ElementUploadLink id={id} props={props} type={type.toLowerCase()} />}
+          {type && props && <ElementUploadLink id={id} props={props} type={type} />}
           {type &&
-            TypeIcons[type?.toLowerCase()]?.map((propName) => (
+            TypeIcons[type]?.map((propName) => (
               <ElementIconEdit
                 id={id}
                 type={type}
@@ -220,7 +225,7 @@ const WithEditToolbar = ({
                 key={propName}
               />
             ))}
-          {type && props && <ElementLinkEdit id={id} props={props} type={type.toLowerCase()} />}
+          {type && props && <ElementLinkEdit id={id} props={props} type={type} />}
           {element && !element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} />
           )}
