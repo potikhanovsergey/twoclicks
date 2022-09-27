@@ -6,19 +6,16 @@ import { useEffect } from "react"
 import { AppStore } from "store"
 import PageCard from "./PageCard"
 import getUserPages from "./queries/getUserPages"
-import { AnimatePresence } from "framer-motion"
 
 const PageCardsItems = observer(() => {
   const { pages } = AppStore
 
   return pages ? (
-    <AnimatePresence>
-      <ul style={{ padding: 0, margin: 0 }}>
-        {pages.map((page) => (
-          <PageCard page={page} key={page.id} />
-        ))}
-      </ul>
-    </AnimatePresence>
+    <ul style={{ padding: 0, margin: 0 }}>
+      {pages.map((page) => (
+        <PageCard page={page} key={page.id} />
+      ))}
+    </ul>
   ) : (
     <></>
   )

@@ -16,6 +16,7 @@ import {
   ScrollArea,
   Popover,
   LoadingOverlay,
+  useMantineTheme,
 } from "@mantine/core"
 import { useClickOutside, useFullscreen, useHover } from "@mantine/hooks"
 import updatePage from "app/build-pages/mutations/updatePage"
@@ -43,6 +44,7 @@ import { FiChevronDown } from "@react-icons/all-files/fi/FiChevronDown"
 import SaveButton from "./SaveButton"
 import { ImSun } from "@react-icons/all-files/im/ImSun"
 import { IPage } from "types"
+import { RiMoonClearFill } from "@react-icons/all-files/ri/RiMoonClearFill"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -74,6 +76,7 @@ const ThemeChanger = observer(() => {
 
   const [updatePageMutation, { isLoading }] = useMutation(updatePage)
   const session = useSession()
+  const theme = useMantineTheme()
 
   const handleChangeTheme = async (newTheme) => {
     if (id) {
@@ -91,12 +94,34 @@ const ThemeChanger = observer(() => {
       }
     }
   }
+
+  const { hovered, ref } = useHover<HTMLButtonElement>()
+  const [opened, setOpened] = useState(false)
   return (
-    <Popover width={200} position="bottom" withArrow shadow="md">
+    <Popover
+      width={200}
+      position="bottom"
+      withArrow
+      shadow="md"
+      opened={opened}
+      onChange={setOpened}
+    >
       <Popover.Target>
-        <ActionIcon color="violet">
-          <ImSun width={20} height={20} />
-        </ActionIcon>
+        <Tooltip
+          label="Page theme"
+          position="bottom"
+          withArrow
+          opened={hovered && !opened}
+          onClick={() => setOpened((o) => !o)}
+        >
+          <ActionIcon color="violet" ref={ref}>
+            {pageTheme === "light" || (pageTheme === "inherit" && theme.colorScheme === "light") ? (
+              <ImSun width={20} height={20} />
+            ) : (
+              <RiMoonClearFill width={20} height={20} />
+            )}
+          </ActionIcon>
+        </Tooltip>
       </Popover.Target>
       <Popover.Dropdown p={8}>
         <LoadingOverlay visible={isLoading} loaderProps={{ size: 16 }} />
