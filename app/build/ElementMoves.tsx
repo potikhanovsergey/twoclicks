@@ -16,11 +16,7 @@ interface IElementMoves {
 }
 
 const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
-  const {
-    data: { blocks },
-    moveLeft,
-    moveRight,
-  } = BuildStore
+  const { moveLeft, moveRight } = BuildStore
 
   const { t } = useTranslation("build")
 

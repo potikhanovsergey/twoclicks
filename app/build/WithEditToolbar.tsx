@@ -120,7 +120,7 @@ const WithEditToolbar = ({
   }, [opened, isImageUploading])
 
   const sectionLike = useMemo(() => {
-    return editType === "section" || type?.includes("card")
+    return editType === "section" || type?.includes("card") || element?.sectionLike
   }, [editType, type])
 
   return (
@@ -137,12 +137,13 @@ const WithEditToolbar = ({
           sx={(theme) => ({
             width: type && FIT_CONTENT_ELEMENTS.includes(type) ? "fit-content" : "auto",
             margin: elementProps?.align === "center" ? "0 auto" : undefined,
-            border: sectionLike
-              ? "none"
-              : opened ||
-                (typeof elementProps?.children === "string" && !elementProps?.children.length)
-              ? `1px dotted ${theme.colors.gray[5]}`
-              : "1px solid transparent",
+            border:
+              editType === "section"
+                ? "none"
+                : opened ||
+                  (typeof elementProps?.children === "string" && !elementProps?.children.length)
+                ? `1px dotted ${theme.colors.gray[5]}`
+                : "1px solid transparent",
             position: "relative",
             display: type && FIT_CONTENT_ELEMENTS.includes(type) ? "block" : "grid",
           })}

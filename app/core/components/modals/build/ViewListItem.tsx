@@ -171,8 +171,9 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
     >
       <div
         style={{
-          marginLeft: hasRendered ? "auto" : `calc(50% - 50vw)`,
-          marginRight: hasRendered ? "auto" : `calc(50% - 50vw)`,
+          // marginLeft: hasRendered ? "auto" : `calc(50% - 50vw)`,
+          // marginRight: hasRendered ? "auto" : `calc(50% - 50vw)`,
+          width: "100%",
         }}
       >
         <ScrollArea

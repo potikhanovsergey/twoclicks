@@ -41,6 +41,7 @@ export interface ICanvasBlockProps {
 
 export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt"> & {
   disableCopy?: boolean
+  sectionlike?: boolean
 }
 
 export type ICanvasElement = ICanvasBlock | undefined | string | null // Element can be either block, string (text), or nothing
