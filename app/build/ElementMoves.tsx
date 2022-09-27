@@ -6,6 +6,8 @@ import { BuildStore } from "store/build"
 
 import { FaChevronUp } from "@react-icons/all-files/fa/FaChevronUp"
 import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
+import { FaChevronLeft } from "@react-icons/all-files/fa/FaChevronLeft"
+import { FaChevronRight } from "@react-icons/all-files/fa/FaChevronRight"
 
 interface IElementMoves {
   editType: string | null
@@ -20,39 +22,61 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
     moveRight,
   } = BuildStore
 
+  const { t } = useTranslation("build")
+
+  const parentChildren = useMemo(() => {
+    return BuildStore.findParentsChildren({ id, parentID, editType })
+  }, [id, parentID, editType])
+
   const hasMoves = useMemo(() => {
-    if (editType === "section") return blocks.length > 1
-    return false
-  }, [parentID])
+    return parentChildren?.parentArray?.length && parentChildren.parentArray.length > 1
+  }, [parentChildren])
 
   const movesIcons = useMemo(() => {
     if (hasMoves) {
-      return {
-        left: <FaChevronUp />,
-        right: <FaChevronDown />,
+      if (editType === "section") {
+        return {
+          left: <FaChevronUp />,
+          right: <FaChevronDown />,
+        }
+      } else {
+        return {
+          left: <FaChevronLeft />,
+          right: <FaChevronRight />,
+        }
       }
     }
     return null
   }, [hasMoves])
 
-  const { t } = useTranslation("build")
+  if (editType === "section") {
+    console.log(parentChildren, hasMoves, id, movesIcons)
+  }
 
   return hasMoves && movesIcons ? (
     <>
-      {id !== blocks[0].id && (
+      {id !== parentChildren.parentArray?.[0]?.id && (
         <Tooltip label={t("move up")} withArrow position={editType === "section" ? "left" : "top"}>
-          <ActionIcon size="md" onClick={() => moveLeft({ id, parentID, editType })}>
+          <ActionIcon
+            size="md"
+            color="violet"
+            onClick={() => moveLeft({ id, parentID, editType }, false, editType === "section")}
+          >
             {movesIcons.left}
           </ActionIcon>
         </Tooltip>
       )}
-      {id !== blocks[blocks.length - 1].id && (
+      {id !== parentChildren.parentArray?.[parentChildren?.parentArray?.length - 1]?.id && (
         <Tooltip
           label={t("move down")}
           withArrow
           position={editType === "section" ? "left" : "top"}
         >
-          <ActionIcon size="md" onClick={() => moveRight({ id, parentID, editType })}>
+          <ActionIcon
+            size="md"
+            color="violet"
+            onClick={() => moveRight({ id, parentID, editType }, false, editType === "section")}
+          >
             {movesIcons.right}
           </ActionIcon>
         </Tooltip>

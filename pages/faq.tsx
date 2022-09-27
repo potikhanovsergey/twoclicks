@@ -29,7 +29,7 @@ const Faq = () => {
   const theme = useMantineTheme()
 
   return (
-    <Container size="xl" sx={{ position: "relative", overflowX: "hidden", overflowY: "hidden" }}>
+    <Box sx={{ position: "relative", height: "100%", overflow: "hidden" }}>
       <Box
         sx={{
           width: "700px",
@@ -117,7 +117,7 @@ const Faq = () => {
           ))}
         </Accordion>
       </Container>
-    </Container>
+    </Box>
   )
 }
 

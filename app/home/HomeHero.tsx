@@ -130,9 +130,9 @@ const HomeHero = (props: BoxProps) => {
       >
         <Box
           component={m.span}
-          initial={{ opacity: 0, scale: 0.2 }}
+          initial={{ opacity: 0 }}
           animate={{ opacity: 1, scale: 1, animationDelay: "500ms" }}
-          transition={{ duration: 0.7 }}
+          transition={{ duration: 1 }}
           sx={{
             width: "700px",
             height: "700px",
@@ -162,9 +162,9 @@ const HomeHero = (props: BoxProps) => {
         </Box>
         <Box
           component={m.span}
-          initial={{ opacity: 0, scale: 0.2 }}
-          animate={{ opacity: 1, scale: 1, animationDelay: "500ms" }}
-          transition={{ duration: 0.7 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, animationDelay: "500ms" }}
+          transition={{ duration: 1 }}
           sx={{
             width: "700px",
             height: "700px",

@@ -13,8 +13,6 @@ import {
   ColorSchemeProvider,
   MantineThemeOverride,
   Global,
-  createStyles,
-  useMantineTheme,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -28,6 +26,7 @@ import { ModalsProvider } from "@mantine/modals"
 
 import cursor from "public/oneclick.svg"
 import dynamic from "next/dynamic"
+import { usePersistLocaleCookie } from "hooks/usePersistedLocale"
 
 const MenuModal = dynamic(() => import("app/core/components/modals/base/MenuModal"))
 
@@ -134,7 +133,7 @@ function RootErrorFallback({ error }: ErrorFallbackProps) {
   }
 }
 
-function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
+function App(props: AppProps & { cookiesColorScheme: ColorScheme; locale: "ru" | "en" }) {
   const { Component, pageProps } = props
 
   // ### THEME AND COLOR SCHEME ###
@@ -173,6 +172,8 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme }) {
       localStorage?.setItem("router-next", query.next?.toString())
     }
   }, [query])
+
+  usePersistLocaleCookie()
 
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>

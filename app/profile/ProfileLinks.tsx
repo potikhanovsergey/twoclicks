@@ -21,6 +21,7 @@ function ProfileLink({ icon, color, label, link }: IProfileLink) {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
+  const { t } = useTranslation("common")
   return (
     <Link href={link} passHref>
       <UnstyledButton
@@ -52,7 +53,7 @@ function ProfileLink({ icon, color, label, link }: IProfileLink) {
           </ThemeIcon>
 
           <Text size="md" weight="bold">
-            {label}
+            {t(label)}
           </Text>
         </Group>
       </UnstyledButton>
@@ -61,15 +62,14 @@ function ProfileLink({ icon, color, label, link }: IProfileLink) {
 }
 
 export function ProfileLinks() {
-  const { t } = useTranslation("common")
   const [data] = useState(() => [
-    { icon: <FaBriefcase />, color: "orange", label: t("pages"), link: "/profile" },
+    { icon: <FaBriefcase />, color: "orange", label: "pages", link: "/profile" },
     // { icon: <BiStats />, color: "violet", label: t("statistics"), link: "/profile/statistics" },
     // { icon: <RiVipCrown2Fill />, color: "yellow", label: t("premium"), link: "/profile/premium" },
     {
       icon: <BsQuestionCircleFill />,
       color: "teal",
-      label: t("support"),
+      label: "support",
       link: "/profile/support",
     },
   ])
