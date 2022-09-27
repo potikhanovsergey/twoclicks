@@ -8,17 +8,12 @@ import { BuildStore } from "store/build"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import shortid from "shortid"
 import useTranslation from "next-translate/useTranslation"
+import { ICanvasBlock, ICanvasPalette } from "types"
 
-const Blocks = observer(() => {
-  const {
-    data: { blocks, palette },
-  } = BuildStore
-  const { t } = useTranslation("build")
-
-  const [, setModalContext = () => ({})] = useContext(ModalContext)
-  return (
-    <>
-      <div style={{ display: blocks.length > 0 ? "block" : "none" }}>
+const BlocksList = observer(
+  ({ blocks, palette }: { blocks: ICanvasBlock[]; palette: ICanvasPalette }) => {
+    return (
+      <>
         {blocks.map((b, i) => {
           const JSX = RenderJSXFromBlock({
             element: b,
@@ -29,35 +24,49 @@ const Blocks = observer(() => {
             palette,
             sectionIndex: i,
           })
-          if (JSX) {
-            return (
-              <div className="builder-block" key={shortid.generate()}>
-                <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
-              </div>
-            )
-          }
-          return <React.Fragment key={i} />
+          return (
+            <div className="builder-block" key={shortid.generate()}>
+              <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
+            </div>
+          )
         })}
-      </div>
-      <Center style={{ height: "100%", display: blocks.length > 0 ? "none" : "flex" }}>
-        <Button
-          radius="sm"
-          variant="gradient"
-          size="md"
-          style={{ minWidth: "192px" }}
-          color="red"
-          gradient={{ from: "violet", to: "red" }}
-          rightIcon={<FiPlusSquare />}
-          onClick={() =>
-            setModalContext((prevValue: IModalContextValue) => ({
-              ...prevValue,
-              canvasSectionsModal: true,
-            }))
-          }
-        >
-          {t("add new section")}
-        </Button>
-      </Center>
+      </>
+    )
+  }
+)
+
+const Blocks = observer(() => {
+  const {
+    data: { blocks, palette },
+  } = BuildStore
+  const { t } = useTranslation("build")
+
+  const [, setModalContext = () => ({})] = useContext(ModalContext)
+  return (
+    <>
+      {blocks.length > 0 ? (
+        <BlocksList blocks={blocks} palette={palette} />
+      ) : (
+        <Center style={{ height: "100%" }}>
+          <Button
+            radius="sm"
+            variant="gradient"
+            size="md"
+            style={{ minWidth: "192px" }}
+            color="red"
+            gradient={{ from: "violet", to: "red" }}
+            rightIcon={<FiPlusSquare />}
+            onClick={() =>
+              setModalContext((prevValue: IModalContextValue) => ({
+                ...prevValue,
+                canvasSectionsModal: true,
+              }))
+            }
+          >
+            {t("add new section")}
+          </Button>
+        </Center>
+      )}
     </>
   )
 })

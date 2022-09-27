@@ -51,6 +51,7 @@ export const ConstMenuItems = [
     href: "/",
     children: "aboutUs",
   },
+  { href: "/faq", children: "faq" },
   // {
   //   href: "/whats-new",
   //   children: "whatsNew",
@@ -189,7 +190,6 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
           <Menu.Label>{t("general")}</Menu.Label>
           <ButtonGroup buttons={menuItems} wrapperProps={{ sx: { flexDirection: "column" } }} />
           <Divider />
-
           <Menu.Label>{t("settings")}</Menu.Label>
           <Menu.Item
             pt={0}
