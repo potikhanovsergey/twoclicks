@@ -15,18 +15,19 @@ const BlocksList = observer(
     return (
       <>
         {blocks.map((b, i) => {
-          const JSX = RenderJSXFromBlock({
-            element: b,
-            shouldFlat: true,
-            withContentEditable: true,
-            withEditToolbar: true,
-            withPalette: true,
-            palette,
-            sectionIndex: i,
-          })
           return (
             <div className="builder-block" key={shortid.generate()}>
-              <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
+              <SafeWrapper>
+                <RenderJSXFromBlock
+                  element={b}
+                  shouldFlat
+                  withContentEditable
+                  withEditToolbar
+                  withPalette
+                  palette={palette}
+                  sectionIndex={i}
+                />
+              </SafeWrapper>
             </div>
           )
         })}

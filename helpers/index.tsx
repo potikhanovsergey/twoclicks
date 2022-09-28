@@ -11,12 +11,14 @@ import { ICanvasPalette } from "types"
 import Link from "next/link"
 import { IconPickerProps } from "app/core/components/base/IconPicker"
 import { canvasBuildingBlocks } from "./blocks"
+import TextEditor from "app/core/components/TextEditor"
+import { observer } from "mobx-react-lite"
 
 const IconPicker = dynamic<IconPickerProps>(() =>
   import("app/core/components/base/IconPicker").then((module) => module)
 )
 
-function traverseProp({
+const traverseProp = ({
   propValue,
   prop,
   shouldFlat,
@@ -36,29 +38,31 @@ function traverseProp({
   withPalette: boolean
   palette: ICanvasPalette | undefined
   type: string
-}) {
+}) => {
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
-    return (
-      <WithEditable
-        parentID={parentID}
-        withContentEditable={withContentEditable}
-        key={shortid.generate()}
-      >
-        {propValue}
-      </WithEditable>
-    )
+    if (type.includes("button") || type.includes("badge")) {
+      return (
+        <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
+          {propValue}
+        </WithEditable>
+      )
+    } else {
+      return <TextEditor initialHtml={propValue} />
+    }
   }
 
   if (propValue && typeof propValue === "object" && propValue.type) {
-    return RenderJSXFromBlock({
-      element: propValue,
-      shouldFlat,
-      parentID,
-      withContentEditable,
-      withEditToolbar,
-      withPalette,
-      palette,
-    })
+    return (
+      <RenderJSXFromBlock
+        element={propValue}
+        shouldFlat={shouldFlat}
+        parentID={parentID}
+        withContentEditable={withContentEditable}
+        withEditToolbar={withEditToolbar}
+        withPalette={withPalette}
+        palette={palette}
+      />
+    )
   } else {
     return propValue
   }
@@ -191,40 +195,54 @@ export function getGradientsByType(type: string) {
   return TypeGradients[type.toLowerCase()]
 }
 
-export function RenderJSXFromBlock({
-  element,
-  shouldFlat = false,
-  parentID = null,
-  withContentEditable = false,
-  withEditToolbar = false,
-  withPalette = false,
-  sectionIndex,
-  palette,
-}: {
-  element: ICanvasBlock
-  shouldFlat?: boolean
-  parentID?: string | null
-  withContentEditable?: boolean
-  withEditToolbar?: boolean
-  withPalette?: boolean
-  sectionIndex?: number
-  palette?: ICanvasPalette
-}) {
-  // recursive function that returns JSX of JSON data provided.
-  if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
+export const RenderJSXFromBlock = observer(
+  ({
+    element,
+    shouldFlat = false,
+    parentID = null,
+    withContentEditable = false,
+    withEditToolbar = false,
+    withPalette = false,
+    sectionIndex,
+    palette,
+  }: {
+    element: ICanvasBlock
+    shouldFlat?: boolean
+    parentID?: string | null
+    withContentEditable?: boolean
+    withEditToolbar?: boolean
+    withPalette?: boolean
+    sectionIndex?: number
+    palette?: ICanvasPalette
+  }) => {
+    // recursive function that returns JSX of JSON data provided.
+    if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
 
-  const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
-  const typeLC = el.type?.toLowerCase()
-  const TagName = canvasBuildingBlocks[typeLC] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
-  const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
+    const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
+    const typeLC = el.type?.toLowerCase()
+    const TagName = canvasBuildingBlocks[typeLC] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
+    const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
-  // not only children, byt any other element's prop can be React.Node or JSX.Element.
-  // We need to traverse it to make sure all props are rendered as they should
-  for (const prop in props) {
-    if (Array.isArray(props[prop])) {
-      for (let i = 0; i < props[prop].length; i++) {
-        props[prop][i] = traverseProp({
-          propValue: props[prop][i],
+    // not only children, byt any other element's prop can be React.Node or JSX.Element.
+    // We need to traverse it to make sure all props are rendered as they should
+    for (const prop in props) {
+      if (Array.isArray(props[prop])) {
+        for (let i = 0; i < props[prop].length; i++) {
+          props[prop][i] = traverseProp({
+            propValue: props[prop][i],
+            prop,
+            shouldFlat,
+            parentID: el.id,
+            withContentEditable,
+            withEditToolbar,
+            withPalette,
+            palette,
+            type: typeLC,
+          })
+        }
+      } else {
+        const traversedProp = traverseProp({
+          propValue: props[prop],
           prop,
           shouldFlat,
           parentID: el.id,
@@ -234,96 +252,76 @@ export function RenderJSXFromBlock({
           palette,
           type: typeLC,
         })
+        if (traversedProp) {
+          props[prop] = traversedProp
+        }
       }
+    }
+
+    if (withPalette) {
+      if (getPaletteByType(typeLC) && !props[getPaletteByType(typeLC).prop]) {
+        props[getPaletteByType(typeLC).prop] = palette?.[getPaletteByType(typeLC).color]
+      }
+    }
+
+    if (
+      ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
+        typeLC
+      ) &&
+      withContentEditable
+    ) {
+      props.component = "span"
+    }
+
+    if (withEditToolbar && el?.editType === "icon") {
+      return (
+        <IconPicker
+          icon={<TagName {...props} />}
+          onChange={(icon) => {
+            if (icon?.props) {
+              let newProps = icon.props as ICanvasBlockProps
+              BuildStore.changeProp({ id: el.id, newProps })
+            }
+          }}
+        />
+      )
+    }
+
+    if (withEditToolbar && el.editType) {
+      return (
+        <WithEditToolbar
+          id={el.id}
+          parentID={parentID}
+          editType={el.editType}
+          name={el.name}
+          type={typeLC}
+          props={props}
+          sectionIndex={sectionIndex}
+          element={element}
+        >
+          <TagName {...props} />
+        </WithEditToolbar>
+      )
+    }
+
+    const { children, ...restProps } = props
+
+    if (typeof children === "string" && !typeLC.includes("button") && !typeLC.includes("badge")) {
+      return <TagName key={el.id} {...restProps} dangerouslySetInnerHTML={{ __html: children }} />
+    }
+
+    if (props.component === "a" && props.href) {
+      const { href, ...restOfProps } = props
+      return (
+        <Link passHref key={el.id} href={href}>
+          <TagName {...restOfProps} />
+        </Link>
+      )
     } else {
-      const traversedProp = traverseProp({
-        propValue: props[prop],
-        prop,
-        shouldFlat,
-        parentID: el.id,
-        withContentEditable,
-        withEditToolbar,
-        withPalette,
-        palette,
-        type: typeLC,
-      })
-      if (traversedProp) {
-        props[prop] = traversedProp
-      }
+      return <TagName key={el.id} {...props} />
     }
   }
-
-  if (withPalette) {
-    if (getPaletteByType(typeLC) && !props[getPaletteByType(typeLC).prop]) {
-      props[getPaletteByType(typeLC).prop] = palette?.[getPaletteByType(typeLC).color]
-    }
-  }
-
-  if (
-    ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
-      typeLC
-    ) &&
-    withContentEditable
-  ) {
-    props.component = "span"
-  }
-
-  if (withEditToolbar && el?.editType === "icon") {
-    return (
-      <IconPicker
-        key={shortid.generate()}
-        icon={<TagName {...props} />}
-        onChange={(icon) => {
-          if (icon?.props) {
-            let newProps = icon.props as ICanvasBlockProps
-            BuildStore.changeProp({ id: el.id, newProps })
-          }
-        }}
-      />
-    )
-  }
-
-  if (withEditToolbar && el.editType) {
-    return (
-      <WithEditToolbar
-        id={el.id}
-        parentID={parentID}
-        key={shortid.generate()}
-        editType={el.editType}
-        name={el.name}
-        type={typeLC}
-        props={props}
-        sectionIndex={sectionIndex}
-        element={element}
-      >
-        <TagName {...props} />
-      </WithEditToolbar>
-    )
-  }
-
-  const { children, ...restProps } = props
-
-  if (typeof children === "string" && !typeLC.includes("button") && !typeLC.includes("badge")) {
-    return (
-      <TagName
-        key={shortid.generate()}
-        {...restProps}
-        dangerouslySetInnerHTML={{ __html: children }}
-      />
-    )
-  }
-
-  if (props.component === "a" && props.href) {
-    const { href, ...restOfProps } = props
-    return (
-      <Link passHref key={shortid.generate()} href={href}>
-        <TagName {...restOfProps} />
-      </Link>
-    )
-  } else {
-    return <TagName key={shortid.generate()} {...props} />
-  }
-}
+)
 
 const getElementType = (value) => {
   if (typeof value === "function") {
