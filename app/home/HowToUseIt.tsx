@@ -53,7 +53,17 @@ const HowToUseIt = (props: ContainerProps) => {
           stroke="#845EF7"
         />
       </Box>
-      <LandingTitle align="center">How to use it</LandingTitle>
+      <LandingTitle
+        align="center"
+        sx={{
+          marginBottom: "120px",
+          "@media (max-width: 992px)": {
+            marginBottom: "40px",
+          },
+        }}
+      >
+        How to use it
+      </LandingTitle>
       <Stack
         sx={{
           gap: "128px",
