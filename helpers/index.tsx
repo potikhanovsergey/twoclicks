@@ -50,13 +50,10 @@ const traverseProp = ({
       return (
         <TextEditor
           initialHtml={propValue}
-          onBlur={(html) => {
+          onChange={(html) => {
             let parent = BuildStore.data.flattenBlocks[parentID]
             if (parent) {
-              let parentProps = parent.props as ICanvasBlockProps
-              if (parentProps?.children !== html) {
-                BuildStore.changeProp({ id: parentID, newProps: { children: html } })
-              }
+              BuildStore.changeProp({ id: parentID, newProps: { children: html } })
             }
           }}
         />
@@ -229,8 +226,8 @@ export const RenderJSXFromBlock = observer(
     palette?: ICanvasPalette
   }) => {
     const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
-    const typeLC = el.type?.toLowerCase()
-    const TagName = canvasBuildingBlocks[typeLC] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
+    el.type = el.type.toLowerCase()
+    const TagName = canvasBuildingBlocks[el.type] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
 
     const props = useMemo(() => {
       const newProps = el.props as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.Element.
@@ -238,7 +235,7 @@ export const RenderJSXFromBlock = observer(
 
       if (
         ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
-          typeLC
+          el.type
         ) &&
         withContentEditable
       ) {
@@ -246,8 +243,8 @@ export const RenderJSXFromBlock = observer(
       }
 
       if (withPalette) {
-        if (getPaletteByType(typeLC) && !newProps[getPaletteByType(typeLC).prop]) {
-          newProps[getPaletteByType(typeLC).prop] = palette?.[getPaletteByType(typeLC).color]
+        if (getPaletteByType(el.type) && !newProps[getPaletteByType(el.type).prop]) {
+          newProps[getPaletteByType(el.type).prop] = palette?.[getPaletteByType(el.type).color]
         }
       }
 
@@ -263,7 +260,7 @@ export const RenderJSXFromBlock = observer(
               withEditToolbar,
               withPalette,
               palette,
-              type: typeLC,
+              type: el.type,
             })
           }
         } else {
@@ -276,7 +273,7 @@ export const RenderJSXFromBlock = observer(
             withEditToolbar,
             withPalette,
             palette,
-            type: typeLC,
+            type: el.type,
           })
           if (traversedProp) {
             newProps[prop] = traversedProp
@@ -289,6 +286,7 @@ export const RenderJSXFromBlock = observer(
     if (withEditToolbar && el?.editType === "icon") {
       return (
         <IconPicker
+          key={el.id}
           icon={<TagName {...props} />}
           onChange={(icon) => {
             if (icon?.props) {
@@ -303,14 +301,11 @@ export const RenderJSXFromBlock = observer(
     if (withEditToolbar && el.editType) {
       return (
         <WithEditToolbar
-          id={el.id}
+          key={el.id}
           parentID={parentID}
-          editType={el.editType}
-          name={el.name}
-          type={typeLC}
           props={props}
           sectionIndex={sectionIndex}
-          element={element}
+          element={el}
         >
           <TagName {...props} />
         </WithEditToolbar>
@@ -319,7 +314,7 @@ export const RenderJSXFromBlock = observer(
 
     const { children, ...restProps } = props
 
-    if (typeof children === "string" && !typeLC.includes("button") && !typeLC.includes("badge")) {
+    if (typeof children === "string" && !el.type.includes("button") && !el.type.includes("badge")) {
       return <TagName key={el.id} {...restProps} dangerouslySetInnerHTML={{ __html: children }} />
     }
 
