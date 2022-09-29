@@ -86,12 +86,14 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   } = BuildStore
 
   const JSX = useMemo(() => {
-    return RenderJSXFromBlock({
-      element: { ...block, editType: null },
-      withContentEditable: false,
-      withPalette: true,
-      palette,
-    })
+    return (
+      <RenderJSXFromBlock
+        element={{ ...block, editType: null }}
+        withContentEditable={false}
+        withPalette
+        palette={palette}
+      />
+    )
   }, [block])
 
   const iconRef = useRef(null)

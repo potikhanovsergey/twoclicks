@@ -6,7 +6,6 @@ import { observer } from "mobx-react-lite"
 import React, { useContext, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
-import shortid from "shortid"
 import useTranslation from "next-translate/useTranslation"
 import { ICanvasBlock, ICanvasPalette } from "types"
 
@@ -16,7 +15,7 @@ const BlocksList = observer(
       <>
         {blocks.map((b, i) => {
           return (
-            <div className="builder-block" key={shortid.generate()}>
+            <div className="builder-block" key={b.id}>
               <SafeWrapper>
                 <RenderJSXFromBlock
                   element={b}

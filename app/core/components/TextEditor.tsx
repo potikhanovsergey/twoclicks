@@ -58,4 +58,4 @@ const TextEditor: React.FC<{
   )
 }
 
-export default memo(TextEditor)
+export default TextEditor

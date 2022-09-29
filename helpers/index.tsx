@@ -1,6 +1,6 @@
 import { MantineTheme } from "@mantine/core"
 import dynamic from "next/dynamic"
-import React from "react"
+import React, { useMemo } from "react"
 import shortid from "shortid"
 import { ICanvasBlockProps, ICanvasBlock, IPage } from "types"
 import WithEditToolbar from "app/build/WithEditToolbar"
@@ -47,7 +47,20 @@ const traverseProp = ({
         </WithEditable>
       )
     } else {
-      return <TextEditor initialHtml={propValue} />
+      return (
+        <TextEditor
+          initialHtml={propValue}
+          onBlur={(html) => {
+            let parent = BuildStore.data.flattenBlocks[parentID]
+            if (parent) {
+              let parentProps = parent.props as ICanvasBlockProps
+              if (parentProps?.children !== html) {
+                BuildStore.changeProp({ id: parentID, newProps: { children: html } })
+              }
+            }
+          }}
+        />
+      )
     }
   }
 
@@ -215,21 +228,47 @@ export const RenderJSXFromBlock = observer(
     sectionIndex?: number
     palette?: ICanvasPalette
   }) => {
-    // recursive function that returns JSX of JSON data provided.
-    if (!element) return <></> // the deepest call of recursive function, when the element's parent has no props.children;
-
     const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
     const typeLC = el.type?.toLowerCase()
     const TagName = canvasBuildingBlocks[typeLC] || el.type // if neither of the above, then the element is a block with children and the recursive call is needed.
-    const props = el.props as ICanvasBlockProps // Json type in prisma doesn't allow link types to its properties, we have to link in that way
 
-    // not only children, byt any other element's prop can be React.Node or JSX.Element.
-    // We need to traverse it to make sure all props are rendered as they should
-    for (const prop in props) {
-      if (Array.isArray(props[prop])) {
-        for (let i = 0; i < props[prop].length; i++) {
-          props[prop][i] = traverseProp({
-            propValue: props[prop][i],
+    const props = useMemo(() => {
+      const newProps = el.props as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.Element.
+      // We need to traverse it to make sure all props are rendered as they should
+
+      if (
+        ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
+          typeLC
+        ) &&
+        withContentEditable
+      ) {
+        newProps.component = "span"
+      }
+
+      if (withPalette) {
+        if (getPaletteByType(typeLC) && !newProps[getPaletteByType(typeLC).prop]) {
+          newProps[getPaletteByType(typeLC).prop] = palette?.[getPaletteByType(typeLC).color]
+        }
+      }
+
+      for (const prop in newProps) {
+        if (Array.isArray(newProps[prop])) {
+          for (let i = 0; i < newProps[prop].length; i++) {
+            newProps[prop][i] = traverseProp({
+              propValue: newProps[prop][i],
+              prop,
+              shouldFlat,
+              parentID: el.id,
+              withContentEditable,
+              withEditToolbar,
+              withPalette,
+              palette,
+              type: typeLC,
+            })
+          }
+        } else {
+          const traversedProp = traverseProp({
+            propValue: newProps[prop],
             prop,
             shouldFlat,
             parentID: el.id,
@@ -239,39 +278,13 @@ export const RenderJSXFromBlock = observer(
             palette,
             type: typeLC,
           })
-        }
-      } else {
-        const traversedProp = traverseProp({
-          propValue: props[prop],
-          prop,
-          shouldFlat,
-          parentID: el.id,
-          withContentEditable,
-          withEditToolbar,
-          withPalette,
-          palette,
-          type: typeLC,
-        })
-        if (traversedProp) {
-          props[prop] = traversedProp
+          if (traversedProp) {
+            newProps[prop] = traversedProp
+          }
         }
       }
-    }
-
-    if (withPalette) {
-      if (getPaletteByType(typeLC) && !props[getPaletteByType(typeLC).prop]) {
-        props[getPaletteByType(typeLC).prop] = palette?.[getPaletteByType(typeLC).color]
-      }
-    }
-
-    if (
-      ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
-        typeLC
-      ) &&
-      withContentEditable
-    ) {
-      props.component = "span"
-    }
+      return newProps
+    }, [el])
 
     if (withEditToolbar && el?.editType === "icon") {
       return (
@@ -325,10 +338,11 @@ export const RenderJSXFromBlock = observer(
 
 const getElementType = (value) => {
   if (typeof value === "function") {
-    // react-icon (and maybe some other components) has type value of function, thus it needs to be rendered to retrieve it's name and props
     if (value?.name === "MediaQuery") {
       return value.name
     }
+
+    // react-icon (and maybe some other components) has type value of function, thus it needs to be rendered to retrieve it's name and props
     const c = value()
     const name = c?.type?.displayName || c?.type?.name || value?.name
     if (name === "IconBase") {

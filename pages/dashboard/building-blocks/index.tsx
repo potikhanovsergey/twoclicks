@@ -110,11 +110,13 @@ const DashboardIndex = () => {
   const JSX = useMemo(() => {
     if (json.length) {
       try {
-        return RenderJSXFromBlock({
-          element: JSON.parse(json),
-          shouldFlat: false,
-          withContentEditable: false,
-        })
+        return (
+          <RenderJSXFromBlock
+            element={JSON.parse(json)}
+            shouldFlat={false}
+            withContentEditable={false}
+          />
+        )
       } catch (e) {
         console.log(e)
       }
