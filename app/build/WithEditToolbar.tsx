@@ -150,7 +150,7 @@ const WithEditToolbar = ({
               style={{
                 position: "absolute",
                 left: "50%",
-                zIndex: 1,
+                zIndex: 2,
                 top: 0,
                 transform: "translate(-50%, -50%)",
               }}
@@ -167,7 +167,7 @@ const WithEditToolbar = ({
               style={{
                 position: "absolute",
                 left: "50%",
-                zIndex: 1,
+                zIndex: 2,
                 bottom: 0,
                 transform: "translate(-50%, 50%)",
               }}
