@@ -86,7 +86,7 @@ const ElementGradientsEdit = ({ type, props, id }: IElementGradientsEdit) => {
                 />
               </Box>
             </Tooltip>
-            <HiArrowNarrowRight color="black" />
+            <HiArrowNarrowRight color={theme.colorScheme === "dark" ? "white" : "black"} />
             <Tooltip label={t("change 'to' color")} color="violet" withArrow>
               <Box sx={{ display: "flex", alignItems: "center", alignSelf: "stretch" }}>
                 <PaletteItem

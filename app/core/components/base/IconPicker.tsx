@@ -21,9 +21,31 @@ import { MdClear } from "@react-icons/all-files/md/MdClear"
 import { FaPlay } from "@react-icons/all-files/fa/FaPlay"
 import { FaStar } from "@react-icons/all-files/fa/FaStar"
 import { FaVenus } from "@react-icons/all-files/fa/FaVenus"
+import { FaFacebookF } from "@react-icons/all-files/fa/FaFacebookF"
+import { FaVk } from "@react-icons/all-files/fa/FaVk"
+import { FaGithub } from "@react-icons/all-files/fa/FaGithub"
+import { FcGoogle } from "@react-icons/all-files/fc/FcGoogle"
+import { GiDeathSkull } from "@react-icons/all-files/gi/GiDeathSkull"
+import { BsHeartFill } from "@react-icons/all-files/bs/BsHeartFill"
+import { FaTelegram } from "@react-icons/all-files/fa/FaTelegram"
+import { FaTelegramPlane } from "@react-icons/all-files/fa/FaTelegramPlane"
+import { FaOdnoklassniki } from "@react-icons/all-files/fa/FaOdnoklassniki"
 import { observer } from "mobx-react-lite"
 
-const icons = { FaPlay, FaStar, FaVenus }
+const icons = {
+  FaPlay,
+  FaStar,
+  FaVenus,
+  FaFacebookF,
+  FaVk,
+  FcGoogle,
+  BsHeartFill,
+  GiDeathSkull,
+  FaGithub,
+  FaTelegram,
+  FaTelegramPlane,
+  FaOdnoklassniki,
+}
 const FirstIcon = Object.values(icons)[0]
 
 export interface IconPickerProps {

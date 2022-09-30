@@ -143,6 +143,10 @@ const WithEditToolbar = ({
             "> :not(button, [data-button=true]), > :not([data-button=true])": {
               height: "100%",
             },
+            borderBottom:
+              element.editType === "section"
+                ? `1px dashed ${theme.fn.rgba(theme.colors.gray[5], 0.4)}`
+                : undefined,
           })}
           onMouseEnter={openDropdown}
           onMouseLeave={closeDropdown}
