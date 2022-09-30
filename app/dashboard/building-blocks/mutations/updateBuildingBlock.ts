@@ -2,7 +2,7 @@ import { Ctx } from "blitz"
 import db, { BuildingBlock } from "db"
 
 export default async function updateBuildingBlock(
-  input: { id: string; data: BuildingBlock },
+  input: { id: string; data: Partial<BuildingBlock> },
   ctx: Ctx
 ) {
   ctx.session.$isAuthorized()

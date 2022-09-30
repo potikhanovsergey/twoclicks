@@ -258,6 +258,23 @@ const DashboardIndex = () => {
               >
                 Удалить из БД
               </Button>
+              <Button
+                color="violet"
+                loading={isUpdating}
+                onClick={async () => {
+                  if (selectedDBElement) {
+                    const response = await updateBuildingBlockMutation({
+                      id: selectedDBElement.id,
+                      data: { hidden: !selectedDBElement.hidden },
+                    })
+                    if (response) {
+                      selectedDBElement.hidden = !selectedDBElement.hidden
+                    }
+                  }
+                }}
+              >
+                {selectedDBElement?.hidden ? "Show to users" : "Hide from users"}
+              </Button>
             </>
           )}
         </Group>
