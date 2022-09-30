@@ -19,7 +19,7 @@ const ImagePicker = ({ children, onDrop, ...rest }: ImagePickerProps) => {
           component={Dropzone}
           onDrop={onDrop}
           multiple={false}
-          accept={["image/*"]}
+          accept={["image/png", "image/jpeg"]}
           maxSize={32 * 1024 ** 2}
           sx={(theme) => ({
             display: "flex",
