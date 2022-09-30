@@ -44,7 +44,6 @@ interface IActionHistoryItem {
     data: unknown
   }
   fromHistory?: boolean
-  withScroll?: boolean
 }
 
 class Build {
@@ -221,7 +220,8 @@ class Build {
   @action
   changeProp = (
     { id, newProps }: { id: string; newProps: ICanvasBlockProps },
-    fromHistory: boolean = false
+    fromHistory: boolean = false,
+    withHistory: boolean = true
   ) => {
     const el = this.getElement(id)
     if (el) {
@@ -237,17 +237,21 @@ class Build {
         undoProps[prop] = elProps[prop] === undefined ? "undefined" : elProps[prop]
       }
 
-      this.onPageChange({
-        redo: {
-          name: "changeProp",
-          data: { id, newProps: JSON.parse(JSON.stringify(newProps)) },
-        },
-        undo: {
-          name: "changeProp",
-          data: { id, newProps: JSON.parse(JSON.stringify(undoProps)) },
-        },
-        fromHistory,
-      })
+      if (withHistory) {
+        this.onPageChange({
+          redo: {
+            name: "changeProp",
+            data: { id, newProps: JSON.parse(JSON.stringify(newProps)) },
+          },
+          undo: {
+            name: "changeProp",
+            data: { id, newProps: JSON.parse(JSON.stringify(undoProps)) },
+          },
+          fromHistory,
+        })
+      } else {
+        this.onPageChange()
+      }
 
       const updatedElementProps = {
         ...elProps,
@@ -355,13 +359,14 @@ class Build {
       id,
       parentID,
       editType,
+      withScroll = false,
     }: {
       id: string
       parentID: string | null
       editType: string | null
+      withScroll?: boolean
     },
-    fromHistory: boolean = false,
-    withScroll: boolean = true
+    fromHistory: boolean = false
   ) => {
     const { indexOfId, parentArray } = this.findParentsChildren({ id, parentID, editType })
 
@@ -373,14 +378,13 @@ class Build {
       this.onPageChange({
         redo: {
           name: "moveLeft",
-          data: { id, parentID, editType },
+          data: { id, parentID, editType, withScroll: false },
         },
         undo: {
           name: "moveRight",
-          data: { id, parentID, editType },
+          data: { id, parentID, editType, withScroll: false },
         },
         fromHistory,
-        withScroll: false,
       })
 
       if (withScroll) {
@@ -398,13 +402,14 @@ class Build {
       id,
       parentID,
       editType,
+      withScroll = false,
     }: {
       id: string
       parentID: string | null
       editType: string | null
+      withScroll?: boolean
     },
-    fromHistory: boolean = false,
-    withScroll: boolean = true
+    fromHistory: boolean = false
   ) => {
     const { indexOfId, parentArray } = this.findParentsChildren({ id, parentID, editType })
 
@@ -423,7 +428,6 @@ class Build {
           data: { id, parentID, editType },
         },
         fromHistory,
-        withScroll: false,
       })
       if (withScroll) {
         setTimeout(() => {

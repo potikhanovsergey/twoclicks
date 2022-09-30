@@ -111,7 +111,6 @@ const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
   } = BuildStore
   const session = useSession()
   const { classes } = useStyles()
-  console.log(BuildStore.data.flattenBlocks)
   return (
     <Stack
       spacing={0}

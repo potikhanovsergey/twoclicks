@@ -1,5 +1,5 @@
 import { Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
-import React, { useContext, useEffect, useMemo, useRef } from "react"
+import React, { useContext, useEffect, useLayoutEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
@@ -30,14 +30,10 @@ import ElementCopyButton from "./ElementCopyButton"
 
 interface IWithEditToolbar {
   children: JSX.Element
-  id: string
   parentID: string | null
-  editType: string | null
-  type?: string
-  name?: string | null
   props?: ICanvasBlockProps
   sectionIndex?: number
-  element?: ICanvasBlock
+  element: ICanvasBlock
 }
 
 interface InnerAddSectionButtonProps extends Omit<ButtonProps, "children"> {
@@ -80,11 +76,7 @@ const FIT_CONTENT_ELEMENTS = [
 
 const WithEditToolbar = ({
   children,
-  id,
   parentID,
-  editType,
-  name,
-  type,
   props,
   sectionIndex,
   element,
@@ -95,7 +87,7 @@ const WithEditToolbar = ({
 
   const didMount = useDidMount()
 
-  const [opened, { open, close }] = useDisclosure(Boolean(openedAction[id]))
+  const [opened, { open, close }] = useDisclosure(Boolean(openedAction[element.id]))
   const { openDropdown, closeDropdown } = useDelayedHover({
     open,
     close,
@@ -106,12 +98,12 @@ const WithEditToolbar = ({
   const elementProps = element?.props as ICanvasBlockProps | undefined
 
   const popoverOpened = useMemo(() => {
-    return opened || Boolean(openedAction[id])
+    return opened || Boolean(openedAction[element.id])
   }, [opened, openedAction])
 
   useEffect(() => {
     if (!didMount) {
-      activeEditToolbars[id] = opened
+      activeEditToolbars[element.id] = opened
 
       if (!opened && !isImageUploading) {
         BuildStore.openedAction = {}
@@ -120,13 +112,13 @@ const WithEditToolbar = ({
   }, [opened, isImageUploading])
 
   const sectionLike = useMemo(() => {
-    return editType === "section" || type?.includes("card") || element?.sectionLike
-  }, [editType, type])
+    return element.editType === "section" || element.type?.includes("card") || element?.sectionLike
+  }, [element])
 
   return (
     <Popover
       trapFocus={false}
-      opened={popoverOpened || isImageUploading === id}
+      opened={popoverOpened || isImageUploading === element.id}
       position={sectionLike ? "right-end" : "top-end"}
       offset={sectionLike ? 0 : undefined}
       withinPortal
@@ -135,46 +127,47 @@ const WithEditToolbar = ({
       <Popover.Target>
         <Box
           sx={(theme) => ({
-            width: type && FIT_CONTENT_ELEMENTS.includes(type) ? "fit-content" : "auto",
+            width:
+              element.type && FIT_CONTENT_ELEMENTS.includes(element.type) ? "fit-content" : "auto",
             margin: elementProps?.align === "center" ? "0 auto" : undefined,
             border:
-              editType === "section"
+              element.editType === "section"
                 ? "none"
                 : opened ||
                   (typeof elementProps?.children === "string" && !elementProps?.children.length)
                 ? `1px dotted ${theme.colors.gray[5]}`
                 : "1px solid transparent",
             position: "relative",
-            display: type && FIT_CONTENT_ELEMENTS.includes(type) ? "block" : "grid",
+            display: element.type && FIT_CONTENT_ELEMENTS.includes(element.type) ? "block" : "grid",
           })}
           onMouseEnter={openDropdown}
           onMouseLeave={closeDropdown}
           ref={editableRef}
         >
-          {editType === "section" && sectionIndex === 0 && (
+          {element.editType === "section" && sectionIndex === 0 && (
             <InnerAddSectionButton
               insertIndex={0}
               style={{
                 position: "absolute",
                 left: "50%",
-                zIndex: 1,
+                zIndex: 2,
                 top: 0,
                 transform: "translate(-50%, -50%)",
               }}
             />
           )}
-          {editType === "image" ? (
-            <BuilderImagePicker elementID={id}>{children}</BuilderImagePicker>
+          {element.editType === "image" ? (
+            <BuilderImagePicker elementID={element.id}>{children}</BuilderImagePicker>
           ) : (
             <>{children}</>
           )}
-          {editType === "section" && sectionIndex !== undefined && (
+          {element.editType === "section" && sectionIndex !== undefined && (
             <InnerAddSectionButton
               insertIndex={sectionIndex + 1}
               style={{
                 position: "absolute",
                 left: "50%",
-                zIndex: 1,
+                zIndex: 2,
                 bottom: 0,
                 transform: "translate(-50%, 50%)",
               }}
@@ -192,40 +185,47 @@ const WithEditToolbar = ({
             flexDirection: sectionLike ? "column" : "row",
           }}
         >
-          {editType !== "section" && name && <ElementName name={name} />}
-          <ElementVariantsEdit id={id} type={type} props={props} />
-          <ElementSizesEdit id={id} type={type} props={props} />
-          <ElementRadiusesEdit id={id} type={type} props={props} />
-          <ElementGradientsEdit id={id} type={type} props={props} />
-          {type && ["image", "youtubeframe"].some((item) => type.includes(item)) && (
-            <ElementTypeEdit
-              id={id}
-              type={type}
-              types={[
-                { label: "Image", value: "@mantine/core/image", editType: "image" },
-                { label: "Youtube Video", value: "youtubeframe", editType: "video" },
-              ]}
-            />
-          )}{" "}
-          <ElementPaletteEdit id={id} element={element} type={type} props={props} />
-          <ElementMoves id={id} parentID={parentID} editType={editType} />
-          {type && props && <ElementUploadLink id={id} props={props} type={type} />}
-          {type &&
-            TypeIcons[type]?.map((propName) => (
+          {element.editType !== "section" && element.name && <ElementName name={element.name} />}
+          <ElementVariantsEdit id={element.id} type={element.type} props={props} />
+          <ElementSizesEdit id={element.id} type={element.type} props={props} />
+          <ElementRadiusesEdit id={element.id} type={element.type} props={props} />
+          <ElementGradientsEdit id={element.id} type={element.type} props={props} />
+          {element.type &&
+            ["image", "youtubeframe"].some((item) => element.type.includes(item)) && (
+              <ElementTypeEdit
+                id={element.id}
+                type={element.type}
+                types={[
+                  { label: "Image", value: "@mantine/core/image", editType: "image" },
+                  { label: "Youtube Video", value: "youtubeframe", editType: "video" },
+                ]}
+              />
+            )}{" "}
+          <ElementPaletteEdit id={element.id} element={element} type={element.type} props={props} />
+          <ElementMoves id={element.id} parentID={parentID} editType={element.editType} />
+          {element.type && props && (
+            <ElementUploadLink id={element.id} props={props} type={element.type} />
+          )}
+          {element.type &&
+            TypeIcons[element.type]?.map((propName) => (
               <ElementIconEdit
-                id={id}
-                type={type}
+                id={element.id}
+                type={element.type}
                 propName={propName}
                 props={props}
                 key={propName}
               />
             ))}
-          {type && props && <ElementLinkEdit id={id} props={props} type={type} />}
+          {element.type && props && (
+            <ElementLinkEdit id={element.id} props={props} type={element.type} />
+          )}
           {element && !element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} />
           )}
-          <ElementDeleteButton id={id} parentID={parentID} editType={editType} />
-          {editType === "section" && <SectionBGEdit id={id} props={props} editType={editType} />}
+          <ElementDeleteButton id={element.id} parentID={parentID} editType={element.editType} />
+          {element.editType === "section" && (
+            <SectionBGEdit id={element.id} props={props} editType={element.editType} />
+          )}
         </Group>
       </Popover.Dropdown>
     </Popover>
