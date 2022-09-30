@@ -81,6 +81,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
           where: {
             filterType: blockTypeFilter !== "all" ? blockTypeFilter : undefined,
             editType: modalType === "sections" ? "section" : "element",
+            hidden: session.role === "ADMIN" ? undefined : false,
           },
           skip: ITEMS_PER_PAGE * (activePage - 1), // Backend pagination starts with the index of "0"
           take: ITEMS_PER_PAGE,
