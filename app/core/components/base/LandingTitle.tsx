@@ -1,4 +1,4 @@
-import { TitleProps, Title } from "@mantine/core"
+import { TitleProps, Title, packSx } from "@mantine/core"
 
 const LandingTitle = (props: TitleProps) => {
   return (
@@ -28,7 +28,7 @@ const LandingTitle = (props: TitleProps) => {
             fontSize: "20px",
           },
         },
-        props.sx,
+        ...packSx(props.sx),
       ]}
     />
   )

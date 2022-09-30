@@ -86,6 +86,7 @@ model BuildingBlock {
   filterType String?
   editType   String?
   props      Json?
+  hidden     Boolean  @default(true)
 
   LikedBlocks LikedBlock[]
   UsedBlocks  UsedBlock[]

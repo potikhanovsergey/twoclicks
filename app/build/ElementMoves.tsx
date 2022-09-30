@@ -56,7 +56,9 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
           <ActionIcon
             size="md"
             color="violet"
-            onClick={() => moveLeft({ id, parentID, editType }, false, editType === "section")}
+            onClick={() =>
+              moveLeft({ id, parentID, editType, withScroll: editType === "section" }, false)
+            }
           >
             {movesIcons.left}
           </ActionIcon>
@@ -71,7 +73,9 @@ const ElementMoves = ({ editType, parentID, id }: IElementMoves) => {
           <ActionIcon
             size="md"
             color="violet"
-            onClick={() => moveRight({ id, parentID, editType }, false, editType === "section")}
+            onClick={() =>
+              moveRight({ id, parentID, editType, withScroll: editType === "section" }, false)
+            }
           >
             {movesIcons.right}
           </ActionIcon>

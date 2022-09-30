@@ -116,11 +116,13 @@ const DashboardIndex = () => {
   const JSX = useMemo(() => {
     if (json.length) {
       try {
-        return RenderJSXFromBlock({
-          element: JSON.parse(json),
-          shouldFlat: false,
-          withContentEditable: false,
-        })
+        return (
+          <RenderJSXFromBlock
+            element={JSON.parse(json)}
+            shouldFlat={false}
+            withContentEditable={false}
+          />
+        )
       } catch (e) {
         console.log(e)
       }
@@ -261,6 +263,23 @@ const DashboardIndex = () => {
                 }}
               >
                 Удалить из БД
+              </Button>
+              <Button
+                color="violet"
+                loading={isUpdating}
+                onClick={async () => {
+                  if (selectedDBElement) {
+                    const response = await updateBuildingBlockMutation({
+                      id: selectedDBElement.id,
+                      data: { hidden: !selectedDBElement.hidden },
+                    })
+                    if (response) {
+                      selectedDBElement.hidden = !selectedDBElement.hidden
+                    }
+                  }
+                }}
+              >
+                {selectedDBElement?.hidden ? "Show to users" : "Hide from users"}
               </Button>
             </>
           )}

@@ -6,7 +6,6 @@ import { observer } from "mobx-react-lite"
 import React, { useContext, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
-import shortid from "shortid"
 import useTranslation from "next-translate/useTranslation"
 import { ICanvasBlock, ICanvasPalette } from "types"
 
@@ -15,18 +14,19 @@ const BlocksList = observer(
     return (
       <>
         {blocks.map((b, i) => {
-          const JSX = RenderJSXFromBlock({
-            element: b,
-            shouldFlat: true,
-            withContentEditable: true,
-            withEditToolbar: true,
-            withPalette: true,
-            palette,
-            sectionIndex: i,
-          })
           return (
-            <div className="builder-block" key={shortid.generate()}>
-              <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
+            <div className="builder-block" key={b.id}>
+              <SafeWrapper>
+                <RenderJSXFromBlock
+                  element={b}
+                  shouldFlat
+                  withContentEditable
+                  withEditToolbar
+                  withPalette
+                  palette={palette}
+                  sectionIndex={i}
+                />
+              </SafeWrapper>
             </div>
           )
         })}

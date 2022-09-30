@@ -41,25 +41,21 @@ const PreviewPage = () => {
         })}
       />
       {page &&
-        page.blocks.map((b, i) => {
-          const JSX = RenderJSXFromBlock({
-            element: b,
-            shouldFlat: false,
-            withContentEditable: false,
-            withEditToolbar: false,
-            withPalette: true,
-            palette: page.palette,
-            sectionIndex: i,
-          })
-          if (JSX) {
-            return (
-              <div className="builder-block" key={shortid.generate()}>
-                <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
-              </div>
-            )
-          }
-          return <React.Fragment key={i} />
-        })}
+        page.blocks.map((b, i) => (
+          <div className="builder-block" key={b.id}>
+            <SafeWrapper>
+              <RenderJSXFromBlock
+                element={b}
+                shouldFlat={false}
+                withContentEditable={false}
+                withEditToolbar={false}
+                withPalette
+                palette={page.palette}
+                sectionIndex={i}
+              />
+            </SafeWrapper>
+          </div>
+        ))}
     </MantineProvider>
   )
 }
