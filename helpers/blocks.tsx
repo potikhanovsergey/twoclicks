@@ -17,6 +17,7 @@ import {
   ActionIconProps,
   MediaQueryProps,
   ButtonProps,
+  CenterProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import { IconBaseProps } from "react-icons"
@@ -24,6 +25,9 @@ import { IconBaseProps } from "react-icons"
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
 
 export const canvasBuildingBlocks = {
+  "@mantine/core/center": dynamic<CenterProps>(() =>
+    import("@mantine/core/cjs/Center/Center").then((module) => module.Center)
+  ),
   "@mantine/core/button": dynamic<CanvasButtonProps>(() =>
     import("@mantine/core/cjs/Button/Button").then((module) => module.Button)
   ),

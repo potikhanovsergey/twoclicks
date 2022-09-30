@@ -72,6 +72,7 @@ const FIT_CONTENT_ELEMENTS = [
   "@mantine/core/text",
   "@mantine/core/title",
   "@mantine/core/button",
+  "@mantine/core/badge",
 ]
 
 const WithEditToolbar = ({
@@ -138,7 +139,10 @@ const WithEditToolbar = ({
                 ? `1px dotted ${theme.colors.gray[5]}`
                 : "1px solid transparent",
             position: "relative",
-            display: element.type && FIT_CONTENT_ELEMENTS.includes(element.type) ? "block" : "grid",
+            justifySelf: "stretch",
+            "> :not(button, [data-button=true]), > :not([data-button=true])": {
+              height: "100%",
+            },
           })}
           onMouseEnter={openDropdown}
           onMouseLeave={closeDropdown}
@@ -159,7 +163,11 @@ const WithEditToolbar = ({
           {element.editType === "image" ? (
             <BuilderImagePicker elementID={element.id}>{children}</BuilderImagePicker>
           ) : (
-            <>{children}</>
+            React.cloneElement(children, {
+              onMouseEnter: openDropdown,
+              onMouseLeave: closeDropdown,
+              ref: editableRef,
+            })
           )}
           {element.editType === "section" && sectionIndex !== undefined && (
             <InnerAddSectionButton

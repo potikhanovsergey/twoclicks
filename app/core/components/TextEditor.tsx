@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { useCallback, useEffect, useState } from "react"
 import { useEditor, EditorContent, mergeAttributes, BubbleMenu } from "@tiptap/react"
 import { ActionIcon, Box, Group, TextInput, Tooltip, useMantineTheme } from "@mantine/core"
 import Document from "@tiptap/extension-document"
