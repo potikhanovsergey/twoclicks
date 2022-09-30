@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useEditor, EditorContent, mergeAttributes, BubbleMenu } from "@tiptap/react"
 import { ActionIcon, Box, Group, TextInput, Tooltip, useMantineTheme } from "@mantine/core"
 import Document from "@tiptap/extension-document"
@@ -10,14 +10,34 @@ import { FaBold } from "@react-icons/all-files/fa/FaBold"
 import { FaLink } from "@react-icons/all-files/fa/FaLink"
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import { observer } from "mobx-react-lite"
+import { BuildStore } from "store/build"
+import { ICanvasBlockProps } from "types"
 
 const TextEditor: React.FC<{
   initialHtml: string
-  onChange?: (html: string) => void
-  onBlur?: (html: string) => void
-}> = (props) => {
+  parentID: string
+}> = ({ initialHtml, parentID }) => {
   const [editLinkActive, setEditLinkActive] = useState(false)
   const [linkValue, setLinkValue] = useState("")
+
+  const onChange = useCallback(
+    (html: string) => {
+      let parent = BuildStore.data.flattenBlocks[parentID]
+      const parentProps = parent.props as ICanvasBlockProps
+      const parentChildren = parentProps?.children
+      if (parent && html !== parentChildren) {
+        BuildStore.changeProp({ id: parentID, newProps: { children: html } }, false, false)
+      }
+    },
+    [parentID]
+  )
+
+  const [content, setContent] = useState(initialHtml)
+
+  useEffect(() => {
+    setContent(initialHtml)
+  }, [initialHtml])
+
   const editor = useEditor(
     {
       extensions: [
@@ -34,22 +54,17 @@ const TextEditor: React.FC<{
         Bold,
         Link.configure({ openOnClick: false }),
       ],
-      content: props.initialHtml,
+      content,
       onDestroy: () => console.log("DESTROYES"),
-      // Each times editor is updated
-      onUpdate: ({ editor }) => {
-        // Call onChange callback with html value
-        props.onChange && props.onChange(editor.getHTML())
-      },
       onBlur: ({ editor }) => {
-        props.onBlur && props.onBlur(editor.getHTML())
+        onChange && onChange(editor.getHTML())
       },
       onSelectionUpdate: ({ editor }) => {
         setEditLinkActive(false)
         setLinkValue(editor.getAttributes("link").href || "")
       },
     },
-    [props.initialHtml]
+    []
   )
 
   const theme = useMantineTheme()
@@ -60,10 +75,11 @@ const TextEditor: React.FC<{
       <BubbleMenu
         tippyOptions={{
           duration: 100,
-          // appendTo: document?.querySelector("main") || "parent",
-          // interactive: true,
+          appendTo: document?.querySelector("main") || "parent",
+          interactive: true,
           arrow: true,
           placement: "bottom",
+          zIndex: 10,
         }}
         editor={editor}
       >
@@ -82,9 +98,11 @@ const TextEditor: React.FC<{
             withArrow
             color="dark"
             sx={{ boxShadow: theme.shadows.md }}
+            withinPortal
           >
             <ActionIcon
               size="md"
+              radius={0}
               variant={editor.isActive("bold") ? "light" : "subtle"}
               color={editor.isActive("bold") ? "violet" : dark ? "dark" : "gray"}
               onClick={() => {
@@ -101,9 +119,11 @@ const TextEditor: React.FC<{
               withArrow
               color="dark"
               sx={{ boxShadow: theme.shadows.md }}
+              withinPortal
             >
               <ActionIcon
                 size="md"
+                radius={0}
                 variant={editor.isActive("link") ? "light" : "subtle"}
                 color={editor.isActive("link") ? "violet" : dark ? "dark" : "gray"}
                 onClick={() => {
@@ -160,7 +180,7 @@ const TextEditor: React.FC<{
       />
     </>
   ) : (
-    <div dangerouslySetInnerHTML={{ __html: props.initialHtml }} />
+    <div dangerouslySetInnerHTML={{ __html: initialHtml }} />
   )
 }
 

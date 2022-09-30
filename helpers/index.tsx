@@ -1,6 +1,6 @@
 import { MantineTheme } from "@mantine/core"
 import dynamic from "next/dynamic"
-import React, { useMemo } from "react"
+import React, { useCallback, useMemo, useRef } from "react"
 import shortid from "shortid"
 import { ICanvasBlockProps, ICanvasBlock, IPage } from "types"
 import WithEditToolbar from "app/build/WithEditToolbar"
@@ -19,7 +19,7 @@ const IconPicker = dynamic<IconPickerProps>(() =>
   import("app/core/components/base/IconPicker").then((module) => module)
 )
 
-const traverseProp = ({
+const TraverseProp = ({
   propValue,
   prop,
   shouldFlat,
@@ -48,19 +48,7 @@ const traverseProp = ({
         </WithEditable>
       )
     } else {
-      return (
-        <TextEditor
-          initialHtml={propValue}
-          onBlur={(html) => {
-            let parent = BuildStore.data.flattenBlocks[parentID]
-            const parentProps = parent.props as ICanvasBlockProps
-            const parentChildren = parentProps?.children
-            if (parent && html !== parentChildren) {
-              BuildStore.changeProp({ id: parentID, newProps: { children: html } })
-            }
-          }}
-        />
-      )
+      return <TextEditor initialHtml={propValue} parentID={parentID} />
     }
   }
 
@@ -255,7 +243,7 @@ export const RenderJSXFromBlock = observer(
       for (const prop in newProps) {
         if (Array.isArray(newProps[prop])) {
           for (let i = 0; i < newProps[prop].length; i++) {
-            newProps[prop][i] = traverseProp({
+            newProps[prop][i] = TraverseProp({
               propValue: newProps[prop][i],
               prop,
               shouldFlat,
@@ -268,7 +256,7 @@ export const RenderJSXFromBlock = observer(
             })
           }
         } else {
-          const traversedProp = traverseProp({
+          const traversedProp = TraverseProp({
             propValue: newProps[prop],
             prop,
             shouldFlat,
