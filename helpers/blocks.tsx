@@ -76,6 +76,9 @@ export const canvasBuildingBlocks = {
   "@mantine/core/card": dynamic<CardProps>(() =>
     import("@mantine/core/cjs/Card/Card").then((module) => module.Card)
   ),
+  "@mantine/core/center": dynamic<CenterProps>(() =>
+    import("@mantine/core/cjs/Center/Center").then((module) => module.Center)
+  ),
   "@mantine/core/aspectratio": dynamic<AspectRatioProps>(() =>
     import("@mantine/core/cjs/AspectRatio/AspectRatio").then((module) => module.AspectRatio)
   ),
