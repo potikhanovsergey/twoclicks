@@ -135,7 +135,7 @@ const WithEditToolbar = ({
       <Popover.Target>
         <Box
           sx={(theme) => ({
-            width: type && FIT_CONTENT_ELEMENTS.includes(type) ? "fit-content" : "auto",
+            // width: type && FIT_CONTENT_ELEMENTS.includes(type) ? "fit-content" : "auto",
             margin: elementProps?.align === "center" ? "0 auto" : undefined,
             border:
               editType === "section"
