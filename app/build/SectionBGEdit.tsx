@@ -48,6 +48,18 @@ const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
           offset={6}
           color={props?.sx?.backgroundColor}
           withReset={Boolean(props?.sx?.backgroundImage || props?.sx?.backgroundColor)}
+          withImageDelete={Boolean(props?.sx?.backgroundImage)}
+          onImageDelete={() => {
+            changeProp({
+              id,
+              newProps: {
+                sx: {
+                  ...props?.sx,
+                  backgroundImage: undefined,
+                },
+              },
+            })
+          }}
           onColorChange={(value: ExtendedCustomColors | string) => {
             changeProp({
               id,

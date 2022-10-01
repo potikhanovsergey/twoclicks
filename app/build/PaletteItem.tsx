@@ -35,6 +35,8 @@ interface IPaletteItem extends Omit<PopoverProps, "children"> {
   type?: string | null
   editType?: string | null
   onTargetClick?: () => void
+  withImageDelete?: boolean
+  onImageDelete?: () => void
 }
 
 const PaletteItem = (props: IPaletteItem) => {
@@ -56,6 +58,8 @@ const PaletteItem = (props: IPaletteItem) => {
     onTargetClick,
     type,
     editType,
+    withImageDelete,
+    onImageDelete,
     ...popoverProps
   } = props
 
@@ -168,6 +172,11 @@ const PaletteItem = (props: IPaletteItem) => {
                 )}
               </FileButton>
             </div>
+          )}
+          {withImageDelete && (
+            <Button color="red" variant="light" compact size="sm" fullWidth onClick={onImageDelete}>
+              Remove image
+            </Button>
           )}
           <ColorPicker
             size="xl"
