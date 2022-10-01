@@ -69,10 +69,9 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
 const FIT_CONTENT_ELEMENTS = [
   "@mantine/core/actionicon",
   "@mantine/core/themeicon",
-  "@mantine/core/text",
-  "@mantine/core/title",
   "@mantine/core/button",
   "@mantine/core/badge",
+  "@mantine/core/avatar",
 ]
 
 const WithEditToolbar = ({

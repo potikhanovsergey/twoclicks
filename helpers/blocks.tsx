@@ -18,6 +18,8 @@ import {
   MediaQueryProps,
   ButtonProps,
   CenterProps,
+  DividerProps,
+  AvatarProps,
 } from "@mantine/core"
 import dynamic from "next/dynamic"
 import { IconBaseProps } from "react-icons"
@@ -75,6 +77,12 @@ export const canvasBuildingBlocks = {
   ),
   "@mantine/core/card": dynamic<CardProps>(() =>
     import("@mantine/core/cjs/Card/Card").then((module) => module.Card)
+  ),
+  "@mantine/core/divider": dynamic<DividerProps>(() =>
+    import("@mantine/core/cjs/Divider/Divider").then((module) => module.Divider)
+  ),
+  "@mantine/core/avatar": dynamic<AvatarProps>(() =>
+    import("@mantine/core/cjs/Avatar/Avatar").then((module) => module.Avatar)
   ),
   "@mantine/core/aspectratio": dynamic<AspectRatioProps>(() =>
     import("@mantine/core/cjs/AspectRatio/AspectRatio").then((module) => module.AspectRatio)
