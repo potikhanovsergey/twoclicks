@@ -4,6 +4,7 @@ import { ActionIcon, Box, Group, TextInput, Tooltip, useMantineTheme } from "@ma
 import Document from "@tiptap/extension-document"
 import Text from "@tiptap/extension-text"
 import Paragraph from "@tiptap/extension-paragraph"
+import Placeholder from "@tiptap/extension-placeholder"
 import Bold from "@tiptap/extension-bold"
 import Link from "@tiptap/extension-link"
 import { FaBold } from "@react-icons/all-files/fa/FaBold"
@@ -53,6 +54,9 @@ const TextEditor: React.FC<{
         Text,
         Bold,
         Link.configure({ openOnClick: false }),
+        Placeholder.configure({
+          placeholder: "Type something...",
+        }),
       ],
       content,
       onDestroy: () => console.log("DESTROYES"),
