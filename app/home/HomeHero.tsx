@@ -8,7 +8,6 @@ import {
   Center,
   Group,
   Box,
-  createStyles,
   BoxProps,
 } from "@mantine/core"
 import Clicks from "app/core/components/Clicks"

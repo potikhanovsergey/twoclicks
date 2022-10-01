@@ -166,6 +166,10 @@ const TextEditor: React.FC<{
         sx={{
           "[contenteditable=true]": {
             outline: "none",
+            backgroundImage: "inherit",
+            WebkitBackgroundClip: "inherit",
+            WebkitTextFillColor: "inherit",
+            WebkitTapHighlightColor: "inherit",
           },
           ".is-editor-empty:first-of-type::before": {
             content: "attr(data-placeholder)",
@@ -174,6 +178,10 @@ const TextEditor: React.FC<{
             pointerEvents: "none",
             height: "0",
           },
+          backgroundImage: "inherit",
+          WebkitBackgroundClip: "inherit",
+          WebkitTextFillColor: "inherit",
+          WebkitTapHighlightColor: "inherit",
         }}
         component={EditorContent}
         editor={editor}
