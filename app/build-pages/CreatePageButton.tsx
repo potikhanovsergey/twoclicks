@@ -5,11 +5,11 @@ import ObjectID from "bson-objectid"
 import { PageStarterMock } from "db/mocks"
 import { useRouter } from "next/router"
 import { deflate, getPageWithDeflatedData } from "helpers/utils"
-import { Button, ButtonProps } from "@mantine/core"
+import { Button, ButtonProps, useMantineTheme } from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
 type ICreatePageButton = Omit<ButtonProps, "onClick" | "children">
 
-import { AiFillBuild } from "@react-icons/all-files/ai/AiFillBuild"
+import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import createPage from "./mutations/createPage"
 
 const CreatePageButton = (props: ICreatePageButton) => {
@@ -41,12 +41,15 @@ const CreatePageButton = (props: ICreatePageButton) => {
     localStorage?.setItem(`page-${page.id}`, deflate(pageWithDeflatedData))
     void router.push(`/build/${page.id}`)
   }
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
   return (
     <Button
       onClick={handleCreatePage}
-      variant="gradient"
-      gradient={{ from: "violet", to: "red", deg: 110 }}
-      rightIcon={<AiFillBuild />}
+      // variant="gradient"
+      // gradient={{ from: "violet", to: "red", deg: 110 }}
+      color="violet"
+      rightIcon={<FiPlusSquare />}
       {...props}
     >
       {t("createPage")}

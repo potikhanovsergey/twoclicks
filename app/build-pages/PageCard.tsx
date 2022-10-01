@@ -65,14 +65,16 @@ const PageCard = ({ page, withEdit = true }: PageCardProps) => {
       onConfirm: () => deletePageMutation({ id: page.id }),
     })
 
+  const dark = theme.colorScheme === "dark"
+
   return (
     <Box
       p="md"
       sx={(theme) => ({
-        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
         padding: theme.spacing.xl,
         borderRadius: theme.radius.md,
-        boxShadow: `0px 5px 10px 2px rgba(34, 60, 80, 0.1)`,
+        boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
         listStyle: "none",
         ":not(:last-child)": { marginBottom: theme.spacing.md },
       })}
@@ -90,10 +92,11 @@ const PageCard = ({ page, withEdit = true }: PageCardProps) => {
           <Group spacing="xs" position="right">
             <TemplateModal
               page={page}
-              color="orange"
+              color="dark"
               size="sm"
               rightIcon={<HiTemplate />}
               component={Button}
+              variant={dark ? "white" : "filled"}
             >
               Use as a template
             </TemplateModal>
