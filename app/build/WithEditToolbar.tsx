@@ -138,7 +138,8 @@ const WithEditToolbar = ({
                   (typeof elementProps?.children === "string" && !elementProps?.children.length)
                 ? `1px dotted ${theme.colors.gray[5]}`
                 : "1px solid transparent",
-            position: "relative",
+            position: elementProps?.sx?.position === "sticky" ? "sticky" : "relative",
+            top: elementProps?.sx?.position === "sticky" ? elementProps?.sx?.top : undefined,
             justifySelf: "stretch",
             "> :not(button, [data-button=true]), > :not([data-button=true])": {
               height: "100%",
