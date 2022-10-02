@@ -7,7 +7,12 @@ import Paragraph from "@tiptap/extension-paragraph"
 import Placeholder from "@tiptap/extension-placeholder"
 import Bold from "@tiptap/extension-bold"
 import Link from "@tiptap/extension-link"
+import TextAlign from "@tiptap/extension-text-align"
 import { FaBold } from "@react-icons/all-files/fa/FaBold"
+import { FaAlignLeft } from "@react-icons/all-files/fa/FaAlignLeft"
+import { FaAlignCenter } from "@react-icons/all-files/fa/FaAlignCenter"
+import { FaAlignRight } from "@react-icons/all-files/fa/FaAlignRight"
+import { FaAlignJustify } from "@react-icons/all-files/fa/FaAlignJustify"
 import { FaLink } from "@react-icons/all-files/fa/FaLink"
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import { observer } from "mobx-react-lite"
@@ -56,6 +61,10 @@ const TextEditor: React.FC<{
         Link.configure({ openOnClick: false }),
         Placeholder.configure({
           placeholder: "Type something...",
+        }),
+        TextAlign.configure({
+          types: ["paragraph"],
+          defaultAlignment: "none",
         }),
       ],
       content,
@@ -107,13 +116,95 @@ const TextEditor: React.FC<{
             <ActionIcon
               size="md"
               radius={0}
-              variant={editor.isActive("bold") ? "light" : "subtle"}
-              color={editor.isActive("bold") ? "violet" : dark ? "dark" : "gray"}
+              variant={editor.isActive("bold") ? "light" : "filled"}
+              color={editor.isActive("bold") ? "violet" : dark ? "dark" : "dark.4"}
               onClick={() => {
                 editor.chain().focus().toggleBold().run()
               }}
             >
               <FaBold />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip
+            label="Align left"
+            position="bottom"
+            withArrow
+            color="dark"
+            sx={{ boxShadow: theme.shadows.md }}
+            withinPortal
+          >
+            <ActionIcon
+              size="md"
+              radius={0}
+              variant={editor.isActive({ textAlign: "left" }) ? "light" : "filled"}
+              color={editor.isActive({ textAlign: "left" }) ? "violet" : dark ? "dark" : "dark.4"}
+              onClick={() => {
+                editor.chain().focus().setTextAlign("left").run()
+              }}
+            >
+              <FaAlignLeft />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip
+            label="Align center"
+            position="bottom"
+            withArrow
+            color="dark"
+            sx={{ boxShadow: theme.shadows.md }}
+            withinPortal
+          >
+            <ActionIcon
+              size="md"
+              radius={0}
+              variant={editor.isActive({ textAlign: "center" }) ? "light" : "filled"}
+              color={editor.isActive({ textAlign: "center" }) ? "violet" : dark ? "dark" : "dark.4"}
+              onClick={() => {
+                editor.chain().focus().setTextAlign("center").run()
+              }}
+            >
+              <FaAlignCenter />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip
+            label="Align right"
+            position="bottom"
+            withArrow
+            color="dark"
+            sx={{ boxShadow: theme.shadows.md }}
+            withinPortal
+          >
+            <ActionIcon
+              size="md"
+              radius={0}
+              variant={editor.isActive({ textAlign: "right" }) ? "light" : "filled"}
+              color={editor.isActive({ textAlign: "right" }) ? "violet" : dark ? "dark" : "dark.4"}
+              onClick={() => {
+                editor.chain().focus().setTextAlign("right").run()
+              }}
+            >
+              <FaAlignRight />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip
+            label="Justify"
+            position="bottom"
+            withArrow
+            color="dark"
+            sx={{ boxShadow: theme.shadows.md }}
+            withinPortal
+          >
+            <ActionIcon
+              size="md"
+              radius={0}
+              variant={editor.isActive({ textAlign: "justify" }) ? "light" : "filled"}
+              color={
+                editor.isActive({ textAlign: "justify" }) ? "violet" : dark ? "dark" : "dark.4"
+              }
+              onClick={() => {
+                editor.chain().focus().setTextAlign("justify").run()
+              }}
+            >
+              <FaAlignJustify />
             </ActionIcon>
           </Tooltip>
           {!editLinkActive ? (
@@ -128,8 +219,8 @@ const TextEditor: React.FC<{
               <ActionIcon
                 size="md"
                 radius={0}
-                variant={editor.isActive("link") ? "light" : "subtle"}
-                color={editor.isActive("link") ? "violet" : dark ? "dark" : "gray"}
+                variant={editor.isActive("link") ? "light" : "filled"}
+                color={editor.isActive("link") ? "violet" : dark ? "dark" : "dark.4"}
                 onClick={() => {
                   editor.chain().focus().run()
                   setEditLinkActive(true)
@@ -167,6 +258,7 @@ const TextEditor: React.FC<{
         </Group>
       </BubbleMenu>
       <Box
+        spellCheck={false}
         sx={{
           "[contenteditable=true]": {
             outline: "none",

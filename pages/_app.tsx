@@ -12,7 +12,6 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   MantineThemeOverride,
-  Global,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -49,6 +48,40 @@ const CustomTheme: MantineThemeOverride = {
   },
   primaryColor: "violet",
   primaryShade: 5,
+  globalStyles: (theme) => ({
+    "*, *::before, *::after": {
+      boxSizing: "border-box",
+    },
+    html: {
+      cursor: `url(${cursor.src}), default`,
+    },
+    "::selection": {
+      background: theme.colors.violet[4],
+      color: theme.white,
+      WebkitTextFillColor: theme.white,
+    },
+    body: {
+      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+      color: theme.colorScheme === "dark" ? theme.white : theme.black,
+      lineHeight: theme.lineHeight,
+      minHeight: "100vh",
+      wordBreak: "break-word",
+      overflowY: "auto",
+      overflowX: "hidden",
+    },
+    ".ql-font-Times": {
+      fontFamily: "Times New Roman, sans",
+    },
+    ".ql-font-Nunito": {
+      fontFamily: "'Nunito', sans-serif",
+    },
+    ".ql-font-Helvetica": {
+      fontFamily: "Helvetica, sans-serif",
+    },
+    ".ql-font-Arial": {
+      fontFamily: "Arial, sans-serif",
+    },
+  }),
   components: {
     Paper: {
       styles: (theme) => ({
@@ -59,7 +92,7 @@ const CustomTheme: MantineThemeOverride = {
     },
     Tooltip: {
       defaultProps: {
-        color: "violet",
+        color: "dark",
       },
     },
     Card: {
@@ -189,42 +222,6 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme; locale: "ru" |
           </ColorSchemeProvider>
         </ModalsProvider>
       </MantineProvider>
-      <Global
-        styles={(theme) => ({
-          "*, *::before, *::after": {
-            boxSizing: "border-box",
-          },
-          html: {
-            cursor: `url(${cursor.src}), default`,
-          },
-          "::selection": {
-            background: theme.colors.violet[4],
-            color: theme.white,
-            WebkitTextFillColor: theme.white,
-          },
-          body: {
-            backgroundColor: colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
-            color: colorScheme === "dark" ? theme.white : theme.black,
-            lineHeight: theme.lineHeight,
-            minHeight: "100vh",
-            wordBreak: "break-word",
-            overflowY: "auto",
-            overflowX: "hidden",
-          },
-          ".ql-font-Times": {
-            fontFamily: "Times New Roman, sans",
-          },
-          ".ql-font-Nunito": {
-            fontFamily: "'Nunito', sans-serif",
-          },
-          ".ql-font-Helvetica": {
-            fontFamily: "Helvetica, sans-serif",
-          },
-          ".ql-font-Arial": {
-            fontFamily: "Arial, sans-serif",
-          },
-        })}
-      />
     </ErrorBoundary>
   )
 }

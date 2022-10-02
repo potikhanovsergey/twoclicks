@@ -1,5 +1,5 @@
-import { Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
-import React, { useContext, useEffect, useLayoutEffect, useMemo, useRef } from "react"
+import { Box, Button, ButtonProps, Group, Popover, useMantineTheme } from "@mantine/core"
+import React, { useContext, useEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
@@ -7,26 +7,27 @@ import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import BuilderImagePicker from "./BuilderImagePicker"
-import ElementPaletteEdit from "./ElementPaletteEdit"
-import ElementGradientsEdit from "./ElementGradientsEdit"
-import ElementRadiusesEdit from "./ElementRadiusesEdit"
-import ElementSizesEdit from "./ElementSizesEdit"
-import ElementVariantsEdit from "./ElementVariantsEdit"
-import ElementDeleteButton from "./ElementDeleteButton"
-import ElementMoves from "./ElementMoves"
-import ElementName from "./ElementName"
-import ElementIconEdit from "./ElementIconEdit"
+
+const BuilderImagePicker = dynamic(() => import("./BuilderImagePicker"))
+const ElementPaletteEdit = dynamic(() => import("./ElementPaletteEdit"))
+const ElementGradientsEdit = dynamic(() => import("./ElementGradientsEdit"))
+const ElementRadiusesEdit = dynamic(() => import("./ElementRadiusesEdit"))
+const ElementSizesEdit = dynamic(() => import("./ElementSizesEdit"))
+const ElementVariantsEdit = dynamic(() => import("./ElementVariantsEdit"))
+const ElementDeleteButton = dynamic(() => import("./ElementDeleteButton"))
+const ElementMoves = dynamic(() => import("./ElementMoves"))
+const ElementIconEdit = dynamic(() => import("./ElementIconEdit"))
+const ElementLinkEdit = dynamic(() => import("./ElementLinkEdit"))
+const ElementTypeEdit = dynamic(() => import("./ElementTypeEdit"))
+const ElementCopyButton = dynamic(() => import("./ElementCopyButton"))
+const SectionBGEdit = dynamic(() => import("./SectionBGEdit"))
+const ElementUploadLink = dynamic(() => import("./ElementUploadLink"))
+
 import { TypeIcons } from "helpers"
-import ElementLinkEdit from "./ElementLinkEdit"
 import useTranslation from "next-translate/useTranslation"
-import ElementUploadLink from "./ElementUploadLink"
-import SectionBGEdit from "./SectionBGEdit"
-
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
-import ElementTypeEdit from "./ElementTypeEdit"
 
-import ElementCopyButton from "./ElementCopyButton"
+import dynamic from "next/dynamic"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -45,13 +46,16 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
   const { t } = useTranslation("build")
 
   const { insertIndex, ...otherProps } = props
+
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
   return (
     <Button
       size="sm"
-      variant="gradient"
+      variant={dark ? "white" : "filled"}
+      color="dark"
       rightIcon={<FiPlusSquare />}
       compact
-      gradient={{ from: "violet", to: "red" }}
       onClick={() => {
         BuildStore.insertIndex = insertIndex
         setModalContext((prevValue: IModalContextValue) => ({
@@ -74,13 +78,7 @@ const FIT_CONTENT_ELEMENTS = [
   "@mantine/core/avatar",
 ]
 
-const WithEditToolbar = ({
-  children,
-  parentID,
-  props,
-  sectionIndex,
-  element,
-}: IWithEditToolbar) => {
+const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEditToolbar) => {
   const { activeEditToolbars, isImageUploading, openedAction } = BuildStore
 
   const editableRef = useRef<HTMLDivElement>(null)
@@ -95,11 +93,9 @@ const WithEditToolbar = ({
     closeDelay: 400,
   })
 
-  const elementProps = element?.props as ICanvasBlockProps | undefined
-
   const popoverOpened = useMemo(() => {
     return opened || Boolean(openedAction[element.id])
-  }, [opened, openedAction])
+  }, [opened, openedAction, element.id])
 
   useEffect(() => {
     if (!didMount) {
@@ -109,7 +105,7 @@ const WithEditToolbar = ({
         BuildStore.openedAction = {}
       }
     }
-  }, [opened, isImageUploading])
+  }, [opened, isImageUploading, element.id, activeEditToolbars, didMount])
 
   const sectionLike = useMemo(() => {
     return element.editType === "section" || element.type?.includes("card") || element?.sectionLike
@@ -129,16 +125,16 @@ const WithEditToolbar = ({
           sx={(theme) => ({
             width:
               element.type && FIT_CONTENT_ELEMENTS.includes(element.type) ? "fit-content" : "auto",
-            margin: elementProps?.align === "center" ? "0 auto" : undefined,
+            margin: element.props?.align === "center" ? "0 auto" : undefined,
             border:
               element.editType === "section"
                 ? "none"
                 : opened ||
-                  (typeof elementProps?.children === "string" && !elementProps?.children.length)
+                  (typeof element.props?.children === "string" && !element.props?.children.length)
                 ? `1px dotted ${theme.colors.gray[5]}`
                 : "1px solid transparent",
-            position: elementProps?.sx?.position === "sticky" ? "sticky" : "relative",
-            top: elementProps?.sx?.position === "sticky" ? elementProps?.sx?.top : undefined,
+            position: element.props?.sx?.position === "sticky" ? "sticky" : "relative",
+            top: element.props?.sx?.position === "sticky" ? element.props?.sx?.top : undefined,
             justifySelf: "stretch",
             "> :not(button, [data-button=true]), > :not([data-button=true])": {
               height: "100%",
@@ -197,47 +193,33 @@ const WithEditToolbar = ({
             flexDirection: sectionLike ? "column" : "row",
           }}
         >
-          {element.editType !== "section" && element.name && <ElementName name={element.name} />}
-          <ElementVariantsEdit id={element.id} type={element.type} props={props} />
-          <ElementSizesEdit id={element.id} type={element.type} props={props} />
-          <ElementRadiusesEdit id={element.id} type={element.type} props={props} />
-          <ElementGradientsEdit id={element.id} type={element.type} props={props} />
+          <ElementVariantsEdit element={element} />
+          <ElementSizesEdit element={element} />
+          <ElementRadiusesEdit element={element} />
+          <ElementGradientsEdit element={element} />
           {element.type &&
             ["image", "youtubeframe"].some((item) => element.type.includes(item)) && (
               <ElementTypeEdit
-                id={element.id}
-                type={element.type}
+                element={element}
                 types={[
                   { label: "Image", value: "@mantine/core/image", editType: "image" },
                   { label: "Youtube Video", value: "youtubeframe", editType: "video" },
                 ]}
               />
             )}{" "}
-          <ElementPaletteEdit id={element.id} element={element} type={element.type} props={props} />
-          <ElementMoves id={element.id} parentID={parentID} editType={element.editType} />
-          {element.type && props && (
-            <ElementUploadLink id={element.id} props={props} type={element.type} />
-          )}
+          <ElementPaletteEdit element={element} />
+          <ElementMoves parentID={parentID} element={element} />
+          {element.type && element.props && <ElementUploadLink element={element} />}
           {element.type &&
             TypeIcons[element.type]?.map((propName) => (
-              <ElementIconEdit
-                id={element.id}
-                type={element.type}
-                propName={propName}
-                props={props}
-                key={propName}
-              />
+              <ElementIconEdit propName={propName} key={propName} element={element} />
             ))}
-          {element.type && props && (
-            <ElementLinkEdit id={element.id} props={props} type={element.type} />
-          )}
+          {element.type && element.props && <ElementLinkEdit element={element} />}
           {element && !element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} />
           )}
-          <ElementDeleteButton id={element.id} parentID={parentID} editType={element.editType} />
-          {element.editType === "section" && (
-            <SectionBGEdit id={element.id} props={props} editType={element.editType} />
-          )}
+          <ElementDeleteButton parentID={parentID} element={element} />
+          {element.editType === "section" && <SectionBGEdit element={element} />}
         </Group>
       </Popover.Dropdown>
     </Popover>

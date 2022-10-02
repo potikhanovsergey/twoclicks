@@ -37,11 +37,8 @@ import MantineFeaturesWithMonotoneIcons from "app/build/sections/features/Mantin
 import Partners from "app/build/sections/partners/Partners"
 import GalleryWithButton from "app/build/sections/galleries/GalleryWithButton"
 import FeaturesWithPicture from "app/build/sections/features/FeaturesWithPicture"
-<<<<<<< HEAD
 import FeaturesWithPeople from "app/build/sections/features/FeaturesWithPeople"
-=======
 import FloatingTitleFeatures from "app/build/sections/features/FloatingTitleFeatures"
->>>>>>> 05890a6319e3fa164eba9cab15926f8a6361c76c
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"))
 
@@ -59,11 +56,8 @@ const sections = [
   Partners,
   GalleryWithButton,
   FeaturesWithPicture,
-<<<<<<< HEAD
   FeaturesWithPeople,
-=======
   FloatingTitleFeatures,
->>>>>>> 05890a6319e3fa164eba9cab15926f8a6361c76c
 ]
 
 const DashboardIndex = () => {

@@ -23,8 +23,9 @@ import shortid from "shortid"
 import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill"
 import { RiHeartAddLine } from "@react-icons/all-files/ri/RiHeartAddLine"
 import upsertUsedBlock from "app/building-blocks/mutations/upsertUsedBlock"
+import { ICanvasBlock } from "types"
 interface IViewListItem {
-  block: BuildingBlock
+  block: ICanvasBlock
   onClick?: () => void
   hasActions?: boolean
   liked?: boolean

@@ -8,25 +8,23 @@ import { CgToggleSquareOff } from "@react-icons/all-files/cg/CgToggleSquareOff"
 import { CgToggleSquare } from "@react-icons/all-files/cg/CgToggleSquare"
 
 import { BuildStore } from "store/build"
-import { ICanvasBlockProps } from "types"
+import { ICanvasBlock, ICanvasBlockProps } from "types"
 
 interface IElementIconEdit {
-  type?: string
-  props?: ICanvasBlockProps
-  id: string
   propName: string
+  element: ICanvasBlock
 }
 
 const formatOutput = (icon: JSX.Element) => {
   return JSON.parse(serialize(icon))
 }
-const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
-  const hasIconEdit = type && TypeIcons[type.toLowerCase()]
+const ElementIconEdit = ({ element, propName }: IElementIconEdit) => {
+  const hasIconEdit = element.type && TypeIcons[element.type.toLowerCase()]
   const { changeProp } = BuildStore
 
   const ICON = useMemo(() => {
-    return props?.[propName] ? props[propName] : null
-  }, [props])
+    return element.props?.[propName] ? element.props[propName] : null
+  }, [element])
 
   const { t } = useTranslation("build")
 
@@ -36,13 +34,14 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
         propName === "leftIcon" || propName === "leftSection" ? t("left icon") : t("right icon")
       }
       withArrow
+      position={element.sectionLike ? "left" : "top"}
     >
       <div>
         <IconPicker
           withReset={Boolean(ICON)}
           onReset={() => {
             changeProp({
-              id,
+              id: element.id,
               newProps: {
                 [propName]: undefined,
               },
@@ -66,7 +65,7 @@ const ElementIconEdit = ({ type, props, id, propName }: IElementIconEdit) => {
             const iconProps = formatOutput(icon)?.props
             if (iconProps) {
               changeProp({
-                id,
+                id: element.id,
                 newProps: {
                   [propName]: {
                     props: iconProps,

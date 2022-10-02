@@ -1,6 +1,6 @@
 import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
-import { Button } from "@mantine/core"
+import { Button, useMantineTheme } from "@mantine/core"
 import { useHotkeys } from "@mantine/hooks"
 import updatePage from "app/build-pages/mutations/updatePage"
 import { observer } from "mobx-react-lite"
@@ -21,14 +21,16 @@ const SaveButton = observer(() => {
     setIsSaveButtonLoading(isLoading)
   }, [isLoading])
 
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
+
   const { t } = useTranslation("build")
   return (
     <Button
       loading={isSaveButtonLoading}
       onClick={() => savePage({ session, updatePageMutation })}
       disabled={!hasPageChanged}
-      variant={hasPageChanged ? "gradient" : "default"}
-      gradient={{ from: "violet", to: "red", deg: 35 }}
+      color="violet"
       size="xs"
       leftIcon={<FaSave size={15} />}
       sx={({}) => ({ ":disabled": { border: 0 } })}

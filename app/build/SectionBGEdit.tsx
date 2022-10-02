@@ -1,21 +1,19 @@
 import { Tooltip, Box, useMantineTheme, ThemeIcon, ActionIcon } from "@mantine/core"
-import { useHover } from "@mantine/hooks"
+import { useHover, useTimeout } from "@mantine/hooks"
 import { getPaletteByType, getHexFromThemeColor } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { ExtendedCustomColors } from "pages/_app"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
 import PaletteItem from "./PaletteItem"
 
 interface ISectionBGEdit {
-  props?: ICanvasBlockProps
-  id: string
-  editType?: string | null
+  element: ICanvasBlock
 }
 
-const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
+const SectionBGEdit = ({ element }: ISectionBGEdit) => {
   const theme = useMantineTheme()
 
   const { changeProp, openedAction } = BuildStore
@@ -23,54 +21,80 @@ const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
   const { t } = useTranslation("build")
   const { hovered: itemHovered, ref: itemRef } = useHover()
 
+  const changeColor = (value: ExtendedCustomColors | string) => {
+    changeProp({
+      id: element.id,
+      newProps: {
+        sx: {
+          ...element.props?.sx,
+          backgroundColor: Array.isArray(theme.colors[value]) ? theme.colors[value][5] : value,
+        },
+      },
+    })
+  }
+
+  const pickerTimeout = useRef<NodeJS.Timeout | null>(null)
+
   return (
     <Tooltip
       label="Change background"
-      color="violet"
       withArrow
       position="left"
-      opened={itemHovered && openedAction[id] !== "bg"}
+      opened={itemHovered && openedAction[element.id] !== "bg"}
     >
       <div ref={itemRef}>
         <PaletteItem
           withHover
-          opened={openedAction[id] === "bg"}
-          // onOpen={() => {
-          //   BuildStore.openedAction[id] = "bg"
-          // }}
+          colorPickerProps={{
+            withPicker: true,
+            mt: "sm",
+            size: "xs",
+          }}
+          opened={openedAction[element.id] === "bg"}
           onTargetClick={() => {
-            BuildStore.openedAction[id] = "bg"
+            BuildStore.openedAction[element.id] = "bg"
           }}
           onClose={() => {
             BuildStore.openedAction = {}
           }}
           popoverPosition="top-end"
           offset={6}
-          color={props?.sx?.backgroundColor}
-          withReset={Boolean(props?.sx?.backgroundImage || props?.sx?.backgroundColor)}
-          onColorChange={(value: ExtendedCustomColors | string) => {
+          color={element.props?.sx?.backgroundColor}
+          withReset={Boolean(
+            element.props?.sx?.backgroundImage || element.props?.sx?.backgroundColor
+          )}
+          withImageDelete={Boolean(element.props?.sx?.backgroundImage)}
+          onImageDelete={() => {
             changeProp({
-              id,
+              id: element.id,
               newProps: {
                 sx: {
-                  ...props?.sx,
-                  backgroundColor: Array.isArray(theme.colors[value])
-                    ? theme.colors[value][5]
-                    : value,
+                  ...element.props?.sx,
+                  backgroundImage: undefined,
                 },
               },
             })
           }}
+          onColorChange={(value: ExtendedCustomColors | string) => {
+            if (value.includes("#")) {
+              pickerTimeout.current && clearTimeout(pickerTimeout.current)
+              pickerTimeout.current = setTimeout(() => {
+                changeColor(value)
+              }, 100)
+            } else {
+              changeColor(value)
+            }
+          }}
           resetText="Take from theme"
-          hasBG={props?.sx?.backgroundImage}
-          editType={editType}
+          hasBG={element.props?.sx?.backgroundImage}
+          editType={element.editType}
           middlewares={{ shift: false, flip: false }}
           onResetClick={() => {
             changeProp({
-              id,
+              id: element.id,
               newProps: {
                 sx: {
-                  ...props?.sx,
+                  ...element.props?.sx,
                   backgroundColor: undefined,
                   backgroundImage: undefined,
                 },
@@ -78,13 +102,13 @@ const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
             })
           }}
           imageUpload={{
-            id,
+            id: element.id,
             onImagePick(url) {
               changeProp({
-                id,
+                id: element.id,
                 newProps: {
                   sx: {
-                    ...props?.sx,
+                    ...element.props?.sx,
                     backgroundImage: `url(${url})`,
                     backgroundRepeat: "no-repeat",
                     backgroundPosition: "center",

@@ -1,8 +1,8 @@
 import { MantineTheme } from "@mantine/core"
 import dynamic from "next/dynamic"
-import React, { useCallback, useMemo, useRef } from "react"
+import React, { useMemo } from "react"
 import shortid from "shortid"
-import { ICanvasBlockProps, ICanvasBlock, IPage } from "types"
+import { ICanvasBlockProps, ICanvasBlock } from "types"
 import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import { ExtendedCustomColors } from "pages/_app"
@@ -13,7 +13,6 @@ import { IconPickerProps } from "app/core/components/base/IconPicker"
 import { canvasBuildingBlocks } from "./blocks"
 import TextEditor from "app/core/components/TextEditor"
 import { observer } from "mobx-react-lite"
-import { BuildingBlock } from "@prisma/client"
 
 const IconPicker = dynamic<IconPickerProps>(() =>
   import("app/core/components/base/IconPicker").then((module) => module)
@@ -295,7 +294,6 @@ export const RenderJSXFromBlock = observer(
         <WithEditToolbar
           key={el.id}
           parentID={parentID}
-          props={props}
           sectionIndex={sectionIndex}
           element={element}
         >

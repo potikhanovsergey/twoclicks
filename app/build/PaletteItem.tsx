@@ -7,6 +7,8 @@ import {
   Box,
   Button,
   FileButton,
+  ColorPickerProps,
+  TextInput,
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray, isTextElement } from "helpers"
@@ -15,6 +17,7 @@ import { useState, useMemo, useEffect } from "react"
 import { BuildStore } from "store/build"
 
 import { BsFillImageFill } from "@react-icons/all-files/bs/BsFillImageFill"
+import { useDebouncedValue } from "@mantine/hooks"
 
 interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
@@ -35,6 +38,9 @@ interface IPaletteItem extends Omit<PopoverProps, "children"> {
   type?: string | null
   editType?: string | null
   onTargetClick?: () => void
+  withImageDelete?: boolean
+  onImageDelete?: () => void
+  colorPickerProps?: ColorPickerProps
 }
 
 const PaletteItem = (props: IPaletteItem) => {
@@ -56,6 +62,9 @@ const PaletteItem = (props: IPaletteItem) => {
     onTargetClick,
     type,
     editType,
+    withImageDelete,
+    onImageDelete,
+    colorPickerProps,
     ...popoverProps
   } = props
 
@@ -169,7 +178,13 @@ const PaletteItem = (props: IPaletteItem) => {
               </FileButton>
             </div>
           )}
+          {withImageDelete && (
+            <Button color="red" variant="light" compact size="sm" fullWidth onClick={onImageDelete}>
+              Remove image
+            </Button>
+          )}
           <ColorPicker
+            mt={0}
             size="xl"
             withPicker={false}
             swatchesPerRow={8}
@@ -179,6 +194,7 @@ const PaletteItem = (props: IPaletteItem) => {
             onChange={(value) =>
               onColorChange(colorValueArray.find?.((item) => item.value === value)?.color || value)
             }
+            {...colorPickerProps}
           />
         </Box>
       </Popover.Dropdown>

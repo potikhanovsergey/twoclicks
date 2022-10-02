@@ -1,6 +1,7 @@
 import { paginate, Ctx } from "blitz"
 import db from "db"
 import { Prisma } from "@prisma/client"
+import { ICanvasBlock } from "types"
 
 interface GetBuildingBlocksInput
   extends Pick<Prisma.BuildingBlockFindManyArgs, "where" | "orderBy" | "skip" | "take"> {}
@@ -27,7 +28,7 @@ export default async function Get__ModelNames(input: GetBuildingBlocksInput, ctx
   })
 
   return {
-    buildingBlocks,
+    buildingBlocks: buildingBlocks as ICanvasBlock[],
     nextPage,
     hasMore,
     count,

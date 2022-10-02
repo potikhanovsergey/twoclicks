@@ -2,27 +2,27 @@ import { ActionIcon, Tooltip } from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
 import { RiDeleteBin6Line } from "@react-icons/all-files/ri/RiDeleteBin6Line"
 import { BuildStore } from "store/build"
+import { ICanvasBlock } from "types"
 
 interface IElementDeleteButton {
-  id: string
   parentID: string | null
-  editType: string | null
+  element: ICanvasBlock
 }
 
-const ElementDeleteButton = ({ id, parentID, editType }: IElementDeleteButton) => {
+const ElementDeleteButton = ({ parentID, element }: IElementDeleteButton) => {
   const { deleteElement } = BuildStore
   const { t } = useTranslation("build")
   return (
     <Tooltip
-      label={editType === "section" ? t("delete section") : t("delete")}
+      label={element.editType === "section" ? t("delete section") : t("delete")}
       withArrow
-      position={editType === "section" ? "left" : "top"}
+      position={element.editType === "section" || element.sectionLike ? "left" : "top"}
     >
       <ActionIcon
         color="red"
         size="md"
         onClick={() => {
-          deleteElement({ id, parentID })
+          deleteElement({ id: element.id, parentID })
         }}
       >
         <RiDeleteBin6Line />

@@ -3,30 +3,28 @@ import { getSizesByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { BuildStore } from "store/build"
-import { ICanvasBlockProps } from "types"
+import { ICanvasBlock } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
 import { GiResize } from "@react-icons/all-files/gi/GiResize"
 
 interface IElementSizesEdit {
-  type?: string
-  props?: ICanvasBlockProps
-  id: string
+  element: ICanvasBlock
 }
 
-const ElementSizesEdit = ({ type, props, id }: IElementSizesEdit) => {
-  const sizes = type ? getSizesByType(type) : undefined
+const ElementSizesEdit = ({ element }: IElementSizesEdit) => {
+  const sizes = element.type ? getSizesByType(element.type) : undefined
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
   return sizes ? (
     <ToolbarMenu
       menuProps={{
-        defaultOpened: openedAction?.[id] === "size",
+        defaultOpened: openedAction?.[element.id] === "size",
         onClose: () => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[id] = "size"
+          BuildStore.openedAction[element.id] = "size"
         },
       }}
       tooltipProps={{
@@ -46,10 +44,14 @@ const ElementSizesEdit = ({ type, props, id }: IElementSizesEdit) => {
                 size="sm"
                 compact
                 key={size}
-                disabled={props?.size === undefined ? size === "filled" : size === props?.size}
+                disabled={
+                  element.props?.size === undefined
+                    ? size === "filled"
+                    : size === element.props?.size
+                }
                 onClick={() => {
                   changeProp({
-                    id,
+                    id: element.id,
                     newProps: { size },
                   })
                 }}

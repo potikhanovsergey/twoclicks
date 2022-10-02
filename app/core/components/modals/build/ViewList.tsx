@@ -12,7 +12,7 @@ import { useSession } from "@blitzjs/auth"
 import { useCurrentUserLikedBlocks } from "app/core/hooks/useCurrentUserLikedBlocks"
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
-import { ICanvasModalType } from "types"
+import { ICanvasBlock, ICanvasModalType } from "types"
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -126,7 +126,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
           {buildingBlocksData?.buildingBlocks.map((b, i) => {
-            const block = b.buildingBlock ? b.buildingBlock : b
+            const block: ICanvasBlock = b.buildingBlock ? b.buildingBlock : b
             return (
               <ViewListItem
                 block={block}

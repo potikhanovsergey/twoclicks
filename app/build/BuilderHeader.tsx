@@ -114,7 +114,7 @@ const ThemeChanger = observer(() => {
           opened={hovered && !opened}
           onClick={() => setOpened((o) => !o)}
         >
-          <ActionIcon color="violet" ref={ref}>
+          <ActionIcon color="dark" ref={ref}>
             {pageTheme === "light" || (pageTheme === "inherit" && theme.colorScheme === "light") ? (
               <ImSun width={20} height={20} />
             ) : (
@@ -133,7 +133,6 @@ const ThemeChanger = observer(() => {
             <Button
               compact
               fullWidth
-              variant="light"
               key={item.value}
               disabled={item.value === pageTheme}
               onClick={() => handleChangeTheme(item.value)}
@@ -226,8 +225,8 @@ const ObservedPageName = observer(() => {
                       zIndex={301}
                     >
                       <ActionIcon
-                        color="violet"
-                        variant="light"
+                        color="dark"
+                        variant="filled"
                         size={30}
                         onClick={() => {
                           setInputVisible(true)
@@ -249,8 +248,7 @@ const ObservedPageName = observer(() => {
                       sx={{ width: "100%", flexGrow: 1 }}
                     />
                     <ActionIcon
-                      color="violet"
-                      variant="light"
+                      color="dark"
                       size={30}
                       disabled={editName === name || !editName?.length}
                       loading={isUpdatingPage}
@@ -322,21 +320,15 @@ const BuilderHeader = ({ className }: { className?: string }) => {
           </Box>
           <Group spacing={8}>
             <ThemeChanger />
-            <HistoryButtons color="violet" size={30} variant="filled" />
-            <ViewportButtons color="violet" size={30} />
+            <HistoryButtons color="dark" size={30} variant="filled" />
+            <ViewportButtons color="dark" size={30} />
             <Tooltip
               label={fullscreen ? t("turn off fullscreen mode") : t("turn on fullscreen mode")}
               withArrow
               position="bottom"
               opened={fullscreenHovered}
             >
-              <ActionIcon
-                onClick={toggle}
-                color="violet"
-                variant="light"
-                size={30}
-                ref={fullscreenRef}
-              >
+              <ActionIcon onClick={toggle} color="dark" size={30} ref={fullscreenRef}>
                 {fullscreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />}
               </ActionIcon>
             </Tooltip>

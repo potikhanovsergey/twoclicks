@@ -15,7 +15,7 @@ import useTranslation from "next-translate/useTranslation"
 import { useEffect, useMemo, useState } from "react"
 
 import { BuildStore } from "store/build"
-import { ICanvasBlockProps } from "types"
+import { ICanvasBlock, ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 import { AppStore } from "store"
 
@@ -25,9 +25,7 @@ import { IoClose } from "@react-icons/all-files/io5/IoClose"
 import { GoLinkExternal } from "@react-icons/all-files/go/GoLinkExternal"
 
 interface IElementLinkEdit {
-  type: string
-  id: string
-  props: ICanvasBlockProps
+  element: ICanvasBlock
 }
 
 const CheckboxIcon: CheckboxProps["icon"] = ({ indeterminate, className }) =>
@@ -37,22 +35,22 @@ const CheckboxIcon: CheckboxProps["icon"] = ({ indeterminate, className }) =>
     <GoLinkExternal className={className} />
   )
 
-const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
-  const hasLinkEdit = TypeLinks[type]
+const ElementLinkEdit = ({ element }: IElementLinkEdit) => {
+  const hasLinkEdit = TypeLinks[element.type]
   const {
     changeProp,
     openedAction,
     data: { id: pageID },
   } = BuildStore
 
-  const [link, setLink] = useState(props.href || "")
+  const [link, setLink] = useState(element.props.href || "")
   const [openInNewTab, setOpenInNewTab] = useState(
-    props.target === "_blank" ? true : props.target === "_self" ? false : true
+    element.props.target === "_blank" ? true : element.props.target === "_self" ? false : true
   )
 
   const handleLinkify = (url: string) => {
     changeProp({
-      id,
+      id: element.id,
       newProps: {
         href: url.length ? url : undefined,
         component: url.length ? "a" : undefined,
@@ -63,7 +61,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
 
   const handleReset = () => {
     changeProp({
-      id,
+      id: element.id,
       newProps: {
         href: undefined,
         component: undefined,
@@ -88,12 +86,12 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
   return hasLinkEdit ? (
     <ToolbarMenu
       menuProps={{
-        defaultOpened: openedAction?.[id] === "link",
+        defaultOpened: openedAction?.[element.id] === "link",
         onClose: () => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[id] = "link"
+          BuildStore.openedAction[element.id] = "link"
         },
       }}
       tooltipProps={{
@@ -109,7 +107,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
         sx: (theme) => ({ boxShadow: theme.shadows.md }),
         children: (
           <ScrollArea.Autosize maxHeight={196} type="never">
-            {props.href && (
+            {element.props.href && (
               <Button
                 compact
                 variant="light"
@@ -132,7 +130,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
                 const newValue = event.currentTarget.checked
                 setOpenInNewTab(newValue)
                 changeProp({
-                  id,
+                  id: element.id,
                   newProps: {
                     target: newValue ? "_blank" : "_self",
                   },
@@ -159,7 +157,7 @@ const ElementLinkEdit = ({ type, id, props }: IElementLinkEdit) => {
                 onClick={() => handleLinkify(link)}
                 color="violet"
                 variant="filled"
-                disabled={link === props.href}
+                disabled={link === element.props.href}
               >
                 <FaCheck />
               </ActionIcon>

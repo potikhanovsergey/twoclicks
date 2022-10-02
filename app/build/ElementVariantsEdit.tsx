@@ -3,29 +3,27 @@ import { getVariantsByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { BuildStore } from "store/build"
-import { ICanvasBlockProps } from "types"
+import { ICanvasBlock, ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
 import { FaMagic } from "@react-icons/all-files/fa/FaMagic"
 interface IElementVariantsEdit {
-  type?: string
-  props?: ICanvasBlockProps
-  id: string
+  element: ICanvasBlock
 }
 
-const ElementVariantsEdit = ({ type, props, id }: IElementVariantsEdit) => {
-  const variants = type ? getVariantsByType(type) : undefined
+const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
+  const variants = element.type ? getVariantsByType(element.type) : undefined
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
   return variants ? (
     <ToolbarMenu
       menuProps={{
-        defaultOpened: openedAction?.[id] === "variant",
+        defaultOpened: openedAction?.[element.id] === "variant",
         onClose: () => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[id] = "variant"
+          BuildStore.openedAction[element.id] = "variant"
         },
       }}
       tooltipProps={{
@@ -52,11 +50,13 @@ const ElementVariantsEdit = ({ type, props, id }: IElementVariantsEdit) => {
                 compact
                 key={variant}
                 disabled={
-                  props?.variant === undefined ? variant === "filled" : variant === props?.variant
+                  element.props?.variant === undefined
+                    ? variant === "filled"
+                    : variant === element.props?.variant
                 }
                 onClick={() => [
                   changeProp({
-                    id,
+                    id: element.id,
                     newProps: { variant },
                   }),
                 ]}

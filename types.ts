@@ -16,7 +16,7 @@ export type ICanvasPalette = {
 export interface IPage {
   id: string
   name: string
-  data: BuildingBlock[]
+  data: ICanvasBlock[]
   palette: ICanvasPalette
   theme: "inherit" | "light" | "dark"
   createdAt?: Date
@@ -42,6 +42,7 @@ export interface ICanvasBlockProps {
 export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt"> & {
   disableCopy?: boolean
   sectionLike?: boolean
+  props?: ICanvasBlockProps
 }
 
 export type ICanvasElement = ICanvasBlock | undefined | string | null // Element can be either block, string (text), or nothing
