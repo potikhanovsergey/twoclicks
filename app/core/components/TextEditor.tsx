@@ -12,6 +12,7 @@ import { FaBold } from "@react-icons/all-files/fa/FaBold"
 import { FaAlignLeft } from "@react-icons/all-files/fa/FaAlignLeft"
 import { FaAlignCenter } from "@react-icons/all-files/fa/FaAlignCenter"
 import { FaAlignRight } from "@react-icons/all-files/fa/FaAlignRight"
+import { FaAlignJustify } from "@react-icons/all-files/fa/FaAlignJustify"
 import { FaLink } from "@react-icons/all-files/fa/FaLink"
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import { observer } from "mobx-react-lite"
@@ -184,6 +185,28 @@ const TextEditor: React.FC<{
               <FaAlignRight />
             </ActionIcon>
           </Tooltip>
+          <Tooltip
+            label="Justify"
+            position="bottom"
+            withArrow
+            color="dark"
+            sx={{ boxShadow: theme.shadows.md }}
+            withinPortal
+          >
+            <ActionIcon
+              size="md"
+              radius={0}
+              variant={editor.isActive({ textAlign: "justify" }) ? "light" : "filled"}
+              color={
+                editor.isActive({ textAlign: "justify" }) ? "violet" : dark ? "dark" : "dark.4"
+              }
+              onClick={() => {
+                editor.chain().focus().setTextAlign("justify").run()
+              }}
+            >
+              <FaAlignJustify />
+            </ActionIcon>
+          </Tooltip>
           {!editLinkActive ? (
             <Tooltip
               label={editor.isActive("link") ? editor.getAttributes("link").href : "Set link"}
@@ -235,6 +258,7 @@ const TextEditor: React.FC<{
         </Group>
       </BubbleMenu>
       <Box
+        spellCheck={false}
         sx={{
           "[contenteditable=true]": {
             outline: "none",
