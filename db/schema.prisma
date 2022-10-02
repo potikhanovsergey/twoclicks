@@ -101,6 +101,7 @@ model Page {
   palette     Json     @default("{ \"primary\": \"violet\" }")
   theme       String   @default("inherit")
   isPublished Boolean  @default(false)
+  customID    String?  @unique
 
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)

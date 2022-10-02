@@ -11,7 +11,7 @@ import {
 } from "@mantine/core"
 import React, { useEffect, useMemo, useState } from "react"
 import { RenderJSXFromBlock, serialize } from "helpers"
-import { jsonLanguage } from "@codemirror/lang-json"
+import { jsonLanguage, jsonParseLinter } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
 import { useMutation } from "@blitzjs/rpc"
 import createBuildingBlock from "app/dashboard/building-blocks/mutations/createBuildingBlock"
@@ -39,6 +39,9 @@ import GalleryWithButton from "app/build/sections/galleries/GalleryWithButton"
 import FeaturesWithPicture from "app/build/sections/features/FeaturesWithPicture"
 import FeaturesWithPeople from "app/build/sections/features/FeaturesWithPeople"
 import FloatingTitleFeatures from "app/build/sections/features/FloatingTitleFeatures"
+import { linter } from "@codemirror/lint"
+
+const linterExtension = linter(jsonParseLinter())
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"))
 
@@ -80,7 +83,7 @@ const DashboardIndex = () => {
   const onChange = (value) => {
     try {
       const parsedJSON = JSON.stringify(JSON.parse(value), null, 2)
-      setJson(parsedJSON)
+      setJson(value)
       setError(null)
     } catch (e) {
       setError(e.toString())
@@ -217,7 +220,7 @@ const DashboardIndex = () => {
             value={json}
             height="100%"
             onChange={onChange}
-            extensions={[jsonLanguage]}
+            extensions={[jsonLanguage, linterExtension]}
             indentWithTab
             style={{
               fontFamily: "Nunito",

@@ -75,6 +75,7 @@ const BuildPage = () => {
         name: page.name,
         id: page.id,
         palette: page.palette,
+        customID: page.customID,
         theme: page.theme || "inherit",
         flattenBlocks: {},
         isPublished: page.isPublished,

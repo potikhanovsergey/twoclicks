@@ -24,6 +24,7 @@ const defaultPalette = {
 const initialData = {
   name: null,
   id: null,
+  customID: null,
   blocks: [],
   flattenBlocks: {},
   palette: defaultPalette,
