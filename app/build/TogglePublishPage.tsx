@@ -1,5 +1,5 @@
 import { useMutation } from "@blitzjs/rpc"
-import { Button } from "@mantine/core"
+import { Button, useMantineTheme } from "@mantine/core"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { AppStore } from "store"
@@ -28,13 +28,15 @@ const TogglePublishPage = ({ id }: ITogglePublishPage) => {
 
   const { t } = useTranslation("build")
 
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
   return (
     <Button
-      color="violet"
+      color="dark"
       onClick={handleToggle}
       size="xs"
       loading={isLoading}
-      variant="filled"
+      variant={dark ? "white" : "filled"}
       leftIcon={page?.isPublished ? <FaEyeSlash size={15} /> : <FaEye size={15} />}
     >
       {page?.isPublished ? t("hide page") : t("publish page")}
