@@ -8,6 +8,7 @@ import {
   Button,
   FileButton,
   ColorPickerProps,
+  TextInput,
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray, isTextElement } from "helpers"
@@ -16,6 +17,7 @@ import { useState, useMemo, useEffect } from "react"
 import { BuildStore } from "store/build"
 
 import { BsFillImageFill } from "@react-icons/all-files/bs/BsFillImageFill"
+import { useDebouncedValue } from "@mantine/hooks"
 
 interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
@@ -182,6 +184,7 @@ const PaletteItem = (props: IPaletteItem) => {
             </Button>
           )}
           <ColorPicker
+            mt={0}
             size="xl"
             withPicker={false}
             swatchesPerRow={8}
