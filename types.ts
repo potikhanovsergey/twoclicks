@@ -15,6 +15,7 @@ export type ICanvasPalette = {
 }
 export interface IPage {
   id: string
+  customID?: string
   name: string
   data: ICanvasBlock[]
   palette: ICanvasPalette
@@ -53,6 +54,7 @@ export interface ICanvasData {
     [key: string]: ICanvasBlock
   }
   id: string | null
+  customID?: string
   name: string | null
   palette: ICanvasPalette
   theme: "inherit" | "light" | "dark"

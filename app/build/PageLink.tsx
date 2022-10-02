@@ -18,7 +18,8 @@ const PageLink = ({
   shouldSearch?: boolean
   centered?: boolean
 }) => {
-  const page = shouldSearch ? AppStore.pages.find((p) => p.id === id) : null
+  console.log(id, AppStore.pages)
+  const page = shouldSearch ? AppStore.pages.find((p) => p.id === id || p.customID === id) : null
   const { t } = useTranslation("build")
   return page?.isPublished || !shouldSearch ? (
     <Group spacing={4} noWrap position={centered ? "center" : undefined}>

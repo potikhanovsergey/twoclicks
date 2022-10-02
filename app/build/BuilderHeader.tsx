@@ -149,7 +149,7 @@ const ThemeChanger = observer(() => {
 const ObservedPageName = observer(() => {
   const session = useSession()
   const {
-    data: { name, id },
+    data: { name, id, customID },
   } = BuildStore
 
   const [inputVisible, setInputVisible] = useState(false)
@@ -207,7 +207,7 @@ const ObservedPageName = observer(() => {
           {current && (
             <Stack spacing={4}>
               <Text weight="bold">Current page:</Text>
-              {id && isPublished && <PageLink id={id} withEllipsis={true} />}
+              {id && isPublished && <PageLink id={customID || id} withEllipsis={true} />}
 
               <Group noWrap spacing={4} mb="sm">
                 {!inputVisible ? (
