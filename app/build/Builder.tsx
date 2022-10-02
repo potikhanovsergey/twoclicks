@@ -205,7 +205,7 @@ const Builder = () => {
       theme: data.theme,
     })
     const cssLink = document.createElement("link")
-    cssLink.href = "iframe.css"
+    cssLink.href = "/iframe.css"
     cssLink.rel = "stylesheet"
     cssLink.type = "text/css"
     iframeRef?.current?.contentWindow?.document.head.appendChild(cssLink)

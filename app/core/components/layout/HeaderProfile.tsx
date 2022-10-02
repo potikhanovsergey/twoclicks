@@ -94,6 +94,14 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
     }))
 
     if (user) {
+      if (user.role === "ADMIN") {
+        formatedMenuItems.unshift({
+          elType: "menuItem",
+          sx: MenuItemSx,
+          children: "Templates",
+          href: "/templates",
+        })
+      }
       formatedMenuItems.unshift({
         elType: "menuItem",
         sx: MenuItemSx,
