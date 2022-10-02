@@ -107,8 +107,8 @@ const TextEditor: React.FC<{
             <ActionIcon
               size="md"
               radius={0}
-              variant={editor.isActive("bold") ? "light" : "subtle"}
-              color={editor.isActive("bold") ? "violet" : dark ? "dark" : "gray"}
+              variant={editor.isActive("bold") ? "light" : "filled"}
+              color={editor.isActive("bold") ? "violet" : dark ? "dark" : "dark.4"}
               onClick={() => {
                 editor.chain().focus().toggleBold().run()
               }}
@@ -128,8 +128,8 @@ const TextEditor: React.FC<{
               <ActionIcon
                 size="md"
                 radius={0}
-                variant={editor.isActive("link") ? "light" : "subtle"}
-                color={editor.isActive("link") ? "violet" : dark ? "dark" : "gray"}
+                variant={editor.isActive("link") ? "light" : "filled"}
+                color={editor.isActive("link") ? "violet" : dark ? "dark" : "dark.4"}
                 onClick={() => {
                   editor.chain().focus().run()
                   setEditLinkActive(true)

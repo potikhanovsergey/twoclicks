@@ -16,7 +16,7 @@ export type ICanvasPalette = {
 export interface IPage {
   id: string
   name: string
-  data: BuildingBlock[]
+  data: ICanvasBlock[]
   palette: ICanvasPalette
   theme: "inherit" | "light" | "dark"
   createdAt?: Date

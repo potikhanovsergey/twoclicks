@@ -1,10 +1,10 @@
 import { Tooltip, Box, useMantineTheme, ThemeIcon, ActionIcon } from "@mantine/core"
-import { useHover } from "@mantine/hooks"
+import { useHover, useTimeout } from "@mantine/hooks"
 import { getPaletteByType, getHexFromThemeColor } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { ExtendedCustomColors } from "pages/_app"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
 import PaletteItem from "./PaletteItem"
@@ -23,6 +23,20 @@ const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
   const { t } = useTranslation("build")
   const { hovered: itemHovered, ref: itemRef } = useHover()
 
+  const changeColor = (value: ExtendedCustomColors | string) => {
+    changeProp({
+      id,
+      newProps: {
+        sx: {
+          ...props?.sx,
+          backgroundColor: Array.isArray(theme.colors[value]) ? theme.colors[value][5] : value,
+        },
+      },
+    })
+  }
+
+  const pickerTimeout = useRef<NodeJS.Timeout | null>(null)
+
   return (
     <Tooltip
       label="Change background"
@@ -33,10 +47,12 @@ const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
       <div ref={itemRef}>
         <PaletteItem
           withHover
+          colorPickerProps={{
+            withPicker: true,
+            mt: "sm",
+            size: "xs",
+          }}
           opened={openedAction[id] === "bg"}
-          // onOpen={() => {
-          //   BuildStore.openedAction[id] = "bg"
-          // }}
           onTargetClick={() => {
             BuildStore.openedAction[id] = "bg"
           }}
@@ -60,17 +76,14 @@ const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
             })
           }}
           onColorChange={(value: ExtendedCustomColors | string) => {
-            changeProp({
-              id,
-              newProps: {
-                sx: {
-                  ...props?.sx,
-                  backgroundColor: Array.isArray(theme.colors[value])
-                    ? theme.colors[value][5]
-                    : value,
-                },
-              },
-            })
+            if (value.includes("#")) {
+              pickerTimeout.current && clearTimeout(pickerTimeout.current)
+              pickerTimeout.current = setTimeout(() => {
+                changeColor(value)
+              }, 100)
+            } else {
+              changeColor(value)
+            }
           }}
           resetText="Take from theme"
           hasBG={props?.sx?.backgroundImage}

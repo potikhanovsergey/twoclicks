@@ -7,6 +7,7 @@ import {
   Box,
   Button,
   FileButton,
+  ColorPickerProps,
 } from "@mantine/core"
 import { FloatingPosition } from "@mantine/core/lib/Floating"
 import { getHexFromThemeColor, getThemeColorValueArray, isTextElement } from "helpers"
@@ -37,6 +38,7 @@ interface IPaletteItem extends Omit<PopoverProps, "children"> {
   onTargetClick?: () => void
   withImageDelete?: boolean
   onImageDelete?: () => void
+  colorPickerProps?: ColorPickerProps
 }
 
 const PaletteItem = (props: IPaletteItem) => {
@@ -60,6 +62,7 @@ const PaletteItem = (props: IPaletteItem) => {
     editType,
     withImageDelete,
     onImageDelete,
+    colorPickerProps,
     ...popoverProps
   } = props
 
@@ -188,6 +191,7 @@ const PaletteItem = (props: IPaletteItem) => {
             onChange={(value) =>
               onColorChange(colorValueArray.find?.((item) => item.value === value)?.color || value)
             }
+            {...colorPickerProps}
           />
         </Box>
       </Popover.Dropdown>
