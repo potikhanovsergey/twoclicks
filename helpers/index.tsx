@@ -106,6 +106,10 @@ export const PaletteTypePropColor: {
     prop: "color",
     color: "primary",
   },
+  "@mantine/core/divider": {
+    prop: "color",
+    color: "primary",
+  },
 }
 
 export const TypeVariants: {
@@ -117,6 +121,7 @@ export const TypeVariants: {
   "@mantine/core/text": ["gradient", "filled"],
   "@mantine/core/title": ["gradient", "filled"],
   "@mantine/core/badge": ["gradient", "filled", "light", "outline", "dot"],
+  "@mantine/core/divider": ["dashed", "dotted", "solid"],
 }
 
 const sizes = ["xs", "sm", "md", "lg", "xl"]
@@ -129,6 +134,7 @@ export const TypeSizes: {
   "@mantine/core/themeicon": sizes,
   "@mantine/core/actionicon": sizes,
   "@mantine/core/badge": sizes,
+  "@mantine/core/divider": sizes,
 }
 
 export const TypeRadius: {
