@@ -1,4 +1,4 @@
-import { Box, Button, ButtonProps, Group, Popover } from "@mantine/core"
+import { Box, Button, ButtonProps, Group, Popover, useMantineTheme } from "@mantine/core"
 import React, { useContext, useEffect, useLayoutEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
@@ -15,7 +15,6 @@ import ElementSizesEdit from "./ElementSizesEdit"
 import ElementVariantsEdit from "./ElementVariantsEdit"
 import ElementDeleteButton from "./ElementDeleteButton"
 import ElementMoves from "./ElementMoves"
-import ElementName from "./ElementName"
 import ElementIconEdit from "./ElementIconEdit"
 import { TypeIcons } from "helpers"
 import ElementLinkEdit from "./ElementLinkEdit"
@@ -45,13 +44,16 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
   const { t } = useTranslation("build")
 
   const { insertIndex, ...otherProps } = props
+
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
   return (
     <Button
       size="sm"
-      variant="gradient"
+      variant={dark ? "white" : "filled"}
+      color="dark"
       rightIcon={<FiPlusSquare />}
       compact
-      gradient={{ from: "violet", to: "red" }}
       onClick={() => {
         BuildStore.insertIndex = insertIndex
         setModalContext((prevValue: IModalContextValue) => ({
@@ -197,44 +199,32 @@ const WithEditToolbar = ({
             flexDirection: sectionLike ? "column" : "row",
           }}
         >
-          {element.editType !== "section" && element.name && <ElementName name={element.name} />}
-          <ElementVariantsEdit id={element.id} type={element.type} props={props} />
-          <ElementSizesEdit id={element.id} type={element.type} props={props} />
-          <ElementRadiusesEdit id={element.id} type={element.type} props={props} />
-          <ElementGradientsEdit id={element.id} type={element.type} props={props} />
+          <ElementVariantsEdit element={element} />
+          <ElementSizesEdit element={element} />
+          <ElementRadiusesEdit element={element} />
+          <ElementGradientsEdit element={element} />
           {element.type &&
             ["image", "youtubeframe"].some((item) => element.type.includes(item)) && (
               <ElementTypeEdit
-                id={element.id}
-                type={element.type}
+                element={element}
                 types={[
                   { label: "Image", value: "@mantine/core/image", editType: "image" },
                   { label: "Youtube Video", value: "youtubeframe", editType: "video" },
                 ]}
               />
             )}{" "}
-          <ElementPaletteEdit id={element.id} element={element} type={element.type} props={props} />
-          <ElementMoves id={element.id} parentID={parentID} editType={element.editType} />
-          {element.type && props && (
-            <ElementUploadLink id={element.id} props={props} type={element.type} />
-          )}
+          <ElementPaletteEdit element={element} />
+          <ElementMoves parentID={parentID} element={element} />
+          {element.type && props && <ElementUploadLink element={element} />}
           {element.type &&
             TypeIcons[element.type]?.map((propName) => (
-              <ElementIconEdit
-                id={element.id}
-                type={element.type}
-                propName={propName}
-                props={props}
-                key={propName}
-              />
+              <ElementIconEdit propName={propName} key={propName} element={element} />
             ))}
-          {element.type && props && (
-            <ElementLinkEdit id={element.id} props={props} type={element.type} />
-          )}
+          {element.type && props && <ElementLinkEdit element={element} />}
           {element && !element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} />
           )}
-          <ElementDeleteButton id={element.id} parentID={parentID} editType={element.editType} />
+          <ElementDeleteButton parentID={parentID} element={element} />
           {element.editType === "section" && (
             <SectionBGEdit id={element.id} props={props} editType={element.editType} />
           )}

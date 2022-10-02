@@ -13,6 +13,7 @@ import {
   ColorSchemeProvider,
   MantineThemeOverride,
   Global,
+  useMantineTheme,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -59,7 +60,7 @@ const CustomTheme: MantineThemeOverride = {
     },
     Tooltip: {
       defaultProps: {
-        color: "violet",
+        color: "dark",
       },
     },
     Card: {

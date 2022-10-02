@@ -1,4 +1,12 @@
-import { ActionIcon, ActionIconProps, Group, Kbd, Tooltip, Text } from "@mantine/core"
+import {
+  ActionIcon,
+  ActionIconProps,
+  Group,
+  Kbd,
+  Tooltip,
+  Text,
+  useMantineTheme,
+} from "@mantine/core"
 import { useHotkeys, useOs } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
@@ -16,6 +24,8 @@ const HistoryButtons = (props: ActionIconProps) => {
   ])
   const { t } = useTranslation("build")
 
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
   return (
     <Group spacing={4}>
       <Tooltip

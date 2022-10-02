@@ -26,7 +26,6 @@ const SectionBGEdit = ({ props, id, editType }: ISectionBGEdit) => {
   return (
     <Tooltip
       label="Change background"
-      color="violet"
       withArrow
       position="left"
       opened={itemHovered && openedAction[id] !== "bg"}

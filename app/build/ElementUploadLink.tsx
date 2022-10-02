@@ -4,33 +4,26 @@ import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { ReactNode, useState } from "react"
 import { BuildStore } from "store/build"
-import { ICanvasBlockProps } from "types"
+import { ICanvasBlock, ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import { FaCloudUploadAlt } from "@react-icons/all-files/fa/FaCloudUploadAlt"
 
 interface IElementUploadLink {
-  type: string
-  id: string
-  props: ICanvasBlockProps
+  element: ICanvasBlock
   targetIcon?: ReactNode
 }
 
-const ElementUploadLink = ({
-  type,
-  id,
-  props,
-  targetIcon = <FaCloudUploadAlt />,
-}: IElementUploadLink) => {
-  const hasLinkUpload = TypeLinkUpload[type]
+const ElementUploadLink = ({ element, targetIcon = <FaCloudUploadAlt /> }: IElementUploadLink) => {
+  const hasLinkUpload = TypeLinkUpload[element.type]
   const { changeProp, openedAction } = BuildStore
 
-  const [src, setSrc] = useState(props.src || "")
+  const [src, setSrc] = useState(element.props?.src || "")
 
   const handleChangeSrc = () => {
     changeProp({
-      id,
+      id: element.id,
       newProps: {
         src,
       },
@@ -41,12 +34,12 @@ const ElementUploadLink = ({
   return hasLinkUpload ? (
     <ToolbarMenu
       menuProps={{
-        defaultOpened: openedAction?.[id] === "src",
+        defaultOpened: openedAction?.[element.id] === "src",
         onClose: () => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[id] = "src"
+          BuildStore.openedAction[element.id] = "src"
         },
       }}
       tooltipProps={{
@@ -74,7 +67,7 @@ const ElementUploadLink = ({
               onClick={handleChangeSrc}
               color="violet"
               variant="filled"
-              disabled={src === props.src || !src.length}
+              disabled={src === element.props.src || !src.length}
             >
               <FaCheck />
             </ActionIcon>

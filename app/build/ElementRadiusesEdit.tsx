@@ -3,34 +3,33 @@ import { getRadiusesByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { BuildStore } from "store/build"
-import { ICanvasBlockProps } from "types"
+import { ICanvasBlock, ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
 import { AiOutlineRadiusBottomleft } from "@react-icons/all-files/ai/AiOutlineRadiusBottomleft"
 interface IElementRadiusesEdit {
-  type?: string
-  props?: ICanvasBlockProps
-  id: string
+  element: ICanvasBlock
 }
 
-const ElementRadiusesEdit = ({ type, props, id }: IElementRadiusesEdit) => {
-  const radiuses = type ? getRadiusesByType(type) : undefined
+const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
+  const radiuses = element.type ? getRadiusesByType(element.type) : undefined
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
 
   return radiuses ? (
     <ToolbarMenu
       menuProps={{
-        defaultOpened: openedAction?.[id] === "radius",
+        defaultOpened: openedAction?.[element.id] === "radius",
         onClose: () => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[id] = "radius"
+          BuildStore.openedAction[element.id] = "radius"
         },
       }}
       tooltipProps={{
         label: t("radius"),
+        position: element.sectionLike ? "left" : "top",
         children: (
           <ActionIcon color="violet">
             <AiOutlineRadiusBottomleft />
@@ -47,11 +46,13 @@ const ElementRadiusesEdit = ({ type, props, id }: IElementRadiusesEdit) => {
                 compact
                 key={radius}
                 disabled={
-                  props?.radius === undefined ? radius === "filled" : radius === props?.radius
+                  element.props?.radius === undefined
+                    ? radius === "filled"
+                    : radius === element.props?.radius
                 }
                 onClick={() => [
                   changeProp({
-                    id,
+                    id: element.id,
                     newProps: { radius },
                   }),
                 ]}
