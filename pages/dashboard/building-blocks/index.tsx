@@ -83,7 +83,7 @@ const DashboardIndex = () => {
   const onChange = (value) => {
     try {
       const parsedJSON = JSON.stringify(JSON.parse(value), null, 2)
-      setJson(parsedJSON)
+      setJson(value)
       setError(null)
     } catch (e) {
       setError(e.toString())
