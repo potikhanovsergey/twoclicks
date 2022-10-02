@@ -30,9 +30,7 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
         e.preventDefault()
 
         // Get the copied text from the clipboard
-        const text = e.clipboardData
-          ? (e.originalEvent || e).clipboardData.getData("text/plain")
-          : ""
+        const text = e.clipboardData ? e.clipboardData.getData("text/plain") : ""
 
         // Insert text at the current position of caret
         const range = document.getSelection()?.getRangeAt(0)
@@ -56,7 +54,7 @@ const WithEditable = ({ children, parentID, withContentEditable }) => {
           ![`c`, `v`, `ArrowLeft`, `ArrowRight`, `ArrowUp`, `ArrowDown`, `z`].includes(e.key) &&
           e.preventDefault()
 
-        const el = e.target
+        const el = e.target as HTMLSpanElement
         const parentButton = el?.closest("span[data-button]")
         if (parentButton && e.key === "Enter") {
           e.preventDefault()
