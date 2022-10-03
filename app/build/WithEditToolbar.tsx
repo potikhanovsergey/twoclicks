@@ -22,8 +22,9 @@ const ElementTypeEdit = dynamic(() => import("./ElementTypeEdit"))
 const ElementCopyButton = dynamic(() => import("./ElementCopyButton"))
 const SectionBGEdit = dynamic(() => import("./SectionBGEdit"))
 const ElementUploadLink = dynamic(() => import("./ElementUploadLink"))
+const ElementMarginEdit = dynamic(() => import("./ElementMarginEdit"))
 
-import { TypeIcons } from "helpers"
+import { TypeGradients, TypeIcons, TypeRadius, TypeSizes, TypeVariants } from "helpers"
 import useTranslation from "next-translate/useTranslation"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 
@@ -161,7 +162,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
                 position: "absolute",
                 left: "50%",
                 zIndex: 2,
-                top: 0,
+                top: -element.props.mt || 0,
                 transform: "translate(-50%, -50%)",
               }}
             />
@@ -199,10 +200,13 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             flexDirection: sectionLike ? "column" : "row",
           }}
         >
-          <ElementVariantsEdit element={element} />
-          <ElementSizesEdit element={element} />
-          <ElementRadiusesEdit element={element} />
-          <ElementGradientsEdit element={element} />
+          {element.editType === "section" && <ElementMarginEdit element={element} />}
+          {TypeVariants[element.type] && <ElementVariantsEdit element={element} />}
+          {TypeSizes[element.type] && <ElementSizesEdit element={element} />}
+          {TypeRadius[element.type] && <ElementRadiusesEdit element={element} />}
+          {TypeGradients[element.type] && element.props.variant === "gradient" && (
+            <ElementGradientsEdit element={element} />
+          )}
           {element.type &&
             ["image", "youtubeframe"].some((item) => element.type.includes(item)) && (
               <ElementTypeEdit

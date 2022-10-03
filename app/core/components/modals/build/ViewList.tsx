@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-// import { observer } from 'mobx-react-lite';
 import { SimpleGrid, ScrollArea, Pagination, createStyles, Loader } from "@mantine/core"
-import ViewListItem from "./ViewListItem"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 import getUsedBlocks from "app/dashboard/building-blocks/queries/getUsedBlocks"
@@ -13,6 +11,9 @@ import { useCurrentUserLikedBlocks } from "app/core/hooks/useCurrentUserLikedBlo
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import { ICanvasBlock, ICanvasModalType } from "types"
+import dynamic from "next/dynamic"
+
+const ViewListItem = dynamic(() => import("./ViewListItem"))
 
 const useStyles = createStyles(() => ({
   wrapper: {
@@ -35,7 +36,7 @@ interface IViewList {
   modalType: ICanvasModalType
 }
 
-const ITEMS_PER_PAGE = 12
+const ITEMS_PER_PAGE = 4
 
 const ViewList = ({ type, modalType }: IViewList) => {
   const session = useSession()
@@ -125,7 +126,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
     <>
       <ScrollArea className={classes.scrollArea}>
         <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
-          {buildingBlocksData?.buildingBlocks.map((b, i) => {
+          {buildingBlocksData?.buildingBlocks.map((b) => {
             const block: ICanvasBlock = b.buildingBlock ? b.buildingBlock : b
             return (
               <ViewListItem

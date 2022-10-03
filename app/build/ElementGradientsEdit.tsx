@@ -1,10 +1,10 @@
 import { Tooltip, Box, useMantineTheme, ActionIcon, Center, Group } from "@mantine/core"
-import { getHexFromThemeColor, getGradientsByType } from "helpers"
+import { getHexFromThemeColor } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { HiArrowNarrowRight } from "@react-icons/all-files/hi/HiArrowNarrowRight"
 import { BuildStore } from "store/build"
-import { ICanvasBlock, ICanvasBlockProps } from "types"
+import { ICanvasBlock } from "types"
 import PaletteItem from "./PaletteItem"
 import ToolbarMenu from "./ToolbarMenu"
 
@@ -13,13 +13,11 @@ interface IElementGradientsEdit {
 }
 
 const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
-  const gradients = element.type ? getGradientsByType(element.type) : undefined
   const theme = useMantineTheme()
-
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
 
-  return gradients && element.props?.variant === "gradient" ? (
+  return (
     <ToolbarMenu
       menuProps={{
         defaultOpened: openedAction?.[element.id]?.includes("gradient"),
@@ -116,8 +114,6 @@ const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
         ),
       }}
     />
-  ) : (
-    <></>
   )
 }
 

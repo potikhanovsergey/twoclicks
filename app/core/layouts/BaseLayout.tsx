@@ -1,6 +1,6 @@
 import Head from "next/head"
 import { AppShell } from "@mantine/core"
-import React, { FC, ReactNode } from "react"
+import React, { FC } from "react"
 import LayoutHeader from "../components/layout/LayoutHeader"
 import ConditionalWrapper from "../components/ConditionalWrapper"
 import dynamic from "next/dynamic"

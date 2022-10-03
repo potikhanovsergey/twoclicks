@@ -1,8 +1,7 @@
-import { TabProps, LoadingOverlay, useMantineTheme, Title, createStyles, Box } from "@mantine/core"
+import { TabProps, LoadingOverlay, useMantineTheme, createStyles, Box } from "@mantine/core"
 import React, { Suspense, useMemo, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "types"
-import { useSession } from "@blitzjs/auth"
 import useTranslation from "next-translate/useTranslation"
 
 import { BiGridSmall } from "@react-icons/all-files/bi/BiGridSmall"
@@ -37,7 +36,6 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
     value: "All",
     viewlistType: "all",
   })
-  const session = useSession()
   const { t } = useTranslation("build")
   const theme = useMantineTheme()
 
