@@ -28,7 +28,7 @@ const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
 
   const { t } = useTranslation("build")
   return paletteKey && element.props?.variant !== "gradient" ? (
-    <Tooltip label={t("change color")} withArrow position={element?.sectionLike ? "left" : "top"}>
+    <Tooltip label={t("change color")} withArrow>
       <div>
         <PaletteItem
           withHover
@@ -42,7 +42,13 @@ const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
                 : undefined
               : undefined
           }
-          onTargetClick={() => (BuildStore.openedAction[element.id] = "palette")}
+          onTargetClick={() => {
+            if (BuildStore.openedAction[element.id] === "palette") {
+              delete BuildStore.openedAction[element.id]
+            } else {
+              BuildStore.openedAction[element.id] = "palette"
+            }
+          }}
           opened={openedAction?.[element.id] === "palette"}
           popoverPosition="top"
           offset={0}

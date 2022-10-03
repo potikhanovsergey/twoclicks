@@ -34,7 +34,7 @@ const ElementIconEdit = ({ element, propName }: IElementIconEdit) => {
         propName === "leftIcon" || propName === "leftSection" ? t("left icon") : t("right icon")
       }
       withArrow
-      position={element.sectionLike ? "left" : "top"}
+      position="top"
     >
       <div>
         <IconPicker

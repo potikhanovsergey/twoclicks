@@ -7,15 +7,18 @@ import { ICanvasBlock, ICanvasBlockProps } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
 import { FaMagic } from "@react-icons/all-files/fa/FaMagic"
+import { useMemo } from "react"
 interface IElementVariantsEdit {
   element: ICanvasBlock
 }
 
 const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
-  const variants = element.type ? getVariantsByType(element.type) : undefined
+  const variants = useMemo(() => {
+    return getVariantsByType(element.type)
+  }, [element.type])
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
-  return variants ? (
+  return (
     <ToolbarMenu
       menuProps={{
         defaultOpened: openedAction?.[element.id] === "variant",
@@ -68,8 +71,6 @@ const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
         ),
       }}
     />
-  ) : (
-    <></>
   )
 }
 

@@ -16,7 +16,6 @@ import React, { RefObject, Suspense, useEffect, useLayoutEffect, useRef, useStat
 import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import BuilderHeader from "./BuilderHeader"
-import Onboarding from "./Onboarding"
 import { useSession } from "@blitzjs/auth"
 import { useRouter } from "next/router"
 import { useElementSize, useLocalStorage } from "@mantine/hooks"
@@ -30,6 +29,9 @@ import { baseURL } from "pages/_app"
 import useTranslation from "next-translate/useTranslation"
 import BuilderBlocks from "./BuilderBlocks"
 import { storageAvailable } from "helpers"
+import dynamic from "next/dynamic"
+
+const Onboarding = dynamic(() => import("./Onboarding"))
 
 const useStyles = createStyles((theme) => ({
   builder: {

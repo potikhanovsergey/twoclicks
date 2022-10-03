@@ -51,7 +51,7 @@ const ElementMoves = ({ element, parentID }: IElementMoves) => {
         <Tooltip
           label={t("move up")}
           withArrow
-          position={element.editType === "section" || element.sectionLike ? "left" : "top"}
+          position={element.editType === "section" ? "left" : "top"}
         >
           <ActionIcon
             size="md"
@@ -76,7 +76,7 @@ const ElementMoves = ({ element, parentID }: IElementMoves) => {
         <Tooltip
           label={t("move down")}
           withArrow
-          position={element.editType === "section" || element.sectionLike ? "left" : "top"}
+          position={element.editType === "section" ? "left" : "top"}
         >
           <ActionIcon
             size="md"

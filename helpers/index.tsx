@@ -185,23 +185,23 @@ export const TypeLinkUpload: {
 }
 
 export function getPaletteByType(type: string) {
-  return PaletteTypePropColor[type.toLowerCase()]
+  return PaletteTypePropColor[type]
 }
 
 export function getVariantsByType(type: string) {
-  return TypeVariants[type.toLowerCase()]
+  return TypeVariants[type]
 }
 
 export function getSizesByType(type: string) {
-  return TypeSizes[type.toLowerCase()]
+  return TypeSizes[type]
 }
 
 export function getRadiusesByType(type: string) {
-  return TypeRadius[type.toLowerCase()]
+  return TypeRadius[type]
 }
 
 export function getGradientsByType(type: string) {
-  return TypeGradients[type.toLowerCase()]
+  return TypeGradients[type]
 }
 
 export const RenderJSXFromBlock = observer(

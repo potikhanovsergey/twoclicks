@@ -3,20 +3,24 @@ import { getRadiusesByType } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { BuildStore } from "store/build"
-import { ICanvasBlock, ICanvasBlockProps } from "types"
+import { ICanvasBlock } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
 import { AiOutlineRadiusBottomleft } from "@react-icons/all-files/ai/AiOutlineRadiusBottomleft"
+import { useMemo } from "react"
 interface IElementRadiusesEdit {
   element: ICanvasBlock
 }
 
 const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
-  const radiuses = element.type ? getRadiusesByType(element.type) : undefined
+  const radiuses = useMemo(() => {
+    return getRadiusesByType(element.type)
+  }, [element.type])
+
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
 
-  return radiuses ? (
+  return (
     <ToolbarMenu
       menuProps={{
         defaultOpened: openedAction?.[element.id] === "radius",
@@ -29,7 +33,6 @@ const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
       }}
       tooltipProps={{
         label: t("radius"),
-        position: element.sectionLike ? "left" : "top",
         children: (
           <ActionIcon color="violet">
             <AiOutlineRadiusBottomleft />
@@ -64,8 +67,6 @@ const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
         ),
       }}
     />
-  ) : (
-    <></>
   )
 }
 

@@ -7,16 +7,20 @@ import { ICanvasBlock } from "types"
 import ToolbarMenu from "./ToolbarMenu"
 
 import { GiResize } from "@react-icons/all-files/gi/GiResize"
+import { useMemo } from "react"
 
 interface IElementSizesEdit {
   element: ICanvasBlock
 }
 
 const ElementSizesEdit = ({ element }: IElementSizesEdit) => {
-  const sizes = element.type ? getSizesByType(element.type) : undefined
+  const sizes = useMemo(() => {
+    return getSizesByType(element.type)
+  }, [element.type])
+
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
-  return sizes ? (
+  return (
     <ToolbarMenu
       menuProps={{
         defaultOpened: openedAction?.[element.id] === "size",
@@ -63,8 +67,6 @@ const ElementSizesEdit = ({ element }: IElementSizesEdit) => {
         ),
       }}
     />
-  ) : (
-    <></>
   )
 }
 

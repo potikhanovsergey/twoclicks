@@ -10,7 +10,6 @@ import {
 import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { RenderJSXFromBlock } from "helpers"
-import { BuildingBlock } from "@prisma/client"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
 import createLikedBlock from "app/building-blocks/mutations/createLikedBlock"
@@ -95,7 +94,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
         palette={palette}
       />
     )
-  }, [block])
+  }, [block, palette])
 
   const iconRef = useRef(null)
   const [isLiked, setIsLiked] = useState(false)
@@ -174,8 +173,6 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
     >
       <div
         style={{
-          // marginLeft: hasRendered ? "auto" : `calc(50% - 50vw)`,
-          // marginRight: hasRendered ? "auto" : `calc(50% - 50vw)`,
           width: "100%",
         }}
       >

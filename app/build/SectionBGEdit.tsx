@@ -1,12 +1,11 @@
-import { Tooltip, Box, useMantineTheme, ThemeIcon, ActionIcon } from "@mantine/core"
-import { useHover, useTimeout } from "@mantine/hooks"
-import { getPaletteByType, getHexFromThemeColor } from "helpers"
+import { Tooltip, useMantineTheme } from "@mantine/core"
+import { useHover } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { ExtendedCustomColors } from "pages/_app"
-import { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import { BuildStore } from "store/build"
-import { ICanvasBlock, ICanvasBlockProps } from "types"
+import { ICanvasBlock } from "types"
 import PaletteItem from "./PaletteItem"
 
 interface ISectionBGEdit {
@@ -52,7 +51,11 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           }}
           opened={openedAction[element.id] === "bg"}
           onTargetClick={() => {
-            BuildStore.openedAction[element.id] = "bg"
+            if (BuildStore.openedAction[element.id] === "bg") {
+              delete BuildStore.openedAction[element.id]
+            } else {
+              BuildStore.openedAction[element.id] = "bg"
+            }
           }}
           onClose={() => {
             BuildStore.openedAction = {}
