@@ -124,9 +124,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
         <Box
           sx={(theme) => ({
             width:
-              element.type && FIT_CONTENT_ELEMENTS.includes(element.type)
-                ? "fit-content"
-                : undefined,
+              element.type && FIT_CONTENT_ELEMENTS.includes(element.type) ? "fit-content" : "100%",
             display:
               element.type && FIT_CONTENT_ELEMENTS.includes(element.type)
                 ? "inline-block"

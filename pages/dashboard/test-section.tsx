@@ -1,4 +1,5 @@
 import { useSession } from "@blitzjs/auth"
+import FeaturesSimple from "app/build/sections/features/FeaturesSimple"
 import FeaturesWithPeople from "app/build/sections/features/FeaturesWithPeople"
 import FeaturesWithPicture from "app/build/sections/features/FeaturesWithPicture"
 import GalleryWithButton from "app/build/sections/galleries/GalleryWithButton"
@@ -16,7 +17,7 @@ const TestSection = () => {
     }
   }, [session])
 
-  return <FeaturesWithPeople />
+  return <FeaturesSimple />
 }
 
 TestSection.getLayout = getBaseLayout({})
