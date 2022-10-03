@@ -30,6 +30,38 @@ import { BsHeartFill } from "@react-icons/all-files/bs/BsHeartFill"
 import { FaTelegram } from "@react-icons/all-files/fa/FaTelegram"
 import { FaTelegramPlane } from "@react-icons/all-files/fa/FaTelegramPlane"
 import { FaOdnoklassniki } from "@react-icons/all-files/fa/FaOdnoklassniki"
+import { FaApple } from "@react-icons/all-files/fa/FaApple"
+import { FaAndroid } from "@react-icons/all-files/fa/FaAndroid"
+import { FaDiaspora } from "@react-icons/all-files/fa/FaDiaspora"
+import { FaDiscord } from "@react-icons/all-files/fa/FaDiscord"
+import { FaDribbble } from "@react-icons/all-files/fa/FaDribbble"
+import { FaItunesNote } from "@react-icons/all-files/fa/FaItunesNote"
+import { FaPinterest } from "@react-icons/all-files/fa/FaPinterest"
+import { FaTwitter } from "@react-icons/all-files/fa/FaTwitter"
+import { FaWhatsapp } from "@react-icons/all-files/fa/FaWhatsapp"
+import { FaAngleDown } from "@react-icons/all-files/fa/FaAngleDown"
+import { FaAngleRight } from "@react-icons/all-files/fa/FaAngleRight"
+import { FaAngleLeft } from "@react-icons/all-files/fa/FaAngleLeft"
+import { FaAngleUp } from "@react-icons/all-files/fa/FaAngleUp"
+import { FaBookmark } from "@react-icons/all-files/fa/FaBookmark"
+import { FaPaintBrush } from "@react-icons/all-files/fa/FaPaintBrush"
+import { FaCamera } from "@react-icons/all-files/fa/FaCamera"
+import { FaCar } from "@react-icons/all-files/fa/FaCar"
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
+import { FaCode } from "@react-icons/all-files/fa/FaCode"
+import { FaClock } from "@react-icons/all-files/fa/FaClock"
+import { FaComments } from "@react-icons/all-files/fa/FaComments"
+import { FaEdit } from "@react-icons/all-files/fa/FaEdit"
+import { FaEnvelope } from "@react-icons/all-files/fa/FaEnvelope"
+import { FaFeather } from "@react-icons/all-files/fa/FaFeather"
+import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas"
+import { FaHistory } from "@react-icons/all-files/fa/FaHistory"
+import { FaInfo } from "@react-icons/all-files/fa/FaInfo"
+import { FaMapMarkerAlt } from "@react-icons/all-files/fa/FaMapMarkerAlt"
+import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
+import { FaPen } from "@react-icons/all-files/fa/FaPen"
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch"
+import { FaUser } from "@react-icons/all-files/fa/FaUser"
 import { observer } from "mobx-react-lite"
 
 const icons = {
@@ -45,6 +77,38 @@ const icons = {
   FaTelegram,
   FaTelegramPlane,
   FaOdnoklassniki,
+  FaApple,
+  FaAndroid,
+  FaDiaspora,
+  FaDiscord,
+  FaDribbble,
+  FaItunesNote,
+  FaPinterest,
+  FaTwitter,
+  FaWhatsapp,
+  FaAngleDown,
+  FaAngleRight,
+  FaAngleLeft,
+  FaAngleUp,
+  FaBookmark,
+  FaPaintBrush,
+  FaCamera,
+  FaCar,
+  FaCheck,
+  FaCode,
+  FaClock,
+  FaComments,
+  FaEdit,
+  FaEnvelope,
+  FaFeather,
+  FaGlobeAmericas,
+  FaHistory,
+  FaInfo,
+  FaMapMarkerAlt,
+  FaPalette,
+  FaPen,
+  FaSearch,
+  FaUser,
 }
 const FirstIcon = Object.values(icons)[0]
 
