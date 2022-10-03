@@ -74,10 +74,12 @@ const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
 const FIT_CONTENT_ELEMENTS = [
   "@mantine/core/actionicon",
   "@mantine/core/themeicon",
-  "@mantine/core/button",
-  "@mantine/core/badge",
-  "@mantine/core/avatar",
+  // "@mantine/core/button",
+  // "@mantine/core/badge",
+  // "@mantine/core/avatar",
 ]
+
+const WIDTH_AUTO_ELEMENTS = ["@mantine/core/image"]
 
 const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEditToolbar) => {
   const { activeEditToolbars, isImageUploading, openedAction } = BuildStore
@@ -126,13 +128,17 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
       <Popover.Target>
         <Box
           sx={(theme) => ({
-            width:
-              element.type && FIT_CONTENT_ELEMENTS.includes(element.type) ? "fit-content" : "100%",
+            // width:
+            //   element.type && FIT_CONTENT_ELEMENTS.includes(element.type)
+            //     ? "fit-content"
+            //     : WIDTH_AUTO_ELEMENTS.includes(element.type)
+            //     ? "auto"
+            //     : "100%",
             display:
               element.type && FIT_CONTENT_ELEMENTS.includes(element.type)
                 ? "inline-block"
                 : undefined,
-            margin: element.props?.align === "center" ? "0 auto" : undefined,
+            // margin: element.props?.align === "center" ? "0 auto" : undefined,
             border:
               element.editType === "section"
                 ? undefined
