@@ -39,7 +39,6 @@ export default async function createPage(
     }
     return page
   } catch (e) {
-    console.log("Create page error", e)
     return null
   }
 }

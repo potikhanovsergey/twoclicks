@@ -90,14 +90,11 @@ const IconPicker = ({
 
   const { colorScheme } = useMantineColorScheme()
   const { t } = useTranslation("build")
-
-  useEffect(() => {
-    console.log("Render ICON picker")
-  }, [])
   return (
     <Menu
       width={256}
-      zIndex={301}
+      position="top"
+      zIndex={502}
       styles={{
         dropdown: {
           overflow: "hidden",

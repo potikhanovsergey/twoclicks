@@ -33,7 +33,6 @@ export default async function signup(input, ctx) {
 
     return { userId: blitzContext.session.userId, ...user, email: input.email }
   } catch (e) {
-    console.log(e)
     return null
   }
 }

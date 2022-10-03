@@ -14,7 +14,6 @@ export default async function deletePage(input: IDeletePage, ctx: Ctx) {
     })
     return page
   } catch (e) {
-    console.log("Delete page error", e)
     return null
   }
 }

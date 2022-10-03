@@ -124,11 +124,17 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
         <Box
           sx={(theme) => ({
             width:
-              element.type && FIT_CONTENT_ELEMENTS.includes(element.type) ? "fit-content" : "auto",
+              element.type && FIT_CONTENT_ELEMENTS.includes(element.type)
+                ? "fit-content"
+                : undefined,
+            display:
+              element.type && FIT_CONTENT_ELEMENTS.includes(element.type)
+                ? "inline-block"
+                : undefined,
             margin: element.props?.align === "center" ? "0 auto" : undefined,
             border:
               element.editType === "section"
-                ? "none"
+                ? undefined
                 : opened ||
                   (typeof element.props?.children === "string" && !element.props?.children.length)
                 ? `1px dotted ${theme.colors.gray[5]}`

@@ -18,7 +18,6 @@ const PageLink = ({
   shouldSearch?: boolean
   centered?: boolean
 }) => {
-  console.log(id, AppStore.pages)
   const page = shouldSearch ? AppStore.pages.find((p) => p.id === id || p.customID === id) : null
   const { t } = useTranslation("build")
   return page?.isPublished || !shouldSearch ? (
