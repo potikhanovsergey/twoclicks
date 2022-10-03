@@ -1,4 +1,4 @@
-import { Box, Button, Center } from "@mantine/core"
+import { Box, Button, Center, useMantineTheme } from "@mantine/core"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { RenderJSXFromBlock } from "helpers"
@@ -42,6 +42,8 @@ const Blocks = observer(() => {
   const { t } = useTranslation("build")
 
   const [, setModalContext = () => ({})] = useContext(ModalContext)
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
   return (
     <>
       {blocks.length > 0 ? (
@@ -50,11 +52,10 @@ const Blocks = observer(() => {
         <Center style={{ height: "100%" }}>
           <Button
             radius="sm"
-            variant="gradient"
+            variant={dark ? "white" : "filled"}
+            color="dark"
             size="md"
             style={{ minWidth: "192px" }}
-            color="red"
-            gradient={{ from: "violet", to: "red" }}
             rightIcon={<FiPlusSquare />}
             onClick={() =>
               setModalContext((prevValue: IModalContextValue) => ({
