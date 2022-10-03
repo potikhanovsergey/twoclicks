@@ -216,10 +216,10 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
           <ElementPaletteEdit element={element} />
           <ElementMoves parentID={parentID} element={element} />
           {element.type && element.props && <ElementUploadLink element={element} />}
-          {element.type &&
+          {/* {element.type &&
             TypeIcons[element.type]?.map((propName) => (
               <ElementIconEdit propName={propName} key={propName} element={element} />
-            ))}
+            ))} */}
           {element.type && element.props && <ElementLinkEdit element={element} />}
           {element && !element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} />
