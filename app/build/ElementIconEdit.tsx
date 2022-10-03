@@ -1,6 +1,6 @@
 import { Tooltip } from "@mantine/core"
 import IconPicker from "app/core/components/base/IconPicker"
-import { serialize, TypeIcons } from "helpers"
+import { RenderJSXFromBlock, serialize, TypeIcons } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useMemo } from "react"
@@ -53,9 +53,7 @@ const ElementIconEdit = ({ element, propName }: IElementIconEdit) => {
             color: "violet",
           }}
           icon={
-            ICON ? (
-              ICON
-            ) : propName === "rightIcon" || propName === "rightSection" ? (
+            propName === "rightIcon" || propName === "rightSection" ? (
               <CgToggleSquareOff />
             ) : (
               <CgToggleSquare />

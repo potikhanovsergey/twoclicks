@@ -52,7 +52,6 @@ const BuilderImagePicker = ({ elementID, children }: IBuilderImagePicker) => {
             },
           })
         } else {
-          console.log("Upload error", response)
           showNotification(defaultUploadNotificationError)
         }
       }}

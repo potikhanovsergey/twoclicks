@@ -39,6 +39,9 @@ const TraverseProp = ({
   palette: ICanvasPalette | undefined
   type: string
 }) => {
+  if (prop === "leftSection" || prop === "leftIcon") {
+    console.log(prop, propValue)
+  }
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (type.includes("button") || type.includes("badge")) {
       return (

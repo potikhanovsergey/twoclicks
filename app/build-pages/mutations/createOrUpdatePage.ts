@@ -25,8 +25,6 @@ export default async function createOrUpdatePage(input: ICreateOrUpdatePage, ctx
     }
     return null
   } catch (e) {
-    console.log("Update page error", e)
-
     return null
   }
 }

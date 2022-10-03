@@ -130,9 +130,7 @@ const DashboardIndex = () => {
             withContentEditable={false}
           />
         )
-      } catch (e) {
-        console.log(e)
-      }
+      } catch (e) {}
     }
     return null
   }, [json])
@@ -148,9 +146,7 @@ const DashboardIndex = () => {
     try {
       const buildingBlock = JSON.parse(json)
       await createBuildingBlockMutation(buildingBlock)
-    } catch (e) {
-      console.log(e)
-    }
+    } catch (e) {}
   }
 
   useEffect(() => {

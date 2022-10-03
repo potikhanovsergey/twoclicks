@@ -35,7 +35,6 @@ const ElementCopyButton = ({ parentID, element }: IElementCopyButton) => {
       insertIndex = BuildStore.data.blocks.findIndex((el) => el.id === element.id)
     }
 
-    console.log("ELEMENt", element)
     const copy = JSON.parse(JSON.stringify(element))
     traverseAddIDs(copy, true)
     BuildStore.push({

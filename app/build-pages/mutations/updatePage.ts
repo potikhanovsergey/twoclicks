@@ -23,6 +23,5 @@ export default async function updatePage(input: IUpdatePage, ctx: Ctx) {
       return page
     }
   } catch (e) {
-    console.log("Update page error", e)
   }
 }

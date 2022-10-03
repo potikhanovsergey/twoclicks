@@ -16,7 +16,6 @@ export default async function DeleteLikedBlock(input, ctx: Ctx) {
 
     return buildingBlock
   } catch (e) {
-    console.log("Delete liked block error", e)
     return null
   }
 }

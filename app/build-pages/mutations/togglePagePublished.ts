@@ -19,6 +19,5 @@ export default async function togglePagePublished(
     })
     return page
   } catch (e) {
-    console.log("Update page error", e)
   }
 }
