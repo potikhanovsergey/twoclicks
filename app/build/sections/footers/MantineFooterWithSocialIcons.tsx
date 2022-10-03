@@ -1,14 +1,10 @@
-import { Container, Group, ActionIcon, Box, Image } from "@mantine/core"
+import { Container, Group, ActionIcon, Box, Image, Divider } from "@mantine/core"
 import { FaTwitter, FaYoutube, FaInstagram } from "react-icons/fa"
 
 const MantineFooterWithSocialIcons = () => {
   return (
-    <Box
-      sx={{
-        marginTop: 120,
-        borderTop: `1px solid #333`,
-      }}
-    >
+    <Box pt={64}>
+      <Divider size="sm" />
       <Container
         sx={{
           display: "flex",
@@ -37,14 +33,14 @@ const MantineFooterWithSocialIcons = () => {
           position="right"
           noWrap
         >
-          <ActionIcon size="lg">
-            <FaTwitter />
+          <ActionIcon size={40}>
+            <FaTwitter size="50%" />
           </ActionIcon>
-          <ActionIcon size="lg">
-            <FaYoutube />
+          <ActionIcon size={40}>
+            <FaYoutube size="50%" />
           </ActionIcon>
-          <ActionIcon size="lg">
-            <FaInstagram />
+          <ActionIcon size={40}>
+            <FaInstagram size="50%" />
           </ActionIcon>
         </Group>
       </Container>

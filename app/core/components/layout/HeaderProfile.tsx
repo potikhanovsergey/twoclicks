@@ -123,6 +123,42 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
     return formatedMenuItems
   }, [user, locale])
 
+  const menuAdminItems: GroupButtonProps[] | null = useMemo(() => {
+    if (user?.role !== "ADMIN") return null
+
+    const formatedMenuAdminItems: GroupButtonProps[] = []
+
+    if (user) {
+      if (user.role === "ADMIN") {
+        formatedMenuAdminItems.unshift({
+          elType: "menuItem",
+          sx: MenuItemSx,
+          children: "Building Blocks",
+          href: "/dashboard/building-blocks",
+        })
+        formatedMenuAdminItems.unshift({
+          elType: "menuItem",
+          sx: MenuItemSx,
+          children: "Test section",
+          href: "/dashboard/test-section",
+        })
+        formatedMenuAdminItems.unshift({
+          elType: "menuItem",
+          sx: MenuItemSx,
+          children: "Support messages",
+          href: "/dashboard/support-messages",
+        })
+        formatedMenuAdminItems.unshift({
+          elType: "menuItem",
+          sx: MenuItemSx,
+          children: "Pages",
+          href: "/dashboard/pages",
+        })
+      }
+    }
+    return formatedMenuAdminItems
+  }, [user, locale])
+
   return (
     <Group position="center">
       {!user && withAuthButton && (
@@ -199,6 +235,16 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
         <Menu.Dropdown p={0}>
           <Menu.Label>{t("general")}</Menu.Label>
           <ButtonGroup buttons={menuItems} wrapperProps={{ sx: { flexDirection: "column" } }} />
+          {user?.role === "ADMIN" && menuAdminItems && (
+            <>
+              <Divider />
+              <Menu.Label>Dashboard</Menu.Label>
+              <ButtonGroup
+                buttons={menuAdminItems}
+                wrapperProps={{ sx: { flexDirection: "column" } }}
+              />
+            </>
+          )}
           <Divider />
           <Menu.Label>{t("settings")}</Menu.Label>
           <Menu.Item
