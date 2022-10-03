@@ -1,6 +1,4 @@
 import CanvasAddModal from "./CanvasAddModal"
-import { IFilterButton } from "types"
-import { useMemo } from "react"
 
 const filterButtons = [
   {

@@ -35,7 +35,7 @@ const ElementMarginEdit = ({ element }: IElementMarginEdit) => {
       menuProps={{
         width: 196,
         defaultOpened: openedAction?.[element.id]?.includes("margin"),
-        position: element.editType === "section" || element.sectionLike ? "left" : undefined,
+        position: element.editType === "section" ? "left" : undefined,
         onClose: () => {
           BuildStore.openedAction = {}
         },
@@ -45,7 +45,7 @@ const ElementMarginEdit = ({ element }: IElementMarginEdit) => {
       }}
       tooltipProps={{
         label: "Margins",
-        position: element.editType === "section" || element.sectionLike ? "left" : undefined,
+        position: element.editType === "section" ? "left" : undefined,
         children: (
           <ActionIcon color="violet">
             <FaArrowsAlt />

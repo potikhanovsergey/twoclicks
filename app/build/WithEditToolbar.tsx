@@ -116,7 +116,9 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
     <Popover
       trapFocus={false}
       opened={popoverOpened || isImageUploading === element.id}
-      position={sectionLike ? "right-end" : "top-end"}
+      position={
+        element.editType === "section" ? "right-end" : element.sectionLike ? "bottom" : "top-end"
+      }
       offset={sectionLike ? 0 : undefined}
       withinPortal
       zIndex={501}
@@ -195,7 +197,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
           onMouseEnter={openDropdown}
           onMouseLeave={closeDropdown}
           style={{
-            flexDirection: sectionLike ? "column" : "row",
+            flexDirection: element.editType === "section" ? "column" : "row",
           }}
         >
           {element.editType === "section" && <ElementMarginEdit element={element} />}

@@ -33,7 +33,6 @@ const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
       }}
       tooltipProps={{
         label: t("radius"),
-        position: element.sectionLike ? "left" : "top",
         children: (
           <ActionIcon color="violet">
             <AiOutlineRadiusBottomleft />

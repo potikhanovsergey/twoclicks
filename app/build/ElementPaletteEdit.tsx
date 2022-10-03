@@ -28,7 +28,7 @@ const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
 
   const { t } = useTranslation("build")
   return paletteKey && element.props?.variant !== "gradient" ? (
-    <Tooltip label={t("change color")} withArrow position={element?.sectionLike ? "left" : "top"}>
+    <Tooltip label={t("change color")} withArrow>
       <div>
         <PaletteItem
           withHover
