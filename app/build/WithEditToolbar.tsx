@@ -1,12 +1,11 @@
-import { Box, Button, ButtonProps, Group, Popover, useMantineTheme } from "@mantine/core"
-import React, { useContext, useEffect, useMemo, useRef } from "react"
+import { Box, Group, Popover } from "@mantine/core"
+import React, { useLayoutEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
 import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
-import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 
 const BuilderImagePicker = dynamic(() => import("./BuilderImagePicker"))
 const ElementPaletteEdit = dynamic(() => import("./ElementPaletteEdit"))
@@ -23,10 +22,9 @@ const ElementCopyButton = dynamic(() => import("./ElementCopyButton"))
 const SectionBGEdit = dynamic(() => import("./SectionBGEdit"))
 const ElementUploadLink = dynamic(() => import("./ElementUploadLink"))
 const ElementMarginEdit = dynamic(() => import("./ElementMarginEdit"))
+const InnerAddSectionButton = dynamic(() => import("./InnerAddSectionButton"))
 
 import { TypeGradients, TypeIcons, TypeRadius, TypeSizes, TypeVariants } from "helpers"
-import useTranslation from "next-translate/useTranslation"
-import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 
 import dynamic from "next/dynamic"
 
@@ -36,39 +34,6 @@ interface IWithEditToolbar {
   props?: ICanvasBlockProps
   sectionIndex?: number
   element: ICanvasBlock
-}
-
-interface InnerAddSectionButtonProps extends Omit<ButtonProps, "children"> {
-  insertIndex: number
-}
-
-const InnerAddSectionButton = (props: InnerAddSectionButtonProps) => {
-  const [, setModalContext = () => ({})] = useContext(ModalContext)
-  const { t } = useTranslation("build")
-
-  const { insertIndex, ...otherProps } = props
-
-  const theme = useMantineTheme()
-  const dark = theme.colorScheme === "dark"
-  return (
-    <Button
-      size="sm"
-      variant={dark ? "white" : "filled"}
-      color="dark"
-      rightIcon={<FiPlusSquare />}
-      compact
-      onClick={() => {
-        BuildStore.insertIndex = insertIndex
-        setModalContext((prevValue: IModalContextValue) => ({
-          ...prevValue,
-          canvasSectionsModal: true,
-        }))
-      }}
-      {...otherProps}
-    >
-      {t("add new section")}
-    </Button>
-  )
 }
 
 const FIT_CONTENT_ELEMENTS = [
@@ -100,7 +65,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
     return opened || Boolean(openedAction[element.id])
   }, [opened, openedAction, element.id])
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!didMount) {
       activeEditToolbars[element.id] = opened
 

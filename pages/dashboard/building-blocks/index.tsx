@@ -1,5 +1,6 @@
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import {
+  Box,
   Button,
   Center,
   Container,
@@ -232,9 +233,9 @@ const DashboardIndex = () => {
         </Stack>
       </Container>
       {JSX && (
-        <Center mb="xl">
+        <Box mb="xl">
           <SafeWrapper resetKeys={[JSX]}>{JSX}</SafeWrapper>
-        </Center>
+        </Box>
       )}
       <Container size="xl" pb="xl">
         <Group>
