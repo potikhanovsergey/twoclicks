@@ -35,6 +35,14 @@ const getInitialData: () => ICanvasData = () => {
   return JSON.parse(JSON.stringify(initialData))
 }
 
+function reorder(list, startIndex, endIndex) {
+  const result = Array.from(list)
+  const [removed] = result.splice(startIndex, 1)
+  result.splice(endIndex, 0, removed)
+
+  return result as typeof list
+}
+
 interface IActionHistoryItem {
   undo: {
     name: string
@@ -61,6 +69,13 @@ class Build {
 
   openedAction: {
     [key: string]: string
+  } = {}
+
+  sectionsItemsSizes: {
+    [key: string]: {
+      width: number
+      height: number
+    }
   } = {}
 
   unlockedElements: {
@@ -153,18 +168,26 @@ class Build {
         const parentProps = parent?.props as ICanvasBlockProps
         const parentChildren = parentProps.children as ICanvasBlock[]
         if (insertIndex === null || insertIndex === undefined) {
-          parentChildren.push(block)
+          parentProps.children = [...parentChildren, block]
         } else {
-          parentChildren.splice(insertIndex, 0, block)
+          parentProps.children = [
+            ...parentChildren.slice(0, insertIndex),
+            block,
+            ...parentChildren.slice(insertIndex),
+          ]
           this.insertIndex = null
         }
         traverseAddIDs(parent)
       }
     } else {
       if (insertIndex === null || insertIndex === undefined) {
-        this.data.blocks.push(block)
+        this.data.blocks = [...this.data.blocks, block]
       } else {
-        this.data.blocks.splice(insertIndex, 0, block)
+        this.data.blocks = [
+          ...this.data.blocks.slice(0, insertIndex),
+          block,
+          ...this.data.blocks.slice(insertIndex),
+        ]
         this.insertIndex = null
       }
       traverseAddIDs(this.data.blocks)
@@ -372,10 +395,16 @@ class Build {
     const { indexOfId, parentArray } = this.findParentsChildren({ id, parentID, editType })
 
     if (typeof indexOfId === "number" && indexOfId !== -1 && indexOfId > 0) {
-      ;[parentArray[indexOfId], parentArray[indexOfId - 1]] = [
-        parentArray[indexOfId - 1],
-        parentArray[indexOfId],
-      ]
+      // ;[parentArray[indexOfId], parentArray[indexOfId - 1]] = [
+      //   parentArray[indexOfId - 1],
+      //   parentArray[indexOfId],
+      // ]
+      if (parentID) {
+        this.getElement(parentID).props.children = reorder(parentArray, indexOfId, indexOfId - 1)
+      } else {
+        this.data.blocks = reorder(parentArray, indexOfId, indexOfId - 1)
+      }
+
       this.onPageChange({
         redo: {
           name: "moveLeft",
@@ -388,12 +417,12 @@ class Build {
         fromHistory,
       })
 
-      if (withScroll) {
-        this.sectionsRef.current
-          ?.querySelectorAll(".builder-block")
-          ?.[indexOfId - 1]?.scrollIntoView({ block: "start" })
-        window.scrollBy(0, -100)
-      }
+      // if (withScroll) {
+      //   this.sectionsRef.current
+      //     ?.querySelectorAll(".builder-block")
+      //     ?.[indexOfId - 1]?.scrollIntoView({ block: "start" })
+      //   window.scrollBy(0, -100)
+      // }
     }
   }
 
@@ -415,10 +444,17 @@ class Build {
     const { indexOfId, parentArray } = this.findParentsChildren({ id, parentID, editType })
 
     if (typeof indexOfId === "number" && indexOfId !== -1 && indexOfId < parentArray.length - 1) {
-      ;[parentArray[indexOfId + 1], parentArray[indexOfId]] = [
-        parentArray[indexOfId],
-        parentArray[indexOfId + 1],
-      ]
+      // ;[parentArray[indexOfId + 1], parentArray[indexOfId]] = [
+      //   parentArray[indexOfId],
+      //   parentArray[indexOfId + 1],
+      // ]
+
+      if (parentID) {
+        this.getElement(parentID).props.children = reorder(parentArray, indexOfId, indexOfId + 1)
+      } else {
+        this.data.blocks = reorder(parentArray, indexOfId, indexOfId + 1)
+      }
+
       this.onPageChange({
         redo: {
           name: "moveRight",
@@ -430,14 +466,14 @@ class Build {
         },
         fromHistory,
       })
-      if (withScroll) {
-        setTimeout(() => {
-          this.sectionsRef.current
-            ?.querySelectorAll(".builder-block")
-            ?.[indexOfId + 1]?.scrollIntoView({ block: "start" })
-          window.scrollBy(0, -100)
-        }, 0)
-      }
+      // if (withScroll) {
+      //   setTimeout(() => {
+      //     this.sectionsRef.current
+      //       ?.querySelectorAll(".builder-block")
+      //       ?.[indexOfId + 1]?.scrollIntoView({ block: "start" })
+      //     window.scrollBy(0, -100)
+      //   }, 0)
+      // }
     }
   }
 

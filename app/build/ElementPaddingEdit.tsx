@@ -8,43 +8,40 @@ import ToolbarMenu from "./ToolbarMenu"
 import { FaArrowsAlt } from "@react-icons/all-files/fa/FaArrowsAlt"
 import { useRef } from "react"
 
-interface IElementMarginEdit {
+interface IElementPaddingEdit {
   element: ICanvasBlock
 }
 
-const ElementMarginEdit = ({ element }: IElementMarginEdit) => {
+const ElementPaddingEdit = ({ element }: IElementPaddingEdit) => {
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
 
   const pickerTimeout = useRef<NodeJS.Timeout | null>(null)
 
-  const changeMargin = ({ value, prop }: { value?: number; prop: string }) => {
-    // pickerTimeout.current && clearTimeout(pickerTimeout.current)
-    // pickerTimeout.current = setInterval(() => {
+  const changePadding = ({ value, prop }: { value?: number; prop: string }) => {
     changeProp({
       id: element.id,
       newProps: {
         [prop]: value,
       },
     })
-    // }, 25)
   }
 
   return (
     <ToolbarMenu
       menuProps={{
         width: 196,
-        defaultOpened: openedAction?.[element.id]?.includes("margin"),
+        defaultOpened: openedAction?.[element.id]?.includes("padding"),
         position: element.editType === "section" ? "left" : undefined,
         onClose: () => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "margin"
+          BuildStore.openedAction[element.id] = "padding"
         },
       }}
       tooltipProps={{
-        label: "Margins",
+        label: "Paddings",
         position: element.editType === "section" ? "left" : undefined,
         children: (
           <ActionIcon color="violet">
@@ -57,19 +54,19 @@ const ElementMarginEdit = ({ element }: IElementMarginEdit) => {
         px: 12,
         children: (
           <>
-            <Text weight="bold">Edit margin</Text>
+            <Text weight="bold">Edit padding</Text>
             <Stack spacing={8} align="stretch">
               <div>
                 <Text>Top</Text>
                 <Slider
                   label={(value) => `${value} px`}
-                  defaultValue={element.props.mt}
+                  defaultValue={element.props.pt}
                   min={0}
                   max={200}
                   onChange={(value) => {
                     pickerTimeout.current && clearTimeout(pickerTimeout.current)
                     pickerTimeout.current = setTimeout(() => {
-                      changeMargin({ value, prop: "mt" })
+                      changePadding({ value, prop: "pt" })
                     }, 100)
                   }}
                 />
@@ -78,11 +75,11 @@ const ElementMarginEdit = ({ element }: IElementMarginEdit) => {
                 <Text>Bottom</Text>
                 <Slider
                   label={(value) => `${value} px`}
-                  defaultValue={element.props.mb}
+                  defaultValue={element.props.pb}
                   onChange={(value) => {
                     pickerTimeout.current && clearTimeout(pickerTimeout.current)
                     pickerTimeout.current = setTimeout(() => {
-                      changeMargin({ value, prop: "mb" })
+                      changePadding({ value, prop: "pb" })
                     }, 100)
                   }}
                   min={0}
@@ -97,4 +94,4 @@ const ElementMarginEdit = ({ element }: IElementMarginEdit) => {
   )
 }
 
-export default observer(ElementMarginEdit)
+export default observer(ElementPaddingEdit)

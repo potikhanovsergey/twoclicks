@@ -8,7 +8,18 @@ import { ReactNode, useEffect, useState } from "react"
 // errors in its own `render`
 const Inner = ({ children }) => children
 
-const SafeWrapper = ({ children, resetKeys }: { children: ReactNode; resetKeys?: unknown[] }) => {
+const SafeWrapper = ({
+  children,
+  resetKeys,
+  onLoad,
+}: {
+  children: ReactNode
+  resetKeys?: unknown[]
+  onLoad?: () => void
+}) => {
+  useEffect(() => {
+    onLoad && onLoad()
+  }, [])
   return (
     <ErrorBoundary fallback={<>The element cannot be rendered</>} resetKeys={resetKeys}>
       <Inner>{children}</Inner>
