@@ -1,4 +1,5 @@
 import { useSession } from "@blitzjs/auth"
+import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarouselWithCards"
 import FeaturesSimple from "app/build/sections/features/FeaturesSimple"
 import FeaturesWithPeople from "app/build/sections/features/FeaturesWithPeople"
 import FeaturesWithPicture from "app/build/sections/features/FeaturesWithPicture"
@@ -18,7 +19,7 @@ const TestSection = () => {
     }
   }, [session])
 
-  return <MantineFooterWithSocialIcons />
+  return <MantineCarouselWithCards />
 }
 
 TestSection.getLayout = getBaseLayout({})
