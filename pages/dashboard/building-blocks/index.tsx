@@ -42,6 +42,7 @@ import FeaturesWithPeople from "app/build/sections/features/FeaturesWithPeople"
 import FloatingTitleFeatures from "app/build/sections/features/FloatingTitleFeatures"
 import { linter } from "@codemirror/lint"
 import FeaturesSimple from "app/build/sections/features/FeaturesSimple"
+import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarouselWithCards"
 
 const linterExtension = linter(jsonParseLinter())
 
@@ -64,6 +65,7 @@ const sections = [
   FeaturesWithPeople,
   FloatingTitleFeatures,
   FeaturesSimple,
+  MantineCarouselWithCards,
 ]
 
 const DashboardIndex = () => {
