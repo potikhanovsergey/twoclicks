@@ -8,8 +8,6 @@ import { BuildStore } from "store/build"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import useTranslation from "next-translate/useTranslation"
 import { ICanvasBlock, ICanvasPalette } from "types"
-// import { VariableSizeList } from "react-window"
-import { useElementSize } from "@mantine/hooks"
 import { Virtuoso } from "react-virtuoso"
 
 // const BlocksList = observer(
