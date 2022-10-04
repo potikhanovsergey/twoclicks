@@ -21,7 +21,7 @@ const ElementTypeEdit = dynamic(() => import("./ElementTypeEdit"))
 const ElementCopyButton = dynamic(() => import("./ElementCopyButton"))
 const SectionBGEdit = dynamic(() => import("./SectionBGEdit"))
 const ElementUploadLink = dynamic(() => import("./ElementUploadLink"))
-const ElementMarginEdit = dynamic(() => import("./ElementMarginEdit"))
+const ElementPaddingEdit = dynamic(() => import("./ElementPaddingEdit"))
 const InnerAddSectionButton = dynamic(() => import("./InnerAddSectionButton"))
 
 import { TypeGradients, TypeIcons, TypeRadius, TypeSizes, TypeVariants } from "helpers"
@@ -171,7 +171,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             flexDirection: element.editType === "section" ? "column" : "row",
           }}
         >
-          {element.editType === "section" && <ElementMarginEdit element={element} />}
+          {element.editType === "section" && <ElementPaddingEdit element={element} />}
           {TypeVariants[element.type] && <ElementVariantsEdit element={element} />}
           {TypeSizes[element.type] && <ElementSizesEdit element={element} />}
           {TypeRadius[element.type] && <ElementRadiusesEdit element={element} />}

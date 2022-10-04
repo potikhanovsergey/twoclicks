@@ -3,37 +3,64 @@ import SafeWrapper from "app/core/components/SafeWrapper"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { RenderJSXFromBlock } from "helpers"
 import { observer } from "mobx-react-lite"
-import React, { useContext, useEffect, useRef } from "react"
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { BuildStore } from "store/build"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import useTranslation from "next-translate/useTranslation"
 import { ICanvasBlock, ICanvasPalette } from "types"
+import { Virtuoso } from "react-virtuoso"
 
-const BlocksList = observer(
-  ({ blocks, palette }: { blocks: ICanvasBlock[]; palette: ICanvasPalette }) => {
-    return (
-      <>
-        {blocks.map((b, i) => {
-          return (
-            <div className="builder-block" key={b.id}>
-              <SafeWrapper>
-                <RenderJSXFromBlock
-                  element={b}
-                  shouldFlat
-                  withContentEditable
-                  withEditToolbar
-                  withPalette
-                  palette={palette}
-                  sectionIndex={i}
-                />
-              </SafeWrapper>
-            </div>
-          )
-        })}
-      </>
-    )
-  }
-)
+// const BlocksList = observer(
+//   ({ blocks, palette }: { blocks: ICanvasBlock[]; palette: ICanvasPalette }) => {
+//     return (
+//       <>
+//         {blocks.map((b, i) => {
+//           return (
+//             <div className="builder-block" key={b.id}>
+//               <SafeWrapper>
+//                 <RenderJSXFromBlock
+//                   element={b}
+//                   shouldFlat
+//                   withContentEditable
+//                   withEditToolbar
+//                   withPalette
+//                   palette={palette}
+//                   sectionIndex={i}
+//                 />
+//               </SafeWrapper>
+//             </div>
+//           )
+//         })}
+//       </>
+//     )
+//   }
+// )
+
+const ListComponent = observer(({ blocks }: { blocks: ICanvasBlock[] }) => {
+  useEffect(() => {
+    console.log("BLOCKS CHANGED")
+  }, [blocks])
+
+  const itemContent = useCallback(
+    (index, block) => (
+      <div className="builder-block" key={block.id}>
+        <SafeWrapper>
+          <RenderJSXFromBlock
+            element={block}
+            shouldFlat
+            withContentEditable
+            withEditToolbar
+            withPalette
+            palette={BuildStore.data.palette}
+            sectionIndex={index}
+          />
+        </SafeWrapper>
+      </div>
+    ),
+    []
+  )
+  return <Virtuoso useWindowScroll data={blocks} itemContent={itemContent} />
+})
 
 const Blocks = observer(() => {
   const {
@@ -47,7 +74,7 @@ const Blocks = observer(() => {
   return (
     <>
       {blocks.length > 0 ? (
-        <BlocksList blocks={blocks} palette={palette} />
+        <ListComponent blocks={blocks} />
       ) : (
         <Center style={{ height: "100%" }}>
           <Button
