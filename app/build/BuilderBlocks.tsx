@@ -1,46 +1,18 @@
 import { Box, Button, Center, useMantineTheme } from "@mantine/core"
-import SafeWrapper from "app/core/components/SafeWrapper"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { RenderJSXFromBlock } from "helpers"
 import { observer } from "mobx-react-lite"
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { BuildStore } from "store/build"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import useTranslation from "next-translate/useTranslation"
-import { ICanvasBlock, ICanvasPalette } from "types"
-import { Virtuoso } from "react-virtuoso"
+import { ICanvasBlock } from "types"
+import dynamic from "next/dynamic"
 
-// const BlocksList = observer(
-//   ({ blocks, palette }: { blocks: ICanvasBlock[]; palette: ICanvasPalette }) => {
-//     return (
-//       <>
-//         {blocks.map((b, i) => {
-//           return (
-//             <div className="builder-block" key={b.id}>
-//               <SafeWrapper>
-//                 <RenderJSXFromBlock
-//                   element={b}
-//                   shouldFlat
-//                   withContentEditable
-//                   withEditToolbar
-//                   withPalette
-//                   palette={palette}
-//                   sectionIndex={i}
-//                 />
-//               </SafeWrapper>
-//             </div>
-//           )
-//         })}
-//       </>
-//     )
-//   }
-// )
+const RenderJSXFromBlock = dynamic(() => import("app/core/components/RenderJSXFromBlock"))
+const Virtuoso = dynamic(() => import("react-virtuoso").then((m) => m.Virtuoso))
+const SafeWrapper = dynamic(() => import("app/core/components/SafeWrapper"))
 
-const ListComponent = observer(({ blocks }: { blocks: ICanvasBlock[] }) => {
-  useEffect(() => {
-    console.log("BLOCKS CHANGED")
-  }, [blocks])
-
+const ListComponent = observer(() => {
   const itemContent = useCallback(
     (index, block) => (
       <div className="builder-block" key={block.id}>
@@ -59,12 +31,12 @@ const ListComponent = observer(({ blocks }: { blocks: ICanvasBlock[] }) => {
     ),
     []
   )
-  return <Virtuoso useWindowScroll data={blocks} itemContent={itemContent} />
+  return <Virtuoso useWindowScroll data={BuildStore.data.blocks} itemContent={itemContent} />
 })
 
 const Blocks = observer(() => {
   const {
-    data: { blocks, palette },
+    data: { blocks },
   } = BuildStore
   const { t } = useTranslation("build")
 
@@ -74,7 +46,7 @@ const Blocks = observer(() => {
   return (
     <>
       {blocks.length > 0 ? (
-        <ListComponent blocks={blocks} />
+        <ListComponent />
       ) : (
         <Center style={{ height: "100%" }}>
           <Button

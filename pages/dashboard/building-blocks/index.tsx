@@ -11,7 +11,7 @@ import {
   useMantineTheme,
 } from "@mantine/core"
 import React, { useEffect, useMemo, useState } from "react"
-import { RenderJSXFromBlock, serialize } from "helpers"
+import { serialize } from "helpers"
 import { jsonLanguage, jsonParseLinter } from "@codemirror/lang-json"
 import FirstHero from "app/build/sections/FirstHero"
 import { useMutation } from "@blitzjs/rpc"
@@ -43,6 +43,7 @@ import FloatingTitleFeatures from "app/build/sections/features/FloatingTitleFeat
 import { linter } from "@codemirror/lint"
 import FeaturesSimple from "app/build/sections/features/FeaturesSimple"
 import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarouselWithCards"
+import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 
 const linterExtension = linter(jsonParseLinter())
 

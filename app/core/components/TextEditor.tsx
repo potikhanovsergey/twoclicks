@@ -284,7 +284,7 @@ const TextEditor: React.FC<{
       />
     </>
   ) : (
-    <div dangerouslySetInnerHTML={{ __html: initialHtml }} />
+    <div dangerouslySetInnerHTML={{ __html: initialHtml }} style={{ whiteSpace: "break-spaces" }} />
   )
 }
 
