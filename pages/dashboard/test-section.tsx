@@ -5,6 +5,7 @@ import FeaturesWithPeople from "app/build/sections/features/FeaturesWithPeople"
 import FeaturesWithPicture from "app/build/sections/features/FeaturesWithPicture"
 import MantineFooterWithSocialIcons from "app/build/sections/footers/MantineFooterWithSocialIcons"
 import GalleryWithButton from "app/build/sections/galleries/GalleryWithButton"
+import HeroWithTwoButtonsAndPicture from "app/build/sections/hero/HeroWithTwoButtonsAndPicture"
 import Partners from "app/build/sections/partners/Partners"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import { AuthorizationError } from "blitz"
@@ -19,7 +20,7 @@ const TestSection = () => {
     }
   }, [session])
 
-  return <MantineCarouselWithCards />
+  return <HeroWithTwoButtonsAndPicture />
 }
 
 TestSection.getLayout = getBaseLayout({})

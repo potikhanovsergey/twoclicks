@@ -44,6 +44,7 @@ import { linter } from "@codemirror/lint"
 import FeaturesSimple from "app/build/sections/features/FeaturesSimple"
 import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarouselWithCards"
 import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
+import HeroWithTwoButtonsAndPicture from "app/build/sections/hero/HeroWithTwoButtonsAndPicture"
 
 const linterExtension = linter(jsonParseLinter())
 
@@ -67,6 +68,7 @@ const sections = [
   FloatingTitleFeatures,
   FeaturesSimple,
   MantineCarouselWithCards,
+  HeroWithTwoButtonsAndPicture,
 ]
 
 const DashboardIndex = () => {
