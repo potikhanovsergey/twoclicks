@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { useEditor, EditorContent, mergeAttributes, BubbleMenu } from "@tiptap/react"
+import { useEditor, EditorContent, mergeAttributes } from "@tiptap/react"
 import { ActionIcon, Box, Group, TextInput, Tooltip, useMantineTheme } from "@mantine/core"
 import Document from "@tiptap/extension-document"
 import Text from "@tiptap/extension-text"
@@ -18,6 +18,9 @@ import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import { observer } from "mobx-react-lite"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
+import dynamic from "next/dynamic"
+
+const BubbleMenu = dynamic(() => import("@tiptap/react").then((m) => m.BubbleMenu))
 
 const TextEditor: React.FC<{
   initialHtml: string
@@ -68,7 +71,6 @@ const TextEditor: React.FC<{
         }),
       ],
       content,
-      onDestroy: () => console.log("DESTROYES"),
       onBlur: ({ editor }) => {
         onChange && onChange(editor.getHTML())
       },
@@ -92,7 +94,7 @@ const TextEditor: React.FC<{
           interactive: true,
           arrow: true,
           placement: "bottom",
-          zIndex: 10,
+          zIndex: 701,
         }}
         editor={editor}
       >

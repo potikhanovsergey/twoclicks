@@ -29,24 +29,22 @@ export const TraverseProp = ({
   palette: ICanvasPalette | undefined
   type: string
 }) => {
-  if (prop === "leftSection" || prop === "leftIcon") {
-    console.log(prop, propValue)
-  }
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (type.includes("button") || type.includes("badge")) {
       return (
-        <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
+        <WithEditable key={parentID} parentID={parentID} withContentEditable={withContentEditable}>
           {propValue}
         </WithEditable>
       )
     } else {
-      return <TextEditor initialHtml={propValue} parentID={parentID} />
+      return <TextEditor key={parentID} initialHtml={propValue} parentID={parentID} />
     }
   }
 
   if (propValue && typeof propValue === "object" && propValue.type) {
     return (
       <RenderJSXFromBlock
+        key={propValue.type + propValue.id}
         element={propValue}
         shouldFlat={shouldFlat}
         parentID={parentID}

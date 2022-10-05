@@ -1,5 +1,3 @@
-import WithEditToolbar from "app/build/WithEditToolbar"
-import { IconPickerProps } from "app/core/components/base/IconPicker"
 import { getPaletteByType, TraverseProp } from "helpers"
 import { canvasBuildingBlocks } from "helpers/blocks"
 import { observer } from "mobx-react-lite"
@@ -9,9 +7,8 @@ import { useMemo } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasPalette, ICanvasBlockProps } from "types"
 
-const IconPicker = dynamic<IconPickerProps>(() =>
-  import("app/core/components/base/IconPicker").then((module) => module)
-)
+const IconPicker = dynamic(() => import("app/core/components/base/IconPicker"))
+const WithEditToolbar = dynamic(() => import("app/build/WithEditToolbar"))
 
 const RenderJSXFromBlock = observer(
   ({

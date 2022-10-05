@@ -5,17 +5,18 @@ import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } 
 import { BuildStore } from "store/build"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import useTranslation from "next-translate/useTranslation"
-import { ICanvasBlock } from "types"
 import dynamic from "next/dynamic"
+import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
+import SafeWrapper from "app/core/components/SafeWrapper"
 
-const RenderJSXFromBlock = dynamic(() => import("app/core/components/RenderJSXFromBlock"))
+// const RenderJSXFromBlock = dynamic(() => import("app/core/components/RenderJSXFromBlock"))
 const Virtuoso = dynamic(() => import("react-virtuoso").then((m) => m.Virtuoso))
-const SafeWrapper = dynamic(() => import("app/core/components/SafeWrapper"))
+// const SafeWrapper = dynamic(() => import("app/core/components/SafeWrapper"))
 
 const ListComponent = observer(() => {
   const itemContent = useCallback(
     (index, block) => (
-      <div className="builder-block" key={block.id}>
+      <div className="builder-block" key={block.id} style={{ minHeight: 1 }}>
         <SafeWrapper>
           <RenderJSXFromBlock
             element={block}
