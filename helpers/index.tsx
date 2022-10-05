@@ -1,24 +1,14 @@
 import { MantineTheme } from "@mantine/core"
-import dynamic from "next/dynamic"
-import React, { useMemo } from "react"
+import React from "react"
 import shortid from "shortid"
-import { ICanvasBlockProps, ICanvasBlock } from "types"
-import WithEditToolbar from "app/build/WithEditToolbar"
 import { BuildStore } from "store/build"
 import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
 import { ICanvasPalette } from "types"
-import Link from "next/link"
-import { IconPickerProps } from "app/core/components/base/IconPicker"
-import { canvasBuildingBlocks } from "./blocks"
 import TextEditor from "app/core/components/TextEditor"
-import { observer } from "mobx-react-lite"
+import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 
-const IconPicker = dynamic<IconPickerProps>(() =>
-  import("app/core/components/base/IconPicker").then((module) => module)
-)
-
-const TraverseProp = ({
+export const TraverseProp = ({
   propValue,
   prop,
   shouldFlat,
@@ -39,24 +29,22 @@ const TraverseProp = ({
   palette: ICanvasPalette | undefined
   type: string
 }) => {
-  if (prop === "leftSection" || prop === "leftIcon") {
-    console.log(prop, propValue)
-  }
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (type.includes("button") || type.includes("badge")) {
       return (
-        <WithEditable parentID={parentID} withContentEditable={withContentEditable}>
+        <WithEditable key={parentID} parentID={parentID} withContentEditable={withContentEditable}>
           {propValue}
         </WithEditable>
       )
     } else {
-      return <TextEditor initialHtml={propValue} parentID={parentID} />
+      return <TextEditor key={parentID} initialHtml={propValue} parentID={parentID} />
     }
   }
 
   if (propValue && typeof propValue === "object" && propValue.type) {
     return (
       <RenderJSXFromBlock
+        key={propValue.type + propValue.id}
         element={propValue}
         shouldFlat={shouldFlat}
         parentID={parentID}
@@ -203,136 +191,6 @@ export function getRadiusesByType(type: string) {
 export function getGradientsByType(type: string) {
   return TypeGradients[type]
 }
-
-export const RenderJSXFromBlock = observer(
-  ({
-    element,
-    shouldFlat = false,
-    parentID = null,
-    withContentEditable = false,
-    withEditToolbar = false,
-    withPalette = false,
-    sectionIndex,
-    palette,
-  }: {
-    element: ICanvasBlock
-    shouldFlat?: boolean
-    parentID?: string | null
-    withContentEditable?: boolean
-    withEditToolbar?: boolean
-    withPalette?: boolean
-    sectionIndex?: number
-    palette?: ICanvasPalette
-  }) => {
-    const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
-    element.type = element.type.toLowerCase()
-    const TagName = canvasBuildingBlocks[element.type] || element.type // if neither of the above, then the element is a block with children and the recursive call is needed.
-
-    const props = useMemo(() => {
-      const newProps = el.props as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.Element.
-      // We need to traverse it to make sure all props are rendered as they should
-
-      if (
-        ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
-          element.type
-        ) &&
-        withContentEditable
-      ) {
-        newProps.component = "span"
-      }
-
-      if (withPalette) {
-        if (getPaletteByType(element.type) && !newProps[getPaletteByType(element.type).prop]) {
-          newProps[getPaletteByType(element.type).prop] =
-            palette?.[getPaletteByType(element.type).color]
-        }
-      }
-
-      for (const prop in newProps) {
-        if (Array.isArray(newProps[prop])) {
-          for (let i = 0; i < newProps[prop].length; i++) {
-            newProps[prop][i] = TraverseProp({
-              propValue: newProps[prop][i],
-              prop,
-              shouldFlat,
-              parentID: el.id,
-              withContentEditable,
-              withEditToolbar,
-              withPalette,
-              palette,
-              type: element.type,
-            })
-          }
-        } else {
-          const traversedProp = TraverseProp({
-            propValue: newProps[prop],
-            prop,
-            shouldFlat,
-            parentID: el.id,
-            withContentEditable,
-            withEditToolbar,
-            withPalette,
-            palette,
-            type: element.type,
-          })
-          if (traversedProp) {
-            newProps[prop] = traversedProp
-          }
-        }
-      }
-      return newProps
-    }, [el])
-
-    if (withEditToolbar && el?.editType === "icon") {
-      return (
-        <IconPicker
-          key={el.id}
-          icon={<TagName {...props} />}
-          onChange={(icon) => {
-            if (icon?.props) {
-              let newProps = icon.props as ICanvasBlockProps
-              BuildStore.changeProp({ id: el.id, newProps })
-            }
-          }}
-        />
-      )
-    }
-
-    if (withEditToolbar && el.editType) {
-      return (
-        <WithEditToolbar
-          key={el.id}
-          parentID={parentID}
-          sectionIndex={sectionIndex}
-          element={element}
-        >
-          <TagName {...props} />
-        </WithEditToolbar>
-      )
-    }
-
-    const { children, ...restProps } = props
-
-    if (
-      typeof children === "string" &&
-      !element.type.includes("button") &&
-      !element.type.includes("badge")
-    ) {
-      return <TagName key={el.id} {...restProps} dangerouslySetInnerHTML={{ __html: children }} />
-    }
-
-    if (props.component === "a" && props.href) {
-      const { href, ...restOfProps } = props
-      return (
-        <Link passHref key={el.id} href={href}>
-          <TagName {...restOfProps} />
-        </Link>
-      )
-    } else {
-      return <TagName key={el.id} {...props} />
-    }
-  }
-)
 
 const getElementType = (value) => {
   if (typeof value === "function") {

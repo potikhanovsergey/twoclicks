@@ -1,6 +1,6 @@
 import { Box, Global, Loader, LoadingOverlay } from "@mantine/core"
 import React from "react"
-import { RenderJSXFromBlock } from "helpers"
+import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import { IPage } from "types"
 import { observer } from "mobx-react-lite"

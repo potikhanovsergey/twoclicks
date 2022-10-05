@@ -1,5 +1,5 @@
 import { Global, MantineProvider, useMantineTheme } from "@mantine/core"
-import { RenderJSXFromBlock } from "helpers"
+import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import { useDocumentTitle, useLocalStorage } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasData, IPage } from "types"
 import SafeWrapper from "app/core/components/SafeWrapper"

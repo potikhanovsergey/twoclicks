@@ -1,6 +1,6 @@
 import { Tooltip } from "@mantine/core"
 import IconPicker from "app/core/components/base/IconPicker"
-import { RenderJSXFromBlock, serialize, TypeIcons } from "helpers"
+import { serialize, TypeIcons } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useMemo } from "react"
@@ -9,6 +9,7 @@ import { CgToggleSquare } from "@react-icons/all-files/cg/CgToggleSquare"
 
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
+import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 
 interface IElementIconEdit {
   propName: string

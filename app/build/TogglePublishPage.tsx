@@ -7,24 +7,31 @@ import { AppStore } from "store"
 import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import togglePagePublished from "app/build-pages/mutations/togglePagePublished"
+import { useCallback, useMemo } from "react"
 
 interface ITogglePublishPage {
   id: string
 }
 
 const TogglePublishPage = ({ id }: ITogglePublishPage) => {
-  const page = AppStore.pages?.find((p) => p.id === id)
+  const page = useMemo(() => {
+    return AppStore.pages?.find((p) => p.id === id)
+  }, [id])
 
-  const handleToggle = async (e) => {
-    if (page) {
-      const newIsPublished = !page.isPublished
-      const response = await togglePagePublishedMutation({ id, isPublished: newIsPublished })
-      if (response) {
-        page.isPublished = newIsPublished
-      }
-    }
-  }
   const [togglePagePublishedMutation, { isLoading }] = useMutation(togglePagePublished)
+
+  const handleToggle = useCallback(
+    async (e) => {
+      if (page) {
+        const newIsPublished = !page.isPublished
+        const response = await togglePagePublishedMutation({ id, isPublished: newIsPublished })
+        if (response) {
+          page.isPublished = newIsPublished
+        }
+      }
+    },
+    [page, togglePagePublishedMutation, id]
+  )
 
   const { t } = useTranslation("build")
 

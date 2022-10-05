@@ -9,7 +9,7 @@ import {
 } from "@mantine/core"
 import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import { RenderJSXFromBlock } from "helpers"
+import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
 import createLikedBlock from "app/building-blocks/mutations/createLikedBlock"
