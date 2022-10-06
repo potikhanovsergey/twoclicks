@@ -46,7 +46,7 @@ import SaveButton from "./SaveButton"
 import { ImSun } from "@react-icons/all-files/im/ImSun"
 import { IPage, IThemeSettings } from "types"
 import { RiMoonClearFill } from "@react-icons/all-files/ri/RiMoonClearFill"
-import { HiCog } from "@react-icons/all-files/hi/HiCog"
+import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
 import ElementRadiusesEdit from "./ElementRadiusesEdit"
 import { getHexFromThemeColor, sizes } from "helpers"
 import { S } from "@blitzjs/auth/dist/index-57d74361"
@@ -98,7 +98,7 @@ const PageSettings = observer(() => {
             variant={dark ? ("white" as "filled") : "filled"}
             ref={iconRef}
           >
-            <HiCog />
+            <FaPalette />
           </ActionIcon>
         </Tooltip>
       </Popover.Target>
