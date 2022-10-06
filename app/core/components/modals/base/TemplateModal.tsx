@@ -12,8 +12,8 @@ import { closeAllModals, openModal } from "@mantine/modals"
 import { useForm } from "@mantine/form"
 import createPage from "app/build-pages/mutations/createPage"
 import { useMutation } from "@blitzjs/rpc"
-import { Page } from "@prisma/client"
-import { ICanvasPalette } from "types"
+import { Page, Prisma } from "@prisma/client"
+import { ICanvasPalette, IThemeSettings } from "types"
 import { AppStore } from "store"
 import { showNotification } from "@mantine/notifications"
 import { defaultSuccessNotification } from "notifications"
@@ -37,7 +37,7 @@ const TemplateModalForm = ({ page }: { page: Page }) => {
         const createdPage = await createPageMutation({
           name: values.newPageName,
           data: page.data,
-          palette: page.palette as ICanvasPalette,
+          themeSettings: page.themeSettings as unknown as IThemeSettings,
         })
 
         if (createdPage) {
