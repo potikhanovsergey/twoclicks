@@ -3,13 +3,12 @@ import db, { Page, Prisma } from "db"
 import { IThemeSettings } from "types"
 
 export type IUpdatePage = Partial<
-  Pick<Page, "data" | "name" | "id" | "palette" | "theme"> & { themeSettings?: IThemeSettings }
+  Pick<Page, "data" | "name" | "id" | "theme"> & { themeSettings?: IThemeSettings }
 >
 
 export default async function updatePage(input: IUpdatePage, ctx: Ctx) {
   ctx.session.$isAuthorized()
   const { name, data, id, theme } = input
-  const palette = input.palette as Prisma.JsonObject
   const themeSettings = input.themeSettings as unknown as Prisma.JsonObject
   try {
     if (id) {
@@ -20,7 +19,6 @@ export default async function updatePage(input: IUpdatePage, ctx: Ctx) {
         data: {
           name,
           data,
-          palette,
           theme,
           themeSettings,
         },
