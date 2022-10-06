@@ -63,9 +63,7 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           popoverPosition="top-end"
           offset={6}
           color={element.props?.sx?.backgroundColor}
-          withReset={Boolean(
-            element.props?.sx?.backgroundImage || element.props?.sx?.backgroundColor
-          )}
+          withReset={Boolean(element.props?.sx?.backgroundColor)}
           withImageDelete={Boolean(element.props?.sx?.backgroundImage)}
           onImageDelete={() => {
             changeProp({
@@ -99,7 +97,6 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
                 sx: {
                   ...element.props?.sx,
                   backgroundColor: undefined,
-                  backgroundImage: undefined,
                 },
               },
             })
