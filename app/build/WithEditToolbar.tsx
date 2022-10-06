@@ -1,4 +1,4 @@
-import { Box, Group, Popover } from "@mantine/core"
+import { Box, Group, Popover, Text } from "@mantine/core"
 import React, { useLayoutEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
@@ -183,6 +183,11 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             flexDirection: element.editType === "section" ? "column" : "row",
           }}
         >
+          {element.editType === "section" && sectionIndex !== undefined && (
+            <Text weight="bold" size="xs">
+              №{sectionIndex + 1}
+            </Text>
+          )}
           {
             <ElementPaddingEdit
               element={element}
@@ -214,16 +219,20 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
           {(element.props.variant !== "gradient" &&
             themeSettings.variant !== "gradient" &&
             defaultGradients.includes(element.type)) ||
-            (!defaultGradients.includes(element.type) && element.props.variant !== "gradient" && (
-              <ElementPaletteEdit element={element} />
-            ))}
+          (!defaultGradients.includes(element.type) && element.props.variant !== "gradient") ? (
+            <ElementPaletteEdit element={element} />
+          ) : (
+            <></>
+          )}
           <ElementMoves parentID={parentID} element={element} />
           {element.type && element.props && <ElementUploadLink element={element} />}
           {element.type &&
             TypeIcons[element.type]?.map((propName) => (
               <ElementIconEdit propName={propName} key={propName} element={element} />
             ))}
-          {element.type && element.props && <ElementLinkEdit element={element} />}
+          {element.type && element.props && (
+            <ElementLinkEdit element={element} sectionIndex={sectionIndex} />
+          )}
           {element && !element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} />
           )}

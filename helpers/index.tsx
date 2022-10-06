@@ -18,6 +18,7 @@ export const TraverseProp = ({
   withThemeSettings,
   themeSettings,
   type,
+  sectionIndex,
 }: {
   propValue: any
   prop: string
@@ -28,6 +29,7 @@ export const TraverseProp = ({
   withThemeSettings: boolean
   themeSettings?: IThemeSettings
   type: string
+  sectionIndex?: number
 }) => {
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (type.includes("button") || type.includes("badge")) {
@@ -53,6 +55,7 @@ export const TraverseProp = ({
         withEditToolbar={withEditToolbar}
         withThemeSettings={withThemeSettings}
         themeSettings={themeSettings}
+        sectionIndex={sectionIndex}
       />
     )
   } else {

@@ -54,6 +54,7 @@ const CustomTheme: MantineThemeOverride = {
     },
     html: {
       cursor: `url(${cursor.src}), default`,
+      scrollBehavior: "smooth",
     },
     "::selection": {
       background: theme.colors.violet[4],
