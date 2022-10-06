@@ -24,7 +24,7 @@ const CreatePageButton = (props: ICreatePageButton) => {
       id: ObjectID().toHexString(),
       name: "Brand new page",
       data: PageStarterMock.data as BuildingBlock[],
-      palette: PageStarterMock.palette,
+      themeSettings: PageStarterMock.themeSettings,
     }
 
     // Authorized

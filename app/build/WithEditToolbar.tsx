@@ -24,7 +24,14 @@ const ElementUploadLink = dynamic(() => import("./ElementUploadLink"))
 const ElementPaddingEdit = dynamic(() => import("./ElementPaddingEdit"))
 const InnerAddSectionButton = dynamic(() => import("./InnerAddSectionButton"))
 
-import { TypeGradients, TypeIcons, TypeRadius, TypeSizes, TypeVariants } from "helpers"
+import {
+  defaultGradients,
+  TypeGradients,
+  TypeIcons,
+  TypeRadius,
+  TypeSizes,
+  TypeVariants,
+} from "helpers"
 
 import dynamic from "next/dynamic"
 
@@ -47,7 +54,12 @@ const FIT_CONTENT_ELEMENTS = [
 const WIDTH_AUTO_ELEMENTS = ["@mantine/core/image"]
 
 const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEditToolbar) => {
-  const { activeEditToolbars, isImageUploading, openedAction } = BuildStore
+  const {
+    activeEditToolbars,
+    isImageUploading,
+    openedAction,
+    data: { themeSettings },
+  } = BuildStore
 
   const editableRef = useRef<HTMLDivElement>(null)
 
@@ -171,13 +183,24 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             flexDirection: element.editType === "section" ? "column" : "row",
           }}
         >
-          {element.editType === "section" && <ElementPaddingEdit element={element} />}
+          {
+            <ElementPaddingEdit
+              element={element}
+              type={element.editType === "section" ? "p" : "m"}
+              y
+              x={element.editType !== "section"}
+            />
+          }
           {TypeVariants[element.type] && <ElementVariantsEdit element={element} />}
           {TypeSizes[element.type] && <ElementSizesEdit element={element} />}
           {TypeRadius[element.type] && <ElementRadiusesEdit element={element} />}
-          {TypeGradients[element.type] && element.props.variant === "gradient" && (
-            <ElementGradientsEdit element={element} />
-          )}
+          {TypeGradients[element.type] &&
+            (element.props.variant === "gradient" ||
+              (!element.props.variant &&
+                themeSettings.variant === "gradient" &&
+                defaultGradients.includes(element.type))) && (
+              <ElementGradientsEdit element={element} />
+            )}
           {element.type &&
             ["image", "youtubeframe"].some((item) => element.type.includes(item)) && (
               <ElementTypeEdit
@@ -188,7 +211,12 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
                 ]}
               />
             )}{" "}
-          <ElementPaletteEdit element={element} />
+          {(element.props.variant !== "gradient" &&
+            themeSettings.variant !== "gradient" &&
+            defaultGradients.includes(element.type)) ||
+            (!defaultGradients.includes(element.type) && element.props.variant !== "gradient" && (
+              <ElementPaletteEdit element={element} />
+            ))}
           <ElementMoves parentID={parentID} element={element} />
           {element.type && element.props && <ElementUploadLink element={element} />}
           {element.type &&

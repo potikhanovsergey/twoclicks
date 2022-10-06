@@ -47,6 +47,9 @@ import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import HeroWithTwoButtonsAndPicture from "app/build/sections/hero/HeroWithTwoButtonsAndPicture"
 import HeroWithCircles from "app/build/sections/hero/HeroWithCircles"
 
+import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
+import { FaEye } from "@react-icons/all-files/fa/FaEye"
+
 const linterExtension = linter(jsonParseLinter())
 
 const CodeMirror = dynamic(() => import("@uiw/react-codemirror"))
@@ -210,9 +213,15 @@ const DashboardIndex = () => {
         {sectionsDB && (
           <>
             <Title mb="xl">DB Building Blocks</Title>
-            <Group mb="xl">
+            <Group mb="xl" spacing={8}>
               {sectionsDB.map((S, i) => (
-                <Button key={S.id} color="violet" onClick={() => handlePickBuildingBlock(S, "db")}>
+                <Button
+                  compact
+                  key={S.id}
+                  color={S.hidden ? "gray" : "violet"}
+                  leftIcon={S.hidden ? <FaEyeSlash /> : <FaEye />}
+                  onClick={() => handlePickBuildingBlock(S, "db")}
+                >
                   {S.name || i}
                 </Button>
               ))}

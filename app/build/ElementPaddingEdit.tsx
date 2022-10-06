@@ -10,9 +10,12 @@ import { useRef } from "react"
 
 interface IElementPaddingEdit {
   element: ICanvasBlock
+  type: "m" | "p"
+  y?: boolean
+  x?: boolean
 }
 
-const ElementPaddingEdit = ({ element }: IElementPaddingEdit) => {
+const ElementPaddingEdit = ({ element, type, y, x }: IElementPaddingEdit) => {
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")
 
@@ -41,7 +44,7 @@ const ElementPaddingEdit = ({ element }: IElementPaddingEdit) => {
         },
       }}
       tooltipProps={{
-        label: "Paddings",
+        label: "Spacings",
         position: element.editType === "section" ? "left" : undefined,
         children: (
           <ActionIcon color="violet">
@@ -54,38 +57,76 @@ const ElementPaddingEdit = ({ element }: IElementPaddingEdit) => {
         px: 12,
         children: (
           <>
-            <Text weight="bold">Edit padding</Text>
+            <Text weight="bold">Edit {type === "m" ? "margin" : "padding"}</Text>
             <Stack spacing={8} align="stretch">
-              <div>
-                <Text>Top</Text>
-                <Slider
-                  label={(value) => `${value} px`}
-                  defaultValue={element.props.pt}
-                  min={0}
-                  max={200}
-                  onChange={(value) => {
-                    pickerTimeout.current && clearTimeout(pickerTimeout.current)
-                    pickerTimeout.current = setTimeout(() => {
-                      changePadding({ value, prop: "pt" })
-                    }, 100)
-                  }}
-                />
-              </div>
-              <div>
-                <Text>Bottom</Text>
-                <Slider
-                  label={(value) => `${value} px`}
-                  defaultValue={element.props.pb}
-                  onChange={(value) => {
-                    pickerTimeout.current && clearTimeout(pickerTimeout.current)
-                    pickerTimeout.current = setTimeout(() => {
-                      changePadding({ value, prop: "pb" })
-                    }, 100)
-                  }}
-                  min={0}
-                  max={200}
-                />
-              </div>
+              {y && (
+                <>
+                  <div>
+                    <Text>Top</Text>
+                    <Slider
+                      label={(value) => `${value} px`}
+                      defaultValue={element.props[`${type}t`]}
+                      min={0}
+                      max={200}
+                      onChange={(value) => {
+                        pickerTimeout.current && clearTimeout(pickerTimeout.current)
+                        pickerTimeout.current = setTimeout(() => {
+                          changePadding({ value, prop: `${type}t` })
+                        }, 100)
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <Text>Bottom</Text>
+                    <Slider
+                      label={(value) => `${value} px`}
+                      defaultValue={element.props[`${type}b`]}
+                      onChange={(value) => {
+                        pickerTimeout.current && clearTimeout(pickerTimeout.current)
+                        pickerTimeout.current = setTimeout(() => {
+                          changePadding({ value, prop: `${type}b` })
+                        }, 100)
+                      }}
+                      min={0}
+                      max={200}
+                    />
+                  </div>
+                </>
+              )}
+              {x && (
+                <>
+                  <div>
+                    <Text>Left</Text>
+                    <Slider
+                      label={(value) => `${value} px`}
+                      defaultValue={element.props[`${type}l`]}
+                      onChange={(value) => {
+                        pickerTimeout.current && clearTimeout(pickerTimeout.current)
+                        pickerTimeout.current = setTimeout(() => {
+                          changePadding({ value, prop: `${type}l` })
+                        }, 100)
+                      }}
+                      min={0}
+                      max={200}
+                    />
+                  </div>
+                  <div>
+                    <Text>Right</Text>
+                    <Slider
+                      label={(value) => `${value} px`}
+                      defaultValue={element.props[`${type}r`]}
+                      onChange={(value) => {
+                        pickerTimeout.current && clearTimeout(pickerTimeout.current)
+                        pickerTimeout.current = setTimeout(() => {
+                          changePadding({ value, prop: `${type}r` })
+                        }, 100)
+                      }}
+                      min={0}
+                      max={200}
+                    />
+                  </div>
+                </>
+              )}
             </Stack>
           </>
         ),

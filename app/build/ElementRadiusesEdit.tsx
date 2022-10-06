@@ -42,7 +42,7 @@ const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
       dropdownProps={{
         children: (
           <Stack spacing={0} align="stretch">
-            {radiuses.map((radius) => (
+            {["reset", ...radiuses].map((radius) => (
               <Button
                 variant="subtle"
                 size="sm"
@@ -50,15 +50,15 @@ const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
                 key={radius}
                 disabled={
                   element.props?.radius === undefined
-                    ? radius === "filled"
+                    ? radius === "reset"
                     : radius === element.props?.radius
                 }
-                onClick={() => [
+                onClick={() => {
                   changeProp({
                     id: element.id,
-                    newProps: { radius },
-                  }),
-                ]}
+                    newProps: { radius: radius === "reset" ? "undefined" : radius },
+                  })
+                }}
               >
                 {radius}
               </Button>

@@ -5,7 +5,7 @@ import { IUpdatePage } from "app/build-pages/mutations/updatePage"
 import { traverseAddIDs, traverseDeleteIDs } from "helpers"
 import { deflate } from "helpers/utils"
 import { makeAutoObservable, action, computed } from "mobx"
-import { ICanvasBlock, ICanvasBlockProps, ICanvasData } from "types"
+import { ICanvasBlock, ICanvasBlockProps, ICanvasData, IThemeSettings } from "types"
 
 import { configure } from "mobx"
 import { RefObject } from "react"
@@ -17,8 +17,16 @@ configure({
   enforceActions: "never",
 })
 
-const defaultPalette = {
-  primary: "violet",
+export const defaultThemeSettings: IThemeSettings = {
+  palette: {
+    primary: "violet",
+  },
+  radius: "md",
+  gradient: {
+    from: "red",
+    to: "violet",
+  },
+  variant: "filled",
 }
 
 const initialData = {
@@ -27,8 +35,8 @@ const initialData = {
   customID: null,
   blocks: [],
   flattenBlocks: {},
-  palette: defaultPalette,
   theme: "inherit",
+  themeSettings: defaultThemeSettings,
 }
 
 const getInitialData: () => ICanvasData = () => {
@@ -495,7 +503,7 @@ class Build {
     try {
       e && e.preventDefault()
       const {
-        data: { name, id, blocks, palette },
+        data: { name, id, blocks, themeSettings },
         hasPageChanged,
       } = this
       if (name && id && hasPageChanged) {
@@ -504,7 +512,7 @@ class Build {
           data: deflate(blocks),
           name,
           id,
-          palette: palette as Prisma.JsonObject,
+          themeSettings,
         }
         let p
         if (session.userId) {
@@ -530,13 +538,51 @@ class Build {
   }
 
   @action
+  changeThemeSettings = (themeSettings: Partial<IThemeSettings>, fromHistory) => {
+    const oldSettings = {}
+    const undoProps = {}
+
+    for (let prop in themeSettings) {
+      if (!this.data.themeSettings[prop]) {
+        oldSettings[prop] = "undefined"
+      }
+      undoProps[prop] =
+        this.data.themeSettings[prop] === undefined ? "undefined" : this.data.themeSettings[prop]
+    }
+
+    this.onPageChange({
+      redo: {
+        name: "changeThemeSettings",
+        data: JSON.parse(JSON.stringify(themeSettings)),
+      },
+      undo: {
+        name: "changeThemeSettings",
+        data: JSON.parse(JSON.stringify(undoProps)),
+      },
+      fromHistory,
+    })
+
+    const updatedThemeSettings = {
+      ...this.data.themeSettings,
+      ...themeSettings,
+    }
+
+    for (let prop in updatedThemeSettings) {
+      if (updatedThemeSettings[prop] === "undefined") {
+        updatedThemeSettings[prop] = undefined
+      }
+    }
+    this.data.themeSettings = updatedThemeSettings
+  }
+
+  @action
   changePalette = (
     { paletteKey, value }: { paletteKey: string; value: string },
     fromHistory: boolean = false
   ) => {
-    if (this.data.palette?.[paletteKey]) {
-      const oldValue = this.data.palette[paletteKey]
-      this.data.palette[paletteKey] = value
+    if (this.data.themeSettings?.palette?.[paletteKey]) {
+      const oldValue = this.data.themeSettings.palette[paletteKey]
+      this.data.themeSettings.palette[paletteKey] = value
       this.onPageChange({
         redo: {
           name: "changePalette",

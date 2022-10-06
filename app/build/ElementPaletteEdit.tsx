@@ -12,7 +12,9 @@ interface IElementPaletteEdit {
 }
 
 const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
-  const paletteKey = element.type ? getPaletteByType(element.type) : undefined
+  const paletteKey = useMemo(() => {
+    return element.type ? getPaletteByType(element.type) : undefined
+  }, [element.type])
   const theme = useMantineTheme()
 
   const {
@@ -27,7 +29,7 @@ const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
   }, [element])
 
   const { t } = useTranslation("build")
-  return paletteKey && element.props?.variant !== "gradient" ? (
+  return paletteKey ? (
     <Tooltip label={t("change color")} withArrow>
       <div>
         <PaletteItem

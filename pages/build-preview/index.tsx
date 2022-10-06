@@ -1,10 +1,9 @@
 import { Global, MantineProvider, useMantineTheme } from "@mantine/core"
 import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import { useDocumentTitle, useLocalStorage } from "@mantine/hooks"
-import { ICanvasBlock, ICanvasData, IPage } from "types"
+import { ICanvasBlock, IPage, IThemeSettings } from "types"
 import SafeWrapper from "app/core/components/SafeWrapper"
-import React, { useEffect } from "react"
-import shortid from "shortid"
+import React from "react"
 import { ICanvasPalette } from "types"
 
 const PreviewPage = () => {
@@ -12,9 +11,9 @@ const PreviewPage = () => {
 
   const [page] = useLocalStorage<{
     blocks: ICanvasBlock[]
-    palette: ICanvasPalette
     name: string | null
     theme: IPage["theme"]
+    themeSettings: IThemeSettings
   }>({
     key: "preview-page",
   })
@@ -30,7 +29,8 @@ const PreviewPage = () => {
       <Global
         styles={(theme) => ({
           "::selection": {
-            background: theme?.colors?.[page?.palette?.primary]?.[4] || theme.colors.violet[4],
+            background:
+              theme?.colors?.[page?.themeSettings?.palette?.primary]?.[4] || theme.colors.violet[4],
             color: theme.white,
             WebkitTextFillColor: theme.white,
           },
@@ -49,8 +49,8 @@ const PreviewPage = () => {
                 shouldFlat={false}
                 withContentEditable={false}
                 withEditToolbar={false}
-                withPalette
-                palette={page.palette}
+                withThemeSettings
+                themeSettings={page.themeSettings}
                 sectionIndex={i}
               />
             </SafeWrapper>

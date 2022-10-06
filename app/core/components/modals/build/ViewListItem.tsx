@@ -81,7 +81,7 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const { classes } = useStyles()
   const {
-    data: { palette },
+    data: { themeSettings },
     insertIndex,
   } = BuildStore
 
@@ -90,11 +90,11 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
       <RenderJSXFromBlock
         element={{ ...block, editType: null }}
         withContentEditable={false}
-        withPalette
-        palette={palette}
+        withThemeSettings
+        themeSettings={themeSettings}
       />
     )
-  }, [block, palette])
+  }, [block, themeSettings])
 
   const iconRef = useRef(null)
   const [isLiked, setIsLiked] = useState(false)

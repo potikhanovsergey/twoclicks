@@ -1,4 +1,5 @@
 import { SimpleRolesIsAuthorized } from "@blitzjs/auth"
+import { MantineNumberSize } from "@mantine/core"
 import { BuildingBlock, Page, Role, User } from "db"
 import { ExtendedCustomColors } from "pages/_app"
 
@@ -13,16 +14,26 @@ export interface IFilterButton {
 export type ICanvasPalette = {
   [key: string]: ExtendedCustomColors
 }
+
+export interface IThemeSettings {
+  palette: ICanvasPalette
+  radius: MantineNumberSize
+  gradient: {
+    from: string
+    to: string
+  }
+  variant: "filled" | "outline" | "light" | "gradient"
+}
 export interface IPage {
   id: string
   customID?: string
   name: string
   data: ICanvasBlock[]
-  palette: ICanvasPalette
   theme: "inherit" | "light" | "dark"
   createdAt?: Date
   updatedAt?: Date
   isPublished: boolean
+  themeSettings: IThemeSettings
 }
 
 export type IBuildingBlockMock = Omit<BuildingBlock, "id" | "createdAt" | "updatedAt">
@@ -56,9 +67,10 @@ export interface ICanvasData {
   id: string | null
   customID?: string
   name: string | null
-  palette: ICanvasPalette
+  palette?: ICanvasPalette
   theme: "inherit" | "light" | "dark"
   isPublished?: boolean
+  themeSettings: IThemeSettings
 }
 
 export interface IFilterButton {

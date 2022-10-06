@@ -23,7 +23,7 @@ import { useMutation } from "@blitzjs/rpc"
 import updatePage from "app/build-pages/mutations/updatePage"
 import IPhone from "../../assets/IPhone7.png"
 
-import { ICanvasBlock, ICanvasData, ICanvasPalette, IPage } from "types"
+import { ICanvasBlock, ICanvasData, ICanvasPalette, IPage, IThemeSettings } from "types"
 import { autorun } from "mobx"
 import { baseURL } from "pages/_app"
 import useTranslation from "next-translate/useTranslation"
@@ -192,9 +192,9 @@ const Builder = () => {
 
   const [, setPreviewPage] = useLocalStorage<{
     blocks: ICanvasBlock[]
-    palette: ICanvasPalette
     name: string | null
     theme: IPage["theme"]
+    themeSettings: IThemeSettings
   }>({
     key: "preview-page",
   })
@@ -202,7 +202,7 @@ const Builder = () => {
   const handleIframeLoad = () => {
     setPreviewPage({
       blocks: data.blocks,
-      palette: data.palette,
+      themeSettings: data.themeSettings,
       name: data.name,
       theme: data.theme,
     })
@@ -217,7 +217,7 @@ const Builder = () => {
     autorun(() => {
       setPreviewPage({
         blocks: data.blocks,
-        palette: data.palette,
+        themeSettings: data.themeSettings,
         name: data.name,
         theme: data.theme,
       })
@@ -316,7 +316,9 @@ const Builder = () => {
               display: viewMode !== "mobile" ? "block" : "none",
               height: "100%",
               ".builder-block ::selection": {
-                background: theme.colors?.[data?.palette?.primary]?.[4] || theme.colors.violet[4],
+                background:
+                  theme.colors?.[data?.themeSettings?.palette?.primary]?.[4] ||
+                  theme.colors.violet[4],
                 color: theme.white,
                 WebkitTextFillColor: theme.white,
               },

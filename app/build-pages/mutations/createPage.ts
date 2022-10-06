@@ -1,20 +1,21 @@
 import { Ctx } from "blitz"
 import db, { BuildingBlock, Page, Prisma } from "db"
 import { deflate } from "helpers/utils"
-import { ICanvasPalette } from "types"
+import { defaultThemeSettings } from "store/build"
+import { ICanvasPalette, IThemeSettings } from "types"
 
 export default async function createPage(
   data: Pick<Page, "name"> & {
     firstTime?: boolean
     data: BuildingBlock[] | string
-    palette: ICanvasPalette
+    themeSettings: IThemeSettings
     id?: string
     isPublished?: boolean
   },
   ctx: Ctx
 ) {
   ctx.session.$isAuthorized()
-  const { firstTime, palette = { primary: "violet" }, isPublished = false } = data
+  const { firstTime, themeSettings = defaultThemeSettings, isPublished = false } = data
   const userId = ctx.session.userId as string
   try {
     const page = await db.page.create({
@@ -24,7 +25,7 @@ export default async function createPage(
         name: data.name,
         data: typeof data.data === "string" ? data.data : deflate(data.data),
         isPublished,
-        palette: palette as Prisma.InputJsonValue,
+        themeSettings: themeSettings as unknown as Prisma.InputJsonValue,
       },
     })
     if (firstTime) {

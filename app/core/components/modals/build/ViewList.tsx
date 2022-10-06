@@ -89,7 +89,6 @@ const ViewList = ({ type, modalType }: IViewList) => {
         },
     {
       refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
     }
   )
 

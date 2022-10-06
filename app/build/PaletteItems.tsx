@@ -12,17 +12,16 @@ const PaletteTooltips = {
 
 const PaletteItems = () => {
   const {
-    data: { palette },
+    data: {
+      themeSettings: { palette },
+    },
     changePalette,
   } = BuildStore
-
-  const { t } = useTranslation("build")
 
   const { hovered: itemHovered, ref: itemRef } = useHover()
   const [paletteOpened, setPaletteOpened] = useState(false)
   return (
-    <Group spacing={8} align="center">
-      <Text size="sm">{t("palette")}:</Text>
+    <>
       {palette && (
         <Group spacing={4}>
           {Object.keys(palette).map((paletteKey, i) => {
@@ -54,7 +53,7 @@ const PaletteItems = () => {
           })}
         </Group>
       )}
-    </Group>
+    </>
   )
 }
 
