@@ -42,7 +42,6 @@ import FeaturesWithPeople from "app/build/sections/features/FeaturesWithPeople"
 import FloatingTitleFeatures from "app/build/sections/features/FloatingTitleFeatures"
 import { linter } from "@codemirror/lint"
 import FeaturesSimple from "app/build/sections/features/FeaturesSimple"
-import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarouselWithCards"
 import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import HeroWithTwoButtonsAndPicture from "app/build/sections/hero/HeroWithTwoButtonsAndPicture"
 import HeroWithCircles from "app/build/sections/hero/HeroWithCircles"
@@ -72,7 +71,6 @@ const sections = [
   FeaturesWithPeople,
   FloatingTitleFeatures,
   FeaturesSimple,
-  MantineCarouselWithCards,
   HeroWithTwoButtonsAndPicture,
   HeroWithCircles,
   HeroWithBottomPicture,

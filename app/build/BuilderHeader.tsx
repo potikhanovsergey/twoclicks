@@ -345,7 +345,7 @@ const ObservedPageName = observer(() => {
 
   const current = useMemo(() => {
     return AppStore.pages?.find((p) => p.id === id)
-  }, [isPublished, id])
+  }, [id])
 
   const rest = useMemo(() => {
     return current ? AppStore.pages.filter((p) => p.id !== current.id) : undefined
@@ -369,7 +369,7 @@ const ObservedPageName = observer(() => {
     <HoverCard shadow="lg" width={312} openDelay={300}>
       <HoverCard.Target>
         <Group align="center" spacing={4}>
-          {current?.isPublished && <AiOutlineLink />}
+          {isPublished && <AiOutlineLink />}
           <Text>{name}</Text>
           <FiChevronDown />
         </Group>
@@ -384,7 +384,7 @@ const ObservedPageName = observer(() => {
           {current && (
             <Stack spacing={4}>
               <Text weight="bold">Current page:</Text>
-              {id && current.isPublished && <PageLink id={customID || id} withEllipsis={true} />}
+              {id && isPublished && <PageLink id={customID || id} withEllipsis={true} />}
 
               <Group noWrap spacing={4} mb="sm">
                 {!inputVisible ? (
@@ -394,7 +394,7 @@ const ObservedPageName = observer(() => {
                       size="xs"
                       fullWidth
                       disabled
-                      rightIcon={current.isPublished ? <AiOutlineLink /> : undefined}
+                      rightIcon={isPublished ? <AiOutlineLink /> : undefined}
                     >
                       {current.name}
                     </Button>

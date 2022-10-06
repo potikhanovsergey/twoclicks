@@ -21,18 +21,10 @@ import {
   DividerProps,
   AvatarProps,
 } from "@mantine/core"
-import { Carousel } from "@mantine/carousel"
 import dynamic from "next/dynamic"
 import { IconBaseProps } from "react-icons"
 type CanvasButtonProps = ButtonProps & React.ComponentPropsWithoutRef<"button">
-
-// const DynamicCarousel = dynamic(() => import("@mantine/carousel").then((module) => module.Carousel))
-// const DynamicCarouselSlide = dynamic(() =>
-//   import("@mantine/carousel").then((module) => module.Carousel.Slide)
-// )
-
 export const canvasBuildingBlocks = {
-  slideimage: dynamic<ImageProps>(() => import("app/build/sections/carousels/SlideImage")),
   "@mantine/core/center": dynamic<CenterProps>(() =>
     import("@mantine/core/cjs/Center/Center").then((module) => module.Center)
   ),
@@ -85,8 +77,6 @@ export const canvasBuildingBlocks = {
   "@mantine/core/card": dynamic<CardProps>(() =>
     import("@mantine/core/cjs/Card/Card").then((module) => module.Card)
   ),
-  "@mantine/carousel/carousel": Carousel,
-  "@mantine/carousel/carouselslide": Carousel.Slide,
   "@mantine/core/divider": dynamic<DividerProps>(() =>
     import("@mantine/core/cjs/Divider/Divider").then((module) => module.Divider)
   ),

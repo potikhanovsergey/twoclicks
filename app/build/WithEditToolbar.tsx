@@ -101,6 +101,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
       offset={sectionLike ? 0 : undefined}
       withinPortal
       zIndex={501}
+      middlewares={element.sectionLike ? { shift: true, flip: false } : undefined}
     >
       <Popover.Target>
         <Box
@@ -239,8 +240,8 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
           {element && !element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} />
           )}
-          <ElementDeleteButton parentID={parentID} element={element} />
           {element.editType === "section" && <SectionBGEdit element={element} />}
+          <ElementDeleteButton parentID={parentID} element={element} />
         </Group>
       </Popover.Dropdown>
     </Popover>
