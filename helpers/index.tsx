@@ -4,7 +4,7 @@ import shortid from "shortid"
 import { BuildStore } from "store/build"
 import { ExtendedCustomColors } from "pages/_app"
 import WithEditable from "app/build/WithEditable"
-import { ICanvasPalette } from "types"
+import { ICanvasPalette, IThemeSettings } from "types"
 import TextEditor from "app/core/components/TextEditor"
 import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 
@@ -15,8 +15,8 @@ export const TraverseProp = ({
   parentID,
   withContentEditable,
   withEditToolbar,
-  withPalette,
-  palette,
+  withThemeSettings,
+  themeSettings,
   type,
 }: {
   propValue: any
@@ -25,8 +25,8 @@ export const TraverseProp = ({
   parentID: string
   withContentEditable: boolean
   withEditToolbar: boolean
-  withPalette: boolean
-  palette: ICanvasPalette | undefined
+  withThemeSettings: boolean
+  themeSettings?: IThemeSettings
   type: string
 }) => {
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
@@ -42,16 +42,17 @@ export const TraverseProp = ({
   }
 
   if (propValue && typeof propValue === "object" && propValue.type) {
+    if (!propValue?.id) propValue.id = shortid.generate()
     return (
       <RenderJSXFromBlock
-        key={propValue.type + propValue.id}
+        key={propValue.id}
         element={propValue}
         shouldFlat={shouldFlat}
         parentID={parentID}
         withContentEditable={withContentEditable}
         withEditToolbar={withEditToolbar}
-        withPalette={withPalette}
-        palette={palette}
+        withThemeSettings={withThemeSettings}
+        themeSettings={themeSettings}
       />
     )
   } else {
@@ -115,7 +116,21 @@ export const TypeVariants: {
   "@mantine/core/divider": ["dashed", "dotted", "solid"],
 }
 
-const sizes = ["xs", "sm", "md", "lg", "xl"]
+export const sizes = ["xs", "sm", "md", "lg", "xl"]
+
+export const defaultGradients = [
+  "@mantine/core/themeicon",
+  "@mantine/core/actionicon",
+  "@mantine/core/button",
+  "@mantine/core/badge",
+]
+
+export const defaultVariants = [
+  "@mantine/core/themeicon",
+  "@mantine/core/actionicon",
+  "@mantine/core/button",
+  "@mantine/core/badge",
+]
 
 export const TypeSizes: {
   [key: string]: string[]

@@ -7,7 +7,6 @@ export const useCurrentUserLikedBlocks = () => {
     null,
     {
       refetchOnWindowFocus: false,
-      refetchOnReconnect: false,
       refetchOnMount: false,
     }
   )

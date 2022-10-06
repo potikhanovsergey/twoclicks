@@ -1,7 +1,7 @@
+import { defaultThemeSettings } from "store/build"
+
 export const PageStarterMock = {
   name: "My brand new page",
   data: [],
-  palette: {
-    primary: "violet",
-  },
+  themeSettings: defaultThemeSettings,
 }

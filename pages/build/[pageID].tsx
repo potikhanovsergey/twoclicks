@@ -4,9 +4,9 @@ import CanvasSectionsModal from "app/core/components/modals/build/CanvasSections
 import useTranslation from "next-translate/useTranslation"
 import Builder from "app/build/Builder"
 import { getPageWithInflatedData, inflateBase64 } from "helpers/utils"
-import { BuildStore } from "store/build"
+import { BuildStore, defaultThemeSettings } from "store/build"
 import { useParam } from "@blitzjs/next"
-import { IPage } from "types"
+import { IPage, IThemeSettings } from "types"
 import { useSession } from "@blitzjs/auth"
 import { useMutation, useQuery } from "@blitzjs/rpc"
 import getPageByID from "app/build-pages/queries/getPageByID"
@@ -27,7 +27,7 @@ const BuildPage = () => {
   const [pageFromDB, { refetch: refetchPageFromDB }] = useQuery(
     getPageByID,
     { id: pageID, isPublic: false },
-    { refetchOnReconnect: false, refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false }
   )
 
   useEffect(() => {
@@ -74,11 +74,11 @@ const BuildPage = () => {
         blocks: page.data,
         name: page.name,
         id: page.id,
-        palette: page.palette,
         customID: page.customID,
         theme: page.theme || "inherit",
         flattenBlocks: {},
         isPublished: page.isPublished,
+        themeSettings: (page.themeSettings as unknown as IThemeSettings) || defaultThemeSettings,
       })
       resetHistoryOfChanges()
       BuildStore.unlockedElements = {}

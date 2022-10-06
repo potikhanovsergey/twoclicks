@@ -19,8 +19,9 @@ import { BsCaretLeftFill } from "@react-icons/all-files/bs/BsCaretLeftFill"
 import { BsCaretRightFill } from "@react-icons/all-files/bs/BsCaretRightFill"
 import Page from "app/p/Page"
 import { inflateBase64 } from "helpers/utils"
-import { ICanvasPalette, IPage } from "types"
+import { ICanvasPalette, IPage, IThemeSettings } from "types"
 import { Page as DBPage } from "db"
+import { defaultThemeSettings } from "store/build"
 
 const Templates = () => {
   const theme = useMantineTheme()
@@ -34,7 +35,7 @@ const Templates = () => {
   const [templates] = useQuery(
     getTemplates,
     {},
-    { refetchOnWindowFocus: false, refetchOnMount: false, refetchOnReconnect: false }
+    { refetchOnWindowFocus: false, refetchOnMount: false }
   )
 
   const [index, setIndex] = useState(0)
@@ -114,8 +115,9 @@ const Templates = () => {
             ...templates[index],
             data: inflateBase64(templates[index].data),
             customID: undefined,
-            palette: templates[index].palette as ICanvasPalette,
             theme: templates[index].theme as IPage["theme"],
+            themeSettings:
+              (templates[index].themeSettings as unknown as IThemeSettings) || defaultThemeSettings,
           }}
         />
       </Box>

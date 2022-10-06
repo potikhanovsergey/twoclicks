@@ -33,8 +33,8 @@ const Page = ({ page }: { page: IPage | null }) => {
                     shouldFlat={false}
                     withContentEditable={false}
                     withEditToolbar={false}
-                    withPalette
-                    palette={page.palette}
+                    withThemeSettings
+                    themeSettings={page.themeSettings}
                     sectionIndex={i}
                   />
                 </Box>
@@ -42,7 +42,8 @@ const Page = ({ page }: { page: IPage | null }) => {
                   styles={(theme) => ({
                     "::selection": {
                       background:
-                        theme?.colors?.[page?.palette?.primary]?.[4] || theme.colors.violet[4],
+                        theme?.colors?.[page?.themeSettings?.palette?.primary]?.[4] ||
+                        theme.colors.violet[4],
                       color: theme.white,
                       WebkitTextFillColor: theme.white,
                     },

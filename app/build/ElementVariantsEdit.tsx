@@ -40,7 +40,7 @@ const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
       dropdownProps={{
         children: (
           <Stack spacing={0} align="flex-start">
-            {variants.map((variant) => (
+            {["inherit", ...variants].map((variant) => (
               <Button
                 variant="subtle"
                 size="sm"
@@ -54,13 +54,13 @@ const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
                 key={variant}
                 disabled={
                   element.props?.variant === undefined
-                    ? variant === "filled"
+                    ? variant === "inherit"
                     : variant === element.props?.variant
                 }
                 onClick={() => [
                   changeProp({
                     id: element.id,
-                    newProps: { variant },
+                    newProps: { variant: variant === "inherit" ? "undefined" : variant },
                   }),
                 ]}
               >

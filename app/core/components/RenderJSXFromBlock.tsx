@@ -1,11 +1,18 @@
-import { getPaletteByType, TraverseProp } from "helpers"
+import {
+  defaultGradients,
+  defaultVariants,
+  getGradientsByType,
+  getPaletteByType,
+  getRadiusesByType,
+  TraverseProp,
+} from "helpers"
 import { canvasBuildingBlocks } from "helpers/blocks"
 import { observer } from "mobx-react-lite"
 import dynamic from "next/dynamic"
 import Link from "next/link"
 import { useMemo } from "react"
 import { BuildStore } from "store/build"
-import { ICanvasBlock, ICanvasPalette, ICanvasBlockProps } from "types"
+import { ICanvasBlock, ICanvasBlockProps, IThemeSettings } from "types"
 
 const IconPicker = dynamic(() => import("app/core/components/base/IconPicker"))
 const WithEditToolbar = dynamic(() => import("app/build/WithEditToolbar"))
@@ -17,18 +24,18 @@ const RenderJSXFromBlock = observer(
     parentID = null,
     withContentEditable = false,
     withEditToolbar = false,
-    withPalette = false,
+    withThemeSettings = false,
     sectionIndex,
-    palette,
+    themeSettings,
   }: {
     element: ICanvasBlock
     shouldFlat?: boolean
     parentID?: string | null
     withContentEditable?: boolean
     withEditToolbar?: boolean
-    withPalette?: boolean
+    withThemeSettings?: boolean
     sectionIndex?: number
-    palette?: ICanvasPalette
+    themeSettings?: IThemeSettings
   }) => {
     const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
     element.type = element.type.toLowerCase()
@@ -47,10 +54,24 @@ const RenderJSXFromBlock = observer(
         newProps.component = "span"
       }
 
-      if (withPalette) {
+      if (withThemeSettings) {
         if (getPaletteByType(element.type) && !newProps[getPaletteByType(element.type).prop]) {
           newProps[getPaletteByType(element.type).prop] =
-            palette?.[getPaletteByType(element.type).color]
+            themeSettings?.palette?.[getPaletteByType(element.type).color]
+        }
+        if (
+          getRadiusesByType(element.type) &&
+          !newProps.radius &&
+          !element.type.includes("image")
+        ) {
+          newProps.radius = themeSettings?.radius
+        }
+        if (defaultVariants.includes(element.type) && !newProps.variant) {
+          newProps.variant = themeSettings?.variant
+        }
+
+        if (defaultGradients.includes(element.type) && !newProps.gradient) {
+          newProps.gradient = themeSettings?.gradient
         }
       }
 
@@ -64,8 +85,8 @@ const RenderJSXFromBlock = observer(
               parentID: el.id,
               withContentEditable,
               withEditToolbar,
-              withPalette,
-              palette,
+              withThemeSettings,
+              themeSettings,
               type: element.type,
             })
           }
@@ -77,8 +98,8 @@ const RenderJSXFromBlock = observer(
             parentID: el.id,
             withContentEditable,
             withEditToolbar,
-            withPalette,
-            palette,
+            withThemeSettings,
+            themeSettings,
             type: element.type,
           })
           if (traversedProp) {
