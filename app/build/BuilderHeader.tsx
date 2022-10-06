@@ -154,7 +154,7 @@ const PageSettings = observer(() => {
               </Popover.Target>
               <Popover.Dropdown p={4}>
                 <Stack spacing={4}>
-                  {["filled", "outline", "light", "gradient"].map(
+                  {["filled", "outline", "light", "gradient", "default"].map(
                     (variant: IThemeSettings["variant"]) => (
                       <Button
                         compact

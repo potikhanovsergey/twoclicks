@@ -107,12 +107,12 @@ export const PaletteTypePropColor: {
 export const TypeVariants: {
   [key: string]: string[]
 } = {
-  "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle"],
+  "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle", "default"],
   "@mantine/core/themeicon": ["filled", "light", "outline", "gradient", "default"],
   "@mantine/core/actionicon": ["transparent", "subtle", "filled", "light", "outline", "default"],
   "@mantine/core/text": ["gradient", "filled"],
   "@mantine/core/title": ["gradient", "filled"],
-  "@mantine/core/badge": ["gradient", "filled", "light", "outline", "dot"],
+  "@mantine/core/badge": ["gradient", "filled", "light", "outline", "dot", "default"],
   "@mantine/core/divider": ["dashed", "dotted", "solid"],
 }
 
