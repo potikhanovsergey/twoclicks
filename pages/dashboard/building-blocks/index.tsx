@@ -44,6 +44,8 @@ import { linter } from "@codemirror/lint"
 import FeaturesSimple from "app/build/sections/features/FeaturesSimple"
 import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarouselWithCards"
 import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
+import HeroWithTwoButtonsAndPicture from "app/build/sections/hero/HeroWithTwoButtonsAndPicture"
+import HeroWithCircles from "app/build/sections/hero/HeroWithCircles"
 
 import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
@@ -70,6 +72,8 @@ const sections = [
   FloatingTitleFeatures,
   FeaturesSimple,
   MantineCarouselWithCards,
+  HeroWithTwoButtonsAndPicture,
+  HeroWithCircles,
 ]
 
 const DashboardIndex = () => {
