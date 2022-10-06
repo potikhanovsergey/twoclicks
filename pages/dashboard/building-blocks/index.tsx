@@ -21,7 +21,7 @@ import { useQuery } from "@blitzjs/rpc"
 import getAllBuildingBlocks from "app/dashboard/building-blocks/queries/getAllBuildingBlocks"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import deleteBuildingBlock from "app/dashboard/building-blocks/mutations/deleteBuildingBlock"
-import { BuildingBlock } from "@prisma/client"
+import { BuildingBlock, UsedBlock } from "@prisma/client"
 import updateBuildingBlock from "app/dashboard/building-blocks/mutations/updateBuildingBlock"
 import MantineHOCTest from "app/build/sections/MantineHOCTest"
 import MantineTest from "app/build/sections/MantineTest"
@@ -85,7 +85,9 @@ const DashboardIndex = () => {
     }
   }, [session])
 
-  const [sectionsDB, { refetch: refetchBuildingBlocks }] = useQuery(getAllBuildingBlocks, null)
+  const [sectionsDB, { refetch: refetchBuildingBlocks }] = useQuery(getAllBuildingBlocks, {
+    include: { UsedBlocks: true },
+  })
   const getJsonString = (component: JSX.Element | Object) => {
     const serialized = JSON.parse(serialize(component))
     return JSON.stringify(serialized, null, 2)
@@ -214,7 +216,7 @@ const DashboardIndex = () => {
           <>
             <Title mb="xl">DB Building Blocks</Title>
             <Group mb="xl" spacing={8}>
-              {sectionsDB.map((S, i) => (
+              {sectionsDB.map((S: BuildingBlock & { UsedBlocks: UsedBlock[] }, i) => (
                 <Button
                   compact
                   key={S.id}
@@ -222,7 +224,7 @@ const DashboardIndex = () => {
                   leftIcon={S.hidden ? <FaEyeSlash /> : <FaEye />}
                   onClick={() => handlePickBuildingBlock(S, "db")}
                 >
-                  {S.name || i}
+                  {S.name || i} {S.UsedBlocks.length}
                 </Button>
               ))}
             </Group>
