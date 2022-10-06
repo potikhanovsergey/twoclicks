@@ -126,9 +126,12 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             position: element.props?.sx?.position === "sticky" ? "sticky" : "relative",
             top: element.props?.sx?.position === "sticky" ? element.props?.sx?.top : undefined,
             justifySelf: "stretch",
-            "> :not(button, [data-button=true]), > :not([data-button=true])": {
-              height: "100%",
-            },
+            "> :not(button, [data-button=true]), > :not([data-button=true])":
+              element.editType === "section"
+                ? undefined
+                : {
+                    height: "100%",
+                  },
             borderBottom:
               element.editType === "section"
                 ? `1px dashed ${theme.fn.rgba(theme.colors.gray[5], 0.4)}`
