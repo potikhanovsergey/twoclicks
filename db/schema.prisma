@@ -98,7 +98,6 @@ model Page {
   updatedAt     DateTime @updatedAt
   name          String
   data          String
-  palette       Json     @default("{ \"primary\": \"violet\" }")
   theme         String   @default("inherit")
   isPublished   Boolean  @default(false)
   customID      String?  @unique

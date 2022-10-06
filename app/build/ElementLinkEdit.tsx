@@ -164,7 +164,7 @@ const ElementLinkEdit = ({ element }: IElementLinkEdit) => {
             </Group>
             {dividedPages && dividedPages.rest.length > 0 && (
               <>
-                <Text weight="bold" color="dark" size="sm" mt="xs" mb={4}>
+                <Text weight="bold" size="sm" mt="xs" mb={4}>
                   Or link it to existing pages:
                 </Text>
                 <Stack spacing={4}>
