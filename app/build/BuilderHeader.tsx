@@ -154,7 +154,7 @@ const PageSettings = observer(() => {
               </Popover.Target>
               <Popover.Dropdown p={4}>
                 <Stack spacing={4}>
-                  {["filled", "outline", "light", "gradient"].map(
+                  {["filled", "outline", "light", "gradient", "default"].map(
                     (variant: IThemeSettings["variant"]) => (
                       <Button
                         compact
@@ -330,7 +330,7 @@ const ThemeChanger = observer(() => {
 const ObservedPageName = observer(() => {
   const session = useSession()
   const {
-    data: { name, id, customID },
+    data: { name, id, customID, isPublished },
   } = BuildStore
 
   const [inputVisible, setInputVisible] = useState(false)
@@ -345,7 +345,7 @@ const ObservedPageName = observer(() => {
 
   const current = useMemo(() => {
     return AppStore.pages?.find((p) => p.id === id)
-  }, [id])
+  }, [isPublished, id])
 
   const rest = useMemo(() => {
     return current ? AppStore.pages.filter((p) => p.id !== current.id) : undefined
@@ -363,17 +363,13 @@ const ObservedPageName = observer(() => {
     }
   }, [hasSuccessfullyUpdatedPage])
 
-  const isPublished = useMemo(() => {
-    return Boolean(current?.isPublished)
-  }, [current?.isPublished])
-
   const { t } = useTranslation("build")
 
   return session.userId ? (
     <HoverCard shadow="lg" width={312} openDelay={300}>
       <HoverCard.Target>
         <Group align="center" spacing={4}>
-          {isPublished && <AiOutlineLink />}
+          {current?.isPublished && <AiOutlineLink />}
           <Text>{name}</Text>
           <FiChevronDown />
         </Group>
@@ -388,7 +384,7 @@ const ObservedPageName = observer(() => {
           {current && (
             <Stack spacing={4}>
               <Text weight="bold">Current page:</Text>
-              {id && isPublished && <PageLink id={customID || id} withEllipsis={true} />}
+              {id && current.isPublished && <PageLink id={customID || id} withEllipsis={true} />}
 
               <Group noWrap spacing={4} mb="sm">
                 {!inputVisible ? (
@@ -398,7 +394,7 @@ const ObservedPageName = observer(() => {
                       size="xs"
                       fullWidth
                       disabled
-                      rightIcon={isPublished ? <AiOutlineLink /> : undefined}
+                      rightIcon={current.isPublished ? <AiOutlineLink /> : undefined}
                     >
                       {current.name}
                     </Button>

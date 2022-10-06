@@ -26,6 +26,7 @@ import { GoLinkExternal } from "@react-icons/all-files/go/GoLinkExternal"
 
 interface IElementLinkEdit {
   element: ICanvasBlock
+  sectionIndex?: number
 }
 
 const CheckboxIcon: CheckboxProps["icon"] = ({ indeterminate, className }) =>
@@ -35,7 +36,7 @@ const CheckboxIcon: CheckboxProps["icon"] = ({ indeterminate, className }) =>
     <GoLinkExternal className={className} />
   )
 
-const ElementLinkEdit = ({ element }: IElementLinkEdit) => {
+const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
   const hasLinkEdit = TypeLinks[element.type]
   const {
     changeProp,
@@ -48,13 +49,13 @@ const ElementLinkEdit = ({ element }: IElementLinkEdit) => {
     element.props.target === "_blank" ? true : element.props.target === "_self" ? false : true
   )
 
-  const handleLinkify = (url: string) => {
+  const handleLinkify = (url: string, newTab: boolean) => {
     changeProp({
       id: element.id,
       newProps: {
         href: url.length ? url : undefined,
         component: url.length ? "a" : undefined,
-        target: url.length ? (openInNewTab ? "_blank" : "_self") : undefined,
+        target: url.length ? (newTab ? "_blank" : "_self") : undefined,
       },
     })
   }
@@ -144,7 +145,7 @@ const ElementLinkEdit = ({ element }: IElementLinkEdit) => {
               <TextInput
                 onKeyUp={(e) => {
                   if (e.key === "Enter") {
-                    handleLinkify(link)
+                    handleLinkify(link, openInNewTab)
                   }
                 }}
                 size="xs"
@@ -154,7 +155,7 @@ const ElementLinkEdit = ({ element }: IElementLinkEdit) => {
                 style={{ minWidth: "196px" }}
               />
               <ActionIcon
-                onClick={() => handleLinkify(link)}
+                onClick={() => handleLinkify(link, openInNewTab)}
                 color="violet"
                 variant="filled"
                 disabled={link === element.props.href}
@@ -164,8 +165,8 @@ const ElementLinkEdit = ({ element }: IElementLinkEdit) => {
             </Group>
             {dividedPages && dividedPages.rest.length > 0 && (
               <>
-                <Text weight="bold" color="dark" size="sm" mt="xs" mb={4}>
-                  Or link it to existing pages:
+                <Text weight="bold" size="sm" mt="xs" mb={4}>
+                  Link it to existing pages:
                 </Text>
                 <Stack spacing={4}>
                   {dividedPages.rest.map((page) => (
@@ -175,12 +176,41 @@ const ElementLinkEdit = ({ element }: IElementLinkEdit) => {
                       variant="light"
                       onClick={() => {
                         const url = `/p/${page.id}`
-                        handleLinkify(url)
+                        setLink(url)
+                        handleLinkify(url, openInNewTab)
                       }}
                     >
                       {page.name}
                     </Button>
                   ))}
+                </Stack>
+              </>
+            )}
+            {BuildStore.data.blocks.length > 1 && (
+              <>
+                <Text weight="bold" size="sm" mt="xs" mb={4}>
+                  Link it to existing sections:
+                </Text>
+                <Stack spacing={4}>
+                  {BuildStore.data.blocks.map((section, i) =>
+                    sectionIndex !== i ? (
+                      <Button
+                        size="xs"
+                        key={section.id}
+                        variant="light"
+                        onClick={() => {
+                          const url = `#section-${i + 1}`
+                          setOpenInNewTab(false)
+                          setLink(url)
+                          handleLinkify(url, false)
+                        }}
+                      >
+                        {i + 1}
+                      </Button>
+                    ) : (
+                      <></>
+                    )
+                  )}
                 </Stack>
               </>
             )}

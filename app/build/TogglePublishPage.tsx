@@ -8,6 +8,7 @@ import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import togglePagePublished from "app/build-pages/mutations/togglePagePublished"
 import { useCallback, useMemo } from "react"
+import { BuildStore } from "store/build"
 
 interface ITogglePublishPage {
   id: string
@@ -27,6 +28,7 @@ const TogglePublishPage = ({ id }: ITogglePublishPage) => {
         const response = await togglePagePublishedMutation({ id, isPublished: newIsPublished })
         if (response) {
           page.isPublished = newIsPublished
+          BuildStore.data.isPublished = newIsPublished
         }
       }
     },

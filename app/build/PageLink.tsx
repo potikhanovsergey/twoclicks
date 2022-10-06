@@ -18,9 +18,8 @@ const PageLink = ({
   shouldSearch?: boolean
   centered?: boolean
 }) => {
-  const page = shouldSearch ? AppStore.pages.find((p) => p.id === id || p.customID === id) : null
   const { t } = useTranslation("build")
-  return page?.isPublished || !shouldSearch ? (
+  return (
     <Group spacing={4} noWrap position={centered ? "center" : undefined}>
       <Anchor
         href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
@@ -56,8 +55,6 @@ const PageLink = ({
         )}
       </CopyButton>
     </Group>
-  ) : (
-    <></>
   )
 }
 

@@ -18,6 +18,7 @@ export const TraverseProp = ({
   withThemeSettings,
   themeSettings,
   type,
+  sectionIndex,
 }: {
   propValue: any
   prop: string
@@ -28,6 +29,7 @@ export const TraverseProp = ({
   withThemeSettings: boolean
   themeSettings?: IThemeSettings
   type: string
+  sectionIndex?: number
 }) => {
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (type.includes("button") || type.includes("badge")) {
@@ -53,6 +55,7 @@ export const TraverseProp = ({
         withEditToolbar={withEditToolbar}
         withThemeSettings={withThemeSettings}
         themeSettings={themeSettings}
+        sectionIndex={sectionIndex}
       />
     )
   } else {
@@ -107,12 +110,12 @@ export const PaletteTypePropColor: {
 export const TypeVariants: {
   [key: string]: string[]
 } = {
-  "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle"],
+  "@mantine/core/button": ["gradient", "filled", "outline", "light", "subtle", "default"],
   "@mantine/core/themeicon": ["filled", "light", "outline", "gradient", "default"],
   "@mantine/core/actionicon": ["transparent", "subtle", "filled", "light", "outline", "default"],
   "@mantine/core/text": ["gradient", "filled"],
   "@mantine/core/title": ["gradient", "filled"],
-  "@mantine/core/badge": ["gradient", "filled", "light", "outline", "dot"],
+  "@mantine/core/badge": ["gradient", "filled", "light", "outline", "dot", "default"],
   "@mantine/core/divider": ["dashed", "dotted", "solid"],
 }
 

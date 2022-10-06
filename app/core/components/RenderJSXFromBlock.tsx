@@ -88,6 +88,7 @@ const RenderJSXFromBlock = observer(
               withThemeSettings,
               themeSettings,
               type: element.type,
+              sectionIndex,
             })
           }
         } else {
@@ -101,6 +102,7 @@ const RenderJSXFromBlock = observer(
             withThemeSettings,
             themeSettings,
             type: element.type,
+            sectionIndex,
           })
           if (traversedProp) {
             newProps[prop] = traversedProp
