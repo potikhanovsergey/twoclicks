@@ -123,10 +123,6 @@ const RenderJSXFromBlock = observer(
       withThemeSettings,
     ])
 
-    const elementTypeLC = useMemo(() => {
-      return { ...element, type: typeLC }
-    }, [typeLC])
-
     if (withEditToolbar && element?.editType === "icon") {
       return (
         <IconPicker
@@ -148,7 +144,7 @@ const RenderJSXFromBlock = observer(
           key={element.id}
           parentID={parentID}
           sectionIndex={sectionIndex}
-          element={elementTypeLC}
+          element={{ ...element, type: typeLC }}
         >
           <TagName {...props} />
         </WithEditToolbar>
