@@ -92,7 +92,9 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "link"
+          BuildStore.openedAction = {
+            [element.id]: "link",
+          }
         },
       }}
       tooltipProps={{

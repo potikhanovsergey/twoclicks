@@ -46,9 +46,11 @@ const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
           }
           onTargetClick={() => {
             if (BuildStore.openedAction[element.id] === "palette") {
-              delete BuildStore.openedAction[element.id]
+              BuildStore.openedAction = {}
             } else {
-              BuildStore.openedAction[element.id] = "palette"
+              BuildStore.openedAction = {
+                [element.id]: "palette",
+              }
             }
           }}
           opened={openedAction?.[element.id] === "palette"}
@@ -66,6 +68,9 @@ const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
               id: element.id,
               newProps: { [paletteKey.prop]: value },
             })
+          }}
+          onClose={() => {
+            BuildStore.openedAction = {}
           }}
           onResetClick={() => {
             changeProp({

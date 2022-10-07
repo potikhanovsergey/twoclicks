@@ -26,7 +26,9 @@ const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "variant"
+          BuildStore.openedAction = {
+            [element.id]: "variant",
+          }
         },
       }}
       tooltipProps={{

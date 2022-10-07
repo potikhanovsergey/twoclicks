@@ -83,7 +83,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
 
   const didMount = useDidMount()
 
-  const [opened, { open, close }] = useDisclosure(Boolean(openedAction[element.id]))
+  const [opened, { open, close }] = useDisclosure(false)
   const { openDropdown, closeDropdown } = useDelayedHover({
     open,
     close,
@@ -95,15 +95,15 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
     return opened || Boolean(openedAction[element.id])
   }, [opened, openedAction, element.id])
 
-  useLayoutEffect(() => {
-    if (!didMount) {
-      activeEditToolbars[element.id] = opened
+  // useEffect(() => {
+  //   if (!didMount) {
+  //     activeEditToolbars[element.id] = opened
 
-      if (!opened && !isImageUploading) {
-        BuildStore.openedAction = {}
-      }
-    }
-  }, [opened, isImageUploading, element.id, activeEditToolbars, didMount])
+  //     if (!opened && !isImageUploading) {
+  //       BuildStore.openedAction = {}
+  //     }
+  //   }
+  // }, [opened, isImageUploading, element.id, activeEditToolbars, didMount])
 
   const sectionLike = useMemo(() => {
     return element.editType === "section" || element.type?.includes("card") || element?.sectionLike

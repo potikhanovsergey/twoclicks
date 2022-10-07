@@ -39,7 +39,9 @@ const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "gradient"
+          BuildStore.openedAction = {
+            [element.id]: "gradient",
+          }
         },
       }}
       tooltipProps={{
@@ -93,7 +95,9 @@ const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
                   <PaletteItem
                     defaultOpened={openedAction?.[element.id] === "gradient-from"}
                     onOpen={() => {
-                      BuildStore.openedAction[element.id] = "gradient-from"
+                      BuildStore.openedAction = {
+                        [element.id]: "gradient-from",
+                      }
                     }}
                     popoverPosition="top"
                     offset={6}
@@ -121,7 +125,9 @@ const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
                   <PaletteItem
                     defaultOpened={openedAction?.[element.id] === "gradient-to"}
                     onOpen={() => {
-                      BuildStore.openedAction[element.id] = "gradient-to"
+                      BuildStore.openedAction = {
+                        [element.id]: "gradient-to",
+                      }
                     }}
                     popoverPosition="top"
                     offset={6}

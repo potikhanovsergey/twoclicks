@@ -28,7 +28,9 @@ const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "radius"
+          BuildStore.openedAction = {
+            [element.id]: "radius",
+          }
         },
       }}
       tooltipProps={{

@@ -40,7 +40,9 @@ const ElementPaddingEdit = ({ element, type, y, x }: IElementPaddingEdit) => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "padding"
+          BuildStore.openedAction = {
+            [element.id]: "padding",
+          }
         },
       }}
       tooltipProps={{

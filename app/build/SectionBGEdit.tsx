@@ -52,9 +52,11 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           opened={openedAction[element.id] === "bg"}
           onTargetClick={() => {
             if (BuildStore.openedAction[element.id] === "bg") {
-              delete BuildStore.openedAction[element.id]
+              BuildStore.openedAction = {}
             } else {
-              BuildStore.openedAction[element.id] = "bg"
+              BuildStore.openedAction = {
+                [element.id]: "bg",
+              }
             }
           }}
           onClose={() => {

@@ -22,7 +22,9 @@ const ElementTypeEdit = ({ types, element }: IElementTypeEdit) => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "type"
+          BuildStore.openedAction = {
+            [element.id]: "type",
+          }
         },
       }}
       tooltipProps={{
