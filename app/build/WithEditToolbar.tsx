@@ -25,6 +25,7 @@ const InnerAddSectionButton = dynamic(() => import("./InnerAddSectionButton"))
 
 import {
   defaultGradients,
+  defaultVariants,
   TypeGradients,
   TypeIcons,
   TypeRadius,
@@ -60,7 +61,7 @@ const useStyles = createStyles(
       border:
         element.editType === "section" ||
         element.props.variant === "outline" ||
-        themeSettings.variant === "outline"
+        (defaultVariants.includes(element.type) && themeSettings.variant === "outline")
           ? undefined
           : opened ||
             (typeof element.props?.children === "string" && !element.props?.children.length)
