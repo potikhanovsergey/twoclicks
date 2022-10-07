@@ -1,5 +1,6 @@
 import { useSession } from "@blitzjs/auth"
 import HeroWithBottomPicture from "app/build/sections/hero/HeroWithBottomPicture"
+import HeroWithGallery from "app/build/sections/hero/HeroWithGallery"
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import { AuthorizationError } from "blitz"
 import { useEffect } from "react"
@@ -13,7 +14,7 @@ const TestSection = () => {
     }
   }, [session])
 
-  return <HeroWithBottomPicture />
+  return <HeroWithGallery />
 }
 
 TestSection.getLayout = getBaseLayout({})

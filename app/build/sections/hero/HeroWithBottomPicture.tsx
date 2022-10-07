@@ -1,4 +1,4 @@
-import { Container, Box, Button, Group, Stack, Title, Image, Text } from "@mantine/core"
+import { Container, Box, Button, Group, Stack, Title, Image, Text, Grid } from "@mantine/core"
 
 const HeroWithBottomPicture = () => {
   return (
@@ -17,43 +17,47 @@ const HeroWithBottomPicture = () => {
           height: "1200px",
         },
         "@media (max-width: 992px)": {
-          backgroundPosition: "center",
+          backgroundPosition: "50% 70%",
         },
       }}
     >
       <Container size="md">
-        <Group
-          noWrap
+        <Grid
+          align="center"
           sx={{
             marginBottom: "40px",
-            "@media (max-width: 768px)": {
-              flexDirection: "column",
-              alignItems: "flex-start",
-            },
+            // "@media (max-width: 768px)": {
+            //   flexDirection: "column",
+            //   alignItems: "flex-start",
+            // },
           }}
         >
-          <Title
-            sx={{
-              fontSize: "60px",
-              "@media (max-width: 992px)": {
-                fontSize: "50px",
-              },
-              "@media (max-width: 768px)": {
-                fontSize: "40px",
-              },
-              "@media (max-width: 576px)": {
-                fontSize: "30px",
-                alignSelf: "flex-start",
-              },
-            }}
-          >
-            Collaboration for 3D artists
-          </Title>
-          <Stack align="flex-start">
-            <Text>No downloads, no coding - all tools you need for 3D in the browser.</Text>
-            <Button>Open Tools</Button>
-          </Stack>
-        </Group>
+          <Grid.Col sm={7} xs={12}>
+            <Title
+              sx={{
+                fontSize: "60px",
+                "@media (max-width: 992px)": {
+                  fontSize: "50px",
+                },
+                "@media (max-width: 768px)": {
+                  fontSize: "40px",
+                },
+                "@media (max-width: 576px)": {
+                  fontSize: "30px",
+                  alignSelf: "flex-start",
+                },
+              }}
+            >
+              Collaboration for 3D artists
+            </Title>
+          </Grid.Col>
+          <Grid.Col sm={5} xs={12}>
+            <Stack align="flex-start">
+              <Text>No downloads, no coding - all tools you need for 3D in the browser.</Text>
+              <Button>Open Tools</Button>
+            </Stack>
+          </Grid.Col>
+        </Grid>
       </Container>
     </Box>
   )
