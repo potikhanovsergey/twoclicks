@@ -1,30 +1,23 @@
 import { useSession } from "@blitzjs/auth"
-import { useMutation } from "@blitzjs/rpc"
 import {
   ActionIcon,
-  Button,
   Center,
   Container,
   Group,
   Skeleton,
   Tooltip,
-  Text,
   Box,
-  Stack,
+  Text,
   Popover,
-  LoadingOverlay,
   useMantineTheme,
-  MantineNumberSize,
 } from "@mantine/core"
 import { useFullscreen, useHover } from "@mantine/hooks"
-import updatePage from "app/build-pages/mutations/updatePage"
 import { observer } from "mobx-react-lite"
 import React, { Suspense, useState } from "react"
 import { AiOutlineFullscreen } from "@react-icons/all-files/ai/AiOutlineFullscreen"
 import { AiOutlineFullscreenExit } from "@react-icons/all-files/ai/AiOutlineFullscreenExit"
 
 import { BuildStore } from "store/build"
-import PaletteItems from "./PaletteItems"
 import TogglePublishPage from "./TogglePublishPage"
 import ViewportButtons from "./ViewportButtons"
 
@@ -32,15 +25,9 @@ import HistoryButtons from "./HistoryButtons"
 import useTranslation from "next-translate/useTranslation"
 
 import SaveButton from "./SaveButton"
-import { ImSun } from "@react-icons/all-files/im/ImSun"
-import { IPage, IThemeSettings } from "types"
-import { RiMoonClearFill } from "@react-icons/all-files/ri/RiMoonClearFill"
-import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
-import { getHexFromThemeColor, sizes } from "helpers"
-import { HiArrowNarrowRight } from "@react-icons/all-files/hi/HiArrowNarrowRight"
-import PaletteItem from "./PaletteItem"
 import PageName from "./PageName"
-import PageSettings from "./PageSettings"
+import PageThemeSettings from "./PageThemeSettings"
+import { HiCog } from "@react-icons/all-files/hi/HiCog"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -48,6 +35,38 @@ const AuthorizedActions = observer(() => {
     data: { id },
   } = BuildStore
   return session.userId ? <>{id && <TogglePublishPage id={id} />}</> : <></>
+})
+
+const PageSettings = observer(() => {
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
+  const [popoverOpened, setPopoverOpened] = useState(false)
+
+  const { hovered: iconHovered, ref: iconRef } = useHover<HTMLButtonElement>()
+  const { t } = useTranslation("build")
+  const session = useSession()
+  return session.userId ? (
+    <Popover onChange={setPopoverOpened} opened={popoverOpened} width={196}>
+      <Popover.Target>
+        <Tooltip label="Page settings" position="bottom" opened={iconHovered && !popoverOpened}>
+          <ActionIcon
+            onClick={() => setPopoverOpened((o) => !o)}
+            size={30}
+            color="dark"
+            variant={dark ? ("white" as "filled") : "filled"}
+            ref={iconRef}
+          >
+            <HiCog />
+          </ActionIcon>
+        </Tooltip>
+      </Popover.Target>
+      <Popover.Dropdown py={4} px={8}>
+        <Text weight="bold">Page settings</Text>
+      </Popover.Dropdown>
+    </Popover>
+  ) : (
+    <></>
+  )
 })
 
 const BuilderHeader = ({ className }: { className?: string }) => {
@@ -64,7 +83,10 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <Suspense fallback={<Skeleton height={32} width={90} />}>
               <AuthorizedActions />
             </Suspense>
-            <PageSettings />
+            <Suspense fallback={<Skeleton height={32} width={90} />}>
+              <PageSettings />
+            </Suspense>
+            <PageThemeSettings />
           </Group>
           <Box
             sx={{

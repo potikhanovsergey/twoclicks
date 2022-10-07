@@ -23,7 +23,7 @@ import PaletteItem from "./PaletteItem"
 import PaletteItems from "./PaletteItems"
 import ThemeChanger from "./ThemeChanger"
 
-const PageSettings = observer(() => {
+const PageThemeSettings = observer(() => {
   const theme = useMantineTheme()
   const dark = theme.colorScheme === "dark"
   const [popoverOpened, setPopoverOpened] = useState(false)
@@ -199,4 +199,4 @@ const PageSettings = observer(() => {
   )
 })
 
-export default PageSettings
+export default PageThemeSettings

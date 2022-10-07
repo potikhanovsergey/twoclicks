@@ -196,7 +196,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                     sectionIndex !== i ? (
                       <Button
                         size="xs"
-                        key={section.id}
+                        key={section.id + i}
                         variant="light"
                         onClick={() => {
                           const url = `#${section.id}`
