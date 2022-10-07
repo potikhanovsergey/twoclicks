@@ -10,9 +10,7 @@ import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import SafeWrapper from "app/core/components/SafeWrapper"
 import { ICanvasBlock } from "types"
 
-// const RenderJSXFromBlock = dynamic(() => import("app/core/components/RenderJSXFromBlock"))
 const Virtuoso = dynamic(() => import("react-virtuoso").then((m) => m.Virtuoso))
-// const SafeWrapper = dynamic(() => import("app/core/components/SafeWrapper"))
 
 const ListComponent = observer(() => {
   const {
@@ -36,6 +34,7 @@ const ListComponent = observer(() => {
     ),
     [themeSettings]
   )
+
   return <Virtuoso useWindowScroll data={BuildStore.data.blocks} itemContent={itemContent} />
 })
 

@@ -52,9 +52,11 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           opened={openedAction[element.id] === "bg"}
           onTargetClick={() => {
             if (BuildStore.openedAction[element.id] === "bg") {
-              delete BuildStore.openedAction[element.id]
+              BuildStore.openedAction = {}
             } else {
-              BuildStore.openedAction[element.id] = "bg"
+              BuildStore.openedAction = {
+                [element.id]: "bg",
+              }
             }
           }}
           onClose={() => {
@@ -63,9 +65,7 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           popoverPosition="top-end"
           offset={6}
           color={element.props?.sx?.backgroundColor}
-          withReset={Boolean(
-            element.props?.sx?.backgroundImage || element.props?.sx?.backgroundColor
-          )}
+          withReset={Boolean(element.props?.sx?.backgroundColor)}
           withImageDelete={Boolean(element.props?.sx?.backgroundImage)}
           onImageDelete={() => {
             changeProp({
@@ -99,7 +99,6 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
                 sx: {
                   ...element.props?.sx,
                   backgroundColor: undefined,
-                  backgroundImage: undefined,
                 },
               },
             })

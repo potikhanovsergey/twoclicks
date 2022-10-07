@@ -1,7 +1,7 @@
-{
-  "locales": ["ru", "en"],
-  "defaultLocale": "ru",
-  "pages": {
+module.exports = {
+  locales: ["ru", "en"],
+  defaultLocale: "ru",
+  pages: {
     "*": ["common"],
     "/": ["home"],
     "/404": ["404"],
@@ -10,6 +10,7 @@
     "/profile/premium": ["premium"],
     "/profile/statistics": ["statistics"],
     "/profile/support": ["support"],
-    "rgx:^/build": ["build", "pages"]
-  }
+    "rgx:^/build": ["build", "pages"],
+  },
+  logger() {},
 }

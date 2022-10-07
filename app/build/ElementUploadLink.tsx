@@ -39,7 +39,9 @@ const ElementUploadLink = ({ element, targetIcon = <FaCloudUploadAlt /> }: IElem
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "src"
+          BuildStore.openedAction = {
+            [element.id]: "src",
+          }
         },
       }}
       tooltipProps={{

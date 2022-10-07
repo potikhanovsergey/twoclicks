@@ -12,7 +12,7 @@ import {
 import { TypeLinks } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
@@ -92,7 +92,9 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "link"
+          BuildStore.openedAction = {
+            [element.id]: "link",
+          }
         },
       }}
       tooltipProps={{
@@ -196,19 +198,19 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                     sectionIndex !== i ? (
                       <Button
                         size="xs"
-                        key={section.id}
+                        key={section.id + i}
                         variant="light"
                         onClick={() => {
-                          const url = `#section-${i + 1}`
+                          const url = `#${section.id}`
                           setOpenInNewTab(false)
                           setLink(url)
                           handleLinkify(url, false)
                         }}
                       >
-                        {i + 1}
+                        Section №{i + 1}, ID: {section.id}
                       </Button>
                     ) : (
-                      <></>
+                      <React.Fragment key={i} />
                     )
                   )}
                 </Stack>

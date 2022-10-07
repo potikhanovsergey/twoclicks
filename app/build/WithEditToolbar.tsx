@@ -1,13 +1,12 @@
-import { Box, Group, Popover, Text } from "@mantine/core"
-import React, { useLayoutEffect, useMemo, useRef } from "react"
+import { Box, createStyles, Group, Popover, Text } from "@mantine/core"
+import React, { useEffect, useLayoutEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
-import { ICanvasBlock, ICanvasBlockProps } from "types"
+import { ICanvasBlock, ICanvasBlockProps, IThemeSettings } from "types"
 import { observer } from "mobx-react-lite"
 import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
 
-const BuilderImagePicker = dynamic(() => import("./BuilderImagePicker"))
 const ElementPaletteEdit = dynamic(() => import("./ElementPaletteEdit"))
 const ElementGradientsEdit = dynamic(() => import("./ElementGradientsEdit"))
 const ElementRadiusesEdit = dynamic(() => import("./ElementRadiusesEdit"))
@@ -26,6 +25,7 @@ const InnerAddSectionButton = dynamic(() => import("./InnerAddSectionButton"))
 
 import {
   defaultGradients,
+  defaultVariants,
   TypeGradients,
   TypeIcons,
   TypeRadius,
@@ -34,6 +34,7 @@ import {
 } from "helpers"
 
 import dynamic from "next/dynamic"
+import BuilderImagePicker from "./BuilderImagePicker"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -43,15 +44,32 @@ interface IWithEditToolbar {
   element: ICanvasBlock
 }
 
-const FIT_CONTENT_ELEMENTS = [
-  "@mantine/core/actionicon",
-  "@mantine/core/themeicon",
-  // "@mantine/core/button",
-  // "@mantine/core/badge",
-  // "@mantine/core/avatar",
-]
-
-const WIDTH_AUTO_ELEMENTS = ["@mantine/core/image"]
+const useStyles = createStyles(
+  (
+    theme,
+    {
+      element,
+      opened,
+      themeSettings,
+    }: { element: ICanvasBlock; opened: boolean; themeSettings: IThemeSettings }
+  ) => ({
+    editable: {
+      borderBottom:
+        element.editType === "section"
+          ? `2px dashed ${theme.fn.rgba(theme.colors.gray[5], 0.3)}`
+          : undefined,
+      border:
+        element.editType === "section" ||
+        element.props.variant === "outline" ||
+        (defaultVariants.includes(element.type) && themeSettings.variant === "outline")
+          ? undefined
+          : opened ||
+            (typeof element.props?.children === "string" && !element.props?.children.length)
+          ? `1px solid ${theme.colors.gray[5]}`
+          : "1px solid transparent",
+    },
+  })
+)
 
 const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEditToolbar) => {
   const {
@@ -65,7 +83,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
 
   const didMount = useDidMount()
 
-  const [opened, { open, close }] = useDisclosure(Boolean(openedAction[element.id]))
+  const [opened, { open, close }] = useDisclosure(false)
   const { openDropdown, closeDropdown } = useDelayedHover({
     open,
     close,
@@ -77,20 +95,21 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
     return opened || Boolean(openedAction[element.id])
   }, [opened, openedAction, element.id])
 
-  useLayoutEffect(() => {
-    if (!didMount) {
-      activeEditToolbars[element.id] = opened
+  // useEffect(() => {
+  //   if (!didMount) {
+  //     activeEditToolbars[element.id] = opened
 
-      if (!opened && !isImageUploading) {
-        BuildStore.openedAction = {}
-      }
-    }
-  }, [opened, isImageUploading, element.id, activeEditToolbars, didMount])
+  //     if (!opened && !isImageUploading) {
+  //       BuildStore.openedAction = {}
+  //     }
+  //   }
+  // }, [opened, isImageUploading, element.id, activeEditToolbars, didMount])
 
   const sectionLike = useMemo(() => {
     return element.editType === "section" || element.type?.includes("card") || element?.sectionLike
   }, [element])
 
+  const { classes } = useStyles({ opened, element, themeSettings })
   return (
     <Popover
       trapFocus={false}
@@ -101,8 +120,65 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
       offset={sectionLike ? 0 : undefined}
       withinPortal
       zIndex={501}
+      middlewares={element.sectionLike ? { shift: true, flip: false } : undefined}
     >
       <Popover.Target>
+        {element.editType === "section" ? (
+          <Box
+            ref={editableRef}
+            onMouseEnter={openDropdown}
+            onMouseLeave={closeDropdown}
+            sx={{ position: "relative" }}
+            className={classes.editable}
+          >
+            {sectionIndex === 0 && (
+              <InnerAddSectionButton
+                insertIndex={0}
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  zIndex: 2,
+                  top: -element.props.mt || 0,
+                  transform: "translate(-50%, -50%)",
+                }}
+              />
+            )}
+            {children}
+            {sectionIndex !== undefined && (
+              <InnerAddSectionButton
+                insertIndex={sectionIndex + 1}
+                style={{
+                  position: "absolute",
+                  left: "50%",
+                  zIndex: 2,
+                  bottom: 0,
+                  transform: "translate(-50%, 50%)",
+                }}
+              />
+            )}
+          </Box>
+        ) : element.editType === "image" ? (
+          <BuilderImagePicker
+            boxProps={{
+              onMouseEnter: openDropdown,
+              onMouseLeave: closeDropdown,
+              className: classes.editable,
+            }}
+            elementID={element.id}
+            ref={editableRef}
+          >
+            {children}
+          </BuilderImagePicker>
+        ) : (
+          React.cloneElement(children, {
+            onMouseEnter: openDropdown,
+            onMouseLeave: closeDropdown,
+            ref: editableRef,
+            className: classes.editable,
+          })
+        )}
+      </Popover.Target>
+      {/* <Popover.Target>
         <Box
           sx={(theme) => ({
             // width:
@@ -156,11 +232,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
           {element.editType === "image" ? (
             <BuilderImagePicker elementID={element.id}>{children}</BuilderImagePicker>
           ) : (
-            React.cloneElement(children, {
-              onMouseEnter: openDropdown,
-              onMouseLeave: closeDropdown,
-              ref: editableRef,
-            })
+            children
           )}
           {element.editType === "section" && sectionIndex !== undefined && (
             <InnerAddSectionButton
@@ -175,7 +247,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             />
           )}
         </Box>
-      </Popover.Target>
+      </Popover.Target> */}
       <Popover.Dropdown style={{ padding: 0 }}>
         <Group
           noWrap
@@ -239,8 +311,8 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
           {element && !element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} />
           )}
-          <ElementDeleteButton parentID={parentID} element={element} />
           {element.editType === "section" && <SectionBGEdit element={element} />}
+          <ElementDeleteButton parentID={parentID} element={element} />
         </Group>
       </Popover.Dropdown>
     </Popover>

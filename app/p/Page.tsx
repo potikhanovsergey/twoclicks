@@ -16,7 +16,7 @@ const Page = ({ page }: { page: IPage | null }) => {
             return (
               <SafeWrapper key={b.id}>
                 <Box
-                  id={`section-${i + 1}`}
+                  id={`${b.id}`}
                   sx={{
                     "[data-button=true], [data-button=true] span": {
                       overflow: "hidden",

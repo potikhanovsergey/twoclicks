@@ -212,7 +212,7 @@ export function getGradientsByType(type: string) {
 
 const getElementType = (value) => {
   if (typeof value === "function") {
-    if (value?.name === "MediaQuery") {
+    if (value?.name === "MediaQuery" || value?.name === "SlideImage") {
       return value.name
     }
 

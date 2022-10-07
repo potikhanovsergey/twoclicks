@@ -1,19 +1,25 @@
-import { Box, Overlay, ThemeIcon, Stack, Badge, OverlayProps } from "@mantine/core"
+import { Box, Overlay, ThemeIcon, Stack, Badge, OverlayProps, BoxProps } from "@mantine/core"
 import { Dropzone, DropzoneProps } from "@mantine/dropzone"
-import { useHover } from "@mantine/hooks"
-import { ReactNode } from "react"
+import { useHover, useMergedRef } from "@mantine/hooks"
+import { forwardRef, ReactNode } from "react"
 import { FaImage } from "@react-icons/all-files/fa/FaImage"
 
 type ImagePickerProps = Omit<DropzoneProps, "children"> &
   Omit<OverlayProps, "children"> & {
     onDrop(files: File[]): void
     children: ReactNode
+    boxProps?: BoxProps & {
+      onMouseEnter?: () => void
+      onMouseLeave?: () => void
+    }
   }
 
-const ImagePicker = ({ children, onDrop, ...rest }: ImagePickerProps) => {
-  const { hovered, ref } = useHover()
+const ImagePicker = forwardRef(({ children, onDrop, boxProps, ...rest }: ImagePickerProps, ref) => {
+  const { hovered, ref: hoverRef } = useHover()
+
+  const mergedRef = useMergedRef(hoverRef, ref)
   return (
-    <Box sx={{ position: "relative" }} ref={ref}>
+    <Box sx={{ position: "relative", width: "100%" }} ref={mergedRef} {...boxProps}>
       <>
         <Overlay<typeof Dropzone>
           component={Dropzone}
@@ -61,6 +67,6 @@ const ImagePicker = ({ children, onDrop, ...rest }: ImagePickerProps) => {
       </>
     </Box>
   )
-}
+})
 
 export default ImagePicker

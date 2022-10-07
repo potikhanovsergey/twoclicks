@@ -28,7 +28,9 @@ const ElementSizesEdit = ({ element }: IElementSizesEdit) => {
           BuildStore.openedAction = {}
         },
         onOpen: () => {
-          BuildStore.openedAction[element.id] = "size"
+          BuildStore.openedAction = {
+            [element.id]: "size",
+          }
         },
       }}
       tooltipProps={{

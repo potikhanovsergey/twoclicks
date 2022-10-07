@@ -74,7 +74,7 @@ const PaletteItem = (props: IPaletteItem) => {
     return (type && isTextElement(type)) || editType === "section"
       ? [...themeColors, { value: "#fff", color: "white" }, { value: "#000", color: "black" }]
       : themeColors
-  }, [])
+  }, [editType, theme, type])
 
   const swatches = useMemo(() => {
     return colorValueArray.map((item) => item.value)
@@ -82,7 +82,7 @@ const PaletteItem = (props: IPaletteItem) => {
 
   const hexColor = useMemo(() => {
     return getHexFromThemeColor({ theme, color })
-  }, [color])
+  }, [color, theme])
 
   const { t } = useTranslation("build")
   const [file, setFile] = useState<File | null>(null)
@@ -108,7 +108,7 @@ const PaletteItem = (props: IPaletteItem) => {
       }
     }
     void uploadBG()
-  }, [file])
+  }, [file, imageUpload])
 
   return (
     <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
