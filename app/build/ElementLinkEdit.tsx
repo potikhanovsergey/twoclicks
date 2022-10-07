@@ -199,13 +199,13 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                         key={section.id}
                         variant="light"
                         onClick={() => {
-                          const url = `#section-${i + 1}`
+                          const url = `#${section.id}`
                           setOpenInNewTab(false)
                           setLink(url)
                           handleLinkify(url, false)
                         }}
                       >
-                        {i + 1}
+                        Section №{i + 1}, ID: {section.id}
                       </Button>
                     ) : (
                       <></>

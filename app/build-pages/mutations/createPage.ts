@@ -2,7 +2,7 @@ import { Ctx } from "blitz"
 import db, { BuildingBlock, Page, Prisma } from "db"
 import { deflate } from "helpers/utils"
 import { defaultThemeSettings } from "store/build"
-import { ICanvasPalette, IThemeSettings } from "types"
+import { IThemeSettings } from "types"
 
 export default async function createPage(
   data: Pick<Page, "name"> & {

@@ -104,6 +104,8 @@ model Page {
   template      String?
   themeSettings Json?
 
+  appliedForTemplates Boolean @default(false)
+
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId String @db.ObjectId
 }
