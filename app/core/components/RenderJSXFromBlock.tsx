@@ -1,7 +1,6 @@
 import {
   defaultGradients,
   defaultVariants,
-  getGradientsByType,
   getPaletteByType,
   getRadiusesByType,
   TraverseProp,
@@ -38,8 +37,14 @@ const RenderJSXFromBlock = observer(
     themeSettings?: IThemeSettings
   }) => {
     const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
-    element.type = element.type.toLowerCase()
-    const TagName = canvasBuildingBlocks[element.type] || element.type // if neither of the above, then the element is a block with children and the recursive call is needed.
+
+    const typeLC = useMemo(() => {
+      return element.type.toLowerCase()
+    }, [element.type])
+
+    const TagName = useMemo(() => {
+      return canvasBuildingBlocks[typeLC] || typeLC
+    }, [typeLC])
 
     const props = useMemo(() => {
       const newProps = el.props as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.Element.
@@ -47,7 +52,7 @@ const RenderJSXFromBlock = observer(
 
       if (
         ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
-          element.type
+          typeLC
         ) &&
         withContentEditable
       ) {
@@ -55,22 +60,18 @@ const RenderJSXFromBlock = observer(
       }
 
       if (withThemeSettings) {
-        if (getPaletteByType(element.type) && !newProps[getPaletteByType(element.type).prop]) {
-          newProps[getPaletteByType(element.type).prop] =
-            themeSettings?.palette?.[getPaletteByType(element.type).color]
+        if (getPaletteByType(typeLC) && !newProps[getPaletteByType(typeLC).prop]) {
+          newProps[getPaletteByType(typeLC).prop] =
+            themeSettings?.palette?.[getPaletteByType(typeLC).color]
         }
-        if (
-          getRadiusesByType(element.type) &&
-          !newProps.radius &&
-          !element.type.includes("image")
-        ) {
+        if (getRadiusesByType(typeLC) && !newProps.radius && !typeLC.includes("image")) {
           newProps.radius = themeSettings?.radius
         }
-        if (defaultVariants.includes(element.type) && !newProps.variant) {
+        if (defaultVariants.includes(typeLC) && !newProps.variant) {
           newProps.variant = themeSettings?.variant
         }
 
-        if (defaultGradients.includes(element.type) && !newProps.gradient) {
+        if (defaultGradients.includes(typeLC) && !newProps.gradient) {
           newProps.gradient = themeSettings?.gradient
         }
       }
@@ -82,12 +83,12 @@ const RenderJSXFromBlock = observer(
               propValue: newProps[prop][i],
               prop,
               shouldFlat,
-              parentID: el.id,
+              parentID: element.id,
               withContentEditable,
               withEditToolbar,
               withThemeSettings,
               themeSettings,
-              type: element.type,
+              type: typeLC,
               sectionIndex,
             })
           }
@@ -96,12 +97,12 @@ const RenderJSXFromBlock = observer(
             propValue: newProps[prop],
             prop,
             shouldFlat,
-            parentID: el.id,
+            parentID: element.id,
             withContentEditable,
             withEditToolbar,
             withThemeSettings,
             themeSettings,
-            type: element.type,
+            type: typeLC,
             sectionIndex,
           })
           if (traversedProp) {
@@ -110,30 +111,44 @@ const RenderJSXFromBlock = observer(
         }
       }
       return newProps
-    }, [el])
+    }, [
+      el.props,
+      element.id,
+      sectionIndex,
+      shouldFlat,
+      themeSettings,
+      typeLC,
+      withContentEditable,
+      withEditToolbar,
+      withThemeSettings,
+    ])
 
-    if (withEditToolbar && el?.editType === "icon") {
+    const elementTypeLC = useMemo(() => {
+      return { ...element, type: typeLC }
+    }, [typeLC])
+
+    if (withEditToolbar && element?.editType === "icon") {
       return (
         <IconPicker
-          key={el.id}
+          key={element.id}
           icon={<TagName {...props} />}
           onChange={(icon) => {
             if (icon?.props) {
               let newProps = icon.props as ICanvasBlockProps
-              BuildStore.changeProp({ id: el.id, newProps })
+              BuildStore.changeProp({ id: element.id, newProps })
             }
           }}
         />
       )
     }
 
-    if (withEditToolbar && el.editType) {
+    if (withEditToolbar && element.editType) {
       return (
         <WithEditToolbar
-          key={el.id}
+          key={element.id}
           parentID={parentID}
           sectionIndex={sectionIndex}
-          element={element}
+          element={elementTypeLC}
         >
           <TagName {...props} />
         </WithEditToolbar>
@@ -142,23 +157,21 @@ const RenderJSXFromBlock = observer(
 
     const { children, ...restProps } = props
 
-    if (
-      typeof children === "string" &&
-      !element.type.includes("button") &&
-      !element.type.includes("badge")
-    ) {
-      return <TagName key={el.id} {...restProps} dangerouslySetInnerHTML={{ __html: children }} />
+    if (typeof children === "string" && !typeLC.includes("button") && !typeLC.includes("badge")) {
+      return (
+        <TagName key={element.id} {...restProps} dangerouslySetInnerHTML={{ __html: children }} />
+      )
     }
 
     if (props.component === "a" && props.href) {
       const { href, ...restOfProps } = props
       return (
-        <Link passHref key={el.id} href={href}>
+        <Link passHref key={element.id} href={href}>
           <TagName {...restOfProps} />
         </Link>
       )
     } else {
-      return <TagName key={el.id} {...props} />
+      return <TagName key={element.id} {...props} />
     }
   }
 )

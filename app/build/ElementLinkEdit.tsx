@@ -12,7 +12,7 @@ import {
 import { TypeLinks } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
-import { useEffect, useMemo, useState } from "react"
+import React, { useEffect, useMemo, useState } from "react"
 
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasBlockProps } from "types"
@@ -208,7 +208,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                         Section №{i + 1}, ID: {section.id}
                       </Button>
                     ) : (
-                      <></>
+                      <React.Fragment key={i} />
                     )
                   )}
                 </Stack>
