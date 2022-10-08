@@ -1,10 +1,9 @@
 import { Box, createStyles, Group, Popover, Text } from "@mantine/core"
-import React, { useEffect, useLayoutEffect, useMemo, useRef } from "react"
+import React, { useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasBlockProps, IThemeSettings } from "types"
 import { observer } from "mobx-react-lite"
-import { useDidMount } from "hooks/useDidMount"
 import { useDelayedHover } from "hooks/useDelayedHover"
 
 const ElementPaletteEdit = dynamic(() => import("./ElementPaletteEdit"))
@@ -34,7 +33,6 @@ import {
 } from "helpers"
 
 import dynamic from "next/dynamic"
-import BuilderImagePicker from "./BuilderImagePicker"
 import { FaImage } from "@react-icons/all-files/fa/FaImage"
 
 interface IWithEditToolbar {
@@ -188,7 +186,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
                 defaultGradients.includes(element.type))) && (
               <ElementGradientsEdit element={element} />
             )}
-          {element.type &&
+          {/* {element.type &&
             ["image", "youtubeframe"].some((item) => element.type.includes(item)) && (
               <ElementTypeEdit
                 element={element}
@@ -197,7 +195,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
                   { label: "Youtube Video", value: "youtubeframe", editType: "video" },
                 ]}
               />
-            )}{" "}
+            )}{" "} */}
           {(element.props.variant !== "gradient" &&
             themeSettings.variant !== "gradient" &&
             defaultGradients.includes(element.type)) ||
@@ -220,11 +218,9 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
           {element.type && element.props && (
             <ElementLinkEdit element={element} sectionIndex={sectionIndex} />
           )}
-          {element && !element?.disableCopy && (
-            <ElementCopyButton parentID={parentID} element={element} />
-          )}
+          {!element?.disableCopy && <ElementCopyButton parentID={parentID} element={element} />}
           {element.editType === "section" && <SectionBGEdit element={element} />}
-          <ElementDeleteButton parentID={parentID} element={element} />
+          {!element?.disableDelete && <ElementDeleteButton parentID={parentID} element={element} />}
         </Group>
       </Popover.Dropdown>
     </Popover>

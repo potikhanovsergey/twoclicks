@@ -55,6 +55,7 @@ export interface ICanvasBlockProps {
 export type ICanvasBlock = Omit<BuildingBlock, "createdAt" | "updatedAt"> & {
   disableCopy?: boolean
   sectionLike?: boolean
+  disableDelete?: boolean
   props?: ICanvasBlockProps
 }
 
