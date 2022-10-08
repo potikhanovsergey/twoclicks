@@ -111,6 +111,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
   const { toggle, fullscreen } = useFullscreen()
   const { hovered: fullscreenHovered, ref: fullscreenRef } = useHover<HTMLButtonElement>()
   const { t } = useTranslation("build")
+  const session = useSession()
 
   return (
     <Center className={className} sx={{ paddingRight: "var(--removed-scroll-width, 0px)" }}>
@@ -133,7 +134,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
               transform: "translate(calc(-50% - (var(--removed-scroll-width, 0px) / 2)), -50%)",
             }}
           >
-            <PageName />
+            {session.userId ? <PageName /> : <Text>Authorize to see more features 🙂</Text>}
           </Box>
           <Group spacing={8}>
             <HistoryButtons color="dark" size={30} variant="filled" />

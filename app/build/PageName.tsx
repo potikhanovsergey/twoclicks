@@ -26,7 +26,6 @@ import { BuildStore } from "store/build"
 import PageLink from "./PageLink"
 
 const PageName = observer(() => {
-  const session = useSession()
   const {
     data: { name, id, customID, isPublished },
   } = BuildStore
@@ -63,7 +62,7 @@ const PageName = observer(() => {
 
   const { t } = useTranslation("build")
 
-  return session.userId ? (
+  return (
     <HoverCard shadow="lg" width={312} openDelay={300}>
       <HoverCard.Target>
         <Group align="center" spacing={4}>
@@ -166,8 +165,6 @@ const PageName = observer(() => {
         </ScrollArea.Autosize>
       </HoverCard.Dropdown>
     </HoverCard>
-  ) : (
-    <></>
   )
 })
 

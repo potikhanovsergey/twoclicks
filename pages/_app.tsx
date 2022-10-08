@@ -23,7 +23,6 @@ import { getCookie, setCookie } from "cookies-next"
 import { Tuple, DefaultMantineColor } from "@mantine/core"
 import { ModalsProvider } from "@mantine/modals"
 
-import cursor from "public/oneclick.svg"
 import dynamic from "next/dynamic"
 import { usePersistLocaleCookie } from "hooks/usePersistedLocale"
 
@@ -53,7 +52,6 @@ const CustomTheme: MantineThemeOverride = {
       boxSizing: "border-box",
     },
     html: {
-      cursor: `url(${cursor.src}), default`,
       scrollBehavior: "smooth",
     },
     "::selection": {
@@ -106,7 +104,6 @@ const CustomTheme: MantineThemeOverride = {
     Badge: {
       styles: {
         root: {
-          cursor: `url(${cursor.src}), default`,
           overflow: "visible",
         },
         inner: {
