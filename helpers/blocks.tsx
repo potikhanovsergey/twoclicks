@@ -24,6 +24,7 @@ import { IconBase } from "@react-icons/all-files"
 import ColorCircle from "app/build/sections/components/ColorCircle"
 import SimpleHeader from "app/build/sections/headers/SimpleHeader"
 import YoutubeFrame from "app/core/components/YoutubeFrame"
+import { Carousel } from "@mantine/carousel"
 
 export const canvasBuildingBlocks = {
   "@twoclicks/simpleheader": SimpleHeader,
@@ -48,6 +49,8 @@ export const canvasBuildingBlocks = {
   "@mantine/core/avatar": Avatar,
   "@mantine/core/aspectratio": AspectRatio,
   "@mantine/core/actionicon": ActionIcon,
+  "@mantine/carousel/carousel": Carousel,
+  "@mantine/carousel/carouselslide": Carousel.Slide,
   mediaquery: MediaQuery,
   iconbase: IconBase,
   youtubeframe: YoutubeFrame,

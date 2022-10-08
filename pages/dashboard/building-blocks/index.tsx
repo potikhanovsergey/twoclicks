@@ -49,8 +49,10 @@ import HeroWithCircles from "app/build/sections/hero/HeroWithCircles"
 import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import HeroWithBottomPicture from "app/build/sections/hero/HeroWithBottomPicture"
+import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarouselWithCards"
 import CardHero from "app/build/sections/hero/CardHero"
 import SimpleHeader from "app/build/sections/headers/SimpleHeader"
+import HeroWithGallery from "app/build/sections/hero/HeroWithGallery"
 
 const linterExtension = linter(jsonParseLinter())
 
@@ -76,8 +78,10 @@ const sections = [
   HeroWithTwoButtonsAndPicture,
   HeroWithCircles,
   HeroWithBottomPicture,
+  MantineCarouselWithCards,
   CardHero,
   SimpleHeader,
+  HeroWithGallery,
 ]
 
 const DashboardIndex = () => {
