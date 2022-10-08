@@ -1,7 +1,7 @@
 import { Box, Button, Center, useMantineTheme, Image } from "@mantine/core"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { observer } from "mobx-react-lite"
-import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
+import React, { useCallback, useContext, useEffect, useRef } from "react"
 import { BuildStore } from "store/build"
 import { FiPlusSquare } from "@react-icons/all-files/fi/FiPlusSquare"
 import useTranslation from "next-translate/useTranslation"

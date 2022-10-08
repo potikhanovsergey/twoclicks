@@ -14,7 +14,6 @@ import {
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import React, { Suspense, useEffect } from "react"
-import FileDropzone, { filesType } from "app/core/components/base/FileDropzone"
 import { getProfileLayout } from "app/core/layouts/ProfileLayout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import useTranslation from "next-translate/useTranslation"
@@ -108,12 +107,6 @@ const SupportForm = () => {
           minRows={4}
           required
         />
-        {/* <FileDropzone
-          files={supportForm.values.images}
-          onChange={(files: filesType) => supportForm.setFieldValue("images", files)}
-          text={t("dropzoneText")}
-          warning={t("dropzoneWarning")}
-        /> */}
       </Stack>
       <Button
         loading={isMessageCreating}

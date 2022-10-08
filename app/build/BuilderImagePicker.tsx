@@ -3,7 +3,6 @@ import { showNotification } from "@mantine/notifications"
 import ImagePicker from "app/core/components/base/ImagePicker"
 import { defaultUploadNotificationError } from "notifications"
 import { forwardRef, ReactNode, RefObject } from "react"
-import { FileRejection } from "react-dropzone"
 import { BuildStore } from "store/build"
 
 interface IBuilderImagePicker {
@@ -22,7 +21,7 @@ const BuilderImagePicker = forwardRef(
       <ImagePicker
         ref={ref}
         boxProps={boxProps}
-        onReject={(errors: FileRejection[]) => {
+        onReject={(errors) => {
           let error = errors[0]
 
           error.errors.map((e) => {
