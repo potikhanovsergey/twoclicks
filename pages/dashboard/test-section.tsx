@@ -15,7 +15,7 @@ const TestSection = () => {
     }
   }, [session])
 
-  return <MantineCarouselWithCards />
+  return <HeroWithGallery />
 }
 
 TestSection.getLayout = getBaseLayout({})

@@ -25,7 +25,6 @@ import ColorCircle from "app/build/sections/components/ColorCircle"
 import SimpleHeader from "app/build/sections/headers/SimpleHeader"
 import YoutubeFrame from "app/core/components/YoutubeFrame"
 import { Carousel } from "@mantine/carousel"
-import SlideImage from "app/build/sections/carousels/SlideImage"
 
 export const canvasBuildingBlocks = {
   "@twoclicks/simpleheader": SimpleHeader,
@@ -52,7 +51,6 @@ export const canvasBuildingBlocks = {
   "@mantine/core/actionicon": ActionIcon,
   "@mantine/carousel/carousel": Carousel,
   "@mantine/carousel/carouselslide": Carousel.Slide,
-  slideimage: SlideImage,
   mediaquery: MediaQuery,
   iconbase: IconBase,
   youtubeframe: YoutubeFrame,

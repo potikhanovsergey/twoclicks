@@ -1,6 +1,5 @@
 import { Carousel } from "@mantine/carousel"
 import { Container, Box, Image, ImageProps } from "@mantine/core"
-import SlideImage from "./SlideImage"
 
 const mockdata = [
   {
@@ -41,7 +40,17 @@ const MantineCarouselWithCards = () => {
           loop
         >
           {mockdata.map((item, i) => (
-            <SlideImage key={i} src={item.image} />
+            <Carousel.Slide key={i}>
+              <Image
+                p="xl"
+                src={item.image}
+                radius="md"
+                alt=""
+                height={440}
+                width="100%"
+                styles={{ root: { height: "100% !important" } }}
+              />
+            </Carousel.Slide>
           ))}
         </Carousel>
       </Container>

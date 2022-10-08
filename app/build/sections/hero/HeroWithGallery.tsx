@@ -43,96 +43,110 @@ const HeroWithGallery = () => {
   return (
     <Box pt={64} pb={64}>
       <Container size="md">
-        <Grid align="center" gutter={0} sx={{ gap: "100px" }}>
-          <Grid.Col md={6} xs={12}>
-            <Stack
+        <SimpleGrid
+          cols={2}
+          spacing="xl"
+          breakpoints={[{ maxWidth: 769, cols: 1 }]}
+          sx={{
+            "@media (max-width: 768px)": {
+              gap: "64px 24px",
+            },
+          }}
+        >
+          <Stack
+            sx={{
+              gap: "2px",
+              justifyContent: "center",
+              width: "100%",
+              "@media (max-width: 768px)": {
+                alignItems: "center",
+                textAlign: "center",
+                maxWidth: "60%",
+                margin: "0 auto",
+              },
+              "@media (max-width: 576px)": {
+                maxWidth: "100%",
+              },
+            }}
+          >
+            <Title
               sx={{
-                gap: "2px",
-                "@media (max-width: 992px)": {
-                  alignItems: "center",
-                  textAlign: "center",
-                  maxWidth: "60%",
-                  margin: "0 auto",
-                },
-              }}
-            >
-              <Title
-                sx={{
-                  fontSize: "40px",
-                  "@media (max-width: 576px)": {
-                    fontSize: "30px",
-                  },
-                }}
-              >
-                Best 4k wallpapers!
-              </Title>
-              <Text
-                weight="bold"
-                sx={{
-                  fontSize: "24px",
-                  "@media (max-width: 576px)": {
-                    fontSize: "20px",
-                  },
-                }}
-              >
-                For the people, by the people
-              </Text>
-              <Text sx={{ marginBottom: "20px" }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua.
-              </Text>
-              <Group
-                sx={{
-                  "@media (max-width: 768px)": {
-                    justifyContent: "center",
-                  },
-                }}
-              >
-                <Button>Explore walllpapers</Button>
-                <Button>Know more</Button>
-              </Group>
-            </Stack>
-          </Grid.Col>
-          <Grid.Col md={6} xs={12}>
-            <SimpleGrid
-              cols={3}
-              breakpoints={[{ maxWidth: 576, cols: 2 }]}
-              sx={{
-                gap: "30px",
-                // "@media (max-width: 992px)": {
-                //   maxWidth: "50%",
-                //   margin: "0 auto",
-                // },
+                fontSize: "40px",
                 "@media (max-width: 768px)": {
-                  margin: "0 auto",
-                  maxWidth: "66%",
+                  fontSize: "30px",
                 },
                 "@media (max-width: 576px)": {
-                  maxWidth: "100%",
+                  fontSize: "26px",
                 },
               }}
             >
-              {mocdata.map((item, i) => (
-                <Image
-                  src={item.src}
-                  alt=""
-                  key={i}
-                  fit="cover"
-                  radius="xl"
-                  height={160}
-                  width="100%"
-                  sx={{
-                    "@media (min-width: 577px)": {
-                      ":nth-child(3n+2)": {
-                        marginTop: "-30px",
-                      },
+              Best 4k wallpapers
+            </Title>
+            <Text
+              weight="bold"
+              sx={{
+                fontSize: "24px",
+                "@media (max-width: 576px)": {
+                  fontSize: "20px",
+                },
+              }}
+            >
+              For the people, by the people
+            </Text>
+            <Text sx={{ marginBottom: "20px" }}>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+              incididunt ut labore et dolore magna aliqua.
+            </Text>
+            <Group
+              sx={{
+                "@media (max-width: 768px)": {
+                  justifyContent: "center",
+                },
+              }}
+            >
+              <Button>Explore walllpapers</Button>
+              <Button>Know more</Button>
+            </Group>
+          </Stack>
+          <SimpleGrid
+            cols={3}
+            breakpoints={[{ maxWidth: 576, cols: 2 }]}
+            sx={{
+              gap: "30px",
+              // "@media (max-width: 992px)": {
+              //   maxWidth: "50%",
+              //   margin: "0 auto",
+              // },
+              width: "100%",
+              "@media (max-width: 768px)": {
+                margin: "0 auto",
+                maxWidth: "80%",
+              },
+              "@media (max-width: 576px)": {
+                maxWidth: "100%",
+              },
+            }}
+          >
+            {mocdata.map((item, i) => (
+              <Image
+                src={item.src}
+                alt=""
+                key={i}
+                fit="cover"
+                radius="xl"
+                height={160}
+                width="100%"
+                sx={{
+                  "@media (min-width: 577px)": {
+                    ":nth-child(3n+2)": {
+                      marginTop: "-30px",
                     },
-                  }}
-                />
-              ))}
-            </SimpleGrid>
-          </Grid.Col>
-        </Grid>
+                  },
+                }}
+              />
+            ))}
+          </SimpleGrid>
+        </SimpleGrid>
       </Container>
     </Box>
   )
