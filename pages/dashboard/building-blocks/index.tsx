@@ -49,6 +49,8 @@ import HeroWithCircles from "app/build/sections/hero/HeroWithCircles"
 import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import HeroWithBottomPicture from "app/build/sections/hero/HeroWithBottomPicture"
+import CardHero from "app/build/sections/hero/CardHero"
+import SimpleHeader from "app/build/sections/headers/SimpleHeader"
 
 const linterExtension = linter(jsonParseLinter())
 
@@ -74,6 +76,8 @@ const sections = [
   HeroWithTwoButtonsAndPicture,
   HeroWithCircles,
   HeroWithBottomPicture,
+  CardHero,
+  SimpleHeader,
 ]
 
 const DashboardIndex = () => {
@@ -97,7 +101,6 @@ const DashboardIndex = () => {
   const [json, setJson] = useState("")
   const onChange = (value) => {
     try {
-      const parsedJSON = JSON.stringify(JSON.parse(value), null, 2)
       setJson(value)
       setError(null)
     } catch (e) {

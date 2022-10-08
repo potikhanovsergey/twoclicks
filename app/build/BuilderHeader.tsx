@@ -11,6 +11,7 @@ import {
   Popover,
   useMantineTheme,
   Stack,
+  Button,
 } from "@mantine/core"
 import { useFullscreen, useHover } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
@@ -29,6 +30,9 @@ import SaveButton from "./SaveButton"
 import PageName from "./PageName"
 import PageThemeSettings from "./PageThemeSettings"
 import { HiCog } from "@react-icons/all-files/hi/HiCog"
+import { useMutation } from "@blitzjs/rpc"
+import updatePage from "app/build-pages/mutations/updatePage"
+import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -43,10 +47,15 @@ const PageSettings = observer(() => {
   const dark = theme.colorScheme === "dark"
   const [popoverOpened, setPopoverOpened] = useState(false)
 
+  const [updatePageMutation, { isLoading }] = useMutation(updatePage)
+  const {
+    data: { id, appliedForTemplates },
+  } = BuildStore
+
   const { hovered: iconHovered, ref: iconRef } = useHover<HTMLButtonElement>()
   const { t } = useTranslation("build")
   const session = useSession()
-  return session.userId ? (
+  return session.role === "ADMIN" ? (
     <Popover onChange={setPopoverOpened} opened={popoverOpened} width={196}>
       <Popover.Target>
         <Tooltip label="Page settings" position="bottom" opened={iconHovered && !popoverOpened}>
@@ -62,11 +71,33 @@ const PageSettings = observer(() => {
         </Tooltip>
       </Popover.Target>
       <Popover.Dropdown py={4} px={8}>
-        <Text weight="bold">Page settings</Text>
+        <Text weight="bold" mb={4}>
+          Page settings
+        </Text>
         <Stack spacing={8}>
-          <Group>
-            <Text size="sm"></Text>
-          </Group>
+          <Tooltip
+            multiline
+            label="After our approval, all users will be able to copy your page as a template!"
+            position="bottom"
+          >
+            <Button
+              compact
+              size="xs"
+              disabled={appliedForTemplates}
+              loading={isLoading}
+              rightIcon={appliedForTemplates && <FaCheck />}
+              onClick={async () => {
+                const response = id
+                  ? await updatePageMutation({ id, appliedForTemplates: !appliedForTemplates })
+                  : undefined
+                if (response) {
+                  BuildStore.data.appliedForTemplates = !appliedForTemplates
+                }
+              }}
+            >
+              {appliedForTemplates ? "Applied for templates" : "Apply for templates"}
+            </Button>
+          </Tooltip>
         </Stack>
       </Popover.Dropdown>
     </Popover>
