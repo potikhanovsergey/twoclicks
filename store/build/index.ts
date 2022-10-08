@@ -85,9 +85,6 @@ class Build {
     }
   } = {}
 
-  unlockedElements: {
-    [key: string]: boolean
-  } = {}
 
   viewMode: string = "desktop"
 
