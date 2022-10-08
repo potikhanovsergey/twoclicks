@@ -49,6 +49,7 @@ import HeroWithCircles from "app/build/sections/hero/HeroWithCircles"
 import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import HeroWithBottomPicture from "app/build/sections/hero/HeroWithBottomPicture"
+import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarouselWithCards"
 
 const linterExtension = linter(jsonParseLinter())
 
@@ -74,6 +75,7 @@ const sections = [
   HeroWithTwoButtonsAndPicture,
   HeroWithCircles,
   HeroWithBottomPicture,
+  MantineCarouselWithCards,
 ]
 
 const DashboardIndex = () => {

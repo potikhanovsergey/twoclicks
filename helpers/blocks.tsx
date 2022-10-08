@@ -22,6 +22,8 @@ import {
 } from "@mantine/core"
 import { IconBase } from "@react-icons/all-files"
 import YoutubeFrame from "app/core/components/YoutubeFrame"
+import { Carousel } from "@mantine/carousel"
+import SlideImage from "app/build/sections/carousels/SlideImage"
 
 export const canvasBuildingBlocks = {
   "@mantine/core/center": Center,
@@ -45,6 +47,9 @@ export const canvasBuildingBlocks = {
   "@mantine/core/avatar": Avatar,
   "@mantine/core/aspectratio": AspectRatio,
   "@mantine/core/actionicon": ActionIcon,
+  "@mantine/carousel/carousel": Carousel,
+  "@mantine/carousel/carouselslide": Carousel.Slide,
+  slideimage: SlideImage,
   mediaquery: MediaQuery,
   iconbase: IconBase,
   youtubeframe: YoutubeFrame,
