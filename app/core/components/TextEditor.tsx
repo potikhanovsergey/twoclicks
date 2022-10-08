@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react"
-import { useEditor, EditorContent, mergeAttributes } from "@tiptap/react"
+import { useEditor, EditorContent, mergeAttributes, Extension } from "@tiptap/react"
 import { ActionIcon, Box, Group, TextInput, Tooltip, useMantineTheme } from "@mantine/core"
 import Document from "@tiptap/extension-document"
 import Text from "@tiptap/extension-text"
@@ -19,6 +19,7 @@ import { observer } from "mobx-react-lite"
 import { BuildStore } from "store/build"
 import { ICanvasBlockProps } from "types"
 import dynamic from "next/dynamic"
+import HardBreak from "@tiptap/extension-hard-break"
 
 const BubbleMenu = dynamic(() => import("@tiptap/react").then((m) => m.BubbleMenu))
 
@@ -62,6 +63,13 @@ const TextEditor: React.FC<{
         Text,
         Bold,
         Link.configure({ openOnClick: false }),
+        HardBreak.extend({
+          addKeyboardShortcuts() {
+            return {
+              Enter: () => this.editor.commands.setHardBreak(),
+            }
+          },
+        }),
         Placeholder.configure({
           placeholder: "Type something...",
         }),

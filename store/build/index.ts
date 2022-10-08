@@ -85,7 +85,6 @@ class Build {
     }
   } = {}
 
-
   viewMode: string = "desktop"
 
   sectionsRef: RefObject<HTMLDivElement>
@@ -507,7 +506,7 @@ class Build {
           data: deflate(blocks),
           name,
           id,
-          themeSettings,
+          themeSettings: themeSettings as unknown as Prisma.JsonObject,
         }
         let p
         if (session.userId) {

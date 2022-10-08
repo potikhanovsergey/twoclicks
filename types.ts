@@ -34,6 +34,7 @@ export interface IPage {
   updatedAt?: Date
   isPublished: boolean
   themeSettings: IThemeSettings
+  appliedForTemplates: boolean
 }
 
 export type IBuildingBlockMock = Omit<BuildingBlock, "id" | "createdAt" | "updatedAt">
@@ -71,6 +72,7 @@ export interface ICanvasData {
   theme: "inherit" | "light" | "dark"
   isPublished?: boolean
   themeSettings: IThemeSettings
+  appliedForTemplates: boolean
 }
 
 export interface IFilterButton {

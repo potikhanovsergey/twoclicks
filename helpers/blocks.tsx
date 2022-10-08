@@ -21,13 +21,16 @@ import {
   Button,
 } from "@mantine/core"
 import { IconBase } from "@react-icons/all-files"
+import ColorCircle from "app/build/sections/components/ColorCircle"
+import SimpleHeader from "app/build/sections/headers/SimpleHeader"
 import YoutubeFrame from "app/core/components/YoutubeFrame"
 import { Carousel } from "@mantine/carousel"
 import SlideImage from "app/build/sections/carousels/SlideImage"
 
 export const canvasBuildingBlocks = {
+  "@twoclicks/simpleheader": SimpleHeader,
+  "@twoclicks/colorcircle": ColorCircle,
   "@mantine/core/center": Center,
-
   "@mantine/core/button": Button,
   "@mantine/core/stack": Stack,
   "@mantine/core/group": Group,

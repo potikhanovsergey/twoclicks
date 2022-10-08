@@ -50,7 +50,9 @@ const PageThemeSettings = observer(() => {
         </Tooltip>
       </Popover.Target>
       <Popover.Dropdown py={4} px={8}>
-        <Text weight="bold">Default settings</Text>
+        <Text weight="bold" mb={4}>
+          Page theme
+        </Text>
         <Stack spacing={8}>
           <Group position="apart" align="center">
             <Text size="sm">{t("palette")}:</Text>

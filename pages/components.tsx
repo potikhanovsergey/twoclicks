@@ -4,15 +4,12 @@ import IconPicker from "app/core/components/base/IconPicker"
 
 import { FaHeart } from "@react-icons/all-files/fa/FaHeart"
 import FloatingTitleFeatures from "app/build/sections/features/FloatingTitleFeatures"
+import CardHero from "app/build/sections/hero/CardHero"
 
 const ComponentsPage = () => {
   return (
     <BaseLayout>
-      <Center style={{ height: "100%" }}>
-        <IconPicker icon={<FaHeart />} onChange={() => 1} />
-      </Center>
-      <FloatingTitleFeatures />
-      <FloatingTitleFeatures />
+      <CardHero />
     </BaseLayout>
   )
 }

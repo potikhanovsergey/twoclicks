@@ -27,7 +27,7 @@ const BuildPage = () => {
   const [pageFromDB, { refetch: refetchPageFromDB }] = useQuery(
     getPageByID,
     { id: pageID, isPublic: false },
-    { refetchOnWindowFocus: false }
+    { refetchOnWindowFocus: false, refetchOnReconnect: false }
   )
 
   useEffect(() => {
@@ -79,6 +79,7 @@ const BuildPage = () => {
         flattenBlocks: {},
         isPublished: page.isPublished,
         themeSettings: (page.themeSettings as unknown as IThemeSettings) || defaultThemeSettings,
+        appliedForTemplates: page.appliedForTemplates,
       })
       resetHistoryOfChanges()
     }

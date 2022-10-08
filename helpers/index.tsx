@@ -210,11 +210,15 @@ export function getGradientsByType(type: string) {
   return TypeGradients[type]
 }
 
+const keepNames = ["MediaQuery", "SlideImage", "ColorCircle"]
+
 const getElementType = (value) => {
   if (typeof value === "function") {
-    if (value?.name === "MediaQuery" || value?.name === "SlideImage") {
-      return value.name
-    }
+    // if (keepNames.includes(value?.name) && !value?.displayName) {
+    //   return value.name
+    // }
+
+    if (value?.displayName) return value.displayName
 
     // react-icon (and maybe some other components) has type value of function, thus it needs to be rendered to retrieve it's name and props
     const c = value()
