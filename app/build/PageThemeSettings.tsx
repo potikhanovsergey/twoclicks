@@ -16,7 +16,7 @@ import { getHexFromThemeColor, sizes } from "helpers"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
-import { FaPalette } from "react-icons/fa"
+import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
 import { BuildStore } from "store/build"
 import { IThemeSettings } from "types"
 import PaletteItem from "./PaletteItem"
@@ -37,7 +37,7 @@ const PageThemeSettings = observer(() => {
   return (
     <Popover onChange={setPopoverOpened} opened={popoverOpened} width={196}>
       <Popover.Target>
-        <Tooltip label="Page settings" position="bottom" opened={iconHovered && !popoverOpened}>
+        <Tooltip label="Page theme" position="bottom" opened={iconHovered && !popoverOpened}>
           <ActionIcon
             onClick={() => setPopoverOpened((o) => !o)}
             size={30}

@@ -23,7 +23,6 @@ const Page = ({ page }: { page: IPage | null }) => {
                       textOverflow: "ellipsis",
                       WebkitLineClamp: 1,
                       WebkitBoxOrient: "vertical",
-                      display: "-webkit-flex",
                       whiteSpace: "normal",
                       maxWidth: "100%",
                     },

@@ -60,6 +60,7 @@ const useStyles = createStyles(
           : undefined,
       border:
         element.editType === "section" ||
+        element.type.includes("divider") ||
         element.props.variant === "outline" ||
         (defaultVariants.includes(element.type) && themeSettings.variant === "outline")
           ? undefined
@@ -73,15 +74,12 @@ const useStyles = createStyles(
 
 const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEditToolbar) => {
   const {
-    activeEditToolbars,
     isImageUploading,
     openedAction,
     data: { themeSettings },
   } = BuildStore
 
   const editableRef = useRef<HTMLDivElement>(null)
-
-  const didMount = useDidMount()
 
   const [opened, { open, close }] = useDisclosure(false)
   const { openDropdown, closeDropdown } = useDelayedHover({
@@ -94,16 +92,6 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
   const popoverOpened = useMemo(() => {
     return opened || Boolean(openedAction[element.id])
   }, [opened, openedAction, element.id])
-
-  // useEffect(() => {
-  //   if (!didMount) {
-  //     activeEditToolbars[element.id] = opened
-
-  //     if (!opened && !isImageUploading) {
-  //       BuildStore.openedAction = {}
-  //     }
-  //   }
-  // }, [opened, isImageUploading, element.id, activeEditToolbars, didMount])
 
   const sectionLike = useMemo(() => {
     return element.editType === "section" || element.type?.includes("card") || element?.sectionLike
@@ -178,76 +166,6 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
           })
         )}
       </Popover.Target>
-      {/* <Popover.Target>
-        <Box
-          sx={(theme) => ({
-            // width:
-            //   element.type && FIT_CONTENT_ELEMENTS.includes(element.type)
-            //     ? "fit-content"
-            //     : WIDTH_AUTO_ELEMENTS.includes(element.type)
-            //     ? "auto"
-            //     : "100%",
-            display:
-              element.type && FIT_CONTENT_ELEMENTS.includes(element.type)
-                ? "inline-block"
-                : undefined,
-            // margin: element.props?.align === "center" ? "0 auto" : undefined,
-            border:
-              element.editType === "section"
-                ? undefined
-                : opened ||
-                  (typeof element.props?.children === "string" && !element.props?.children.length)
-                ? `1px dotted ${theme.colors.gray[5]}`
-                : "1px solid transparent",
-            position: element.props?.sx?.position === "sticky" ? "sticky" : "relative",
-            top: element.props?.sx?.position === "sticky" ? element.props?.sx?.top : undefined,
-            justifySelf: "stretch",
-            "> :not(button, [data-button=true]), > :not([data-button=true])":
-              element.editType === "section"
-                ? undefined
-                : {
-                    height: "100%",
-                  },
-            borderBottom:
-              element.editType === "section"
-                ? `1px dashed ${theme.fn.rgba(theme.colors.gray[5], 0.4)}`
-                : undefined,
-          })}
-          onMouseEnter={openDropdown}
-          onMouseLeave={closeDropdown}
-          ref={editableRef}
-        >
-          {element.editType === "section" && sectionIndex === 0 && (
-            <InnerAddSectionButton
-              insertIndex={0}
-              style={{
-                position: "absolute",
-                left: "50%",
-                zIndex: 2,
-                top: -element.props.mt || 0,
-                transform: "translate(-50%, -50%)",
-              }}
-            />
-          )}
-          {element.editType === "image" ? (
-            <BuilderImagePicker elementID={element.id}>{children}</BuilderImagePicker>
-          ) : (
-            children
-          )}
-          {element.editType === "section" && sectionIndex !== undefined && (
-            <InnerAddSectionButton
-              insertIndex={sectionIndex + 1}
-              style={{
-                position: "absolute",
-                left: "50%",
-                zIndex: 2,
-                bottom: 0,
-                transform: "translate(-50%, 50%)",
-              }}
-            />
-          )}
-        </Box>
-      </Popover.Target> */}
       <Popover.Dropdown style={{ padding: 0 }}>
         <Group
           noWrap

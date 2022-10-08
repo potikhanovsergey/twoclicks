@@ -10,6 +10,7 @@ import {
   Text,
   Popover,
   useMantineTheme,
+  Stack,
 } from "@mantine/core"
 import { useFullscreen, useHover } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
@@ -62,6 +63,11 @@ const PageSettings = observer(() => {
       </Popover.Target>
       <Popover.Dropdown py={4} px={8}>
         <Text weight="bold">Page settings</Text>
+        <Stack spacing={8}>
+          <Group>
+            <Text size="sm"></Text>
+          </Group>
+        </Stack>
       </Popover.Dropdown>
     </Popover>
   ) : (

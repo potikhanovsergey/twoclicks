@@ -81,7 +81,6 @@ const BuildPage = () => {
         themeSettings: (page.themeSettings as unknown as IThemeSettings) || defaultThemeSettings,
       })
       resetHistoryOfChanges()
-      BuildStore.unlockedElements = {}
     }
     // return () => resetData()
   }, [page])

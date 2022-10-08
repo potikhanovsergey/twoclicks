@@ -1,5 +1,9 @@
 import { Container, Box, Stack, ThemeIcon, Text, SimpleGrid } from "@mantine/core"
-import { FaMoneyBillWave, FaGlobeAmericas, FaUsers, FaPencilRuler } from "react-icons/fa"
+
+import { FaMoneyBillWave } from "@react-icons/all-files/fa/FaMoneyBillWave"
+import { FaGlobeAmericas } from "@react-icons/all-files/fa/FaGlobeAmericas"
+import { FaUsers } from "@react-icons/all-files/fa/FaUsers"
+import { FaPencilRuler } from "@react-icons/all-files/fa/FaPencilRuler"
 
 const mockdata = [
   {
