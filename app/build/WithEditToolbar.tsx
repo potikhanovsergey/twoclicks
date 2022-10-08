@@ -60,6 +60,7 @@ const useStyles = createStyles(
           : undefined,
       border:
         element.editType === "section" ||
+        element.type.includes("divider") ||
         element.props.variant === "outline" ||
         (defaultVariants.includes(element.type) && themeSettings.variant === "outline")
           ? undefined

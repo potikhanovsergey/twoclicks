@@ -37,7 +37,7 @@ const PageThemeSettings = observer(() => {
   return (
     <Popover onChange={setPopoverOpened} opened={popoverOpened} width={196}>
       <Popover.Target>
-        <Tooltip label="Page settings" position="bottom" opened={iconHovered && !popoverOpened}>
+        <Tooltip label="Page theme" position="bottom" opened={iconHovered && !popoverOpened}>
           <ActionIcon
             onClick={() => setPopoverOpened((o) => !o)}
             size={30}

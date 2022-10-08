@@ -1,4 +1,4 @@
-import { Box, Button, Center, useMantineTheme } from "@mantine/core"
+import { Box, Button, Center, useMantineTheme, Image } from "@mantine/core"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
 import { observer } from "mobx-react-lite"
 import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
@@ -95,13 +95,14 @@ const BuilderBlocks = () => {
           textOverflow: "ellipsis",
           WebkitLineClamp: 1,
           WebkitBoxOrient: "vertical",
-          display: "-webkit-box",
           whiteSpace: "normal",
           maxWidth: "100%",
         },
       }}
       ref={sectionsRef}
     >
+      <Image>dsadsa</Image>
+
       <Blocks />
     </Box>
   )
