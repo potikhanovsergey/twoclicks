@@ -18,6 +18,7 @@ import { BuildStore } from "store/build"
 
 import { BsFillImageFill } from "@react-icons/all-files/bs/BsFillImageFill"
 import { useDebouncedValue } from "@mantine/hooks"
+import UploadImageButton from "./UploadImageButton"
 
 interface IPaletteItem extends Omit<PopoverProps, "children"> {
   color: string
@@ -85,30 +86,6 @@ const PaletteItem = (props: IPaletteItem) => {
   }, [color, theme])
 
   const { t } = useTranslation("build")
-  const [file, setFile] = useState<File | null>(null)
-
-  useEffect(() => {
-    const uploadBG = async () => {
-      if (file) {
-        const data = new FormData()
-        data.append("key", "a7bad624b0773cbad481fef7bbb30664")
-        data.append("action", "upload")
-        data.append("format", "json")
-        data.append("image", file)
-        const axios = (await import("axios")).default
-        const response = await axios("https://api.imgbb.com/1/upload", {
-          method: "POST",
-          data,
-        })
-
-        if ((response.status = 200 && response?.data?.data?.url)) {
-          // const src = `https://ucarecdn.com/${responseData.file}/`
-          imageUpload?.onImagePick(response.data.data.url)
-        }
-      }
-    }
-    void uploadBG()
-  }, [file, imageUpload])
 
   return (
     <Popover width={200} position={popoverPosition || "bottom"} shadow="md" {...popoverProps}>
@@ -161,23 +138,7 @@ const PaletteItem = (props: IPaletteItem) => {
               {resetText || t("inherit palette color")}
             </Button>
           )}
-          {imageUpload && (
-            <div onClick={() => (BuildStore.isImageUploading = imageUpload.id)}>
-              <FileButton
-                onChange={(file: File) => {
-                  setFile(file)
-                  BuildStore.isImageUploading = null
-                }}
-                accept="image/png,image/jpeg"
-              >
-                {(props) => (
-                  <Button {...props} fullWidth color="violet" compact>
-                    Upload image
-                  </Button>
-                )}
-              </FileButton>
-            </div>
-          )}
+          {imageUpload && <UploadImageButton {...imageUpload} />}
           {withImageDelete && (
             <Button color="red" variant="light" compact size="sm" fullWidth onClick={onImageDelete}>
               Remove image

@@ -35,6 +35,7 @@ import {
 
 import dynamic from "next/dynamic"
 import BuilderImagePicker from "./BuilderImagePicker"
+import { FaImage } from "@react-icons/all-files/fa/FaImage"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -145,18 +146,6 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
               />
             )}
           </Box>
-        ) : element.editType === "image" ? (
-          <BuilderImagePicker
-            boxProps={{
-              onMouseEnter: openDropdown,
-              onMouseLeave: closeDropdown,
-              className: classes.editable,
-            }}
-            elementID={element.id}
-            ref={editableRef}
-          >
-            {children}
-          </BuilderImagePicker>
         ) : (
           React.cloneElement(children, {
             onMouseEnter: openDropdown,
@@ -218,7 +207,12 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             <></>
           )}
           <ElementMoves parentID={parentID} element={element} />
-          {element.type && element.props && <ElementUploadLink element={element} />}
+          {element.type && element.props && (
+            <ElementUploadLink
+              element={element}
+              targetIcon={element.type.includes("image") ? <FaImage /> : undefined}
+            />
+          )}
           {element.type &&
             TypeIcons[element.type]?.map((propName) => (
               <ElementIconEdit propName={propName} key={propName} element={element} />

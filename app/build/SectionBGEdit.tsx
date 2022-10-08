@@ -3,7 +3,7 @@ import { useHover } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { ExtendedCustomColors } from "pages/_app"
-import { useRef } from "react"
+import { useCallback, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlock } from "types"
 import PaletteItem from "./PaletteItem"
@@ -33,6 +33,31 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
   }
 
   const pickerTimeout = useRef<NodeJS.Timeout | null>(null)
+
+  const onImagePick = useCallback(
+    (url) => {
+      changeProp({
+        id: element.id,
+        newProps: {
+          sx: {
+            ...element.props?.sx,
+            backgroundImage: `url(${url})`,
+            backgroundRepeat: "no-repeat",
+            backgroundPosition: "center",
+            backgroundSize: "cover",
+          },
+        },
+      })
+    },
+    [element.id]
+  )
+
+  const imageUpload = useMemo(() => {
+    return {
+      id: element.id,
+      onImagePick,
+    }
+  }, [onImagePick])
 
   return (
     <Tooltip
@@ -98,28 +123,12 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
               newProps: {
                 sx: {
                   ...element.props?.sx,
-                  backgroundColor: undefined,
+                  backgroundColor: "undefined",
                 },
               },
             })
           }}
-          imageUpload={{
-            id: element.id,
-            onImagePick(url) {
-              changeProp({
-                id: element.id,
-                newProps: {
-                  sx: {
-                    ...element.props?.sx,
-                    backgroundImage: `url(${url})`,
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: "center",
-                    backgroundSize: "cover",
-                  },
-                },
-              })
-            },
-          }}
+          imageUpload={imageUpload}
         />
       </div>
     </Tooltip>
