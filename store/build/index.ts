@@ -73,7 +73,6 @@ class Build {
   isImageUploading: string | null = null
 
   insertIndex: number | null = null
-  activeEditToolbars: { [key: string]: boolean } = {}
 
   openedAction: {
     [key: string]: string
@@ -112,7 +111,6 @@ class Build {
     this.isSaveButtonLoading = false
     this.hasPageChanged = false
     this.isImageUploading = null
-    this.activeEditToolbars = {}
     this.insertIndex = null
   }
   @action

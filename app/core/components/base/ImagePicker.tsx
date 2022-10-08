@@ -20,51 +20,49 @@ const ImagePicker = forwardRef(({ children, onDrop, boxProps, ...rest }: ImagePi
   const mergedRef = useMergedRef(hoverRef, ref)
   return (
     <Box sx={{ position: "relative", justifySelf: "stretch" }} ref={mergedRef} {...boxProps}>
-      <>
-        <Overlay<typeof Dropzone>
-          component={Dropzone}
-          onDrop={onDrop}
-          multiple={false}
-          accept={["image/png", "image/jpeg"]}
-          maxSize={32 * 1024 ** 2}
-          sx={(theme) => ({
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            border: 0,
-            backgroundColor: "transparent",
-            "&:hover": {
-              backgroundColor: theme.colors.dark[6],
-            },
-          })}
-          opacity={0.75}
-          {...rest}
+      <Overlay<typeof Dropzone>
+        component={Dropzone}
+        onDrop={onDrop}
+        multiple={false}
+        accept={["image/png", "image/jpeg"]}
+        maxSize={32 * 1024 ** 2}
+        sx={(theme) => ({
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          border: 0,
+          backgroundColor: "transparent",
+          "&:hover": {
+            backgroundColor: theme.colors.dark[6],
+          },
+        })}
+        opacity={0.75}
+        {...rest}
+      >
+        <></>
+      </Overlay>
+      {children}
+      {hovered && (
+        <Box
+          sx={{
+            position: "absolute",
+            zIndex: 300,
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            pointerEvents: "none",
+          }}
         >
-          <></>
-        </Overlay>
-        {children}
-        {hovered && (
-          <Box
-            sx={{
-              position: "absolute",
-              zIndex: 300,
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              pointerEvents: "none",
-            }}
-          >
-            {hovered && (
-              <Stack align="center">
-                <ThemeIcon variant="gradient" gradient={{ from: "violet", to: "red" }} radius="sm">
-                  <FaImage size="65%" color="#fff" />
-                </ThemeIcon>
-                <Badge>Max size: 32MB</Badge>
-              </Stack>
-            )}
-          </Box>
-        )}
-      </>
+          {hovered && (
+            <Stack align="center">
+              <ThemeIcon variant="gradient" gradient={{ from: "violet", to: "red" }} radius="sm">
+                <FaImage size="65%" color="#fff" />
+              </ThemeIcon>
+              <Badge size="sm">Max size: 32MB</Badge>
+            </Stack>
+          )}
+        </Box>
+      )}
     </Box>
   )
 })
