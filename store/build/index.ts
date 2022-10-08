@@ -37,6 +37,7 @@ const initialData = {
   flattenBlocks: {},
   theme: "inherit",
   themeSettings: defaultThemeSettings,
+  appliedForTemplates: false,
 }
 
 const getInitialData: () => ICanvasData = () => {
