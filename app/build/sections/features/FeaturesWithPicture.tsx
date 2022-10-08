@@ -1,5 +1,8 @@
 import { Box, Container, Title, Text, Group, Image, Stack, ThemeIcon } from "@mantine/core"
-import { FaWordpress, FaPalette, FaEdit, FaStar } from "react-icons/fa"
+import { FaWordpress } from "@react-icons/all-files/fa/FaWordpress"
+import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
+import { FaEdit } from "@react-icons/all-files/fa/FaEdit"
+import { FaStar } from "@react-icons/all-files/fa/FaStar"
 
 const mockdata = [
   {

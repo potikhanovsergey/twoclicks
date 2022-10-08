@@ -1,7 +1,6 @@
 import { useSession } from "@blitzjs/auth"
 import { useMutation } from "@blitzjs/rpc"
 import { BuildingBlock } from "@prisma/client"
-import ObjectID from "bson-objectid"
 import { PageStarterMock } from "db/mocks"
 import { useRouter } from "next/router"
 import { deflate, getPageWithDeflatedData } from "helpers/utils"
@@ -20,6 +19,7 @@ const CreatePageButton = (props: ICreatePageButton) => {
   const { t } = useTranslation("common")
 
   const handleCreatePage = async () => {
+    const ObjectID = (await import("bson-objectid")).default
     const page = {
       id: ObjectID().toHexString(),
       name: "Brand new page",

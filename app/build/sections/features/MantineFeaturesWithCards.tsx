@@ -9,7 +9,10 @@ import {
   Box,
   ThemeIcon,
 } from "@mantine/core"
-import { FaCloudscale, FaUserAlt, FaCookieBite } from "react-icons/fa"
+
+import { FaCloudscale } from "@react-icons/all-files/fa/FaCloudscale"
+import { FaUserAlt } from "@react-icons/all-files/fa/FaUserAlt"
+import { FaCookieBite } from "@react-icons/all-files/fa/FaCookieBite"
 
 const mockdata = [
   {

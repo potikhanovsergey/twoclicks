@@ -1,5 +1,8 @@
 import { Container, Group, ActionIcon, Box, Image, Divider } from "@mantine/core"
-import { FaTwitter, FaYoutube, FaInstagram } from "react-icons/fa"
+
+import { FaTwitter } from "@react-icons/all-files/fa/FaTwitter"
+import { FaYoutube } from "@react-icons/all-files/fa/FaYoutube"
+import { FaInstagram } from "@react-icons/all-files/fa/FaInstagram"
 
 const MantineFooterWithSocialIcons = () => {
   return (

@@ -1,5 +1,10 @@
 import { Container, SimpleGrid, ThemeIcon, Title, Text, Box } from "@mantine/core"
-import { FaCloudscale, FaUserAlt, FaCookieBite, FaLock, FaComments } from "react-icons/fa"
+
+import { FaCloudscale } from "@react-icons/all-files/fa/FaCloudscale"
+import { FaUserAlt } from "@react-icons/all-files/fa/FaUserAlt"
+import { FaCookieBite } from "@react-icons/all-files/fa/FaCookieBite"
+import { FaLock } from "@react-icons/all-files/fa/FaLock"
+import { FaComments } from "@react-icons/all-files/fa/FaComments"
 
 export const mockdata = [
   {
