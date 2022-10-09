@@ -386,7 +386,7 @@ const HowToUseIt = (props: ContainerProps) => {
             </Button>
           </Box>
         </ShadowCard>
-        <Center my={48}>
+        <Center my={40}>
           <ShadowCard
             py={24}
             sx={{
