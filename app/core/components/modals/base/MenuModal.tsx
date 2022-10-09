@@ -21,6 +21,7 @@ import LanguageSwitcher from "../../base/LanguageSwitcher"
 import { ProfileLinks } from "app/profile/ProfileLinks"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 import { useRouter } from "next/router"
+import { useSession } from "@blitzjs/auth"
 
 const ConstMenuItems = [
   {
@@ -28,21 +29,21 @@ const ConstMenuItems = [
     text: "pageBuilder",
     route: "/build",
   },
-  {
-    title: "openTheHelpCenter",
-    text: "helpcenter",
-    route: "/support",
-  },
+  // {
+  //   title: "openTheHelpCenter",
+  //   text: "helpcenter",
+  //   route: "/support",
+  // },
   {
     title: "aboutUsPage",
     text: "aboutUs",
     route: "/",
   },
-  {
-    title: "whatsNewPage",
-    text: "whatsNew",
-    route: "/news",
-  },
+  // {
+  //   title: "whatsNewPage",
+  //   text: "whatsNew",
+  //   route: "/news",
+  // },
 ]
 
 const MenuModal = () => {
@@ -81,6 +82,8 @@ const MenuModal = () => {
     }
   }, [router.events])
 
+  const session = useSession()
+
   return (
     <Modal
       fullScreen
@@ -112,11 +115,13 @@ const MenuModal = () => {
     >
       {/* MENU STARTS */}
       <Stack>
-        <Link passHref href={`/auth/?next=${router.asPath}`}>
-          <Button component="a" size="xs" color="dark" variant={dark ? "white" : "filled"}>
-            {t("signin")}
-          </Button>
-        </Link>
+        {!session.userId && (
+          <Link passHref href={`/auth/?next=${router.asPath}`}>
+            <Button component="a" size="xs" color="dark" variant={dark ? "white" : "filled"}>
+              {t("signin")}
+            </Button>
+          </Link>
+        )}
         <Accordion
           variant="filled"
           styles={{
