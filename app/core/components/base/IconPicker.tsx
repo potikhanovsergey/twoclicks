@@ -1,12 +1,12 @@
 import {
   ActionIcon,
-  Menu,
+  Popover,
   ScrollArea,
   SimpleGrid,
   TextInput,
   Tooltip,
   Text,
-  MenuProps,
+  PopoverProps,
   useMantineColorScheme,
   Box,
   ActionIconProps,
@@ -115,7 +115,7 @@ const FirstIcon = Object.values(icons)[0]
 export interface IconPickerProps {
   icon: ReactNode
   onChange: (ReactNode) => void
-  menuProps?: MenuProps
+  menuProps?: PopoverProps
   isThemeIcon?: boolean
   themeIconProps?: Partial<ActionIconProps>
   withReset?: boolean
@@ -155,7 +155,7 @@ const IconPicker = ({
   const { colorScheme } = useMantineColorScheme()
   const { t } = useTranslation("build")
   return (
-    <Menu
+    <Popover
       width={256}
       position="top"
       zIndex={502}
@@ -170,7 +170,7 @@ const IconPicker = ({
       withinPortal
       {...menuProps}
     >
-      <Menu.Target>
+      <Popover.Target>
         {isThemeIcon ? (
           <ActionIcon {...themeIconProps}>{icon}</ActionIcon>
         ) : (
@@ -186,8 +186,8 @@ const IconPicker = ({
             {icon}
           </Box>
         )}
-      </Menu.Target>
-      <Menu.Dropdown>
+      </Popover.Target>
+      <Popover.Dropdown>
         {withReset && (
           <Button variant="light" compact my="xs" onClick={onReset} rightIcon={<IoClose />}>
             {t("reset icon")}
@@ -222,8 +222,8 @@ const IconPicker = ({
             </Text>
           )}
         </ScrollArea.Autosize>
-      </Menu.Dropdown>
-    </Menu>
+      </Popover.Dropdown>
+    </Popover>
   )
 }
 
