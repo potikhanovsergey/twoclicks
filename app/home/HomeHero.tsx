@@ -21,7 +21,7 @@ import useTranslation from "next-translate/useTranslation"
 const TextLoop = () => {
   const [index, setIndex] = useState(0)
   const theme = useMantineTheme()
-  const { t } = useTranslation("landing")
+  const { t, lang } = useTranslation("landing")
 
   const titles = useMemo(() => {
     return [
@@ -42,7 +42,7 @@ const TextLoop = () => {
         text: t("landing"),
       },
     ]
-  }, [])
+  }, [lang])
 
   const variants = useMemo(() => {
     return {
