@@ -163,13 +163,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
     <Group position="center">
       {!user && withAuthButton && (
         <Link passHref href={`/auth/?next=${router.asPath}`}>
-          <Button
-            component="a"
-            size="xs"
-            title="Войти в аккаунт"
-            color="dark"
-            variant={dark ? "white" : "filled"}
-          >
+          <Button component="a" size="xs" color="dark" variant={dark ? "white" : "filled"}>
             {t("signin")}
           </Button>
         </Link>

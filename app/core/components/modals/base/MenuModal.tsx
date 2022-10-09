@@ -112,6 +112,11 @@ const MenuModal = () => {
     >
       {/* MENU STARTS */}
       <Stack>
+        <Link passHref href={`/auth/?next=${router.asPath}`}>
+          <Button component="a" size="xs" color="dark" variant={dark ? "white" : "filled"}>
+            {t("signin")}
+          </Button>
+        </Link>
         <Accordion
           variant="filled"
           styles={{
