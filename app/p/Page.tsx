@@ -9,10 +9,12 @@ const Block = ({
   block,
   i,
   themeSettings,
+  removeSemantics = true,
 }: {
   block: ICanvasBlock
   i?: number
   themeSettings: IThemeSettings
+  removeSemantics?: boolean
 }) => {
   return (
     <SafeWrapper key={block.id}>
@@ -61,7 +63,11 @@ const Page = ({ page }: { page: IPage | null }) => {
             paddingBottom: "calc(var(--mantine-footer-height, 0px))",
           },
         }}
-        header={header ? <Block block={header} themeSettings={page.themeSettings} /> : undefined}
+        header={
+          header ? (
+            <Block block={header} themeSettings={page.themeSettings} removeSemantics={false} />
+          ) : undefined
+        }
       >
         {blocks &&
           blocks.map((b, i) => {

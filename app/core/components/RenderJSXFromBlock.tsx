@@ -27,6 +27,7 @@ const RenderJSXFromBlock = observer(
     sectionIndex,
     themeSettings,
     childrenProp = "children",
+    removeSemantics = false,
   }: {
     element: ICanvasBlock
     shouldFlat?: boolean
@@ -37,6 +38,7 @@ const RenderJSXFromBlock = observer(
     sectionIndex?: number
     themeSettings?: IThemeSettings
     childrenProp?: string
+    removeSemantics?: boolean
   }) => {
     const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
 
@@ -62,6 +64,10 @@ const RenderJSXFromBlock = observer(
       }
 
       if (withContentEditable && (typeLC.includes("header") || typeLC.includes("footer"))) {
+        newProps.component = "div"
+      }
+
+      if (removeSemantics) {
         newProps.component = "div"
       }
 
