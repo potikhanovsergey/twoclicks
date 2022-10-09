@@ -19,6 +19,7 @@ import Link from "next/link"
 
 import NextImage from "app/core/components/base/NextImage"
 import LandingTitle from "app/core/components/base/LandingTitle"
+import Image from "next/image"
 
 interface ShowcasesProps extends BoxProps {
   link: string
@@ -30,6 +31,8 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   showcaseCard: {
     boxShadow: "0px 18px 48px 7px rgba(157, 136, 206, 0.3)",
     borderRadius: "30px",
+    width: 400,
+    height: 400,
     position: "relative",
     "&:after": {
       content: "''",
@@ -49,6 +52,9 @@ const useStyles = createStyles((theme, _params, getRef) => ({
       [`& .${getRef("text")}`]: {
         opacity: 1,
       },
+    },
+    "@media (max-width: 768px)": {
+      width: "100%",
     },
   },
 
@@ -79,13 +85,7 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
     <AspectRatio ratio={16 / 9}>
       <Link href={link} passHref>
         <Box className={classes.showcaseCard} component="a" target="_blank" {...rest}>
-          <NextImage
-            src={src}
-            alt={alt}
-            width={400}
-            height={400}
-            style={{ borderRadius: "30px" }}
-          />
+          <Image src={src} alt={alt} layout="fill" style={{ borderRadius: "30px" }} />
           <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
             Click to view
           </Badge>

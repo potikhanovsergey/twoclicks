@@ -150,7 +150,7 @@ const HowToUseIt = (props: ContainerProps) => {
             </Box>
           </Box>
         </Box>
-        <Group position="right">
+        <Group position="right" sx={{ width: "100%" }}>
           <Box
             sx={{
               borderRadius: "30px",
@@ -195,6 +195,7 @@ const HowToUseIt = (props: ContainerProps) => {
                     },
                     "@media (max-width: 768px)": {
                       fontSize: "16px",
+                      maxWidth: "300px",
                     },
                   }}
                 >
@@ -217,6 +218,7 @@ const HowToUseIt = (props: ContainerProps) => {
                   "@media (max-width: 768px)": {
                     width: "300px",
                     height: "auto",
+                    marginLeft: "auto",
                   },
                 }}
               >
