@@ -291,12 +291,13 @@ class Build {
         ...newProps,
       }
 
-      for (let prop in updatedElementProps) {
-        if (updatedElementProps[prop] === "undefined") {
-          updatedElementProps[prop] = undefined
-        }
-      }
-      el.props = updatedElementProps
+      el.props = JSON.parse(
+        JSON.stringify(updatedElementProps, (key, value) =>
+          value === "undefined" ? undefined : value
+        )
+      )
+
+      // el.props = updatedElementProps
     }
   }
 

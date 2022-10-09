@@ -61,6 +61,10 @@ const RenderJSXFromBlock = observer(
         newProps.component = "span"
       }
 
+      if (withContentEditable && (typeLC.includes("header") || typeLC.includes("footer"))) {
+        newProps.component = "div"
+      }
+
       if (withThemeSettings) {
         if (getPaletteByType(typeLC) && !newProps[getPaletteByType(typeLC).prop]) {
           newProps[getPaletteByType(typeLC).prop] =
