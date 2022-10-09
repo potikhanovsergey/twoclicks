@@ -14,7 +14,7 @@ const ProfileLayout = ({ title, children }: IProfileLayout) => {
   return (
     <NotificationsProvider>
       <Head>
-        <title>{title || "skillcase"}</title>
+        <title>{title || "Twoclicks"}</title>
         <link rel="icon" href="/oneclick.svg" />
       </Head>
 

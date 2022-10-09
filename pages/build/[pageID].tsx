@@ -66,7 +66,7 @@ const BuildPage = () => {
   } = BuildStore
   const [isLoading, setIsLoading] = useState(true)
 
-  useDocumentTitle(name || "skillcase")
+  useDocumentTitle(name || "Twoclicks")
 
   useEffect(() => {
     if (page?.data) {

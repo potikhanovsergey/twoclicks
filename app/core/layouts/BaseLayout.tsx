@@ -35,7 +35,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({
       }}
     >
       <Head>
-        <title>{title || "skillcase"}</title>
+        <title>{title || "Twoclicks"}</title>
       </Head>
       <AppShell
         styles={{

@@ -46,7 +46,7 @@ const PagePage = () => {
   const [isLoading, setIsLoading] = useState(true)
   const theme = useMantineTheme()
 
-  useDocumentTitle(page?.name || "skillcase")
+  useDocumentTitle(page?.name || "Twoclicks")
   if (isLoading)
     return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
 
