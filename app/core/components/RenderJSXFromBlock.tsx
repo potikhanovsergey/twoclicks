@@ -26,6 +26,7 @@ const RenderJSXFromBlock = observer(
     withThemeSettings = false,
     sectionIndex,
     themeSettings,
+    childrenProp = "children",
   }: {
     element: ICanvasBlock
     shouldFlat?: boolean
@@ -35,6 +36,7 @@ const RenderJSXFromBlock = observer(
     withThemeSettings?: boolean
     sectionIndex?: number
     themeSettings?: IThemeSettings
+    childrenProp?: string
   }) => {
     const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
 
@@ -145,6 +147,7 @@ const RenderJSXFromBlock = observer(
           parentID={parentID}
           sectionIndex={sectionIndex}
           element={{ ...element, type: typeLC }}
+          childrenProp={childrenProp}
         >
           <TagName {...props} />
         </WithEditToolbar>

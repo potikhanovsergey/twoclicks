@@ -187,9 +187,9 @@ const IconPicker = ({
           </Box>
         )}
       </Popover.Target>
-      <Popover.Dropdown>
+      <Popover.Dropdown p={0}>
         {withReset && (
-          <Button variant="light" compact my="xs" onClick={onReset} rightIcon={<IoClose />}>
+          <Button variant="light" compact mb="xs" onClick={onReset} rightIcon={<IoClose />}>
             {t("reset icon")}
           </Button>
         )}

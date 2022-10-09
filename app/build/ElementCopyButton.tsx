@@ -8,9 +8,14 @@ import { ICanvasBlockProps, ICanvasBlock } from "types"
 interface IElementCopyButton {
   parentID: string | null
   element: ICanvasBlock
+  childrenProp?: string
 }
 
-const ElementCopyButton = ({ parentID, element }: IElementCopyButton) => {
+const ElementCopyButton = ({
+  parentID,
+  element,
+  childrenProp = "children",
+}: IElementCopyButton) => {
   const { t } = useTranslation("build")
 
   const handleElementCopy = () => {
@@ -18,7 +23,7 @@ const ElementCopyButton = ({ parentID, element }: IElementCopyButton) => {
     if (parentID) {
       const parent = BuildStore.data.flattenBlocks[parentID]
       const parentProps = parent?.props as ICanvasBlockProps
-      const parentChildren = parentProps?.children as ICanvasBlock[] | ICanvasBlock
+      const parentChildren = parentProps[childrenProp] as ICanvasBlock[] | ICanvasBlock
 
       if (parentChildren) {
         if (Array.isArray(parentChildren)) {
@@ -28,7 +33,7 @@ const ElementCopyButton = ({ parentID, element }: IElementCopyButton) => {
             insertIndex = elIndex
           }
         } else {
-          parentProps.children = [element]
+          parentProps[childrenProp] = [element]
         }
       }
     } else if (element.editType === "section") {
@@ -43,6 +48,7 @@ const ElementCopyButton = ({ parentID, element }: IElementCopyButton) => {
       },
       parentID,
       insertIndex,
+      childrenProp,
     })
   }
   return (

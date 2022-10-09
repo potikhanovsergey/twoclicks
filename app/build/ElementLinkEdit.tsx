@@ -206,7 +206,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                           handleLinkify(url, false)
                         }}
                       >
-                        Section №{i + 1}, ID: {section.id}
+                        Section №{i + 1}
                       </Button>
                     ) : (
                       <React.Fragment key={i} />

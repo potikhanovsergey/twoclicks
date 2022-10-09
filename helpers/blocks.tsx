@@ -22,12 +22,12 @@ import {
 } from "@mantine/core"
 import { IconBase } from "@react-icons/all-files"
 import ColorCircle from "app/build/sections/components/ColorCircle"
-import SimpleHeader from "app/build/sections/headers/SimpleHeader"
+import SimpleHeaderBase from "app/build/sections/components/SimpleHeaderBase"
 import YoutubeFrame from "app/core/components/YoutubeFrame"
 import { Carousel } from "@mantine/carousel"
 
 export const canvasBuildingBlocks = {
-  "@twoclicks/simpleheader": SimpleHeader,
+  "@twoclicks/simpleheader": SimpleHeaderBase,
   "@twoclicks/colorcircle": ColorCircle,
   "@mantine/core/center": Center,
   "@mantine/core/button": Button,

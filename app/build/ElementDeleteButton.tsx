@@ -7,9 +7,14 @@ import { ICanvasBlock } from "types"
 interface IElementDeleteButton {
   parentID: string | null
   element: ICanvasBlock
+  childrenProp?: string
 }
 
-const ElementDeleteButton = ({ parentID, element }: IElementDeleteButton) => {
+const ElementDeleteButton = ({
+  parentID,
+  element,
+  childrenProp = "children",
+}: IElementDeleteButton) => {
   const { deleteElement } = BuildStore
   const { t } = useTranslation("build")
   return (
@@ -22,7 +27,7 @@ const ElementDeleteButton = ({ parentID, element }: IElementDeleteButton) => {
         color="red"
         size="md"
         onClick={() => {
-          deleteElement({ id: element.id, parentID })
+          deleteElement({ id: element.id, parentID, childrenProp })
         }}
       >
         <RiDeleteBin6Line />

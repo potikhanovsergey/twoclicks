@@ -162,18 +162,24 @@ class Build {
       block,
       insertIndex,
       parentID,
-    }: { block: ICanvasBlock; insertIndex?: number | null; parentID?: string | null },
+      childrenProp = "children",
+    }: {
+      block: ICanvasBlock
+      insertIndex?: number | null
+      parentID?: string | null
+      childrenProp?: string
+    },
     fromHistory: boolean = false
   ) => {
     if (parentID) {
       const parent = this.getElement(parentID)
       if (parent) {
         const parentProps = parent?.props as ICanvasBlockProps
-        const parentChildren = parentProps.children as ICanvasBlock[]
+        const parentChildren = parentProps[childrenProp] as ICanvasBlock[]
         if (insertIndex === null || insertIndex === undefined) {
-          parentProps.children = [...parentChildren, block]
+          parentProps[childrenProp] = [...parentChildren, block]
         } else {
-          parentProps.children = [
+          parentProps[childrenProp] = [
             ...parentChildren.slice(0, insertIndex),
             block,
             ...parentChildren.slice(insertIndex),
@@ -201,11 +207,11 @@ class Build {
     this.onPageChange({
       redo: {
         name: "push",
-        data: { block: memoBlock, insertIndex, parentID },
+        data: { block: memoBlock, insertIndex, parentID, childrenProp },
       },
       undo: {
         name: "deleteElement",
-        data: { id: memoBlock.id, parentID },
+        data: { id: memoBlock.id, parentID, childrenProp },
       },
       fromHistory,
     })
@@ -296,31 +302,40 @@ class Build {
 
   @action
   deleteElement = (
-    { id, parentID }: { id: string; parentID?: string | null },
+    {
+      id,
+      parentID,
+      childrenProp = "children",
+    }: { id: string; parentID?: string | null; childrenProp?: string },
     fromHistory: boolean = false
   ) => {
     const elementToBeDeleted = this.getElement(id)
     if (parentID) {
       const parent = this.getElement(parentID)
       const parentProps = parent?.props as ICanvasBlockProps
-      const parentChildren = parentProps?.children as ICanvasBlock[] | ICanvasBlock
+      const parentChildren = parentProps?.[childrenProp] as ICanvasBlock[] | ICanvasBlock
       if (parentChildren) {
         let insertIndex: number | null = null
         if (Array.isArray(parentChildren)) {
           insertIndex = parentChildren.findIndex((el) => el.id === id)
-          parentProps.children = parentChildren.filter((c: ICanvasBlock) => id !== c.id)
+          parentProps[childrenProp] = parentChildren.filter((c: ICanvasBlock) => id !== c.id)
         } else {
-          parentProps.children = []
+          parentProps[childrenProp] = []
         }
 
         this.onPageChange({
           redo: {
             name: "deleteElement",
-            data: { id, parentID },
+            data: { id, parentID, childrenProp },
           },
           undo: {
             name: "push",
-            data: { block: JSON.parse(JSON.stringify(elementToBeDeleted)), insertIndex, parentID },
+            data: {
+              block: JSON.parse(JSON.stringify(elementToBeDeleted)),
+              insertIndex,
+              parentID,
+              childrenProp,
+            },
           },
           fromHistory,
         })
@@ -352,10 +367,12 @@ class Build {
     id,
     parentID,
     editType,
+    childrenProp = "children",
   }: {
     id: string
     parentID: string | null
     editType: string | null
+    childrenProp?: string
   }) => {
     let indexOfId: number | undefined
     let parentArray
@@ -367,8 +384,8 @@ class Build {
       if (parentID) {
         const parent = this.getElement(parentID)
         const parentProps = parent?.props as ICanvasBlockProps
-        if (Array.isArray(parentProps?.children)) {
-          parentArray = parentProps.children as ICanvasBlock[]
+        if (Array.isArray(parentProps?.[childrenProp])) {
+          parentArray = parentProps[childrenProp] as ICanvasBlock[]
           indexOfId = parentArray.findIndex((a) => typeof a === "object" && a?.id === id)
         }
       }
@@ -387,11 +404,13 @@ class Build {
       parentID,
       editType,
       withScroll = false,
+      childrenProp = "children",
     }: {
       id: string
       parentID: string | null
       editType: string | null
       withScroll?: boolean
+      childrenProp?: string
     },
     fromHistory: boolean = false
   ) => {
@@ -403,7 +422,11 @@ class Build {
       //   parentArray[indexOfId],
       // ]
       if (parentID) {
-        this.getElement(parentID).props.children = reorder(parentArray, indexOfId, indexOfId - 1)
+        this.getElement(parentID).props[childrenProp] = reorder(
+          parentArray,
+          indexOfId,
+          indexOfId - 1
+        )
       } else {
         this.data.blocks = reorder(parentArray, indexOfId, indexOfId - 1)
       }
@@ -411,11 +434,11 @@ class Build {
       this.onPageChange({
         redo: {
           name: "moveLeft",
-          data: { id, parentID, editType, withScroll: false },
+          data: { id, parentID, editType, withScroll: false, childrenProp },
         },
         undo: {
           name: "moveRight",
-          data: { id, parentID, editType, withScroll: false },
+          data: { id, parentID, editType, withScroll: false, childrenProp },
         },
         fromHistory,
       })
@@ -436,11 +459,13 @@ class Build {
       parentID,
       editType,
       withScroll = false,
+      childrenProp = "children",
     }: {
       id: string
       parentID: string | null
       editType: string | null
       withScroll?: boolean
+      childrenProp?: string
     },
     fromHistory: boolean = false
   ) => {
@@ -453,7 +478,11 @@ class Build {
       // ]
 
       if (parentID) {
-        this.getElement(parentID).props.children = reorder(parentArray, indexOfId, indexOfId + 1)
+        this.getElement(parentID).props[childrenProp] = reorder(
+          parentArray,
+          indexOfId,
+          indexOfId + 1
+        )
       } else {
         this.data.blocks = reorder(parentArray, indexOfId, indexOfId + 1)
       }
@@ -461,11 +490,11 @@ class Build {
       this.onPageChange({
         redo: {
           name: "moveRight",
-          data: { id, parentID, editType },
+          data: { id, parentID, editType, childrenProp },
         },
         undo: {
           name: "moveLeft",
-          data: { id, parentID, editType },
+          data: { id, parentID, editType, childrenProp },
         },
         fromHistory,
       })
