@@ -10,12 +10,14 @@ import {
 } from "@mantine/core"
 import { useWindowScroll } from "@mantine/hooks"
 import { BsArrowUp } from "@react-icons/all-files/bs/BsArrowUp"
+import useTranslation from "next-translate/useTranslation"
 
 const LandingFooter = () => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
   const [scroll, scrollTo] = useWindowScroll()
+  const { t } = useTranslation("landing")
 
   return (
     <>
@@ -23,14 +25,14 @@ const LandingFooter = () => {
         <Center sx={{ position: "relative" }} mb={40}>
           <Text align="center">
             Copyright © 2022 twoclicks <br />
-            Made by{" "}
+            {t("madeBy")}{" "}
             <MediaQuery largerThan="sm" styles={{ display: "none" }}>
               <br />
             </MediaQuery>
             <Anchor href="https://t.me/potikhanovsergey" target="_blank">
               Potikhanov Sergey
             </Anchor>{" "}
-            and{" "}
+            {t("and")}{" "}
             <Anchor href="https://t.me/daryasyomina" target="_blank">
               Darya Syomina
             </Anchor>

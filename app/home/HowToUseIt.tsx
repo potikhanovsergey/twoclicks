@@ -143,7 +143,7 @@ const HowToUseIt = (props: ContainerProps) => {
               }}
             >
               <Image
-                src="/landing/sections-modal.png"
+                src="/landing/empty.jpg"
                 alt="sections modal example"
                 layout="responsive"
                 width={2488}
@@ -200,7 +200,7 @@ const HowToUseIt = (props: ContainerProps) => {
                     },
                   }}
                 >
-                  Enrich your page by adding new sections
+                  {t("enrichYourPage")}
                 </Text>
               </ShadowCard>
               <Box
@@ -223,7 +223,7 @@ const HowToUseIt = (props: ContainerProps) => {
                 }}
               >
                 <Image
-                  src="/landing/sections-modal.png"
+                  src="/landing/modal.jpg"
                   alt="sections modal example"
                   layout="responsive"
                   objectFit="cover"
@@ -263,7 +263,7 @@ const HowToUseIt = (props: ContainerProps) => {
               }}
             >
               <NextImage
-                src="/landing/tools-menu.png"
+                src="/landing/tools.jpg"
                 alt="sections modal example"
                 width={400}
                 layout="fill"
@@ -285,11 +285,10 @@ const HowToUseIt = (props: ContainerProps) => {
                 },
               }}
             >
-              Edit elements and sections as you wish
+              {t("editElements")}
             </Text>
           </ShadowCard>
         </Group>
-
         <ShadowCard
           sx={{
             position: "relative",
@@ -317,7 +316,7 @@ const HowToUseIt = (props: ContainerProps) => {
               },
             }}
           >
-            Save and publish your page
+            {t("saveAndPublish")}
           </Text>
           <Box
             sx={{
@@ -338,9 +337,11 @@ const HowToUseIt = (props: ContainerProps) => {
           >
             <Button
               component="span"
-              variant="gradient"
+              // variant="gradient"
               size="lg"
-              gradient={{ from: "violet", to: "red", deg: 60 }}
+              // gradient={{ from: "violet", to: "red", deg: 60 }}
+              variant="filled"
+              color="violet"
               leftIcon={<IoMdSave />}
               tabIndex={-1}
               sx={{
@@ -359,11 +360,11 @@ const HowToUseIt = (props: ContainerProps) => {
                 },
               }}
             >
-              Save changes
+              {t("saveChanges")}
             </Button>
             <Button
               component="span"
-              color="violet"
+              color="dark"
               size="lg"
               tabIndex={-1}
               leftIcon={<FaEye />}
@@ -379,7 +380,7 @@ const HowToUseIt = (props: ContainerProps) => {
                 },
               }}
             >
-              Publish page
+              {t("publishPage")}
             </Button>
           </Box>
         </ShadowCard>
@@ -406,7 +407,7 @@ const HowToUseIt = (props: ContainerProps) => {
               }}
               align="center"
             >
-              Share with others and you`re done!
+              {t("sharePage")}
             </Text>
           </ShadowCard>
         </Center>

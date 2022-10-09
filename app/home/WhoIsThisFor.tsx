@@ -275,7 +275,7 @@ const WhoIsThisFor = (props: ContainerProps) => {
         <div ref={ref}>
           <Card
             icon={<FaRegHeart />}
-            text={t("you")}
+            text={"you"}
             isTextVisible
             sx={{
               position: "relative",
