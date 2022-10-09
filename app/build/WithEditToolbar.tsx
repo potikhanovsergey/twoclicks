@@ -35,6 +35,7 @@ import {
 
 import dynamic from "next/dynamic"
 import { FaImage } from "@react-icons/all-files/fa/FaImage"
+import HeaderFixedEdit from "./HeaderFixedEdit"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -230,6 +231,7 @@ const WithEditToolbar = ({
             <ElementCopyButton parentID={parentID} element={element} childrenProp={childrenProp} />
           )}
           {element.editType === "section" && <SectionBGEdit element={element} />}
+          {element.type.includes("header") && <HeaderFixedEdit element={element} />}
           {!element?.disableDelete && (
             <ElementDeleteButton
               parentID={parentID}

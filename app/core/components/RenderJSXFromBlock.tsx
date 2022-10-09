@@ -149,7 +149,7 @@ const RenderJSXFromBlock = observer(
           element={{ ...element, type: typeLC }}
           childrenProp={childrenProp}
         >
-          <TagName {...props} />
+          <TagName {...props} fixed={typeLC.includes("header") ? false : undefined} />
         </WithEditToolbar>
       )
     }

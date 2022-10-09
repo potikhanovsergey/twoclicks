@@ -15,10 +15,10 @@ import { useDisclosure, useScrollLock } from "@mantine/hooks"
 
 const HEADER_HEIGHT = 60
 
-const useStyles = createStyles((theme, { opened }: { opened: boolean }) => ({
+const useStyles = createStyles((theme, { fixed }: { fixed: boolean }) => ({
   root: {
-    position: "relative",
-    zIndex: 1,
+    position: fixed ? undefined : "relative",
+    zIndex: fixed ? 1000 : 1,
     overflow: "hidden",
   },
 
@@ -96,7 +96,7 @@ interface SimpleHeaderBaseProps extends Omit<HeaderProps, "children" | "height">
 
 const SimpleHeaderBase = ({ links, logo, ...props }: SimpleHeaderBaseProps) => {
   const [opened, { toggle, close }] = useDisclosure(false)
-  const { classes, cx } = useStyles({ opened })
+  const { classes, cx } = useStyles({ fixed: Boolean(props.fixed) })
 
   const [, setScrollLocked] = useScrollLock()
   useEffect(() => {
