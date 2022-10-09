@@ -20,6 +20,7 @@ import { FaPalette } from "@react-icons/all-files/fa/FaPalette"
 import { RiQuillPenLine } from "@react-icons/all-files/ri/RiQuillPenLine"
 import { useViewportSize } from "@mantine/hooks"
 import LandingTitle from "app/core/components/base/LandingTitle"
+import useTranslation from "next-translate/useTranslation"
 
 interface CardProps extends StackProps {
   icon: ReactNode
@@ -46,6 +47,7 @@ const Card = ({
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
+  const { t } = useTranslation("landing")
 
   const [textVisible, setTextVisible] = useState(isTextVisible)
   const { width: viewportWidth } = useViewportSize()
@@ -132,7 +134,7 @@ const Card = ({
           }}
           weight={700}
         >
-          {text}
+          {t(text)}
         </Text>
         {children}
       </Stack>
@@ -251,9 +253,10 @@ const WhoIsThisFor = (props: ContainerProps) => {
     once: false,
   })
 
+  const { t } = useTranslation("landing")
   return (
     <Container size="xl" px={40} {...props}>
-      <LandingTitle align="right">Who is this for</LandingTitle>
+      <LandingTitle align="right">{t("whoIsThisFor")}</LandingTitle>
       <Center
         sx={{
           minHeight: "500px",
@@ -272,7 +275,7 @@ const WhoIsThisFor = (props: ContainerProps) => {
         <div ref={ref}>
           <Card
             icon={<FaRegHeart />}
-            text={"you"}
+            text={t("you")}
             isTextVisible
             sx={{
               position: "relative",

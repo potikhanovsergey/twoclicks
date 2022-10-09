@@ -58,7 +58,7 @@ const PageSettings = observer(() => {
   return session.role === "ADMIN" ? (
     <Popover onChange={setPopoverOpened} opened={popoverOpened} width={196}>
       <Popover.Target>
-        <Tooltip label="Page settings" position="bottom" opened={iconHovered && !popoverOpened}>
+        <Tooltip label={t("pageSettings")} position="bottom" opened={iconHovered && !popoverOpened}>
           <ActionIcon
             onClick={() => setPopoverOpened((o) => !o)}
             size={30}
@@ -72,14 +72,10 @@ const PageSettings = observer(() => {
       </Popover.Target>
       <Popover.Dropdown py={4} px={8}>
         <Text weight="bold" mb={4}>
-          Page settings
+          {t("pageSettings")}
         </Text>
         <Stack spacing={8}>
-          <Tooltip
-            multiline
-            label="After our approval, all users will be able to copy your page as a template!"
-            position="bottom"
-          >
+          <Tooltip multiline label={t("applyFotTemplatesToopltip")} position="bottom">
             <Button
               compact
               size="xs"
@@ -95,7 +91,7 @@ const PageSettings = observer(() => {
                 }
               }}
             >
-              {appliedForTemplates ? "Applied for templates" : "Apply for templates"}
+              {appliedForTemplates ? t("appliedForTempalates") : t("applyForTemplates")}
             </Button>
           </Tooltip>
         </Stack>

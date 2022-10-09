@@ -22,6 +22,7 @@ import { HiOutlineTemplate } from "@react-icons/all-files/hi/HiOutlineTemplate"
 import { BsPhone } from "@react-icons/all-files/bs/BsPhone"
 import { HiCursorClick } from "@react-icons/all-files/hi/HiCursorClick"
 import LandingTitle from "app/core/components/base/LandingTitle"
+import useTranslation from "next-translate/useTranslation"
 
 interface BenefitsCardProps {
   title: string
@@ -33,6 +34,7 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
+  const { t } = useTranslation("landing")
 
   return (
     <m.div initial="initial" whileHover="hover">
@@ -50,7 +52,7 @@ const BenefitsCard = ({ title, icon, text }: BenefitsCardProps) => {
             },
           }}
         >
-          {title}
+          {t(title)}
         </Text>
         <Box
           sx={{
@@ -105,6 +107,7 @@ const Benefits = (props: ContainerProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
+  const { t } = useTranslation("landing")
 
   const BenefitsCards: BenefitsCardProps[] = useMemo(() => {
     return [
@@ -113,7 +116,7 @@ const Benefits = (props: ContainerProps) => {
         icon: <HiOutlineLightningBolt color={theme.colors.yellow[5]} />,
         text: (
           <>
-            Make a page while <br /> drinking your tea
+            {t("fast1")} <br /> {t("fast2")}
           </>
         ),
       },
@@ -122,7 +125,7 @@ const Benefits = (props: ContainerProps) => {
         icon: <HiCursorClick color={theme.colors.green[5]} />,
         text: (
           <>
-            Click on element <br /> you want to edit
+            {t("simple1")} <br /> {t("simple2")}
           </>
         ),
       },
@@ -131,7 +134,7 @@ const Benefits = (props: ContainerProps) => {
         icon: <HiOutlineSparkles color={theme.colors.pink[5]} />,
         text: (
           <>
-            Predesigned <br /> theme and palette
+            {t("fancy1")} <br /> {t("fancy2")}
           </>
         ),
       },
@@ -140,8 +143,8 @@ const Benefits = (props: ContainerProps) => {
         icon: <BsPhone color={theme.colors.blue[5]} />,
         text: (
           <>
-            Looks good on
-            <br /> different devices
+            {t("responsive1")}
+            <br /> {t("responsive2")}
           </>
         ),
       },
@@ -150,7 +153,7 @@ const Benefits = (props: ContainerProps) => {
         icon: <HiOutlineTemplate color={theme.colors.red[5]} />,
         text: (
           <>
-            Don`t think on <br /> design, it`s ready
+            {t("templates1")} <br /> {t("templates2")}
           </>
         ),
       },
@@ -159,7 +162,7 @@ const Benefits = (props: ContainerProps) => {
         icon: <FiEdit color={theme.colors.violet[5]} />,
         text: (
           <>
-            Edit any element <br /> however you want
+            {t("custom1")} <br /> {t("custom2")}
           </>
         ),
       },
@@ -174,7 +177,7 @@ const Benefits = (props: ContainerProps) => {
 
   return (
     <Container size="xl" px={40} {...props}>
-      <LandingTitle>Our benefits</LandingTitle>
+      <LandingTitle>{t("ourAdvantages")}</LandingTitle>
       <Space h={40} />
       <AnimatePresence>
         <m.div

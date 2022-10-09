@@ -141,7 +141,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
               }}
             />
             <Text weight="bold" mb={4} size="sm">
-              Enter valid URL:
+              {t("enterValidURL")}:
             </Text>
             <Group align="center" noWrap spacing={4}>
               <TextInput
@@ -168,7 +168,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
             {dividedPages && dividedPages.rest.length > 0 && (
               <>
                 <Text weight="bold" size="sm" mt="xs" mb={4}>
-                  Link it to existing pages:
+                  {t("linkItToExistingPages")}:
                 </Text>
                 <Stack spacing={4}>
                   {dividedPages.rest.map((page) => (
@@ -191,7 +191,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
             {BuildStore.data.blocks.length > 1 && (
               <>
                 <Text weight="bold" size="sm" mt="xs" mb={4}>
-                  Link it to existing sections:
+                  {t("linkItToExistingSections")}:
                 </Text>
                 <Stack spacing={4}>
                   {BuildStore.data.blocks.map((section, i) =>
@@ -207,7 +207,8 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                           handleLinkify(url, false)
                         }}
                       >
-                        Section №{i + 1}, ID: {section.id}
+                        {t("section")} №{i + 1}
+                        {/* ID: {section.id} */}
                       </Button>
                     ) : (
                       <React.Fragment key={i} />

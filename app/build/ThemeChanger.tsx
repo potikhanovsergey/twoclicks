@@ -15,6 +15,7 @@ import { ImSun } from "@react-icons/all-files/im/ImSun"
 import { RiMoonClearFill } from "@react-icons/all-files/ri/RiMoonClearFill"
 import updatePage from "app/build-pages/mutations/updatePage"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { useState } from "react"
 import { BuildStore } from "store/build"
 import { IPage } from "types"
@@ -62,6 +63,7 @@ const ThemeChanger = observer(() => {
 
   const { hovered, ref } = useHover<HTMLButtonElement>()
   const [opened, setOpened] = useState(false)
+  const { t } = useTranslation("build")
   return (
     <Popover
       width={200}
@@ -73,7 +75,7 @@ const ThemeChanger = observer(() => {
     >
       <Popover.Target>
         <Tooltip
-          label="Page theme"
+          label={t("pageTheme")}
           position="bottom"
           withArrow
           opened={hovered && !opened}
@@ -91,7 +93,7 @@ const ThemeChanger = observer(() => {
       <Popover.Dropdown p={8}>
         <LoadingOverlay visible={isLoading} loaderProps={{ size: 16 }} />
         <Text weight="bold" mb={4}>
-          Page theme
+          {t("pageTheme")}
         </Text>
         <Stack spacing={4}>
           {themeChangerVariants.map((item) => (
@@ -102,7 +104,7 @@ const ThemeChanger = observer(() => {
               disabled={item.value === pageTheme}
               onClick={() => handleChangeTheme(item.value)}
             >
-              {item.label}
+              {t(item.label)}
             </Button>
           ))}
         </Stack>

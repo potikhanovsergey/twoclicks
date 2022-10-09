@@ -98,7 +98,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
         formatedMenuItems.unshift({
           elType: "menuItem",
           sx: MenuItemSx,
-          children: "Templates",
+          children: t("templates"),
           href: "/templates",
         })
       }

@@ -61,7 +61,7 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
 
   return (
     <Tooltip
-      label="Change background"
+      label={t("changeBackground")}
       withArrow
       position="left"
       opened={itemHovered && openedAction[element.id] !== "bg"}
@@ -113,7 +113,7 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
               changeColor(value)
             }
           }}
-          resetText="Take from theme"
+          resetText={t("takeFromTheme")}
           hasBG={element.props?.sx?.backgroundImage}
           editType={element.editType}
           middlewares={{ shift: false, flip: false }}

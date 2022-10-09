@@ -16,28 +16,30 @@ import { AnimatePresence, m } from "framer-motion"
 
 import Image from "next/image"
 import Link from "next/link"
+import useTranslation from "next-translate/useTranslation"
 
 const TextLoop = () => {
   const [index, setIndex] = useState(0)
   const theme = useMantineTheme()
+  const { t } = useTranslation("landing")
 
   const titles = useMemo(() => {
     return [
       {
         color: theme.colors.red[5],
-        text: "Page",
+        text: t("page"),
       },
       {
         color: theme.colors.indigo[5],
-        text: "Portfolio",
+        text: t("portfolio"),
       },
       {
         color: theme.colors.pink[5],
-        text: "Presentation",
+        text: t("presentation"),
       },
       {
         color: theme.colors.violet[5],
-        text: "Landing",
+        text: t("landing"),
       },
     ]
   }, [])
@@ -113,6 +115,7 @@ const HomeHero = (props: BoxProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
+  const { t } = useTranslation("landing")
 
   return (
     <Center sx={{ minHeight: "calc(100vh - var(--layout-header-height))" }} {...props}>
@@ -212,7 +215,7 @@ const HomeHero = (props: BoxProps) => {
             }}
             align="center"
           >
-            Create your awesome <br />
+            {t("createYourAwesome")} <br />
             <TextLoop />
           </Title>
           <Group align="center" spacing={4} noWrap mb="md">
@@ -228,7 +231,7 @@ const HomeHero = (props: BoxProps) => {
                 },
               }}
             >
-              All it takes is just twoclicks
+              {t("allItTakes")}
             </Text>
             <Clicks
               sx={{
@@ -268,7 +271,7 @@ const HomeHero = (props: BoxProps) => {
                 }}
               >
                 <Text size="xl" sx={{ fontWeight: 600 }}>
-                  Get started
+                  {t("getStarted")}
                 </Text>
               </Button>
             </Link>

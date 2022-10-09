@@ -3,7 +3,7 @@ module.exports = {
   defaultLocale: "ru",
   pages: {
     "*": ["common"],
-    "/": ["home"],
+    "/": ["landing", "home"],
     "/404": ["404"],
     "/components": ["components"],
     "/profile": ["pages"],

@@ -80,7 +80,7 @@ const PageName = observer(() => {
         >
           {current && (
             <Stack spacing={4}>
-              <Text weight="bold">Current page:</Text>
+              <Text weight="bold">{t("currentPage")}:</Text>
               {id && isPublished && <PageLink id={customID || id} withEllipsis={true} />}
 
               <Group noWrap spacing={4} mb="sm">
@@ -143,7 +143,7 @@ const PageName = observer(() => {
               </Group>
               {rest && rest.length > 0 ? (
                 <>
-                  <Text weight="bold">Other pages:</Text>
+                  <Text weight="bold">{t("otherPages")}:</Text>
                   {rest.map((p) => (
                     <Link passHref href={`/build/${p.id}`} key={p.id}>
                       <Button
@@ -158,7 +158,7 @@ const PageName = observer(() => {
                   ))}
                 </>
               ) : (
-                <Text size="sm">Other pages will be here when you add them</Text>
+                <Text size="sm">{t("otherPagesWillBeHere")}</Text>
               )}
             </Stack>
           )}
