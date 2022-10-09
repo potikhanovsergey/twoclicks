@@ -126,7 +126,7 @@ const ProfileSupport = () => {
   return (
     <>
       <Grid>
-        <Grid.Col span={7}>
+        <Grid.Col span={12} md={7}>
           <Title order={1} mb="lg">
             {t("title")}
           </Title>

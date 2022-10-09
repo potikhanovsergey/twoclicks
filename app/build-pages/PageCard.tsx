@@ -84,7 +84,7 @@ const PageCard = ({ page, withEdit = true }: PageCardProps) => {
           <Text weight="bold" size="xl">
             {page.name}
           </Text>
-          <PageLink id={page.id} />
+          <PageLink id={page.id} withEllipsis />
           <Space h="xs" />
           <TogglePublishPage id={page.id} />
         </Stack>
