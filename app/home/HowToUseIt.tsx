@@ -146,7 +146,7 @@ const HowToUseIt = (props: ContainerProps) => {
                 src="/landing/empty.jpg"
                 alt="sections modal example"
                 layout="responsive"
-                width={2488}
+                width={2422}
                 height={1128}
               />
             </Box>
@@ -229,7 +229,7 @@ const HowToUseIt = (props: ContainerProps) => {
                   alt="sections modal example"
                   layout="responsive"
                   objectFit="cover"
-                  width={2488}
+                  width={2386}
                   height={1128}
                 />
               </Box>
