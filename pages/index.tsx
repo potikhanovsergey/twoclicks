@@ -39,14 +39,14 @@ const Home = () => {
             },
           }}
         />
-        <Showcase
+        {/* <Showcase
           sx={{
             marginBottom: "400px",
             "@media (max-width: 768px)": {
               marginBottom: "240px",
             },
           }}
-        />
+        /> */}
         <CallToAction mb={200} />
         <LandingFooter />
       </Box>

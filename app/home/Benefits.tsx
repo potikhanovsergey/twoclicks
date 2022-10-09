@@ -2,14 +2,12 @@ import {
   Box,
   Container,
   SimpleGrid,
-  Title,
   Text,
   Stack,
   Center,
   AspectRatio,
   Space,
   useMantineTheme,
-  createStyles,
   ContainerProps,
 } from "@mantine/core"
 import { ReactNode, useMemo, useRef } from "react"
