@@ -113,6 +113,11 @@ const CustomTheme: MantineThemeOverride = {
     },
     Image: {
       styles: {
+        root: {
+          "&[href]": {
+            display: "block",
+          },
+        },
         imageWrapper: {
           ":has(.mantine-Image-placeholder)": {
             minHeight: "150px",

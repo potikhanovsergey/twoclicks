@@ -36,7 +36,6 @@ const BaseLayout: FC<BaseLayoutProps> = ({
     >
       <Head>
         <title>{title || "skillcase"}</title>
-        <link rel="icon" href="/oneclick.svg" />
       </Head>
       <AppShell
         styles={{

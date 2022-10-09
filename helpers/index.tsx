@@ -49,6 +49,7 @@ export const TraverseProp = ({
       <RenderJSXFromBlock
         key={propValue.id}
         element={propValue}
+        childrenProp={prop}
         shouldFlat={shouldFlat}
         parentID={parentID}
         withContentEditable={withContentEditable}

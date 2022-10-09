@@ -27,6 +27,7 @@ import {
   defaultVariants,
   TypeGradients,
   TypeIcons,
+  TypeLinks,
   TypeRadius,
   TypeSizes,
   TypeVariants,
@@ -34,6 +35,7 @@ import {
 
 import dynamic from "next/dynamic"
 import { FaImage } from "@react-icons/all-files/fa/FaImage"
+import HeaderFixedEdit from "./HeaderFixedEdit"
 
 interface IWithEditToolbar {
   children: JSX.Element
@@ -41,6 +43,7 @@ interface IWithEditToolbar {
   props?: ICanvasBlockProps
   sectionIndex?: number
   element: ICanvasBlock
+  childrenProp: string
 }
 
 const useStyles = createStyles(
@@ -71,7 +74,13 @@ const useStyles = createStyles(
   })
 )
 
-const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEditToolbar) => {
+const WithEditToolbar = ({
+  children,
+  parentID,
+  sectionIndex,
+  element,
+  childrenProp,
+}: IWithEditToolbar) => {
   const {
     isImageUploading,
     openedAction,
@@ -215,12 +224,21 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             TypeIcons[element.type]?.map((propName) => (
               <ElementIconEdit propName={propName} key={propName} element={element} />
             ))}
-          {element.type && element.props && (
+          {element.type && element.props && TypeLinks[element.type] && (
             <ElementLinkEdit element={element} sectionIndex={sectionIndex} />
           )}
-          {!element?.disableCopy && <ElementCopyButton parentID={parentID} element={element} />}
+          {!element?.disableCopy && (
+            <ElementCopyButton parentID={parentID} element={element} childrenProp={childrenProp} />
+          )}
           {element.editType === "section" && <SectionBGEdit element={element} />}
-          {!element?.disableDelete && <ElementDeleteButton parentID={parentID} element={element} />}
+          {element.type.includes("header") && <HeaderFixedEdit element={element} />}
+          {!element?.disableDelete && (
+            <ElementDeleteButton
+              parentID={parentID}
+              element={element}
+              childrenProp={childrenProp}
+            />
+          )}
         </Group>
       </Popover.Dropdown>
     </Popover>

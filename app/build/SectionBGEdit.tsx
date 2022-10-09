@@ -98,7 +98,7 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
               newProps: {
                 sx: {
                   ...element.props?.sx,
-                  backgroundImage: undefined,
+                  backgroundImage: "undefined",
                 },
               },
             })
@@ -116,7 +116,6 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           resetText={t("takeFromTheme")}
           hasBG={element.props?.sx?.backgroundImage}
           editType={element.editType}
-          middlewares={{ shift: false, flip: false }}
           onResetClick={() => {
             changeProp({
               id: element.id,

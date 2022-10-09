@@ -37,7 +37,6 @@ const CheckboxIcon: CheckboxProps["icon"] = ({ indeterminate, className }) =>
   )
 
 const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
-  const hasLinkEdit = TypeLinks[element.type]
   const {
     changeProp,
     openedAction,
@@ -84,7 +83,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
     }
   }, [pages, pageID])
 
-  return hasLinkEdit ? (
+  return (
     <ToolbarMenu
       menuProps={{
         defaultOpened: openedAction?.[element.id] === "link",
@@ -208,7 +207,6 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                         }}
                       >
                         {t("section")} №{i + 1}
-                        {/* ID: {section.id} */}
                       </Button>
                     ) : (
                       <React.Fragment key={i} />
@@ -221,8 +219,6 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
         ),
       }}
     />
-  ) : (
-    <></>
   )
 }
 

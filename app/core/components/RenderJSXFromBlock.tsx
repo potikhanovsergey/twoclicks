@@ -26,6 +26,8 @@ const RenderJSXFromBlock = observer(
     withThemeSettings = false,
     sectionIndex,
     themeSettings,
+    childrenProp = "children",
+    removeSemantics = false,
   }: {
     element: ICanvasBlock
     shouldFlat?: boolean
@@ -35,6 +37,8 @@ const RenderJSXFromBlock = observer(
     withThemeSettings?: boolean
     sectionIndex?: number
     themeSettings?: IThemeSettings
+    childrenProp?: string
+    removeSemantics?: boolean
   }) => {
     const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
 
@@ -57,6 +61,14 @@ const RenderJSXFromBlock = observer(
         withContentEditable
       ) {
         newProps.component = "span"
+      }
+
+      if (withContentEditable && (typeLC.includes("header") || typeLC.includes("footer"))) {
+        newProps.component = "div"
+      }
+
+      if (removeSemantics) {
+        newProps.component = "div"
       }
 
       if (withThemeSettings) {
@@ -145,8 +157,9 @@ const RenderJSXFromBlock = observer(
           parentID={parentID}
           sectionIndex={sectionIndex}
           element={{ ...element, type: typeLC }}
+          childrenProp={childrenProp}
         >
-          <TagName {...props} />
+          <TagName {...props} fixed={typeLC.includes("header") ? false : undefined} />
         </WithEditToolbar>
       )
     }

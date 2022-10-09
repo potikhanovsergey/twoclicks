@@ -1,28 +1,21 @@
-import { Tooltip, Menu, MenuProps, TooltipProps, MenuDropdownProps } from "@mantine/core"
+import { Tooltip, Popover, PopoverProps, TooltipProps, PopoverDropdownProps } from "@mantine/core"
 import { useHover } from "@mantine/hooks"
 import { useState } from "react"
 
-interface IToolbarMenu {
-  menuProps: MenuProps
+interface IToolbarPopover {
+  menuProps: Partial<PopoverProps>
   tooltipProps: TooltipProps
-  dropdownProps: MenuDropdownProps
+  dropdownProps: PopoverDropdownProps
 }
 
-const ToolbarMenu = ({ menuProps, tooltipProps, dropdownProps }: IToolbarMenu) => {
+const ToolbarPopover = ({ menuProps, tooltipProps, dropdownProps }: IToolbarPopover) => {
   const { hovered: targetHovered, ref: targetRef } = useHover()
   const [menuOpened, setMenuOpened] = useState(menuProps.defaultOpened || false)
 
   return (
-    <Menu
-      offset={0}
-      closeOnItemClick={false}
-      opened={menuOpened}
-      onChange={setMenuOpened}
-      position="top"
-      {...menuProps}
-    >
-      <Menu.Target>
-        <div ref={targetRef}>
+    <Popover offset={0} opened={menuOpened} onChange={setMenuOpened} position="top" {...menuProps}>
+      <Popover.Target>
+        <div ref={targetRef} onClick={() => setMenuOpened((o) => !o)}>
           <Tooltip
             zIndex={301}
             withinPortal
@@ -31,10 +24,10 @@ const ToolbarMenu = ({ menuProps, tooltipProps, dropdownProps }: IToolbarMenu) =
             {...tooltipProps}
           />
         </div>
-      </Menu.Target>
-      <Menu.Dropdown p={0} {...dropdownProps} />
-    </Menu>
+      </Popover.Target>
+      <Popover.Dropdown p={0} {...dropdownProps} />
+    </Popover>
   )
 }
 
-export default ToolbarMenu
+export default ToolbarPopover
