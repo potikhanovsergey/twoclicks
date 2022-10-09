@@ -12,6 +12,7 @@ import Image from "next/image"
 
 import { BsArrowRight } from "@react-icons/all-files/bs/BsArrowRight"
 import Link from "next/link"
+import useTranslation from "next-translate/useTranslation"
 
 const useStyles = createStyles({
   image: {
@@ -26,6 +27,8 @@ const useStyles = createStyles({
 
 const CallToAction = (props: ContainerProps) => {
   const { classes } = useStyles()
+  const { t } = useTranslation("landing")
+
   return (
     <Container
       size="xl"
@@ -82,7 +85,8 @@ const CallToAction = (props: ContainerProps) => {
             },
           }}
         >
-          You`ve made <strong>one click</strong> <br /> to visit this page
+          {t("callToAction1")} <strong>{t("callToActionStrong1")}</strong> <br />{" "}
+          {t("callToAction2")}
         </Text>
         <Text
           sx={{
@@ -99,7 +103,7 @@ const CallToAction = (props: ContainerProps) => {
           }}
           align="right"
         >
-          It`s time to make <br /> <strong>another one</strong>
+          {t("callToAction3")} <br /> <strong>{t("callToActionStrong2")}</strong>.
         </Text>
       </Stack>
       <Center
@@ -141,7 +145,7 @@ const CallToAction = (props: ContainerProps) => {
                 },
               }}
             >
-              Get started
+              {t("getStarted")}
             </Text>
           </Button>
         </Link>

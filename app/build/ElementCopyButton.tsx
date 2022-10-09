@@ -52,7 +52,11 @@ const ElementCopyButton = ({
     })
   }
   return (
-    <Tooltip label="Duplicate" withArrow position={element.editType === "section" ? "left" : "top"}>
+    <Tooltip
+      label={t("duplicate")}
+      withArrow
+      position={element.editType === "section" ? "left" : "top"}
+    >
       <ActionIcon variant="subtle" color="violet" onClick={handleElementCopy}>
         <BiCopy />
       </ActionIcon>

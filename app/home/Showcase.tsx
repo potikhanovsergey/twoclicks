@@ -19,6 +19,7 @@ import Link from "next/link"
 
 import NextImage from "app/core/components/base/NextImage"
 import LandingTitle from "app/core/components/base/LandingTitle"
+import useTranslation from "next-translate/useTranslation"
 import Image from "next/image"
 
 interface ShowcasesProps extends BoxProps {
@@ -80,6 +81,7 @@ const Showcases: ShowcasesProps[] = [
 
 const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => {
   const { classes } = useStyles()
+  const { t } = useTranslation("landing")
 
   return (
     <AspectRatio ratio={16 / 9}>
@@ -87,7 +89,7 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
         <Box className={classes.showcaseCard} component="a" target="_blank" {...rest}>
           <Image src={src} alt={alt} layout="fill" style={{ borderRadius: "30px" }} />
           <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
-            Click to view
+            {t("clickToView")}
           </Badge>
         </Box>
       </Link>
@@ -99,11 +101,12 @@ const Showcase = (props: ContainerProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
+  const { t } = useTranslation("landing")
 
   return (
     <Container size="xl" px={40} {...props}>
       <Box sx={{ margin: "0 auto 128px" }}>
-        <LandingTitle align="center">Showcase: pages made with twoclicks</LandingTitle>
+        <LandingTitle align="center">{t("showcaseTitle")}</LandingTitle>
       </Box>
       <Box sx={{ position: "relative" }}>
         <SimpleGrid
@@ -146,7 +149,7 @@ const Showcase = (props: ContainerProps) => {
               },
             }}
           >
-            You can use them as templates!
+            {t("showcaseFirstCard")}
           </Text>
         </Box>
         <Box
@@ -176,7 +179,7 @@ const Showcase = (props: ContainerProps) => {
               },
             }}
           >
-            Create a pretty page and we&apos;ll add it here 👀
+            {t("showcaseSecondCard")}
           </Text>
         </Box>
       </Box>

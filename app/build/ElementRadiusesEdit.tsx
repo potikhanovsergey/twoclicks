@@ -62,7 +62,7 @@ const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
                   })
                 }}
               >
-                {radius}
+                {t(radius)}
               </Button>
             ))}
           </Stack>

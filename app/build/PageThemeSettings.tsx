@@ -37,7 +37,7 @@ const PageThemeSettings = observer(() => {
   return (
     <Popover onChange={setPopoverOpened} opened={popoverOpened} width={196}>
       <Popover.Target>
-        <Tooltip label="Page theme" position="bottom" opened={iconHovered && !popoverOpened}>
+        <Tooltip label={t("pageTheme")} position="bottom" opened={iconHovered && !popoverOpened}>
           <ActionIcon
             onClick={() => setPopoverOpened((o) => !o)}
             size={30}
@@ -51,7 +51,7 @@ const PageThemeSettings = observer(() => {
       </Popover.Target>
       <Popover.Dropdown py={4} px={8}>
         <Text weight="bold" mb={4}>
-          Page theme
+          {t("pageTheme")}
         </Text>
         <Stack spacing={8}>
           <Group position="apart" align="center">
@@ -59,7 +59,7 @@ const PageThemeSettings = observer(() => {
             <PaletteItems />
           </Group>
           <Group position="apart" align="center">
-            <Text size="sm">Radius:</Text>
+            <Text size="sm">{t("radius")}:</Text>
             <Popover>
               <Popover.Target>
                 <Button
@@ -96,7 +96,7 @@ const PageThemeSettings = observer(() => {
             </Popover>
           </Group>
           <Group position="apart" align="center">
-            <Text size="sm">Variant:</Text>
+            <Text size="sm">{t("variant")}:</Text>
             <Popover>
               <Popover.Target>
                 <Button size="xs" compact variant={themeSettings.variant}>
@@ -126,7 +126,7 @@ const PageThemeSettings = observer(() => {
             </Popover>
           </Group>
           <Group position="apart" align="center">
-            <Text size="sm">Gradient:</Text>
+            <Text size="sm">{t("gradient")}:</Text>
             <Popover>
               <Popover.Target>
                 <Button
@@ -135,7 +135,7 @@ const PageThemeSettings = observer(() => {
                   variant="gradient"
                   gradient={{ from: themeSettings.gradient.from, to: themeSettings.gradient.to }}
                 >
-                  from &gt; to
+                  {t("from")} &gt; {t("to")}
                 </Button>
               </Popover.Target>
               <Popover.Dropdown p={4}>
@@ -192,7 +192,7 @@ const PageThemeSettings = observer(() => {
             </Popover>
           </Group>
           <Group position="apart" align="center">
-            <Text size="sm">Theme changer:</Text>
+            <Text size="sm">{t("themeChanger")}:</Text>
             <ThemeChanger />
           </Group>
         </Stack>

@@ -141,7 +141,7 @@ const PaletteItem = (props: IPaletteItem) => {
           {imageUpload && <UploadImageButton {...imageUpload} />}
           {withImageDelete && (
             <Button color="red" variant="light" compact size="sm" fullWidth onClick={onImageDelete}>
-              Remove image
+              {t("removeImage")}
             </Button>
           )}
           <ColorPicker

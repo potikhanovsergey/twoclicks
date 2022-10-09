@@ -46,7 +46,7 @@ const ElementPaddingEdit = ({ element, type, y, x }: IElementPaddingEdit) => {
         },
       }}
       tooltipProps={{
-        label: "Spacings",
+        label: t("spacings"),
         position: element.editType === "section" ? "left" : undefined,
         children: (
           <ActionIcon color="violet">
@@ -59,12 +59,14 @@ const ElementPaddingEdit = ({ element, type, y, x }: IElementPaddingEdit) => {
         px: 12,
         children: (
           <>
-            <Text weight="bold">Edit {type === "m" ? "margin" : "padding"}</Text>
+            <Text weight="bold">
+              {t("edit")} {type === "m" ? t("margin") : t("padding")}
+            </Text>
             <Stack spacing={8} align="stretch">
               {y && (
                 <>
                   <div>
-                    <Text>Top</Text>
+                    <Text>{t("top")}</Text>
                     <Slider
                       label={(value) => `${value} px`}
                       defaultValue={element.props[`${type}t`]}
@@ -79,7 +81,7 @@ const ElementPaddingEdit = ({ element, type, y, x }: IElementPaddingEdit) => {
                     />
                   </div>
                   <div>
-                    <Text>Bottom</Text>
+                    <Text>{t("bottom")}</Text>
                     <Slider
                       label={(value) => `${value} px`}
                       defaultValue={element.props[`${type}b`]}
@@ -98,7 +100,7 @@ const ElementPaddingEdit = ({ element, type, y, x }: IElementPaddingEdit) => {
               {x && (
                 <>
                   <div>
-                    <Text>Left</Text>
+                    <Text>{t("left")}</Text>
                     <Slider
                       label={(value) => `${value} px`}
                       defaultValue={element.props[`${type}l`]}
@@ -113,7 +115,7 @@ const ElementPaddingEdit = ({ element, type, y, x }: IElementPaddingEdit) => {
                     />
                   </div>
                   <div>
-                    <Text>Right</Text>
+                    <Text>{t("right")}</Text>
                     <Slider
                       label={(value) => `${value} px`}
                       defaultValue={element.props[`${type}r`]}

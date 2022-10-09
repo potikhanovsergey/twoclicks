@@ -1,5 +1,6 @@
 import { FileButton, Button } from "@mantine/core"
 import { observer } from "mobx-react-lite"
+import useTranslation from "next-translate/useTranslation"
 import { useState, useEffect } from "react"
 import { BuildStore } from "store/build"
 
@@ -10,6 +11,7 @@ interface UploadImageButtonProps {
 
 const UploadImageButton = ({ onImagePick, id }: UploadImageButtonProps) => {
   const [file, setFile] = useState<File | null>(null)
+  const { t } = useTranslation("build")
 
   useEffect(() => {
     const uploadBG = async () => {
@@ -45,7 +47,7 @@ const UploadImageButton = ({ onImagePick, id }: UploadImageButtonProps) => {
       >
         {(props) => (
           <Button {...props} fullWidth color="violet" compact>
-            Upload image
+            {t("uploadImage")}
           </Button>
         )}
       </FileButton>
