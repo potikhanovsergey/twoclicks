@@ -105,7 +105,7 @@ const Benefits = (props: ContainerProps) => {
   const theme = useMantineTheme()
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
-  const { t } = useTranslation("landing")
+  const { t, lang } = useTranslation("landing")
 
   const BenefitsCards: BenefitsCardProps[] = useMemo(() => {
     return [
@@ -165,7 +165,7 @@ const Benefits = (props: ContainerProps) => {
         ),
       },
     ]
-  }, [])
+  }, [lang])
 
   const ref = useRef(null)
   const inView = useInView(ref, {
