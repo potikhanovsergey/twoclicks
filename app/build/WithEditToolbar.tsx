@@ -27,6 +27,7 @@ import {
   defaultVariants,
   TypeGradients,
   TypeIcons,
+  TypeLinks,
   TypeRadius,
   TypeSizes,
   TypeVariants,
@@ -215,7 +216,7 @@ const WithEditToolbar = ({ children, parentID, sectionIndex, element }: IWithEdi
             TypeIcons[element.type]?.map((propName) => (
               <ElementIconEdit propName={propName} key={propName} element={element} />
             ))}
-          {element.type && element.props && (
+          {element.type && element.props && TypeLinks[element.type] && (
             <ElementLinkEdit element={element} sectionIndex={sectionIndex} />
           )}
           {!element?.disableCopy && <ElementCopyButton parentID={parentID} element={element} />}
