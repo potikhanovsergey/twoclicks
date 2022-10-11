@@ -17,6 +17,7 @@ interface BaseLayoutProps {
   headerWithProfile?: boolean
   headerWithAuthButton?: boolean
   withNotificationsProvider?: boolean
+  headerTitle?: string
 }
 
 const BaseLayout: FC<BaseLayoutProps> = ({
@@ -26,6 +27,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({
   headerWithProfile = true,
   headerWithAuthButton = true,
   withNotificationsProvider = true,
+  headerTitle,
 }) => {
   return (
     <ConditionalWrapper
@@ -59,6 +61,7 @@ const BaseLayout: FC<BaseLayoutProps> = ({
             withTransparency={headerWithTransparency}
             withProfile={headerWithProfile}
             withAuthButton={headerWithAuthButton}
+            title={headerTitle}
           />
         }
       >

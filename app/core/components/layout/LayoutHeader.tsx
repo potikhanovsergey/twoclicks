@@ -7,7 +7,7 @@ import {
   Skeleton,
   useMantineColorScheme,
 } from "@mantine/core"
-import { CSSProperties, Dispatch, SetStateAction, Suspense, useContext } from "react"
+import { CSSProperties, Dispatch, ReactNode, SetStateAction, Suspense, useContext } from "react"
 import HeaderProfile from "./HeaderProfile"
 import Logo from "../Logo"
 import { ModalContext } from "contexts/ModalContext"
@@ -26,6 +26,7 @@ interface ILayoutHeader {
   withTransparency?: boolean
   withProfile?: boolean
   withAuthButton?: boolean
+  title?: ReactNode
 }
 
 const LayoutHeader = ({
@@ -36,6 +37,7 @@ const LayoutHeader = ({
   withTransparency = true,
   withProfile = true,
   withAuthButton = true,
+  title,
 }: ILayoutHeader) => {
   const { colorScheme } = useMantineColorScheme()
   const dark = colorScheme === "dark"
@@ -95,6 +97,18 @@ const LayoutHeader = ({
               ml="auto"
             />
           </MediaQuery>
+          {title && (
+            <div
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "50%",
+                transform: "translate(calc(-50% - (var(--removed-scroll-width, 0px) / 2)), -50%)",
+              }}
+            >
+              {title}
+            </div>
+          )}
           {withProfile && (
             <MediaQuery smallerThan="md" styles={{ display: "none" }}>
               <div>
