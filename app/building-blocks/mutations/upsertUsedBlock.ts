@@ -5,7 +5,7 @@ export default async function upsertUsedBlock(input: { buildingBlockId: string }
   const userId = ctx.session.userId as string
   const buildingBlockId = input.buildingBlockId as string
 
-  if (userId) return null
+  if (!userId) return null
   try {
     const usedBlock = await db.usedBlock.upsert({
       where: {
