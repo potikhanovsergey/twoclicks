@@ -9,6 +9,7 @@ import {
   Box,
   Mark,
   Space,
+  Paper,
 } from "@mantine/core"
 import { formatDate } from "helpers/utils"
 import Link from "next/link"
@@ -68,15 +69,14 @@ const PageCard = ({ page, withEdit = true }: PageCardProps) => {
   const dark = theme.colorScheme === "dark"
 
   return (
-    <Box
+    <Paper
+      withBorder
       p="md"
       sx={(theme) => ({
-        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.white,
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[0],
         padding: theme.spacing.xl,
         borderRadius: theme.radius.md,
-        boxShadow: "0px 5px 16px -2px rgba(34, 60, 80, 0.2)",
-        listStyle: "none",
-        ":not(:last-child)": { marginBottom: theme.spacing.md },
+        ":not(:last-child)": { marginBottom: theme.spacing.lg },
       })}
     >
       <Group position="apart" align="flex-start">
@@ -118,7 +118,7 @@ const PageCard = ({ page, withEdit = true }: PageCardProps) => {
           </Text>
         </Stack>
       </Group>
-    </Box>
+    </Paper>
   )
 }
 
