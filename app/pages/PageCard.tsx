@@ -1,4 +1,4 @@
-import { AspectRatio, Group, Paper, Stack, Text } from "@mantine/core"
+import { AspectRatio, Avatar, Group, Paper, Stack, Text } from "@mantine/core"
 import { useHover } from "@mantine/hooks"
 import { Page as DBPage, User } from "@prisma/client"
 import Image from "next/image"
@@ -7,7 +7,7 @@ import Image from "next/image"
 export interface PageCardProps extends DBPage {
   user: {
     name: string
-    email: string
+    avatar: string
   }
 }
 
@@ -54,7 +54,13 @@ const PageCard = ({ page }: { page: PageCardProps }) => {
   const { classes } = useStyles()
   return (
     <Stack spacing={4}>
-      <Paper withBorder className={classes.imageCard}>
+      <Paper
+        withBorder
+        className={classes.imageCard}
+        component="a"
+        href={`/p/${page.id}`}
+        target="_blank"
+      >
         <AspectRatio
           ratio={16 / 9}
           sx={(theme) => ({
@@ -69,14 +75,40 @@ const PageCard = ({ page }: { page: PageCardProps }) => {
             layout="fill"
           />
         </AspectRatio>
-        <Text className={classes.imageBottom} color="white">
+        <Text
+          className={classes.imageBottom}
+          color="white"
+          sx={{
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            maxWidth: "24ch",
+            whiteSpace: "nowrap",
+          }}
+        >
           {page.name}
         </Text>
       </Paper>
 
-      <Group position="apart" align="center">
-        <Text weight="bold">{page.user.name}</Text>
-        <Text color="dimmed">View count</Text>
+      <Group position="apart" align="center" noWrap>
+        <Group spacing={6} align="center" noWrap>
+          <Avatar src={page.user.avatar} variant="light" size="sm" radius="xl" />
+          <Text
+            weight="bold"
+            size="sm"
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "24ch",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {page.user.name}
+          </Text>
+        </Group>
+
+        <Text color="dimmed" size="sm">
+          View count
+        </Text>
       </Group>
     </Stack>
   )

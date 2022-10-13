@@ -8,6 +8,7 @@ import PagesGrid from "app/pages/PagesGrid"
 import { useInfiniteQuery, usePaginatedQuery, useQuery } from "@blitzjs/rpc"
 import getAllPages from "app/build-pages/queries/getAllPages"
 import { useRouter } from "next/router"
+import { Page } from "@prisma/client"
 
 const ITEMS_PER_PAGE = 50
 
@@ -30,11 +31,22 @@ const Pages = () => {
     ],
     skip: ITEMS_PER_PAGE * (pageNumber - 1),
     take: ITEMS_PER_PAGE,
+    include: {
+      user: {
+        select: {
+          name: true,
+          avatar: true,
+        },
+      },
+    },
+    where: {
+      isPublished: true,
+    },
   })
   return (
-    <Container size="lg">
+    <Container size="lg" pb="xl">
       <PagesHeader />
-      <PagesGrid pages={pages} />
+      <PagesGrid pages={pages as (Page & { user: { name: string; avatar: string } })[]} />
     </Container>
   )
 }

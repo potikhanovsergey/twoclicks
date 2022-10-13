@@ -11,6 +11,7 @@ import { HiSearch } from "@react-icons/all-files/hi/HiSearch"
 import PageCard from "app/build-pages/PageCard"
 import { AuthorizationError } from "blitz"
 import { useSession } from "@blitzjs/auth"
+import { Page } from "@prisma/client"
 
 const ITEMS_PER_PAGE = 50
 
@@ -26,7 +27,14 @@ const DashboardPages = () => {
 
   const router = useRouter()
   const pageNumber = Number(router.query.page) || 1
-  const [{ pages, hasMore, count }] = usePaginatedQuery(getAllPages, {
+  const [{ pages, hasMore, count }]: [
+    {
+      pages: (Page & { user: { name: string; email: string } })[]
+      hasMore: boolean
+      count: number
+    },
+    {}
+  ] = usePaginatedQuery(getAllPages, {
     orderBy: [
       {
         updatedAt: "desc",
@@ -34,6 +42,7 @@ const DashboardPages = () => {
     ],
     skip: ITEMS_PER_PAGE * (pageNumber - 1),
     take: ITEMS_PER_PAGE,
+    include: { user: { select: { name: true, email: true } } },
     where: {
       user: {
         email: {

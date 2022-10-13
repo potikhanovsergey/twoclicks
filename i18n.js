@@ -12,5 +12,4 @@ module.exports = {
     "/profile/support": ["support"],
     "rgx:^/build": ["build", "pages"],
   },
-  logger() {},
 }
