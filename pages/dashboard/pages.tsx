@@ -14,7 +14,7 @@ import { useSession } from "@blitzjs/auth"
 
 const ITEMS_PER_PAGE = 50
 
-const Pages = () => {
+const DashboardPages = () => {
   const session = useSession()
 
   useEffect(() => {
@@ -94,7 +94,7 @@ const Pages = () => {
   )
 }
 
-Pages.getLayout = getBaseLayout({})
-Pages.suppressFirstRenderFlicker = true
+DashboardPages.getLayout = getBaseLayout({})
+DashboardPages.suppressFirstRenderFlicker = true
 
-export default Pages
+export default DashboardPages
