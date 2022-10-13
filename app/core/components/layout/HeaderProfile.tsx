@@ -101,6 +101,12 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
           children: t("templates"),
           href: "/templates",
         })
+        formatedMenuItems.unshift({
+          elType: "menuItem",
+          sx: MenuItemSx,
+          children: t("pages"),
+          href: "/pages",
+        })
       }
       formatedMenuItems.unshift({
         elType: "menuItem",

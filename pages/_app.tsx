@@ -101,6 +101,19 @@ const CustomTheme: MantineThemeOverride = {
         },
       },
     },
+    Select: {
+      defaultProps: {
+        p: 0,
+      },
+      styles: {
+        dropdown: {
+          boxShadow: "none",
+        },
+        itemsWrapper: {
+          padding: 0,
+        },
+      },
+    },
     Badge: {
       styles: {
         root: {
