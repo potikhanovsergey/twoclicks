@@ -19,7 +19,11 @@ const ImagePicker = forwardRef(({ children, onDrop, boxProps, ...rest }: ImagePi
 
   const mergedRef = useMergedRef(hoverRef, ref)
   return (
-    <Box sx={{ position: "relative", justifySelf: "stretch" }} ref={mergedRef} {...boxProps}>
+    <Box
+      sx={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+      ref={mergedRef}
+      {...boxProps}
+    >
       <Overlay<typeof Dropzone>
         component={Dropzone}
         onDrop={onDrop}

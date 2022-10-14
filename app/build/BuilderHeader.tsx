@@ -33,6 +33,7 @@ import { HiCog } from "@react-icons/all-files/hi/HiCog"
 import { useMutation } from "@blitzjs/rpc"
 import updatePage from "app/build-pages/mutations/updatePage"
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
+import TogglePublishPage2 from "./TogglePublishPage2"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -117,6 +118,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <Suspense fallback={<Skeleton height={32} width={90} />}>
               <AuthorizedActions />
             </Suspense>
+            <TogglePublishPage2 />
             <Suspense fallback={<Skeleton height={32} width={90} />}>
               <PageSettings />
             </Suspense>

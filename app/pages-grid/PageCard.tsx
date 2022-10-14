@@ -1,19 +1,33 @@
-import { AspectRatio, Avatar, Group, Paper, Stack, Text } from "@mantine/core"
+import {
+  AspectRatio,
+  AspectRatioProps,
+  Avatar,
+  Box,
+  Group,
+  Paper,
+  Stack,
+  Text,
+  Image as MantineImage,
+} from "@mantine/core"
 import { useHover } from "@mantine/hooks"
 import { Page as DBPage, User } from "@prisma/client"
 import Image from "next/image"
 // import placeholder from "public/pages/"
+import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt"
 
 export interface PageCardProps extends DBPage {
   user: {
     name: string
-    avatar: string
+    avatar: string | null
   }
 }
 
 import { createStyles } from "@mantine/core"
+import { Dropzone } from "@mantine/dropzone"
+import ImagePicker from "app/core/components/base/ImagePicker"
+import BuilderImagePicker from "app/build/BuilderImagePicker"
 
-const useStyles = createStyles((theme, _params, getRef) => ({
+const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getRef) => ({
   imageCard: {
     position: "relative",
     cursor: "pointer",
@@ -33,9 +47,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
         background: theme.fn.rgba(theme.black, 0.66),
       },
       // Type safe child reference in nested selectors via ref
-      [`& .${getRef("imageBottom")}`]: {
-        transform: "translateY(-100%)",
-      },
+      [`& .${getRef("imageBottom")}`]: cardLike
+        ? {
+            transform: "translateY(-100%)",
+          }
+        : undefined,
     },
   },
 
@@ -50,31 +66,61 @@ const useStyles = createStyles((theme, _params, getRef) => ({
   },
 }))
 
-const PageCard = ({ page }: { page: PageCardProps }) => {
-  const { classes } = useStyles()
+const CROP_AREA_ASPECT = 16 / 9
+
+const PageCard = ({
+  page,
+  previewImage,
+  imageStyles,
+  customizable,
+}: {
+  page: PageCardProps
+  customizable?: boolean
+  previewImage?: string
+  imageStyles?: Partial<AspectRatioProps>
+}) => {
+  const { classes } = useStyles({
+    cardLike: Boolean(!customizable || (customizable && previewImage)),
+  })
+
   return (
     <Stack spacing={4}>
-      <Paper
+      <Paper<"a">
         withBorder
         className={classes.imageCard}
-        component="a"
-        href={`/p/${page.id}`}
+        component={customizable ? undefined : "a"}
+        href={customizable ? `/p/${page.id}` : undefined}
         target="_blank"
       >
-        <AspectRatio
-          ratio={16 / 9}
+        <Box
           sx={(theme) => ({
+            paddingBottom: `${100 / CROP_AREA_ASPECT}%`,
             img: {
               borderRadius: theme.radius.sm,
             },
           })}
+          {...imageStyles}
         >
-          <Image
-            src="/pages/page-card-placeholder.png"
-            alt={page.name + " by " + page.user.name}
-            layout="fill"
-          />
-        </AspectRatio>
+          {customizable ? (
+            previewImage ? (
+              <Image alt="" layout="fill" src={previewImage} />
+            ) : (
+              <ImagePicker onDrop={() => 1}>
+                <Image
+                  src={previewImage || "/twoclicks-placeholder.png"}
+                  alt={page.name + " by " + page.user.name}
+                  layout="fill"
+                />
+              </ImagePicker>
+            )
+          ) : (
+            <Image
+              src={previewImage || "/twoclicks-placeholder.png"}
+              alt={page.name + " by " + page.user.name}
+              layout="fill"
+            />
+          )}
+        </Box>
         <Text
           className={classes.imageBottom}
           color="white"

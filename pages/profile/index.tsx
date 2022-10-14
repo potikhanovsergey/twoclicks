@@ -10,7 +10,7 @@ import { observer } from "mobx-react-lite"
 import CreatePageButton from "app/build-pages/CreatePageButton"
 
 const ProfilePages: BlitzPage = observer(() => {
-  const { t } = useTranslation("pages")
+  const { t } = useTranslation("dashboardPages")
   const { pages, havePagesLoaded } = AppStore
   return (
     <Container size="xl" style={{ height: "100%" }}>

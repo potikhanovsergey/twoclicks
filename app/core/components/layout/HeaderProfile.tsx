@@ -199,7 +199,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
               backgroundColor: menuHovered
                 ? theme.colorScheme === "dark"
                   ? theme.colors.dark[6]
-                  : theme.colors.gray[2]
+                  : theme.colors.gray[1]
                 : "",
             })}
           >

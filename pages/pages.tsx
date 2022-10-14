@@ -1,11 +1,11 @@
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import { Box, Container, Group, Select, Grid, Button } from "@mantine/core"
+import { Container } from "@mantine/core"
 import { useSession } from "@blitzjs/auth"
 import { AuthorizationError } from "blitz"
 import { useEffect } from "react"
-import PagesHeader from "app/pages/PagesHeader"
-import PagesGrid from "app/pages/PagesGrid"
-import { useInfiniteQuery, usePaginatedQuery, useQuery } from "@blitzjs/rpc"
+import PagesHeader from "app/pages-grid/PagesHeader"
+import PagesGrid from "app/pages-grid/PagesGrid"
+import { usePaginatedQuery } from "@blitzjs/rpc"
 import getAllPages from "app/build-pages/queries/getAllPages"
 import { useRouter } from "next/router"
 import { Page } from "@prisma/client"
@@ -39,14 +39,20 @@ const Pages = () => {
         },
       },
     },
-    where: {
-      isPublished: true,
-    },
+    // where: {
+    //   isPublished: true,
+    // },
   })
   return (
     <Container size="lg" pb="xl">
       <PagesHeader />
-      <PagesGrid pages={pages as (Page & { user: { name: string; avatar: string } })[]} />
+      <PagesGrid
+        pages={
+          pages as (Page & {
+            user: { name: string; avatar: string }
+          })[]
+        }
+      />
     </Container>
   )
 }
