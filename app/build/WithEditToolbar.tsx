@@ -230,7 +230,7 @@ const WithEditToolbar = ({
           {!element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} childrenProp={childrenProp} />
           )}
-          {element.editType === "section" && <SectionBGEdit element={element} />}
+          {/* {element.editType === "section" && <SectionBGEdit element={element} />} */}
           {element.type.includes("header") && <HeaderFixedEdit element={element} />}
           {!element?.disableDelete && (
             <ElementDeleteButton
