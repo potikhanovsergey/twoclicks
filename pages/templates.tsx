@@ -86,7 +86,7 @@ const Templates = () => {
             }}
           >
             <ThemeIcon variant="light" size={48}>
-              <BsCaretLeftFill size={32} color={theme.colors.violet[5]} />
+              <BsCaretLeftFill size={32} color={theme.colors.flame[5]} />
             </ThemeIcon>{" "}
           </UnstyledButton>
           <UnstyledButton
@@ -113,7 +113,7 @@ const Templates = () => {
             }}
           >
             <ThemeIcon variant="light" size={48}>
-              <BsCaretRightFill size={32} color={theme.colors.violet[5]} />
+              <BsCaretRightFill size={32} color={theme.colors.flame[5]} />
             </ThemeIcon>
           </UnstyledButton>
           <Page

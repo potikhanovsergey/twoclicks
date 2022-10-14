@@ -130,7 +130,7 @@ const TextEditor: React.FC<{
               size="md"
               radius={0}
               variant={editor.isActive("bold") ? "light" : "filled"}
-              color={editor.isActive("bold") ? "violet" : dark ? "dark" : "dark.4"}
+              color={editor.isActive("bold") ? "flame" : dark ? "dark" : "dark.4"}
               onClick={() => {
                 editor.chain().focus().toggleBold().run()
               }}
@@ -150,7 +150,7 @@ const TextEditor: React.FC<{
               size="md"
               radius={0}
               variant={editor.isActive({ textAlign: "left" }) ? "light" : "filled"}
-              color={editor.isActive({ textAlign: "left" }) ? "violet" : dark ? "dark" : "dark.4"}
+              color={editor.isActive({ textAlign: "left" }) ? "flame" : dark ? "dark" : "dark.4"}
               onClick={() => {
                 editor.chain().focus().setTextAlign("left").run()
               }}
@@ -170,7 +170,7 @@ const TextEditor: React.FC<{
               size="md"
               radius={0}
               variant={editor.isActive({ textAlign: "center" }) ? "light" : "filled"}
-              color={editor.isActive({ textAlign: "center" }) ? "violet" : dark ? "dark" : "dark.4"}
+              color={editor.isActive({ textAlign: "center" }) ? "flame" : dark ? "dark" : "dark.4"}
               onClick={() => {
                 editor.chain().focus().setTextAlign("center").run()
               }}
@@ -190,7 +190,7 @@ const TextEditor: React.FC<{
               size="md"
               radius={0}
               variant={editor.isActive({ textAlign: "right" }) ? "light" : "filled"}
-              color={editor.isActive({ textAlign: "right" }) ? "violet" : dark ? "dark" : "dark.4"}
+              color={editor.isActive({ textAlign: "right" }) ? "flame" : dark ? "dark" : "dark.4"}
               onClick={() => {
                 editor.chain().focus().setTextAlign("right").run()
               }}
@@ -210,9 +210,7 @@ const TextEditor: React.FC<{
               size="md"
               radius={0}
               variant={editor.isActive({ textAlign: "justify" }) ? "light" : "filled"}
-              color={
-                editor.isActive({ textAlign: "justify" }) ? "violet" : dark ? "dark" : "dark.4"
-              }
+              color={editor.isActive({ textAlign: "justify" }) ? "flame" : dark ? "dark" : "dark.4"}
               onClick={() => {
                 editor.chain().focus().setTextAlign("justify").run()
               }}
@@ -233,7 +231,7 @@ const TextEditor: React.FC<{
                 size="md"
                 radius={0}
                 variant={editor.isActive("link") ? "light" : "filled"}
-                color={editor.isActive("link") ? "violet" : dark ? "dark" : "dark.4"}
+                color={editor.isActive("link") ? "flame" : dark ? "dark" : "dark.4"}
                 onClick={() => {
                   editor.chain().focus().run()
                   setEditLinkActive(true)
@@ -252,7 +250,7 @@ const TextEditor: React.FC<{
               rightSection={
                 <ActionIcon
                   size="sm"
-                  color="violet"
+                  color="flame"
                   disabled={!linkValue.length}
                   onClick={() => {
                     let url = linkValue

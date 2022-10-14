@@ -61,7 +61,6 @@ const PublishModal = observer(() => {
 const TogglePublishPage2 = (props: TogglePublishPage2Props) => {
   return (
     <Button
-      color="indigo"
       size="xs"
       {...props}
       onClick={() => {

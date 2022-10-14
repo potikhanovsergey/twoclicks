@@ -59,7 +59,7 @@ const ImagePicker = forwardRef(({ children, onDrop, boxProps, ...rest }: ImagePi
         >
           {hovered && (
             <Stack align="center">
-              <ThemeIcon variant="gradient" gradient={{ from: "violet", to: "red" }} radius="sm">
+              <ThemeIcon variant="gradient" gradient={{ from: "flame", to: "red" }} radius="sm">
                 <FaImage size="65%" color="#fff" />
               </ThemeIcon>
               <Badge size="sm">Max size: 32MB</Badge>

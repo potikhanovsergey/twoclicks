@@ -48,7 +48,7 @@ const PagePage = () => {
 
   useDocumentTitle(page?.name || "Twoclicks")
   if (isLoading)
-    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
+    return <LoadingOverlay visible={true} loader={<Loader color="flame" size={32} />} />
 
   return (
     <>

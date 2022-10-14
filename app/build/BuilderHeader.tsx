@@ -135,15 +135,21 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             {session.userId ? <PageName /> : <Text>Authorize to see more features 🙂</Text>}
           </Box>
           <Group spacing={8}>
-            <HistoryButtons color="dark" size={30} variant="filled" />
-            <ViewportButtons color="dark" size={30} />
+            <HistoryButtons size={30} variant="light" />
+            <ViewportButtons variant="light" color="flame" size={30} />
             <Tooltip
               label={fullscreen ? t("turn off fullscreen mode") : t("turn on fullscreen mode")}
               withArrow
               position="bottom"
               opened={fullscreenHovered}
             >
-              <ActionIcon onClick={toggle} color="dark" size={30} ref={fullscreenRef}>
+              <ActionIcon
+                onClick={toggle}
+                variant="light"
+                color="flame"
+                size={30}
+                ref={fullscreenRef}
+              >
                 {fullscreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />}
               </ActionIcon>
             </Tooltip>

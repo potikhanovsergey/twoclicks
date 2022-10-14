@@ -55,7 +55,7 @@ const ElementMoves = ({ element, parentID }: IElementMoves) => {
         >
           <ActionIcon
             size="md"
-            color="violet"
+            color="flame"
             onClick={() =>
               moveLeft(
                 {
@@ -80,7 +80,6 @@ const ElementMoves = ({ element, parentID }: IElementMoves) => {
         >
           <ActionIcon
             size="md"
-            color="violet"
             onClick={() =>
               moveRight(
                 {

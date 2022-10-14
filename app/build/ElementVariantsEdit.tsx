@@ -34,7 +34,7 @@ const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
       tooltipProps={{
         label: t("variants"),
         children: (
-          <ActionIcon color="violet">
+          <ActionIcon>
             <FaMagic />
           </ActionIcon>
         ),

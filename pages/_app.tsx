@@ -45,7 +45,21 @@ const CustomTheme: MantineThemeOverride = {
   headings: {
     fontFamily: "'Nunito', sans-serif",
   },
-  primaryColor: "violet",
+  colors: {
+    flame: [
+      "#fee4e4",
+      "#fdc9c9",
+      "#fbafaf",
+      "#fba1a1",
+      "#fa8686",
+      "#F97979",
+      "#e06d6d",
+      "#c76161",
+      "#ae5555",
+      "#954949",
+    ],
+  },
+  primaryColor: "flame",
   primaryShade: 5,
   globalStyles: (theme) => ({
     "*, *::before, *::after": {
@@ -55,7 +69,7 @@ const CustomTheme: MantineThemeOverride = {
       scrollBehavior: "smooth",
     },
     "::selection": {
-      background: theme.colors.violet[4],
+      background: theme.colors.flame[4],
       color: theme.white,
       WebkitTextFillColor: theme.white,
     },

@@ -48,7 +48,7 @@ const TemplateModalForm = ({ page }: { page: Page }) => {
               <Group align="center" spacing={8}>
                 <Text>
                   Page{" "}
-                  <Text color="violet" component="span">
+                  <Text color="flame" component="span">
                     {values.newPageName}
                   </Text>{" "}
                   is successfuly created from a template!
@@ -88,7 +88,7 @@ const _TemplateModal = forwardRef<HTMLButtonElement, TemplateModalProps>(
             title: (
               <Text>
                 Selecting{" "}
-                <Text component="span" color="violet">
+                <Text component="span" color="flame">
                   {page.name}
                 </Text>{" "}
                 as a template

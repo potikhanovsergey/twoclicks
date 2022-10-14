@@ -90,11 +90,7 @@ const SaveRedirectButton = observer(() => {
 
   const { t } = useTranslation("build")
 
-  return (
-    <Button color="violet" onClick={handleSaveAndRedirect}>
-      {t("save and go to the auth page")}
-    </Button>
-  )
+  return <Button onClick={handleSaveAndRedirect}>{t("save and go to the auth page")}</Button>
 })
 
 const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
@@ -318,7 +314,7 @@ const Builder = () => {
               ".builder-block ::selection": {
                 background:
                   theme.colors?.[data?.themeSettings?.palette?.primary]?.[4] ||
-                  theme.colors.violet[4],
+                  theme.colors.flame[4],
                 color: theme.white,
                 WebkitTextFillColor: theme.white,
               },

@@ -44,7 +44,7 @@ const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getR
     },
     "&:hover": {
       "&:after": {
-        background: theme.fn.rgba(theme.black, 0.66),
+        background: theme.fn.rgba(theme.black, 0.5),
       },
       // Type safe child reference in nested selectors via ref
       [`& .${getRef("imageBottom")}`]: cardLike
@@ -73,11 +73,13 @@ const PageCard = ({
   previewImage,
   imageStyles,
   customizable,
+  toBuild,
 }: {
   page: PageCardProps
   customizable?: boolean
   previewImage?: string
   imageStyles?: Partial<AspectRatioProps>
+  toBuild?: boolean
 }) => {
   const { classes } = useStyles({
     cardLike: Boolean(!customizable || (customizable && previewImage)),
@@ -89,8 +91,8 @@ const PageCard = ({
         withBorder
         className={classes.imageCard}
         component={customizable ? undefined : "a"}
-        href={customizable ? `/p/${page.id}` : undefined}
-        target="_blank"
+        href={customizable ? undefined : `/${toBuild ? "build" : "p"}/${page.id}`}
+        target={customizable || toBuild ? undefined : "_blank"}
       >
         <Box
           sx={(theme) => ({

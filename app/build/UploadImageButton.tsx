@@ -46,7 +46,7 @@ const UploadImageButton = ({ onImagePick, id }: UploadImageButtonProps) => {
         accept="image/png,image/jpeg"
       >
         {(props) => (
-          <Button {...props} fullWidth color="violet" compact>
+          <Button {...props} fullWidth compact>
             {t("uploadImage")}
           </Button>
         )}

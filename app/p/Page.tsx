@@ -79,7 +79,7 @@ const Page = ({ page }: { page: IPage | null }) => {
             "::selection": {
               background:
                 theme?.colors?.[page?.themeSettings?.palette?.primary]?.[4] ||
-                theme.colors.violet[4],
+                theme.colors.flame[4],
               color: theme.white,
               WebkitTextFillColor: theme.white,
             },
@@ -88,7 +88,7 @@ const Page = ({ page }: { page: IPage | null }) => {
       </AppShell>
     )
   }
-  return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
+  return <LoadingOverlay visible={true} loader={<Loader size={32} />} />
 }
 
 export default observer(Page)

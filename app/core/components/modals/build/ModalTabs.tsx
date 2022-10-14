@@ -48,10 +48,10 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
         icon: <BiGridSmall size={24} color={theme.colors.indigo[5]} />,
       },
       {
-        color: "violet",
+        color: "flame",
         value: "Popular",
         viewlistType: "popular",
-        icon: <WiStars size={16} color={theme.colors.violet[5]} />,
+        icon: <WiStars size={16} color={theme.colors.flame[5]} />,
       },
       {
         color: "red",

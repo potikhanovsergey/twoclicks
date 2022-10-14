@@ -103,8 +103,8 @@ const PaletteItem = (props: IPaletteItem) => {
                 ? {
                     backgroundColor:
                       theme.colorScheme === "dark"
-                        ? theme.fn.rgba(theme.colors.violet[9], 0.2)
-                        : theme.colors.violet[0],
+                        ? theme.fn.rgba(theme.colors.flame[9], 0.2)
+                        : theme.colors.flame[0],
                   }
                 : undefined,
               "&:active": {
@@ -113,7 +113,7 @@ const PaletteItem = (props: IPaletteItem) => {
             })}
           >
             {hasBG ? (
-              <BsFillImageFill size={16} color={theme.colors.violet[5]} />
+              <BsFillImageFill size={16} color={theme.colors.flame[5]} />
             ) : (
               <ColorSwatch radius="xs" size={16} color={hexColor} />
             )}

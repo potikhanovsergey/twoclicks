@@ -227,7 +227,7 @@ const DashboardIndex = () => {
                 <Button
                   compact
                   key={S.id}
-                  color={S.hidden ? "gray" : "violet"}
+                  color={S.hidden ? "gray" : undefined}
                   leftIcon={S.hidden ? <FaEyeSlash /> : <FaEye />}
                   onClick={() => handlePickBuildingBlock(S, "db")}
                 >
@@ -296,7 +296,6 @@ const DashboardIndex = () => {
                 Удалить из БД
               </Button>
               <Button
-                color="violet"
                 loading={isUpdating}
                 onClick={async () => {
                   if (selectedDBElement) {

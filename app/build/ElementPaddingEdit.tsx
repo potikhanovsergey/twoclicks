@@ -49,7 +49,7 @@ const ElementPaddingEdit = ({ element, type, y, x }: IElementPaddingEdit) => {
         label: t("spacings"),
         position: element.editType === "section" ? "left" : undefined,
         children: (
-          <ActionIcon color="violet">
+          <ActionIcon>
             <FaArrowsAlt />
           </ActionIcon>
         ),

@@ -1,21 +1,28 @@
 import { useSession } from "@blitzjs/auth"
 import { useQuery } from "@blitzjs/rpc"
-import { Skeleton } from "@mantine/core"
+import { SimpleGrid, Skeleton } from "@mantine/core"
 import { observer } from "mobx-react-lite"
 import { useEffect } from "react"
 import { AppStore } from "store"
-import PageCard from "./PageCard"
+// import PageCard from "./PageCard"
 import getUserPages from "./queries/getUserPages"
+import PageCard from "app/pages-grid/PageCard"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const PageCardsItems = observer(() => {
   const { pages } = AppStore
+  const user = useCurrentUser()
 
-  return pages ? (
-    <ul style={{ padding: 0, margin: 0 }}>
+  return pages && user ? (
+    <SimpleGrid cols={3}>
       {pages.map((page) => (
-        <PageCard page={page} key={page.id} />
+        <PageCard
+          toBuild
+          page={{ ...page, user: { name: user?.name, avatar: user?.avatar } }}
+          key={page.id}
+        />
       ))}
-    </ul>
+    </SimpleGrid>
   ) : (
     <></>
   )

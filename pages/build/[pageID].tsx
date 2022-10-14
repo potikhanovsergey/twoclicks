@@ -118,8 +118,7 @@ const BuildPage = () => {
     if (!session.userId) setPages([])
   }, [fetchedPages, session, havePagesLoaded])
 
-  if (isLoading)
-    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
+  if (isLoading) return <LoadingOverlay visible={true} loader={<Loader size={32} />} />
 
   return (
     <>

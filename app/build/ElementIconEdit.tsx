@@ -51,7 +51,6 @@ const ElementIconEdit = ({ element, propName }: IElementIconEdit) => {
           isThemeIcon={true}
           themeIconProps={{
             variant: "subtle",
-            color: "violet",
           }}
           icon={
             propName === "rightIcon" || propName === "rightSection" ? (

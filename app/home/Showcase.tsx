@@ -88,7 +88,7 @@ const ShowcaseCard = ({ link, src, alt, children, ...rest }: ShowcasesProps) => 
       <Link href={link} passHref>
         <Box className={classes.showcaseCard} component="a" target="_blank" {...rest}>
           <Image src={src} alt={alt} layout="fill" style={{ borderRadius: "30px" }} />
-          <Badge variant="filled" color="violet" className={classes.showcaseText} size="xl">
+          <Badge variant="filled" className={classes.showcaseText} size="xl">
             {t("clickToView")}
           </Badge>
         </Box>
