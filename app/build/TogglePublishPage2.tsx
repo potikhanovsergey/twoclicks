@@ -3,7 +3,7 @@ import { openModal } from "@mantine/modals"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import PageCard from "app/pages-grid/PageCard"
 import { observer } from "mobx-react-lite"
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { AppStore } from "store"
 import { BuildStore } from "store/build"
 
@@ -30,6 +30,19 @@ const PublishModal = observer(() => {
     return null
   }, [id])
 
+  const [customizable, setCustomizable] = useState(false)
+  const [previewFile, setPreviewFile] = useState<File | null>(null)
+  const [previewImage, setPreviewImage] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (previewFile) {
+      const imageURL = URL.createObjectURL(previewFile)
+      setPreviewImage(imageURL)
+    } else {
+      setPreviewImage(null)
+    }
+  }, [previewFile])
+
   return (
     <>
       {page && (
@@ -44,10 +57,28 @@ const PublishModal = observer(() => {
               "> div": { width: "100%" },
             }}
           >
-            <Title order={4} span>
-              Preview
-            </Title>
-            <PageCard page={page} customizable />
+            <Group position="apart" align="center">
+              <Text size="md" span weight={400}>
+                Preview (16x9)
+              </Text>
+              <Button
+                compact
+                variant="default"
+                size="sm"
+                onClick={() => setCustomizable((c) => !c)}
+              >
+                {customizable ? "Save preview" : "Edit preview"}
+              </Button>
+            </Group>
+            <PageCard
+              page={page}
+              previewImage={previewImage}
+              customizable={customizable}
+              onDrop={(files) => {
+                const file = files[0]
+                setPreviewFile(file)
+              }}
+            />
           </Box>
           <Button mt={32} sx={{ alignSelf: "center" }}>
             Publish the page

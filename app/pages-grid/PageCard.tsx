@@ -12,7 +12,7 @@ export interface PageCardProps extends DBPage {
 
 import { createStyles } from "@mantine/core"
 import ImagePicker from "app/core/components/base/ImagePicker"
-import { ReactNode } from "react"
+import { ReactNode, useEffect } from "react"
 import PageCardOptions from "./PageCardOptions"
 
 const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getRef) => ({
@@ -64,19 +64,26 @@ const PageCard = ({
   toBuild,
   bottomNode,
   withOptions,
+  onDrop,
 }: {
   page: PageCardProps
   customizable?: boolean
-  previewImage?: string
+  previewImage?: string | null
   imageStyles?: Partial<AspectRatioProps>
   toBuild?: boolean
   bottomNode?: ReactNode
   withOptions?: boolean
+  onDrop?: (files: File[]) => void
 }) => {
   const { classes } = useStyles({
     cardLike: Boolean(!customizable || (customizable && previewImage)),
   })
 
+  useEffect(() => {
+    return () => {
+      previewImage && URL.revokeObjectURL(previewImage)
+    }
+  }, [])
   return (
     <Stack spacing={4} sx={{ position: "relative" }}>
       {withOptions && <PageCardOptions page={page} />}
@@ -96,18 +103,14 @@ const PageCard = ({
           })}
           {...imageStyles}
         >
-          {customizable ? (
-            previewImage ? (
-              <Image alt="" layout="fill" src={previewImage} />
-            ) : (
-              <ImagePicker onDrop={() => 1}>
-                <Image
-                  src={previewImage || "/twoclicks-placeholder.png"}
-                  alt={page.name + " by " + page.user.name}
-                  layout="fill"
-                />
-              </ImagePicker>
-            )
+          {customizable && onDrop ? (
+            <ImagePicker onDrop={onDrop}>
+              <Image
+                src={previewImage || "/twoclicks-placeholder.png"}
+                alt={page.name + " by " + page.user.name}
+                layout="fill"
+              />
+            </ImagePicker>
           ) : (
             <Image
               src={previewImage || "/twoclicks-placeholder.png"}
@@ -116,18 +119,20 @@ const PageCard = ({
             />
           )}
         </Box>
-        <Text
-          className={classes.imageBottom}
-          color="white"
-          sx={{
-            overflow: "hidden",
-            textOverflow: "ellipsis",
-            maxWidth: "24ch",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {page.name}
-        </Text>
+        {!customizable && (
+          <Text
+            className={classes.imageBottom}
+            color="white"
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              maxWidth: "24ch",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {page.name}
+          </Text>
+        )}
       </Paper>
       {bottomNode}
     </Stack>
