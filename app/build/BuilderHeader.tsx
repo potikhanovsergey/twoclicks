@@ -29,7 +29,7 @@ import useTranslation from "next-translate/useTranslation"
 import SaveButton from "./SaveButton"
 import PageName from "./PageName"
 import PageThemeSettings from "./PageThemeSettings"
-import { HiCog } from "@react-icons/all-files/hi/HiCog"
+import { FaCog } from "@react-icons/all-files/fa/FaCog"
 import { useMutation } from "@blitzjs/rpc"
 import updatePage from "app/build-pages/mutations/updatePage"
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
@@ -67,7 +67,7 @@ const PageSettings = observer(() => {
             variant={dark ? ("white" as "filled") : "filled"}
             ref={iconRef}
           >
-            <HiCog />
+            <FaCog />
           </ActionIcon>
         </Tooltip>
       </Popover.Target>

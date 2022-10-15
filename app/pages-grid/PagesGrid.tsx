@@ -1,7 +1,8 @@
 import { Box, SimpleGrid, Skeleton, createStyles } from "@mantine/core"
-import { forwardRef, ReactNode } from "react"
 import { VirtuosoGrid } from "react-virtuoso"
 import PageCard, { PageCardProps } from "./PageCard"
+import FeedPageCardBottom from "./FeedPageCardBottom"
+import FeedPageCard from "app/build-pages/FeedPageCard"
 
 interface PagesGridProps {
   pages: PageCardProps[]
@@ -36,7 +37,7 @@ const PagesGrid = ({ pages }: PagesGridProps) => {
       //     </Box>
       //   ),
       // }}
-      itemContent={(index) => <PageCard page={pages[index]} key={pages[index].id} />}
+      itemContent={(index) => <FeedPageCard page={pages[index]} key={pages[index].id} />}
       // scrollSeekConfiguration={{
       //   enter: (velocity) => Math.abs(velocity) > 200,
       //   exit: (velocity) => Math.abs(velocity) < 30,

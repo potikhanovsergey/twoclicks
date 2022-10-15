@@ -1,19 +1,7 @@
-import {
-  AspectRatio,
-  AspectRatioProps,
-  Avatar,
-  Box,
-  Group,
-  Paper,
-  Stack,
-  Text,
-  Image as MantineImage,
-} from "@mantine/core"
-import { useHover } from "@mantine/hooks"
-import { Page as DBPage, User } from "@prisma/client"
+import { AspectRatioProps, Avatar, Box, Group, Paper, Stack, Text } from "@mantine/core"
+import { Page as DBPage } from "@prisma/client"
 import Image from "next/image"
 // import placeholder from "public/pages/"
-import { FaExternalLinkAlt } from "@react-icons/all-files/fa/FaExternalLinkAlt"
 
 export interface PageCardProps extends DBPage {
   user: {
@@ -23,9 +11,9 @@ export interface PageCardProps extends DBPage {
 }
 
 import { createStyles } from "@mantine/core"
-import { Dropzone } from "@mantine/dropzone"
 import ImagePicker from "app/core/components/base/ImagePicker"
-import BuilderImagePicker from "app/build/BuilderImagePicker"
+import { ReactNode } from "react"
+import PageCardOptions from "./PageCardOptions"
 
 const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getRef) => ({
   imageCard: {
@@ -74,19 +62,24 @@ const PageCard = ({
   imageStyles,
   customizable,
   toBuild,
+  bottomNode,
+  withOptions,
 }: {
   page: PageCardProps
   customizable?: boolean
   previewImage?: string
   imageStyles?: Partial<AspectRatioProps>
   toBuild?: boolean
+  bottomNode?: ReactNode
+  withOptions?: boolean
 }) => {
   const { classes } = useStyles({
     cardLike: Boolean(!customizable || (customizable && previewImage)),
   })
 
   return (
-    <Stack spacing={4}>
+    <Stack spacing={4} sx={{ position: "relative" }}>
+      {withOptions && <PageCardOptions page={page} />}
       <Paper<"a">
         withBorder
         className={classes.imageCard}
@@ -136,28 +129,7 @@ const PageCard = ({
           {page.name}
         </Text>
       </Paper>
-
-      <Group position="apart" align="center" noWrap>
-        <Group spacing={6} align="center" noWrap>
-          <Avatar src={page.user.avatar} variant="light" size="sm" radius="xl" />
-          <Text
-            weight="bold"
-            size="sm"
-            sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "24ch",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {page.user.name}
-          </Text>
-        </Group>
-
-        <Text color="dimmed" size="sm">
-          View count
-        </Text>
-      </Group>
+      {bottomNode}
     </Stack>
   )
 }

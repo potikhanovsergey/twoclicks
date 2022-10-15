@@ -14,14 +14,11 @@ const PageCardsItems = observer(() => {
   const user = useCurrentUser()
 
   return pages && user ? (
-    <SimpleGrid cols={3}>
-      {pages.map((page) => (
-        <PageCard
-          toBuild
-          page={{ ...page, user: { name: user?.name, avatar: user?.avatar } }}
-          key={page.id}
-        />
-      ))}
+    <SimpleGrid cols={3} spacing={32}>
+      {pages.map((page) => {
+        const pageWithUser = { ...page, user: { name: user?.name, avatar: user?.avatar } }
+        return <PageCard toBuild page={pageWithUser} key={page.id} withOptions />
+      })}
     </SimpleGrid>
   ) : (
     <></>
