@@ -23,11 +23,7 @@ import { memo, useEffect, useMemo, useState } from "react"
 import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 import ButtonGroup, { GroupButtonProps } from "../base/ButtonGroup"
-
-export const ProfileItem = {
-  href: "/profile",
-  children: "profile",
-}
+import { useSession } from "@blitzjs/auth"
 
 export const MenuItemSx: Sx = (theme) => ({
   fontWeight: 700,
@@ -85,6 +81,15 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
 
   const { locale } = useRouter()
 
+  const profileItem = useMemo(() => {
+    return user
+      ? {
+          href: `/profile/${user.id}`,
+          children: "profile",
+        }
+      : null
+  }, [user])
+
   const menuItems: GroupButtonProps[] = useMemo(() => {
     const formatedMenuItems: GroupButtonProps[] = ConstMenuItems.map((i) => ({
       elType: "menuItem",
@@ -102,12 +107,13 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
           href: "/templates",
         })
       }
-      formatedMenuItems.unshift({
-        elType: "menuItem",
-        sx: MenuItemSx,
-        children: t(ProfileItem.children),
-        href: ProfileItem.href,
-      })
+      profileItem &&
+        formatedMenuItems.unshift({
+          elType: "menuItem",
+          sx: MenuItemSx,
+          children: t(profileItem.children),
+          href: profileItem.href,
+        })
       formatedMenuItems.push({
         elType: "menuItem",
         sx: (theme) => ({

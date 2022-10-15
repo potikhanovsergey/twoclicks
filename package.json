@@ -54,7 +54,6 @@
     "@uiw/react-codemirror": "4.11.4",
     "axios": "0.27.2",
     "blitz": "2.0.0-beta.4",
-    "bson-objectid": "2.0.3",
     "cookies-next": "2.1.1",
     "embla-carousel-react": "7.0.3",
     "framer-motion": "7.3.5",

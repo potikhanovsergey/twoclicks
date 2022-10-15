@@ -5,6 +5,8 @@ import useTranslation from "next-translate/useTranslation"
 import Link from "next/link"
 
 import { FaBriefcase } from "@react-icons/all-files/fa/FaBriefcase"
+import { FaInfoCircle } from "@react-icons/all-files/fa/FaInfoCircle"
+
 import { BiStats } from "@react-icons/all-files/bi/BiStats"
 import { RiVipCrown2Fill } from "@react-icons/all-files/ri/RiVipCrown2Fill"
 import { BsQuestionCircleFill } from "@react-icons/all-files/bs/BsQuestionCircleFill"
@@ -71,6 +73,12 @@ export function ProfileLinks() {
       color: "teal",
       label: "support",
       link: "/profile/support",
+    },
+    {
+      icon: <FaInfoCircle />,
+      color: "violet",
+      label: "info",
+      link: "/profile/info",
     },
   ])
   const links = data.map((link) => <ProfileLink {...link} key={link.label} />)
