@@ -314,7 +314,7 @@ const Builder = () => {
               ".builder-block ::selection": {
                 background:
                   theme.colors?.[data?.themeSettings?.palette?.primary]?.[4] ||
-                  theme.colors.flame[4],
+                  theme.colors.primary[4],
                 color: theme.white,
                 WebkitTextFillColor: theme.white,
               },

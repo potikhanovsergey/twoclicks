@@ -21,8 +21,8 @@ const HeaderFixedEdit = ({ element }: IHeaderFixedEdit) => {
       label={element.props.fixed ? "Scrolls with page" : "Stays on top"}
     >
       <ActionIcon
-        size="sm"
         variant="subtle"
+        radius={0}
         onClick={() => {
           changeProp({
             id: element.id,

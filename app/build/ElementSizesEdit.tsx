@@ -36,7 +36,7 @@ const ElementSizesEdit = ({ element }: IElementSizesEdit) => {
       tooltipProps={{
         label: t("sizes"),
         children: (
-          <ActionIcon>
+          <ActionIcon radius={0}>
             <GiResize />
           </ActionIcon>
         ),

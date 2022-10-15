@@ -265,7 +265,6 @@ const HomeHero = (props: BoxProps) => {
                 color={dark ? "gray.0" : "dark.9"}
                 size="lg"
                 fullWidth
-                radius="md"
                 sx={{
                   maxWidth: "200px",
                 }}

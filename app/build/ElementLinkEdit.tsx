@@ -99,7 +99,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
       tooltipProps={{
         label: t("linkify"),
         children: (
-          <ActionIcon>
+          <ActionIcon radius={0}>
             <FaLink />
           </ActionIcon>
         ),

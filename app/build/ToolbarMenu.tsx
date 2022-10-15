@@ -17,7 +17,7 @@ const ToolbarPopover = ({ menuProps, tooltipProps, dropdownProps }: IToolbarPopo
       <Popover.Target>
         <div ref={targetRef} onClick={() => setMenuOpened((o) => !o)}>
           <Tooltip
-            zIndex={301}
+            zIndex={1001}
             withinPortal
             withArrow
             opened={targetHovered && !menuOpened}

@@ -25,7 +25,7 @@ const ElementDeleteButton = ({
     >
       <ActionIcon
         color="red"
-        size="md"
+        radius={0}
         onClick={() => {
           deleteElement({ id: element.id, parentID, childrenProp })
         }}

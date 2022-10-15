@@ -30,7 +30,8 @@ const PreviewPage = () => {
         styles={(theme) => ({
           "::selection": {
             background:
-              theme?.colors?.[page?.themeSettings?.palette?.primary]?.[4] || theme.colors.flame[4],
+              theme?.colors?.[page?.themeSettings?.palette?.primary]?.[4] ||
+              theme.colors.primary[4],
             color: theme.white,
             WebkitTextFillColor: theme.white,
           },

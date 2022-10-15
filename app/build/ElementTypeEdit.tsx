@@ -30,7 +30,7 @@ const ElementTypeEdit = ({ types, element }: IElementTypeEdit) => {
       tooltipProps={{
         label: t("sizes"),
         children: (
-          <Button compact size="xs" variant="light">
+          <Button compact size="xs" variant="light" radius={0}>
             Type
           </Button>
         ),

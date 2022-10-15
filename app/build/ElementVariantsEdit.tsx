@@ -34,7 +34,7 @@ const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
       tooltipProps={{
         label: t("variants"),
         children: (
-          <ActionIcon>
+          <ActionIcon radius={0}>
             <FaMagic />
           </ActionIcon>
         ),

@@ -84,7 +84,7 @@ const DashboardPages = () => {
               <Text weight="bold" size="lg">
                 {page.user.name}
               </Text>
-              <Text weight="bold" size="lg" color="flame">
+              <Text weight="bold" size="lg" color="primary">
                 {page.user.email}
               </Text>
             </Group>

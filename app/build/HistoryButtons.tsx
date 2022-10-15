@@ -59,7 +59,7 @@ const HistoryButtons = (props: ActionIconProps) => {
         <div>
           <ActionIcon
             {...props}
-            color="flame"
+            color="primary"
             variant="light"
             onClick={undo}
             disabled={!isUndoActive}
@@ -92,7 +92,7 @@ const HistoryButtons = (props: ActionIconProps) => {
         onClick={redo}
       >
         <div>
-          <ActionIcon {...props} color="flame" variant="light" disabled={!isRedoActive}>
+          <ActionIcon {...props} color="primary" variant="light" disabled={!isRedoActive}>
             <BiRedo size="66%" />
           </ActionIcon>
         </div>

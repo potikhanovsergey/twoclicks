@@ -19,12 +19,12 @@ configure({
 
 export const defaultThemeSettings: IThemeSettings = {
   palette: {
-    primary: "flame",
+    primary: "primary",
   },
   radius: "md",
   gradient: {
     from: "red",
-    to: "flame",
+    to: "primary",
   },
   variant: "filled",
 }

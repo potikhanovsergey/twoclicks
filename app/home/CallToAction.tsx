@@ -118,6 +118,8 @@ const CallToAction = (props: ContainerProps) => {
           <Button
             component="a"
             rightIcon={<BsArrowRight size="20px" />}
+            variant="gradient"
+            gradient={{ from: "blue", to: "primary", deg: 60 }}
             sx={{
               width: "260px",
               height: "64px",
@@ -130,7 +132,6 @@ const CallToAction = (props: ContainerProps) => {
                 height: "36px",
               },
             }}
-            radius="md"
           >
             <Text
               sx={{

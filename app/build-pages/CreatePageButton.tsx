@@ -47,7 +47,7 @@ const CreatePageButton = (props: ICreatePageButton) => {
     <Button
       onClick={handleCreatePage}
       // variant="gradient"
-      // gradient={{ from: "flame", to: "red", deg: 110 }}
+      // gradient={{ from: "primary", to: "red", deg: 110 }}
 
       rightIcon={<FiPlusSquare />}
       {...props}

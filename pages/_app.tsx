@@ -46,20 +46,32 @@ const CustomTheme: MantineThemeOverride = {
     fontFamily: "'Nunito', sans-serif",
   },
   colors: {
-    flame: [
-      "#fee4e4",
-      "#fdc9c9",
-      "#fbafaf",
-      "#fba1a1",
-      "#fa8686",
-      "#F97979",
-      "#e06d6d",
-      "#c76161",
-      "#ae5555",
-      "#954949",
+    primary: [
+      "#e9e6ff",
+      "#dfd9ff",
+      "#c9c0ff",
+      "#beb3ff",
+      "#a99aff",
+      "#9381ff",
+      "#8474e6",
+      "#7667cc",
+      "#675ab3",
+      "#584d99",
     ],
+    // primary: [
+    //   "#fef2f2",
+    //   "#fdd7d7",
+    //   "#fcbcbc",
+    //   "#fba1a1",
+    //   "#fa8686",
+    //   "#F97979",
+    //   "#e06d6d",
+    //   "#c76161",
+    //   "#ae5555",
+    //   "#954949",
+    // ],
   },
-  primaryColor: "flame",
+  primaryColor: "primary",
   primaryShade: 5,
   globalStyles: (theme) => ({
     "*, *::before, *::after": {
@@ -69,7 +81,7 @@ const CustomTheme: MantineThemeOverride = {
       scrollBehavior: "smooth",
     },
     "::selection": {
-      background: theme.colors.flame[4],
+      background: theme.colors.primary[4],
       color: theme.white,
       WebkitTextFillColor: theme.white,
     },
@@ -96,6 +108,29 @@ const CustomTheme: MantineThemeOverride = {
     },
   }),
   components: {
+    ActionIcon: {
+      defaultProps: {
+        color: "violet",
+        radius: "sm",
+      },
+    },
+    Button: {
+      defaultProps: {
+        radius: "sm",
+      },
+    },
+    ColorSwatch: {
+      defaultProps: {
+        radius: "xl",
+      },
+    },
+    ColorPicker: {
+      styles: (theme) => ({
+        swatch: {
+          borderRadius: theme.radius.xl,
+        },
+      }),
+    },
     Paper: {
       styles: (theme) => ({
         root: {

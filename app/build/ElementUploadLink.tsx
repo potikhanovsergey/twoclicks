@@ -56,7 +56,7 @@ const ElementUploadLink = ({ element, targetIcon = <FaCloudUploadAlt /> }: IElem
       }}
       tooltipProps={{
         label: t("changeTheSource"),
-        children: <ActionIcon>{targetIcon}</ActionIcon>,
+        children: <ActionIcon radius={0}>{targetIcon}</ActionIcon>,
       }}
       dropdownProps={{
         p: 8,

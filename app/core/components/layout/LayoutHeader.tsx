@@ -112,7 +112,7 @@ const LayoutHeader = ({
           {withProfile && (
             <MediaQuery smallerThan="md" styles={{ display: "none" }}>
               <div>
-                <Suspense fallback={<Skeleton height={32} width={200} radius="md" animate />}>
+                <Suspense fallback={<Skeleton height={32} width={200} animate />}>
                   <HeaderProfile withAuthButton={withAuthButton} />
                 </Suspense>
               </div>

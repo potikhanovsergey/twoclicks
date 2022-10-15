@@ -44,7 +44,7 @@ const PageLink = ({
           <Tooltip label={copied ? t("link copied") : t("copy link")} withArrow position="bottom">
             <ActionIcon
               aria-label="Copy the page URL"
-              color={copied ? "teal" : "flame"}
+              color={copied ? "teal" : "primary"}
               variant="subtle"
               onClick={copy}
               size="sm"

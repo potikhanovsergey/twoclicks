@@ -98,7 +98,12 @@ const Onboarding = () => {
             <Text size="xs" color={theme.colorScheme === "dark" ? theme.white : theme.black}>
               60% {t("complete")}
             </Text>
-            <Badge size="xs" radius="sm" variant="gradient" gradient={{ from: "flame", to: "red" }}>
+            <Badge
+              size="xs"
+              radius="sm"
+              variant="gradient"
+              gradient={{ from: "primary", to: "red" }}
+            >
               10% discount reward
             </Badge>
           </Group>

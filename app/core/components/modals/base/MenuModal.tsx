@@ -127,7 +127,7 @@ const MenuModal = () => {
           styles={{
             control: {
               textAlign: "center",
-              backgroundColor: dark ? theme.colors.dark[5] : theme.colors.flame[0],
+              backgroundColor: dark ? theme.colors.dark[5] : theme.colors.primary[0],
               paddingTop: 0,
               paddingBottom: 0,
               minHeight: "34px",
@@ -137,7 +137,7 @@ const MenuModal = () => {
               position: "absolute",
               left: "50%",
               transform: "translateX(-50%)",
-              color: dark ? theme.white : theme.colors.flame[5],
+              color: dark ? theme.white : theme.colors.primary[5],
               fontSize: "14px",
             },
           }}
@@ -155,7 +155,7 @@ const MenuModal = () => {
           <Link passHref href={menuItem.route} key={menuItem.text}>
             <Button
               title={t(menuItem.title)}
-              color={dark ? "dark" : "flame"}
+              color={dark ? "dark" : "primary"}
               fullWidth
               variant={dark ? "filled" : "light"}
             >

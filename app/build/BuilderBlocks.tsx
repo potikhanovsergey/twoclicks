@@ -54,7 +54,6 @@ const Blocks = observer(() => {
       ) : (
         <Center style={{ height: "100%" }}>
           <Button
-            radius="sm"
             variant={dark ? "white" : "filled"}
             color="dark"
             size="md"
