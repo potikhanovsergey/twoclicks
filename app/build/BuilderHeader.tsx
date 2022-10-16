@@ -15,7 +15,7 @@ import {
 } from "@mantine/core"
 import { useFullscreen, useHover } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
-import React, { Suspense, useState } from "react"
+import React, { Suspense, useMemo, useState } from "react"
 import { AiOutlineFullscreen } from "@react-icons/all-files/ai/AiOutlineFullscreen"
 import { AiOutlineFullscreenExit } from "@react-icons/all-files/ai/AiOutlineFullscreenExit"
 
@@ -34,6 +34,8 @@ import { useMutation } from "@blitzjs/rpc"
 import updatePage from "app/build-pages/mutations/updatePage"
 import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import TogglePublishPage2 from "./TogglePublishPage2"
+import { AppStore } from "store"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const AuthorizedActions = observer(() => {
   const session = useSession()
@@ -109,6 +111,23 @@ const BuilderHeader = ({ className }: { className?: string }) => {
   const { hovered: fullscreenHovered, ref: fullscreenRef } = useHover<HTMLButtonElement>()
   const { t } = useTranslation("build")
   const session = useSession()
+  const {
+    data: { id },
+  } = BuildStore
+  const user = useCurrentUser()
+
+  const pageWithUser = useMemo(() => {
+    const currentPage = AppStore.pages.find((p) => p.id === id)
+    return user && currentPage
+      ? {
+          ...currentPage,
+          user: {
+            name: user.name,
+            avatar: user.avatar,
+          },
+        }
+      : null
+  }, [id, user])
 
   return (
     <Center className={className} sx={{ paddingRight: "var(--removed-scroll-width, 0px)" }}>
@@ -118,7 +137,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
             <Suspense fallback={<Skeleton height={32} width={90} />}>
               <AuthorizedActions />
             </Suspense>
-            <TogglePublishPage2 />
+            {pageWithUser && <TogglePublishPage2 page={pageWithUser} />}
             <Suspense fallback={<Skeleton height={32} width={90} />}>
               <PageSettings />
             </Suspense>

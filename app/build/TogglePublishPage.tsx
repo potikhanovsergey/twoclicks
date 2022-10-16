@@ -17,7 +17,7 @@ interface ITogglePublishPage extends ButtonProps {
 const TogglePublishPage = ({ id, ...props }: ITogglePublishPage) => {
   const page = useMemo(() => {
     return AppStore.pages?.find((p) => p.id === id)
-  }, [id])
+  }, [id, AppStore.pages])
 
   const [togglePagePublishedMutation, { isLoading }] = useMutation(togglePagePublished)
 

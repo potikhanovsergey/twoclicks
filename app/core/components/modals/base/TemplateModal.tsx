@@ -37,6 +37,7 @@ const TemplateModalForm = ({ page }: { page: Page }) => {
         const createdPage = await createPageMutation({
           name: values.newPageName,
           data: page.data,
+          previewImage: page.previewImage || undefined,
           themeSettings: page.themeSettings as unknown as IThemeSettings,
         })
 

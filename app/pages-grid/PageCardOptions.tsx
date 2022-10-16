@@ -3,7 +3,7 @@ import { BsThreeDots } from "@react-icons/all-files/bs/BsThreeDots"
 import { FaEye } from "@react-icons/all-files/fa/FaEye"
 import { FaEyeSlash } from "@react-icons/all-files/fa/FaEyeSlash"
 import { DeletePageModal } from "app/build-pages/DeletePageModal"
-import TogglePublishPage from "app/build/TogglePublishPage"
+import TogglePublishPage2 from "app/build/TogglePublishPage2"
 import { TemplateModal } from "app/core/components/modals/base/TemplateModal"
 import { PageCardProps } from "./PageCard"
 
@@ -19,7 +19,7 @@ const PageCardOptions = ({ page }: { page: PageCardProps }) => {
         </Popover.Target>
         <Popover.Dropdown p={8}>
           <Stack spacing={4}>
-            <TogglePublishPage id={page.id} compact color="dark" variant="filled" size="sm" />
+            <TogglePublishPage2 page={page} color="dark" variant="filled" size="sm" compact />
             <TemplateModal page={page} component={Button} compact color="dark">
               Copy as template
             </TemplateModal>
