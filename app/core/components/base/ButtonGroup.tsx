@@ -115,17 +115,22 @@ const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps
                     userSelect: "none",
                     padding: "6px 12px",
                     border: "none",
-                    backgroundColor: active
+                    // backgroundColor: active
+                    //   ? theme.colorScheme === "dark"
+                    //     ? theme.colors.dark[4]
+                    //     : theme.colors.gray[1]
+                    //   : "transparent",
+                    backgroundColor: "transparent",
+                    color: active
                       ? theme.colorScheme === "dark"
-                        ? theme.colors.dark[4]
-                        : theme.colors.gray[1]
-                      : "transparent",
-                    ":hover": {
-                      backgroundColor: active
-                        ? theme.colorScheme === "dark"
-                          ? theme.colors.dark[4]
-                          : theme.colors.gray[1]
-                        : "transparent",
+                        ? theme.colors.green[5]
+                        : theme.black
+                      : theme.colorScheme === "dark"
+                      ? theme.colors.gray[0]
+                      : theme.colors.dark[3],
+                    fontWeight: active ? 700 : undefined,
+                    "&:hover": {
+                      backgroundColor: "transparent",
                     },
                   },
                   ...packSx(sx),

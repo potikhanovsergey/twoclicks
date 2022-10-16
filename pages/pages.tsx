@@ -49,7 +49,7 @@ const Pages = () => {
         sx={(theme) => ({
           position: "sticky",
           top: "var(--layout-header-height)",
-          background: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[4],
+          background: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
           zIndex: 10,
         })}
       >

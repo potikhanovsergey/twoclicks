@@ -30,9 +30,6 @@ export const ProfileItem = {
 }
 
 export const MenuItemSx: Sx = (theme) => ({
-  fontWeight: 700,
-  fontSize: "14px",
-  padding: "10px",
   "> div": {
     justifyContent: "flex-start",
   },
@@ -83,7 +80,9 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
     }
   })
 
-  const { locale } = useRouter()
+  const { locale, route } = useRouter()
+
+  console.log(route)
 
   const menuItems: GroupButtonProps[] = useMemo(() => {
     const formatedMenuItems: GroupButtonProps[] = ConstMenuItems.map((i) => ({
@@ -91,6 +90,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
       sx: MenuItemSx,
       children: t(i.children),
       href: i.href,
+      active: i.href === route,
     }))
 
     if (user) {
@@ -100,12 +100,14 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
           sx: MenuItemSx,
           children: t("templates"),
           href: "/templates",
+          active: "/templates" === route,
         })
         formatedMenuItems.unshift({
           elType: "menuItem",
           sx: MenuItemSx,
           children: t("pages"),
           href: "/pages",
+          active: "/pages" === route,
         })
       }
       formatedMenuItems.unshift({
@@ -113,6 +115,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
         sx: MenuItemSx,
         children: t(ProfileItem.children),
         href: ProfileItem.href,
+        active: "/profile" === route,
       })
       formatedMenuItems.push({
         elType: "menuItem",
@@ -127,7 +130,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
       })
     }
     return formatedMenuItems
-  }, [user, locale])
+  }, [user, locale, route])
 
   const menuAdminItems: GroupButtonProps[] | null = useMemo(() => {
     if (user?.role !== "ADMIN") return null
