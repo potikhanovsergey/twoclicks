@@ -1,5 +1,5 @@
 import { getBaseLayout } from "app/core/layouts/BaseLayout"
-import { Container } from "@mantine/core"
+import { Box, Container } from "@mantine/core"
 import { useSession } from "@blitzjs/auth"
 import { AuthorizationError } from "blitz"
 import { useEffect } from "react"
@@ -45,7 +45,16 @@ const Pages = () => {
   })
   return (
     <Container size="lg" pb="xl">
-      <PagesHeader />
+      <Box
+        sx={(theme) => ({
+          position: "sticky",
+          top: "var(--layout-header-height)",
+          background: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[4],
+          zIndex: 10,
+        })}
+      >
+        <PagesHeader />
+      </Box>
       <PagesGrid
         pages={
           pages as (Page & {
@@ -57,7 +66,7 @@ const Pages = () => {
   )
 }
 
-Pages.getLayout = getBaseLayout({ withNotificationsProvider: false, headerWithTransparency: true })
+Pages.getLayout = getBaseLayout({ withNotificationsProvider: false, headerWithTransparency: false })
 Pages.suppressFirstRenderFlicker = true
 
 export default Pages

@@ -85,7 +85,7 @@ const PageCard = ({
     }
   }, [])
   return (
-    <Stack spacing={4} sx={{ position: "relative" }}>
+    <Stack spacing={8} sx={{ position: "relative" }}>
       {withOptions && <PageCardOptions page={page} />}
       <Paper<"a">
         withBorder
@@ -106,14 +106,14 @@ const PageCard = ({
           {customizable && onDrop ? (
             <ImagePicker onDrop={onDrop}>
               <Image
-                src={previewImage || "/twoclicks-placeholder.png"}
+                src={previewImage || page.previewImage || "/twoclicks-placeholder.png"}
                 alt={page.name + " by " + page.user.name}
                 layout="fill"
               />
             </ImagePicker>
           ) : (
             <Image
-              src={previewImage || "/twoclicks-placeholder.png"}
+              src={previewImage || page.previewImage || "/twoclicks-placeholder.png"}
               alt={page.name + " by " + page.user.name}
               layout="fill"
             />
