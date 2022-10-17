@@ -8,13 +8,13 @@ import {
   Checkbox,
   TextInput,
   SimpleGrid,
+  Text,
+  MultiSelect,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openModal } from "@mantine/modals"
 import { showNotification } from "@mantine/notifications"
-import { Page } from "@prisma/client"
 import updatePage from "app/build-pages/mutations/updatePage"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import FeedPageCardBottom from "app/pages-grid/FeedPageCardBottom"
 import PageCard, { PageCardProps } from "app/pages-grid/PageCard"
 import { observer } from "mobx-react-lite"
@@ -42,7 +42,8 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
   const [initialValues, setInitialValues] = useState({
     name: page.name,
     isTemplate: Boolean(page.template),
-    previewImage: page?.previewImage || null,
+    previewImage: page.previewImage || null,
+    tags: page.tags,
   })
 
   const form = useForm({
@@ -84,6 +85,7 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
         previewImage: imgSource,
         name: form.values.name,
         template: form.values.isTemplate ? "user" : null,
+        tags: form.values.tags,
       })
       if (response) {
         AppStore.updatePage(response)
@@ -91,25 +93,39 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
           name: response.name,
           isTemplate: Boolean(response.template),
           previewImage: response.previewImage,
+          tags: response.tags,
         })
       }
     }
   }
 
+  // Check if current values are the same as initial values
   const isSaveDisabled = useMemo(() => {
+    const formTags = form.values.tags.slice().sort()
     return (
       form.values.previewImage === initialValues?.previewImage &&
       form.values.name === initialValues.name &&
-      form.values.isTemplate === initialValues.isTemplate
+      form.values.isTemplate === initialValues.isTemplate &&
+      formTags.length === initialValues.tags.length &&
+      initialValues.tags
+        .slice()
+        .sort()
+        .every(function (value, index) {
+          return value === formTags[index]
+        })
     )
   }, [
+    form.values.tags,
     form.values.previewImage,
     form.values.name,
     form.values.isTemplate,
     initialValues?.previewImage,
     initialValues.name,
     initialValues.isTemplate,
+    initialValues.tags,
   ])
+
+  const [inputTagValue, setInputTagValue] = useState("")
   return (
     <>
       {page && (
@@ -128,6 +144,68 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
               />
               <Stack sx={{ height: "100%" }} justify="flex-start">
                 <TextInput label="Page name" {...form.getInputProps("name")} />
+                <MultiSelect
+                  label={
+                    <Text>
+                      Add tags{" "}
+                      <Text color="dimmed" inherit span>
+                        (up to 10)
+                      </Text>
+                    </Text>
+                  }
+                  placeholder="Select tags"
+                  searchable
+                  creatable
+                  value={form.values.tags}
+                  onChange={(value) => {
+                    form.setFieldValue("tags", value)
+                  }}
+                  onInput={(e) => {
+                    if (
+                      !form.values.tags.some(
+                        (item) => item.toLowerCase() == e.currentTarget.value.toLowerCase()
+                      )
+                    ) {
+                      form.clearFieldError("tags")
+                    }
+                  }}
+                  maxSelectedValues={10}
+                  clearable
+                  error={form.errors.tags}
+                  data={["Landing", "Project", "Portfolio", ...form.values.tags]}
+                  getCreateLabel={(query) => (
+                    <Text>
+                      Add <b>{query}</b> tag
+                    </Text>
+                  )}
+                  onCreate={(query) => {
+                    form.setFieldValue("tags", [...form.values.tags, query])
+                    return query
+                  }}
+                  styles={{
+                    searchInput: {
+                      height: "auto !important",
+                    },
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      if (
+                        inputTagValue.length &&
+                        !form.values.tags.some(
+                          (tag) => tag.toLowerCase() === inputTagValue.toLowerCase()
+                        )
+                      ) {
+                        form.setFieldValue("tags", [...form.values.tags, inputTagValue])
+                        setInputTagValue("")
+                      } else {
+                        form.setFieldError("tags", "This tag already exists")
+                      }
+                    }
+                  }}
+                  clearButtonLabel="Clear the tags"
+                  searchValue={inputTagValue}
+                  onSearchChange={setInputTagValue}
+                />
                 <Checkbox
                   label="Allow other users to copy the page"
                   {...form.getInputProps("isTemplate", { type: "checkbox" })}

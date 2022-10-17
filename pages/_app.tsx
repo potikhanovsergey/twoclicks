@@ -27,6 +27,7 @@ import { ModalsProvider } from "@mantine/modals"
 
 import dynamic from "next/dynamic"
 import { usePersistLocaleCookie } from "hooks/usePersistedLocale"
+import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 
 const MenuModal = dynamic(() => import("app/core/components/modals/base/MenuModal"))
 

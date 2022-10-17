@@ -104,6 +104,7 @@ model Page {
   template      String?
   themeSettings Json?
   previewImage  String?
+  tags          String[]
 
   appliedForTemplates Boolean @default(false)
 
