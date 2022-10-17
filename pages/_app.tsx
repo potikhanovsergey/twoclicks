@@ -153,7 +153,12 @@ const CustomTheme: MantineThemeOverride = {
     },
     ColorSwatch: {
       defaultProps: {
-        radius: "xl",
+        radius: "50%",
+      },
+      styles: {
+        children: {
+          borderRadius: "50%",
+        },
       },
     },
     ColorPicker: {
