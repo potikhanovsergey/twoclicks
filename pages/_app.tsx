@@ -28,6 +28,7 @@ import { ModalsProvider } from "@mantine/modals"
 import dynamic from "next/dynamic"
 import { usePersistLocaleCookie } from "hooks/usePersistedLocale"
 import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
+import RouterTransition from "app/core/components/base/RouterTransitions"
 
 const MenuModal = dynamic(() => import("app/core/components/modals/base/MenuModal"))
 
@@ -307,6 +308,7 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme; locale: "ru" |
   return (
     <ErrorBoundary FallbackComponent={RootErrorFallback}>
       <MantineProvider withCSSVariables withNormalizeCSS theme={{ ...CustomTheme, colorScheme }}>
+        <RouterTransition />
         <ModalsProvider modalProps={{ zIndex: 1000 }}>
           <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
             <ModalContext.Provider value={[modalValue, setModalValue]}>
