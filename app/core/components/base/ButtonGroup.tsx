@@ -38,7 +38,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     left: 0,
     borderRadius: "4px",
     transition: "ease width, transform, opacity",
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1],
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
     pointerEvents: "none",
   },
 }))
@@ -123,12 +123,12 @@ const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps
                     backgroundColor: "transparent",
                     color: active
                       ? theme.colorScheme === "dark"
-                        ? theme.colors.green[5]
+                        ? theme.white
                         : theme.black
                       : theme.colorScheme === "dark"
-                      ? theme.colors.gray[0]
+                      ? theme.colors.gray[5]
                       : theme.colors.dark[3],
-                    fontWeight: active ? 700 : undefined,
+                    fontWeight: active ? 700 : 400,
                     "&:hover": {
                       backgroundColor: "transparent",
                     },

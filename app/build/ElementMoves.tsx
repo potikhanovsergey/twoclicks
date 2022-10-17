@@ -81,7 +81,7 @@ const ElementMoves = ({ element, parentID }: IElementMoves) => {
           <ActionIcon
             size="md"
             radius={0}
-            color="violet"
+            color="primary"
             onClick={() =>
               moveRight(
                 {

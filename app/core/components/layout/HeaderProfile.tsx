@@ -255,7 +255,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
             component="div"
             sx={() => ({
               cursor: "default",
-              backgroundColor: `${dark ? theme.colors.dark[6] : theme.white} !important`,
+              backgroundColor: `${dark ? theme.colors.dark[7] : theme.white} !important`,
             })}
           >
             <Group spacing={4} align="center">

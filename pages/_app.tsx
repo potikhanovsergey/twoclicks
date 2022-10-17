@@ -12,6 +12,8 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   MantineThemeOverride,
+  MANTINE_COLORS,
+  DEFAULT_THEME,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -46,18 +48,18 @@ const CustomTheme: MantineThemeOverride = {
     fontFamily: "'Nunito', sans-serif",
   },
   colors: {
-    primary: [
-      "#e9e6ff",
-      "#dfd9ff",
-      "#c9c0ff",
-      "#beb3ff",
-      "#a99aff",
-      "#9381ff",
-      "#8474e6",
-      "#7667cc",
-      "#675ab3",
-      "#584d99",
-    ],
+    // primary: [
+    //   "#e9e6ff",
+    //   "#dfd9ff",
+    //   "#c9c0ff",
+    //   "#beb3ff",
+    //   "#a99aff",
+    //   "#9381ff",
+    //   "#8474e6",
+    //   "#7667cc",
+    //   "#675ab3",
+    //   "#584d99",
+    // ],
     // primary: [
     //   "#fef2f2",
     //   "#fdd7d7",
@@ -82,7 +84,9 @@ const CustomTheme: MantineThemeOverride = {
     //   "#191b1f",
     //   "#0f1012",
     // ],
+    primary: DEFAULT_THEME.colors.indigo,
   },
+
   primaryColor: "primary",
   primaryShade: 5,
   globalStyles: (theme) => ({
@@ -122,9 +126,23 @@ const CustomTheme: MantineThemeOverride = {
   components: {
     ActionIcon: {
       defaultProps: {
-        color: "violet",
+        color: "primary",
         radius: "sm",
       },
+    },
+    Menu: {
+      styles: (theme) => ({
+        dropdown: {
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+        },
+      }),
+    },
+    Popover: {
+      styles: (theme) => ({
+        dropdown: {
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+        },
+      }),
     },
     Button: {
       defaultProps: {

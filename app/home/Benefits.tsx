@@ -156,7 +156,7 @@ const Benefits = (props: ContainerProps) => {
         ),
       },
       {
-        title: "Customizible",
+        title: "Customiable",
         icon: <FiEdit color={theme.colors.violet[5]} />,
         text: (
           <>
