@@ -37,11 +37,13 @@ const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
   }
 
   const handleColorChange = (value) => {
+    console.log(value)
     paletteKey &&
       changeProp({
         id: element.id,
         newProps: { [paletteKey.prop]: value },
       })
+    console.log(BuildStore.getElement(element.id))
   }
 
   const currentPaletteColor = useMemo(() => {

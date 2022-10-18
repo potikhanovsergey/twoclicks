@@ -9,7 +9,7 @@ import { canvasBuildingBlocks } from "helpers/blocks"
 import { observer } from "mobx-react-lite"
 import dynamic from "next/dynamic"
 import Link from "next/link"
-import { useMemo } from "react"
+import { useEffect, useMemo } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlock, ICanvasBlockProps, IThemeSettings } from "types"
 
@@ -40,7 +40,15 @@ const RenderJSXFromBlock = observer(
     childrenProp?: string
     removeSemantics?: boolean
   }) => {
-    const el = JSON.parse(JSON.stringify(element)) as ICanvasBlock // to not modify element in the arguments
+    const mobxProps = useMemo(() => {
+      return withEditToolbar || element.id
+        ? BuildStore.getElement(element.id)?.props || element.props
+        : element.props
+    }, [element.id, element.props, withEditToolbar])
+
+    useEffect(() => {
+      console.log("RERENDER", element.type)
+    }, [])
 
     const typeLC = useMemo(() => {
       return element.type.toLowerCase()
@@ -51,7 +59,7 @@ const RenderJSXFromBlock = observer(
     }, [typeLC])
 
     const props = useMemo(() => {
-      const newProps = el.props as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.Element.
+      const newProps = JSON.parse(JSON.stringify(mobxProps)) as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.Element.
       // We need to traverse it to make sure all props are rendered as they should
 
       if (
@@ -124,16 +132,17 @@ const RenderJSXFromBlock = observer(
       }
       return newProps
     }, [
-      el.props,
-      element.id,
-      removeSemantics,
-      sectionIndex,
-      shouldFlat,
-      themeSettings,
+      mobxProps,
+      mobxProps?.children,
       typeLC,
       withContentEditable,
-      withEditToolbar,
+      removeSemantics,
       withThemeSettings,
+      themeSettings,
+      shouldFlat,
+      element.id,
+      withEditToolbar,
+      sectionIndex,
     ])
 
     if (withEditToolbar && element?.editType === "icon") {
