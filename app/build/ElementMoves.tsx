@@ -45,6 +45,28 @@ const ElementMoves = ({ element, parentID }: IElementMoves) => {
     return null
   }, [hasMoves])
 
+  const handleMoveLeft = () =>
+    moveLeft(
+      {
+        id: element.id,
+        parentID,
+        editType: element.editType,
+        withScroll: element.editType === "section",
+      },
+      false
+    )
+
+  const handleMoveRight = () =>
+    moveRight(
+      {
+        id: element.id,
+        parentID,
+        editType: element.editType,
+        withScroll: element.editType === "section",
+      },
+      false
+    )
+
   return hasMoves && movesIcons ? (
     <>
       {element.id !== parentChildren.parentArray?.[0]?.id && (
@@ -53,21 +75,7 @@ const ElementMoves = ({ element, parentID }: IElementMoves) => {
           withArrow
           position={element.editType === "section" ? "left" : "top"}
         >
-          <ActionIcon
-            size="md"
-            radius={0}
-            onClick={() =>
-              moveLeft(
-                {
-                  id: element.id,
-                  parentID,
-                  editType: element.editType,
-                  withScroll: element.editType === "section",
-                },
-                false
-              )
-            }
-          >
+          <ActionIcon size="md" radius={0} onClick={handleMoveLeft}>
             {movesIcons.left}
           </ActionIcon>
         </Tooltip>
@@ -78,22 +86,7 @@ const ElementMoves = ({ element, parentID }: IElementMoves) => {
           withArrow
           position={element.editType === "section" ? "left" : "top"}
         >
-          <ActionIcon
-            size="md"
-            radius={0}
-            color="primary"
-            onClick={() =>
-              moveRight(
-                {
-                  id: element.id,
-                  parentID,
-                  editType: element.editType,
-                  withScroll: element.editType === "section",
-                },
-                false
-              )
-            }
-          >
+          <ActionIcon size="md" radius={0} color="primary" onClick={handleMoveRight}>
             {movesIcons.right}
           </ActionIcon>
         </Tooltip>

@@ -145,6 +145,13 @@ const RenderJSXFromBlock = observer(
       sectionIndex,
     ])
 
+    const memoizedElement = useMemo(() => {
+      return {
+        ...element,
+        type: typeLC,
+      }
+    }, [element, typeLC])
+
     if (withEditToolbar && element?.editType === "icon") {
       return (
         <IconPicker
@@ -166,7 +173,7 @@ const RenderJSXFromBlock = observer(
           key={element.id}
           parentID={parentID}
           sectionIndex={sectionIndex}
-          element={{ ...element, type: typeLC }}
+          element={memoizedElement}
           childrenProp={childrenProp}
         >
           <TagName {...props} fixed={typeLC.includes("header") ? false : undefined} />

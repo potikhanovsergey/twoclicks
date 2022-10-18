@@ -105,10 +105,10 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           }}
           onColorChange={(value: ExtendedCustomColors | string) => {
             if (value.includes("#")) {
-              pickerTimeout.current && clearTimeout(pickerTimeout.current)
-              pickerTimeout.current = setTimeout(() => {
-                changeColor(value)
-              }, 100)
+              // pickerTimeout.current && clearTimeout(pickerTimeout.current)
+              // pickerTimeout.current = setTimeout(() => {
+              changeColor(value)
+              // }, 100)
             } else {
               changeColor(value)
             }

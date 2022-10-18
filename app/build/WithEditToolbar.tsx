@@ -1,5 +1,5 @@
 import { Box, createStyles, Group, Popover, Text } from "@mantine/core"
-import React, { useMemo, useRef } from "react"
+import React, { useEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { useDisclosure } from "@mantine/hooks"
 import { ICanvasBlock, ICanvasBlockProps, IThemeSettings } from "types"
@@ -96,6 +96,10 @@ const WithEditToolbar = ({
     openDelay: 100,
     closeDelay: 400,
   })
+
+  useEffect(() => {
+    console.log("TOOLBAR RENDER", element.type)
+  }, [])
 
   const popoverOpened = useMemo(() => {
     return opened || Boolean(openedAction[element.id])
