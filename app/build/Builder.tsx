@@ -313,8 +313,8 @@ const Builder = () => {
               height: "100%",
               ".builder-block ::selection": {
                 background:
-                  theme.colors?.[data?.themeSettings?.palette?.primary]?.[4] ||
-                  theme.colors.primary[4],
+                  theme.colors?.[data?.themeSettings?.palette?.primary]?.[5] ||
+                  theme.colors.primary[5],
                 color: theme.white,
                 WebkitTextFillColor: theme.white,
               },

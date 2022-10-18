@@ -99,7 +99,7 @@ const CustomTheme: MantineThemeOverride = {
       scrollBehavior: "smooth",
     },
     "::selection": {
-      background: theme.colors.primary[4],
+      background: theme.colors.primary[5],
       color: theme.white,
       WebkitTextFillColor: theme.white,
     },

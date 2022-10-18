@@ -14,6 +14,7 @@ import { createStyles } from "@mantine/core"
 import ImagePicker from "app/core/components/base/ImagePicker"
 import { ReactNode, useEffect } from "react"
 import PageCardOptions from "./PageCardOptions"
+import SkeletonImage from "app/core/components/base/SkeletonImage"
 
 const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getRef) => ({
   imageCard: {
@@ -105,14 +106,14 @@ const PageCard = ({
         >
           {customizable && onDrop ? (
             <ImagePicker onDrop={onDrop}>
-              <Image
+              <SkeletonImage
                 src={previewImage || page.previewImage || "/twoclicks-placeholder.png"}
                 alt={page.name + " by " + page.user.name}
                 layout="fill"
               />
             </ImagePicker>
           ) : (
-            <Image
+            <SkeletonImage
               src={previewImage || page.previewImage || "/twoclicks-placeholder.png"}
               alt={page.name + " by " + page.user.name}
               layout="fill"

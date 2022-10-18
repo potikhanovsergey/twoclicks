@@ -78,8 +78,8 @@ const Page = ({ page }: { page: IPage | null }) => {
           styles={(theme) => ({
             "::selection": {
               background:
-                theme?.colors?.[page?.themeSettings?.palette?.primary]?.[4] ||
-                theme.colors.primary[4],
+                theme?.colors?.[page?.themeSettings?.palette?.primary]?.[5] ||
+                theme.colors.primary[5],
               color: theme.white,
               WebkitTextFillColor: theme.white,
             },

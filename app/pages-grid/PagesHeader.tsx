@@ -14,12 +14,11 @@ const PagesHeader = () => {
       <Grid my="lg" sx={{ justifyContent: "space-between", alignItems: "center" }}>
         <Grid.Col span={2}>
           <Select
-            value={"All"}
+            value={"Popular"}
             data={[
-              { value: "All", label: "All" },
-              { value: "Following", label: "Following" },
               { value: "Popular", label: "Popular" },
               { value: "New & Noteworthy", label: "New & Noteworthy" },
+              { value: "Following", label: "Following" },
             ]}
           />
         </Grid.Col>
@@ -55,8 +54,9 @@ const PagesHeader = () => {
         </Grid.Col>
         <Grid.Col span={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <TextInput
-            placeholder="Search page..."
+            placeholder="Search pages..."
             size="sm"
+            aria-label="Search pages"
             value={FeedStore.searchValue}
             onChange={(e) => (FeedStore.searchValue = e.currentTarget.value)}
             rightSection={
