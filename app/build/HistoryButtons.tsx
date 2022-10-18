@@ -32,9 +32,6 @@ const HistoryButtons = (props: ActionIconProps) => {
   ])
   const { t } = useTranslation("build")
 
-  const theme = useMantineTheme()
-  const dark = theme.colorScheme === "dark"
-
   const { classes } = useStyles()
   return (
     <Group spacing={4}>

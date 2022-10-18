@@ -18,7 +18,7 @@ import updatePage from "app/build-pages/mutations/updatePage"
 import FeedPageCardBottom from "app/pages-grid/FeedPageCardBottom"
 import PageCard, { PageCardProps } from "app/pages-grid/PageCard"
 import { observer } from "mobx-react-lite"
-import { useEffect, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import { AppStore } from "store"
 import TogglePublishPage from "./TogglePublishPage"
 
@@ -125,6 +125,43 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
   ])
 
   const [inputTagValue, setInputTagValue] = useState("")
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && inputTagValue.length) {
+      if (!form.values.tags.some((tag) => tag === inputTagValue)) {
+        form.setFieldValue("tags", [...form.values.tags, inputTagValue])
+        setInputTagValue("")
+      } else {
+        form.setFieldError("tags", "This tag already exists")
+      }
+    }
+  }
+
+  const handleGetCreateLabel = (query: string) => (
+    <Text>
+      Add <b>{query}</b> tag
+    </Text>
+  )
+
+  const onCreate = (query) => {
+    form.setFieldValue("tags", [...form.values.tags, query])
+    return query
+  }
+
+  const onInput = (e) => {
+    if (!form.values.tags.some((item) => item === e.currentTarget.value)) {
+      form.clearFieldError("tags")
+    }
+  }
+
+  const onChange = (value) => {
+    form.setFieldValue("tags", value)
+  }
+
+  const pageCardOnDrop = useCallback((files) => {
+    const file = files[0]
+    setPreviewFile(file)
+  }, [])
   return (
     <>
       {page && (
@@ -135,10 +172,7 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
                 page={page}
                 previewImage={form.values.previewImage}
                 customizable
-                onDrop={(files) => {
-                  const file = files[0]
-                  setPreviewFile(file)
-                }}
+                onDrop={pageCardOnDrop}
                 bottomNode={<FeedPageCardBottom page={page} />}
               />
               <Stack sx={{ height: "100%" }} justify="flex-start">
@@ -156,42 +190,20 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
                   searchable
                   creatable
                   value={form.values.tags}
-                  onChange={(value) => {
-                    form.setFieldValue("tags", value)
-                  }}
-                  onInput={(e) => {
-                    if (!form.values.tags.some((item) => item === e.currentTarget.value)) {
-                      form.clearFieldError("tags")
-                    }
-                  }}
+                  onChange={onChange}
+                  onInput={onInput}
                   maxSelectedValues={10}
                   clearable
                   error={form.errors.tags}
                   data={["Landing", "Project", "Portfolio", ...form.values.tags]}
-                  getCreateLabel={(query) => (
-                    <Text>
-                      Add <b>{query}</b> tag
-                    </Text>
-                  )}
-                  onCreate={(query) => {
-                    form.setFieldValue("tags", [...form.values.tags, query])
-                    return query
-                  }}
+                  getCreateLabel={handleGetCreateLabel}
+                  onCreate={onCreate}
                   styles={{
                     searchInput: {
                       height: "auto !important",
                     },
                   }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && inputTagValue.length) {
-                      if (!form.values.tags.some((tag) => tag === inputTagValue)) {
-                        form.setFieldValue("tags", [...form.values.tags, inputTagValue])
-                        setInputTagValue("")
-                      } else {
-                        form.setFieldError("tags", "This tag already exists")
-                      }
-                    }
-                  }}
+                  onKeyDown={handleKeyDown}
                   clearButtonLabel="Clear the tags"
                   searchValue={inputTagValue}
                   onSearchChange={setInputTagValue}
@@ -216,23 +228,21 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
 })
 
 const TogglePublishPage2 = ({ page, ...props }: TogglePublishPage2Props) => {
+  const handleClick = () => {
+    openModal({
+      title: (
+        <Title span order={2}>
+          Publishing the page
+        </Title>
+      ),
+      children: <PublishModal page={page} />,
+      centered: true,
+      size: "66%",
+    })
+  }
+
   return (
-    <Button
-      size="xs"
-      {...props}
-      onClick={() => {
-        openModal({
-          title: (
-            <Title span order={2}>
-              Publishing the page
-            </Title>
-          ),
-          children: <PublishModal page={page} />,
-          centered: true,
-          size: "66%",
-        })
-      }}
-    >
+    <Button size="xs" {...props} onClick={handleClick}>
       Publish page
     </Button>
   )

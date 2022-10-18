@@ -15,6 +15,7 @@ import ImagePicker from "app/core/components/base/ImagePicker"
 import { ReactNode, useEffect } from "react"
 import PageCardOptions from "./PageCardOptions"
 import SkeletonImage from "app/core/components/base/SkeletonImage"
+import { observer } from "mobx-react-lite"
 
 const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getRef) => ({
   imageCard: {
@@ -85,6 +86,7 @@ const PageCard = ({
       previewImage && URL.revokeObjectURL(previewImage)
     }
   }, [])
+
   return (
     <Stack spacing={8} sx={{ position: "relative" }}>
       {withOptions && <PageCardOptions page={page} />}
@@ -140,4 +142,4 @@ const PageCard = ({
   )
 }
 
-export default PageCard
+export default observer(PageCard)

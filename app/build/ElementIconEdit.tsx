@@ -29,6 +29,30 @@ const ElementIconEdit = ({ element, propName }: IElementIconEdit) => {
 
   const { t } = useTranslation("build")
 
+  const handleReset = () => {
+    changeProp({
+      id: element.id,
+      newProps: {
+        [propName]: undefined,
+      },
+    })
+  }
+
+  const handleChange = (icon) => {
+    const iconProps = formatOutput(icon)?.props
+    if (iconProps) {
+      changeProp({
+        id: element.id,
+        newProps: {
+          [propName]: {
+            props: iconProps,
+            type: "IconBase",
+          },
+        },
+      })
+    }
+  }
+
   return hasIconEdit ? (
     <Tooltip
       label={
@@ -40,14 +64,7 @@ const ElementIconEdit = ({ element, propName }: IElementIconEdit) => {
       <div>
         <IconPicker
           withReset={Boolean(ICON)}
-          onReset={() => {
-            changeProp({
-              id: element.id,
-              newProps: {
-                [propName]: undefined,
-              },
-            })
-          }}
+          onReset={handleReset}
           isThemeIcon={true}
           themeIconProps={{
             variant: "subtle",
@@ -60,20 +77,7 @@ const ElementIconEdit = ({ element, propName }: IElementIconEdit) => {
               <CgToggleSquare />
             )
           }
-          onChange={(icon) => {
-            const iconProps = formatOutput(icon)?.props
-            if (iconProps) {
-              changeProp({
-                id: element.id,
-                newProps: {
-                  [propName]: {
-                    props: iconProps,
-                    type: "IconBase",
-                  },
-                },
-              })
-            }
-          }}
+          onChange={handleChange}
         />
       </div>
     </Tooltip>

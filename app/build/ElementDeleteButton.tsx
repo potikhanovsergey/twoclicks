@@ -17,19 +17,17 @@ const ElementDeleteButton = ({
 }: IElementDeleteButton) => {
   const { deleteElement } = BuildStore
   const { t } = useTranslation("build")
+
+  const onClick = () => {
+    deleteElement({ id: element.id, parentID, childrenProp })
+  }
   return (
     <Tooltip
       label={element.editType === "section" ? t("delete section") : t("delete")}
       withArrow
       position={element.editType === "section" ? "left" : "top"}
     >
-      <ActionIcon
-        color="red"
-        radius={0}
-        onClick={() => {
-          deleteElement({ id: element.id, parentID, childrenProp })
-        }}
-      >
+      <ActionIcon color="red" radius={0} onClick={onClick}>
         <RiDeleteBin6Line />
       </ActionIcon>
     </Tooltip>

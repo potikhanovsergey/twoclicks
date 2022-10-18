@@ -47,6 +47,13 @@ const Blocks = observer(() => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const theme = useMantineTheme()
   const dark = theme.colorScheme === "dark"
+
+  const onClick = () =>
+    setModalContext((prevValue: IModalContextValue) => ({
+      ...prevValue,
+      canvasSectionsModal: true,
+    }))
+
   return (
     <>
       {blocks.length > 0 ? (
@@ -59,12 +66,7 @@ const Blocks = observer(() => {
             size="md"
             style={{ minWidth: "192px" }}
             rightIcon={<FiPlusSquare />}
-            onClick={() =>
-              setModalContext((prevValue: IModalContextValue) => ({
-                ...prevValue,
-                canvasSectionsModal: true,
-              }))
-            }
+            onClick={onClick}
           >
             {t("add new section")}
           </Button>
@@ -100,8 +102,6 @@ const BuilderBlocks = () => {
       }}
       ref={sectionsRef}
     >
-      <Image>dsadsa</Image>
-
       <Blocks />
     </Box>
   )

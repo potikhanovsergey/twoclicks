@@ -10,12 +10,10 @@ import { baseURL } from "pages/_app"
 const PageLink = ({
   id,
   withEllipsis = false,
-  shouldSearch = true,
   centered = false,
 }: {
   id: string
   withEllipsis?: boolean
-  shouldSearch?: boolean
   centered?: boolean
 }) => {
   const { t } = useTranslation("build")
