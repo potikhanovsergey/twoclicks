@@ -27,7 +27,6 @@ interface TogglePublishPage2Props extends ButtonProps {
 }
 
 const PublishModal = observer(({ page }: { page: PageCardProps }) => {
-  const [customizable, setCustomizable] = useState(true)
   const [previewFile, setPreviewFile] = useState<File | null>(null)
 
   useEffect(() => {
@@ -135,7 +134,7 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
               <PageCard
                 page={page}
                 previewImage={form.values.previewImage}
-                customizable={customizable}
+                customizable
                 onDrop={(files) => {
                   const file = files[0]
                   setPreviewFile(file)
@@ -161,11 +160,7 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
                     form.setFieldValue("tags", value)
                   }}
                   onInput={(e) => {
-                    if (
-                      !form.values.tags.some(
-                        (item) => item.toLowerCase() == e.currentTarget.value.toLowerCase()
-                      )
-                    ) {
+                    if (!form.values.tags.some((item) => item === e.currentTarget.value)) {
                       form.clearFieldError("tags")
                     }
                   }}
@@ -188,13 +183,8 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
                     },
                   }}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      if (
-                        inputTagValue.length &&
-                        !form.values.tags.some(
-                          (tag) => tag.toLowerCase() === inputTagValue.toLowerCase()
-                        )
-                      ) {
+                    if (e.key === "Enter" && inputTagValue.length) {
+                      if (!form.values.tags.some((tag) => tag === inputTagValue)) {
                         form.setFieldValue("tags", [...form.values.tags, inputTagValue])
                         setInputTagValue("")
                       } else {

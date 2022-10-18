@@ -1,6 +1,9 @@
 import { Grid, Select, Button, useMantineTheme, Box, Group, TextInput } from "@mantine/core"
+import { FaSearch } from "@react-icons/all-files/fa/FaSearch"
 import ButtonGroup from "app/core/components/base/ButtonGroup"
+import { observer } from "mobx-react-lite"
 import { useState } from "react"
+import { FeedStore } from "store/feed"
 
 const PagesHeader = () => {
   const theme = useMantineTheme()
@@ -51,11 +54,21 @@ const PagesHeader = () => {
           />
         </Grid.Col>
         <Grid.Col span={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <TextInput placeholder="Search page..." size="sm" />
+          <TextInput
+            placeholder="Search page..."
+            size="sm"
+            value={FeedStore.searchValue}
+            onChange={(e) => (FeedStore.searchValue = e.currentTarget.value)}
+            rightSection={
+              <FaSearch
+                color={theme.colorScheme === "dark" ? theme.colors.dark[3] : theme.colors.gray[5]}
+              />
+            }
+          />
         </Grid.Col>
       </Grid>
     </Box>
   )
 }
 
-export default PagesHeader
+export default observer(PagesHeader)
