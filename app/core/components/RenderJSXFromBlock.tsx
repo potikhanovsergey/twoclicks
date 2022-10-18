@@ -126,6 +126,7 @@ const RenderJSXFromBlock = observer(
     }, [
       el.props,
       element.id,
+      removeSemantics,
       sectionIndex,
       shouldFlat,
       themeSettings,
