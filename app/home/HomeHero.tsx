@@ -30,7 +30,7 @@ const TextLoop = () => {
         text: t("page"),
       },
       {
-        color: theme.colors.indigo[5],
+        color: theme.colors.primary[5],
         text: t("portfolio"),
       },
       {

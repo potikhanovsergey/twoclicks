@@ -19,6 +19,7 @@ export const TraverseProp = ({
   themeSettings,
   type,
   sectionIndex,
+  withMobx = false,
 }: {
   propValue: any
   prop: string
@@ -30,6 +31,7 @@ export const TraverseProp = ({
   themeSettings?: IThemeSettings
   type: string
   sectionIndex?: number
+  withMobx?: boolean
 }) => {
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (type.includes("button") || type.includes("badge")) {
@@ -50,6 +52,7 @@ export const TraverseProp = ({
         key={propValue.id}
         element={propValue}
         childrenProp={prop}
+        withMobx={withMobx}
         shouldFlat={shouldFlat}
         parentID={parentID}
         withContentEditable={withContentEditable}
@@ -340,9 +343,9 @@ export function getBase64(file: File, callback) {
   const reader = new FileReader()
   reader.readAsDataURL(file)
   reader.onload = callback
-  reader.onerror = function (error) {
-    console.log("File Reader Error: ", error)
-  }
+  // reader.onerror = function (error) {
+  //   // console.log("File Reader Error: ", error)
+  // }
 }
 
 export function storageAvailable() {

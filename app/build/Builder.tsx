@@ -218,7 +218,7 @@ const Builder = () => {
         theme: data.theme,
       })
     })
-  }, [data.blocks, data.palette])
+  }, [data.blocks, data.name, data.palette, data.theme, data.themeSettings])
 
   const router = useRouter()
 

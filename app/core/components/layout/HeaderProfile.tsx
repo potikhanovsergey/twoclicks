@@ -82,8 +82,6 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
 
   const { locale, route } = useRouter()
 
-  console.log(route)
-
   const menuItems: GroupButtonProps[] = useMemo(() => {
     const formatedMenuItems: GroupButtonProps[] = ConstMenuItems.map((i) => ({
       elType: "menuItem",

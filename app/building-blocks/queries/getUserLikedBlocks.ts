@@ -10,7 +10,6 @@ export default async function getUserLikedBlocks(_ = null, ctx: Ctx) {
     })
     return likedBlocks
   } catch (e) {
-    console.log("Get user liked blocks error", e)
     return null
   }
 }

@@ -22,7 +22,6 @@ export default async function createLikedBlock(input, ctx: Ctx) {
     })
     return likedBlock
   } catch (e) {
-    console.log("Create liked block error", e)
     return null
   }
 }

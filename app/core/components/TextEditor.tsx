@@ -86,9 +86,6 @@ const TextEditor: React.FC<{
         setEditLinkActive(false)
         setLinkValue(editor.getAttributes("link").href || "")
       },
-      onDestroy: () => {
-        console.log("DESTROY")
-      },
     },
     []
   )

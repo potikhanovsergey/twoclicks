@@ -17,21 +17,24 @@ const ListComponent = observer(() => {
     data: { themeSettings },
   } = BuildStore
   const itemContent = useCallback(
-    (index, block: ICanvasBlock) => (
-      <div className="builder-block" key={block.id} style={{ minHeight: 1 }}>
-        <SafeWrapper>
-          <RenderJSXFromBlock
-            element={block}
-            shouldFlat
-            withContentEditable
-            withEditToolbar
-            withThemeSettings
-            themeSettings={themeSettings}
-            sectionIndex={index}
-          />
-        </SafeWrapper>
-      </div>
-    ),
+    (index, block: ICanvasBlock) => {
+      return (
+        <div className="builder-block" key={block.id} style={{ minHeight: 1 }}>
+          <SafeWrapper>
+            <RenderJSXFromBlock
+              element={block}
+              withMobx
+              shouldFlat
+              withContentEditable
+              withEditToolbar
+              withThemeSettings
+              themeSettings={themeSettings}
+              sectionIndex={index}
+            />
+          </SafeWrapper>
+        </div>
+      )
+    },
     [themeSettings]
   )
 

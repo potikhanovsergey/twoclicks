@@ -28,6 +28,7 @@ const RenderJSXFromBlock = observer(
     themeSettings,
     childrenProp = "children",
     removeSemantics = false,
+    withMobx = false,
   }: {
     element: ICanvasBlock
     shouldFlat?: boolean
@@ -39,27 +40,22 @@ const RenderJSXFromBlock = observer(
     themeSettings?: IThemeSettings
     childrenProp?: string
     removeSemantics?: boolean
+    withMobx?: boolean
   }) => {
-    const mobxProps = useMemo(() => {
-      return withEditToolbar || element.id
-        ? BuildStore.getElement(element.id)?.props || element.props
-        : element.props
-    }, [element.id, element.props, withEditToolbar])
-
-    useEffect(() => {
-      console.log("RERENDER", element.type)
-    }, [])
+    const mobxElement = useMemo(() => {
+      return withMobx && element.id ? BuildStore.getElement(element.id) || element : element
+    }, [element])
 
     const typeLC = useMemo(() => {
-      return element.type.toLowerCase()
-    }, [element.type])
+      return mobxElement.type.toLowerCase()
+    }, [mobxElement.type])
 
     const TagName = useMemo(() => {
       return canvasBuildingBlocks[typeLC] || typeLC
     }, [typeLC])
 
     const props = useMemo(() => {
-      const newProps = JSON.parse(JSON.stringify(mobxProps)) as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.Element.
+      const newProps = JSON.parse(JSON.stringify(mobxElement.props)) as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.mobxElement.
       // We need to traverse it to make sure all props are rendered as they should
 
       if (
@@ -102,8 +98,9 @@ const RenderJSXFromBlock = observer(
             newProps[prop][i] = TraverseProp({
               propValue: newProps[prop][i],
               prop,
+              withMobx,
               shouldFlat,
-              parentID: element.id,
+              parentID: mobxElement.id,
               withContentEditable,
               withEditToolbar,
               withThemeSettings,
@@ -116,8 +113,9 @@ const RenderJSXFromBlock = observer(
           const traversedProp = TraverseProp({
             propValue: newProps[prop],
             prop,
+            withMobx,
             shouldFlat,
-            parentID: element.id,
+            parentID: mobxElement.id,
             withContentEditable,
             withEditToolbar,
             withThemeSettings,
@@ -131,49 +129,30 @@ const RenderJSXFromBlock = observer(
         }
       }
       return newProps
-    }, [
-      mobxProps,
-      mobxProps?.children,
-      typeLC,
-      withContentEditable,
-      removeSemantics,
-      withThemeSettings,
-      themeSettings,
-      shouldFlat,
-      element.id,
-      withEditToolbar,
-      sectionIndex,
-    ])
-
-    const memoizedElement = useMemo(() => {
-      return {
-        ...element,
-        type: typeLC,
-      }
-    }, [element, typeLC])
+    }, [mobxElement.props, mobxElement.props?.[childrenProp], typeLC, mobxElement.id, sectionIndex])
 
     if (withEditToolbar && element?.editType === "icon") {
       return (
         <IconPicker
-          key={element.id}
+          key={mobxElement.id}
           icon={<TagName {...props} />}
           onChange={(icon) => {
             if (icon?.props) {
               let newProps = icon.props as ICanvasBlockProps
-              BuildStore.changeProp({ id: element.id, newProps })
+              BuildStore.changeProp({ id: mobxElement.id, newProps })
             }
           }}
         />
       )
     }
 
-    if (withEditToolbar && element.editType) {
+    if (withEditToolbar && mobxElement.editType) {
       return (
         <WithEditToolbar
-          key={element.id}
+          key={mobxElement.id}
           parentID={parentID}
           sectionIndex={sectionIndex}
-          element={memoizedElement}
+          element={{ ...mobxElement, type: typeLC }}
           childrenProp={childrenProp}
         >
           <TagName {...props} fixed={typeLC.includes("header") ? false : undefined} />
@@ -185,19 +164,23 @@ const RenderJSXFromBlock = observer(
 
     if (typeof children === "string" && !typeLC.includes("button") && !typeLC.includes("badge")) {
       return (
-        <TagName key={element.id} {...restProps} dangerouslySetInnerHTML={{ __html: children }} />
+        <TagName
+          key={mobxElement.id}
+          {...restProps}
+          dangerouslySetInnerHTML={{ __html: children }}
+        />
       )
     }
 
     if (props.component === "a" && props.href) {
       const { href, ...restOfProps } = props
       return (
-        <Link passHref key={element.id} href={href}>
+        <Link passHref key={mobxElement.id} href={href}>
           <TagName {...restOfProps} />
         </Link>
       )
     } else {
-      return <TagName key={element.id} {...props} />
+      return <TagName key={mobxElement.id} {...props} />
     }
   }
 )

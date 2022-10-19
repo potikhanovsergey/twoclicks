@@ -30,7 +30,6 @@ const HeaderFixedEdit = ({ element }: IHeaderFixedEdit) => {
               fixed: !element.props.fixed,
             },
           })
-          console.log(BuildStore.getElement(element.id))
         }}
       >
         {element.props.fixed ? <CgScrollV /> : <AiOutlineVerticalAlignTop />}

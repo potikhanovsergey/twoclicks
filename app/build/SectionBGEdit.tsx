@@ -3,7 +3,7 @@ import { useHover } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { ExtendedCustomColors } from "pages/_app"
-import { useCallback, useMemo, useRef } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlock } from "types"
 import PaletteItem from "./PaletteItem"
@@ -105,10 +105,10 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           }}
           onColorChange={(value: ExtendedCustomColors | string) => {
             if (value.includes("#")) {
-              // pickerTimeout.current && clearTimeout(pickerTimeout.current)
-              // pickerTimeout.current = setTimeout(() => {
-              changeColor(value)
-              // }, 100)
+              pickerTimeout.current && clearTimeout(pickerTimeout.current)
+              pickerTimeout.current = setTimeout(() => {
+                changeColor(value)
+              }, 100)
             } else {
               changeColor(value)
             }

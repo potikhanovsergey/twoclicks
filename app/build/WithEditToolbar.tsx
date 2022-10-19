@@ -97,10 +97,6 @@ const WithEditToolbar = ({
     closeDelay: 400,
   })
 
-  useEffect(() => {
-    console.log("TOOLBAR RENDER", element.type)
-  }, [])
-
   const popoverOpened = useMemo(() => {
     return opened || Boolean(openedAction[element.id])
   }, [opened, openedAction, element.id])
