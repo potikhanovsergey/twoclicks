@@ -27,7 +27,6 @@ import { ModalsProvider } from "@mantine/modals"
 
 import dynamic from "next/dynamic"
 import { usePersistLocaleCookie } from "hooks/usePersistedLocale"
-import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 import RouterTransition from "app/core/components/base/RouterTransitions"
 
 const MenuModal = dynamic(() => import("app/core/components/modals/base/MenuModal"))
@@ -295,7 +294,7 @@ const appWithBlitz = withBlitz(App)
 
 appWithBlitz["getInitialProps"] = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
   // get color scheme from cookie
-  cookiesColorScheme: getCookie("twoclicks-color-scheme", ctx) || "dark",
+  cookiesColorScheme: getCookie("twoclicks-color-scheme", ctx) || "light",
 })
 
 export default appWithBlitz

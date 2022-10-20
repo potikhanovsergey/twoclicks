@@ -10,7 +10,7 @@ interface PagesGridProps {
 const useStyles = createStyles((theme) => ({
   itemContainer: {
     // width: "calc((100% / var(--columns)) - var(--gap) + (var(--gap) / var(--columns)))", FORMULA
-    width: "calc((100% / 3) - 32px + 32px / 3)",
+    width: "calc((100% / 4) - 32px + 32px / 4)",
     // display: "flex",
     // alignContent: "stretch",
   },

@@ -182,7 +182,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
         position="bottom-end"
         closeOnItemClick={false}
         width="256px"
-        radius="md"
+        radius="sm"
       >
         <Menu.Target>
           <UnstyledButton
