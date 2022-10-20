@@ -189,38 +189,15 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
             onMouseEnter={menuHoveredHandlers.open}
             onMouseLeave={menuHoveredHandlers.close}
             aria-label="Open settings and navigation menu"
-            px={16}
-            sx={(theme) => ({
-              display: "flex",
-              flexWrap: "nowrap",
-              gap: "8px",
-              padding: 4,
-              borderRadius: theme.radius.md,
-              color: dark ? theme.colors.dark[0] : theme.black,
-              backgroundColor: menuHovered
-                ? theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[1]
-                : "",
-            })}
           >
-            {user && (
+            {/* {user && (
               <Text weight="bold" style={{ whiteSpace: "nowrap" }} color={dark ? "gray.0" : "dark"}>
                 {user.name}
               </Text>
-            )}
+            )} */}
             <Group spacing={8}>
               {user?.avatar ? (
-                <Avatar
-                  imageProps={{
-                    width: "26px",
-                    height: "26px",
-                  }}
-                  radius="xl"
-                  size="sm"
-                  src={user.avatar}
-                  alt={`${user.name} avatar`}
-                />
+                <Avatar radius="xl" size={32} src={user.avatar} alt={`${user.name} avatar`} />
               ) : (
                 <Avatar size="sm">
                   <IoPersonCircle
@@ -229,7 +206,6 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
                   />
                 </Avatar>
               )}
-              <FaChevronDown size={16} fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]} />
             </Group>
           </UnstyledButton>
         </Menu.Target>

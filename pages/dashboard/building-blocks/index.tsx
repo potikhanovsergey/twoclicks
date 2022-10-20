@@ -53,6 +53,7 @@ import MantineCarouselWithCards from "app/build/sections/carousels/MantineCarous
 import CardHero from "app/build/sections/hero/CardHero"
 import SimpleHeader from "app/build/sections/headers/SimpleHeader"
 import HeroWithGallery from "app/build/sections/hero/HeroWithGallery"
+import { font } from "pages/_app"
 
 const linterExtension = linter(jsonParseLinter())
 
@@ -247,7 +248,7 @@ const DashboardIndex = () => {
             extensions={[jsonLanguage, linterExtension]}
             indentWithTab
             style={{
-              fontFamily: "Nunito",
+              fontFamily: font,
               fontSize: 12,
               border: error ? "1px solid red" : "none",
               maxHeight: "480px",

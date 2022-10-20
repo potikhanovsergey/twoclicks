@@ -11,6 +11,8 @@ import { CSSProperties, Dispatch, ReactNode, SetStateAction, Suspense, useContex
 import HeaderProfile from "./HeaderProfile"
 import Logo from "../Logo"
 import { ModalContext } from "contexts/ModalContext"
+import ButtonGroup from "../base/ButtonGroup"
+import { useRouter } from "next/router"
 
 interface ILayoutHeader {
   fixed?: boolean
@@ -49,6 +51,7 @@ const LayoutHeader = ({
       menuModal: !prevValue.menuModal,
     }))
   }
+  const router = useRouter()
   return (
     <Header
       position={position}
@@ -109,13 +112,28 @@ const LayoutHeader = ({
               {title}
             </div>
           )}
+          <ButtonGroup
+            wrapperProps={{
+              sx: {
+                marginLeft: "auto",
+              },
+            }}
+            buttons={[
+              { label: "Pages", value: "/pages" },
+              { label: "Builder", value: "/build" },
+              { label: "About us", value: "/" },
+              { label: "FAQ", value: "/faq" },
+              // { label: "Support", value: "/support" },
+            ].map((b) => ({
+              elType: "link",
+              children: b.label,
+              href: b.value,
+              active: b.value === router.asPath,
+            }))}
+          />
           {withProfile && (
             <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-              <div>
-                <Suspense fallback={<Skeleton height={32} width={200} animate />}>
-                  <HeaderProfile withAuthButton={withAuthButton} />
-                </Suspense>
-              </div>
+              <HeaderProfile withAuthButton={withAuthButton} />
             </MediaQuery>
           )}
         </Group>

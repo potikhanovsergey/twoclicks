@@ -22,6 +22,7 @@ const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getR
     position: "relative",
     cursor: "pointer",
     overflow: "hidden",
+    borderRadius: theme.radius.sm,
     "&:after": {
       position: "absolute",
       content: "''",
@@ -91,19 +92,15 @@ const PageCard = ({
     <Stack spacing={8} sx={{ position: "relative" }}>
       {withOptions && <PageCardOptions page={page} />}
       <Paper<"a">
-        withBorder
         className={classes.imageCard}
         component={customizable ? undefined : "a"}
         href={customizable ? undefined : `/${toBuild ? "build" : "p"}/${page.id}`}
         target={customizable || toBuild ? undefined : "_blank"}
       >
         <Box
-          sx={(theme) => ({
+          sx={{
             paddingBottom: `${100 / CROP_AREA_ASPECT}%`,
-            img: {
-              borderRadius: theme.radius.sm,
-            },
-          })}
+          }}
           {...imageStyles}
         >
           {customizable && onDrop ? (

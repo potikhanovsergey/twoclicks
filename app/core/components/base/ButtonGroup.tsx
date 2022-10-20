@@ -86,7 +86,7 @@ const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps
               key={i}
               condition={elType !== "button"}
               wrap={(children) => {
-                if (elType === "menuItem" && href) {
+                if ((elType === "menuItem" || elType === "link") && href) {
                   return (
                     <Link href={href} passHref>
                       {children}

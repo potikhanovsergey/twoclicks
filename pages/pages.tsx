@@ -12,13 +12,12 @@ import { PageCardProps } from "app/pages-grid/PageCard"
 import { FeedStore } from "store/feed"
 import { observer } from "mobx-react-lite"
 import { useDebouncedValue } from "@mantine/hooks"
-import PageCardSkeleton from "app/pages-grid/PageCardSkeleton"
 
 const ITEMS_PER_PAGE = 50
 
 const PagesFeed = observer(({ pages }: { pages: PageCardProps[] }) => {
   return (
-    <Container size="lg" pb="xl">
+    <Container size="xl" pb="xl">
       <Box
         sx={(theme) => ({
           position: "sticky",
@@ -29,16 +28,7 @@ const PagesFeed = observer(({ pages }: { pages: PageCardProps[] }) => {
       >
         <PagesHeader />
       </Box>
-      {/* {hasSkeletons ? (
-        <SimpleGrid cols={3} spacing={32}>
-          {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((item, i) => (
-            <PageCardSkeleton key={i} />
-          ))}
-          <Skeleton visible animate height={200} />
-        </SimpleGrid>
-      ) : ( */}
       <PagesGrid pages={pages as PageCardProps[]} />
-      {/* )} */}
     </Container>
   )
 })

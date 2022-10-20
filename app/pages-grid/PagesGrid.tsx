@@ -1,7 +1,6 @@
 import { Box, SimpleGrid, Skeleton, createStyles } from "@mantine/core"
 import { VirtuosoGrid } from "react-virtuoso"
 import PageCard, { PageCardProps } from "./PageCard"
-import FeedPageCardBottom from "./FeedPageCardBottom"
 import FeedPageCard from "app/build-pages/FeedPageCard"
 
 interface PagesGridProps {

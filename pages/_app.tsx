@@ -39,56 +39,21 @@ declare module "@mantine/core" {
   }
 }
 
+export const font = `'Nunito', -system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif`
+
 export const baseURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
     : process.env.NEXT_PUBLIC_PRODUCTION_URL
 
 const CustomTheme: MantineThemeOverride = {
-  fontFamily: "'Nunito', sans-serif;",
+  fontFamily: font,
   headings: {
-    fontFamily: "'Nunito', sans-serif",
+    fontFamily: font,
   },
   colors: {
-    // primary: [
-    //   "#e9e6ff",
-    //   "#dfd9ff",
-    //   "#c9c0ff",
-    //   "#beb3ff",
-    //   "#a99aff",
-    //   "#9381ff",
-    //   "#8474e6",
-    //   "#7667cc",
-    //   "#675ab3",
-    //   "#584d99",
-    // ],
-    // primary: [
-    //   "#fef2f2",
-    //   "#fdd7d7",
-    //   "#fcbcbc",
-    //   "#fba1a1",
-    //   "#fa8686",
-    //   "#F97979",
-    //   "#e06d6d",
-    //   "#c76161",
-    //   "#ae5555",
-    //   "#954949",
-    // ],
-    // dark: [
-    //   "#ebebec",
-    //   "#c2c2c5",
-    //   "#999a9e",
-    //   "#707277",
-    //   "#474950",
-    //   "#32353d",
-    //   "#282a31",
-    //   "#1e2025",
-    //   "#191b1f",
-    //   "#0f1012",
-    // ],
     primary: DEFAULT_THEME.colors.indigo,
   },
-
   primaryColor: "primary",
   primaryShade: 5,
   globalStyles: (theme) => ({
@@ -111,18 +76,8 @@ const CustomTheme: MantineThemeOverride = {
       wordBreak: "break-word",
       overflowY: "auto",
       overflowX: "hidden",
-    },
-    ".ql-font-Times": {
-      fontFamily: "Times New Roman, sans",
-    },
-    ".ql-font-Nunito": {
-      fontFamily: "'Nunito', sans-serif",
-    },
-    ".ql-font-Helvetica": {
-      fontFamily: "Helvetica, sans-serif",
-    },
-    ".ql-font-Arial": {
-      fontFamily: "Arial, sans-serif",
+      letterSpacing: "-.01em",
+      WebkitFontSmoothing: "antialiased",
     },
   }),
   components: {

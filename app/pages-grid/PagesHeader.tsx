@@ -23,7 +23,7 @@ const PagesHeader = () => {
   }, [])
   return (
     <Box>
-      <Grid my="lg" sx={{ justifyContent: "space-between", alignItems: "center" }}>
+      <Grid my="md" sx={{ justifyContent: "space-between", alignItems: "center" }}>
         <Grid.Col span={2}>
           <Select value={sortType} data={sortTypes} onChange={onChangeSortType} />
         </Grid.Col>
