@@ -59,7 +59,7 @@ const LayoutHeader = ({
             : theme.fn.rgba(theme.white, 0.72)
           : dark
           ? theme.colors.dark[7]
-          : theme.colors.white,
+          : theme.white,
         zIndex: 302,
         backdropFilter: "saturate(270%) blur(5px)",
         paddingRight: "var(--removed-scroll-width, 0px)",

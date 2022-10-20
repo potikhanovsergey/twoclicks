@@ -20,18 +20,16 @@ const ListComponent = observer(() => {
     (index, block: ICanvasBlock) => {
       return (
         <div className="builder-block" key={block.id} style={{ minHeight: 1 }}>
-          <SafeWrapper>
-            <RenderJSXFromBlock
-              element={block}
-              withMobx
-              shouldFlat
-              withContentEditable
-              withEditToolbar
-              withThemeSettings
-              themeSettings={themeSettings}
-              sectionIndex={index}
-            />
-          </SafeWrapper>
+          <RenderJSXFromBlock
+            element={block}
+            withMobx
+            shouldFlat
+            withContentEditable
+            withEditToolbar
+            withThemeSettings
+            themeSettings={themeSettings}
+            sectionIndex={index}
+          />
         </div>
       )
     },
@@ -66,8 +64,8 @@ const Blocks = observer(() => {
           <Button
             variant={dark ? "white" : "filled"}
             color="dark"
-            size="md"
-            style={{ minWidth: "192px" }}
+            size="sm"
+            style={{ minWidth: "168px" }}
             rightIcon={<FiPlusSquare />}
             onClick={onClick}
           >

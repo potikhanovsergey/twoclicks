@@ -7,7 +7,7 @@ function Logo({ ...props }: React.SVGProps<SVGSVGElement>) {
   const dark = colorScheme === "dark"
 
   return (
-    <Link href="/" prefetch={false}>
+    <Link href="/">
       <svg
         viewBox="0 0 1034 222"
         fill="none"

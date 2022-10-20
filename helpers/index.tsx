@@ -33,6 +33,7 @@ export const TraverseProp = ({
   sectionIndex?: number
   withMobx?: boolean
 }) => {
+  console.log("TRAVERSE PROP", prop, propValue, type)
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (type.includes("button") || type.includes("badge")) {
       return (
@@ -250,7 +251,7 @@ export function serialize(element: any) {
         return
       case "type":
         const type = getElementType(value)
-        return type
+        return type && type.toLowerCase ? type.toLowerCase() : type
       default:
         return value
     }

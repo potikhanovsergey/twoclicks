@@ -110,11 +110,7 @@ const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
   const session = useSession()
   const { classes } = useStyles()
   return (
-    <Stack
-      spacing={0}
-      className={classes.canvas}
-      style={{ height: isCanvasEmpty ? "100%" : "auto" }}
-    >
+    <Stack spacing={0} className={classes.canvas} style={{ height: "100%" }}>
       <BuilderBlocks />
       {/* {session.userId ? (
         <div
@@ -254,7 +250,7 @@ const Builder = () => {
         <Container
           size="xl"
           px={64}
-          py={viewMode === "mobile" ? 12 : isCanvasEmpty ? 24 : 64}
+          py={viewMode === "mobile" ? 12 : 64}
           className={classes.canvasContainer}
           ref={containerRef}
         >

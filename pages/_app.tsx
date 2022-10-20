@@ -126,6 +126,13 @@ const CustomTheme: MantineThemeOverride = {
     },
   }),
   components: {
+    InputWrapper: {
+      styles: {
+        label: {
+          marginBottom: 4,
+        },
+      },
+    },
     ActionIcon: {
       defaultProps: {
         color: "primary",

@@ -1,10 +1,9 @@
-import { ColorScheme } from "@mantine/core"
-import { Page } from "@prisma/client"
-import { setCookie } from "cookies-next"
-import { makeAutoObservable, action } from "mobx"
+import { makeAutoObservable } from "mobx"
 
 class Store {
   searchValue: string = ""
+  feedType: string = "All"
+  sortType: string = "Popular"
 
   constructor() {
     makeAutoObservable(this)

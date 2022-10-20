@@ -2,25 +2,30 @@ import { Grid, Select, Button, useMantineTheme, Box, Group, TextInput } from "@m
 import { FaSearch } from "@react-icons/all-files/fa/FaSearch"
 import ButtonGroup from "app/core/components/base/ButtonGroup"
 import { observer } from "mobx-react-lite"
-import { useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { FeedStore } from "store/feed"
 
 const PagesHeader = () => {
   const theme = useMantineTheme()
+  const { feedType, sortType } = FeedStore
 
-  const [filtersOpened, setFiltersOpened] = useState(false)
+  const sortTypes = useMemo(() => {
+    return [
+      { value: "Popular", label: "Popular" },
+      { value: "Latest", label: "Latest" },
+      { value: "Following", label: "Following" },
+    ]
+  }, [])
+  const onChangeSortType = useCallback((v) => {
+    if (v) {
+      FeedStore.sortType = v
+    }
+  }, [])
   return (
     <Box>
       <Grid my="lg" sx={{ justifyContent: "space-between", alignItems: "center" }}>
         <Grid.Col span={2}>
-          <Select
-            value={"Popular"}
-            data={[
-              { value: "Popular", label: "Popular" },
-              { value: "New & Noteworthy", label: "New & Noteworthy" },
-              { value: "Following", label: "Following" },
-            ]}
-          />
+          <Select value={sortType} data={sortTypes} onChange={onChangeSortType} />
         </Grid.Col>
         <Grid.Col span={8}>
           <ButtonGroup
@@ -32,24 +37,18 @@ const PagesHeader = () => {
               },
             }}
             buttons={[
-              {
-                type: "button",
-                children: "All",
-                active: true,
+              { label: "All", value: "All" },
+              { label: "Portfolios", value: "Portfolio" },
+              { label: "Projects", value: "Project" },
+              { label: "Templates", value: "Template" },
+            ].map((b) => ({
+              type: "button",
+              children: b.label,
+              active: feedType === b.value,
+              onClick: () => {
+                FeedStore.feedType = b.value
               },
-              {
-                type: "button",
-                children: "Landings",
-              },
-              {
-                type: "button",
-                children: "Portfolios",
-              },
-              {
-                type: "button",
-                children: "Templates",
-              },
-            ]}
+            }))}
           />
         </Grid.Col>
         <Grid.Col span={2} sx={{ display: "flex", justifyContent: "flex-end" }}>

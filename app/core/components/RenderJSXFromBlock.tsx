@@ -46,13 +46,9 @@ const RenderJSXFromBlock = observer(
       return withMobx && element.id ? BuildStore.getElement(element.id) || element : element
     }, [element])
 
-    const typeLC = useMemo(() => {
-      return mobxElement.type.toLowerCase()
-    }, [mobxElement.type])
-
     const TagName = useMemo(() => {
-      return canvasBuildingBlocks[typeLC] || typeLC
-    }, [typeLC])
+      return canvasBuildingBlocks[mobxElement.type.toLowerCase()] || mobxElement.type.toLowerCase()
+    }, [mobxElement.type])
 
     const props = useMemo(() => {
       const newProps = JSON.parse(JSON.stringify(mobxElement.props)) as ICanvasBlockProps // not only children, byt any other element's prop can be React.Node or JSX.mobxElement.
@@ -60,14 +56,17 @@ const RenderJSXFromBlock = observer(
 
       if (
         ["@mantine/core/button", "@mantine/core/themeicon", "@mantine/core/actionicon"].includes(
-          typeLC
+          mobxElement.type
         ) &&
         withContentEditable
       ) {
         newProps.component = "span"
       }
 
-      if (withContentEditable && (typeLC.includes("header") || typeLC.includes("footer"))) {
+      if (
+        withContentEditable &&
+        (mobxElement.type.includes("header") || mobxElement.type.includes("footer"))
+      ) {
         newProps.component = "div"
       }
 
@@ -76,18 +75,25 @@ const RenderJSXFromBlock = observer(
       }
 
       if (withThemeSettings) {
-        if (getPaletteByType(typeLC) && !newProps[getPaletteByType(typeLC).prop]) {
-          newProps[getPaletteByType(typeLC).prop] =
-            themeSettings?.palette?.[getPaletteByType(typeLC).color]
+        if (
+          getPaletteByType(mobxElement.type) &&
+          !newProps[getPaletteByType(mobxElement.type).prop]
+        ) {
+          newProps[getPaletteByType(mobxElement.type).prop] =
+            themeSettings?.palette?.[getPaletteByType(mobxElement.type).color]
         }
-        if (getRadiusesByType(typeLC) && !newProps.radius && !typeLC.includes("image")) {
+        if (
+          getRadiusesByType(mobxElement.type) &&
+          !newProps.radius &&
+          !mobxElement.type.includes("image")
+        ) {
           newProps.radius = themeSettings?.radius
         }
-        if (defaultVariants.includes(typeLC) && !newProps.variant) {
+        if (defaultVariants.includes(mobxElement.type) && !newProps.variant) {
           newProps.variant = themeSettings?.variant
         }
 
-        if (defaultGradients.includes(typeLC) && !newProps.gradient) {
+        if (defaultGradients.includes(mobxElement.type) && !newProps.gradient) {
           newProps.gradient = themeSettings?.gradient
         }
       }
@@ -105,7 +111,7 @@ const RenderJSXFromBlock = observer(
               withEditToolbar,
               withThemeSettings,
               themeSettings,
-              type: typeLC,
+              type: mobxElement.type,
               sectionIndex,
             })
           }
@@ -120,7 +126,7 @@ const RenderJSXFromBlock = observer(
             withEditToolbar,
             withThemeSettings,
             themeSettings,
-            type: typeLC,
+            type: mobxElement.type,
             sectionIndex,
           })
           if (traversedProp) {
@@ -129,7 +135,7 @@ const RenderJSXFromBlock = observer(
         }
       }
       return newProps
-    }, [mobxElement.props, mobxElement.props?.[childrenProp], typeLC, mobxElement.id, sectionIndex])
+    }, [mobxElement.props, mobxElement.props?.[childrenProp], mobxElement.type])
 
     if (withEditToolbar && element?.editType === "icon") {
       return (
@@ -152,17 +158,21 @@ const RenderJSXFromBlock = observer(
           key={mobxElement.id}
           parentID={parentID}
           sectionIndex={sectionIndex}
-          element={{ ...mobxElement, type: typeLC }}
+          element={mobxElement}
           childrenProp={childrenProp}
         >
-          <TagName {...props} fixed={typeLC.includes("header") ? false : undefined} />
+          <TagName {...props} fixed={mobxElement.type.includes("header") ? false : undefined} />
         </WithEditToolbar>
       )
     }
 
     const { children, ...restProps } = props
 
-    if (typeof children === "string" && !typeLC.includes("button") && !typeLC.includes("badge")) {
+    if (
+      typeof children === "string" &&
+      !mobxElement.type.includes("button") &&
+      !mobxElement.type.includes("badge")
+    ) {
       return (
         <TagName
           key={mobxElement.id}

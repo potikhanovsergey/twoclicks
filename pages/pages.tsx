@@ -53,18 +53,16 @@ const Pages = () => {
 
   const router = useRouter()
 
-  const { searchValue } = FeedStore
+  const { searchValue, feedType, sortType } = FeedStore
   const [debouncedSearchValue] = useDebouncedValue(searchValue, 300)
 
   const pageNumber = Number(router.query.page) || 1
   const [{ pages, hasMore, count }] = usePaginatedQuery(
     getAllPages,
     {
-      orderBy: [
-        {
-          updatedAt: "desc",
-        },
-      ],
+      orderBy: {
+        updatedAt: sortType === "Latest" ? "desc" : undefined,
+      },
       skip: ITEMS_PER_PAGE * (pageNumber - 1),
       take: ITEMS_PER_PAGE,
       include: {
@@ -77,6 +75,13 @@ const Pages = () => {
       },
       where: {
         // isPublished: true,
+        feedType: feedType === "All" || feedType === "Template" ? undefined : feedType,
+        template:
+          feedType === "Template"
+            ? {
+                not: null,
+              }
+            : undefined,
         OR: [
           {
             name: {

@@ -93,6 +93,44 @@ const TextEditor: React.FC<{
   const theme = useMantineTheme()
   const dark = theme.colorScheme === "dark"
 
+  const toggleBold = () => {
+    editor && editor.chain().focus().toggleBold().run()
+  }
+
+  const setLink = () => {
+    if (editor) {
+      let url = linkValue
+      if (!/^https?:\/\//i.test(url)) {
+        url = "http://" + url
+      }
+      editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
+      setEditLinkActive(false)
+    }
+  }
+
+  const toggleTextAlignLeft = () => {
+    editor && editor.chain().focus().setTextAlign("left").run()
+  }
+
+  const toggleTextAlignCenter = () => {
+    editor && editor.chain().focus().setTextAlign("center").run()
+  }
+
+  const toggleTextAlignRight = () => {
+    editor && editor.chain().focus().setTextAlign("right").run()
+  }
+
+  const toggleTextAlignJustify = () => {
+    editor && editor.chain().focus().setTextAlign("justify").run()
+  }
+
+  const openLinkInput = () => {
+    if (editor) {
+      editor.chain().focus().run()
+      setEditLinkActive(true)
+    }
+  }
+
   return editor ? (
     <>
       <BubbleMenu
@@ -128,9 +166,7 @@ const TextEditor: React.FC<{
               radius={0}
               variant={editor.isActive("bold") ? "light" : "filled"}
               color={editor.isActive("bold") ? "primary" : dark ? "dark" : "dark.4"}
-              onClick={() => {
-                editor.chain().focus().toggleBold().run()
-              }}
+              onClick={toggleBold}
             >
               <FaBold />
             </ActionIcon>
@@ -148,9 +184,7 @@ const TextEditor: React.FC<{
               radius={0}
               variant={editor.isActive({ textAlign: "left" }) ? "light" : "filled"}
               color={editor.isActive({ textAlign: "left" }) ? "primary" : dark ? "dark" : "dark.4"}
-              onClick={() => {
-                editor.chain().focus().setTextAlign("left").run()
-              }}
+              onClick={toggleTextAlignLeft}
             >
               <FaAlignLeft />
             </ActionIcon>
@@ -170,9 +204,7 @@ const TextEditor: React.FC<{
               color={
                 editor.isActive({ textAlign: "center" }) ? "primary" : dark ? "dark" : "dark.4"
               }
-              onClick={() => {
-                editor.chain().focus().setTextAlign("center").run()
-              }}
+              onClick={toggleTextAlignCenter}
             >
               <FaAlignCenter />
             </ActionIcon>
@@ -190,9 +222,7 @@ const TextEditor: React.FC<{
               radius={0}
               variant={editor.isActive({ textAlign: "right" }) ? "light" : "filled"}
               color={editor.isActive({ textAlign: "right" }) ? "primary" : dark ? "dark" : "dark.4"}
-              onClick={() => {
-                editor.chain().focus().setTextAlign("right").run()
-              }}
+              onClick={toggleTextAlignRight}
             >
               <FaAlignRight />
             </ActionIcon>
@@ -212,9 +242,7 @@ const TextEditor: React.FC<{
               color={
                 editor.isActive({ textAlign: "justify" }) ? "primary" : dark ? "dark" : "dark.4"
               }
-              onClick={() => {
-                editor.chain().focus().setTextAlign("justify").run()
-              }}
+              onClick={toggleTextAlignJustify}
             >
               <FaAlignJustify />
             </ActionIcon>
@@ -233,10 +261,7 @@ const TextEditor: React.FC<{
                 radius={0}
                 variant={editor.isActive("link") ? "light" : "filled"}
                 color={editor.isActive("link") ? "primary" : dark ? "dark" : "dark.4"}
-                onClick={() => {
-                  editor.chain().focus().run()
-                  setEditLinkActive(true)
-                }}
+                onClick={openLinkInput}
               >
                 <FaLink />
               </ActionIcon>
@@ -253,14 +278,7 @@ const TextEditor: React.FC<{
                   size="sm"
                   color="primary"
                   disabled={!linkValue.length}
-                  onClick={() => {
-                    let url = linkValue
-                    if (!/^https?:\/\//i.test(url)) {
-                      url = "http://" + url
-                    }
-                    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run()
-                    setEditLinkActive(false)
-                  }}
+                  onClick={setLink}
                 >
                   <FaCheck />
                 </ActionIcon>

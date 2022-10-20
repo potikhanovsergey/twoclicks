@@ -37,74 +37,6 @@ import TogglePublishPage2 from "./TogglePublishPage2"
 import { AppStore } from "store"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
-const AuthorizedActions = observer(() => {
-  const session = useSession()
-  const {
-    data: { id },
-  } = BuildStore
-  return session.userId ? <>{id && <TogglePublishPage id={id} />}</> : <></>
-})
-
-const PageSettings = observer(() => {
-  const theme = useMantineTheme()
-  const dark = theme.colorScheme === "dark"
-  const [popoverOpened, setPopoverOpened] = useState(false)
-
-  const [updatePageMutation, { isLoading }] = useMutation(updatePage)
-  const {
-    data: { id, appliedForTemplates },
-  } = BuildStore
-
-  const { hovered: iconHovered, ref: iconRef } = useHover<HTMLButtonElement>()
-  const { t } = useTranslation("build")
-  const session = useSession()
-  return session.role === "ADMIN" ? (
-    <Popover onChange={setPopoverOpened} opened={popoverOpened} width={196}>
-      <Popover.Target>
-        <Tooltip label={t("pageSettings")} position="bottom" opened={iconHovered && !popoverOpened}>
-          <ActionIcon
-            onClick={() => setPopoverOpened((o) => !o)}
-            size={30}
-            color="dark"
-            variant={dark ? ("white" as "filled") : "filled"}
-            ref={iconRef}
-          >
-            <FaCog />
-          </ActionIcon>
-        </Tooltip>
-      </Popover.Target>
-      <Popover.Dropdown py={4} px={8}>
-        <Text weight="bold" mb={4}>
-          {t("pageSettings")}
-        </Text>
-        <Stack spacing={8}>
-          <Tooltip multiline label={t("applyFotTemplatesToopltip")} position="bottom">
-            <Button
-              compact
-              size="xs"
-              disabled={appliedForTemplates}
-              loading={isLoading}
-              rightIcon={appliedForTemplates && <FaCheck />}
-              onClick={async () => {
-                const response = id
-                  ? await updatePageMutation({ id, appliedForTemplates: !appliedForTemplates })
-                  : undefined
-                if (response) {
-                  BuildStore.data.appliedForTemplates = !appliedForTemplates
-                }
-              }}
-            >
-              {appliedForTemplates ? t("appliedForTempalates") : t("applyForTemplates")}
-            </Button>
-          </Tooltip>
-        </Stack>
-      </Popover.Dropdown>
-    </Popover>
-  ) : (
-    <></>
-  )
-})
-
 const BuilderHeader = ({ className }: { className?: string }) => {
   // const { t } = useTranslation('build');
   const { toggle, fullscreen } = useFullscreen()
@@ -134,13 +66,7 @@ const BuilderHeader = ({ className }: { className?: string }) => {
       <Container size="xl">
         <Group style={{ width: "100%" }} position="apart">
           <Group spacing={8} align="center">
-            <Suspense fallback={<Skeleton height={32} width={90} />}>
-              <AuthorizedActions />
-            </Suspense>
-            {pageWithUser && <TogglePublishPage2 page={pageWithUser} />}
-            <Suspense fallback={<Skeleton height={32} width={90} />}>
-              <PageSettings />
-            </Suspense>
+            {pageWithUser && <TogglePublishPage2 leftIcon={<FaCog />} page={pageWithUser} />}
             <PageThemeSettings />
           </Group>
           <Box

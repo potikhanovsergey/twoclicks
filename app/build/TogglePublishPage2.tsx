@@ -10,11 +10,13 @@ import {
   SimpleGrid,
   Text,
   MultiSelect,
+  Select,
 } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { openModal } from "@mantine/modals"
 import { showNotification } from "@mantine/notifications"
 import updatePage from "app/build-pages/mutations/updatePage"
+import Info from "app/core/components/Info"
 import FeedPageCardBottom from "app/pages-grid/FeedPageCardBottom"
 import PageCard, { PageCardProps } from "app/pages-grid/PageCard"
 import { observer } from "mobx-react-lite"
@@ -38,11 +40,18 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
 
   const [updatePageMutation, { isLoading }] = useMutation(updatePage)
 
-  const [initialValues, setInitialValues] = useState({
+  const [initialValues, setInitialValues] = useState<{
+    name: string
+    isTemplate: boolean
+    previewImage: string | null
+    tags: string[]
+    feedType: string | null
+  }>({
     name: page.name,
     isTemplate: Boolean(page.template),
     previewImage: page.previewImage || null,
     tags: page.tags,
+    feedType: page.feedType || "All",
   })
 
   const form = useForm({
@@ -85,6 +94,7 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
         name: form.values.name,
         template: form.values.isTemplate ? "user" : null,
         tags: form.values.tags,
+        feedType: form.values.feedType,
       })
       if (response) {
         AppStore.updatePage(response)
@@ -93,6 +103,7 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
           isTemplate: Boolean(response.template),
           previewImage: response.previewImage,
           tags: response.tags,
+          feedType: response.feedType,
         })
       }
     }
@@ -101,10 +112,12 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
   // Check if current values are the same as initial values
   const isSaveDisabled = useMemo(() => {
     const formTags = form.values.tags.slice().sort()
+    console.log(form.values.feedType, initialValues.feedType)
     return (
       form.values.previewImage === initialValues?.previewImage &&
       form.values.name === initialValues.name &&
       form.values.isTemplate === initialValues.isTemplate &&
+      form.values.feedType === initialValues.feedType &&
       formTags.length === initialValues.tags.length &&
       initialValues.tags
         .slice()
@@ -118,9 +131,11 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
     form.values.previewImage,
     form.values.name,
     form.values.isTemplate,
+    form.values.feedType,
     initialValues?.previewImage,
     initialValues.name,
     initialValues.isTemplate,
+    initialValues.feedType,
     initialValues.tags,
   ])
 
@@ -208,6 +223,16 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
                   searchValue={inputTagValue}
                   onSearchChange={setInputTagValue}
                 />
+                <Select
+                  label={
+                    <Group align="center" spacing={4}>
+                      Page type <Info withArrow label="Type of the page in feed filters" />
+                    </Group>
+                  }
+                  data={["All", "Portfolio", "Project"]}
+                  value={form.values.feedType}
+                  onChange={(val) => form.setFieldValue("feedType", val)}
+                />
                 <Checkbox
                   label="Allow other users to copy the page"
                   {...form.getInputProps("isTemplate", { type: "checkbox" })}
@@ -243,7 +268,7 @@ const TogglePublishPage2 = ({ page, ...props }: TogglePublishPage2Props) => {
 
   return (
     <Button size="xs" {...props} onClick={handleClick}>
-      Publish page
+      Publication & Settings
     </Button>
   )
 }

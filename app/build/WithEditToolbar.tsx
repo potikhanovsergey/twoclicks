@@ -53,7 +53,8 @@ const useStyles = createStyles(
       element,
       opened,
       themeSettings,
-    }: { element: ICanvasBlock; opened: boolean; themeSettings: IThemeSettings }
+      type,
+    }: { element: ICanvasBlock; opened: boolean; themeSettings: IThemeSettings; type }
   ) => ({
     editable: {
       borderBottom:
@@ -62,9 +63,9 @@ const useStyles = createStyles(
           : undefined,
       border:
         element.editType === "section" ||
-        element.type.includes("divider") ||
+        type.includes("divider") ||
         element.props.variant === "outline" ||
-        (defaultVariants.includes(element.type) && themeSettings.variant === "outline")
+        (defaultVariants.includes(type) && themeSettings.variant === "outline")
           ? undefined
           : opened ||
             (typeof element.props?.children === "string" && !element.props?.children.length)
@@ -102,10 +103,14 @@ const WithEditToolbar = ({
   }, [opened, openedAction, element.id])
 
   const sectionLike = useMemo(() => {
-    return element.editType === "section" || element.type?.includes("card") || element?.sectionLike
+    return element.editType === "section" || type?.includes("card") || element?.sectionLike
   }, [element])
 
-  const { classes } = useStyles({ opened, element, themeSettings })
+  const type = useMemo(() => {
+    return element.type.toLowerCase()
+  }, [element.type])
+
+  const { classes } = useStyles({ opened, element, themeSettings, type })
   return (
     <Popover
       trapFocus={false}
@@ -185,18 +190,16 @@ const WithEditToolbar = ({
               x={element.editType !== "section"}
             />
           }
-          {TypeVariants[element.type] && <ElementVariantsEdit element={element} />}
-          {TypeSizes[element.type] && <ElementSizesEdit element={element} />}
-          {TypeRadius[element.type] && <ElementRadiusesEdit element={element} />}
-          {TypeGradients[element.type] &&
+          {TypeVariants[type] && <ElementVariantsEdit element={element} />}
+          {TypeSizes[type] && <ElementSizesEdit element={element} />}
+          {TypeRadius[type] && <ElementRadiusesEdit element={element} />}
+          {TypeGradients[type] &&
             (element.props.variant === "gradient" ||
               (!element.props.variant &&
                 themeSettings.variant === "gradient" &&
-                defaultGradients.includes(element.type))) && (
-              <ElementGradientsEdit element={element} />
-            )}
-          {/* {element.type &&
-            ["image", "youtubeframe"].some((item) => element.type.includes(item)) && (
+                defaultGradients.includes(type))) && <ElementGradientsEdit element={element} />}
+          {/* {type &&
+            ["image", "youtubeframe"].some((item) => type.includes(item)) && (
               <ElementTypeEdit
                 element={element}
                 types={[
@@ -207,31 +210,31 @@ const WithEditToolbar = ({
             )}{" "} */}
           {(element.props.variant !== "gradient" &&
             themeSettings.variant !== "gradient" &&
-            defaultGradients.includes(element.type)) ||
-          (!defaultGradients.includes(element.type) && element.props.variant !== "gradient") ? (
+            defaultGradients.includes(type)) ||
+          (!defaultGradients.includes(type) && element.props.variant !== "gradient") ? (
             <ElementPaletteEdit element={element} />
           ) : (
             <></>
           )}
           <ElementMoves parentID={parentID} element={element} />
-          {element.type && element.props && (
+          {type && element.props && (
             <ElementUploadLink
               element={element}
-              targetIcon={element.type.includes("image") ? <FaImage /> : undefined}
+              targetIcon={type.includes("image") ? <FaImage /> : undefined}
             />
           )}
-          {element.type &&
-            TypeIcons[element.type]?.map((propName) => (
+          {type &&
+            TypeIcons[type]?.map((propName) => (
               <ElementIconEdit propName={propName} key={propName} element={element} />
             ))}
-          {element.type && element.props && TypeLinks[element.type] && (
+          {type && element.props && TypeLinks[type] && (
             <ElementLinkEdit element={element} sectionIndex={sectionIndex} />
           )}
           {!element?.disableCopy && (
             <ElementCopyButton parentID={parentID} element={element} childrenProp={childrenProp} />
           )}
           {element.editType === "section" && <SectionBGEdit element={element} />}
-          {element.type.includes("header") && <HeaderFixedEdit element={element} />}
+          {type.includes("header") && <HeaderFixedEdit element={element} />}
           {!element?.disableDelete && (
             <ElementDeleteButton
               parentID={parentID}

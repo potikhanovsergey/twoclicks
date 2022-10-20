@@ -87,8 +87,9 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           onClose={() => {
             BuildStore.openedAction = {}
           }}
-          popoverPosition="top-end"
-          offset={6}
+          popoverPosition="left-end"
+          offset={0}
+          middlewares={{ shift: false, flip: false }}
           color={element.props?.sx?.backgroundColor}
           withReset={Boolean(element.props?.sx?.backgroundColor)}
           withImageDelete={Boolean(element.props?.sx?.backgroundImage)}
