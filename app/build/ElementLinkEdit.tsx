@@ -174,7 +174,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                       key={page.id}
                       variant="light"
                       onClick={() => {
-                        const url = `/p/${page.id}`
+                        const url = `/pages/${page.id}`
                         setLink(url)
                         handleLinkify(url, openInNewTab)
                       }}

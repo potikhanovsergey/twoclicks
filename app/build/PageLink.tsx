@@ -20,7 +20,7 @@ const PageLink = ({
   return (
     <Group spacing={4} noWrap position={centered ? "center" : undefined}>
       <Anchor
-        href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
+        href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/pages/${id}`}
         target="_blank"
         color="blue"
         size="sm"
@@ -35,9 +35,9 @@ const PageLink = ({
             : { whiteSpace: "nowrap" }
         }
       >
-        {`${baseURL}/p/${id}`}
+        {`${baseURL}/pages/${id}`}
       </Anchor>
-      <CopyButton value={`${baseURL}/p/${id}`} timeout={5000}>
+      <CopyButton value={`${baseURL}/pages/${id}`} timeout={5000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? t("link copied") : t("copy link")} withArrow position="bottom">
             <ActionIcon

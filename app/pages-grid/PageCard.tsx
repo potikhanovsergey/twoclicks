@@ -94,7 +94,7 @@ const PageCard = ({
       <Paper<"a">
         className={classes.imageCard}
         component={customizable ? undefined : "a"}
-        href={customizable ? undefined : `/${toBuild ? "build" : "p"}/${page.id}`}
+        href={customizable ? undefined : `/${toBuild ? "build" : "pages"}/${page.id}`}
         target={customizable || toBuild ? undefined : "_blank"}
       >
         <Box

@@ -20,7 +20,7 @@ import { useEffect, useMemo, useState } from "react"
 
 import { BsCaretLeftFill } from "@react-icons/all-files/bs/BsCaretLeftFill"
 import { BsCaretRightFill } from "@react-icons/all-files/bs/BsCaretRightFill"
-import Page from "app/p/Page"
+import Page from "app/p-pages/Page"
 import { inflateBase64 } from "helpers/utils"
 import { ICanvasPalette, IPage, IThemeSettings } from "types"
 import { Page as DBPage } from "db"
