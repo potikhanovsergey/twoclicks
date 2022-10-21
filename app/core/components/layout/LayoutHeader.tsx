@@ -132,9 +132,11 @@ const LayoutHeader = ({
             }))}
           />
           {withProfile && (
-            <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-              <HeaderProfile withAuthButton={withAuthButton} />
-            </MediaQuery>
+            <Suspense>
+              <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+                <HeaderProfile withAuthButton={withAuthButton} />
+              </MediaQuery>
+            </Suspense>
           )}
         </Group>
       </Container>

@@ -14,6 +14,7 @@ import {
   MantineThemeOverride,
   MANTINE_COLORS,
   DEFAULT_THEME,
+  LoadingOverlay,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -272,21 +273,21 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme; locale: "ru" |
   usePersistLocaleCookie()
 
   return (
-    <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider withCSSVariables withNormalizeCSS theme={{ ...CustomTheme, colorScheme }}>
-        <RouterTransition />
-        <ModalsProvider modalProps={{ zIndex: 1000 }}>
-          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-            <ModalContext.Provider value={[modalValue, setModalValue]}>
-              <Suspense>
+    <Suspense fallback={<LoadingOverlay visible />}>
+      <ErrorBoundary FallbackComponent={RootErrorFallback}>
+        <MantineProvider withCSSVariables withNormalizeCSS theme={{ ...CustomTheme, colorScheme }}>
+          <RouterTransition />
+          <ModalsProvider modalProps={{ zIndex: 1000 }}>
+            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+              <ModalContext.Provider value={[modalValue, setModalValue]}>
                 {getLayout(<Component {...pageProps} />)}
                 {modalValue.menuModal && <MenuModal />}
-              </Suspense>
-            </ModalContext.Provider>
-          </ColorSchemeProvider>
-        </ModalsProvider>
-      </MantineProvider>
-    </ErrorBoundary>
+              </ModalContext.Provider>
+            </ColorSchemeProvider>
+          </ModalsProvider>
+        </MantineProvider>
+      </ErrorBoundary>
+    </Suspense>
   )
 }
 

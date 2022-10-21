@@ -109,17 +109,14 @@ const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps
                 ref={(node) => {
                   refs.current[i] = node
                 }}
+                px={12}
+                size="sm"
                 sx={[
                   {
                     position: "relative",
                     userSelect: "none",
-                    padding: "6px 12px",
                     border: "none",
-                    // backgroundColor: active
-                    //   ? theme.colorScheme === "dark"
-                    //     ? theme.colors.dark[4]
-                    //     : theme.colors.gray[1]
-                    //   : "transparent",
+                    height: 30,
                     backgroundColor: "transparent",
                     color: active
                       ? theme.colorScheme === "dark"
