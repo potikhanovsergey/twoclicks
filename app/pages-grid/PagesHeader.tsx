@@ -22,51 +22,49 @@ const PagesHeader = () => {
     }
   }, [])
   return (
-    <Box>
-      <Grid my="md" sx={{ justifyContent: "space-between", alignItems: "center" }}>
-        <Grid.Col span={2}>
-          <Select value={sortType} data={sortTypes} onChange={onChangeSortType} />
-        </Grid.Col>
-        <Grid.Col span={8}>
-          <ButtonGroup
-            wrapperProps={{
-              sx: {
-                justifyContent: "center",
-                width: "fit-content",
-                margin: "0 auto",
-              },
-            }}
-            buttons={[
-              { label: "All", value: "All" },
-              { label: "Portfolios", value: "Portfolio" },
-              { label: "Projects", value: "Project" },
-              { label: "Templates", value: "Template" },
-            ].map((b) => ({
-              type: "button",
-              children: b.label,
-              active: feedType === b.value,
-              onClick: () => {
-                FeedStore.feedType = b.value
-              },
-            }))}
-          />
-        </Grid.Col>
-        <Grid.Col span={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <TextInput
-            placeholder="Search pages..."
-            size="sm"
-            aria-label="Search pages"
-            value={FeedStore.searchValue}
-            onChange={(e) => (FeedStore.searchValue = e.currentTarget.value)}
-            rightSection={
-              <FaSearch
-                color={theme.colorScheme === "dark" ? theme.colors.dark[3] : theme.colors.gray[5]}
-              />
-            }
-          />
-        </Grid.Col>
-      </Grid>
-    </Box>
+    <Grid sx={{ justifyContent: "space-between", alignItems: "center" }}>
+      <Grid.Col span={2}>
+        <Select value={sortType} data={sortTypes} onChange={onChangeSortType} />
+      </Grid.Col>
+      <Grid.Col span={8}>
+        <ButtonGroup
+          wrapperProps={{
+            sx: {
+              justifyContent: "center",
+              width: "fit-content",
+              margin: "0 auto",
+            },
+          }}
+          buttons={[
+            { label: "All", value: "All" },
+            { label: "Portfolios", value: "Portfolio" },
+            { label: "Projects", value: "Project" },
+            { label: "Templates", value: "Template" },
+          ].map((b) => ({
+            type: "button",
+            children: b.label,
+            active: feedType === b.value,
+            onClick: () => {
+              FeedStore.feedType = b.value
+            },
+          }))}
+        />
+      </Grid.Col>
+      <Grid.Col span={2} sx={{ display: "flex", justifyContent: "flex-end" }}>
+        <TextInput
+          placeholder="Search pages..."
+          size="sm"
+          aria-label="Search pages"
+          value={FeedStore.searchValue}
+          onChange={(e) => (FeedStore.searchValue = e.currentTarget.value)}
+          rightSection={
+            <FaSearch
+              color={theme.colorScheme === "dark" ? theme.colors.dark[3] : theme.colors.gray[5]}
+            />
+          }
+        />
+      </Grid.Col>
+    </Grid>
   )
 }
 

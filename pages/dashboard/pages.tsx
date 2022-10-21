@@ -17,7 +17,6 @@ const ITEMS_PER_PAGE = 50
 
 const DashboardPages = () => {
   const session = useSession()
-
   useEffect(() => {
     if (session.role !== "ADMIN") {
       throw new AuthorizationError()

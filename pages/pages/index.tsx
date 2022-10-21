@@ -152,21 +152,25 @@ const PagesFeed = observer(() => {
 
 const Pages = () => {
   return (
-    <Container size="xl" pb="xl">
+    <>
       <Box
         sx={(theme) => ({
           position: "sticky",
           top: "var(--layout-header-height)",
-          background: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+          background: theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white,
           zIndex: 10,
         })}
       >
-        <PagesHeader />
+        <Container size="xl" py="xs">
+          <PagesHeader />
+        </Container>
       </Box>
-      <Suspense>
-        <PagesFeed />
-      </Suspense>
-    </Container>
+      <Container size="xl" pb="xl">
+        <Suspense>
+          <PagesFeed />
+        </Suspense>
+      </Container>
+    </>
   )
 }
 

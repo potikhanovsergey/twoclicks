@@ -69,7 +69,7 @@ const CustomTheme: MantineThemeOverride = {
       WebkitTextFillColor: theme.white,
     },
     body: {
-      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white,
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
       lineHeight: theme.lineHeight,
       minHeight: "100vh",
