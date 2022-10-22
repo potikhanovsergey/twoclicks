@@ -8,6 +8,7 @@ import { AppStore } from "store"
 import getUserPages from "./queries/getUserPages"
 import PageCard from "app/pages-grid/PageCard"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
+import PageCardOptions from "app/pages-grid/PageCardOptions"
 
 const PageCardsItems = observer(() => {
   const { pages } = AppStore
@@ -17,7 +18,14 @@ const PageCardsItems = observer(() => {
     <SimpleGrid cols={3} spacing={32}>
       {pages.map((page) => {
         const pageWithUser = { ...page, user: { name: user?.name, avatar: user?.avatar } }
-        return <PageCard toBuild page={pageWithUser} key={page.id} withOptions />
+        return (
+          <PageCard
+            href={`/build/${page.id}`}
+            bottomText={page.name}
+            key={page.id}
+            options={<PageCardOptions page={pageWithUser} />}
+          />
+        )
       })}
     </SimpleGrid>
   ) : (

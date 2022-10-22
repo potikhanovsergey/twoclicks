@@ -9,8 +9,10 @@ import { PageCardProps } from "./PageCard"
 
 const PageCardOptions = ({ page }: { page: PageCardProps }) => {
   return (
-    <Group position="apart" sx={{ position: "absolute", right: 8, top: 8, left: 8, zIndex: 1 }}>
-      <ThemeIcon variant="default">{page.isPublished ? <FaEye /> : <FaEyeSlash />}</ThemeIcon>
+    <>
+      <ThemeIcon sx={{ marginRight: "auto" }} variant="default">
+        {page.isPublished ? <FaEye /> : <FaEyeSlash />}
+      </ThemeIcon>
       <Popover withArrow withinPortal>
         <Popover.Target>
           <ActionIcon variant="default">
@@ -29,7 +31,7 @@ const PageCardOptions = ({ page }: { page: PageCardProps }) => {
           </Stack>
         </Popover.Dropdown>
       </Popover>
-    </Group>
+    </>
   )
 }
 

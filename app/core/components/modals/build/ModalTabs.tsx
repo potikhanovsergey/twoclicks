@@ -6,6 +6,7 @@ import {
   Box,
   Group,
   ActionIcon,
+  Button,
 } from "@mantine/core"
 import React, { Suspense, useMemo, useState } from "react"
 import ViewList from "./ViewList"
@@ -92,21 +93,20 @@ const ComponentsModalTabs = ({ modalType, onClose }: IComponentsModalTabs) => {
       <Group
         position="apart"
         align="center"
+        pl={25}
+        pr={16}
         sx={{
           position: "fixed",
           top: 0,
+          height: 48,
           left: "160px",
-          right: "var(--removed-scroll-width, 0)",
-          paddingRight: "var(--removed-scroll-width, 0px)",
-          height: "40px",
+          right: "20px",
           zIndex: 1,
           backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
         }}
       >
         <ButtonGroup
           wrapperProps={{
-            pt: 8,
-            pb: 0,
             pl: 12,
             pr: 24,
             sx: {
@@ -120,13 +120,7 @@ const ComponentsModalTabs = ({ modalType, onClose }: IComponentsModalTabs) => {
             active: b.value === activeTab.value,
           }))}
         />
-        <ActionIcon
-          onClick={onClose}
-          size="sm"
-          // color={dark ? "gray" : "dark"}
-          variant="filled"
-          color="violet"
-        >
+        <ActionIcon onClick={onClose} size="sm" variant="filled" color="primary">
           <VscChromeClose size={16} />
         </ActionIcon>
       </Group>

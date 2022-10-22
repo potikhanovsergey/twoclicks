@@ -12,10 +12,10 @@ export interface PageCardProps extends DBPage {
 
 import { createStyles } from "@mantine/core"
 import ImagePicker from "app/core/components/base/ImagePicker"
-import { ReactNode, useEffect } from "react"
-import PageCardOptions from "./PageCardOptions"
+import { forwardRef, MouseEventHandler, ReactNode, RefObject, useEffect } from "react"
 import SkeletonImage from "app/core/components/base/SkeletonImage"
 import { observer } from "mobx-react-lite"
+import CardOptions from "./CardOptions"
 
 const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getRef) => ({
   imageCard: {
@@ -59,84 +59,91 @@ const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getR
 
 const CROP_AREA_ASPECT = 16 / 9
 
-const PageCard = ({
-  page,
-  previewImage,
-  imageStyles,
-  customizable,
-  toBuild,
-  bottomNode,
-  withOptions,
-  onDrop,
-}: {
-  page: PageCardProps
-  customizable?: boolean
-  previewImage?: string | null
-  imageStyles?: Partial<AspectRatioProps>
-  toBuild?: boolean
-  bottomNode?: ReactNode
-  withOptions?: boolean
-  onDrop?: (files: File[]) => void
-}) => {
-  const { classes } = useStyles({
-    cardLike: Boolean(!customizable || (customizable && previewImage)),
-  })
+const PageCard = forwardRef(
+  (
+    {
+      previewImage,
+      customizable,
+      bottomNode,
+      options,
+      href,
+      openInNewTab,
+      bottomText,
+      onClick,
+      onDrop,
+    }: {
+      customizable?: boolean
+      previewImage?: string | null
+      href?: string
+      openInNewTab?: boolean
+      bottomNode?: ReactNode
+      options?: ReactNode
+      bottomText?: string
+      onClick?: MouseEventHandler<HTMLElement>
+      onDrop?: (files: File[]) => void
+    },
+    ref: RefObject<HTMLDivElement>
+  ) => {
+    const { classes } = useStyles({
+      cardLike: Boolean(!customizable || (customizable && previewImage)),
+    })
 
-  useEffect(() => {
-    return () => {
-      previewImage && URL.revokeObjectURL(previewImage)
-    }
-  }, [])
+    useEffect(() => {
+      return () => {
+        previewImage && URL.revokeObjectURL(previewImage)
+      }
+    }, [])
 
-  return (
-    <Stack spacing={8} sx={{ position: "relative" }}>
-      {withOptions && <PageCardOptions page={page} />}
-      <Paper<"a">
-        className={classes.imageCard}
-        component={customizable ? undefined : "a"}
-        href={customizable ? undefined : `/${toBuild ? "build" : "pages"}/${page.id}`}
-        target={customizable || toBuild ? undefined : "_blank"}
-      >
-        <Box
-          sx={{
-            paddingBottom: `${100 / CROP_AREA_ASPECT}%`,
-          }}
-          {...imageStyles}
+    return (
+      <Stack spacing={8} sx={{ position: "relative" }} ref={ref}>
+        <Paper<"a">
+          className={classes.imageCard}
+          component={!customizable && href ? "a" : undefined}
+          href={!customizable && href ? href : undefined}
+          target={openInNewTab ? "_blank" : undefined}
+          onClick={onClick}
         >
-          {customizable && onDrop ? (
-            <ImagePicker onDrop={onDrop}>
-              <SkeletonImage
-                src={previewImage || page.previewImage || "/twoclicks-placeholder.png"}
-                alt={page.name + " by " + page.user.name}
-                layout="fill"
-              />
-            </ImagePicker>
-          ) : (
-            <SkeletonImage
-              src={previewImage || page.previewImage || "/twoclicks-placeholder.png"}
-              alt={page.name + " by " + page.user.name}
-              layout="fill"
-            />
-          )}
-        </Box>
-        {!customizable && (
-          <Text
-            className={classes.imageBottom}
-            color="white"
+          <Box
             sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "24ch",
-              whiteSpace: "nowrap",
+              paddingBottom: `${100 / CROP_AREA_ASPECT}%`,
             }}
           >
-            {page.name}
-          </Text>
-        )}
-      </Paper>
-      {bottomNode}
-    </Stack>
-  )
-}
+            {customizable && onDrop ? (
+              <ImagePicker onDrop={onDrop}>
+                <SkeletonImage
+                  src={previewImage || "/twoclicks-placeholder.png"}
+                  alt=""
+                  layout="fill"
+                />
+              </ImagePicker>
+            ) : (
+              <SkeletonImage
+                src={previewImage || "/twoclicks-placeholder.png"}
+                alt=""
+                layout="fill"
+              />
+            )}
+          </Box>
+          {!customizable && bottomText && (
+            <Text
+              className={classes.imageBottom}
+              color="white"
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "24ch",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {bottomText}
+            </Text>
+          )}
+        </Paper>
+        {bottomNode}
+        {options && <CardOptions>{options}</CardOptions>}
+      </Stack>
+    )
+  }
+)
 
 export default observer(PageCard)

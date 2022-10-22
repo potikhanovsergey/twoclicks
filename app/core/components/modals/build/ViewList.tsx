@@ -12,6 +12,8 @@ import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import { ICanvasBlock, ICanvasModalType } from "types"
 import dynamic from "next/dynamic"
+import PageCard from "app/pages-grid/PageCard"
+import LikeBlock from "./LikeBlock"
 
 const ViewListItem = dynamic(() => import("./ViewListItem"))
 
@@ -29,6 +31,7 @@ const useStyles = createStyles(() => ({
   // scrollArea: { position: "relative", width: "100%" },
   grid: {
     padding: "0 20px",
+    width: "100%",
   },
 }))
 interface IViewList {

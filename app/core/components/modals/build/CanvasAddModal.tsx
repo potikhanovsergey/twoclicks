@@ -7,6 +7,7 @@ import {
   useMantineTheme,
   Text,
   Loader,
+  Global,
 } from "@mantine/core"
 import { memo, Suspense, useContext } from "react"
 import useTranslation from "next-translate/useTranslation"
@@ -69,15 +70,14 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
   const { t } = useTranslation("build")
   return (
     <Modal
+      transitionDuration={0}
       overflow="outside"
       fullScreen
-      lockScroll
       closeOnEscape
-      overlayOpacity={dark ? 0.8 : 0.6}
       styles={{
         inner: {
           padding: 0,
-          overflow: "hidden",
+          // overflow: "hidden",
         },
         body: {
           height: "100%",
@@ -89,14 +89,14 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
       onClose={handleModalClose}
       zIndex={1000}
     >
-      <Group style={{ height: "100%" }} spacing={0} noWrap>
+      <Group sx={{ height: "100%" }} pl="lg" spacing={0} noWrap>
         <Stack
           style={{
             height: "100%",
             padding: "10px 0",
             width: "100%",
             maxWidth: "160px",
-            borderRight: "1px solid",
+            // borderRight: "1px solid",
             position: "fixed",
             top: 0,
             bottom: 0,
@@ -128,6 +128,7 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
           <ComponentsModalTabs modalType={type} onClose={handleModalClose} />
         </Stack>
       </Group>
+      <Global styles={{ body: { overflow: "hidden" } }} />
     </Modal>
   )
 }

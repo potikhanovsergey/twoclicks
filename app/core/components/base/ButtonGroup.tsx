@@ -111,6 +111,20 @@ const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps
                 }}
                 px={12}
                 size="sm"
+                styles={{
+                  label: {
+                    position: "relative",
+                    "&:after": {
+                      position: "absolute",
+                      content: `'${children}'`,
+                      fontWeight: 700,
+                      visibility: "hidden",
+                      overflow: "hidden",
+                      height: 0,
+                      display: "block",
+                    },
+                  },
+                }}
                 sx={[
                   {
                     position: "relative",
@@ -126,14 +140,6 @@ const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps
                       ? theme.colors.gray[5]
                       : theme.colors.dark[3],
                     fontWeight: active ? 700 : 400,
-                    "&:after": {
-                      content: `'${children}'`,
-                      fontWeight: 700,
-                      visibility: "hidden",
-                      overflow: "hidden",
-                      height: 0,
-                      display: "block",
-                    },
                     "&:hover": {
                       backgroundColor: "transparent",
                     },
