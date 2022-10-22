@@ -3,7 +3,7 @@ import { useHover } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
 import useTranslation from "next-translate/useTranslation"
 import { ExtendedCustomColors } from "pages/_app"
-import { useCallback, useMemo, useRef } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import { BuildStore } from "store/build"
 import { ICanvasBlock } from "types"
 import PaletteItem from "./PaletteItem"
@@ -87,8 +87,9 @@ const SectionBGEdit = ({ element }: ISectionBGEdit) => {
           onClose={() => {
             BuildStore.openedAction = {}
           }}
-          popoverPosition="top-end"
-          offset={6}
+          popoverPosition="left-end"
+          offset={0}
+          middlewares={{ shift: false, flip: false }}
           color={element.props?.sx?.backgroundColor}
           withReset={Boolean(element.props?.sx?.backgroundColor)}
           withImageDelete={Boolean(element.props?.sx?.backgroundImage)}

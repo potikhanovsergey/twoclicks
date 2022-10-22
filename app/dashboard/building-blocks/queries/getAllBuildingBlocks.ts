@@ -5,7 +5,6 @@ export default async function GetBuildingBlocks(input: Prisma.BuildingBlockFindM
     const buildingBlocks = await db.buildingBlock.findMany(input)
     return buildingBlocks
   } catch (e) {
-    console.log("Get building blocks error", e)
     return null
   }
 }

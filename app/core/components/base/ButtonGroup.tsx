@@ -38,7 +38,7 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     left: 0,
     borderRadius: "4px",
     transition: "ease width, transform, opacity",
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[4] : theme.colors.gray[1],
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
     pointerEvents: "none",
   },
 }))
@@ -86,7 +86,7 @@ const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps
               key={i}
               condition={elType !== "button"}
               wrap={(children) => {
-                if (elType === "menuItem" && href) {
+                if ((elType === "menuItem" || elType === "link") && href) {
                   return (
                     <Link href={href} passHref>
                       {children}
@@ -109,23 +109,33 @@ const ButtonGroup = ({ buttons, highlightProps, wrapperProps }: ButtonGroupProps
                 ref={(node) => {
                   refs.current[i] = node
                 }}
+                px={12}
+                size="sm"
                 sx={[
                   {
                     position: "relative",
                     userSelect: "none",
-                    padding: "6px 12px",
                     border: "none",
-                    backgroundColor: active
+                    height: 30,
+                    backgroundColor: "transparent",
+                    color: active
                       ? theme.colorScheme === "dark"
-                        ? theme.colors.dark[4]
-                        : theme.colors.gray[1]
-                      : "transparent",
-                    ":hover": {
-                      backgroundColor: active
-                        ? theme.colorScheme === "dark"
-                          ? theme.colors.dark[4]
-                          : theme.colors.gray[1]
-                        : "transparent",
+                        ? theme.white
+                        : theme.black
+                      : theme.colorScheme === "dark"
+                      ? theme.colors.gray[5]
+                      : theme.colors.dark[3],
+                    fontWeight: active ? 700 : 400,
+                    "&:after": {
+                      content: `'${children}'`,
+                      fontWeight: 700,
+                      visibility: "hidden",
+                      overflow: "hidden",
+                      height: 0,
+                      display: "block",
+                    },
+                    "&:hover": {
+                      backgroundColor: "transparent",
                     },
                   },
                   ...packSx(sx),

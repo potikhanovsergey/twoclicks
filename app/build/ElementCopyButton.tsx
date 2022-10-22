@@ -57,7 +57,7 @@ const ElementCopyButton = ({
       withArrow
       position={element.editType === "section" ? "left" : "top"}
     >
-      <ActionIcon variant="subtle" color="violet" onClick={handleElementCopy}>
+      <ActionIcon variant="subtle" radius={0} onClick={handleElementCopy}>
         <BiCopy />
       </ActionIcon>
     </Tooltip>

@@ -30,7 +30,6 @@ const SaveButton = observer(() => {
       loading={isSaveButtonLoading}
       onClick={() => savePage({ session, updatePageMutation })}
       disabled={!hasPageChanged}
-      color="violet"
       size="xs"
       leftIcon={<FaSave size={15} />}
       sx={({}) => ({ ":disabled": { border: 0 } })}

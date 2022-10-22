@@ -21,9 +21,8 @@ const HeaderFixedEdit = ({ element }: IHeaderFixedEdit) => {
       label={element.props.fixed ? "Scrolls with page" : "Stays on top"}
     >
       <ActionIcon
-        color="violet"
-        size="sm"
         variant="subtle"
+        radius={0}
         onClick={() => {
           changeProp({
             id: element.id,
@@ -31,7 +30,6 @@ const HeaderFixedEdit = ({ element }: IHeaderFixedEdit) => {
               fixed: !element.props.fixed,
             },
           })
-          console.log(BuildStore.getElement(element.id))
         }}
       >
         {element.props.fixed ? <CgScrollV /> : <AiOutlineVerticalAlignTop />}

@@ -11,6 +11,8 @@ import { CSSProperties, Dispatch, ReactNode, SetStateAction, Suspense, useContex
 import HeaderProfile from "./HeaderProfile"
 import Logo from "../Logo"
 import { ModalContext } from "contexts/ModalContext"
+import ButtonGroup from "../base/ButtonGroup"
+import { useRouter } from "next/router"
 
 interface ILayoutHeader {
   fixed?: boolean
@@ -49,6 +51,7 @@ const LayoutHeader = ({
       menuModal: !prevValue.menuModal,
     }))
   }
+  const router = useRouter()
   return (
     <Header
       position={position}
@@ -59,7 +62,7 @@ const LayoutHeader = ({
             : theme.fn.rgba(theme.white, 0.72)
           : dark
           ? theme.colors.dark[7]
-          : theme.colors.gray[0],
+          : theme.white,
         zIndex: 302,
         backdropFilter: "saturate(270%) blur(5px)",
         paddingRight: "var(--removed-scroll-width, 0px)",
@@ -109,14 +112,31 @@ const LayoutHeader = ({
               {title}
             </div>
           )}
+          <ButtonGroup
+            wrapperProps={{
+              sx: {
+                marginLeft: "auto",
+              },
+            }}
+            buttons={[
+              { label: "Pages", value: "/pages" },
+              { label: "Builder", value: "/build" },
+              { label: "About us", value: "/" },
+              { label: "FAQ", value: "/faq" },
+              // { label: "Support", value: "/support" },
+            ].map((b) => ({
+              elType: "link",
+              children: b.label,
+              href: b.value,
+              active: b.value === router.asPath,
+            }))}
+          />
           {withProfile && (
-            <MediaQuery smallerThan="md" styles={{ display: "none" }}>
-              <div>
-                <Suspense fallback={<Skeleton height={32} width={200} radius="md" animate />}>
-                  <HeaderProfile withAuthButton={withAuthButton} />
-                </Suspense>
-              </div>
-            </MediaQuery>
+            <Suspense>
+              <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+                <HeaderProfile withAuthButton={withAuthButton} />
+              </MediaQuery>
+            </Suspense>
           )}
         </Group>
       </Container>

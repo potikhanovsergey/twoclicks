@@ -32,7 +32,7 @@ interface IViewListItem {
 
 const useStyles = createStyles((theme, _params, getRef) => ({
   box: {
-    borderRadius: "12px",
+    borderRadius: theme.radius.sm,
     background: theme.colorScheme === "dark" ? theme.colors.dark[5] : theme.colors.gray[1],
     cursor: "pointer",
     display: "flex",

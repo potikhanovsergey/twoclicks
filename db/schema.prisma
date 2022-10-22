@@ -104,6 +104,9 @@ model Page {
   customID      String?  @unique
   template      String?
   themeSettings Json?
+  previewImage  String?
+  feedType      String?  @default("All")
+  tags          String[]
 
   appliedForTemplates Boolean @default(false)
 

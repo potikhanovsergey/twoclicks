@@ -59,7 +59,6 @@ const MantineFeatures = () => {
             variant="gradient"
             gradient={{ deg: 133, from: "blue", to: "cyan" }}
             size="lg"
-            radius="md"
             mt="xl"
           >
             Get started
@@ -71,7 +70,6 @@ const MantineFeatures = () => {
               <div key={feature.title}>
                 <ThemeIcon
                   size={44}
-                  radius="md"
                   variant="gradient"
                   gradient={{ deg: 133, from: "blue", to: "cyan" }}
                 >

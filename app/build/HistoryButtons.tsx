@@ -32,9 +32,6 @@ const HistoryButtons = (props: ActionIconProps) => {
   ])
   const { t } = useTranslation("build")
 
-  const theme = useMantineTheme()
-  const dark = theme.colorScheme === "dark"
-
   const { classes } = useStyles()
   return (
     <Group spacing={4}>
@@ -59,7 +56,7 @@ const HistoryButtons = (props: ActionIconProps) => {
         <div>
           <ActionIcon
             {...props}
-            color="violet"
+            color="primary"
             variant="light"
             onClick={undo}
             disabled={!isUndoActive}
@@ -92,7 +89,7 @@ const HistoryButtons = (props: ActionIconProps) => {
         onClick={redo}
       >
         <div>
-          <ActionIcon {...props} color="violet" variant="light" disabled={!isRedoActive}>
+          <ActionIcon {...props} color="primary" variant="light" disabled={!isRedoActive}>
             <BiRedo size="66%" />
           </ActionIcon>
         </div>

@@ -37,6 +37,7 @@ const TemplateModalForm = ({ page }: { page: Page }) => {
         const createdPage = await createPageMutation({
           name: values.newPageName,
           data: page.data,
+          previewImage: page.previewImage || undefined,
           themeSettings: page.themeSettings as unknown as IThemeSettings,
         })
 
@@ -48,7 +49,7 @@ const TemplateModalForm = ({ page }: { page: Page }) => {
               <Group align="center" spacing={8}>
                 <Text>
                   Page{" "}
-                  <Text color="violet" component="span">
+                  <Text color="primary" component="span">
                     {values.newPageName}
                   </Text>{" "}
                   is successfuly created from a template!
@@ -88,7 +89,7 @@ const _TemplateModal = forwardRef<HTMLButtonElement, TemplateModalProps>(
             title: (
               <Text>
                 Selecting{" "}
-                <Text component="span" color="violet">
+                <Text component="span" color="primary">
                   {page.name}
                 </Text>{" "}
                 as a template

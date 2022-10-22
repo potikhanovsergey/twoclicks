@@ -36,17 +36,17 @@ const UploadImageButton = ({ onImagePick, id }: UploadImageButtonProps) => {
     }
     void uploadBG()
   }, [file])
+
+  const handleChange = (file: File) => {
+    setFile(file)
+    BuildStore.isImageUploading = null
+  }
+
   return (
     <div onClick={() => (BuildStore.isImageUploading = id)}>
-      <FileButton
-        onChange={(file: File) => {
-          setFile(file)
-          BuildStore.isImageUploading = null
-        }}
-        accept="image/png,image/jpeg"
-      >
+      <FileButton onChange={handleChange} accept="image/png,image/jpeg">
         {(props) => (
-          <Button {...props} fullWidth color="violet" compact>
+          <Button {...props} fullWidth compact>
             {t("uploadImage")}
           </Button>
         )}

@@ -96,15 +96,14 @@ const PaletteItem = (props: IPaletteItem) => {
             sx={(theme) => ({
               display: "flex",
               alignItems: "center",
-              borderRadius: theme.radius.sm,
               cursor: "pointer",
               alignSelf: "stretch",
               "&:hover": withHover
                 ? {
                     backgroundColor:
                       theme.colorScheme === "dark"
-                        ? theme.fn.rgba(theme.colors.violet[9], 0.2)
-                        : theme.colors.violet[0],
+                        ? theme.fn.rgba(theme.colors.primary[9], 0.2)
+                        : theme.colors.primary[0],
                   }
                 : undefined,
               "&:active": {
@@ -113,9 +112,9 @@ const PaletteItem = (props: IPaletteItem) => {
             })}
           >
             {hasBG ? (
-              <BsFillImageFill size={16} color={theme.colors.violet[5]} />
+              <BsFillImageFill size={16} color={theme.colors.primary[5]} />
             ) : (
-              <ColorSwatch radius="xs" size={16} color={hexColor} />
+              <ColorSwatch size={16} color={hexColor} />
             )}
           </Box>
         </div>
@@ -131,7 +130,7 @@ const PaletteItem = (props: IPaletteItem) => {
               variant="subtle"
               rightIcon={
                 currentPaletteColor ? (
-                  <ColorSwatch color={currentPaletteColor} radius="xs" size={16} />
+                  <ColorSwatch color={currentPaletteColor} size={16} />
                 ) : undefined
               }
             >

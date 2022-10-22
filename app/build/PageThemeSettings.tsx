@@ -62,13 +62,7 @@ const PageThemeSettings = observer(() => {
             <Text size="sm">{t("radius")}:</Text>
             <Popover>
               <Popover.Target>
-                <Button
-                  size="xs"
-                  variant="filled"
-                  color="violet"
-                  compact
-                  radius={themeSettings.radius}
-                >
+                <Button size="xs" variant="filled" compact radius={themeSettings.radius}>
                   {themeSettings.radius}
                 </Button>
               </Popover.Target>

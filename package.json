@@ -39,6 +39,7 @@
     "@mantine/modals": "5.5.0",
     "@mantine/next": "5.5.0",
     "@mantine/notifications": "5.5.0",
+    "@mantine/nprogress": "5.5.5",
     "@prisma/client": "4.3.1",
     "@react-icons/all-files": "4.1.0",
     "@tiptap/core": "2.0.0-beta.197",
@@ -67,6 +68,7 @@
     "prisma": "4.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-easy-crop": "4.6.0",
     "react-virtuoso": "2.19.1",
     "sharp": "0.31.0",
     "shortid": "2.2.16"

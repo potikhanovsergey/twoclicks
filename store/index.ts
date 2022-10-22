@@ -32,6 +32,16 @@ class Store {
       this.pages = this.pages.filter((p) => p.id !== id)
     }
   }
+
+  @action
+  updatePage(partialPage: Partial<Page> & { id: string }) {
+    this.pages = this.pages.map((page) => {
+      if (page.id === partialPage.id) {
+        return { ...page, ...partialPage }
+      }
+      return page
+    })
+  }
 }
 
 export const AppStore = new Store()

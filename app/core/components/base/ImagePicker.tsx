@@ -19,7 +19,11 @@ const ImagePicker = forwardRef(({ children, onDrop, boxProps, ...rest }: ImagePi
 
   const mergedRef = useMergedRef(hoverRef, ref)
   return (
-    <Box sx={{ position: "relative", justifySelf: "stretch" }} ref={mergedRef} {...boxProps}>
+    <Box
+      sx={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+      ref={mergedRef}
+      {...boxProps}
+    >
       <Overlay<typeof Dropzone>
         component={Dropzone}
         onDrop={onDrop}
@@ -54,9 +58,9 @@ const ImagePicker = forwardRef(({ children, onDrop, boxProps, ...rest }: ImagePi
           }}
         >
           {hovered && (
-            <Stack align="center">
-              <ThemeIcon variant="gradient" gradient={{ from: "violet", to: "red" }} radius="sm">
-                <FaImage size="65%" color="#fff" />
+            <Stack align="center" spacing="xs">
+              <ThemeIcon variant="gradient" gradient={{ from: "primary", to: "blue" }} radius="xl">
+                <FaImage size="50%" color="#fff" />
               </ThemeIcon>
               <Badge size="sm">Max size: 32MB</Badge>
             </Stack>

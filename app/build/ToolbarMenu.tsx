@@ -2,13 +2,13 @@ import { Tooltip, Popover, PopoverProps, TooltipProps, PopoverDropdownProps } fr
 import { useHover } from "@mantine/hooks"
 import { useState } from "react"
 
-interface IToolbarPopover {
+interface IToolbarMenu {
   menuProps: Partial<PopoverProps>
   tooltipProps: TooltipProps
   dropdownProps: PopoverDropdownProps
 }
 
-const ToolbarPopover = ({ menuProps, tooltipProps, dropdownProps }: IToolbarPopover) => {
+const ToolbarMenu = ({ menuProps, tooltipProps, dropdownProps }: IToolbarMenu) => {
   const { hovered: targetHovered, ref: targetRef } = useHover()
   const [menuOpened, setMenuOpened] = useState(menuProps.defaultOpened || false)
 
@@ -17,7 +17,7 @@ const ToolbarPopover = ({ menuProps, tooltipProps, dropdownProps }: IToolbarPopo
       <Popover.Target>
         <div ref={targetRef} onClick={() => setMenuOpened((o) => !o)}>
           <Tooltip
-            zIndex={301}
+            zIndex={1001}
             withinPortal
             withArrow
             opened={targetHovered && !menuOpened}
@@ -30,4 +30,4 @@ const ToolbarPopover = ({ menuProps, tooltipProps, dropdownProps }: IToolbarPopo
   )
 }
 
-export default ToolbarPopover
+export default ToolbarMenu

@@ -20,7 +20,7 @@ import { useEffect, useMemo, useState } from "react"
 
 import { BsCaretLeftFill } from "@react-icons/all-files/bs/BsCaretLeftFill"
 import { BsCaretRightFill } from "@react-icons/all-files/bs/BsCaretRightFill"
-import Page from "app/p/Page"
+import Page from "app/p-pages/Page"
 import { inflateBase64 } from "helpers/utils"
 import { ICanvasPalette, IPage, IThemeSettings } from "types"
 import { Page as DBPage } from "db"
@@ -86,7 +86,7 @@ const Templates = () => {
             }}
           >
             <ThemeIcon variant="light" size={48}>
-              <BsCaretLeftFill size={32} color={theme.colors.violet[5]} />
+              <BsCaretLeftFill size={32} color={theme.colors.primary[5]} />
             </ThemeIcon>{" "}
           </UnstyledButton>
           <UnstyledButton
@@ -113,7 +113,7 @@ const Templates = () => {
             }}
           >
             <ThemeIcon variant="light" size={48}>
-              <BsCaretRightFill size={32} color={theme.colors.violet[5]} />
+              <BsCaretRightFill size={32} color={theme.colors.primary[5]} />
             </ThemeIcon>
           </UnstyledButton>
           <Page

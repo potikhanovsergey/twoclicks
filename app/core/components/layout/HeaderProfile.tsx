@@ -8,6 +8,7 @@ import {
   Button,
   useMantineTheme,
   Sx,
+  Skeleton,
 } from "@mantine/core"
 import useTranslation from "next-translate/useTranslation"
 import { useDisclosure } from "@mantine/hooks"
@@ -18,17 +19,19 @@ import logout from "app/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Link from "next/link"
-import { memo, useEffect, useMemo, useState } from "react"
+import { memo, Suspense, useEffect, useMemo, useState } from "react"
 
 import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 import ButtonGroup, { GroupButtonProps } from "../base/ButtonGroup"
 import { useSession } from "@blitzjs/auth"
 
+export const ProfileItem = {
+  href: "/profile",
+  children: "profile",
+}
+
 export const MenuItemSx: Sx = (theme) => ({
-  fontWeight: 700,
-  fontSize: "14px",
-  padding: "10px",
   "> div": {
     justifyContent: "flex-start",
   },
@@ -54,6 +57,19 @@ export const ConstMenuItems = [
   // },
 ]
 
+const UserAvatar = () => {
+  const user = useCurrentUser()
+  const theme = useMantineTheme()
+  const dark = theme.colorScheme === "dark"
+  return user?.avatar ? (
+    <Avatar radius="xl" size={32} src={user.avatar} alt={`${user.name} avatar`} />
+  ) : (
+    <Avatar size="sm">
+      <IoPersonCircle size="100%" fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]} />
+    </Avatar>
+  )
+}
+
 function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) {
   const { t } = useTranslation("common")
   // const { data: session, status } = useSession();
@@ -61,7 +77,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
   const { colorScheme } = theme
   const dark = colorScheme === "dark"
 
-  const user = useCurrentUser()
+  const session = useSession()
   const [logoutMutation] = useMutation(logout)
   const [menuHovered, menuHoveredHandlers] = useDisclosure(false)
   const router = useRouter()
@@ -79,16 +95,16 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
     }
   })
 
-  const { locale } = useRouter()
+  const { locale, route } = useRouter()
 
   const profileItem = useMemo(() => {
-    return user
+    return session
       ? {
-          href: `/profile/${user.id}`,
+          href: `/profile/${session.userId}`,
           children: "profile",
         }
       : null
-  }, [user])
+  }, [session])
 
   const menuItems: GroupButtonProps[] = useMemo(() => {
     const formatedMenuItems: GroupButtonProps[] = ConstMenuItems.map((i) => ({
@@ -96,24 +112,33 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
       sx: MenuItemSx,
       children: t(i.children),
       href: i.href,
+      active: i.href === route,
     }))
 
-    if (user) {
-      if (user.role === "ADMIN") {
+    if (session.userId) {
+      if (session.role === "ADMIN") {
         formatedMenuItems.unshift({
           elType: "menuItem",
           sx: MenuItemSx,
           children: t("templates"),
           href: "/templates",
+          active: "/templates" === route,
         })
-      }
-      profileItem &&
         formatedMenuItems.unshift({
           elType: "menuItem",
           sx: MenuItemSx,
-          children: t(profileItem.children),
-          href: profileItem.href,
+          children: t("pages"),
+          href: "/pages",
+          active: "/pages" === route,
         })
+      }
+      formatedMenuItems.unshift({
+        elType: "menuItem",
+        sx: MenuItemSx,
+        children: t(ProfileItem.children),
+        href: ProfileItem.href,
+        active: "/profile" === route,
+      })
       formatedMenuItems.push({
         elType: "menuItem",
         sx: (theme) => ({
@@ -127,15 +152,15 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
       })
     }
     return formatedMenuItems
-  }, [user, locale])
+  }, [session, locale, route])
 
   const menuAdminItems: GroupButtonProps[] | null = useMemo(() => {
-    if (user?.role !== "ADMIN") return null
+    if (session?.role !== "ADMIN") return null
 
     const formatedMenuAdminItems: GroupButtonProps[] = []
 
-    if (user) {
-      if (user.role === "ADMIN") {
+    if (session) {
+      if (session.role === "ADMIN") {
         formatedMenuAdminItems.unshift({
           elType: "menuItem",
           sx: MenuItemSx,
@@ -163,11 +188,11 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
       }
     }
     return formatedMenuAdminItems
-  }, [user, locale])
+  }, [session, locale])
 
   return (
     <Group position="center">
-      {!user && withAuthButton && (
+      {!session.userId && withAuthButton && (
         <Link passHref href={`/auth/?next=${router.asPath}`}>
           <Button component="a" size="xs" color="dark" variant={dark ? "white" : "filled"}>
             {t("signin")}
@@ -181,61 +206,25 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
         position="bottom-end"
         closeOnItemClick={false}
         width="256px"
-        radius="md"
+        radius="sm"
       >
         <Menu.Target>
           <UnstyledButton
             onMouseEnter={menuHoveredHandlers.open}
             onMouseLeave={menuHoveredHandlers.close}
             aria-label="Open settings and navigation menu"
-            px={16}
-            sx={(theme) => ({
-              display: "flex",
-              flexWrap: "nowrap",
-              gap: "8px",
-              padding: 4,
-              borderRadius: theme.radius.md,
-              color: dark ? theme.colors.dark[0] : theme.black,
-              backgroundColor: menuHovered
-                ? theme.colorScheme === "dark"
-                  ? theme.colors.dark[6]
-                  : theme.colors.gray[2]
-                : "",
-            })}
           >
-            {user && (
-              <Text weight="bold" style={{ whiteSpace: "nowrap" }} color={dark ? "gray.0" : "dark"}>
-                {user.name}
-              </Text>
-            )}
             <Group spacing={8}>
-              {user?.avatar ? (
-                <Avatar
-                  imageProps={{
-                    width: "26px",
-                    height: "26px",
-                  }}
-                  radius="xl"
-                  size="sm"
-                  src={user.avatar}
-                  alt={`${user.name} avatar`}
-                />
-              ) : (
-                <Avatar size="sm">
-                  <IoPersonCircle
-                    size="100%"
-                    fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]}
-                  />
-                </Avatar>
-              )}
-              <FaChevronDown size={16} fill={dark ? theme.colors.gray[0] : theme.colors.dark[5]} />
+              <Suspense fallback={<Skeleton width={32} height={32} radius={1000} animate />}>
+                <UserAvatar />
+              </Suspense>
             </Group>
           </UnstyledButton>
         </Menu.Target>
         <Menu.Dropdown p={0}>
           <Menu.Label>{t("general")}</Menu.Label>
           <ButtonGroup buttons={menuItems} wrapperProps={{ sx: { flexDirection: "column" } }} />
-          {user?.role === "ADMIN" && menuAdminItems && (
+          {session?.role === "ADMIN" && menuAdminItems && (
             <>
               <Divider />
               <Menu.Label>Dashboard</Menu.Label>
@@ -252,7 +241,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
             component="div"
             sx={() => ({
               cursor: "default",
-              backgroundColor: `${dark ? theme.colors.dark[6] : theme.white} !important`,
+              backgroundColor: `${dark ? theme.colors.dark[7] : theme.white} !important`,
             })}
           >
             <Group spacing={4} align="center">

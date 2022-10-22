@@ -12,6 +12,9 @@ import {
   ColorScheme,
   ColorSchemeProvider,
   MantineThemeOverride,
+  MANTINE_COLORS,
+  DEFAULT_THEME,
+  LoadingOverlay,
 } from "@mantine/core"
 import { ModalContext } from "contexts/ModalContext"
 import { useHotkeys, useLocalStorage } from "@mantine/hooks"
@@ -25,6 +28,7 @@ import { ModalsProvider } from "@mantine/modals"
 
 import dynamic from "next/dynamic"
 import { usePersistLocaleCookie } from "hooks/usePersistedLocale"
+import RouterTransition from "app/core/components/base/RouterTransitions"
 
 const MenuModal = dynamic(() => import("app/core/components/modals/base/MenuModal"))
 
@@ -35,17 +39,22 @@ declare module "@mantine/core" {
   }
 }
 
+export const font = `'Nunito', -system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif`
+
 export const baseURL =
   process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
     : process.env.NEXT_PUBLIC_PRODUCTION_URL
 
 const CustomTheme: MantineThemeOverride = {
-  fontFamily: "'Nunito', sans-serif;",
+  fontFamily: font,
   headings: {
-    fontFamily: "'Nunito', sans-serif",
+    fontFamily: font,
   },
-  primaryColor: "violet",
+  colors: {
+    primary: DEFAULT_THEME.colors.indigo,
+  },
+  primaryColor: "primary",
   primaryShade: 5,
   globalStyles: (theme) => ({
     "*, *::before, *::after": {
@@ -55,33 +64,72 @@ const CustomTheme: MantineThemeOverride = {
       scrollBehavior: "smooth",
     },
     "::selection": {
-      background: theme.colors.violet[4],
+      background: theme.colors.primary[5],
       color: theme.white,
       WebkitTextFillColor: theme.white,
     },
     body: {
-      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+      backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white,
       color: theme.colorScheme === "dark" ? theme.white : theme.black,
       lineHeight: theme.lineHeight,
       minHeight: "100vh",
       wordBreak: "break-word",
       overflowY: "auto",
       overflowX: "hidden",
-    },
-    ".ql-font-Times": {
-      fontFamily: "Times New Roman, sans",
-    },
-    ".ql-font-Nunito": {
-      fontFamily: "'Nunito', sans-serif",
-    },
-    ".ql-font-Helvetica": {
-      fontFamily: "Helvetica, sans-serif",
-    },
-    ".ql-font-Arial": {
-      fontFamily: "Arial, sans-serif",
+      letterSpacing: "-.01em",
+      WebkitFontSmoothing: "antialiased",
     },
   }),
   components: {
+    InputWrapper: {
+      styles: {
+        label: {
+          marginBottom: 4,
+        },
+      },
+    },
+    ActionIcon: {
+      defaultProps: {
+        color: "primary",
+        radius: "sm",
+      },
+    },
+    Menu: {
+      styles: (theme) => ({
+        dropdown: {
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+        },
+      }),
+    },
+    Popover: {
+      styles: (theme) => ({
+        dropdown: {
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+        },
+      }),
+    },
+    Button: {
+      defaultProps: {
+        radius: "sm",
+      },
+    },
+    ColorSwatch: {
+      defaultProps: {
+        radius: "50%",
+      },
+      styles: {
+        children: {
+          borderRadius: "50%",
+        },
+      },
+    },
+    ColorPicker: {
+      styles: (theme) => ({
+        swatch: {
+          borderRadius: theme.radius.xl,
+        },
+      }),
+    },
     Paper: {
       styles: (theme) => ({
         root: {
@@ -98,6 +146,19 @@ const CustomTheme: MantineThemeOverride = {
       styles: {
         root: {
           overflow: "visible",
+        },
+      },
+    },
+    Select: {
+      defaultProps: {
+        p: 0,
+      },
+      styles: {
+        dropdown: {
+          boxShadow: "none",
+        },
+        itemsWrapper: {
+          padding: 0,
         },
       },
     },
@@ -212,20 +273,21 @@ function App(props: AppProps & { cookiesColorScheme: ColorScheme; locale: "ru" |
   usePersistLocaleCookie()
 
   return (
-    <ErrorBoundary FallbackComponent={RootErrorFallback}>
-      <MantineProvider withCSSVariables withNormalizeCSS theme={{ ...CustomTheme, colorScheme }}>
-        <ModalsProvider modalProps={{ zIndex: 1000 }}>
-          <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
-            <ModalContext.Provider value={[modalValue, setModalValue]}>
-              <Suspense>
+    <Suspense fallback={<LoadingOverlay visible />}>
+      <ErrorBoundary FallbackComponent={RootErrorFallback}>
+        <MantineProvider withCSSVariables withNormalizeCSS theme={{ ...CustomTheme, colorScheme }}>
+          <RouterTransition />
+          <ModalsProvider modalProps={{ zIndex: 1000 }}>
+            <ColorSchemeProvider colorScheme={colorScheme} toggleColorScheme={toggleColorScheme}>
+              <ModalContext.Provider value={[modalValue, setModalValue]}>
                 {getLayout(<Component {...pageProps} />)}
                 {modalValue.menuModal && <MenuModal />}
-              </Suspense>
-            </ModalContext.Provider>
-          </ColorSchemeProvider>
-        </ModalsProvider>
-      </MantineProvider>
-    </ErrorBoundary>
+              </ModalContext.Provider>
+            </ColorSchemeProvider>
+          </ModalsProvider>
+        </MantineProvider>
+      </ErrorBoundary>
+    </Suspense>
   )
 }
 
@@ -233,7 +295,7 @@ const appWithBlitz = withBlitz(App)
 
 appWithBlitz["getInitialProps"] = ({ ctx }: { ctx: GetServerSidePropsContext }) => ({
   // get color scheme from cookie
-  cookiesColorScheme: getCookie("twoclicks-color-scheme", ctx) || "dark",
+  cookiesColorScheme: getCookie("twoclicks-color-scheme", ctx) || "light",
 })
 
 export default appWithBlitz

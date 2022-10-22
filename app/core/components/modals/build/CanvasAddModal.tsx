@@ -18,6 +18,7 @@ import { observer } from "mobx-react-lite"
 
 import { VscChromeClose } from "@react-icons/all-files/vsc/VscChromeClose"
 import ButtonGroup from "../../base/ButtonGroup"
+import Logo from "../../Logo"
 
 interface ICanvasAddModal {
   filterButtons: IFilterButton[]
@@ -69,27 +70,19 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
   return (
     <Modal
       overflow="outside"
-      centered
-      size="85%"
+      fullScreen
+      lockScroll
       closeOnEscape
       overlayOpacity={dark ? 0.8 : 0.6}
       styles={{
         inner: {
           padding: 0,
-        },
-        header: { display: "none" },
-        modal: {
-          height: "80vh",
           overflow: "hidden",
-          boxShadow: "none",
         },
         body: {
           height: "100%",
         },
-      }}
-      style={{
-        borderRadius: theme.radius.xl,
-        overflow: "hidden",
+        header: { display: "none" },
       }}
       padding={0}
       opened={modalContext?.[modal] || false}
@@ -100,10 +93,13 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
         <Stack
           style={{
             height: "100%",
-            padding: "8px 0",
+            padding: "10px 0",
             width: "100%",
             maxWidth: "160px",
             borderRight: "1px solid",
+            position: "fixed",
+            top: 0,
+            bottom: 0,
             borderRightColor: dark ? theme.colors.dark[5] : theme.colors.gray[1],
             color: dark ? theme.colors.gray[4] : theme.black,
           }}
@@ -119,25 +115,19 @@ const CanvasAddModal = ({ filterButtons, modal, type }: ICanvasAddModal) => {
           >
             <FilterButtons filterButtons={filterButtons} />
           </ScrollArea>
+          <Logo style={{ marginTop: "auto", width: "120px", paddingLeft: "8px" }} />
         </Stack>
         <Stack
           style={{
             flexGrow: 1,
             height: "100%",
+            paddingLeft: "160px",
           }}
+          spacing={0}
         >
-          <ComponentsModalTabs modalType={type} />
+          <ComponentsModalTabs modalType={type} onClose={handleModalClose} />
         </Stack>
       </Group>
-      <ActionIcon
-        onClick={handleModalClose}
-        size="sm"
-        color={dark ? "gray" : "dark"}
-        variant="transparent"
-        style={{ position: "fixed", top: "8px", right: "8px" }}
-      >
-        <VscChromeClose size={16} />
-      </ActionIcon>
     </Modal>
   )
 }

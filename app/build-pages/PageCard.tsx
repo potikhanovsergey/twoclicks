@@ -102,7 +102,7 @@ const PageCard = ({ page, withEdit = true }: PageCardProps) => {
             </TemplateModal>
             {withEdit && (
               <Link passHref href={`/build/${page.id}`}>
-                <Button color="violet" size="sm" component="a" rightIcon={<HiPencilAlt />}>
+                <Button size="sm" component="a" rightIcon={<HiPencilAlt />}>
                   Edit page
                 </Button>
               </Link>

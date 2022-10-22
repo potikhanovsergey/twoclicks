@@ -24,7 +24,6 @@ export default async function upsertUsedBlock(input: { buildingBlockId: string }
     })
     return usedBlock
   } catch (e) {
-    console.log("Upsert used block error", e)
     return null
   }
 }

@@ -13,7 +13,7 @@ import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
 import { useQuery } from "@blitzjs/rpc"
 import getPageByID from "app/build-pages/queries/getPageByID"
-import Page from "app/p/Page"
+import Page from "app/p-pages/Page"
 import { useDocumentTitle } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
 import BaseLayout from "app/core/layouts/BaseLayout"
@@ -48,7 +48,7 @@ const PagePage = () => {
 
   useDocumentTitle(page?.name || "Twoclicks")
   if (isLoading)
-    return <LoadingOverlay visible={true} loader={<Loader color="violet" size={32} />} />
+    return <LoadingOverlay visible={true} loader={<Loader color="primary" size={32} />} />
 
   return (
     <>
