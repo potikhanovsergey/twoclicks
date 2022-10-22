@@ -392,7 +392,7 @@ const HowToUseIt = (props: ContainerProps) => {
               maxWidth: "400px",
             }}
           >
-            <PageLink id={"6321d3c786636b3da6ce61e0"} shouldSearch={false} centered withEllipsis />
+            <PageLink id={"6321d3c786636b3da6ce61e0"} centered withEllipsis />
             <Text
               weight={700}
               sx={{

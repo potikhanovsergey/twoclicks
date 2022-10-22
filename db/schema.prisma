@@ -78,15 +78,16 @@ model Token {
 // }
 
 model BuildingBlock {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name       String?
-  type       String
-  filterType String?
-  editType   String?
-  props      Json?
-  hidden     Boolean  @default(true)
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  name         String?
+  type         String
+  filterType   String?
+  editType     String?
+  props        Json?
+  hidden       Boolean  @default(true)
+  previewImage String?
 
   LikedBlocks LikedBlock[]
   UsedBlocks  UsedBlock[]

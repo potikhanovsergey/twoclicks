@@ -1,7 +1,5 @@
-import { AspectRatioProps, Avatar, Box, Group, Paper, Stack, Text } from "@mantine/core"
+import { Box, Paper, Stack, Text, Image, AspectRatio, PaperProps } from "@mantine/core"
 import { Page as DBPage } from "@prisma/client"
-import Image from "next/image"
-// import placeholder from "public/pages/"
 
 export interface PageCardProps extends DBPage {
   user: {
@@ -12,7 +10,15 @@ export interface PageCardProps extends DBPage {
 
 import { createStyles } from "@mantine/core"
 import ImagePicker from "app/core/components/base/ImagePicker"
-import { forwardRef, MouseEventHandler, ReactNode, RefObject, useEffect } from "react"
+import {
+  forwardRef,
+  MouseEventHandler,
+  ReactEventHandler,
+  ReactNode,
+  RefObject,
+  useEffect,
+  useState,
+} from "react"
 import SkeletonImage from "app/core/components/base/SkeletonImage"
 import { observer } from "mobx-react-lite"
 import CardOptions from "./CardOptions"
@@ -69,8 +75,11 @@ const PageCard = forwardRef(
       href,
       openInNewTab,
       bottomText,
+      imageAspectRatio = 16 / 9,
+      paperProps,
       onClick,
       onDrop,
+      onImageLoad,
     }: {
       customizable?: boolean
       previewImage?: string | null
@@ -79,8 +88,11 @@ const PageCard = forwardRef(
       bottomNode?: ReactNode
       options?: ReactNode
       bottomText?: string
+      imageAspectRatio?: number
+      paperProps?: PaperProps
       onClick?: MouseEventHandler<HTMLElement>
       onDrop?: (files: File[]) => void
+      onImageLoad?: ReactEventHandler<HTMLImageElement>
     },
     ref: RefObject<HTMLDivElement>
   ) => {
@@ -102,18 +114,16 @@ const PageCard = forwardRef(
           href={!customizable && href ? href : undefined}
           target={openInNewTab ? "_blank" : undefined}
           onClick={onClick}
+          {...paperProps}
         >
-          <Box
-            sx={{
-              paddingBottom: `${100 / CROP_AREA_ASPECT}%`,
-            }}
-          >
+          <AspectRatio ratio={imageAspectRatio}>
             {customizable && onDrop ? (
               <ImagePicker onDrop={onDrop}>
                 <SkeletonImage
                   src={previewImage || "/twoclicks-placeholder.png"}
                   alt=""
                   layout="fill"
+                  onLoad={onImageLoad}
                 />
               </ImagePicker>
             ) : (
@@ -121,9 +131,10 @@ const PageCard = forwardRef(
                 src={previewImage || "/twoclicks-placeholder.png"}
                 alt=""
                 layout="fill"
+                onLoad={onImageLoad}
               />
             )}
-          </Box>
+          </AspectRatio>
           {!customizable && bottomText && (
             <Text
               className={classes.imageBottom}

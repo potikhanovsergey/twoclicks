@@ -184,8 +184,8 @@ const PublishModal = observer(({ page }: { page: PageCardProps }) => {
           <Stack spacing={0}>
             <SimpleGrid cols={2}>
               <PageCard
-                page={page}
                 previewImage={form.values.previewImage}
+                bottomText={page.name}
                 customizable
                 onDrop={pageCardOnDrop}
                 bottomNode={<FeedPageCardBottom page={page} />}

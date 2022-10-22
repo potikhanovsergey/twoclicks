@@ -8,7 +8,7 @@ interface PagesGridProps {
 
 const PagesGrid = ({ pages }: PagesGridProps) => {
   return (
-    <SimpleGrid spacing={32} cols={4}>
+    <SimpleGrid spacing={32} cols={4} pt={24}>
       {pages.map((page) => (
         <FeedPageCard page={page} key={page.id} />
       ))}

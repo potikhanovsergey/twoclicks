@@ -33,7 +33,6 @@ export const TraverseProp = ({
   sectionIndex?: number
   withMobx?: boolean
 }) => {
-  console.log("TRAVERSE PROP", prop, propValue, type)
   if (prop === "children" && typeof propValue === "string" && withContentEditable) {
     if (type.includes("button") || type.includes("badge")) {
       return (

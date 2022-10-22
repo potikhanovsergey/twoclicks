@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { SimpleGrid, ScrollArea, Pagination, createStyles, Loader } from "@mantine/core"
+import { Pagination, createStyles, Loader, Box } from "@mantine/core"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 import getUsedBlocks from "app/dashboard/building-blocks/queries/getUsedBlocks"
@@ -12,8 +12,8 @@ import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import { ICanvasBlock, ICanvasModalType } from "types"
 import dynamic from "next/dynamic"
-import PageCard from "app/pages-grid/PageCard"
-import LikeBlock from "./LikeBlock"
+
+import StackGrid from "react-stack-grid"
 
 const ViewListItem = dynamic(() => import("./ViewListItem"))
 
@@ -23,7 +23,6 @@ const useStyles = createStyles(() => ({
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
-    padding: "0 0 10px 0",
     gap: "10px",
     position: "relative",
     justifyContent: "space-between",
@@ -126,7 +125,13 @@ const ViewList = ({ type, modalType }: IViewList) => {
 
   return (
     <>
-      <SimpleGrid cols={3} className={classes.grid}>
+      <Box
+        component={StackGrid}
+        className={classes.grid}
+        columnWidth="50%"
+        gutterWidth={12}
+        gutterHeight={12}
+      >
         {buildingBlocksData?.buildingBlocks.map((b) => {
           const block: ICanvasBlock = b.buildingBlock ? b.buildingBlock : b
           return (
@@ -138,7 +143,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
             />
           )
         })}
-      </SimpleGrid>
+      </Box>
       {isLoading ? (
         <Loader />
       ) : (

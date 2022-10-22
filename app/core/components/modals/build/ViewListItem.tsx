@@ -63,39 +63,53 @@ const ViewListItem = ({ block, hasActions = false, liked }: IViewListItem) => {
   const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
   const [upsertUsedBlockMutation] = useMutation(upsertUsedBlock)
 
-  const handleBoxClick = async (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === iconRef.current) {
-      setIsLikeLoading(true)
-      if (isLiked) {
-        await dislikeBuildingBlock({ buildingBlockId: block.id })
-        setIsLiked(false)
-      } else {
-        await likeBuildingBlock({ buildingBlockId: block.id })
-        setIsLiked(true)
-      }
-      BuildStore.shouldRefetchLiked = true
-      setIsLikeLoading(false)
+  const handleBoxClick = async () => {
+    void upsertUsedBlockMutation({ buildingBlockId: block.id })
+    BuildStore.push({ block: { ...block, id: shortid.generate() }, insertIndex })
+    setModalContext((prevValue: IModalContextValue) => ({
+      ...prevValue,
+      canvasComponentsModal: false,
+      canvasSectionsModal: false,
+    }))
+  }
+
+  const handleLike = async () => {
+    setIsLikeLoading(true)
+    if (isLiked) {
+      await dislikeBuildingBlock({ buildingBlockId: block.id })
+      setIsLiked(false)
     } else {
-      void upsertUsedBlockMutation({ buildingBlockId: block.id })
-      BuildStore.push({ block: { ...block, id: shortid.generate() }, insertIndex })
-      setModalContext((prevValue: IModalContextValue) => ({
-        ...prevValue,
-        canvasComponentsModal: false,
-        canvasSectionsModal: false,
-      }))
+      await likeBuildingBlock({ buildingBlockId: block.id })
+      setIsLiked(true)
     }
+    BuildStore.shouldRefetchLiked = true
+    setIsLikeLoading(false)
   }
 
   const { ref, hovered } = useHover()
 
+  const [imageAspectRatio, setImageAspectRatio] = useState<number | undefined>(undefined)
+
   return (
     <PageCard
+      paperProps={{ withBorder: true }}
       ref={ref}
+      previewImage={block.previewImage ? `/building-blocks/${block.previewImage}` : undefined}
       key={block.id}
       onClick={handleBoxClick}
+      imageAspectRatio={imageAspectRatio}
+      onImageLoad={({ target }) => {
+        const { naturalWidth, naturalHeight } = target as HTMLImageElement
+        setImageAspectRatio(naturalWidth / naturalHeight)
+      }}
       options={
         hasActions && (
-          <LikeBlock ref={iconRef} liked={isLiked} loading={isLikeLoading} hovered={hovered} />
+          <LikeBlock
+            onClick={handleLike}
+            liked={isLiked}
+            loading={isLikeLoading}
+            hovered={hovered}
+          />
         )
       }
     />

@@ -25,7 +25,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    padding: "50px 0 15px 0",
+    padding: "50px 20px 15px 20px",
     gap: "10px",
     position: "relative",
     justifyContent: "space-between",
@@ -101,7 +101,7 @@ const ComponentsModalTabs = ({ modalType, onClose }: IComponentsModalTabs) => {
           height: 48,
           left: "160px",
           right: "20px",
-          zIndex: 1,
+          zIndex: 10,
           backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
         }}
       >
