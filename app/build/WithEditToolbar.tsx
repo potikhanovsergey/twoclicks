@@ -64,7 +64,9 @@ const useStyles = createStyles(
         element.editType === "section" ||
         element.type.includes("divider") ||
         element.props.variant === "outline" ||
-        (defaultVariants.includes(element.type) && themeSettings.variant === "outline")
+        element.props.variant === "gradient" ||
+        (defaultVariants.includes(element.type) && themeSettings.variant === "outline") ||
+        (defaultVariants.includes(element.type) && themeSettings.variant === "gradient")
           ? undefined
           : opened ||
             (typeof element.props?.children === "string" && !element.props?.children.length)
