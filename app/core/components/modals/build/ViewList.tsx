@@ -38,7 +38,7 @@ interface IViewList {
   modalType: ICanvasModalType
 }
 
-const ITEMS_PER_PAGE = 12
+const ITEMS_PER_PAGE = 50
 
 const ViewList = ({ type, modalType }: IViewList) => {
   const session = useSession()
@@ -144,7 +144,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
           )
         })}
       </Box>
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loader />
       ) : (
         <Pagination
@@ -179,7 +179,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
           page={activePage}
           onChange={handlePaginationChange}
         />
-      )}
+      )} */}
     </>
   )
 }

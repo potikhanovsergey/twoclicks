@@ -14,7 +14,7 @@ interface IElementRadiusesEdit {
 
 const ElementRadiusesEdit = ({ element }: IElementRadiusesEdit) => {
   const radiuses = useMemo(() => {
-    return getRadiusesByType(element.type)
+    return getRadiusesByType(element.type.toLowerCase())
   }, [element.type])
 
   const { changeProp, openedAction } = BuildStore

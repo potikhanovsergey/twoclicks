@@ -13,7 +13,7 @@ interface IElementPaletteEdit {
 
 const ElementPaletteEdit = ({ element }: IElementPaletteEdit) => {
   const paletteKey = useMemo(() => {
-    return element.type ? getPaletteByType(element.type) : undefined
+    return element.type ? getPaletteByType(element.type.toLowerCase()) : undefined
   }, [element.type])
   const theme = useMantineTheme()
 

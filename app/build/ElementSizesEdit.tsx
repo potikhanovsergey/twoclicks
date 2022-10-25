@@ -15,7 +15,7 @@ interface IElementSizesEdit {
 
 const ElementSizesEdit = ({ element }: IElementSizesEdit) => {
   const sizes = useMemo(() => {
-    return getSizesByType(element.type)
+    return getSizesByType(element.type.toLowerCase())
   }, [element.type])
 
   const { changeProp, openedAction } = BuildStore
