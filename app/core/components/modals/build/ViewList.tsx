@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { SimpleGrid, ScrollArea, Pagination, createStyles, Loader } from "@mantine/core"
+import { Pagination, createStyles, Loader, Box } from "@mantine/core"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 import getUsedBlocks from "app/dashboard/building-blocks/queries/getUsedBlocks"
@@ -13,6 +13,8 @@ import { observer } from "mobx-react-lite"
 import { ICanvasBlock, ICanvasModalType } from "types"
 import dynamic from "next/dynamic"
 
+import StackGrid from "react-stack-grid"
+
 const ViewListItem = dynamic(() => import("./ViewListItem"))
 
 const useStyles = createStyles(() => ({
@@ -21,14 +23,14 @@ const useStyles = createStyles(() => ({
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
-    padding: "10px 0 15px 0",
     gap: "10px",
     position: "relative",
     justifyContent: "space-between",
   },
-  scrollArea: { position: "relative", width: "100%" },
+  // scrollArea: { position: "relative", width: "100%" },
   grid: {
     padding: "0 20px",
+    width: "100%",
   },
 }))
 interface IViewList {
@@ -36,7 +38,7 @@ interface IViewList {
   modalType: ICanvasModalType
 }
 
-const ITEMS_PER_PAGE = 4
+const ITEMS_PER_PAGE = 12
 
 const ViewList = ({ type, modalType }: IViewList) => {
   const session = useSession()
@@ -123,26 +125,42 @@ const ViewList = ({ type, modalType }: IViewList) => {
 
   return (
     <>
-      <ScrollArea className={classes.scrollArea}>
-        <SimpleGrid cols={modalType === "components" ? 4 : 2} className={classes.grid}>
-          {buildingBlocksData?.buildingBlocks.map((b) => {
-            const block: ICanvasBlock = b.buildingBlock ? b.buildingBlock : b
-            return (
-              <ViewListItem
-                block={block}
-                liked={likedBlocks?.includes(block.id)}
-                key={`${block.id}`}
-                hasActions={Boolean(session.userId)}
-              />
-            )
-          })}
-        </SimpleGrid>
-      </ScrollArea>
+      <Box
+        component={StackGrid}
+        className={classes.grid}
+        columnWidth="50%"
+        gutterWidth={12}
+        gutterHeight={12}
+      >
+        {buildingBlocksData?.buildingBlocks.map((b) => {
+          const block: ICanvasBlock = b.buildingBlock ? b.buildingBlock : b
+          return (
+            <ViewListItem
+              block={block}
+              liked={likedBlocks?.includes(block.id)}
+              key={`${block.id}`}
+              hasActions={Boolean(session.userId)}
+            />
+          )
+        })}
+      </Box>
       {isLoading ? (
         <Loader />
       ) : (
         <Pagination
           aria-label="Pagination"
+          py="xs"
+          sx={(theme) => ({
+            marginTop: "auto",
+            position: "sticky",
+            bottom: 0,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
+            left: "160px",
+            right: 0,
+          })}
           getItemAriaLabel={(page) => {
             switch (page) {
               case "prev":

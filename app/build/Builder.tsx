@@ -59,7 +59,7 @@ const useStyles = createStyles((theme) => ({
     top: "var(--layout-header-height)",
     zIndex: 301,
     minHeight: "40px",
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[1],
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
     boxShadow: theme.shadows.md,
   },
@@ -90,11 +90,7 @@ const SaveRedirectButton = observer(() => {
 
   const { t } = useTranslation("build")
 
-  return (
-    <Button color="violet" onClick={handleSaveAndRedirect}>
-      {t("save and go to the auth page")}
-    </Button>
-  )
+  return <Button onClick={handleSaveAndRedirect}>{t("save and go to the auth page")}</Button>
 })
 
 const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
@@ -114,11 +110,7 @@ const Canvas = ({ parentRef }: { parentRef: RefObject<HTMLDivElement> }) => {
   const session = useSession()
   const { classes } = useStyles()
   return (
-    <Stack
-      spacing={0}
-      className={classes.canvas}
-      style={{ height: isCanvasEmpty ? "100%" : "auto" }}
-    >
+    <Stack spacing={0} className={classes.canvas} style={{ height: "100%" }}>
       <BuilderBlocks />
       {/* {session.userId ? (
         <div
@@ -222,7 +214,7 @@ const Builder = () => {
         theme: data.theme,
       })
     })
-  }, [data.blocks, data.palette])
+  }, [data.blocks, data.name, data.palette, data.theme, data.themeSettings])
 
   const router = useRouter()
 
@@ -258,7 +250,7 @@ const Builder = () => {
         <Container
           size="xl"
           px={64}
-          py={viewMode === "mobile" ? 12 : isCanvasEmpty ? 24 : 64}
+          py={viewMode === "mobile" ? 12 : 64}
           className={classes.canvasContainer}
           ref={containerRef}
         >
@@ -317,8 +309,8 @@ const Builder = () => {
               height: "100%",
               ".builder-block ::selection": {
                 background:
-                  theme.colors?.[data?.themeSettings?.palette?.primary]?.[4] ||
-                  theme.colors.violet[4],
+                  theme.colors?.[data?.themeSettings?.palette?.primary]?.[5] ||
+                  theme.colors.primary[5],
                 color: theme.white,
                 WebkitTextFillColor: theme.white,
               },

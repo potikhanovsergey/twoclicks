@@ -99,7 +99,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
       tooltipProps={{
         label: t("linkify"),
         children: (
-          <ActionIcon color="violet">
+          <ActionIcon radius={0}>
             <FaLink />
           </ActionIcon>
         ),
@@ -115,7 +115,6 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                 variant="light"
                 size="xs"
                 onClick={handleReset}
-                color="violet"
                 mb={8}
                 rightIcon={<IoClose />}
               >
@@ -157,7 +156,6 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
               />
               <ActionIcon
                 onClick={() => handleLinkify(link, openInNewTab)}
-                color="violet"
                 variant="filled"
                 disabled={link === element.props.href}
               >
@@ -176,7 +174,7 @@ const ElementLinkEdit = ({ element, sectionIndex }: IElementLinkEdit) => {
                       key={page.id}
                       variant="light"
                       onClick={() => {
-                        const url = `/p/${page.id}`
+                        const url = `/pages/${page.id}`
                         setLink(url)
                         handleLinkify(url, openInNewTab)
                       }}

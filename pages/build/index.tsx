@@ -8,7 +8,7 @@ import CreatePageButton from "app/build-pages/CreatePageButton"
 import PageCards from "app/build-pages/PageCards"
 
 const Build = () => {
-  const { t } = useTranslation("pages")
+  const { t } = useTranslation("dashboardPages")
   const { pages, havePagesLoaded } = AppStore
   return (
     <Container size="xl" style={{ height: "100%" }} py={16}>

@@ -9,17 +9,18 @@ import { FaMobileAlt } from "@react-icons/all-files/fa/FaMobileAlt"
 const ViewportButtons = (props: ActionIconProps) => {
   const { viewMode } = BuildStore
   const { t } = useTranslation("build")
+
   return (
     <Group spacing="xs">
       {viewMode === "mobile" ? (
         <Tooltip label={t("desktop view")} position="bottom" withArrow>
-          <ActionIcon {...props} color="dark" onClick={() => (BuildStore.viewMode = "desktop")}>
+          <ActionIcon {...props} onClick={() => (BuildStore.viewMode = "desktop")}>
             <FaDesktop />
           </ActionIcon>
         </Tooltip>
       ) : (
         <Tooltip label={t("mobile view")} position="bottom" withArrow>
-          <ActionIcon {...props} color="dark" onClick={() => (BuildStore.viewMode = "mobile")}>
+          <ActionIcon {...props} onClick={() => (BuildStore.viewMode = "mobile")}>
             <FaMobileAlt />
           </ActionIcon>
         </Tooltip>

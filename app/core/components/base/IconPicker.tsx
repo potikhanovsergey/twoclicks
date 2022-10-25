@@ -132,6 +132,10 @@ const IconPicker = ({
   onReset,
 }: IconPickerProps) => {
   const [searchValue, setSearchValue] = useState("")
+  const resetSearchValue = () => {
+    setSearchValue("")
+  }
+  const searchInputOnChange = (e) => setSearchValue(e.currentTarget.value)
 
   const [debouncedSearchValue] = useDebouncedValue(searchValue, 200)
 
@@ -197,11 +201,7 @@ const IconPicker = ({
           rightSection={
             searchValue.length ? (
               <Tooltip position="top" label="Clear search" withinPortal withArrow>
-                <ActionIcon
-                  onClick={() => {
-                    setSearchValue("")
-                  }}
-                >
+                <ActionIcon onClick={resetSearchValue}>
                   <MdClear />
                 </ActionIcon>
               </Tooltip>
@@ -209,7 +209,7 @@ const IconPicker = ({
           }
           placeholder={t("search icon")}
           value={searchValue}
-          onChange={(e) => setSearchValue(e.currentTarget.value)}
+          onChange={searchInputOnChange}
         />
         <ScrollArea.Autosize maxHeight={128} offsetScrollbars>
           {filteredIcons.length ? (

@@ -19,12 +19,12 @@ configure({
 
 export const defaultThemeSettings: IThemeSettings = {
   palette: {
-    primary: "violet",
+    primary: "primary",
   },
   radius: "md",
   gradient: {
     from: "red",
-    to: "violet",
+    to: "primary",
   },
   variant: "filled",
 }

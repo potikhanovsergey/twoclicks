@@ -64,7 +64,7 @@ function ProfileLink({ icon, color, label, link }: IProfileLink) {
 export function ProfileLinks() {
   const [data] = useState(() => [
     { icon: <FaBriefcase />, color: "orange", label: "pages", link: "/profile" },
-    // { icon: <BiStats />, color: "violet", label: t("statistics"), link: "/profile/statistics" },
+    // { icon: <BiStats />, color: "primary", label: t("statistics"), link: "/profile/statistics" },
     // { icon: <RiVipCrown2Fill />, color: "yellow", label: t("premium"), link: "/profile/premium" },
     {
       icon: <BsQuestionCircleFill />,

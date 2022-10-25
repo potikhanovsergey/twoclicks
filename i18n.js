@@ -6,11 +6,10 @@ module.exports = {
     "/": ["landing", "home"],
     "/404": ["404"],
     "/components": ["components"],
-    "/profile": ["pages"],
+    "/profile": ["dashboardPages"],
     "/profile/premium": ["premium"],
     "/profile/statistics": ["statistics"],
     "/profile/support": ["support"],
-    "rgx:^/build": ["build", "pages"],
+    "rgx:^/build": ["build", "dashboardPages"],
   },
-  logger() {},
 }

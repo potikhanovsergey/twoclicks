@@ -11,12 +11,12 @@ import { HiSearch } from "@react-icons/all-files/hi/HiSearch"
 import PageCard from "app/build-pages/PageCard"
 import { AuthorizationError } from "blitz"
 import { useSession } from "@blitzjs/auth"
+import { Page } from "@prisma/client"
 
 const ITEMS_PER_PAGE = 50
 
-const Pages = () => {
+const DashboardPages = () => {
   const session = useSession()
-
   useEffect(() => {
     if (session.role !== "ADMIN") {
       throw new AuthorizationError()
@@ -26,7 +26,14 @@ const Pages = () => {
 
   const router = useRouter()
   const pageNumber = Number(router.query.page) || 1
-  const [{ pages, hasMore, count }] = usePaginatedQuery(getAllPages, {
+  const [{ pages, hasMore, count }]: [
+    {
+      pages: (Page & { user: { name: string; email: string } })[]
+      hasMore: boolean
+      count: number
+    },
+    {}
+  ] = usePaginatedQuery(getAllPages, {
     orderBy: [
       {
         updatedAt: "desc",
@@ -34,6 +41,7 @@ const Pages = () => {
     ],
     skip: ITEMS_PER_PAGE * (pageNumber - 1),
     take: ITEMS_PER_PAGE,
+    include: { user: { select: { name: true, email: true } } },
     where: {
       user: {
         email: {
@@ -75,7 +83,7 @@ const Pages = () => {
               <Text weight="bold" size="lg">
                 {page.user.name}
               </Text>
-              <Text weight="bold" size="lg" color="violet">
+              <Text weight="bold" size="lg" color="primary">
                 {page.user.email}
               </Text>
             </Group>
@@ -94,7 +102,7 @@ const Pages = () => {
   )
 }
 
-Pages.getLayout = getBaseLayout({})
-Pages.suppressFirstRenderFlicker = true
+DashboardPages.getLayout = getBaseLayout({})
+DashboardPages.suppressFirstRenderFlicker = true
 
-export default Pages
+export default DashboardPages

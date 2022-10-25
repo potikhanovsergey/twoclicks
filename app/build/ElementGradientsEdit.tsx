@@ -31,6 +31,39 @@ const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
   } = BuildStore
   const { t } = useTranslation("build")
 
+  const handleFromColorChange = (value) => {
+    changeProp({
+      id: element.id,
+      newProps: {
+        gradient: {
+          ...element.props.gradient,
+          from: value,
+        },
+      },
+    })
+  }
+
+  const handleToColorChange = (value) => {
+    changeProp({
+      id: element.id,
+      newProps: {
+        gradient: {
+          ...element.props.gradient,
+          to: value,
+        },
+      },
+    })
+  }
+
+  const handleReset = () => {
+    changeProp({
+      id: element.id,
+      newProps: {
+        gradient: "undefined",
+      },
+    })
+  }
+
   return (
     <ToolbarMenu
       menuProps={{
@@ -76,14 +109,7 @@ const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
                 variant="light"
                 compact
                 size="xs"
-                onClick={() => {
-                  changeProp({
-                    id: element.id,
-                    newProps: {
-                      gradient: "undefined",
-                    },
-                  })
-                }}
+                onClick={handleReset}
                 rightIcon={<IoClose />}
               >
                 Reset
@@ -105,17 +131,7 @@ const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
                       theme,
                       color: element.props?.gradient?.from || themeSettings.gradient.from,
                     })}
-                    onColorChange={(value) => {
-                      changeProp({
-                        id: element.id,
-                        newProps: {
-                          gradient: {
-                            ...element.props.gradient,
-                            from: value,
-                          },
-                        },
-                      })
-                    }}
+                    onColorChange={handleFromColorChange}
                   />
                 </Box>
               </Tooltip>
@@ -135,17 +151,7 @@ const ElementGradientsEdit = ({ element }: IElementGradientsEdit) => {
                       theme,
                       color: element.props?.gradient?.to || themeSettings.gradient.to,
                     })}
-                    onColorChange={(value) => {
-                      changeProp({
-                        id: element.id,
-                        newProps: {
-                          gradient: {
-                            ...element.props.gradient,
-                            to: value,
-                          },
-                        },
-                      })
-                    }}
+                    onColorChange={handleToColorChange}
                   />
                 </Box>
               </Tooltip>

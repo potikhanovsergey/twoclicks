@@ -18,7 +18,6 @@ const ProfileStatistics = () => {
         <SegmentedControl
           size="lg"
           radius="md"
-          color="violet"
           mt="lg"
           data={[
             {

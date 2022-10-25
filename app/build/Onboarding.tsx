@@ -102,7 +102,7 @@ const Onboarding = () => {
               size="xs"
               radius="sm"
               variant="gradient"
-              gradient={{ from: "violet", to: "red" }}
+              gradient={{ from: "primary", to: "red" }}
             >
               10% discount reward
             </Badge>
@@ -113,7 +113,7 @@ const Onboarding = () => {
               <Text size="sm" color="gray">
                 {t("select a template")}
               </Text>
-              <ActionIcon color="indigo" variant="light">
+              <ActionIcon variant="light">
                 <HiOutlineTemplate size={16} />
               </ActionIcon>
             </Group>
@@ -121,7 +121,7 @@ const Onboarding = () => {
               <Text size="sm" color="gray">
                 {t("edit a component/section")}
               </Text>
-              <ActionIcon color="indigo" variant="light">
+              <ActionIcon variant="light">
                 <AiOutlineEdit size={16} />
               </ActionIcon>
             </Group>
@@ -129,7 +129,7 @@ const Onboarding = () => {
               <Text size="sm" color="gray">
                 {t("change the palette")}
               </Text>
-              <ActionIcon color="indigo" variant="light">
+              <ActionIcon variant="light">
                 <FaPalette size={16} />
               </ActionIcon>
             </Group>
@@ -137,7 +137,7 @@ const Onboarding = () => {
               <Text size="sm" color="gray">
                 {t("add a new section")}
               </Text>
-              <ActionIcon color="indigo" variant="light">
+              <ActionIcon variant="light">
                 <MdAddBox size={16} />
               </ActionIcon>
             </Group>
@@ -145,7 +145,7 @@ const Onboarding = () => {
               <Text size="sm" color="gray">
                 {t("preview the page")}
               </Text>
-              <PreviewButton color="indigo" variant="light">
+              <PreviewButton variant="light">
                 <FaPalette size={16} />
               </PreviewButton>
             </Group>

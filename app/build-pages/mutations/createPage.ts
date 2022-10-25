@@ -11,11 +11,17 @@ export default async function createPage(
     themeSettings: IThemeSettings
     id?: string
     isPublished?: boolean
+    previewImage?: string
   },
   ctx: Ctx
 ) {
   ctx.session.$isAuthorized()
-  const { firstTime, themeSettings = defaultThemeSettings, isPublished = false } = data
+  const {
+    firstTime,
+    themeSettings = defaultThemeSettings,
+    isPublished = false,
+    previewImage,
+  } = data
   const userId = ctx.session.userId as string
   try {
     const page = await db.page.create({
@@ -26,6 +32,7 @@ export default async function createPage(
         data: typeof data.data === "string" ? data.data : deflate(data.data),
         isPublished,
         themeSettings: themeSettings as unknown as Prisma.InputJsonValue,
+        previewImage,
       },
     })
     if (firstTime) {

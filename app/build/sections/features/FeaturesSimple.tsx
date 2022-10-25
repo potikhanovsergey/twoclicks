@@ -51,7 +51,7 @@ const FeaturesSimple = () => {
         >
           {mockdata.map((el, i) => (
             <Stack key={i} align="center" spacing={4}>
-              <ThemeIcon variant="filled" color="violet" size={50}>
+              <ThemeIcon variant="filled" size={50}>
                 {el.icon}
               </ThemeIcon>
               <Text size={30} weight="bold" color="white">

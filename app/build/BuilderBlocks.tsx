@@ -17,11 +17,12 @@ const ListComponent = observer(() => {
     data: { themeSettings },
   } = BuildStore
   const itemContent = useCallback(
-    (index, block: ICanvasBlock) => (
-      <div className="builder-block" key={block.id} style={{ minHeight: 1 }}>
-        <SafeWrapper>
+    (index, block: ICanvasBlock) => {
+      return (
+        <div className="builder-block" key={block.id} style={{ minHeight: 1 }}>
           <RenderJSXFromBlock
             element={block}
+            withMobx
             shouldFlat
             withContentEditable
             withEditToolbar
@@ -29,9 +30,9 @@ const ListComponent = observer(() => {
             themeSettings={themeSettings}
             sectionIndex={index}
           />
-        </SafeWrapper>
-      </div>
-    ),
+        </div>
+      )
+    },
     [themeSettings]
   )
 
@@ -47,6 +48,13 @@ const Blocks = observer(() => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
   const theme = useMantineTheme()
   const dark = theme.colorScheme === "dark"
+
+  const onClick = () =>
+    setModalContext((prevValue: IModalContextValue) => ({
+      ...prevValue,
+      canvasSectionsModal: true,
+    }))
+
   return (
     <>
       {blocks.length > 0 ? (
@@ -54,18 +62,12 @@ const Blocks = observer(() => {
       ) : (
         <Center style={{ height: "100%" }}>
           <Button
-            radius="sm"
             variant={dark ? "white" : "filled"}
             color="dark"
-            size="md"
-            style={{ minWidth: "192px" }}
+            size="sm"
+            style={{ minWidth: "168px" }}
             rightIcon={<FiPlusSquare />}
-            onClick={() =>
-              setModalContext((prevValue: IModalContextValue) => ({
-                ...prevValue,
-                canvasSectionsModal: true,
-              }))
-            }
+            onClick={onClick}
           >
             {t("add new section")}
           </Button>
@@ -101,8 +103,6 @@ const BuilderBlocks = () => {
       }}
       ref={sectionsRef}
     >
-      <Image>dsadsa</Image>
-
       <Blocks />
     </Box>
   )

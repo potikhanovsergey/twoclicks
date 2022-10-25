@@ -2,13 +2,14 @@ import db, { Prisma } from "db"
 import { paginate } from "blitz"
 
 interface getUserPagesInput
-  extends Pick<Prisma.PageFindManyArgs, "orderBy" | "skip" | "take" | "where"> {}
+  extends Pick<Prisma.PageFindManyArgs, "orderBy" | "skip" | "take" | "where" | "include"> {}
 
 export default async function getAllPages({
   orderBy,
   skip = 0,
   take = 100,
   where,
+  include,
 }: getUserPagesInput) {
   const {
     items: pages,
@@ -24,7 +25,7 @@ export default async function getAllPages({
         ...paginateArgs,
         orderBy,
         where,
-        include: { user: { select: { name: true, email: true } } },
+        include,
       }),
   })
 

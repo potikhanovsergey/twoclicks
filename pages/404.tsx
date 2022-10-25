@@ -34,7 +34,7 @@ const Links = () => {
         href="/"
         component={NextLink}
         leftIcon={
-          <ThemeIcon color="violet" size="md">
+          <ThemeIcon size="md">
             <FaBook />
           </ThemeIcon>
         }
@@ -61,7 +61,6 @@ const Links = () => {
       <Button
         size="md"
         variant="filled"
-        color="violet"
         title={t("openThePageBuilder")}
         href="/build"
         component={NextLink}

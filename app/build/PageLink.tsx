@@ -10,19 +10,17 @@ import { baseURL } from "pages/_app"
 const PageLink = ({
   id,
   withEllipsis = false,
-  shouldSearch = true,
   centered = false,
 }: {
   id: string
   withEllipsis?: boolean
-  shouldSearch?: boolean
   centered?: boolean
 }) => {
   const { t } = useTranslation("build")
   return (
     <Group spacing={4} noWrap position={centered ? "center" : undefined}>
       <Anchor
-        href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/p/${id}`}
+        href={`${process.env.NODE_ENV === "development" ? "" : baseURL}/pages/${id}`}
         target="_blank"
         color="blue"
         size="sm"
@@ -37,14 +35,14 @@ const PageLink = ({
             : { whiteSpace: "nowrap" }
         }
       >
-        {`${baseURL}/p/${id}`}
+        {`${baseURL}/pages/${id}`}
       </Anchor>
-      <CopyButton value={`${baseURL}/p/${id}`} timeout={5000}>
+      <CopyButton value={`${baseURL}/pages/${id}`} timeout={5000}>
         {({ copied, copy }) => (
           <Tooltip label={copied ? t("link copied") : t("copy link")} withArrow position="bottom">
             <ActionIcon
               aria-label="Copy the page URL"
-              color={copied ? "teal" : "violet"}
+              color={copied ? "teal" : "primary"}
               variant="subtle"
               onClick={copy}
               size="sm"

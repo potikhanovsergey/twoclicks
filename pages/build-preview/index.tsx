@@ -2,9 +2,7 @@ import { Global, MantineProvider, useMantineTheme } from "@mantine/core"
 import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import { useDocumentTitle, useLocalStorage } from "@mantine/hooks"
 import { ICanvasBlock, IPage, IThemeSettings } from "types"
-import SafeWrapper from "app/core/components/SafeWrapper"
 import React from "react"
-import { ICanvasPalette } from "types"
 
 const PreviewPage = () => {
   // const { t } = useTranslation('build');
@@ -30,7 +28,8 @@ const PreviewPage = () => {
         styles={(theme) => ({
           "::selection": {
             background:
-              theme?.colors?.[page?.themeSettings?.palette?.primary]?.[4] || theme.colors.violet[4],
+              theme?.colors?.[page?.themeSettings?.palette?.primary]?.[5] ||
+              theme.colors.primary[5],
             color: theme.white,
             WebkitTextFillColor: theme.white,
           },
@@ -43,17 +42,16 @@ const PreviewPage = () => {
       {page &&
         page.blocks.map((b, i) => (
           <div className="builder-block" key={b.id}>
-            <SafeWrapper>
-              <RenderJSXFromBlock
-                element={b}
-                shouldFlat={false}
-                withContentEditable={false}
-                withEditToolbar={false}
-                withThemeSettings
-                themeSettings={page.themeSettings}
-                sectionIndex={i}
-              />
-            </SafeWrapper>
+            <RenderJSXFromBlock
+              element={b}
+              withMobx
+              shouldFlat={false}
+              withContentEditable={false}
+              withEditToolbar={false}
+              withThemeSettings
+              themeSettings={page.themeSettings}
+              sectionIndex={i}
+            />
           </div>
         ))}
     </MantineProvider>

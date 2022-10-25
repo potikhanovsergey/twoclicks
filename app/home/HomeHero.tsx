@@ -30,7 +30,7 @@ const TextLoop = () => {
         text: t("page"),
       },
       {
-        color: theme.colors.indigo[5],
+        color: theme.colors.primary[5],
         text: t("portfolio"),
       },
       {
@@ -265,7 +265,6 @@ const HomeHero = (props: BoxProps) => {
                 color={dark ? "gray.0" : "dark.9"}
                 size="lg"
                 fullWidth
-                radius="md"
                 sx={{
                   maxWidth: "200px",
                 }}

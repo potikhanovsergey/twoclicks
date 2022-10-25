@@ -56,7 +56,7 @@ const ElementUploadLink = ({ element, targetIcon = <FaCloudUploadAlt /> }: IElem
       }}
       tooltipProps={{
         label: t("changeTheSource"),
-        children: <ActionIcon color="violet">{targetIcon}</ActionIcon>,
+        children: <ActionIcon radius={0}>{targetIcon}</ActionIcon>,
       }}
       dropdownProps={{
         p: 8,
@@ -81,7 +81,6 @@ const ElementUploadLink = ({ element, targetIcon = <FaCloudUploadAlt /> }: IElem
               />
               <ActionIcon
                 onClick={handleChangeSrc}
-                color="violet"
                 variant="filled"
                 disabled={src === element.props.src || !src.length}
               >

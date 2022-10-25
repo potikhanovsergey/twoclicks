@@ -1,4 +1,13 @@
-import { TabProps, LoadingOverlay, useMantineTheme, createStyles, Box } from "@mantine/core"
+import {
+  TabProps,
+  LoadingOverlay,
+  useMantineTheme,
+  createStyles,
+  Box,
+  Group,
+  ActionIcon,
+  Button,
+} from "@mantine/core"
 import React, { Suspense, useMemo, useState } from "react"
 import ViewList from "./ViewList"
 import { ICanvasModalType } from "types"
@@ -9,17 +18,19 @@ import { WiStars } from "@react-icons/all-files/wi/WiStars"
 import { RiHeartFill } from "@react-icons/all-files/ri/RiHeartFill"
 import { GiAnticlockwiseRotation } from "@react-icons/all-files/gi/GiAnticlockwiseRotation"
 import ButtonGroup from "../../base/ButtonGroup"
+import { VscChromeClose } from "@react-icons/all-files/vsc/VscChromeClose"
 
-const useStyles = createStyles(() => ({
+const useStyles = createStyles((theme) => ({
   wrapper: {
     display: "flex",
     flexDirection: "column",
-    height: "calc(100% - 48px)",
-    padding: "10px 0 15px 0",
+    height: "100%",
+    padding: "50px 20px 15px 20px",
     gap: "10px",
     position: "relative",
     justifyContent: "space-between",
     alignItems: "center",
+    flexGrow: 1,
   },
 }))
 
@@ -29,9 +40,10 @@ interface IModalTab extends TabProps {
 
 interface IComponentsModalTabs {
   modalType: ICanvasModalType
+  onClose: () => void
 }
 
-const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
+const ComponentsModalTabs = ({ modalType, onClose }: IComponentsModalTabs) => {
   const [activeTab, setActiveTab] = useState<{ value: string; viewlistType: string }>({
     value: "All",
     viewlistType: "all",
@@ -48,10 +60,10 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
         icon: <BiGridSmall size={24} color={theme.colors.indigo[5]} />,
       },
       {
-        color: "violet",
+        color: "primary",
         value: "Popular",
         viewlistType: "popular",
-        icon: <WiStars size={16} color={theme.colors.violet[5]} />,
+        icon: <WiStars size={16} color={theme.colors.primary[5]} />,
       },
       {
         color: "red",
@@ -78,19 +90,41 @@ const ComponentsModalTabs = ({ modalType }: IComponentsModalTabs) => {
 
   return (
     <>
-      <ButtonGroup
-        wrapperProps={{
-          sx: {
-            width: "fit-content",
-          },
+      <Group
+        position="apart"
+        align="center"
+        pl={25}
+        pr={16}
+        sx={{
+          position: "fixed",
+          top: 0,
+          height: 48,
+          left: "160px",
+          right: "20px",
+          zIndex: 10,
+          backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
         }}
-        buttons={ComponentsModalTabsArr.map((b) => ({
-          children: t(b.value),
-          onClick: () => setActiveTab({ value: b.value, viewlistType: b.viewlistType }),
-          leftIcon: b.icon,
-          active: b.value === activeTab.value,
-        }))}
-      />
+      >
+        <ButtonGroup
+          wrapperProps={{
+            pl: 12,
+            pr: 24,
+            sx: {
+              width: "fit-content",
+            },
+          }}
+          buttons={ComponentsModalTabsArr.map((b) => ({
+            children: t(b.value),
+            onClick: () => setActiveTab({ value: b.value, viewlistType: b.viewlistType }),
+            leftIcon: b.icon,
+            active: b.value === activeTab.value,
+          }))}
+        />
+        <ActionIcon onClick={onClose} size="sm" variant="filled" color="primary">
+          <VscChromeClose size={16} />
+        </ActionIcon>
+      </Group>
+
       <Suspense fallback={<LoadingOverlay visible />}>
         <Box className={classes.wrapper}>
           <ViewList modalType={modalType} type={activeTab.viewlistType} />
