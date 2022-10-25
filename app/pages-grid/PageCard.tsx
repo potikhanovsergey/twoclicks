@@ -28,7 +28,7 @@ const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getR
     position: "relative",
     cursor: "pointer",
     overflow: "hidden",
-    borderRadius: theme.radius.sm,
+    borderRadius: theme.radius.md,
     "&:after": {
       position: "absolute",
       content: "''",

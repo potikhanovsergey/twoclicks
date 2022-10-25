@@ -15,7 +15,7 @@ const PageCardsItems = observer(() => {
   const user = useCurrentUser()
 
   return pages && user ? (
-    <SimpleGrid cols={3} spacing={32}>
+    <SimpleGrid cols={4} spacing={32}>
       {pages.map((page) => {
         const pageWithUser = { ...page, user: { name: user?.name, avatar: user?.avatar } }
         return (
