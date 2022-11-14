@@ -373,3 +373,5 @@ export function isTextElement(type: string | null) {
   if (!type) return false
   return textElements.some((el) => type.includes(el))
 }
+
+export const isValidObjectID = new RegExp("^[0-9a-fA-F]{24}$")
