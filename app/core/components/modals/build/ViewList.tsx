@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
-import { SimpleGrid, ScrollArea, Pagination, createStyles, Loader } from "@mantine/core"
+import { Pagination, createStyles, Loader, Box } from "@mantine/core"
 import { usePaginatedQuery } from "@blitzjs/rpc"
 import getBuildingBlocks from "app/dashboard/building-blocks/queries/getBuildingBlocks"
 import getUsedBlocks from "app/dashboard/building-blocks/queries/getUsedBlocks"
@@ -12,6 +12,7 @@ import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import { ICanvasBlock, ICanvasModalType } from "types"
 import dynamic from "next/dynamic"
+import Masonry from "react-masonry-css"
 
 const ViewListItem = dynamic(() => import("./ViewListItem"))
 
@@ -21,7 +22,6 @@ const useStyles = createStyles(() => ({
     flexDirection: "column",
     alignItems: "center",
     height: "100%",
-    padding: "0 0 10px 0",
     gap: "10px",
     position: "relative",
     justifyContent: "space-between",
@@ -29,6 +29,12 @@ const useStyles = createStyles(() => ({
   // scrollArea: { position: "relative", width: "100%" },
   grid: {
     padding: "0 20px",
+    display: "flex",
+    width: "100%",
+    // marginLeft: -12,
+    // ".masonry-column": {
+    //   paddingLeft: 12,
+    // },
   },
 }))
 interface IViewList {
@@ -36,7 +42,7 @@ interface IViewList {
   modalType: ICanvasModalType
 }
 
-const ITEMS_PER_PAGE = 12
+const ITEMS_PER_PAGE = 50
 
 const ViewList = ({ type, modalType }: IViewList) => {
   const session = useSession()
@@ -123,7 +129,12 @@ const ViewList = ({ type, modalType }: IViewList) => {
 
   return (
     <>
-      <SimpleGrid cols={3} className={classes.grid}>
+      <Box
+        component={Masonry}
+        breakpointCols={2}
+        className={classes.grid}
+        columnClassName="masonry-column"
+      >
         {buildingBlocksData?.buildingBlocks.map((b) => {
           const block: ICanvasBlock = b.buildingBlock ? b.buildingBlock : b
           return (
@@ -135,8 +146,8 @@ const ViewList = ({ type, modalType }: IViewList) => {
             />
           )
         })}
-      </SimpleGrid>
-      {isLoading ? (
+      </Box>
+      {/* {isLoading ? (
         <Loader />
       ) : (
         <Pagination
@@ -171,7 +182,7 @@ const ViewList = ({ type, modalType }: IViewList) => {
           page={activePage}
           onChange={handlePaginationChange}
         />
-      )}
+      )} */}
     </>
   )
 }

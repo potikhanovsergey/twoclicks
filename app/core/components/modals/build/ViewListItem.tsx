@@ -1,28 +1,18 @@
-import {
-  Box,
-  Group,
-  ActionIcon,
-  createStyles,
-  useMantineTheme,
-  ScrollArea,
-  Tooltip,
-} from "@mantine/core"
-import { cloneElement, useContext, useEffect, useMemo, useRef, useState } from "react"
+import { createStyles } from "@mantine/core"
+import { useContext, useEffect, useRef, useState } from "react"
 import { IModalContextValue, ModalContext } from "contexts/ModalContext"
-import RenderJSXFromBlock from "app/core/components/RenderJSXFromBlock"
 import { BuildStore } from "store/build"
 import { useMutation } from "@blitzjs/rpc"
 import createLikedBlock from "app/building-blocks/mutations/createLikedBlock"
 import deleteLikedBlock from "app/building-blocks/mutations/deleteLikedBlock"
-import { useElementSize } from "@mantine/hooks"
-import SafeWrapper from "../../SafeWrapper"
 import { observer } from "mobx-react-lite"
 import shortid from "shortid"
 
-import { RiHeartsFill } from "@react-icons/all-files/ri/RiHeartsFill"
-import { RiHeartAddLine } from "@react-icons/all-files/ri/RiHeartAddLine"
 import upsertUsedBlock from "app/building-blocks/mutations/upsertUsedBlock"
 import { ICanvasBlock } from "types"
+import PageCard from "app/pages-grid/PageCard"
+import LikeBlock from "./LikeBlock"
+import { useHover } from "@mantine/hooks"
 interface IViewListItem {
   block: ICanvasBlock
   onClick?: () => void
@@ -53,48 +43,11 @@ const useStyles = createStyles((theme, _params, getRef) => ({
     transition: "0.4s ease transform",
     ref: getRef("child"),
   },
-  actions: {
-    position: "absolute",
-    top: "8px",
-    right: "8px",
-    display: "flex",
-  },
-
-  actionIcon: {
-    "&:hover": {
-      background: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.colors.gray[8],
-    },
-    "&:focus": {
-      [`& .${getRef("icon")}`]: {
-        opacity: 1,
-      },
-    },
-  },
-  icon: {
-    ref: getRef("icon"),
-    pointerEvents: "none",
-    opacity: 0,
-  },
 }))
 
-const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListItem) => {
+const ViewListItem = ({ block, hasActions = false, liked }: IViewListItem) => {
   const [, setModalContext = () => ({})] = useContext(ModalContext)
-  const { classes } = useStyles()
-  const {
-    data: { themeSettings },
-    insertIndex,
-  } = BuildStore
-
-  const JSX = useMemo(() => {
-    return (
-      <RenderJSXFromBlock
-        element={{ ...block, editType: null }}
-        withContentEditable={false}
-        withThemeSettings
-        themeSettings={themeSettings}
-      />
-    )
-  }, [block, themeSettings])
+  const { insertIndex } = BuildStore
 
   const iconRef = useRef(null)
   const [isLiked, setIsLiked] = useState(false)
@@ -110,134 +63,56 @@ const ViewListItem = ({ block, onClick, hasActions = false, liked }: IViewListIt
   const [dislikeBuildingBlock] = useMutation(deleteLikedBlock)
   const [upsertUsedBlockMutation] = useMutation(upsertUsedBlock)
 
-  const handleBoxClick = async (e: React.MouseEvent<HTMLDivElement>) => {
-    if (e.target === iconRef.current) {
-      setIsLikeLoading(true)
-      if (isLiked) {
-        await dislikeBuildingBlock({ buildingBlockId: block.id })
-        setIsLiked(false)
-      } else {
-        await likeBuildingBlock({ buildingBlockId: block.id })
-        setIsLiked(true)
-      }
-      BuildStore.shouldRefetchLiked = true
-      setIsLikeLoading(false)
-    } else {
-      void upsertUsedBlockMutation({ buildingBlockId: block.id })
-      BuildStore.push({ block: { ...block, id: shortid.generate() }, insertIndex })
-      setModalContext((prevValue: IModalContextValue) => ({
-        ...prevValue,
-        canvasComponentsModal: false,
-        canvasSectionsModal: false,
-      }))
-    }
+  const handleBoxClick = async () => {
+    void upsertUsedBlockMutation({ buildingBlockId: block.id })
+    BuildStore.push({ block: { ...block, id: shortid.generate() }, insertIndex })
+    setModalContext((prevValue: IModalContextValue) => ({
+      ...prevValue,
+      canvasComponentsModal: false,
+      canvasSectionsModal: false,
+    }))
   }
 
-  const { ref: boxRef, width: boxWidth, height: boxHeight } = useElementSize<HTMLDivElement>()
-  const {
-    ref: contentRef,
-    width: contentWidth,
-    height: contentHeight,
-  } = useElementSize<HTMLDivElement>()
-
-  const theme = useMantineTheme()
-
-  const zoom = useMemo(() => {
-    if (block.editType !== "section")
-      return {
-        isLoading: false,
-        value: 1,
-      }
-    if (boxWidth !== 0) {
-      return {
-        isLoading: false,
-        value: boxWidth / theme.breakpoints.xl,
-      }
+  const handleLike = async () => {
+    setIsLikeLoading(true)
+    if (isLiked) {
+      await dislikeBuildingBlock({ buildingBlockId: block.id })
+      setIsLiked(false)
+    } else {
+      await likeBuildingBlock({ buildingBlockId: block.id })
+      setIsLiked(true)
     }
-    return {
-      isLoading: true,
-      value: 1,
-    }
-  }, [boxWidth])
+    BuildStore.shouldRefetchLiked = true
+    setIsLikeLoading(false)
+  }
 
-  const hasRendered = useMemo(() => {
-    return contentWidth && contentHeight
-  }, [contentWidth, contentHeight])
+  const { ref, hovered } = useHover()
+
+  const [imageAspectRatio, setImageAspectRatio] = useState<number | undefined>(undefined)
 
   return (
-    <Box
-      ref={boxRef}
-      className={classes.box}
-      style={{ pointerEvents: hasRendered ? "all" : "none" }}
-      onClick={(e: React.MouseEvent<HTMLDivElement>) => (onClick ? onClick() : handleBoxClick(e))}
-    >
-      <div
-        style={{
-          width: "100%",
-        }}
-      >
-        <ScrollArea
-          style={{ height: boxHeight }}
-          styles={{
-            viewport: {
-              display: "flex",
-              alignItems: "center",
-              "> div": { marginTop: "auto", marginBottom: "auto" },
-            },
-          }}
-          type="never"
-        >
-          <div
-            ref={contentRef}
-            style={{
-              transform: `scale(${zoom.value})`,
-              margin: `${-(contentHeight - contentHeight * zoom.value) / 2}px ${
-                -(contentWidth - contentWidth * zoom.value) / 2
-              }px`,
-              opacity: hasRendered ? 1 : 0,
-            }}
-          >
-            <SafeWrapper resetKeys={[JSX]}>
-              {cloneElement(JSX, {
-                className: classes.child,
-              })}
-            </SafeWrapper>
-          </div>
-        </ScrollArea>
-      </div>
-      {hasActions && (
-        <Group className={classes.actions}>
-          <Tooltip
-            label={isLiked ? "Remove from favs" : "Add to favs"}
-            position="bottom"
-            withArrow
-            withinPortal
-            zIndex={1000}
-          >
-            <ActionIcon
-              sx={(theme) => ({
-                color: theme.colors.red[5],
-              })}
-              ref={iconRef}
-              loading={isLikeLoading}
-              className={classes.actionIcon}
-            >
-              {isLiked ? (
-                <RiHeartsFill
-                  className={classes.icon}
-                  style={{ display: isLiked ? "block" : "none", opacity: 1 }}
-                />
-              ) : (
-                <RiHeartAddLine
-                  className={classes.icon}
-                  style={{ display: !isLiked ? "block" : "none" }}
-                />
-              )}
-            </ActionIcon>
-          </Tooltip>
-        </Group>
-      )}
-    </Box>
+    <PageCard
+      paperProps={{ withBorder: true }}
+      ref={ref}
+      previewImage={block.previewImage ? `/building-blocks/${block.previewImage}` : undefined}
+      key={block.id}
+      onClick={handleBoxClick}
+      imageAspectRatio={imageAspectRatio}
+      onImageLoad={({ target }) => {
+        const { naturalWidth, naturalHeight } = target as HTMLImageElement
+        setImageAspectRatio(naturalWidth / naturalHeight)
+      }}
+      options={
+        hasActions && (
+          <LikeBlock
+            onClick={handleLike}
+            liked={isLiked}
+            loading={isLikeLoading}
+            hovered={hovered}
+          />
+        )
+      }
+    />
   )
 }
 

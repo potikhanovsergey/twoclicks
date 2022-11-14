@@ -39,7 +39,7 @@ const useStyles = createStyles((theme) => ({
     height: "100%",
     display: "flex",
     flexFlow: "column",
-    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[2],
+    backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[6] : theme.colors.gray[1],
     paddingTop: "40px",
   },
   canvasContainer: {
@@ -48,7 +48,7 @@ const useStyles = createStyles((theme) => ({
     position: "relative",
   },
   canvas: {
-    boxShadow: theme.shadows.sm,
+    boxShadow: theme.colorScheme === "dark" ? theme.shadows.sm : theme.other.lightShadow,
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
   },
@@ -61,7 +61,7 @@ const useStyles = createStyles((theme) => ({
     minHeight: "40px",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    boxShadow: theme.shadows.md,
+    boxShadow: theme.colorScheme === "dark" ? theme.shadows.md : theme.other.lightShadow,
   },
   onboarding: {
     position: "sticky",

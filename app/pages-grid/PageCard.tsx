@@ -1,7 +1,5 @@
-import { AspectRatioProps, Avatar, Box, Group, Paper, Stack, Text } from "@mantine/core"
+import { Box, Paper, Stack, Text, Image, AspectRatio, PaperProps } from "@mantine/core"
 import { Page as DBPage } from "@prisma/client"
-import Image from "next/image"
-// import placeholder from "public/pages/"
 
 export interface PageCardProps extends DBPage {
   user: {
@@ -12,17 +10,25 @@ export interface PageCardProps extends DBPage {
 
 import { createStyles } from "@mantine/core"
 import ImagePicker from "app/core/components/base/ImagePicker"
-import { ReactNode, useEffect } from "react"
-import PageCardOptions from "./PageCardOptions"
+import {
+  forwardRef,
+  MouseEventHandler,
+  ReactEventHandler,
+  ReactNode,
+  RefObject,
+  useEffect,
+  useState,
+} from "react"
 import SkeletonImage from "app/core/components/base/SkeletonImage"
 import { observer } from "mobx-react-lite"
+import CardOptions from "./CardOptions"
 
 const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getRef) => ({
   imageCard: {
     position: "relative",
     cursor: "pointer",
     overflow: "hidden",
-    borderRadius: theme.radius.sm,
+    borderRadius: theme.radius.md,
     "&:after": {
       position: "absolute",
       content: "''",
@@ -59,84 +65,96 @@ const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getR
 
 const CROP_AREA_ASPECT = 16 / 9
 
-const PageCard = ({
-  page,
-  previewImage,
-  imageStyles,
-  customizable,
-  toBuild,
-  bottomNode,
-  withOptions,
-  onDrop,
-}: {
-  page: PageCardProps
-  customizable?: boolean
-  previewImage?: string | null
-  imageStyles?: Partial<AspectRatioProps>
-  toBuild?: boolean
-  bottomNode?: ReactNode
-  withOptions?: boolean
-  onDrop?: (files: File[]) => void
-}) => {
-  const { classes } = useStyles({
-    cardLike: Boolean(!customizable || (customizable && previewImage)),
-  })
+const PageCard = forwardRef(
+  (
+    {
+      previewImage,
+      customizable,
+      bottomNode,
+      options,
+      href,
+      openInNewTab,
+      bottomText,
+      imageAspectRatio = 16 / 9,
+      paperProps,
+      onClick,
+      onDrop,
+      onImageLoad,
+    }: {
+      customizable?: boolean
+      previewImage?: string | null
+      href?: string
+      openInNewTab?: boolean
+      bottomNode?: ReactNode
+      options?: ReactNode
+      bottomText?: string
+      imageAspectRatio?: number
+      paperProps?: PaperProps
+      onClick?: MouseEventHandler<HTMLElement>
+      onDrop?: (files: File[]) => void
+      onImageLoad?: ReactEventHandler<HTMLImageElement>
+    },
+    ref: RefObject<HTMLDivElement>
+  ) => {
+    const { classes } = useStyles({
+      cardLike: Boolean(!customizable || (customizable && previewImage)),
+    })
 
-  useEffect(() => {
-    return () => {
-      previewImage && URL.revokeObjectURL(previewImage)
-    }
-  }, [])
+    useEffect(() => {
+      return () => {
+        previewImage && URL.revokeObjectURL(previewImage)
+      }
+    }, [])
 
-  return (
-    <Stack spacing={8} sx={{ position: "relative" }}>
-      {withOptions && <PageCardOptions page={page} />}
-      <Paper<"a">
-        className={classes.imageCard}
-        component={customizable ? undefined : "a"}
-        href={customizable ? undefined : `/${toBuild ? "build" : "pages"}/${page.id}`}
-        target={customizable || toBuild ? undefined : "_blank"}
-      >
-        <Box
-          sx={{
-            paddingBottom: `${100 / CROP_AREA_ASPECT}%`,
-          }}
-          {...imageStyles}
+    return (
+      <Stack spacing={8} sx={{ position: "relative" }} ref={ref}>
+        <Paper<"a">
+          className={classes.imageCard}
+          component={!customizable && href ? "a" : undefined}
+          href={!customizable && href ? href : undefined}
+          target={openInNewTab ? "_blank" : undefined}
+          onClick={onClick}
+          {...paperProps}
         >
-          {customizable && onDrop ? (
-            <ImagePicker onDrop={onDrop}>
+          <AspectRatio ratio={imageAspectRatio}>
+            {customizable && onDrop ? (
+              <ImagePicker onDrop={onDrop}>
+                <SkeletonImage
+                  src={previewImage || "/twoclicks-placeholder.png"}
+                  alt=""
+                  layout="fill"
+                  onLoad={onImageLoad}
+                />
+              </ImagePicker>
+            ) : (
               <SkeletonImage
-                src={previewImage || page.previewImage || "/twoclicks-placeholder.png"}
-                alt={page.name + " by " + page.user.name}
+                src={previewImage || "/twoclicks-placeholder.png"}
+                alt=""
                 layout="fill"
+                onLoad={onImageLoad}
               />
-            </ImagePicker>
-          ) : (
-            <SkeletonImage
-              src={previewImage || page.previewImage || "/twoclicks-placeholder.png"}
-              alt={page.name + " by " + page.user.name}
-              layout="fill"
-            />
+            )}
+          </AspectRatio>
+          {!customizable && bottomText && (
+            <Text
+              className={classes.imageBottom}
+              color="white"
+              sx={{
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                maxWidth: "24ch",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {bottomText}
+            </Text>
           )}
-        </Box>
-        {!customizable && (
-          <Text
-            className={classes.imageBottom}
-            color="white"
-            sx={{
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              maxWidth: "24ch",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {page.name}
-          </Text>
-        )}
-      </Paper>
-      {bottomNode}
-    </Stack>
-  )
-}
+        </Paper>
+        {bottomNode}
+        {options && <CardOptions>{options}</CardOptions>}
+      </Stack>
+    )
+  }
+)
 
 export default observer(PageCard)

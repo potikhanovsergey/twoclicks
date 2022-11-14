@@ -33,7 +33,7 @@ const PagesFeed = observer(() => {
             updatedAt: sortType === "Latest" ? "desc" : undefined,
           },
           where: {
-            // isPublished: true,
+            isPublished: true,
             feedType: feedType === "All" || feedType === "Template" ? undefined : feedType,
             template:
               feedType === "Template"
@@ -83,7 +83,7 @@ const PagesFeed = observer(() => {
             updatedAt: sortType === "Latest" ? "desc" : undefined,
           },
           where: {
-            // isPublished: true,
+            isPublished: true,
             feedType: feedType === "All" || feedType === "Template" ? undefined : feedType,
             template:
               feedType === "Template"
@@ -161,7 +161,7 @@ const Pages = () => {
           zIndex: 10,
         })}
       >
-        <Container size="xl" py="xs">
+        <Container size="xl" pb="md" pt="xl">
           <PagesHeader />
         </Container>
       </Box>

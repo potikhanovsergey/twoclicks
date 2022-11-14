@@ -14,7 +14,7 @@ interface IElementVariantsEdit {
 
 const ElementVariantsEdit = ({ element }: IElementVariantsEdit) => {
   const variants = useMemo(() => {
-    return getVariantsByType(element.type)
+    return getVariantsByType(element.type.toLowerCase())
   }, [element.type])
   const { changeProp, openedAction } = BuildStore
   const { t } = useTranslation("build")

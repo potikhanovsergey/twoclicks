@@ -17,17 +17,16 @@ const Block = ({
   removeSemantics?: boolean
 }) => {
   return (
-    <SafeWrapper key={block.id}>
-      <RenderJSXFromBlock
-        element={block}
-        shouldFlat={false}
-        withContentEditable={false}
-        withEditToolbar={false}
-        withThemeSettings
-        themeSettings={themeSettings}
-        sectionIndex={i}
-      />
-    </SafeWrapper>
+    <RenderJSXFromBlock
+      element={block}
+      shouldFlat={false}
+      withContentEditable={false}
+      withEditToolbar={false}
+      withThemeSettings
+      themeSettings={themeSettings}
+      sectionIndex={i}
+      key={block.id}
+    />
   )
 }
 

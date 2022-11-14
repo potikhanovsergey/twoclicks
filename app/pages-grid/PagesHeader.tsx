@@ -22,7 +22,13 @@ const PagesHeader = () => {
     }
   }, [])
   return (
-    <Grid sx={{ justifyContent: "space-between", alignItems: "center" }}>
+    <Grid
+      sx={{
+        justifyContent: "space-between",
+        alignItems: "center",
+        backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[9] : theme.white,
+      }}
+    >
       <Grid.Col span={2}>
         <Select value={sortType} data={sortTypes} onChange={onChangeSortType} />
       </Grid.Col>

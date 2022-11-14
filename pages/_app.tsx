@@ -54,6 +54,9 @@ const CustomTheme: MantineThemeOverride = {
   colors: {
     primary: DEFAULT_THEME.colors.indigo,
   },
+  other: {
+    lightShadow: "0 8px 20px 0 rgb(218 224 235 / 60%)",
+  },
   primaryColor: "primary",
   primaryShade: 5,
   globalStyles: (theme) => ({
