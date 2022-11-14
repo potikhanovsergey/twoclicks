@@ -21,10 +21,14 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Link from "next/link"
 import { memo, Suspense, useEffect, useMemo, useState } from "react"
 
-import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 import ButtonGroup, { GroupButtonProps } from "../base/ButtonGroup"
 import { useSession } from "@blitzjs/auth"
+
+export const ProfileItem = {
+  href: "/profile",
+  children: "profile",
+}
 
 export const MenuItemSx: Sx = (theme) => ({
   "> div": {
