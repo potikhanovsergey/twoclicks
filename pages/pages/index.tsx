@@ -161,7 +161,7 @@ const Pages = () => {
           zIndex: 10,
         })}
       >
-        <Container size="xl" py="xs">
+        <Container size="xl" pb="md" pt="xl">
           <PagesHeader />
         </Container>
       </Box>
