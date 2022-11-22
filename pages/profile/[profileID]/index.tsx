@@ -3,6 +3,7 @@ import { useQuery } from "@blitzjs/rpc"
 import { LoadingOverlay, Center, Text, Container } from "@mantine/core"
 import BaseLayout, { getBaseLayout } from "app/core/layouts/BaseLayout"
 import NewProfileLayout from "app/core/layouts/NewProfileLayout"
+import ProfileAbout from "app/profile/ProfileAbout"
 import getUserByID from "app/profile/queries/getUserByID"
 import { Suspense } from "react"
 
@@ -16,7 +17,9 @@ const PublicProfile = () => {
   return (
     <>
       {profileFromDB ? (
-        <NewProfileLayout user={profileFromDB}>Info</NewProfileLayout>
+        <NewProfileLayout user={profileFromDB}>
+          <ProfileAbout />
+        </NewProfileLayout>
       ) : (
         <Center style={{ height: "100%" }}>
           <Text>Page not found</Text>
