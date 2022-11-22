@@ -1,6 +1,7 @@
 import { useParam } from "@blitzjs/next"
 import { useQuery } from "@blitzjs/rpc"
 import { LoadingOverlay, Center, Text, Container } from "@mantine/core"
+import PageCards from "app/build-pages/PageCards"
 import BaseLayout, { getBaseLayout } from "app/core/layouts/BaseLayout"
 import NewProfileLayout from "app/core/layouts/NewProfileLayout"
 import getUserByID from "app/profile/queries/getUserByID"
@@ -16,7 +17,9 @@ const ThePublicProfile = () => {
   return (
     <>
       {profileFromDB ? (
-        <NewProfileLayout user={profileFromDB}>Pages</NewProfileLayout>
+        <NewProfileLayout user={profileFromDB}>
+          <PageCards />
+        </NewProfileLayout>
       ) : (
         <Center style={{ height: "100%" }}>
           <Text>Page not found</Text>
