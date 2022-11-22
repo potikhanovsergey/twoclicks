@@ -70,7 +70,13 @@ const UserAvatar = () => {
   )
 }
 
-function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) {
+function HeaderProfile({
+  withAuthButton = true,
+  className,
+}: {
+  withAuthButton?: boolean
+  className?: string
+}) {
   const { t } = useTranslation("common")
   // const { data: session, status } = useSession();
   const theme = useMantineTheme()
@@ -182,7 +188,7 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
   }, [session, locale])
 
   return (
-    <Group position="center">
+    <Group position="center" className={className}>
       {!session.userId && withAuthButton && (
         <Link passHref href={`/auth/?next=${router.asPath}`}>
           <Button component="a" size="xs" color="dark" variant={dark ? "white" : "filled"}>

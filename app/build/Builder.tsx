@@ -61,7 +61,7 @@ const useStyles = createStyles((theme) => ({
     minHeight: "40px",
     backgroundColor: theme.colorScheme === "dark" ? theme.colors.dark[7] : theme.white,
     color: theme.colorScheme === "dark" ? theme.white : theme.black,
-    boxShadow: theme.colorScheme === "dark" ? theme.shadows.md : theme.other.lightShadow,
+    boxShadow: theme.shadows.md,
   },
   onboarding: {
     position: "sticky",

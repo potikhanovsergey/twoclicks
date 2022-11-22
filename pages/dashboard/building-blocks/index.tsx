@@ -54,6 +54,7 @@ import CardHero from "app/build/sections/hero/CardHero"
 import SimpleHeader from "app/build/sections/headers/SimpleHeader"
 import HeroWithGallery from "app/build/sections/hero/HeroWithGallery"
 import { font } from "pages/_app"
+import ImageColumns from "app/build/sections/ImageColumns"
 
 const linterExtension = linter(jsonParseLinter())
 
@@ -83,6 +84,7 @@ const sections = [
   CardHero,
   SimpleHeader,
   HeroWithGallery,
+  ImageColumns,
 ]
 
 const DashboardIndex = () => {

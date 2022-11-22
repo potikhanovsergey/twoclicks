@@ -57,18 +57,20 @@ const useStyles = createStyles(
     }: { element: ICanvasBlock; opened: boolean; themeSettings: IThemeSettings; type }
   ) => ({
     editable: {
-      borderBottom:
-        element.editType === "section"
-          ? `2px dashed ${theme.fn.rgba(theme.colors.gray[5], 0.3)}`
-          : undefined,
+      // borderBottom:
+      //   element.editType === "section"
+      //     ? `2px dashed ${theme.fn.rgba(theme.colors.gray[5], 0.3)}`
+      //     : undefined,
       border:
-        element.editType === "section" ||
+        element.props.variant === "gradient" || // Mantine's gradients cannot have borders (BAD UI)
+        (defaultGradients.includes(type) && themeSettings.variant === "gradient") ||
+        element.editType === "section" || // Sections and images should not have borders on hover
+        element.editType === "image" ||
         type.includes("divider") ||
-        element.props.variant === "outline" ||
+        element.props.variant === "outline" || // Components with variant outline should not have borders on hover
         (defaultVariants.includes(type) && themeSettings.variant === "outline")
           ? undefined
-          : opened ||
-            (typeof element.props?.children === "string" && !element.props?.children.length)
+          : opened // Hovered  // || (typeof element.props?.children === "string" && !element.props?.children.length)
           ? `1px solid ${theme.colors.gray[5]}`
           : "1px solid transparent",
     },
@@ -121,6 +123,7 @@ const WithEditToolbar = ({
       offset={sectionLike ? 0 : undefined}
       withinPortal
       zIndex={501}
+      withArrow={element.editType === "image"}
       middlewares={element.sectionLike ? { shift: true, flip: false } : undefined}
     >
       <Popover.Target>

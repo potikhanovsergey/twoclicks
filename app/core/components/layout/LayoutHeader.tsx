@@ -112,25 +112,29 @@ const LayoutHeader = ({
               {title}
             </div>
           )}
-          <ButtonGroup
-            wrapperProps={{
-              sx: {
-                marginLeft: "auto",
-              },
-            }}
-            buttons={[
-              { label: "Pages", value: "/pages" },
-              { label: "Builder", value: "/build" },
-              { label: "About us", value: "/" },
-              { label: "FAQ", value: "/faq" },
-              // { label: "Support", value: "/support" },
-            ].map((b) => ({
-              elType: "link",
-              children: b.label,
-              href: b.value,
-              active: b.value === router.asPath,
-            }))}
-          />
+          <MediaQuery smallerThan="md" styles={{ display: "none" }}>
+            <div>
+              <ButtonGroup
+                wrapperProps={{
+                  sx: {
+                    marginLeft: "auto",
+                  },
+                }}
+                buttons={[
+                  { label: "Pages", value: "/pages" },
+                  { label: "Builder", value: "/build" },
+                  { label: "About us", value: "/" },
+                  { label: "FAQ", value: "/faq" },
+                  // { label: "Support", value: "/support" },
+                ].map((b) => ({
+                  elType: "link",
+                  children: b.label,
+                  href: b.value,
+                  active: b.value === router.asPath,
+                }))}
+              />
+            </div>
+          </MediaQuery>
           {withProfile && (
             <Suspense>
               <MediaQuery smallerThan="md" styles={{ display: "none" }}>
