@@ -27,11 +27,11 @@ const NewProfileLayout = ({ user, children }: NewProfileLayoutProps) => {
             },
           }}
           buttons={[
-            { label: "About", value: "/profile/info" },
-            { label: "Pages", value: "/profile/pages" },
-            { label: "Templates", value: "/profile/templates" },
-            { label: "Followers", value: "/profile/followers" },
-            { label: "Following", value: "/profile/following" },
+            { label: "About", value: `/profile/${user.id}` },
+            { label: "Pages", value: `/profile/${user.id}/pages` },
+            { label: "Templates", value: `/profile/${user.id}/templates` },
+            { label: "Followers", value: `/profile/${user.id}/followers` },
+            { label: "Following", value: `/profile/${user.id}/following` },
           ].map((b) => ({
             elType: "link",
             children: b.label,

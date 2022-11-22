@@ -6,7 +6,7 @@ import NewProfileLayout from "app/core/layouts/NewProfileLayout"
 import getUserByID from "app/profile/queries/getUserByID"
 import { Suspense } from "react"
 
-const PublicProfile = () => {
+const ThePublicProfile = () => {
   const profileID = useParam("profileID", "string")
   const [profileFromDB] = useQuery(
     getUserByID,
@@ -16,7 +16,7 @@ const PublicProfile = () => {
   return (
     <>
       {profileFromDB ? (
-        <NewProfileLayout user={profileFromDB}>Info</NewProfileLayout>
+        <NewProfileLayout user={profileFromDB}>Pages</NewProfileLayout>
       ) : (
         <Center style={{ height: "100%" }}>
           <Text>Page not found</Text>
@@ -25,7 +25,7 @@ const PublicProfile = () => {
     </>
   )
 }
-PublicProfile.getLayout = getBaseLayout({})
-PublicProfile.suppressFirstRenderFlicker = true
+ThePublicProfile.getLayout = getBaseLayout({})
+ThePublicProfile.suppressFirstRenderFlicker = true
 
-export default PublicProfile
+export default ThePublicProfile
