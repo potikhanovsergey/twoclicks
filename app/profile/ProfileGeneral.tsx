@@ -3,6 +3,7 @@ import { Group, Avatar, Stack, Text, Button, useMantineTheme } from "@mantine/co
 import { User } from "@prisma/client"
 import { FaInstagram } from "@react-icons/all-files/fa/FaInstagram"
 import { FiTwitter } from "@react-icons/all-files/fi/FiTwitter"
+import Link from "next/link"
 
 const HireMeButton = () => {
   return (
@@ -12,13 +13,15 @@ const HireMeButton = () => {
   )
 }
 
-const EditProfileButton = () => {
+const EditProfileButton = ({ id }: { id: string }) => {
   const theme = useMantineTheme()
   const dark = theme.colorScheme === "dark"
   return (
-    <Button variant={dark ? "white" : "filled"} radius="xl" color="dark">
-      Edit profile
-    </Button>
+    <Link href={`/profile/${id}/edit`} passHref>
+      <Button variant={dark ? "white" : "filled"} radius="xl" color="dark" component="a">
+        Edit profile
+      </Button>
+    </Link>
   )
 }
 
@@ -44,7 +47,7 @@ const ProfileGeneral = ({ user }: { user: User }) => {
           </Text>
         </Stack>
       </Group>
-      {session.userId === user.id ? <EditProfileButton /> : <HireMeButton />}
+      {session.userId === user.id ? <EditProfileButton id={user.id} /> : <HireMeButton />}
     </Group>
   )
 }
