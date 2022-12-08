@@ -30,6 +30,12 @@ model User {
   role            Role     @default(USER)
   hasCreatedPage  Boolean  @default(false)
   provider        String?
+  skills          String[]
+  about           String?
+  contacts        Json?
+  age             Int?
+  caption         String?
+  subtitle        String?
 
   tokens          Token[]
   sessions        Session[]

@@ -18,7 +18,7 @@ const PublicProfile = () => {
     <>
       {profileFromDB ? (
         <NewProfileLayout user={profileFromDB}>
-          <ProfileAbout />
+          <ProfileAbout user={profileFromDB} />
         </NewProfileLayout>
       ) : (
         <Center style={{ height: "100%" }}>

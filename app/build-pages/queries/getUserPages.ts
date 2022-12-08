@@ -11,7 +11,7 @@ export default async function getUserPages(
 
   try {
     const pages = await db.page.findMany({
-      where: { userId: session.userId },
+      where: { ...input?.where, userId: session.userId },
       orderBy: input?.orderBy,
     })
     return pages

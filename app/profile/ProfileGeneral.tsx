@@ -3,7 +3,6 @@ import { Group, Avatar, Stack, Text, Button, useMantineTheme } from "@mantine/co
 import { User } from "@prisma/client"
 import { FaInstagram } from "@react-icons/all-files/fa/FaInstagram"
 import { FiTwitter } from "@react-icons/all-files/fi/FiTwitter"
-import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 
 const HireMeButton = () => {
   return (
@@ -31,17 +30,17 @@ const ProfileGeneral = ({ user }: { user: User }) => {
         <Avatar src={user.avatar} size={128} radius={1000} />
         <Stack spacing={0}>
           <Text size={28} weight={700}>
-            {user.name}, 20
+            {user.name}, {user.age || 20}
           </Text>
           <Text size={20} weight={600}>
-            Programmer, desinger
+            {user.caption || "Programmer, desinger"}
           </Text>
           <Group my={8}>
             <FiTwitter size="20px" />
             <FaInstagram size="20px" />
           </Group>
           <Text size={20} weight={600} color="dimmed">
-            Moscow
+            {user.subtitle || "Moscow"}
           </Text>
         </Stack>
       </Group>

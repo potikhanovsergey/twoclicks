@@ -1,15 +1,14 @@
 import { useParam } from "@blitzjs/next"
 import { useQuery } from "@blitzjs/rpc"
-import { LoadingOverlay, Center, Text, Container, Loader } from "@mantine/core"
-import PageCards from "app/build-pages/PageCards"
+import { Center, Text } from "@mantine/core"
 import PageCardsList from "app/build-pages/PageCardsList"
 import getUserPages from "app/build-pages/queries/getUserPages"
-import BaseLayout, { getBaseLayout } from "app/core/layouts/BaseLayout"
+import { getBaseLayout } from "app/core/layouts/BaseLayout"
 import NewProfileLayout from "app/core/layouts/NewProfileLayout"
 import getUserByID from "app/profile/queries/getUserByID"
-import { Suspense } from "react"
+import { AppStore } from "store"
 
-const ThePublicProfile = () => {
+const ProfileTemplates = () => {
   const profileID = useParam("profileID", "string")
   const [profileFromDB] = useQuery(
     getUserByID,
@@ -17,22 +16,33 @@ const ThePublicProfile = () => {
     { refetchOnWindowFocus: false, refetchOnMount: false, refetchOnReconnect: false }
   )
 
-  const [fetchedPages, { isLoading }] = useQuery(getUserPages, {
-    orderBy: [
-      {
-        updatedAt: "desc",
+  const [fetchedPages, { isLoading, isFetching, isRefetching }] = useQuery(
+    getUserPages,
+    {
+      orderBy: [
+        {
+          updatedAt: "desc",
+        },
+      ],
+      where: {
+        template: {
+          not: null,
+        },
       },
-    ],
-  })
+    },
+    {
+      enabled: !AppStore.havePagesLoaded,
+    }
+  )
 
   return (
     <>
       {profileFromDB ? (
         <NewProfileLayout user={profileFromDB}>
-          {isLoading ? (
-            <Loader />
+          {fetchedPages && fetchedPages?.length > 0 ? (
+            <PageCardsList user={profileFromDB} pages={fetchedPages} />
           ) : (
-            <PageCardsList pages={fetchedPages || []} user={profileFromDB} />
+            <Text>Нет шаблонов</Text>
           )}
         </NewProfileLayout>
       ) : (
@@ -43,7 +53,8 @@ const ThePublicProfile = () => {
     </>
   )
 }
-ThePublicProfile.getLayout = getBaseLayout({})
-ThePublicProfile.suppressFirstRenderFlicker = true
 
-export default ThePublicProfile
+ProfileTemplates.getLayout = getBaseLayout({})
+ProfileTemplates.suppressFirstRenderFlicker = true
+
+export default ProfileTemplates
