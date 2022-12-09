@@ -33,3 +33,7 @@ export function getPageWithDeflatedData(page) {
     data: deflate(page.data),
   } as IPage & { data: string }
 }
+
+export function isAlphanumeric(str) {
+  return /^[A-Za-z0-9]*$/.test(str)
+}

@@ -9,7 +9,7 @@ import NewProfileLayout from "app/core/layouts/NewProfileLayout"
 import getUserByID from "app/profile/queries/getUserByID"
 import { Suspense } from "react"
 
-const ThePublicProfile = () => {
+const ProfilePages = () => {
   const profileID = useParam("profileID", "string")
   const [profileFromDB] = useQuery(
     getUserByID,
@@ -43,7 +43,7 @@ const ThePublicProfile = () => {
     </>
   )
 }
-ThePublicProfile.getLayout = getBaseLayout({})
-ThePublicProfile.suppressFirstRenderFlicker = true
+ProfilePages.getLayout = getBaseLayout({})
+ProfilePages.suppressFirstRenderFlicker = true
 
-export default ThePublicProfile
+export default ProfilePages

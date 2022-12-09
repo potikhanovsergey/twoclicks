@@ -11,13 +11,14 @@ import { Suspense, useEffect, useState } from "react"
 import { getPageWithInflatedData } from "helpers/utils"
 import { useParam } from "@blitzjs/next"
 import { IPage } from "types"
-import { useQuery } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 import getPageByID from "app/build-pages/queries/getPageByID"
 import Page from "app/p-pages/Page"
-import { useDocumentTitle } from "@mantine/hooks"
+import { useDocumentTitle, useLocalStorage, useSessionStorage } from "@mantine/hooks"
 import useTranslation from "next-translate/useTranslation"
 import BaseLayout from "app/core/layouts/BaseLayout"
 import MadeWithTwoClicks from "app/core/components/MadeWithTwoClicks"
+import viewPage from "app/build-pages/mutations/viewPage"
 
 const PagePage = () => {
   const { t } = useTranslation("build")
@@ -45,6 +46,20 @@ const PagePage = () => {
 
   const [isLoading, setIsLoading] = useState(true)
   const theme = useMantineTheme()
+
+  const [hasViewedPage, setHasViewedPage] = useLocalStorage({
+    key: `viewed-${pageID}` || "",
+    defaultValue: false,
+    getInitialValueInEffect: false,
+  })
+  const [viewPageMutation] = useMutation(viewPage)
+
+  useEffect(() => {
+    if (!hasViewedPage && pageID) {
+      void viewPageMutation(pageID)
+      setHasViewedPage(true)
+    }
+  }, [hasViewedPage, pageID])
 
   useDocumentTitle(page?.name || "Twoclicks")
   if (isLoading)

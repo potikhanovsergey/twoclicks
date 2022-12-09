@@ -29,8 +29,8 @@ const NewProfileLayout = ({ user, children }: NewProfileLayoutProps) => {
           { label: "About", value: `/profile/${user.id}` },
           { label: "Pages", value: `/profile/${user.id}/pages` },
           { label: "Templates", value: `/profile/${user.id}/templates` },
-          { label: "Followers", value: `/profile/${user.id}/followers` },
-          { label: "Following", value: `/profile/${user.id}/following` },
+          // { label: "Followers", value: `/profile/${user.id}/followers` },
+          // { label: "Following", value: `/profile/${user.id}/following` },
         ].map((b) => ({
           elType: "link",
           children: b.label,
