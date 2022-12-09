@@ -37,6 +37,12 @@ model User {
   age             Int?
   caption         String?
   subtitle        String?
+  vk              String?
+  telegram        String?
+  facebook        String?
+  instagram       String?
+  twitter         String?
+  publicEmail     String?
 
   tokens          Token[]
   sessions        Session[]
