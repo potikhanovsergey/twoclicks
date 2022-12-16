@@ -1,4 +1,4 @@
-import { Avatar, Group, Stack, Button, TextInput, MultiSelect, Text } from "@mantine/core"
+import { Avatar, Group, Stack, Button, TextInput, MultiSelect, Text, Textarea } from "@mantine/core"
 import { UseFormReturnType } from "@mantine/form"
 import { User } from "@prisma/client"
 import { GeneralFormProps } from "pages/profile/[profileID]/edit"
@@ -81,6 +81,7 @@ const EditGeneral = ({ user, form }: { user: User; form: UseFormReturnType<Gener
           variant="filled"
           {...form.getInputProps("customID")}
         />
+        <Textarea label="About me" minRows={4} {...form.getInputProps("about")} />
         <MultiSelect
           label={
             <Text>
