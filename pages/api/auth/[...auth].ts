@@ -95,8 +95,8 @@ export default api(
       {
         strategy: new YandexStrategy(
           {
-            clientID: process.env.YANDEX_CLIENT_ID || "",
-            clientSecret: process.env.YANDEX_CLIENT_SECRET!,
+            clientID: process.env.YANDEX_CLIENT_ID as string,
+            clientSecret: process.env.YANDEX_CLIENT_SECRET as string,
             callbackURL: `${baseURL}/api/auth/yandex/callback`,
           },
           async function (_accessToken, _refreshToken, profile, done) {
