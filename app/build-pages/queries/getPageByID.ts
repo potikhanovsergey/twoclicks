@@ -1,6 +1,6 @@
 import { Ctx } from "blitz"
-import ObjectID from "bson-objectid"
 import db from "db"
+import { isValidObjectID } from "helpers"
 
 export default async function getPageByID(
   {
@@ -13,7 +13,7 @@ export default async function getPageByID(
   if (!isPublic && !ctx.session.userId) return null
   if (!id) return null
 
-  const isValidMongoID = ObjectID.isValid(id)
+  const isValidMongoID = isValidObjectID.test(id)
 
   if (isPreview && ctx.session.userId) {
     const page = await db.page.findFirst({

@@ -1,18 +1,5 @@
 import { useSession } from "@blitzjs/auth"
-import {
-  ActionIcon,
-  Center,
-  Container,
-  Group,
-  Skeleton,
-  Tooltip,
-  Box,
-  Text,
-  Popover,
-  useMantineTheme,
-  Stack,
-  Button,
-} from "@mantine/core"
+import { ActionIcon, Center, Container, Group, Skeleton, Tooltip, Box, Text } from "@mantine/core"
 import { useFullscreen, useHover } from "@mantine/hooks"
 import { observer } from "mobx-react-lite"
 import React, { Suspense, useMemo, useState } from "react"
@@ -30,9 +17,6 @@ import SaveButton from "./SaveButton"
 import PageName from "./PageName"
 import PageThemeSettings from "./PageThemeSettings"
 import { FaCog } from "@react-icons/all-files/fa/FaCog"
-import { useMutation } from "@blitzjs/rpc"
-import updatePage from "app/build-pages/mutations/updatePage"
-import { FaCheck } from "@react-icons/all-files/fa/FaCheck"
 import TogglePublishPage2 from "./TogglePublishPage2"
 import { AppStore } from "store"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"

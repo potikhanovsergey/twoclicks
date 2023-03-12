@@ -12,8 +12,7 @@ import { BuildStore } from "store/build"
 import { observer } from "mobx-react-lite"
 import { ICanvasBlock, ICanvasModalType } from "types"
 import dynamic from "next/dynamic"
-
-import StackGrid from "react-stack-grid"
+import Masonry from "react-masonry-css"
 
 const ViewListItem = dynamic(() => import("./ViewListItem"))
 
@@ -30,7 +29,12 @@ const useStyles = createStyles(() => ({
   // scrollArea: { position: "relative", width: "100%" },
   grid: {
     padding: "0 20px",
+    display: "flex",
     width: "100%",
+    // marginLeft: -12,
+    // ".masonry-column": {
+    //   paddingLeft: 12,
+    // },
   },
 }))
 interface IViewList {
@@ -126,11 +130,10 @@ const ViewList = ({ type, modalType }: IViewList) => {
   return (
     <>
       <Box
-        component={StackGrid}
+        component={Masonry}
+        breakpointCols={2}
         className={classes.grid}
-        columnWidth="50%"
-        gutterWidth={12}
-        gutterHeight={12}
+        columnClassName="masonry-column"
       >
         {buildingBlocksData?.buildingBlocks.map((b) => {
           const block: ICanvasBlock = b.buildingBlock ? b.buildingBlock : b

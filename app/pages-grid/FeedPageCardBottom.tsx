@@ -1,5 +1,6 @@
 import { Group, Avatar, Text } from "@mantine/core"
 import { PageCardProps } from "./PageCard"
+import { FaRegEye } from "@react-icons/all-files/fa/FaRegEye"
 
 const FeedPageCardBottom = ({ page }: { page: PageCardProps }) => {
   return (
@@ -27,7 +28,9 @@ const FeedPageCardBottom = ({ page }: { page: PageCardProps }) => {
       </Group>
 
       <Text color="dimmed" size="sm">
-        View count
+        <Group align="center" spacing={4}>
+          <FaRegEye /> {page.views || "0"}
+        </Group>
       </Text>
     </Group>
   )

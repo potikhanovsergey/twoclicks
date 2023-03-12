@@ -37,7 +37,6 @@ const useStyles = createStyles((theme, { cardLike }: { cardLike: boolean }, getR
       right: 0,
       bottom: 0,
       transition: "0.2s ease background",
-      // background: params.imageCardHovered ? theme.fn.rgba(theme.black, 0.66) : undefined,
     },
     "&:hover": {
       "&:after": {

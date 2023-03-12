@@ -9,7 +9,7 @@ import { AppStore } from "store"
 import { observer } from "mobx-react-lite"
 import CreatePageButton from "app/build-pages/CreatePageButton"
 
-const ProfilePages: BlitzPage = observer(() => {
+const OldProfilePages: BlitzPage = observer(() => {
   const { t } = useTranslation("dashboardPages")
   const { pages, havePagesLoaded } = AppStore
   return (
@@ -34,7 +34,7 @@ const ProfilePages: BlitzPage = observer(() => {
   )
 })
 
-ProfilePages.getLayout = getProfileLayout()
-ProfilePages.suppressFirstRenderFlicker = true
+OldProfilePages.getLayout = getProfileLayout()
+OldProfilePages.suppressFirstRenderFlicker = true
 
-export default ProfilePages
+export default OldProfilePages

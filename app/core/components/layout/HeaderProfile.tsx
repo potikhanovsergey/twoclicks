@@ -21,7 +21,6 @@ import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import Link from "next/link"
 import { memo, Suspense, useEffect, useMemo, useState } from "react"
 
-import { FaChevronDown } from "@react-icons/all-files/fa/FaChevronDown"
 import { IoPersonCircle } from "@react-icons/all-files/io5/IoPersonCircle"
 import ButtonGroup, { GroupButtonProps } from "../base/ButtonGroup"
 import { useSession } from "@blitzjs/auth"
@@ -97,6 +96,15 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
 
   const { locale, route } = useRouter()
 
+  const profileItem = useMemo(() => {
+    return session.userId
+      ? {
+          href: `/profile/${session.userId}`,
+          children: "profile",
+        }
+      : null
+  }, [session])
+
   const menuItems: GroupButtonProps[] = useMemo(() => {
     const formatedMenuItems: GroupButtonProps[] = ConstMenuItems.map((i) => ({
       elType: "menuItem",
@@ -123,13 +131,13 @@ function HeaderProfile({ withAuthButton = true }: { withAuthButton?: boolean }) 
           active: "/pages" === route,
         })
       }
-      formatedMenuItems.unshift({
-        elType: "menuItem",
-        sx: MenuItemSx,
-        children: t(ProfileItem.children),
-        href: ProfileItem.href,
-        active: "/profile" === route,
-      })
+      profileItem &&
+        formatedMenuItems.unshift({
+          elType: "menuItem",
+          sx: MenuItemSx,
+          children: t(profileItem.children),
+          href: profileItem.href,
+        })
       formatedMenuItems.push({
         elType: "menuItem",
         sx: (theme) => ({
